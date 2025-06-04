@@ -1,10 +1,11 @@
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
-import tseslint from 'typescript-eslint';
 import eslintPluginReact from 'eslint-plugin-react';
 import eslintPluginReactHooks from 'eslint-plugin-react-hooks';
 import eslintPluginImport from 'eslint-plugin-import';
+import tseslintPlugin from '@typescript-eslint/eslint-plugin';
+import tseslintParser from '@typescript-eslint/parser';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -15,7 +16,18 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
-  tseslint.configs.recommended,
+  {
+    plugins: {
+      '@typescript-eslint': tseslintPlugin,
+    },
+    languageOptions: {
+      parser: tseslintParser,
+      parserOptions: {
+        project: ['./tsconfig.json'],
+      },
+    },
+    rules: tseslintPlugin.configs.recommended.rules,
+  },
   eslintPluginReact.configs.recommended,
   eslintPluginReactHooks.configs.recommended,
   eslintPluginImport.configs.recommended,
