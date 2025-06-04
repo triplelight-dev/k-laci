@@ -7,23 +7,23 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       <Header />
 
-      <main className="flex-grow container mx-auto p-4 border border-dashed border-green-500">
+      <main className="flex-grow container mx-auto p-4">
         {/* Section 1 */}
-        <section className="my-8 border border-dashed border-yellow-500 p-4">
+        <section className="my-8 p-4">
           <h2 className="text-2xl font-bold mb-4">Section 1 Title</h2>
           <p>This is the content for section 1.</p>
           {/* Add more content for section 1 */}
         </section>
 
         {/* Section 2 */}
-        <section className="my-8 border border-dashed border-purple-500 p-4">
+        <section className="my-8 p-4">
           <h2 className="text-2xl font-bold mb-4">Section 2 Title</h2>
           <p>This is the content for section 2.</p>
           {/* Add more content for section 2 */}
         </section>
 
         {/* Section 3 */}
-        <section className="my-8 border border-dashed border-orange-500 p-4">
+        <section className="my-8 p-4">
           <h2 className="text-2xl font-bold mb-4">Section 3 Title</h2>
           <p>This is the content for section 3.</p>
           {/* Add more content for section 3 */}
