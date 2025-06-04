@@ -1,11 +1,13 @@
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white p-4 mt-8 text-center border border-dashed border-blue-500">
+    <footer className="mt-8 border border-dashed border-blue-500 bg-gray-800 p-4 text-center text-white">
       <div className="container mx-auto">
-        <p>&copy; {new Date().getFullYear()} My Website. All rights reserved.</p>
+        <p>
+          &copy; {new Date().getFullYear()} My Website. All rights reserved.
+        </p>
       </div>
     </footer>
   );
 };
 
-export default Footer; 
+export default Footer;

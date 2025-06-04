@@ -1,6 +1,6 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { FlatCompat } from '@eslint/eslintrc';
 import eslintPluginReact from 'eslint-plugin-react';
 import eslintPluginReactHooks from 'eslint-plugin-react-hooks';
 import eslintPluginImport from 'eslint-plugin-import';
@@ -15,7 +15,7 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...compat.extends('next/core-web-vitals', 'next/typescript'),
   {
     plugins: {
       '@typescript-eslint': tseslintPlugin,
@@ -46,28 +46,37 @@ const eslintConfig = [
       'import/order': [
         'error',
         {
-          'groups': ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object', 'type'],
-          'pathGroups': [
+          groups: [
+            'builtin',
+            'external',
+            'internal',
+            'parent',
+            'sibling',
+            'index',
+            'object',
+            'type',
+          ],
+          pathGroups: [
             {
-              'pattern': 'react',
-              'group': 'external',
-              'position': 'before',
+              pattern: 'react',
+              group: 'external',
+              position: 'before',
             },
             {
-              'pattern': 'next**',
-              'group': 'external',
-              'position': 'before',
+              pattern: 'next**',
+              group: 'external',
+              position: 'before',
             },
             {
-              'pattern': '@/**',
-              'group': 'internal',
+              pattern: '@/**',
+              group: 'internal',
             },
           ],
-          'pathGroupsExcludedImportTypes': ['react'],
+          pathGroupsExcludedImportTypes: ['react'],
           'newlines-between': 'always',
-          'alphabetize': {
-            'order': 'asc',
-            'caseInsensitive': true,
+          alphabetize: {
+            order: 'asc',
+            caseInsensitive: true,
           },
         },
       ],
