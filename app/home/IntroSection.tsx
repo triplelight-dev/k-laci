@@ -2,11 +2,15 @@
 
 import React from 'react';
 
+import { MoveButton } from '@/atoms/buttons/MoveButton';
+
 const IntroSection = () => {
   const text = `You can't find the feeling All is the same in the pouring rain, y'know, y'know Coming out of the ceiling Falling from above, growing in and out of love A broken heart is still beating`;
 
   return (
-    <div style={{ width: '100%', height: '100vh', backgroundColor: 'lightgray' }}>
+    <div
+      style={{ width: '100%', height: '100vh', backgroundColor: 'lightgray' }}
+    >
       <section className="relative flex h-[65vh] w-full items-center justify-center bg-white">
         <div
           className="container mx-auto px-4"
@@ -17,7 +21,7 @@ const IntroSection = () => {
             <TitleText text="Local Asset Competency Index" />
           </div>
           <ContentText text={text} />
-          <MoveToResultPageButton buttonName="Results" />
+          <MoveButton buttonName="Results" onClick={() => {}} />
         </div>
       </section>
     </div>
@@ -61,36 +65,6 @@ const ContentText = ({ text }: ContentTextProps) => {
       >
         {text}
       </div>
-    </div>
-  );
-};
-
-const MoveToResultPageButton = ({ buttonName }: { buttonName: string }) => {
-  return (
-    <div
-      className="flex flex-col items-center justify-center"
-      style={{
-        width: '100%',
-        paddingTop: '1rem',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <button
-        style={{
-          width: '10rem',
-          height: '3rem',
-          backgroundColor: 'black',
-          color: 'white',
-          fontSize: '1rem',
-          fontWeight: 600,
-          borderRadius: '0.5rem',
-          border: 'none',
-          cursor: 'pointer',
-        }}
-      >
-        {buttonName}
-      </button>
     </div>
   );
 };
