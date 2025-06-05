@@ -1,5 +1,5 @@
 import React from "react";
-import NewsletterInput from "./NewsletterInput";
+import NewsletterInput from "../atoms/NewsletterInput";
 
 const NewsletterForm = () => {
   return (
