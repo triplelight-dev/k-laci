@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 // sections
 import IntroSection from './home/IntroSection';
 import StandardSection from './home/StandardSection';
+import TopDistrictSection from './home/TopDistrictSection';
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       >
         <IntroSection />
         <StandardSection />
+        <TopDistrictSection />
       </main>
 
       <Footer />

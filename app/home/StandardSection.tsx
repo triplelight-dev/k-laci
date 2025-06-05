@@ -14,7 +14,7 @@ const BoxItem = ({ title, content, circleColor }: BoxItemProps) => {
     <div
       className="flex flex-col gap-4 rounded-lg bg-white p-6 shadow-sm"
       style={{
-        background: 'lightgray',
+        background: '#F8F8F8',
         borderRadius: '1rem',
         padding: '1.5rem',
         paddingBottom: '3rem',
@@ -97,6 +97,13 @@ const StandardSection = () => {
     },
   ];
 
+  const sectionTitle = '지역경쟁력을 보는 새로운 기준';
+  const sectionSubtitle = 'K-LACI APPROACH';
+  const detailTexts = [
+    '지역의 진짜 역량은 추정이 아닌 데이터로 판단해야 합니다.',
+    '그래서 우리는 5대 영역, 55개 지표로 전국 229개 지자체를 분석했습니다.',
+  ];
+
   return (
     <div
       style={{
@@ -118,7 +125,7 @@ const StandardSection = () => {
               marginBottom: '1.2rem',
             }}
           >
-            K-LACI APPROACH
+            {sectionSubtitle}
           </div>
 
           <div className="mb-16 max-w-2xl">
@@ -126,23 +133,19 @@ const StandardSection = () => {
               className="mb-6 text-4xl font-bold"
               style={{ fontSize: '2rem', fontWeight: 800 }}
             >
-              지역경쟁력을 보는 새로운 기준
+              {sectionTitle}
             </div>
 
             <div style={{ marginTop: '1rem' }}>
-              <div
-                className="text-lg text-gray-600"
-                style={{ fontSize: '1.2rem', fontWeight: 400 }}
-              >
-                지역의 진짜 역량은 추정이 아닌 데이터로 판단해야 합니다.
-              </div>
-              <div
-                className="text-lg text-gray-600"
-                style={{ fontSize: '1.2rem', fontWeight: 400 }}
-              >
-                그래서 우리는 5대 영역, 55개 지표로 전국 229개 지자체를
-                분석했습니다.
-              </div>
+              {detailTexts.map((text, idx) => (
+                <div
+                  key={idx}
+                  className="text-lg text-gray-600"
+                  style={{ fontSize: '1.2rem', fontWeight: 400 }}
+                >
+                  {text}
+                </div>
+              ))}
             </div>
           </div>
 

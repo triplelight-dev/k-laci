@@ -3,9 +3,18 @@
 interface MoveButtonProps {
   buttonName: string;
   onClick: () => void;
+  backgroundColor?: string;
+  borderColor?: string;
+  textColor?: string;
 }
 
-export const MoveButton = ({ buttonName, onClick }: MoveButtonProps) => {
+export const MoveButton = ({
+  buttonName,
+  onClick,
+  backgroundColor = 'black',
+  borderColor = 'none',
+  textColor = 'white',
+}: MoveButtonProps) => {
   return (
     <div
       className="flex flex-col items-center justify-center"
@@ -17,15 +26,16 @@ export const MoveButton = ({ buttonName, onClick }: MoveButtonProps) => {
       }}
     >
       <button
+        onClick={onClick}
         style={{
           width: '10rem',
           height: '3rem',
-          backgroundColor: 'black',
-          color: 'white',
+          backgroundColor,
+          color: textColor,
           fontSize: '1rem',
           fontWeight: 600,
           borderRadius: '0.5rem',
-          border: 'none',
+          border: borderColor === 'none' ? 'none' : `1px solid ${borderColor}`,
           cursor: 'pointer',
         }}
       >
