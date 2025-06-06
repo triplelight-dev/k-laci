@@ -58,26 +58,28 @@ const STYLES = {
 
 const DistrictSearchSection = () => {
   return (
-    <div style={STYLES.container}>
-      <section className="flex w-full flex-col items-center py-20">
-        {/* 타이틀 */}
-        <div style={STYLES.title}>{SECTION_CONTENT.title}</div>
+    <div className="w-full bg-white" style={STYLES.container}>
+      <div className="mx-auto w-full max-w-[1440px] px-[30px]">
+        <div className="flex flex-col items-center">
+          {/* 타이틀 */}
+          <div style={STYLES.title}>{SECTION_CONTENT.title}</div>
 
-        {/* 설명 텍스트 */}
-        <div style={STYLES.description}>{SECTION_CONTENT.description}</div>
+          {/* 설명 텍스트 */}
+          <div style={STYLES.description}>{SECTION_CONTENT.description}</div>
 
-        {/* 검색 입력창 */}
-        <div style={STYLES.searchContainer}>
-          <div style={STYLES.searchIcon}>
-            <Search size={20} />
+          {/* 검색 입력창 */}
+          <div style={STYLES.searchContainer}>
+            <div style={STYLES.searchIcon}>
+              <Search size={20} />
+            </div>
+            <input
+              type="text"
+              placeholder={SECTION_CONTENT.searchPlaceholder}
+              style={STYLES.searchInput}
+            />
           </div>
-          <input
-            type="text"
-            placeholder={SECTION_CONTENT.searchPlaceholder}
-            style={STYLES.searchInput}
-          />
         </div>
-      </section>
+      </div>
     </div>
   );
 };
