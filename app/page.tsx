@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import IntroSection from './home/IntroSection';
 import StandardSection from './home/StandardSection';
 import TopDistrictSection from './home/TopDistrictSection';
+import ReportReservationSection from './home/ReportReservationSection';
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
         <IntroSection />
         <StandardSection />
         <TopDistrictSection />
+        <ReportReservationSection />
       </main>
 
       <Footer />

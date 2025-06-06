@@ -1,17 +1,19 @@
 'use client';
 
 interface MoveButtonProps {
+  width?: string;
   buttonName: string;
   onClick: () => void;
-  backgroundColor?: string;
+  background?: string;
   borderColor?: string;
   textColor?: string;
 }
 
 export const MoveButton = ({
+  width = '10rem',
   buttonName,
   onClick,
-  backgroundColor = 'black',
+  background = 'black',
   borderColor = 'none',
   textColor = 'white',
 }: MoveButtonProps) => {
@@ -28,9 +30,9 @@ export const MoveButton = ({
       <button
         onClick={onClick}
         style={{
-          width: '10rem',
+          width,
           height: '3rem',
-          backgroundColor,
+          background,
           color: textColor,
           fontSize: '1rem',
           fontWeight: 600,
