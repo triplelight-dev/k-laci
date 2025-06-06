@@ -14,11 +14,14 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Reset default margins and paddings */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 body {
@@ -27,8 +30,14 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Ensure full width for root elements */
+#__next,
+main {
+  width: 100%;
+  min-height: 100vh;
+}
+
 a {
-  color: inherit !important; /* Inherit color from parent and force priority */
-  text-decoration: none !important; /* Remove default underline and force priority */
-  /* Add more reset styles if needed, potentially with !important */
+  color: inherit !important;
+  text-decoration: none !important;
 }

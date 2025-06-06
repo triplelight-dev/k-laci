@@ -50,25 +50,6 @@ const BoxItem = ({ title, content, circleColor }: BoxItemProps) => {
   );
 };
 
-interface MoveToResultPageButtonProps {
-  buttonName: string;
-}
-
-const MoveToResultPageButton = ({
-  buttonName,
-}: MoveToResultPageButtonProps) => {
-  return (
-    <div className="flex w-full justify-center pt-4">
-      <button
-        className="h-12 w-40 rounded-lg bg-black font-semibold text-white transition-colors hover:bg-gray-800"
-        style={{ border: 'none', cursor: 'pointer' }}
-      >
-        {buttonName}
-      </button>
-    </div>
-  );
-};
-
 const StandardSection = () => {
   const boxItems = [
     {

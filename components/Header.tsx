@@ -2,8 +2,14 @@ import Link from 'next/link';
 
 const Header = () => {
   return (
-    <header className="border-b border-[#E5E5E5] px-[30px] py-[30px] text-white">
-      <div className="container mx-auto flex items-center justify-between">
+    <header className="w-full border-b border-[#E5E5E5] bg-white">
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          padding: '1.3rem 4rem',
+        }}
+      >
         {/* Logo or Title */}
         <div
           className="font-poppins text-[2.1875rem] leading-[110%] font-bold tracking-[-1.05px] text-black"
@@ -38,7 +44,6 @@ const Header = () => {
             >
               Results
             </Link>
-            {/* Add more pages as needed */}
           </div>
 
           {/* Login Button */}

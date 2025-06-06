@@ -11,7 +11,6 @@ const IntroSection = () => {
     <div
       style={{
         width: '100%',
-        height: '100vh',
         background:
           'linear-gradient(to bottom, rgba(233, 233, 233, 1), rgba(169, 169, 169, 1))',
       }}
