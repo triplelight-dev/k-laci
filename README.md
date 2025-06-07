@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# K-LACI
 
-## Getting Started
+K-LACI(Korea Local Area Competitiveness Index)는 한국 지역의 경쟁력을 분석하고 시각화하는 웹 애플리케이션입니다. 다양한 지표를 통해 지역의 강점과 약점을 파악하고, 이를 통해 지역 발전 방향을 제시합니다.
 
-First, run the development server:
+## 기술 스택
+
+- **프레임워크**: Next.js 15.3.3
+- **언어**: TypeScript
+- **스타일링**: Tailwind CSS
+- **코드 품질**: ESLint, Prettier
+- **패키지 매니저**: Yarn
+
+## 필수 요구사항
+
+- Node.js >= 20.17.0
+- Yarn >= 1.22.22
+
+### 설치 및 실행
+
+1. 저장소 클론
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/team-triplelight/k-laci.git
+cd k-laci
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. 의존성 설치
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+yarn install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. 개발 서버 실행
 
-## Learn More
+```bash
+yarn dev
+```
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+개발 서버는 기본적으로 [http://localhost:3000](http://localhost:3000)에서 실행됩니다.
