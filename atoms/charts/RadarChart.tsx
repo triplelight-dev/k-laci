@@ -13,8 +13,8 @@ type ColorDefinition = {
 };
 
 type Props = {
-  data: number[]; // [0~100] 값 7개
-  labels?: string[]; // 항목 라벨 7개
+  data: number[]; // [0~100] 값 8개 (기대값)
+  labels?: string[]; // 항목 라벨 8개
   showGrid?: boolean; // 레이더 원 표시 여부
 };
 
@@ -23,6 +23,7 @@ const JewelRadarChart = ({ data, labels, showGrid = false }: Props) => {
   const center = size / 2;
   const radius = 200;
 
+  // 항목 수를 8개로 고정하거나 props.labels 길이에 맞춤
   const categories = labels || [
     '경제혁신형',
     '생활역동형',
@@ -31,13 +32,21 @@ const JewelRadarChart = ({ data, labels, showGrid = false }: Props) => {
     '경제정속형',
     '생활정주형',
     '안전정진형',
+    '새로운항목', // 8번째 항목 추가 (혹은 실제 라벨 사용)
   ];
 
-  const numAxes = categories.length;
+  const numAxes = categories.length; // 이제 8이 됩니다.
   const angleStep = (2 * Math.PI) / numAxes;
 
-  // ⭕️ 점 좌표 계산
-  const points = data.map((value, i) => {
+  // **핵심 수정: data 배열 길이 보정**
+  // data 배열의 길이가 numAxes보다 짧으면 0으로 채워서 오류 방지
+  const processedData = [...data];
+  while (processedData.length < numAxes) {
+    processedData.push(0); // 부족한 데이터는 0으로 채움
+  }
+
+  // ⭕️ 점 좌표 계산 - 이제 processedData를 사용합니다.
+  const points = processedData.map((value, i) => {
     const angle = -Math.PI / 2 + i * angleStep;
     const r = (value / 100) * radius;
     return {
@@ -47,7 +56,7 @@ const JewelRadarChart = ({ data, labels, showGrid = false }: Props) => {
   });
 
   // 🎨 각 삼각형의 시작색 → 끝색 정의 및 그라데이션 타입 지정
-  // 사용자 요청에 맞춰 '다른 색으로 변하게' 하면서 명확한 색상 전환을 시도했던 버전 (클리핑 전)
+  // 8번째 항목에 대한 색상 정의 추가
   const fixedColorDefinitions: ColorDefinition[] = [
     // [0] 경제혁신형: 빨강 → 초록
     {
@@ -91,11 +100,16 @@ const JewelRadarChart = ({ data, labels, showGrid = false }: Props) => {
       endColor: '#74BF9E',
       gradientType: 'radial-edge-to-center',
     },
+    // [7] 새로운항목: 연한 파랑 → 진한 파랑 (8번째 항목 추가)
+    {
+      startColor: '#87CEEB',
+      endColor: '#4169E1',
+      gradientType: 'linear-center-to-base',
+    },
   ];
 
   // 레이더 차트의 외곽선을 정의하는 clipPath
-  // 이는 모든 데이터 포인트의 외부 경계를 따라가는 다각형이 될 것입니다.
-  // 이 버전에서는 아직 <g>에 적용되지 않았습니다.
+  // points 배열이 항상 numAxes 길이를 가지므로 안전합니다.
   const radarOutlinePath =
     points.map((p, idx) => `${idx === 0 ? 'M' : 'L'}${p.x},${p.y}`).join(' ') +
     'Z';
@@ -105,17 +119,16 @@ const JewelRadarChart = ({ data, labels, showGrid = false }: Props) => {
       <defs>
         {/* 각 삼각형에 적용될 다양한 타입의 그라데이션 정의 */}
         {points.map((point, i) => {
+          // 이제 points는 항상 numAxes 길이를 가짐
           const { startColor, endColor, gradientType } =
             fixedColorDefinitions[i % fixedColorDefinitions.length];
-          const nextPoint = points[(i + 1) % numAxes];
+          const nextPoint = points[(i + 1) % numAxes]; // nextPoint도 항상 정의됨
 
           const baseMidX = (point.x + nextPoint.x) / 2;
           const baseMidY = (point.y + nextPoint.y) / 2;
 
-          // 이 버전에서는 opacity를 높여 '흰색으로 변하는' 느낌을 줄였지만,
-          // 아직 clipPath 적용 전이므로 블러 효과가 외곽으로 번질 수 있습니다.
-          const opaqueStartOpacity = 0.8; // 시작 색상 투명도 (덜 투명)
-          const opaqueEndOpacity = 1.0; // 끝 색상 투명도 (완전 불투명)
+          const opaqueStartOpacity = 0.8;
+          const opaqueEndOpacity = 1.0;
 
           if (gradientType === 'radial-center-to-edge') {
             return (
@@ -231,11 +244,27 @@ const JewelRadarChart = ({ data, labels, showGrid = false }: Props) => {
           <feBlend in="SourceGraphic" in2="blurred" mode="screen" />
         </filter>
 
-        {/* 이 버전에서는 clipPath가 정의는 되어 있지만, <g>에 아직 적용되지 않았습니다. */}
+        {/* clipPath 적용: 이제 <g>에 적용될 것입니다. */}
         <clipPath id="radarClipPath">
           <path d={radarOutlinePath} />
         </clipPath>
       </defs>
+
+      {/* 💎 보석 삼각형 조각들을 그룹으로 묶고 필터와 clipPath 적용 */}
+      {/* clipPath="url(#radarClipPath)"가 이제 <g>에 적용됩니다. */}
+      <g filter="url(#blendingFilter)" clipPath="url(#radarClipPath)">
+        {points.map((point, i) => {
+          const next = points[(i + 1) % numAxes];
+          return (
+            <path
+              key={i}
+              d={`M${center},${center} L${point.x},${point.y} L${next.x},${next.y} Z`}
+              fill={`url(#grad${i})`}
+              fillOpacity={1.0}
+            />
+          );
+        })}
+      </g>
 
       {/* 🌀 격자 원 */}
       {showGrid &&
@@ -246,7 +275,7 @@ const JewelRadarChart = ({ data, labels, showGrid = false }: Props) => {
             cy={center}
             r={radius * ratio}
             fill="none"
-            stroke="#ccc"
+            stroke="#6c676746"
             strokeWidth={0.5}
           />
         ))}
@@ -271,22 +300,6 @@ const JewelRadarChart = ({ data, labels, showGrid = false }: Props) => {
           );
         })}
 
-      {/* 💎 보석 삼각형 조각들을 그룹으로 묶고 필터 적용 */}
-      {/* 이 버전에서는 clipPath="url(#radarClipPath)"가 아직 <g>에 적용되지 않았습니다. */}
-      <g filter="url(#blendingFilter)">
-        {points.map((point, i) => {
-          const next = points[(i + 1) % numAxes];
-          return (
-            <path
-              key={i}
-              d={`M${center},${center} L${point.x},${point.y} L${next.x},${next.y} Z`}
-              fill={`url(#grad${i})`}
-              fillOpacity={1.0} // 삼각형 자체의 투명도를 1.0으로 설정하여 필터가 더 잘 작동하도록 함
-            />
-          );
-        })}
-      </g>
-
       {/* 🏷️ 라벨 */}
       {categories.map((label, i) => {
         const angle = -Math.PI / 2 + i * angleStep;
@@ -296,27 +309,33 @@ const JewelRadarChart = ({ data, labels, showGrid = false }: Props) => {
         let textAnchor = 'middle';
         let dy = '0.35em';
 
+        // 8개 항목에 맞춰 라벨 위치 조정 로직 재검토 (필요 시)
+        // 현재 로직은 모든 각도에 대해 작동하지만, 8개 항목에서 라벨이 겹치지 않도록
+        // 미세 조정이 필요할 수 있습니다.
         if (Math.abs(Math.cos(angle)) > 0.8) {
+          // 수평에 가까운 축 (0도, 180도)
           textAnchor = Math.cos(angle) > 0 ? 'start' : 'end';
           dy = '0.35em';
         } else if (Math.abs(Math.sin(angle)) > 0.8) {
+          // 수직에 가까운 축 (90도, 270도)
           textAnchor = 'middle';
           dy = Math.sin(angle) > 0 ? '1em' : '-0.3em';
         } else {
+          // 대각선 축
           if (Math.cos(angle) > 0 && Math.sin(angle) < 0) {
-            // 우상단
+            // 우상단 (45도)
             textAnchor = 'start';
             dy = '-0.3em';
           } else if (Math.cos(angle) < 0 && Math.sin(angle) < 0) {
-            // 좌상단
+            // 좌상단 (135도)
             textAnchor = 'end';
             dy = '-0.3em';
           } else if (Math.cos(angle) < 0 && Math.sin(angle) > 0) {
-            // 좌하단
+            // 좌하단 (225도)
             textAnchor = 'end';
             dy = '1em';
           } else if (Math.cos(angle) > 0 && Math.sin(angle) > 0) {
-            // 우하단
+            // 우하단 (315도)
             textAnchor = 'start';
             dy = '1em';
           }
@@ -336,6 +355,89 @@ const JewelRadarChart = ({ data, labels, showGrid = false }: Props) => {
           </text>
         );
       })}
+
+      {/* 방사선 값 표기 (0 ~ 100, 20 단위, 십자형 점선으로) */}
+      {showGrid &&
+        [0, 20, 40, 60, 80, 100].map((value) => {
+          const r = (value / 100) * radius; // 해당 값에 대한 반지름
+          const textOffset = 5; // 텍스트를 축에서 약간 띄울 거리
+
+          // 십자형으로 4개의 주요 방향에 값을 표기 (radian 값)
+          // 270도 (-Math.PI / 2), 0도 (0), 90도 (Math.PI / 2), 180도 (Math.PI)
+          const cardinalAngles = [
+            -Math.PI / 2, // 270도 (위)
+            0, // 0도 (오른쪽)
+            Math.PI / 2, // 90도 (아래)
+            Math.PI, // 180도 (왼쪽)
+          ];
+
+          return cardinalAngles.map((angle, angleIdx) => {
+            // 텍스트 위치 계산
+            const textX = center + (r + textOffset) * Math.cos(angle);
+            const textY = center + (r + textOffset) * Math.sin(angle);
+
+            let textAnchor = 'middle';
+            let dy = '0.35em'; // 기본 값
+
+            // 텍스트 정렬 및 위치 미세 조정
+            if (angle === 0) {
+              // 0도 (오른쪽)
+              textAnchor = 'start';
+              dy = '0.35em';
+            } else if (angle === Math.PI / 2) {
+              // 90도 (아래)
+              textAnchor = 'middle';
+              dy = '1.2em';
+            } else if (angle === Math.PI) {
+              // 180도 (왼쪽)
+              textAnchor = 'end';
+              dy = '0.35em';
+            } else if (angle === -Math.PI / 2) {
+              // 270도 (위)
+              textAnchor = 'middle';
+              dy = '-0.5em';
+            }
+
+            // 0 값은 중앙에만 표시 (가장 위쪽 축)
+            if (value === 0 && angle !== -Math.PI / 2) return null; // 0은 270도(위)에서만 표시
+
+            // 0 값의 경우 텍스트를 중심에 가깝게
+            // 0은 항상 위쪽 축에만 표시하므로, 그 위치를 고정
+            const finalTextX =
+              value === 0 && angle === -Math.PI / 2 ? center : textX;
+            const finalTextY =
+              value === 0 && angle === -Math.PI / 2 ? center + 15 : textY; // 0은 항상 중심에서 약간 아래에
+
+            return (
+              <React.Fragment key={`value-${value}-${angleIdx}`}>
+                {/* 값 텍스트 */}
+                <text
+                  x={finalTextX}
+                  y={finalTextY}
+                  textAnchor={textAnchor}
+                  dy={dy}
+                  fontSize="10"
+                  fill="#888"
+                >
+                  {value}
+                </text>
+
+                {/* 점선 (0이 아닌 값에 대해서만 십자형 축에 그리기) */}
+                {value !== 0 && (
+                  <line
+                    x1={center + r * Math.cos(angle)}
+                    y1={center + r * Math.sin(angle)}
+                    x2={center + (r + textOffset - 2) * Math.cos(angle)} // 텍스트 바로 앞까지
+                    y2={center + (r + textOffset - 2) * Math.sin(angle)}
+                    stroke="#888" // 점선 색상
+                    strokeWidth={0.5}
+                    strokeDasharray="2 2" // 점선 패턴 (2px 선, 2px 간격)
+                  />
+                )}
+              </React.Fragment>
+            );
+          });
+        })}
     </svg>
   );
 };

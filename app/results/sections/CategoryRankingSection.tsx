@@ -37,17 +37,8 @@ const CategoryRankingSection = () => {
         <div style={{ width: '500px', height: '500px' }}>
           <JewelRadarChart
             showGrid={true}
-            data={[75, 65, 60, 70, 25, 40, 40]}
-            // colors={[
-            //   '#ff6b6b',
-            //   '#ff922b',
-            //   '#f9c74f',
-            //   '#90be6d',
-            //   '#43aa8b',
-            //   '#4d96ff',
-            //   '#9d4edd',
-            // ]}
-          />{' '}
+            data={[75, 65, 60, 70, 45, 40, 50, 46]}
+          />
         </div>
 
         {/* 카테고리 그리드 */}
