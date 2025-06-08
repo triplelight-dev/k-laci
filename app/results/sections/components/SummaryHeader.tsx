@@ -10,7 +10,7 @@ const SummaryHeader: React.FC = () => {
   return (
     <div
       className="flex max-w-2xl flex-col items-center gap-4"
-      style={{ gap: '1.5rem' }}
+      style={{ gap: '1.5rem', marginBottom: '5rem' }}
     >
       {/* 유형명 뱃지 */}
       <div
