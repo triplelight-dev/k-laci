@@ -28,6 +28,7 @@ const CategoryRankingSection = () => {
           style={{
             fontSize: '2.5rem',
             fontWeight: 800,
+            paddingTop: '3rem',
             marginBottom: '2rem',
           }}
         >
