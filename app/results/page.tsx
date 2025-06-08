@@ -3,6 +3,7 @@ import Footer from '@/components/Footer';
 
 // sections
 import CategoryRankingSection from './sections/CategoryRankingSection';
+import SummarySection from './sections/SummarySection';
 
 export default function ResultsPage() {
   return (
@@ -13,6 +14,7 @@ export default function ResultsPage() {
         className="container mx-auto flex-grow p-4"
         style={{ width: '100%' }}
       >
+        <SummarySection />
         <CategoryRankingSection />
       </main>
 
