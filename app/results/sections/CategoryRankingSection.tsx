@@ -4,6 +4,8 @@ import React from 'react';
 import CategoryRanking from '../components/CategoryRanking';
 import { CategoryData } from '../types/category';
 
+import JewelRadarChart from '@/atoms/charts/RadarChart';
+
 const CategoryRankingSection = () => {
   return (
     <div
@@ -30,6 +32,13 @@ const CategoryRankingSection = () => {
           }}
         >
           범주별 순위
+        </div>
+
+        <div style={{ width: '500px', height: '500px' }}>
+          <JewelRadarChart
+            showGrid={true}
+            data={[75, 65, 60, 70, 45, 40, 50, 46]}
+          />
         </div>
 
         {/* 카테고리 그리드 */}
