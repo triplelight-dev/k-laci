@@ -1,0 +1,21 @@
+# Build output
+dist
+build
+
+# Dependencies
+node_modules
+
+# Logs
+*.log
+
+# Environment variables
+.env
+.env.*
+
+# IDE
+.vscode
+.idea
+
+# Misc
+.DS_Store
+coverage 
