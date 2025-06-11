@@ -11,7 +11,6 @@ export class DataService {
     const supabaseUrl = this.configService.getOrThrow<string>('SUPABASE_URL');
     const supabaseKey =
       this.configService.getOrThrow<string>('SUPABASE_ANON_KEY');
-
     this.supabase = createClient(supabaseUrl, supabaseKey);
   }
 
