@@ -22,4 +22,4 @@ export function transformKeysToCamelCase<T>(obj: any): T {
   }
 
   return obj as T;
-} 
+}

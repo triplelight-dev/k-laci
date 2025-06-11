@@ -35,15 +35,17 @@ export class AuthService {
     }
 
     // 2. Create user profile in public.users
-    const { error: profileError } = await this.supabase.from('user_profiles').insert([
-      {
-        id: authData.user.id,
-        email: authData.user.email,
-        name,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      },
-    ]);
+    const { error: profileError } = await this.supabase
+      .from('user_profiles')
+      .insert([
+        {
+          id: authData.user.id,
+          email: authData.user.email,
+          name,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
+      ]);
 
     if (profileError) {
       // If profile creation fails, we should clean up the auth user

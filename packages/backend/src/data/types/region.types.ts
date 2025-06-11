@@ -38,4 +38,4 @@ export interface RegionsResponse {
     limit: number;
     offset: number;
   };
-} 
+}
