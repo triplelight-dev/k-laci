@@ -52,4 +52,85 @@ API 문서는 `Swagger` 를 통해서 확인하실 수 있습니다. 서버가 �
 ```bash
 http://localhost:3000/api
 ```
+
+# Backend
+
+## Description
+
+NestJS backend application for K-Laci project.
+
+## Environment Setup
+
+Create a `.env` file in the root of the backend directory with the following variables:
+
+```env
+# Application
+NODE_ENV=development
+PORT=3000
+
+# Supabase
+SUPABASE_URL=your-project-url
+SUPABASE_ANON_KEY=your-anon-key
+
+# CORS
+CORS_ORIGIN=http://localhost:3000
+```
+
+To get your Supabase credentials:
+1. Go to your Supabase project dashboard
+2. Click on the "Settings" icon in the sidebar
+3. Go to "API" section
+4. Copy the "Project URL" and "anon public" key
+5. Paste them in your `.env` file
+
+## Installation
+
+```bash
+$ yarn install
+```
+
+## Running the app
+
+```bash
+# development
+$ yarn start
+
+# watch mode
+$ yarn start:dev
+
+# production mode
+$ yarn start:prod
+```
+
+## Test
+
+```bash
+# unit tests
+$ yarn test
+
+# e2e tests
+$ yarn test:e2e
+
+# test coverage
+$ yarn test:cov
+```
+
+## API Documentation
+
+Once the application is running, you can access the Swagger API documentation at:
+```
+http://localhost:3000/api
+```
+
+## Authentication Endpoints
+
+The following authentication endpoints are available:
+
+- `POST /auth/signup` - Register a new user
+  - Required fields: email, password, name
+- `POST /auth/signin` - Sign in a user
+  - Required fields: email, password
+- `POST /auth/signout` - Sign out the current user
+- `GET /auth/session` - Get the current user's session
+
 # nestjs_starter_template
