@@ -26,4 +26,4 @@ export class SignUpDto {
   @IsString()
   @MinLength(2)
   name: string;
-} 
+}

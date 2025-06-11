@@ -1,4 +1,11 @@
-import { Controller, Post, Body, Get, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/sign-up.dto';
 import { SignInDto } from './dto/sign-in.dto';
@@ -39,4 +46,4 @@ export class AuthController {
   async getSession() {
     return this.authService.getSession();
   }
-} 
+}
