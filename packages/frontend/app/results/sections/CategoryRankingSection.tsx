@@ -7,6 +7,8 @@ import { CategoryData } from '../types/category';
 import JewelRadarChart from '@/atoms/charts/RadarChart';
 
 const CategoryRankingSection = () => {
+  const chartData = [85, 60, 50, 60, 55, 43, 55, 66];
+
   return (
     <div
       style={{
@@ -35,11 +37,17 @@ const CategoryRankingSection = () => {
           범주별 순위
         </div>
 
-        <div style={{ width: '500px', height: '500px' }}>
-          <JewelRadarChart
-            showGrid={true}
-            data={[75, 65, 60, 70, 45, 40, 50, 46]}
-          />
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+            padding: '1rem',
+            // border: '1px solid red',
+          }}
+        >
+          <JewelRadarChart showGrid={true} data={chartData} />
         </div>
 
         {/* 카테고리 그리드 */}
