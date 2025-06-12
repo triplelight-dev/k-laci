@@ -1,7 +1,11 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { RegionWithDetails, RegionsResponse } from './types/region.types';
+import {
+  RegionWithDetails,
+  RegionsResponse,
+  ProvincesWithRegionsResponse,
+} from './types/region.types';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 
@@ -90,5 +94,40 @@ export class DataService {
     region = data as RegionWithDetails;
     await this.cacheManager.set(cacheKey, region, 300); // 5분 TTL
     return region;
+  }
+
+  async getProvincesWithRegions(): Promise<ProvincesWithRegionsResponse> {
+    const cacheKey = 'provinces-with-regions';
+    const cached =
+      await this.cacheManager.get<ProvincesWithRegionsResponse>(cacheKey);
+    if (cached) {
+      return cached;
+    }
+    // 모든 provinces와 regions를 한 번에 가져옴
+    const { data: provinces, error: provinceError } = await this.supabase
+      .from('provinces')
+      .select('id, name');
+    if (provinceError) {
+      throw provinceError;
+    }
+    const { data: regions, error: regionError } = await this.supabase
+      .from('regions')
+      .select('id, name, province_id');
+    if (regionError) {
+      throw regionError;
+    }
+    // provinces별로 하위 regions를 가나다(오름차순)로 정렬하여 묶음
+    const result: ProvincesWithRegionsResponse = (
+      provinces as { id: number; name: string }[]
+    ).map((province) => ({
+      id: province.id,
+      name: province.name,
+      regions: (regions as { id: number; name: string; province_id: number }[])
+        .filter((r) => r.province_id === province.id)
+        .sort((a, b) => a.name.localeCompare(b.name, 'ko'))
+        .map((r) => ({ id: r.id, name: r.name })),
+    }));
+    await this.cacheManager.set(cacheKey, result, 300); // 5분 TTL
+    return result;
   }
 }
