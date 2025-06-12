@@ -1,13 +1,15 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags, ApiQuery } from '@nestjs/swagger';
 import { DataService } from './data.service';
+import { Public } from 'src/auth/decorators/public.decorator';
 
-@ApiTags('regions')
-@Controller('regions')
+@ApiTags('data')
+@Controller('data')
 export class DataController {
   constructor(private readonly dataService: DataService) {}
 
-  @Get()
+  @Public()
+  @Get('regions')
   @ApiOperation({ summary: 'Get all regions' })
   @ApiQuery({
     name: 'limit',
@@ -32,7 +34,8 @@ export class DataController {
     return this.dataService.getRegions(limit, offset);
   }
 
-  @Get(':id')
+  @Public()
+  @Get('regions/:id')
   @ApiOperation({ summary: 'Get a specific region by ID' })
   @ApiResponse({
     status: 200,
@@ -44,5 +47,16 @@ export class DataController {
   })
   async getRegion(@Param('id') id: string) {
     return this.dataService.getRegion(id);
+  }
+
+  @Public()
+  @Get('provinces-with-regions')
+  @ApiOperation({ summary: 'Get all provinces with their regions' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns a list of provinces, each with its regions',
+  })
+  async getProvincesWithRegions() {
+    return this.dataService.getProvincesWithRegions();
   }
 }
