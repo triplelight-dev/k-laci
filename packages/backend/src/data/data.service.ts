@@ -1,13 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { RegionWithDetails, RegionsResponse } from './types/region.types';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class DataService {
   private supabase: SupabaseClient;
 
-  constructor(private configService: ConfigService) {
+  constructor(
+    private configService: ConfigService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+  ) {
     const supabaseUrl = this.configService.getOrThrow<string>('SUPABASE_URL');
     const supabaseKey =
       this.configService.getOrThrow<string>('SUPABASE_ANON_KEY');
@@ -15,6 +20,12 @@ export class DataService {
   }
 
   async getRegions(limit?: number, offset?: number): Promise<RegionsResponse> {
+    const cacheKey = `regions:limit=${limit ?? 'none'}:offset=${offset ?? 'none'}`;
+    let regionsResponse =
+      await this.cacheManager.get<RegionsResponse>(cacheKey);
+    if (regionsResponse) {
+      return regionsResponse;
+    }
     let query = this.supabase
       .from('regions')
       .select(
@@ -41,7 +52,7 @@ export class DataService {
       throw error;
     }
 
-    return {
+    regionsResponse = {
       data: data as RegionWithDetails[],
       meta: {
         total: count || 0,
@@ -49,9 +60,16 @@ export class DataService {
         offset: offset || 0,
       },
     };
+    await this.cacheManager.set(cacheKey, regionsResponse, 300); // 5분 TTL
+    return regionsResponse;
   }
 
   async getRegion(id: string): Promise<RegionWithDetails> {
+    const cacheKey = `region:${id}`;
+    let region = await this.cacheManager.get<RegionWithDetails>(cacheKey);
+    if (region) {
+      return region;
+    }
     const { data, error } = await this.supabase
       .from('regions')
       .select(
@@ -69,6 +87,8 @@ export class DataService {
       throw error;
     }
 
-    return data as RegionWithDetails;
+    region = data as RegionWithDetails;
+    await this.cacheManager.set(cacheKey, region, 300); // 5분 TTL
+    return region;
   }
 }
