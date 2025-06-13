@@ -9,6 +9,15 @@ import {
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 
+export const REGION_SCORE_TYPES = {
+  growth: 'growth',
+  economy: 'economy',
+  living: 'living',
+  safety: 'safety',
+} as const;
+
+export type RegionScoreType = keyof typeof REGION_SCORE_TYPES;
+
 @Injectable()
 export class DataService {
   private supabase: SupabaseClient;
@@ -98,7 +107,7 @@ export class DataService {
 
   async getProvinceWithRegions(
     provinceId: number,
-    scoreType?: 'growth' | 'economy' | 'living' | 'safety',
+    scoreType?: RegionScoreType,
     limit?: number,
   ): Promise<Region[] | null> {
     // 캐시 키에 provinceId, scoreType, limit을 포함
@@ -127,19 +136,19 @@ export class DataService {
       throw regionError;
     }
     let sortedRegions = regions as Region[];
-    if (scoreType === 'growth') {
+    if (scoreType === REGION_SCORE_TYPES.growth) {
       sortedRegions = sortedRegions.sort(
         (a, b) => (b.growth_score ?? 0) - (a.growth_score ?? 0),
       );
-    } else if (scoreType === 'economy') {
+    } else if (scoreType === REGION_SCORE_TYPES.economy) {
       sortedRegions = sortedRegions.sort(
         (a, b) => (b.economy_score ?? 0) - (a.economy_score ?? 0),
       );
-    } else if (scoreType === 'living') {
+    } else if (scoreType === REGION_SCORE_TYPES.living) {
       sortedRegions = sortedRegions.sort(
         (a, b) => (b.living_score ?? 0) - (a.living_score ?? 0),
       );
-    } else if (scoreType === 'safety') {
+    } else if (scoreType === REGION_SCORE_TYPES.safety) {
       sortedRegions = sortedRegions.sort(
         (a, b) => (b.safety_score ?? 0) - (a.safety_score ?? 0),
       );
@@ -155,11 +164,13 @@ export class DataService {
     return sortedRegions;
   }
 
-  async getProvincesWithRegions(): Promise<{
-    id: number;
-    name: string;
-    regions: Region[];
-  }[]> {
+  async getProvincesWithRegions(): Promise<
+    {
+      id: number;
+      name: string;
+      regions: Region[];
+    }[]
+  > {
     const cacheKey = 'provinces-with-regions';
     const cached = await this.cacheManager.get<any[]>(cacheKey);
     if (cached) {
@@ -174,18 +185,22 @@ export class DataService {
     }
     const { data: regions, error: regionError } = await this.supabase
       .from('regions')
-      .select('id, name, province_id, district_type, weight_class, klaci_code, growth_score, economy_score, living_score, safety_score');
+      .select(
+        'id, name, province_id, district_type, weight_class, klaci_code, growth_score, economy_score, living_score, safety_score',
+      );
     if (regionError) {
       throw regionError;
     }
     // provinces별로 하위 regions를 가나다(오름차순)로 정렬하여 묶음
-    const result = (provinces as { id: number; name: string }[]).map((province) => ({
-      id: province.id,
-      name: province.name,
-      regions: (regions as Region[])
-        .filter((r) => r.province_id === province.id)
-        .sort((a, b) => a.name.localeCompare(b.name, 'ko')),
-    }));
+    const result = (provinces as { id: number; name: string }[]).map(
+      (province) => ({
+        id: province.id,
+        name: province.name,
+        regions: (regions as Region[])
+          .filter((r) => r.province_id === province.id)
+          .sort((a, b) => a.name.localeCompare(b.name, 'ko')),
+      }),
+    );
     await this.cacheManager.set(cacheKey, result, 300); // 5분 TTL
     return result;
   }
