@@ -5,9 +5,7 @@ import {
   RegionWithDetails,
   RegionsResponse,
   ProvincesWithRegionsResponse,
-  ProvinceWithRegions,
   Region,
-  KlaciCode,
 } from './types/region.types';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
