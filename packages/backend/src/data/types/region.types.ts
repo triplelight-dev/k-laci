@@ -39,11 +39,3 @@ export interface RegionsResponse {
     offset: number;
   };
 }
-
-export interface ProvinceWithRegions {
-  id: number;
-  name: string;
-  regions: Pick<Region, 'id' | 'name'>[];
-}
-
-export type ProvincesWithRegionsResponse = ProvinceWithRegions[];

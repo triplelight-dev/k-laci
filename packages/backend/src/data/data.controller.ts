@@ -59,4 +59,37 @@ export class DataController {
   async getProvincesWithRegions() {
     return this.dataService.getProvincesWithRegions();
   }
+
+  @Public()
+  @Get('province/:id')
+  @ApiOperation({ summary: 'Get a specific province with its regions' })
+  @ApiQuery({
+    name: 'scoreType',
+    required: false,
+    type: String,
+    description: 'Sort regions by score type: growth, economy, living, safety',
+  })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    type: Number,
+    description: 'Limit the number of regions returned',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns the province with its regions',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Province not found',
+  })
+  async getProvinceWithRegions(
+    @Param('id') id: string,
+    @Query('scoreType') scoreType?: 'growth' | 'economy' | 'living' | 'safety',
+    @Query('limit') limit?: number,
+  ) {
+    const provinceId = Number(id);
+    if (isNaN(provinceId)) return null;
+    return this.dataService.getProvinceWithRegions(provinceId, scoreType, limit);
+  }
 }
