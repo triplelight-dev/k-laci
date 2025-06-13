@@ -50,17 +50,6 @@ export class DataController {
   }
 
   @Public()
-  @Get('provinces-with-regions')
-  @ApiOperation({ summary: 'Get all provinces with their regions' })
-  @ApiResponse({
-    status: 200,
-    description: 'Returns a list of provinces, each with its regions',
-  })
-  async getProvincesWithRegions() {
-    return this.dataService.getProvincesWithRegions();
-  }
-
-  @Public()
   @Get('province/:id')
   @ApiOperation({ summary: 'Get a specific province with its regions' })
   @ApiQuery({
@@ -90,6 +79,21 @@ export class DataController {
   ) {
     const provinceId = Number(id);
     if (isNaN(provinceId)) return null;
-    return this.dataService.getProvinceWithRegions(provinceId, scoreType, limit);
+    return this.dataService.getProvinceWithRegions(
+      provinceId,
+      scoreType,
+      limit,
+    );
+  }
+
+  @Public()
+  @Get('provinces-with-regions')
+  @ApiOperation({ summary: 'Get all provinces with their regions' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns a list of provinces, each with its regions',
+  })
+  async getProvincesWithRegions() {
+    return this.dataService.getProvincesWithRegions();
   }
 }
