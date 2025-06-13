@@ -1,3 +1,5 @@
+import { ApiProperty } from '@nestjs/swagger';
+
 export interface Province {
   id: number;
   name: string;
@@ -33,4 +35,35 @@ export interface RegionsResponse {
     limit: number;
     offset: number;
   };
+}
+
+// DTOs
+export class ProvinceResponseDto {
+  @ApiProperty()
+  id: number;
+  @ApiProperty()
+  name: string;
+}
+
+export class RegionResponseDto {
+  @ApiProperty()
+  id: number;
+  @ApiProperty()
+  name: string;
+  @ApiProperty()
+  province_id: number;
+  @ApiProperty()
+  district_type: string;
+  @ApiProperty()
+  weight_class: string;
+  @ApiProperty()
+  klaci_code: string;
+  @ApiProperty()
+  growth_score: number;
+  @ApiProperty()
+  economy_score: number;
+  @ApiProperty()
+  living_score: number;
+  @ApiProperty()
+  safety_score: number;
 }

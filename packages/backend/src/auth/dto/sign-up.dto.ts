@@ -27,3 +27,11 @@ export class SignUpDto {
   @MinLength(2)
   name: string;
 }
+
+export class SignUpResponseDto {
+  @ApiProperty({ description: 'User ID' })
+  user_id: string;
+
+  @ApiProperty({ description: 'User email' })
+  email: string;
+}

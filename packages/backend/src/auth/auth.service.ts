@@ -1,8 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { SignUpDto } from './dto/sign-up.dto';
-import { SignInDto } from './dto/sign-in.dto';
+import { SignUpDto, SignUpResponseDto } from './dto/sign-up.dto';
+import { SignInDto, SignInResponseDto } from './dto/sign-in.dto';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +16,7 @@ export class AuthService {
     this.supabase = createClient(supabaseUrl, supabaseKey);
   }
 
-  async signUp(signUpDto: SignUpDto) {
+  async signUp(signUpDto: SignUpDto): Promise<SignUpResponseDto> {
     const { email, password, name } = signUpDto;
 
     // 1. Create user in auth.users
@@ -55,10 +55,13 @@ export class AuthService {
       );
     }
 
-    return authData;
+    return {
+      user_id: authData.user.id,
+      email: authData.user.email,
+    };
   }
 
-  async signIn(signInDto: SignInDto) {
+  async signIn(signInDto: SignInDto): Promise<SignInResponseDto> {
     const { email, password } = signInDto;
 
     const { data, error } = await this.supabase.auth.signInWithPassword({
@@ -70,7 +73,11 @@ export class AuthService {
       throw new UnauthorizedException(error.message);
     }
 
-    return data;
+    return {
+      access_token: data.session?.access_token ?? '',
+      user_id: data.user?.id ?? '',
+      email: data.user?.email ?? '',
+    };
   }
 
   async signOut() {
@@ -106,3 +113,15 @@ export class AuthService {
     return data;
   }
 }
+
+export const AUTH_ERRORS = {
+  NO_AUTH_HEADER: 'No authorization header',
+  INVALID_TYPE: 'Invalid authorization type',
+  NO_TOKEN: 'No token provided',
+  INVALID_TOKEN: 'Invalid token',
+  INVALID_CREDENTIALS: 'Invalid credentials',
+  USER_NOT_FOUND: 'User not found',
+  PROFILE_CREATION_FAILED: 'Failed to create user profile',
+} as const;
+
+export type AuthErrorKey = keyof typeof AUTH_ERRORS;

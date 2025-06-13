@@ -18,3 +18,14 @@ export class SignInDto {
   @MinLength(6)
   password: string;
 }
+
+export class SignInResponseDto {
+  @ApiProperty({ description: 'Access token' })
+  access_token: string;
+
+  @ApiProperty({ description: 'User ID' })
+  user_id: string;
+
+  @ApiProperty({ description: 'User email' })
+  email: string;
+}

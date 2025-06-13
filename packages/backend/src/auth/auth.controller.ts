@@ -9,8 +9,8 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { SignUpDto } from './dto/sign-up.dto';
-import { SignInDto } from './dto/sign-in.dto';
+import { SignUpDto, SignUpResponseDto } from './dto/sign-up.dto';
+import { SignInDto, SignInResponseDto } from './dto/sign-in.dto';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Public } from './decorators/public.decorator';
 
@@ -25,9 +25,10 @@ export class AuthController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'User has been successfully created',
+    type: SignUpResponseDto,
   })
   @ApiResponse({ status: 400, description: 'Invalid input data' })
-  async signUp(@Body() signUpDto: SignUpDto) {
+  async signUp(@Body() signUpDto: SignUpDto): Promise<SignUpResponseDto> {
     return this.authService.signUp(signUpDto);
   }
 
@@ -38,22 +39,23 @@ export class AuthController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'User has been successfully signed in',
+    type: SignInResponseDto,
   })
   @ApiResponse({ status: 401, description: 'Invalid credentials' })
-  async signIn(@Body() signInDto: SignInDto) {
+  async signIn(@Body() signInDto: SignInDto): Promise<SignInResponseDto> {
     return this.authService.signIn(signInDto);
   }
 
   @Post('signout')
   @ApiOperation({ summary: 'Sign out the current user' })
-  @ApiResponse({ status: 200, description: 'User successfully signed out' })
+  @ApiResponse({ status: 200, description: 'User successfully signed out', type: Object })
   async signOut() {
     return this.authService.signOut();
   }
 
   @Get('session')
   @ApiOperation({ summary: 'Get current user session' })
-  @ApiResponse({ status: 200, description: 'Returns the current session' })
+  @ApiResponse({ status: 200, description: 'Returns the current session', type: Object })
   @ApiResponse({ status: 401, description: 'No active session' })
   async getSession() {
     return this.authService.getSession();
