@@ -4,7 +4,6 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import {
   RegionWithDetails,
   RegionsResponse,
-  ProvincesWithRegionsResponse,
   Region,
 } from './types/region.types';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
@@ -97,41 +96,6 @@ export class DataService {
     return region;
   }
 
-  async getProvincesWithRegions(): Promise<ProvincesWithRegionsResponse> {
-    const cacheKey = 'provinces-with-regions';
-    const cached =
-      await this.cacheManager.get<ProvincesWithRegionsResponse>(cacheKey);
-    if (cached) {
-      return cached;
-    }
-    // 모든 provinces와 regions를 한 번에 가져옴
-    const { data: provinces, error: provinceError } = await this.supabase
-      .from('provinces')
-      .select('id, name');
-    if (provinceError) {
-      throw provinceError;
-    }
-    const { data: regions, error: regionError } = await this.supabase
-      .from('regions')
-      .select('id, name, province_id');
-    if (regionError) {
-      throw regionError;
-    }
-    // provinces별로 하위 regions를 가나다(오름차순)로 정렬하여 묶음
-    const result: ProvincesWithRegionsResponse = (
-      provinces as { id: number; name: string }[]
-    ).map((province) => ({
-      id: province.id,
-      name: province.name,
-      regions: (regions as { id: number; name: string; province_id: number }[])
-        .filter((r) => r.province_id === province.id)
-        .sort((a, b) => a.name.localeCompare(b.name, 'ko'))
-        .map((r) => ({ id: r.id, name: r.name })),
-    }));
-    await this.cacheManager.set(cacheKey, result, 300); // 5분 TTL
-    return result;
-  }
-
   async getProvinceWithRegions(
     provinceId: number,
     scoreType?: 'growth' | 'economy' | 'living' | 'safety',
@@ -152,10 +116,12 @@ export class DataService {
     if (provinceError || !province) {
       return null;
     }
-    // 하위 regions 조회 (조인 없이 FK만)
+    // 하위 regions 조회 (district_type, weight_class 포함)
     const { data: regions, error: regionError } = await this.supabase
       .from('regions')
-      .select('id, name, province_id, weight_class_id, klaci_code, growth_score, economy_score, living_score, safety_score')
+      .select(
+        'id, name, province_id, district_type, weight_class, klaci_code, growth_score, economy_score, living_score, safety_score',
+      )
       .eq('province_id', provinceId);
     if (regionError) {
       throw regionError;
@@ -187,5 +153,40 @@ export class DataService {
     }
     await this.cacheManager.set(cacheKey, sortedRegions, 300); // 5분 TTL
     return sortedRegions;
+  }
+
+  async getProvincesWithRegions(): Promise<{
+    id: number;
+    name: string;
+    regions: Region[];
+  }[]> {
+    const cacheKey = 'provinces-with-regions';
+    const cached = await this.cacheManager.get<any[]>(cacheKey);
+    if (cached) {
+      return cached;
+    }
+    // 모든 provinces와 regions를 한 번에 가져옴
+    const { data: provinces, error: provinceError } = await this.supabase
+      .from('provinces')
+      .select('id, name');
+    if (provinceError) {
+      throw provinceError;
+    }
+    const { data: regions, error: regionError } = await this.supabase
+      .from('regions')
+      .select('id, name, province_id, district_type, weight_class, klaci_code, growth_score, economy_score, living_score, safety_score');
+    if (regionError) {
+      throw regionError;
+    }
+    // provinces별로 하위 regions를 가나다(오름차순)로 정렬하여 묶음
+    const result = (provinces as { id: number; name: string }[]).map((province) => ({
+      id: province.id,
+      name: province.name,
+      regions: (regions as Region[])
+        .filter((r) => r.province_id === province.id)
+        .sort((a, b) => a.name.localeCompare(b.name, 'ko')),
+    }));
+    await this.cacheManager.set(cacheKey, result, 300); // 5분 TTL
+    return result;
   }
 }
