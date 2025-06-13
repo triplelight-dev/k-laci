@@ -5,6 +5,9 @@ import {
   RegionWithDetails,
   RegionsResponse,
   ProvincesWithRegionsResponse,
+  ProvinceWithRegions,
+  Region,
+  KlaciCode,
 } from './types/region.types';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
@@ -129,5 +132,62 @@ export class DataService {
     }));
     await this.cacheManager.set(cacheKey, result, 300); // 5분 TTL
     return result;
+  }
+
+  async getProvinceWithRegions(
+    provinceId: number,
+    scoreType?: 'growth' | 'economy' | 'living' | 'safety',
+    limit?: number,
+  ): Promise<Region[] | null> {
+    // 캐시 키에 provinceId, scoreType, limit을 포함
+    const cacheKey = `province-with-regions:${provinceId}:${scoreType ?? 'name'}:${limit ?? 'all'}`;
+    const cached = await this.cacheManager.get<Region[]>(cacheKey);
+    if (cached) {
+      return cached;
+    }
+    // province 정보 조회 (존재 확인용)
+    const { data: province, error: provinceError } = await this.supabase
+      .from('provinces')
+      .select('id, name')
+      .eq('id', provinceId)
+      .single();
+    if (provinceError || !province) {
+      return null;
+    }
+    // 하위 regions 조회 (조인 없이 FK만)
+    const { data: regions, error: regionError } = await this.supabase
+      .from('regions')
+      .select('id, name, province_id, weight_class_id, klaci_code, growth_score, economy_score, living_score, safety_score')
+      .eq('province_id', provinceId);
+    if (regionError) {
+      throw regionError;
+    }
+    let sortedRegions = regions as Region[];
+    if (scoreType === 'growth') {
+      sortedRegions = sortedRegions.sort(
+        (a, b) => (b.growth_score ?? 0) - (a.growth_score ?? 0),
+      );
+    } else if (scoreType === 'economy') {
+      sortedRegions = sortedRegions.sort(
+        (a, b) => (b.economy_score ?? 0) - (a.economy_score ?? 0),
+      );
+    } else if (scoreType === 'living') {
+      sortedRegions = sortedRegions.sort(
+        (a, b) => (b.living_score ?? 0) - (a.living_score ?? 0),
+      );
+    } else if (scoreType === 'safety') {
+      sortedRegions = sortedRegions.sort(
+        (a, b) => (b.safety_score ?? 0) - (a.safety_score ?? 0),
+      );
+    } else {
+      sortedRegions = sortedRegions.sort((a, b) =>
+        a.name.localeCompare(b.name, 'ko'),
+      );
+    }
+    if (limit && limit > 0) {
+      sortedRegions = sortedRegions.slice(0, limit);
+    }
+    await this.cacheManager.set(cacheKey, sortedRegions, 300); // 5분 TTL
+    return sortedRegions;
   }
 }
