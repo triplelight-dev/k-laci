@@ -225,39 +225,51 @@ const IntroSection = ()=>{
                 style: {
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '2rem'
+                    gap: '2rem',
+                    marginTop: '130px'
                 },
                 children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "mb-8 flex justify-center",
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                            style: {
+                                width: '200px',
+                                height: 'auto'
+                            },
+                            src: "/home_jewel.png",
+                            alt: "Home Jewel",
+                            className: "h-48 w-48 object-contain"
+                        }, void 0, false, {
+                            fileName: "[project]/packages/frontend/app/home/IntroSection.tsx",
+                            lineNumber: 28,
+                            columnNumber: 13
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/app/home/IntroSection.tsx",
+                        lineNumber: 27,
+                        columnNumber: 11
+                    }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         style: {
                             gap: '5rem'
                         },
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(TitleText, {
-                                text: "Korea"
-                            }, void 0, false, {
-                                fileName: "[project]/packages/frontend/app/home/IntroSection.tsx",
-                                lineNumber: 23,
-                                columnNumber: 13
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(TitleText, {
-                                text: "Local Asset Competency Index"
-                            }, void 0, false, {
-                                fileName: "[project]/packages/frontend/app/home/IntroSection.tsx",
-                                lineNumber: 24,
-                                columnNumber: 13
-                            }, this)
-                        ]
-                    }, void 0, true, {
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(TitleText, {
+                            text: "Korea Local Asset Competency Index"
+                        }, void 0, false, {
+                            fileName: "[project]/packages/frontend/app/home/IntroSection.tsx",
+                            lineNumber: 39,
+                            columnNumber: 13
+                        }, this)
+                    }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/home/IntroSection.tsx",
-                        lineNumber: 22,
+                        lineNumber: 38,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ContentText, {
                         text: text
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/home/IntroSection.tsx",
-                        lineNumber: 26,
+                        lineNumber: 41,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$atoms$2f$buttons$2f$MoveButton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MoveButton"], {
@@ -265,7 +277,7 @@ const IntroSection = ()=>{
                         onClick: ()=>{}
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/home/IntroSection.tsx",
-                        lineNumber: 27,
+                        lineNumber: 42,
                         columnNumber: 11
                     }, this)
                 ]
@@ -301,12 +313,12 @@ const TitleText = ({ text })=>{
             children: text
         }, void 0, false, {
             fileName: "[project]/packages/frontend/app/home/IntroSection.tsx",
-            lineNumber: 44,
+            lineNumber: 59,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/packages/frontend/app/home/IntroSection.tsx",
-        lineNumber: 40,
+        lineNumber: 55,
         columnNumber: 5
     }, this);
 };
@@ -321,20 +333,20 @@ const ContentText = ({ text })=>{
         },
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             style: {
-                width: '40%',
-                fontSize: '1.5rem',
-                lineHeight: '1.7rem',
-                fontWeight: 400
+                width: '50%',
+                fontSize: '1.3rem',
+                lineHeight: '2rem',
+                fontWeight: 'light'
             },
             children: text
         }, void 0, false, {
             fileName: "[project]/packages/frontend/app/home/IntroSection.tsx",
-            lineNumber: 61,
+            lineNumber: 76,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/packages/frontend/app/home/IntroSection.tsx",
-        lineNumber: 57,
+        lineNumber: 72,
         columnNumber: 5
     }, this);
 };
