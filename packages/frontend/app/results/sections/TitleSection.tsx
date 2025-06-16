@@ -7,6 +7,7 @@ import RankBadge from '@/atoms/badges/RankBadge';
 const TitleSection: React.FC = () => {
   const chartData = [85, 60, 50, 60, 55, 43, 55, 66];
   const rank = 3; // 예시 데이터, 실제로는 props나 API에서 받아올 수 있습니다
+  const districtName = '전라북도 전주시';
 
   return (
     <div
@@ -22,12 +23,12 @@ const TitleSection: React.FC = () => {
       <JewelRadarChart data={chartData} isJewel={true} size={300} />
       <div
         style={{
-          fontSize: '3rem',
+          fontSize: '3.5rem',
           color: '#000',
-          fontWeight: 'bold',
+          fontWeight: '800',
         }}
       >
-        전라북도 전주시
+        {districtName}
       </div>
       <RankBadge rank={rank} />
     </div>

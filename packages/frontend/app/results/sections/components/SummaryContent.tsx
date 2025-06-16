@@ -30,7 +30,6 @@ const SummaryContent: React.FC = () => {
   return (
     <div
       style={{
-        width: '100%',
         display: 'flex',
         flexDirection: 'column',
         gap: '2rem',
@@ -68,7 +67,7 @@ const SummarySection: React.FC<SummarySectionProps> = ({
 }) => {
   return (
     <div className="flex flex-col gap-4">
-      <div style={{ fontSize: '1.7rem', fontWeight: 800 }}>{title}</div>
+      <div style={{ fontSize: '2rem', fontWeight: 800 }}>{title}</div>
       <div className="flex flex-col gap-2">
         {paragraphs.map((paragraph, index) => (
           <p

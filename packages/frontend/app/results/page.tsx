@@ -11,12 +11,23 @@ import TitleSection from './sections/TitleSection';
 export default function ResultsPage() {
   return (
     <ResultLayout>
-      <DistrictSearchSection />
-      <DistrictSelectSection />
-      <JewelChartSection />
-      <TitleSection />
-      <SummarySection />
-      <CategoryRankingSection />
+      <div style={{ width: '75%' }}>
+        <DistrictSearchSection />
+        <DistrictSelectSection />
+        <JewelChartSection />
+        <TitleSection />
+        <SummarySection />
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          background: '#F8F8F8',
+          paddingTop: '100px',
+        }}
+      >
+        <CategoryRankingSection />
+      </div>
     </ResultLayout>
   );
 }

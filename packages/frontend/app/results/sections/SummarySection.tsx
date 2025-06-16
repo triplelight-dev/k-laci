@@ -8,13 +8,9 @@ const SummarySection: React.FC = () => {
       style={{
         display: 'flex',
         justifyContent: 'center',
-        marginBottom: '2rem',
       }}
     >
-      <section
-        // className="flex w-full flex-col items-center py-8"
-        // style={{ width: '50%' }}
-      >
+      <section>
         <SummaryHeader />
         <SummaryContent />
       </section>
