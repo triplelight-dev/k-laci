@@ -15,7 +15,7 @@ const JewelChartSection: React.FC = () => {
         width: '100%',
         justifyContent: 'center',
         padding: '20px',
-        marginBottom: '50px',
+        marginBottom: '250px',
       }}
     >
       <JewelRadarChart size={470} data={chartData} />

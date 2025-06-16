@@ -10,18 +10,21 @@ type Props = {
 
 const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
   const center = size / 2;
-  const radius = size * 0.4; // size에 비례하도록 radius 조정 (200/500 = 0.4)
+  const radius = size * 0.4;
+
+  // isJewel일 때의 실제 크기 계산 (보석 크기만큼만)
+  const jewelSize = isJewel ? radius * 2 : size;
 
   // 폰트 크기 비율 계산 (기존 크기 기준)
   const fontSize = {
     category: Math.round(size * 0.032), // 기존 16px (500px 기준)
-    value: Math.round(size * 0.02),     // 기존 10px (500px 기준)
+    value: Math.round(size * 0.02), // 기존 10px (500px 기준)
   };
-  
+
   // 라벨 위치 오프셋도 size에 비례하도록 조정
   const labelOffset = {
-    category: Math.round(size * 0.06),  // 기존 30px (500px 기준)
-    value: Math.round(size * 0.008),    // 기존 4px (500px 기준)
+    category: Math.round(size * 0.06), // 기존 30px (500px 기준)
+    value: Math.round(size * 0.008), // 기존 4px (500px 기준)
   };
 
   const categories = [
@@ -78,35 +81,65 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
   ];
 
   return (
-    <svg width={size} height={size}>
+    <svg
+      width={jewelSize}
+      height={jewelSize}
+      style={{
+        display: 'block',
+        margin: 0,
+        padding: 0,
+      }}
+      viewBox={
+        isJewel
+          ? `${center - radius} ${center - radius} ${radius * 2} ${radius * 2}`
+          : `0 0 ${size} ${size}`
+      }
+    >
       {/* 오른쪽 반원 배경 (0도 ~ 180도) - radius 크기까지만 */}
-      <path
-        d={`M ${center} ${center} 
-            L ${center + radius * Math.cos(0)} ${center + radius * Math.sin(0)}
-            A ${radius} ${radius} 0 0 1 
-            ${center + radius * Math.cos(Math.PI)} ${center + radius * Math.sin(Math.PI)}
-            Z`}
-        fill="#F4F4F4"
-      />
+      {!isJewel && (
+        <>
+          <path
+            d={`M ${center} ${center} 
+                L ${center + radius * Math.cos(0)} ${center + radius * Math.sin(0)}
+                A ${radius} ${radius} 0 0 1 
+                ${center + radius * Math.cos(Math.PI)} ${center + radius * Math.sin(Math.PI)}
+                Z`}
+            fill="#F4F4F4"
+          />
 
-      {/* 라벨 영역을 위한 마스크 */}
+          {/* 배경에 마스크 적용 */}
+          <path
+            d={`M ${center} ${center} 
+                L ${center + radius * Math.cos(0)} ${center + radius * Math.sin(0)}
+                A ${radius} ${radius} 0 0 1 
+                ${center + radius * Math.cos(Math.PI)} ${center + radius * Math.sin(Math.PI)}
+                Z`}
+            fill="#F4F4F4"
+            mask="url(#labelMask)"
+          />
+        </>
+      )}
+
       <defs>
         <mask id="labelMask">
-          <rect width={size} height={size} fill="white" />
+          <rect width={jewelSize} height={jewelSize} fill="white" />
           {/* 라벨 영역을 검은색으로 마스킹 */}
-          {!isJewel && points.map((pt, i) => {
-            const x = center + (radius + labelOffset.category) * Math.cos(pt.angle);
-            const y = center + (radius + labelOffset.category) * Math.sin(pt.angle);
-            return (
-              <circle
-                key={i}
-                cx={x}
-                cy={y}
-                r={fontSize.category * 2}
-                fill="black"
-              />
-            );
-          })}
+          {!isJewel &&
+            points.map((pt, i) => {
+              const x =
+                center + (radius + labelOffset.category) * Math.cos(pt.angle);
+              const y =
+                center + (radius + labelOffset.category) * Math.sin(pt.angle);
+              return (
+                <circle
+                  key={i}
+                  cx={x}
+                  cy={y}
+                  r={fontSize.category * 2}
+                  fill="black"
+                />
+              );
+            })}
         </mask>
 
         {categories.map((category, i) => {
@@ -182,17 +215,6 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
           );
         })}
       </defs>
-
-      {/* 배경에 마스크 적용 */}
-      <path
-        d={`M ${center} ${center} 
-            L ${center + radius * Math.cos(0)} ${center + radius * Math.sin(0)}
-            A ${radius} ${radius} 0 0 1 
-            ${center + radius * Math.cos(Math.PI)} ${center + radius * Math.sin(Math.PI)}
-            Z`}
-        fill="#F4F4F4"
-        mask="url(#labelMask)"
-      />
 
       {/* 💎 보석 삼각형 */}
       {points.map((pt, i) => {
@@ -332,8 +354,10 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
           ) {
             deg += 180;
           }
-          const x = center + (radius + labelOffset.category) * Math.cos(pt.angle);
-          const y = center + (radius + labelOffset.category) * Math.sin(pt.angle);
+          const x =
+            center + (radius + labelOffset.category) * Math.cos(pt.angle);
+          const y =
+            center + (radius + labelOffset.category) * Math.sin(pt.angle);
 
           return (
             <text
