@@ -22,7 +22,7 @@ const CategoryRankingSection = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
-          width: '50%',
+          // width: '50%',
         }}
       >
         {/* 타이틀 */}
