@@ -620,7 +620,8 @@ const DistrictSelectSection = ()=>{
             gap: '16px',
             width: '100%',
             justifyContent: 'center',
-            padding: '20px'
+            padding: '20px',
+            marginBottom: '50px'
         },
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -634,12 +635,12 @@ const DistrictSelectSection = ()=>{
                     onChange: handleProvinceChange
                 }, void 0, false, {
                     fileName: "[project]/packages/frontend/app/results/sections/DistrictSelectSection.tsx",
-                    lineNumber: 65,
+                    lineNumber: 66,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/DistrictSelectSection.tsx",
-                lineNumber: 59,
+                lineNumber: 60,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -655,12 +656,12 @@ const DistrictSelectSection = ()=>{
                     disabled: !selectedProvince
                 }, void 0, false, {
                     fileName: "[project]/packages/frontend/app/results/sections/DistrictSelectSection.tsx",
-                    lineNumber: 78,
+                    lineNumber: 79,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/DistrictSelectSection.tsx",
-                lineNumber: 71,
+                lineNumber: 72,
                 columnNumber: 7
             }, this)
         ]
@@ -862,10 +863,19 @@ __turbopack_context__.s({
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
 'use client';
 ;
-const JewelRadarChart = ({ data, showGrid = false, isJewel = false })=>{
-    const size = 500;
+const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
     const center = size / 2;
-    const radius = 200;
+    const radius = size * 0.4; // size에 비례하도록 radius 조정 (200/500 = 0.4)
+    // 폰트 크기 비율 계산 (기존 크기 기준)
+    const fontSize = {
+        category: Math.round(size * 0.032),
+        value: Math.round(size * 0.02)
+    };
+    // 라벨 위치 오프셋도 size에 비례하도록 조정
+    const labelOffset = {
+        category: Math.round(size * 0.06),
+        value: Math.round(size * 0.008)
+    };
     const categories = [
         '생활역동형',
         '안전복원형',
@@ -941,178 +951,237 @@ const JewelRadarChart = ({ data, showGrid = false, isJewel = false })=>{
         width: size,
         height: size,
         children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("defs", {
-                children: categories.map((category, i)=>{
-                    const pct = Math.min(100, vals[i] / 100 * 100);
-                    const [startColor, endColor] = fixedColorPairs[i];
-                    if (category === '안전복원형') {
-                        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("radialGradient", {
-                            id: `grad${i}`,
-                            cx: center,
-                            cy: center,
-                            r: radius,
-                            gradientUnits: "userSpaceOnUse",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
-                                    offset: "0%",
-                                    stopColor: "#F56542"
-                                }, void 0, false, {
-                                    fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                    lineNumber: 90,
-                                    columnNumber: 17
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
-                                    offset: `${pct * 0.7}%`,
-                                    stopColor: "#F56542"
-                                }, void 0, false, {
-                                    fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                    lineNumber: 91,
-                                    columnNumber: 17
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
-                                    offset: `${pct}%`,
-                                    stopColor: "#74BF9E"
-                                }, void 0, false, {
-                                    fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                    lineNumber: 92,
-                                    columnNumber: 17
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
-                                    offset: "100%",
-                                    stopColor: "#74BF9E"
-                                }, void 0, false, {
-                                    fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                    lineNumber: 93,
-                                    columnNumber: 17
-                                }, this)
-                            ]
-                        }, i, true, {
-                            fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                            lineNumber: 82,
-                            columnNumber: 15
-                        }, this);
-                    }
-                    if (category === '인구정착형') {
-                        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("radialGradient", {
-                            id: `grad${i}`,
-                            cx: center,
-                            cy: center,
-                            r: radius,
-                            gradientUnits: "userSpaceOnUse",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
-                                    offset: "0%",
-                                    stopColor: "#F56542"
-                                }, void 0, false, {
-                                    fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                    lineNumber: 107,
-                                    columnNumber: 17
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
-                                    offset: `${pct}%`,
-                                    stopColor: "#F56542",
-                                    stopOpacity: 0.5
-                                }, void 0, false, {
-                                    fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                    lineNumber: 108,
-                                    columnNumber: 17
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
-                                    offset: "100%",
-                                    stopColor: "#F56542",
-                                    stopOpacity: 0.5
-                                }, void 0, false, {
-                                    fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                    lineNumber: 113,
-                                    columnNumber: 17
-                                }, this)
-                            ]
-                        }, i, true, {
-                            fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                            lineNumber: 99,
-                            columnNumber: 15
-                        }, this);
-                    }
-                    if (category === '경제정속형') {
-                        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("radialGradient", {
-                            id: `grad${i}`,
-                            cx: center,
-                            cy: center,
-                            r: radius,
-                            gradientUnits: "userSpaceOnUse",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
-                                    offset: "0%",
-                                    stopColor: "#F56542"
-                                }, void 0, false, {
-                                    fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                    lineNumber: 127,
-                                    columnNumber: 17
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
-                                    offset: `${pct}%`,
-                                    stopColor: "#F4B04D"
-                                }, void 0, false, {
-                                    fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                    lineNumber: 128,
-                                    columnNumber: 17
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
-                                    offset: "100%",
-                                    stopColor: "#F4B04D"
-                                }, void 0, false, {
-                                    fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                    lineNumber: 129,
-                                    columnNumber: 17
-                                }, this)
-                            ]
-                        }, i, true, {
-                            fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                            lineNumber: 119,
-                            columnNumber: 15
-                        }, this);
-                    }
-                    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("radialGradient", {
-                        id: `grad${i}`,
-                        cx: center,
-                        cy: center,
-                        r: radius,
-                        gradientUnits: "userSpaceOnUse",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
-                                offset: "0%",
-                                stopColor: startColor
-                            }, void 0, false, {
-                                fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                lineNumber: 142,
-                                columnNumber: 15
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
-                                offset: `${pct}%`,
-                                stopColor: endColor
-                            }, void 0, false, {
-                                fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                lineNumber: 143,
-                                columnNumber: 15
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
-                                offset: "100%",
-                                stopColor: endColor
-                            }, void 0, false, {
-                                fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                lineNumber: 144,
-                                columnNumber: 15
-                            }, this)
-                        ]
-                    }, i, true, {
-                        fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                        lineNumber: 134,
-                        columnNumber: 13
-                    }, this);
-                })
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                d: `M ${center} ${center} 
+            L ${center + radius * Math.cos(0)} ${center + radius * Math.sin(0)}
+            A ${radius} ${radius} 0 0 1 
+            ${center + radius * Math.cos(Math.PI)} ${center + radius * Math.sin(Math.PI)}
+            Z`,
+                fill: "#F4F4F4"
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                lineNumber: 75,
+                lineNumber: 83,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("defs", {
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("mask", {
+                        id: "labelMask",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                width: size,
+                                height: size,
+                                fill: "white"
+                            }, void 0, false, {
+                                fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                                lineNumber: 95,
+                                columnNumber: 11
+                            }, this),
+                            !isJewel && points.map((pt, i)=>{
+                                const x = center + (radius + labelOffset.category) * Math.cos(pt.angle);
+                                const y = center + (radius + labelOffset.category) * Math.sin(pt.angle);
+                                return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
+                                    cx: x,
+                                    cy: y,
+                                    r: fontSize.category * 2,
+                                    fill: "black"
+                                }, i, false, {
+                                    fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                                    lineNumber: 101,
+                                    columnNumber: 15
+                                }, this);
+                            })
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                        lineNumber: 94,
+                        columnNumber: 9
+                    }, this),
+                    categories.map((category, i)=>{
+                        const pct = Math.min(100, vals[i] / 100 * 100);
+                        const [startColor, endColor] = fixedColorPairs[i];
+                        if (category === '안전복원형') {
+                            return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("radialGradient", {
+                                id: `grad${i}`,
+                                cx: center,
+                                cy: center,
+                                r: radius,
+                                gradientUnits: "userSpaceOnUse",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
+                                        offset: "0%",
+                                        stopColor: "#F56542"
+                                    }, void 0, false, {
+                                        fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                                        lineNumber: 126,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
+                                        offset: `${pct * 0.7}%`,
+                                        stopColor: "#F56542"
+                                    }, void 0, false, {
+                                        fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                                        lineNumber: 127,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
+                                        offset: `${pct}%`,
+                                        stopColor: "#74BF9E"
+                                    }, void 0, false, {
+                                        fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                                        lineNumber: 128,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
+                                        offset: "100%",
+                                        stopColor: "#74BF9E"
+                                    }, void 0, false, {
+                                        fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                                        lineNumber: 129,
+                                        columnNumber: 17
+                                    }, this)
+                                ]
+                            }, i, true, {
+                                fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                                lineNumber: 118,
+                                columnNumber: 15
+                            }, this);
+                        }
+                        if (category === '인구정착형') {
+                            return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("radialGradient", {
+                                id: `grad${i}`,
+                                cx: center,
+                                cy: center,
+                                r: radius,
+                                gradientUnits: "userSpaceOnUse",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
+                                        offset: "0%",
+                                        stopColor: "#F56542"
+                                    }, void 0, false, {
+                                        fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                                        lineNumber: 143,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
+                                        offset: `${pct}%`,
+                                        stopColor: "#F56542",
+                                        stopOpacity: 0.5
+                                    }, void 0, false, {
+                                        fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                                        lineNumber: 144,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
+                                        offset: "100%",
+                                        stopColor: "#F56542",
+                                        stopOpacity: 0.5
+                                    }, void 0, false, {
+                                        fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                                        lineNumber: 149,
+                                        columnNumber: 17
+                                    }, this)
+                                ]
+                            }, i, true, {
+                                fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                                lineNumber: 135,
+                                columnNumber: 15
+                            }, this);
+                        }
+                        if (category === '경제정속형') {
+                            return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("radialGradient", {
+                                id: `grad${i}`,
+                                cx: center,
+                                cy: center,
+                                r: radius,
+                                gradientUnits: "userSpaceOnUse",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
+                                        offset: "0%",
+                                        stopColor: "#F56542"
+                                    }, void 0, false, {
+                                        fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                                        lineNumber: 163,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
+                                        offset: `${pct}%`,
+                                        stopColor: "#F4B04D"
+                                    }, void 0, false, {
+                                        fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                                        lineNumber: 164,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
+                                        offset: "100%",
+                                        stopColor: "#F4B04D"
+                                    }, void 0, false, {
+                                        fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                                        lineNumber: 165,
+                                        columnNumber: 17
+                                    }, this)
+                                ]
+                            }, i, true, {
+                                fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                                lineNumber: 155,
+                                columnNumber: 15
+                            }, this);
+                        }
+                        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("radialGradient", {
+                            id: `grad${i}`,
+                            cx: center,
+                            cy: center,
+                            r: radius,
+                            gradientUnits: "userSpaceOnUse",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
+                                    offset: "0%",
+                                    stopColor: startColor
+                                }, void 0, false, {
+                                    fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                                    lineNumber: 178,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
+                                    offset: `${pct}%`,
+                                    stopColor: endColor
+                                }, void 0, false, {
+                                    fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                                    lineNumber: 179,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
+                                    offset: "100%",
+                                    stopColor: endColor
+                                }, void 0, false, {
+                                    fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                                    lineNumber: 180,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, i, true, {
+                            fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                            lineNumber: 170,
+                            columnNumber: 13
+                        }, this);
+                    })
+                ]
+            }, void 0, true, {
+                fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                lineNumber: 93,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                d: `M ${center} ${center} 
+            L ${center + radius * Math.cos(0)} ${center + radius * Math.sin(0)}
+            A ${radius} ${radius} 0 0 1 
+            ${center + radius * Math.cos(Math.PI)} ${center + radius * Math.sin(Math.PI)}
+            Z`,
+                fill: "#F4F4F4",
+                mask: "url(#labelMask)"
+            }, void 0, false, {
+                fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                lineNumber: 187,
                 columnNumber: 7
             }, this),
             points.map((pt, i)=>{
@@ -1125,11 +1194,11 @@ const JewelRadarChart = ({ data, showGrid = false, isJewel = false })=>{
                     strokeWidth: 1
                 }, i, false, {
                     fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                    lineNumber: 154,
+                    lineNumber: 201,
                     columnNumber: 11
                 }, this);
             }),
-            !isJewel && showGrid && [
+            !isJewel && [
                 0.2,
                 0.4,
                 0.6,
@@ -1144,10 +1213,10 @@ const JewelRadarChart = ({ data, showGrid = false, isJewel = false })=>{
                     strokeWidth: 0.5
                 }, i, false, {
                     fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                    lineNumber: 169,
+                    lineNumber: 215,
                     columnNumber: 11
                 }, this)),
-            !isJewel && showGrid && points.map((pt, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
+            !isJewel && points.map((pt, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
                     x1: center,
                     y1: center,
                     x2: center + radius * Math.cos(pt.angle),
@@ -1156,10 +1225,10 @@ const JewelRadarChart = ({ data, showGrid = false, isJewel = false })=>{
                     strokeWidth: 0.5
                 }, i, false, {
                     fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                    lineNumber: 184,
+                    lineNumber: 229,
                     columnNumber: 11
                 }, this)),
-            !isJewel && showGrid && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
+            !isJewel && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
                         x1: center - radius,
@@ -1171,7 +1240,7 @@ const JewelRadarChart = ({ data, showGrid = false, isJewel = false })=>{
                         strokeDasharray: "4 4"
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                        lineNumber: 198,
+                        lineNumber: 243,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
@@ -1184,7 +1253,7 @@ const JewelRadarChart = ({ data, showGrid = false, isJewel = false })=>{
                         strokeDasharray: "4 4"
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                        lineNumber: 207,
+                        lineNumber: 252,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("text", {
@@ -1192,12 +1261,12 @@ const JewelRadarChart = ({ data, showGrid = false, isJewel = false })=>{
                         y: center,
                         textAnchor: "middle",
                         dy: "0.35em",
-                        fontSize: 10,
+                        fontSize: fontSize.value,
                         fill: "#CCC",
                         children: "0"
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                        lineNumber: 217,
+                        lineNumber: 262,
                         columnNumber: 11
                     }, this),
                     [
@@ -1213,28 +1282,28 @@ const JewelRadarChart = ({ data, showGrid = false, isJewel = false })=>{
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("text", {
                                     x: center + r,
                                     y: center,
-                                    dx: "4",
+                                    dx: labelOffset.value,
                                     dy: "0.35em",
-                                    fontSize: 10,
+                                    fontSize: fontSize.value,
                                     fill: "#CCC",
                                     children: val
                                 }, void 0, false, {
                                     fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                    lineNumber: 231,
+                                    lineNumber: 276,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("text", {
                                     x: center - r,
                                     y: center,
-                                    dx: "-4",
+                                    dx: -labelOffset.value,
                                     dy: "0.35em",
                                     textAnchor: "end",
-                                    fontSize: 10,
+                                    fontSize: fontSize.value,
                                     fill: "#CCC",
                                     children: val
                                 }, void 0, false, {
                                     fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                    lineNumber: 241,
+                                    lineNumber: 286,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("text", {
@@ -1242,12 +1311,12 @@ const JewelRadarChart = ({ data, showGrid = false, isJewel = false })=>{
                                     y: center + r,
                                     dy: "1.2em",
                                     textAnchor: "middle",
-                                    fontSize: 10,
+                                    fontSize: fontSize.value,
                                     fill: "#CCC",
                                     children: val
                                 }, void 0, false, {
                                     fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                    lineNumber: 252,
+                                    lineNumber: 297,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("text", {
@@ -1255,18 +1324,18 @@ const JewelRadarChart = ({ data, showGrid = false, isJewel = false })=>{
                                     y: center - r,
                                     dy: "-0.3em",
                                     textAnchor: "middle",
-                                    fontSize: 10,
+                                    fontSize: fontSize.value,
                                     fill: "#CCC",
                                     children: val
                                 }, void 0, false, {
                                     fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                    lineNumber: 262,
+                                    lineNumber: 307,
                                     columnNumber: 17
                                 }, this)
                             ]
                         }, val, true, {
                             fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                            lineNumber: 230,
+                            lineNumber: 275,
                             columnNumber: 15
                         }, this);
                     })
@@ -1283,28 +1352,28 @@ const JewelRadarChart = ({ data, showGrid = false, isJewel = false })=>{
                 ].includes(categories[i])) {
                     deg += 180;
                 }
-                const x = center + (radius + 30) * Math.cos(pt.angle);
-                const y = center + (radius + 30) * Math.sin(pt.angle);
+                const x = center + (radius + labelOffset.category) * Math.cos(pt.angle);
+                const y = center + (radius + labelOffset.category) * Math.sin(pt.angle);
                 return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("text", {
                     x: x,
                     y: y,
                     textAnchor: "middle",
                     dy: "0.4em",
-                    fontSize: 16,
+                    fontSize: fontSize.category,
                     fontWeight: "bold",
                     fill: colorMap[categories[i]],
                     transform: `rotate(${deg} ${x} ${y})`,
                     children: categories[i]
                 }, i, false, {
                     fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                    lineNumber: 294,
+                    lineNumber: 339,
                     columnNumber: 13
                 }, this);
             })
         ]
     }, void 0, true, {
         fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-        lineNumber: 74,
+        lineNumber: 81,
         columnNumber: 5
     }, this);
 };
@@ -1465,7 +1534,56 @@ const mockCategories = [
 ];
 const __TURBOPACK__default__export__ = CategoryRankingSection;
 }}),
+"[project]/packages/frontend/app/results/sections/JewelChartSection.tsx [app-ssr] (ecmascript)": ((__turbopack_context__) => {
+"use strict";
+
+var { g: global, __dirname } = __turbopack_context__;
+{
+__turbopack_context__.s({
+    "default": (()=>__TURBOPACK__default__export__)
+});
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$atoms$2f$charts$2f$RadarChart$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/packages/frontend/atoms/charts/RadarChart.tsx [app-ssr] (ecmascript)");
+'use client';
+;
+;
+const JewelChartSection = ()=>{
+    const chartData = [
+        85,
+        60,
+        50,
+        60,
+        55,
+        43,
+        55,
+        66
+    ];
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        style: {
+            display: 'flex',
+            gap: '16px',
+            width: '100%',
+            justifyContent: 'center',
+            padding: '20px',
+            marginBottom: '50px'
+        },
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$atoms$2f$charts$2f$RadarChart$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+            size: 470,
+            data: chartData
+        }, void 0, false, {
+            fileName: "[project]/packages/frontend/app/results/sections/JewelChartSection.tsx",
+            lineNumber: 21,
+            columnNumber: 7
+        }, this)
+    }, void 0, false, {
+        fileName: "[project]/packages/frontend/app/results/sections/JewelChartSection.tsx",
+        lineNumber: 11,
+        columnNumber: 5
+    }, this);
+};
+const __TURBOPACK__default__export__ = JewelChartSection;
+}}),
 
 };
 
-//# sourceMappingURL=%5Broot-of-the-server%5D__3974cdc1._.js.map
+//# sourceMappingURL=%5Broot-of-the-server%5D__a40cf168._.js.map

@@ -54,6 +54,7 @@ const DistrictSelectSection: React.FC = () => {
         width: '100%',
         justifyContent: 'center',
         padding: '20px',
+        marginBottom: '50px',
       }}
     >
       <div
