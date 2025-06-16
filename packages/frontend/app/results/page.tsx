@@ -1,6 +1,3 @@
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-
 import ResultLayout from '@/components/layout/ResultLayout';
 
 // sections

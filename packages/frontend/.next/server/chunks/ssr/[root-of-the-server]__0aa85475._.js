@@ -177,57 +177,128 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/image.js [app-ssr] (ecmascript)");
 ;
 ;
-const SearchTextInput = ({ value, onChange, placeholder = '지자체 검색' })=>{
+const SearchTextInput = ({ value, onChange, placeholder = '지자체 검색', recentSearches = [], onRecentSearchClick })=>{
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         style: {
-            display: 'flex',
-            alignItems: 'center',
-            borderRadius: '50px',
-            backgroundColor: 'white',
-            padding: '10px 20px',
-            gap: '10px'
+            width: '100%'
         },
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "mr-3 flex-shrink-0",
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                    src: "/textinput_icon.png",
-                    alt: "검색",
-                    width: 15,
-                    height: 15
-                }, void 0, false, {
-                    fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                    lineNumber: 27,
-                    columnNumber: 9
-                }, this)
-            }, void 0, false, {
+                style: {
+                    display: 'flex',
+                    alignItems: 'center',
+                    borderRadius: '50px',
+                    backgroundColor: 'white',
+                    padding: '18px',
+                    gap: '10px',
+                    boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.1)',
+                    marginBottom: recentSearches.length > 0 ? '20px' : '0'
+                },
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "mr-3 flex-shrink-0",
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+                            src: "/textinput_icon.png",
+                            alt: "검색",
+                            width: 15,
+                            height: 15
+                        }, void 0, false, {
+                            fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
+                            lineNumber: 34,
+                            columnNumber: 11
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
+                        lineNumber: 33,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                        type: "text",
+                        placeholder: placeholder,
+                        value: value,
+                        onChange: (e)=>onChange(e.target.value),
+                        style: {
+                            width: '100%',
+                            height: '100%',
+                            backgroundColor: 'transparent',
+                            fontSize: '1rem',
+                            color: 'black',
+                            border: 'none',
+                            outline: 'none'
+                        }
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
+                        lineNumber: 36,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
                 fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                lineNumber: 26,
+                lineNumber: 21,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                type: "text",
-                placeholder: placeholder,
-                value: value,
-                onChange: (e)=>onChange(e.target.value),
+            recentSearches.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 style: {
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: 'transparent',
-                    fontSize: '1.2rem',
-                    color: 'black',
-                    border: 'none',
-                    outline: 'none'
-                }
-            }, void 0, false, {
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: '8px'
+                },
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        style: {
+                            fontSize: '14px',
+                            color: '#B0B3BA',
+                            background: 'transparent',
+                            marginRight: '20px'
+                        },
+                        children: "최근 검색어"
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
+                        lineNumber: 62,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        style: {
+                            display: 'flex',
+                            flexDirection: 'row',
+                            gap: '4px',
+                            flexWrap: 'wrap'
+                        },
+                        children: recentSearches.map((search, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: ()=>onRecentSearchClick?.(search),
+                                style: {
+                                    fontSize: '14px',
+                                    color: '#000000',
+                                    cursor: 'pointer',
+                                    background: 'transparent',
+                                    border: 'none',
+                                    padding: 0
+                                },
+                                children: [
+                                    search,
+                                    index < recentSearches.length - 1 ? ', ' : ''
+                                ]
+                            }, index, true, {
+                                fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
+                                lineNumber: 81,
+                                columnNumber: 15
+                            }, this))
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
+                        lineNumber: 72,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
                 fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                lineNumber: 29,
-                columnNumber: 7
+                lineNumber: 54,
+                columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-        lineNumber: 16,
+        lineNumber: 20,
         columnNumber: 5
     }, this);
 };
@@ -249,30 +320,42 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$
 ;
 ;
 const DistrictSearchSection = ()=>{
-    // 임시 데이터
-    const recentSearches = [
-        '서울시 강남구',
-        '부산시 해운대구',
-        '인천시 연수구'
-    ];
     const [searchValue, setSearchValue] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
     const handleRecentSearchClick = (value)=>{
         setSearchValue(value);
     };
     const title = '229개 지자체중 우리 지역 찾아보기';
     const text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt';
+    const mockRecentSearches = [
+        '서울시 강남구',
+        '부산시 해운대구',
+        '인천시 연수구'
+    ];
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "flex flex-col items-center gap-8 rounded-[30px] bg-[#F4F4F4] p-16",
+        style: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '20px',
+            backgroundColor: '#F4F4F4',
+            borderRadius: '30px',
+            padding: '20px',
+            paddingTop: '60px',
+            paddingBottom: '60px'
+        },
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 style: {
                     fontSize: '2.2rem',
                     fontWeight: 'bold'
                 },
-                children: title
-            }, void 0, false, {
+                children: [
+                    title,
+                    ' '
+                ]
+            }, void 0, true, {
                 fileName: "[project]/packages/frontend/app/results/sections/DistrictSearchSection.tsx",
-                lineNumber: 21,
+                lineNumber: 37,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -280,64 +363,33 @@ const DistrictSearchSection = ()=>{
                 children: text
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/DistrictSearchSection.tsx",
-                lineNumber: 23,
+                lineNumber: 46,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "w-full max-w-[600px]",
+                style: {
+                    width: '100%',
+                    maxWidth: '500px'
+                },
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$atoms$2f$input$2f$SearchTextInput$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                     value: searchValue,
-                    onChange: setSearchValue
+                    onChange: setSearchValue,
+                    recentSearches: mockRecentSearches,
+                    onRecentSearchClick: handleRecentSearchClick
                 }, void 0, false, {
                     fileName: "[project]/packages/frontend/app/results/sections/DistrictSearchSection.tsx",
-                    lineNumber: 28,
+                    lineNumber: 51,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/DistrictSearchSection.tsx",
-                lineNumber: 27,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "w-full max-w-[600px]",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "mb-2 text-sm text-gray-600",
-                        children: "최근 검색어"
-                    }, void 0, false, {
-                        fileName: "[project]/packages/frontend/app/results/sections/DistrictSearchSection.tsx",
-                        lineNumber: 32,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex flex-wrap gap-1",
-                        children: recentSearches.map((search, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: ()=>handleRecentSearchClick(search),
-                                className: "cursor-pointer text-sm text-gray-800 transition-colors hover:text-gray-600",
-                                children: [
-                                    search,
-                                    index < recentSearches.length - 1 ? ', ' : ''
-                                ]
-                            }, index, true, {
-                                fileName: "[project]/packages/frontend/app/results/sections/DistrictSearchSection.tsx",
-                                lineNumber: 35,
-                                columnNumber: 13
-                            }, this))
-                    }, void 0, false, {
-                        fileName: "[project]/packages/frontend/app/results/sections/DistrictSearchSection.tsx",
-                        lineNumber: 33,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/packages/frontend/app/results/sections/DistrictSearchSection.tsx",
-                lineNumber: 31,
+                lineNumber: 50,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/packages/frontend/app/results/sections/DistrictSearchSection.tsx",
-        lineNumber: 20,
+        lineNumber: 24,
         columnNumber: 5
     }, this);
 };

@@ -12,9 +12,8 @@ const ResultLayout = ({ children }: { children: React.ReactNode }) => {
       <Header />
       <div
         style={{
-          width: '80%',
+          width: '75%',
           margin: '50px auto',
-          border: '1px solid blue',
         }}
       >
         {children}
