@@ -16,70 +16,6 @@ export class AuthService {
     this.supabase = createClient(supabaseUrl, supabaseKey);
   }
 
-  async signUp(signUpDto: SignUpDto): Promise<SignUpResponseDto> {
-    const { email, password, name } = signUpDto;
-
-    // 1. Create user in auth.users
-    const { data: authData, error: authError } =
-      await this.supabase.auth.signUp({
-        email,
-        password,
-      });
-
-    if (authError) {
-      throw new UnauthorizedException(authError.message);
-    }
-
-    if (!authData.user) {
-      throw new UnauthorizedException('Failed to create user');
-    }
-
-    // 2. Create user profile in public.users
-    const { error: profileError } = await this.supabase
-      .from('user_profiles')
-      .insert([
-        {
-          id: authData.user.id,
-          email: authData.user.email,
-          name,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        },
-      ]);
-
-    if (profileError) {
-      // If profile creation fails, we should clean up the auth user
-      await this.supabase.auth.admin.deleteUser(authData.user.id);
-      throw new UnauthorizedException(
-        `Failed to create user profile: ${profileError.message}`,
-      );
-    }
-
-    return {
-      user_id: authData.user.id,
-      email: authData.user.email,
-    };
-  }
-
-  async signIn(signInDto: SignInDto): Promise<SignInResponseDto> {
-    const { email, password } = signInDto;
-
-    const { data, error } = await this.supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      throw new UnauthorizedException(error.message);
-    }
-
-    return {
-      access_token: data.session?.access_token ?? '',
-      user_id: data.user?.id ?? '',
-      email: data.user?.email ?? '',
-    };
-  }
-
   async signOut() {
     const { error } = await this.supabase.auth.signOut();
     if (error) {
@@ -111,6 +47,49 @@ export class AuthService {
     }
 
     return data;
+  }
+
+  async signup(name: string, email: string, password: string): Promise<SignUpResponseDto> {
+    // 1. Create user in auth.users
+    const { data: authData, error: authError } =
+      await this.supabase.auth.signUp({
+        email,
+        password,
+      });
+
+    if (authError) {
+      throw new UnauthorizedException(authError.message);
+    }
+
+    if (!authData.user) {
+      throw new UnauthorizedException('Failed to create user');
+    }
+
+    // 2. Create user profile in public.user_profiles
+    const { error: profileError } = await this.supabase
+      .from('user_profiles')
+      .insert([
+        {
+          id: authData.user.id,
+          email: authData.user.email,
+          name,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
+      ]);
+
+    if (profileError) {
+      // If profile creation fails, we should clean up the auth user
+      await this.supabase.auth.admin.deleteUser(authData.user.id);
+      throw new UnauthorizedException(
+        `Failed to create user profile: ${profileError.message}`,
+      );
+    }
+
+    return {
+      user_id: authData.user.id,
+      email: authData.user.email,
+    };
   }
 }
 

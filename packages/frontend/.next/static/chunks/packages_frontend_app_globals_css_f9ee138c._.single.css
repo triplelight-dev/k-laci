@@ -127,6 +127,10 @@
   gap: 25px;
 }
 
+.gap-\[35px\] {
+  gap: 35px;
+}
+
 .overflow-x-auto {
   overflow-x: auto;
 }
@@ -160,6 +164,10 @@
 
 .border-\[\#E5E5E5\] {
   border-color: #e5e5e5;
+}
+
+.bg-transparent {
+  background-color: #0000;
 }
 
 .px-\[12px\] {

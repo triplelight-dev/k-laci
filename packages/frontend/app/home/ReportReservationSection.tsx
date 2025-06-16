@@ -14,8 +14,8 @@ const ReportReservationSection = () => {
         alignItems: 'center',
         paddingTop: '12rem',
         paddingBottom: '12rem',
-        background: 'black',
-        color: 'white',
+        // background: 'black',
+        // color: 'white',
       }}
     >
       <section className="flex w-full flex-col items-center bg-gray-50 py-20">

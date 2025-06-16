@@ -14,7 +14,7 @@ const BoxItem = ({ title, content, circleColor }: BoxItemProps) => {
     <div
       className="flex flex-col gap-4 rounded-lg bg-white p-6 shadow-sm"
       style={{
-        background: '#F8F8F8',
+        // background: '#F8F8F8',
         borderRadius: '1rem',
         padding: '1.5rem',
         paddingBottom: '3rem',
