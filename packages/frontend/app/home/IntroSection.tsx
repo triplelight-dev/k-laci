@@ -17,11 +17,26 @@ const IntroSection = () => {
       <section className="relative flex h-[65vh] w-full items-center justify-center bg-white">
         <div
           className="container mx-auto px-4"
-          style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '2rem',
+            marginTop: '130px',
+          }}
         >
+          <div className="mb-8 flex justify-center">
+            <img
+              style={{
+                width: '200px',
+                height: 'auto',
+              }}
+              src="/home_jewel.png"
+              alt="Home Jewel"
+              className="h-48 w-48 object-contain"
+            />
+          </div>
           <div style={{ gap: '5rem' }}>
-            <TitleText text="Korea" />
-            <TitleText text="Local Asset Competency Index" />
+            <TitleText text="Korea Local Asset Competency Index" />
           </div>
           <ContentText text={text} />
           <MoveButton buttonName="Results" onClick={() => {}} />
@@ -60,10 +75,10 @@ const ContentText = ({ text }: ContentTextProps) => {
     >
       <div
         style={{
-          width: '40%',
-          fontSize: '1.5rem',
-          lineHeight: '1.7rem',
-          fontWeight: 400,
+          width: '50%',
+          fontSize: '1.3rem',
+          lineHeight: '2rem',
+          fontWeight: 'light',
         }}
       >
         {text}
