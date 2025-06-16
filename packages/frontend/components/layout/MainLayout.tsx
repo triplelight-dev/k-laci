@@ -1,13 +1,28 @@
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
 import React from 'react';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
-const MainLayout = ({ children }: { children: React.ReactNode }) => (
-  <>
-    <Header />
-    <main>{children}</main>
-    <Footer />
-  </>
-);
+const gradientHeight = 15;
 
-export default MainLayout; 
+const MainLayout = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div
+      style={{
+        width: '100%',
+        minHeight: '100vh',
+        background: `
+          linear-gradient(to bottom, black, #001e6c, #357ded, white ${gradientHeight}%, white 100%)
+        `,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: '100% auto',
+        backgroundColor: 'white',
+      }}
+    >
+      <Header />
+      {children}
+      <Footer />
+    </div>
+  );
+};
+
+export default MainLayout;

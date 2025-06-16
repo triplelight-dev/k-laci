@@ -23,8 +23,8 @@ const TopDistrictSection = () => {
         alignItems: 'center',
         paddingTop: '12rem',
         paddingBottom: '12rem',
-        background: 'black',
-        color: 'white',
+        // background: 'black',
+        // color: 'white',
       }}
     >
       <section className="w-full bg-gray-50 py-20" style={{ width: '75%' }}>

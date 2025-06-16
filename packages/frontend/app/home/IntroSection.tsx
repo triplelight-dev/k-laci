@@ -11,8 +11,7 @@ const IntroSection = () => {
     <div
       style={{
         width: '100%',
-        background:
-          'linear-gradient(to bottom, rgba(233, 233, 233, 1), rgba(169, 169, 169, 1))',
+        color: 'white',
       }}
     >
       <section className="relative flex h-[65vh] w-full items-center justify-center bg-white">
