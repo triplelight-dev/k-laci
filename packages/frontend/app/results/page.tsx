@@ -1,24 +1,33 @@
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import ResultLayout from '@/components/layout/ResultLayout';
 
 // sections
+import DistrictSearchSection from './sections/DistrictSearchSection';
+import DistrictSelectSection from './sections/DistrictSelectSection';
 import CategoryRankingSection from './sections/CategoryRankingSection';
 import SummarySection from './sections/SummarySection';
+import JewelChartSection from './sections/JewelChartSection';
+import TitleSection from './sections/TitleSection';
 
 export default function ResultsPage() {
   return (
-    <div className="flex min-h-screen w-full flex-col overflow-x-hidden">
-      <Header />
-
-      <main
-        className="container mx-auto flex-grow p-4"
-        style={{ width: '100%' }}
-      >
+    <ResultLayout>
+      <div style={{ width: '75%' }}>
+        <DistrictSearchSection />
+        <DistrictSelectSection />
+        <JewelChartSection />
+        <TitleSection />
         <SummarySection />
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          background: '#F8F8F8',
+          paddingTop: '100px',
+        }}
+      >
         <CategoryRankingSection />
-      </main>
-
-      <Footer />
-    </div>
+      </div>
+    </ResultLayout>
   );
 }

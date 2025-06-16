@@ -2,40 +2,51 @@
 
 import React from 'react';
 import { CategoryData } from '../types/category';
+import RankBar from '@/atoms/bars/RankBar';
 
 interface CategoryRankingProps {
   data: CategoryData;
 }
 
 const CategoryRanking: React.FC<CategoryRankingProps> = ({ data }) => {
-  const { title, color, currentRank, totalRank, description, scores } = data;
+  const { title, color, currentRank, description, scores } = data;
+
+  // 랜덤으로 2개의 항목을 선택하여 테마색 유지
+  const themeColorIndices = React.useMemo(() => {
+    const indices = Array.from({ length: scores.length }, (_, i) => i);
+    for (let i = indices.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [indices[i], indices[j]] = [indices[j], indices[i]];
+    }
+    return indices.slice(0, 1);
+  }, [scores.length]);
 
   return (
     <div
       className="flex w-full flex-col rounded-lg bg-white p-6 shadow-sm"
       style={{ marginBottom: '5rem' }}
     >
-      {/* 랭킹 바 */}
       <div className="relative mb-4">
-        <div
-          className="h-4"
-          style={{
-            height: '1rem',
-            background: `linear-gradient(to right, ${color}, ${color}33)`,
-            marginBottom: '1.5rem',
-          }}
-        />
-
         {/* 타이틀 */}
-        <div style={{ fontSize: '1.5rem', fontWeight: 800 }}>{title}</div>
-
-        <div>
-          <span className="text-lg font-bold" style={{ color }}>
-            {currentRank}
-          </span>
-          <span className="text-gray-500"> / {totalRank}</span>
+        <div
+          style={{
+            fontSize: '2rem',
+            fontWeight: 800,
+            color,
+            marginBottom: '20px',
+          }}
+        >
+          {title}
         </div>
       </div>
+
+      {/* 랭크 바 */}
+      <RankBar
+        currentRank={currentRank}
+        minRank={1}
+        maxRank={229}
+        color={color}
+      />
 
       {/* 설명 */}
       <div
@@ -47,45 +58,70 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({ data }) => {
 
       {/* 세부 점수 그리드 */}
       <div className="grid grid-cols-4" style={{ gap: '1.2rem' }}>
-        {scores.map((score, index) => (
-          <div
-            key={index}
-            className="flex flex-col rounded-lg p-6"
-            style={{
-              backgroundColor: color,
-              borderColor: color,
-              padding: '1.2rem',
-              borderRadius: '10px',
-              aspectRatio: '1',
-              justifyContent: 'space-between',
-            }}
-          >
-            <span
-              className="mb-3 text-sm text-gray-600"
-              style={{ fontSize: '1.1rem', fontWeight: 600 }}
+        {scores.map((score, index) => {
+          // 랜덤으로 선택된 항목만 테마색 유지, 나머지는 #E7E8EA
+          const backgroundColor = themeColorIndices.includes(index)
+            ? color
+            : '#E7E8EA';
+          const textColor = themeColorIndices.includes(index)
+            ? 'white'
+            : '#000000';
+
+          return (
+            <div
+              key={index}
+              className="flex flex-col rounded-lg p-6"
+              style={{
+                backgroundColor,
+                padding: '1.2rem',
+                borderRadius: '10px',
+                aspectRatio: '1',
+                justifyContent: 'space-between',
+              }}
             >
-              {score.indicator}
-            </span>
-            <span
-              className="mb-2 text-2xl font-extrabold"
-              style={{ fontSize: '2rem', fontWeight: 600 }}
-            >
-              {score.score}
-            </span>
-            <span
-              className="mb-2 text-xl font-bold"
-              style={{ fontWeight: 600 }}
-            >
-              {score.rank}위
-            </span>
-            <span
-              className="text-sm text-gray-500"
-              style={{ fontSize: '1rem', color: '#666666' }}
-            >
-              {score.source}
-            </span>
-          </div>
-        ))}
+              <span
+                className="mb-3 text-sm"
+                style={{
+                  fontSize: '1.1rem',
+                  fontWeight: 600,
+                  color: textColor,
+                }}
+              >
+                {score.indicator}
+              </span>
+              <span
+                className="mb-2 text-2xl font-extrabold"
+                style={{
+                  fontSize: '2rem',
+                  fontWeight: 600,
+                  color: textColor,
+                }}
+              >
+                {score.score}
+              </span>
+              <span
+                className="mb-2 text-xl font-bold"
+                style={{
+                  fontWeight: 600,
+                  color: textColor,
+                }}
+              >
+                {score.rank}위
+              </span>
+              <span
+                className="text-sm"
+                style={{
+                  fontSize: '1rem',
+                  color: themeColorIndices.includes(index)
+                    ? 'rgba(255, 255, 255, 0.8)'
+                    : '#666666',
+                }}
+              >
+                {score.source}
+              </span>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

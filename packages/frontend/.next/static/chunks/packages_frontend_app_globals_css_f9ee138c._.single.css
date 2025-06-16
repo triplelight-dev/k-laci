@@ -31,6 +31,10 @@
   margin-inline: auto;
 }
 
+.block {
+  display: block;
+}
+
 .flex {
   display: flex;
 }
@@ -39,8 +43,16 @@
   display: grid;
 }
 
+.hidden {
+  display: none;
+}
+
 .inline-block {
   display: inline-block;
+}
+
+.inline-flex {
+  display: inline-flex;
 }
 
 .h-\[65vh\] {
@@ -117,10 +129,6 @@
 
 .overflow-x-auto {
   overflow-x: auto;
-}
-
-.overflow-x-hidden {
-  overflow-x: hidden;
 }
 
 .rounded-full {

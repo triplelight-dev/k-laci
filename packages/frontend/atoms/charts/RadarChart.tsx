@@ -4,13 +4,28 @@ import React from 'react';
 
 type Props = {
   data: number[]; // [0~100] 값 8개
-  showGrid?: boolean;
+  isJewel?: boolean; // 보석 요소만 보이도록 하는 prop
+  size?: number; // 차트의 전체 크기 (width, height)
 };
 
-const JewelRadarChart = ({ data, showGrid = false }: Props) => {
-  const size = 500;
+const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
   const center = size / 2;
-  const radius = 200;
+  const radius = size * 0.4;
+
+  // isJewel일 때의 실제 크기 계산 (보석 크기만큼만)
+  const jewelSize = isJewel ? radius * 2 : size;
+
+  // 폰트 크기 비율 계산 (기존 크기 기준)
+  const fontSize = {
+    category: Math.round(size * 0.032), // 기존 16px (500px 기준)
+    value: Math.round(size * 0.02), // 기존 10px (500px 기준)
+  };
+
+  // 라벨 위치 오프셋도 size에 비례하도록 조정
+  const labelOffset = {
+    category: Math.round(size * 0.06), // 기존 30px (500px 기준)
+    value: Math.round(size * 0.008), // 기존 4px (500px 기준)
+  };
 
   const categories = [
     '생활역동형',
@@ -66,8 +81,67 @@ const JewelRadarChart = ({ data, showGrid = false }: Props) => {
   ];
 
   return (
-    <svg width={size} height={size}>
+    <svg
+      width={jewelSize}
+      height={jewelSize}
+      style={{
+        display: 'block',
+        margin: 0,
+        padding: 0,
+      }}
+      viewBox={
+        isJewel
+          ? `${center - radius} ${center - radius} ${radius * 2} ${radius * 2}`
+          : `0 0 ${size} ${size}`
+      }
+    >
+      {/* 오른쪽 반원 배경 (0도 ~ 180도) - radius 크기까지만 */}
+      {!isJewel && (
+        <>
+          <path
+            d={`M ${center} ${center} 
+                L ${center + radius * Math.cos(0)} ${center + radius * Math.sin(0)}
+                A ${radius} ${radius} 0 0 1 
+                ${center + radius * Math.cos(Math.PI)} ${center + radius * Math.sin(Math.PI)}
+                Z`}
+            fill="#F4F4F4"
+          />
+
+          {/* 배경에 마스크 적용 */}
+          <path
+            d={`M ${center} ${center} 
+                L ${center + radius * Math.cos(0)} ${center + radius * Math.sin(0)}
+                A ${radius} ${radius} 0 0 1 
+                ${center + radius * Math.cos(Math.PI)} ${center + radius * Math.sin(Math.PI)}
+                Z`}
+            fill="#F4F4F4"
+            mask="url(#labelMask)"
+          />
+        </>
+      )}
+
       <defs>
+        <mask id="labelMask">
+          <rect width={jewelSize} height={jewelSize} fill="white" />
+          {/* 라벨 영역을 검은색으로 마스킹 */}
+          {!isJewel &&
+            points.map((pt, i) => {
+              const x =
+                center + (radius + labelOffset.category) * Math.cos(pt.angle);
+              const y =
+                center + (radius + labelOffset.category) * Math.sin(pt.angle);
+              return (
+                <circle
+                  key={i}
+                  cx={x}
+                  cy={y}
+                  r={fontSize.category * 2}
+                  fill="black"
+                />
+              );
+            })}
+        </mask>
+
         {categories.map((category, i) => {
           const pct = Math.min(100, (vals[i] / 100) * 100);
           const [startColor, endColor] = fixedColorPairs[i];
@@ -158,7 +232,7 @@ const JewelRadarChart = ({ data, showGrid = false }: Props) => {
       })}
 
       {/* 🌀 원형 격자 (5개: 20,40,60,80,100) */}
-      {showGrid &&
+      {!isJewel &&
         [0.2, 0.4, 0.6, 0.8, 1.0].map((rate, i) => (
           <circle
             key={i}
@@ -172,7 +246,7 @@ const JewelRadarChart = ({ data, showGrid = false }: Props) => {
         ))}
 
       {/* ⚪ 방사형 축선 */}
-      {showGrid &&
+      {!isJewel &&
         points.map((pt, i) => (
           <line
             key={i}
@@ -186,7 +260,7 @@ const JewelRadarChart = ({ data, showGrid = false }: Props) => {
         ))}
 
       {/* ➕ 십자형 점선 + 값 라벨 */}
-      {showGrid && (
+      {!isJewel && (
         <>
           <line
             x1={center - radius}
@@ -212,7 +286,7 @@ const JewelRadarChart = ({ data, showGrid = false }: Props) => {
             y={center}
             textAnchor="middle"
             dy="0.35em"
-            fontSize={10}
+            fontSize={fontSize.value}
             fill="#CCC"
           >
             0
@@ -224,9 +298,9 @@ const JewelRadarChart = ({ data, showGrid = false }: Props) => {
                 <text
                   x={center + r}
                   y={center}
-                  dx="4"
+                  dx={labelOffset.value}
                   dy="0.35em"
-                  fontSize={10}
+                  fontSize={fontSize.value}
                   fill="#CCC"
                 >
                   {val}
@@ -234,10 +308,10 @@ const JewelRadarChart = ({ data, showGrid = false }: Props) => {
                 <text
                   x={center - r}
                   y={center}
-                  dx="-4"
+                  dx={-labelOffset.value}
                   dy="0.35em"
                   textAnchor="end"
-                  fontSize={10}
+                  fontSize={fontSize.value}
                   fill="#CCC"
                 >
                   {val}
@@ -247,7 +321,7 @@ const JewelRadarChart = ({ data, showGrid = false }: Props) => {
                   y={center + r}
                   dy="1.2em"
                   textAnchor="middle"
-                  fontSize={10}
+                  fontSize={fontSize.value}
                   fill="#CCC"
                 >
                   {val}
@@ -257,7 +331,7 @@ const JewelRadarChart = ({ data, showGrid = false }: Props) => {
                   y={center - r}
                   dy="-0.3em"
                   textAnchor="middle"
-                  fontSize={10}
+                  fontSize={fontSize.value}
                   fill="#CCC"
                 >
                   {val}
@@ -269,35 +343,38 @@ const JewelRadarChart = ({ data, showGrid = false }: Props) => {
       )}
 
       {/* 🏷️ 축 라벨 */}
-      {points.map((pt, i) => {
-        let deg = (pt.angle * 180) / Math.PI + 90;
-        if (deg > 180) deg -= 180;
-        if (
-          ['경제혁신형', '인구성장형', '경제정속형', '인구정착형'].includes(
-            categories[i],
-          )
-        ) {
-          deg += 180;
-        }
-        const x = center + (radius + 30) * Math.cos(pt.angle);
-        const y = center + (radius + 30) * Math.sin(pt.angle);
+      {!isJewel &&
+        points.map((pt, i) => {
+          let deg = (pt.angle * 180) / Math.PI + 90;
+          if (deg > 180) deg -= 180;
+          if (
+            ['경제혁신형', '인구성장형', '경제정속형', '인구정착형'].includes(
+              categories[i],
+            )
+          ) {
+            deg += 180;
+          }
+          const x =
+            center + (radius + labelOffset.category) * Math.cos(pt.angle);
+          const y =
+            center + (radius + labelOffset.category) * Math.sin(pt.angle);
 
-        return (
-          <text
-            key={i}
-            x={x}
-            y={y}
-            textAnchor="middle"
-            dy="0.4em"
-            fontSize={16}
-            fontWeight="bold"
-            fill={colorMap[categories[i]]}
-            transform={`rotate(${deg} ${x} ${y})`}
-          >
-            {categories[i]}
-          </text>
-        );
-      })}
+          return (
+            <text
+              key={i}
+              x={x}
+              y={y}
+              textAnchor="middle"
+              dy="0.4em"
+              fontSize={fontSize.category}
+              fontWeight="bold"
+              fill={colorMap[categories[i]]}
+              transform={`rotate(${deg} ${x} ${y})`}
+            >
+              {categories[i]}
+            </text>
+          );
+        })}
     </svg>
   );
 };
