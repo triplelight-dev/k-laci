@@ -40,6 +40,18 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({ data }) => {
         </div>
       </div>
 
+      {/* 설명 */}
+      <div
+        className="mb-6 whitespace-pre-line text-gray-600"
+        style={{
+          fontSize: '0.9rem',
+          lineHeight: '1.5rem',
+          marginBottom: '1rem',
+        }}
+      >
+        {description}
+      </div>
+
       {/* 랭크 바 */}
       <RankBar
         currentRank={currentRank}
@@ -47,14 +59,6 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({ data }) => {
         maxRank={229}
         color={color}
       />
-
-      {/* 설명 */}
-      <div
-        className="mb-6 whitespace-pre-line text-gray-600"
-        style={{ lineHeight: '1.5rem', marginBottom: '1rem' }}
-      >
-        {description}
-      </div>
 
       {/* 세부 점수 그리드 */}
       <div className="grid grid-cols-4" style={{ gap: '1.2rem' }}>

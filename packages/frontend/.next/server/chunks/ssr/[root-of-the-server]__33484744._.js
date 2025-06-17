@@ -1828,7 +1828,97 @@ const TitleSection = ()=>{
 };
 const __TURBOPACK__default__export__ = TitleSection;
 }}),
+"[project]/packages/frontend/app/results/sections/PreRegistrationSection.tsx [app-ssr] (ecmascript)": ((__turbopack_context__) => {
+"use strict";
+
+var { g: global, __dirname } = __turbopack_context__;
+{
+__turbopack_context__.s({
+    "default": (()=>__TURBOPACK__default__export__)
+});
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
+'use client';
+;
+const PreRegistrationSection = ()=>{
+    const title = '전국 229개 지자체를 분석한 KLACI 통합 리포트';
+    const description = '정식 공개 전, 사전 예약자에게 먼저 제공합니다.';
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        style: {
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            alignItems: 'center',
+            padding: '20px',
+            marginBottom: '250px',
+            backgroundColor: '#000000',
+            color: '#ffffff',
+            minHeight: '300px',
+            justifyContent: 'center'
+        },
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                style: {
+                    fontSize: '2rem',
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                    marginBottom: '16px',
+                    lineHeight: '1.4'
+                },
+                children: title
+            }, void 0, false, {
+                fileName: "[project]/packages/frontend/app/results/sections/PreRegistrationSection.tsx",
+                lineNumber: 24,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                style: {
+                    fontSize: '16px',
+                    textAlign: 'center',
+                    marginBottom: '32px',
+                    lineHeight: '1.5'
+                },
+                children: description
+            }, void 0, false, {
+                fileName: "[project]/packages/frontend/app/results/sections/PreRegistrationSection.tsx",
+                lineNumber: 36,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                style: {
+                    backgroundColor: '#ffffff',
+                    color: '#000000',
+                    border: 'none',
+                    padding: '16px 32px',
+                    fontSize: '16px',
+                    fontWeight: 'bold',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    minWidth: '280px',
+                    transition: 'all 0.3s ease',
+                    background: 'linear-gradient(90deg, #F56542 0%, #F2BA5D 33%, #C2BDF3 66%, #74BF9E 100%)'
+                },
+                onMouseEnter: (e)=>{
+                    e.currentTarget.style.backgroundColor = '#f0f0f0';
+                },
+                onMouseLeave: (e)=>{
+                    e.currentTarget.style.backgroundColor = '#ffffff';
+                },
+                children: "지금 사전 예약하기"
+            }, void 0, false, {
+                fileName: "[project]/packages/frontend/app/results/sections/PreRegistrationSection.tsx",
+                lineNumber: 47,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/packages/frontend/app/results/sections/PreRegistrationSection.tsx",
+        lineNumber: 10,
+        columnNumber: 5
+    }, this);
+};
+const __TURBOPACK__default__export__ = PreRegistrationSection;
+}}),
 
 };
 
-//# sourceMappingURL=%5Broot-of-the-server%5D__c71e3a3e._.js.map
+//# sourceMappingURL=%5Broot-of-the-server%5D__33484744._.js.map

@@ -44,7 +44,7 @@ const SummaryHeader: React.FC = () => {
       {/* 설명 텍스트 */}
       <div
         className="text-center leading-relaxed text-gray-600"
-        style={{ width: '80%', fontSize: '1.2rem', lineHeight: '1.7' }}
+        style={{ width: '85%', fontSize: '1.2rem', lineHeight: 1.5 }}
       >
         {description}
       </div>
