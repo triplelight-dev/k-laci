@@ -14,7 +14,6 @@ const PreRegistrationSection: React.FC = () => {
         width: '100%',
         alignItems: 'center',
         padding: '20px',
-        marginBottom: '250px',
         backgroundColor: '#000000',
         color: '#ffffff',
         minHeight: '300px',

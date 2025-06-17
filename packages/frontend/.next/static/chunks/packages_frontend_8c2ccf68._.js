@@ -1992,6 +1992,321 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
     __turbopack_context__.k.registerExports(module, globalThis.$RefreshHelpers$);
 }
 }}),
+"[project]/packages/frontend/app/results/sections/RankingSection.tsx [app-client] (ecmascript)": ((__turbopack_context__) => {
+"use strict";
+
+var { g: global, __dirname, k: __turbopack_refresh__, m: module } = __turbopack_context__;
+{
+__turbopack_context__.s({
+    "default": (()=>__TURBOPACK__default__export__)
+});
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+'use client';
+;
+// 항목별 색상 매핑 (프로젝트에서 찾은 색상 정보 기반)
+const categoryColors = {
+    안전회복력: '#74BF9E',
+    인구성장력: '#F56542',
+    경제활동력: '#F2BA5D',
+    생활기반력: '#C2BDF3',
+    생활역동형: '#ACAAE8',
+    안전복원형: '#74BF9E',
+    인구정착형: '#F56542',
+    경제정속형: '#F4B04D',
+    생활정주형: '#ACAAE8',
+    안전정진형: '#74BF9E',
+    인구성장형: '#F56542',
+    경제혁신형: '#F4B04D'
+};
+// TOP 10 데이터
+const top10Data = [
+    {
+        rank: 1,
+        category: '안전회복력',
+        detail: '의료 접근성 우수'
+    },
+    {
+        rank: 2,
+        category: '인구성장력',
+        detail: '청년 인구 유입 증가'
+    },
+    {
+        rank: 3,
+        category: '경제활동력',
+        detail: '고용률 상승'
+    },
+    {
+        rank: 4,
+        category: '생활기반력',
+        detail: '교통 편의성 향상'
+    },
+    {
+        rank: 5,
+        category: '안전회복력',
+        detail: '범죄율 감소'
+    },
+    {
+        rank: 6,
+        category: '인구성장력',
+        detail: '출산율 개선'
+    },
+    {
+        rank: 7,
+        category: '경제활동력',
+        detail: '소득 수준 향상'
+    },
+    {
+        rank: 8,
+        category: '생활기반력',
+        detail: '문화시설 확충'
+    },
+    {
+        rank: 9,
+        category: '안전회복력',
+        detail: '재난 대응 체계 강화'
+    },
+    {
+        rank: 10,
+        category: '인구성장력',
+        detail: '외국인 주민 증가'
+    }
+];
+// LOW 10 데이터
+const low10Data = [
+    {
+        rank: 220,
+        category: '경제활동력',
+        detail: '고용률 하락'
+    },
+    {
+        rank: 221,
+        category: '생활기반력',
+        detail: '교통 불편'
+    },
+    {
+        rank: 222,
+        category: '안전회복력',
+        detail: '의료 접근성 부족'
+    },
+    {
+        rank: 223,
+        category: '인구성장력',
+        detail: '인구 유출 증가'
+    },
+    {
+        rank: 224,
+        category: '경제활동력',
+        detail: '소득 수준 감소'
+    },
+    {
+        rank: 225,
+        category: '생활기반력',
+        detail: '문화시설 부족'
+    },
+    {
+        rank: 226,
+        category: '안전회복력',
+        detail: '범죄율 증가'
+    },
+    {
+        rank: 227,
+        category: '인구성장력',
+        detail: '출산율 감소'
+    },
+    {
+        rank: 228,
+        category: '경제활동력',
+        detail: '사업체 수 감소'
+    },
+    {
+        rank: 229,
+        category: '생활기반력',
+        detail: '주거 환경 악화'
+    }
+];
+// 랭킹 컴포넌트
+const RankingList = ({ title, data, icon })=>{
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        style: {
+            flex: 1,
+            maxWidth: '45%'
+        },
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                style: {
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    marginBottom: '16px'
+                },
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        style: {
+                            fontSize: '24px',
+                            fontWeight: 'bold',
+                            textAlign: 'left'
+                        },
+                        children: title
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
+                        lineNumber: 73,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        style: {
+                            width: '20px',
+                            height: '20px',
+                            backgroundColor: '#BCBEC0',
+                            borderRadius: '50%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '12px',
+                            color: 'white'
+                        },
+                        children: icon
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
+                        lineNumber: 82,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
+                lineNumber: 65,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                style: {
+                    borderBottom: '2px solid #BCBEC0',
+                    marginBottom: '20px'
+                }
+            }, void 0, false, {
+                fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
+                lineNumber: 100,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                style: {
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '12px'
+                },
+                children: data.map((item, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        style: {
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '16px',
+                            padding: '8px 0'
+                        },
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                style: {
+                                    fontSize: '16px',
+                                    fontWeight: 'bold',
+                                    color: '#000000',
+                                    minWidth: '40px'
+                                },
+                                children: [
+                                    item.rank,
+                                    "위"
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
+                                lineNumber: 120,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                style: {
+                                    fontSize: '14px',
+                                    fontWeight: '500',
+                                    color: categoryColors[item.category] || '#666666',
+                                    minWidth: '80px'
+                                },
+                                children: item.category
+                            }, void 0, false, {
+                                fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
+                                lineNumber: 132,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                style: {
+                                    fontSize: '14px',
+                                    color: '#000000',
+                                    flex: 1
+                                },
+                                children: item.detail
+                            }, void 0, false, {
+                                fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
+                                lineNumber: 147,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, index, true, {
+                        fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
+                        lineNumber: 110,
+                        columnNumber: 11
+                    }, this))
+            }, void 0, false, {
+                fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
+                lineNumber: 108,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
+        lineNumber: 63,
+        columnNumber: 5
+    }, this);
+};
+_c = RankingList;
+const RankingSection = ()=>{
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        style: {
+            display: 'flex',
+            gap: '40px',
+            width: '100%',
+            justifyContent: 'center',
+            padding: '40px 20px',
+            marginBottom: '250px',
+            maxWidth: '1200px',
+            margin: '0 auto 250px auto'
+        },
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(RankingList, {
+                title: "TOP 10",
+                data: top10Data,
+                icon: "↑"
+            }, void 0, false, {
+                fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
+                lineNumber: 178,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(RankingList, {
+                title: "LOW 10",
+                data: low10Data,
+                icon: "↓"
+            }, void 0, false, {
+                fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
+                lineNumber: 181,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
+        lineNumber: 165,
+        columnNumber: 5
+    }, this);
+};
+_c1 = RankingSection;
+const __TURBOPACK__default__export__ = RankingSection;
+var _c, _c1;
+__turbopack_context__.k.register(_c, "RankingList");
+__turbopack_context__.k.register(_c1, "RankingSection");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(module, globalThis.$RefreshHelpers$);
+}
+}}),
 }]);
 
-//# sourceMappingURL=packages_frontend_279b2c80._.js.map
+//# sourceMappingURL=packages_frontend_8c2ccf68._.js.map
