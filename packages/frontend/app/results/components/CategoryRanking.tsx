@@ -1,8 +1,9 @@
 'use client';
 
-import React from 'react';
-import { CategoryData } from '../types/category';
+import React, { useState } from 'react';
+import { CategoryData, CategoryScore } from '../types/category';
 import RankBar from '@/atoms/bars/RankBar';
+import CategoryDetailModal from '@/app/atoms/modal/CategoryDetailModal';
 
 interface CategoryRankingProps {
   data: CategoryData;
@@ -10,16 +11,15 @@ interface CategoryRankingProps {
 
 const CategoryRanking: React.FC<CategoryRankingProps> = ({ data }) => {
   const { title, color, currentRank, description, scores } = data;
+  const [selectedScore, setSelectedScore] = useState<CategoryScore | null>(
+    null,
+  );
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // 랜덤으로 2개의 항목을 선택하여 테마색 유지
-  const themeColorIndices = React.useMemo(() => {
-    const indices = Array.from({ length: scores.length }, (_, i) => i);
-    for (let i = indices.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [indices[i], indices[j]] = [indices[j], indices[i]];
-    }
-    return indices.slice(0, 1);
-  }, [scores.length]);
+  const handleScoreClick = (score: CategoryScore) => {
+    setSelectedScore(score);
+    setIsModalOpen(true);
+  };
 
   return (
     <div
@@ -62,71 +62,83 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({ data }) => {
 
       {/* 세부 점수 그리드 */}
       <div className="grid grid-cols-4" style={{ gap: '1.2rem' }}>
-        {scores.map((score, index) => {
-          // 랜덤으로 선택된 항목만 테마색 유지, 나머지는 #E7E8EA
-          const backgroundColor = themeColorIndices.includes(index)
-            ? color
-            : '#E7E8EA';
-          const textColor = themeColorIndices.includes(index)
-            ? 'white'
-            : '#000000';
-
-          return (
-            <div
-              key={index}
-              className="flex flex-col rounded-lg p-6"
+        {scores.map((score, index) => (
+          <div
+            key={index}
+            className="flex cursor-pointer flex-col rounded-lg p-6 transition-all duration-300"
+            style={{
+              backgroundColor: '#E7E8EA',
+              padding: '1.2rem',
+              borderRadius: '10px',
+              aspectRatio: '1',
+              justifyContent: 'space-between',
+            }}
+            onClick={() => handleScoreClick(score)}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = color;
+              const spans = e.currentTarget.getElementsByTagName('span');
+              for (let span of spans) {
+                span.style.color = 'white';
+              }
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#E7E8EA';
+              const spans = e.currentTarget.getElementsByTagName('span');
+              for (let span of spans) {
+                span.style.color = span.classList.contains('source')
+                  ? '#666666'
+                  : '#000000';
+              }
+            }}
+          >
+            <span
+              className="mb-3 text-sm"
               style={{
-                backgroundColor,
-                padding: '1.2rem',
-                borderRadius: '10px',
-                aspectRatio: '1',
-                justifyContent: 'space-between',
+                fontSize: '1.1rem',
+                fontWeight: 600,
+                color: '#000000',
               }}
             >
-              <span
-                className="mb-3 text-sm"
-                style={{
-                  fontSize: '1.1rem',
-                  fontWeight: 600,
-                  color: textColor,
-                }}
-              >
-                {score.indicator}
-              </span>
-              <span
-                className="mb-2 text-2xl font-extrabold"
-                style={{
-                  fontSize: '2rem',
-                  fontWeight: 600,
-                  color: textColor,
-                }}
-              >
-                {score.score}
-              </span>
-              <span
-                className="mb-2 text-xl font-bold"
-                style={{
-                  fontWeight: 600,
-                  color: textColor,
-                }}
-              >
-                {score.rank}위
-              </span>
-              <span
-                className="text-sm"
-                style={{
-                  fontSize: '1rem',
-                  color: themeColorIndices.includes(index)
-                    ? 'rgba(255, 255, 255, 0.8)'
-                    : '#666666',
-                }}
-              >
-                {score.source}
-              </span>
-            </div>
-          );
-        })}
+              {score.indicator}
+            </span>
+            <span
+              className="mb-2 text-2xl font-extrabold"
+              style={{
+                fontSize: '2rem',
+                fontWeight: 600,
+                color: '#000000',
+              }}
+            >
+              {score.score}
+            </span>
+            <span
+              className="mb-2 text-xl font-bold"
+              style={{
+                fontWeight: 600,
+                color: '#000000',
+              }}
+            >
+              {score.rank}위
+            </span>
+            <span
+              className="source text-sm"
+              style={{
+                fontSize: '1rem',
+                color: '#666666',
+              }}
+            >
+              {score.source}
+            </span>
+          </div>
+        ))}
       </div>
+
+      <CategoryDetailModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        score={selectedScore}
+        color={color}
+      />
     </div>
   );
 };
