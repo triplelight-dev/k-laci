@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { categoryColors } from '@/constants/colors';
 
 const PreRegistrationSection: React.FC = () => {
   const title = '전국 229개 지자체를 분석한 KLACI 통합 리포트';
@@ -14,7 +15,6 @@ const PreRegistrationSection: React.FC = () => {
         width: '100%',
         alignItems: 'center',
         padding: '20px',
-        marginBottom: '250px',
         backgroundColor: '#000000',
         color: '#ffffff',
         minHeight: '300px',
@@ -56,8 +56,7 @@ const PreRegistrationSection: React.FC = () => {
           cursor: 'pointer',
           minWidth: '280px',
           transition: 'all 0.3s ease',
-          background:
-            'linear-gradient(90deg, #F56542 0%, #F2BA5D 33%, #C2BDF3 66%, #74BF9E 100%)',
+          background: `linear-gradient(90deg, ${categoryColors.인구성장력} 0%, ${categoryColors.경제활동력} 33%, ${categoryColors.생활기반력} 66%, ${categoryColors.안전회복력} 100%)`,
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.backgroundColor = '#f0f0f0';

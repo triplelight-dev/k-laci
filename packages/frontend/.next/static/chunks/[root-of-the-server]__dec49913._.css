@@ -1,3 +1,4 @@
+@import "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css";
 /* [next]/internal/font/google/geist_e531dabc.module.css [app-client] (css) */
 @font-face {
   font-family: Geist;
@@ -105,6 +106,7 @@
       --tw-leading: initial;
       --tw-tracking: initial;
       --tw-outline-style: solid;
+      --tw-duration: initial;
     }
   }
 }
@@ -113,8 +115,16 @@
   position: absolute;
 }
 
+.fixed {
+  position: fixed;
+}
+
 .relative {
   position: relative;
+}
+
+.z-50 {
+  z-index: 50;
 }
 
 .container {
@@ -189,6 +199,10 @@
   cursor: grab;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }
@@ -217,6 +231,10 @@
   justify-content: center;
 }
 
+.justify-end {
+  justify-content: flex-end;
+}
+
 .gap-\[35px\] {
   gap: 35px;
 }
@@ -237,10 +255,6 @@
 .border-t {
   border-top-style: var(--tw-border-style);
   border-top-width: 1px;
-}
-
-.bg-transparent {
-  background-color: #0000;
 }
 
 .object-contain {
@@ -302,6 +316,17 @@
   transition-duration: var(--tw-duration, 0s);
 }
 
+.transition-all {
+  transition-property: all;
+  transition-timing-function: var(--tw-ease, ease);
+  transition-duration: var(--tw-duration, 0s);
+}
+
+.duration-300 {
+  --tw-duration: .3s;
+  transition-duration: .3s;
+}
+
 .active\:cursor-grabbing:active {
   cursor: grabbing;
 }
@@ -322,7 +347,7 @@ html, body {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Pretendard Variable, -apple-system, BlinkMacSystemFont, system-ui, Roboto, Helvetica Neue, Segoe UI, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, sans-serif;
 }
 
 #__next, main {
@@ -380,6 +405,11 @@ a {
   syntax: "*";
   inherits: false;
   initial-value: solid;
+}
+
+@property --tw-duration {
+  syntax: "*";
+  inherits: false
 }
 
 

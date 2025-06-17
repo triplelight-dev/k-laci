@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import JewelRadarChart from '@/atoms/charts/RadarChart';
 
 const JewelChartSection: React.FC = () => {
-  const chartData = [85, 60, 50, 60, 55, 43, 55, 66];
+  const chartData = [85, 30, 80, 30, 25, 70, 40, 36];
 
   return (
     <div

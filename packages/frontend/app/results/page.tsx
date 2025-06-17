@@ -8,6 +8,7 @@ import SummarySection from './sections/SummarySection';
 import JewelChartSection from './sections/JewelChartSection';
 import TitleSection from './sections/TitleSection';
 import PreRegistrationSection from './sections/PreRegistrationSection';
+import RankingSection from './sections/RankingSection';
 
 export default function ResultsPage() {
   return (
@@ -45,6 +46,7 @@ export default function ResultsPage() {
         >
           <TitleSection />
           <SummarySection />
+          <RankingSection />
         </div>
       </div>
       <div

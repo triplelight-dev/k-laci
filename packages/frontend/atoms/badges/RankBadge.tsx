@@ -1,27 +1,29 @@
 'use client';
 
 import React from 'react';
+import { categoryColors } from '@/constants/colors';
 
-type RankBadgeProps = {
+interface RankBadgeProps {
   rank: number;
-};
+}
 
 const RankBadge: React.FC<RankBadgeProps> = ({ rank }) => {
   return (
     <div
       style={{
         display: 'inline-flex',
-        padding: '12px 20px',
-        borderRadius: '100px',
-        border: '1px solid #E7E8EA',
-        backgroundColor: 'white',
-        marginTop: '16px',
+        alignItems: 'center',
+        backgroundColor: '#f8f9fa',
+        border: '2px solid #e9ecef',
+        borderRadius: '50px',
+        padding: '8px 16px',
+        fontSize: '1.2rem',
         fontWeight: 'bold',
+        color: '#495057',
       }}
     >
-      <span style={{ color: '#000000' }}>종합순위 </span>
-      <span style={{ color: '#F56542', marginLeft: '4px' }}>{rank}</span>
-      <span style={{ color: '#000000' }}>위 </span>
+      <span>종합순위</span>
+      <span style={{ color: categoryColors.인구성장력, marginLeft: '4px' }}>{rank}</span>
     </div>
   );
 };
