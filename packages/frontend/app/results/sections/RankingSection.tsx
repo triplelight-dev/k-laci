@@ -61,7 +61,13 @@ const RankingList: React.FC<{
   isLoggedIn: boolean;
 }> = ({ title, data, icon, isLoggedIn = false }) => {
   return (
-    <div style={{ flex: 1, maxWidth: '45%', position: 'relative' }}>
+    <div
+      style={{
+        flex: 1,
+        maxWidth: '50%',
+        position: 'relative',
+      }}
+    >
       {/* 타이틀 */}
       <div
         style={{
@@ -115,7 +121,7 @@ const RankingList: React.FC<{
               alignItems: 'center',
               gap: '16px',
               padding: '8px 0',
-              opacity: isLoggedIn ? 1 : Math.max(0.3, 1 - index * 0.15), // 로그인하지 않았을 때 아래로 갈수록 투명해짐
+              opacity: isLoggedIn ? 1 : Math.max(0.04, 1 - index * 0.15), // 로그인하지 않았을 때 아래로 갈수록 투명해짐
             }}
           >
             {/* 순위 */}
@@ -185,10 +191,11 @@ const LoginPrompt: React.FC = () => {
         width: '100%',
         backgroundColor: '#EAEAEA',
         borderRadius: '10px',
-        padding: '40px',
+        paddingTop: '40px',
+        paddingBottom: '40px',
         textAlign: 'center',
         marginTop: '40px',
-        maxWidth: '800px',
+        // maxWidth: '800px',
         margin: '40px auto 0 auto',
       }}
     >
@@ -222,7 +229,7 @@ const LoginPrompt: React.FC = () => {
           fontWeight: 'bold',
           borderRadius: '8px',
           cursor: 'pointer',
-          minWidth: '280px',
+          //   minWidth: '280px',
           transition: 'all 0.3s ease',
         }}
         onMouseEnter={(e) => {
@@ -250,9 +257,7 @@ const RankingSection: React.FC = () => {
         flexDirection: 'column',
         width: '100%',
         justifyContent: 'center',
-        padding: '40px 20px',
         marginBottom: '250px',
-        maxWidth: '1200px',
         margin: '0 auto 250px auto',
       }}
     >

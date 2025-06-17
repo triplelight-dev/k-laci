@@ -2199,7 +2199,7 @@ const RankingList = ({ title, data, icon, isLoggedIn = false })=>{
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         style: {
             flex: 1,
-            maxWidth: '45%',
+            maxWidth: '50%',
             position: 'relative'
         },
         children: [
@@ -2220,7 +2220,7 @@ const RankingList = ({ title, data, icon, isLoggedIn = false })=>{
                         children: title
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
-                        lineNumber: 74,
+                        lineNumber: 80,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2238,13 +2238,13 @@ const RankingList = ({ title, data, icon, isLoggedIn = false })=>{
                         children: icon
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
-                        lineNumber: 83,
+                        lineNumber: 89,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
-                lineNumber: 66,
+                lineNumber: 72,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2254,7 +2254,7 @@ const RankingList = ({ title, data, icon, isLoggedIn = false })=>{
                 }
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
-                lineNumber: 101,
+                lineNumber: 107,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2269,7 +2269,7 @@ const RankingList = ({ title, data, icon, isLoggedIn = false })=>{
                             alignItems: 'center',
                             gap: '16px',
                             padding: '8px 0',
-                            opacity: isLoggedIn ? 1 : Math.max(0.3, 1 - index * 0.15)
+                            opacity: isLoggedIn ? 1 : Math.max(0.04, 1 - index * 0.15)
                         },
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2285,7 +2285,7 @@ const RankingList = ({ title, data, icon, isLoggedIn = false })=>{
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
-                                lineNumber: 122,
+                                lineNumber: 128,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2298,7 +2298,7 @@ const RankingList = ({ title, data, icon, isLoggedIn = false })=>{
                                 children: item.category
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
-                                lineNumber: 134,
+                                lineNumber: 140,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2310,18 +2310,18 @@ const RankingList = ({ title, data, icon, isLoggedIn = false })=>{
                                 children: item.detail
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
-                                lineNumber: 149,
+                                lineNumber: 155,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, index, true, {
                         fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
-                        lineNumber: 111,
+                        lineNumber: 117,
                         columnNumber: 11
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
-                lineNumber: 109,
+                lineNumber: 115,
                 columnNumber: 7
             }, this),
             !isLoggedIn && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2336,7 +2336,7 @@ const RankingList = ({ title, data, icon, isLoggedIn = false })=>{
                 }
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
-                lineNumber: 164,
+                lineNumber: 170,
                 columnNumber: 9
             }, this)
         ]
@@ -2354,10 +2354,11 @@ const LoginPrompt = ()=>{
             width: '100%',
             backgroundColor: '#EAEAEA',
             borderRadius: '10px',
-            padding: '40px',
+            paddingTop: '40px',
+            paddingBottom: '40px',
             textAlign: 'center',
             marginTop: '40px',
-            maxWidth: '800px',
+            // maxWidth: '800px',
             margin: '40px auto 0 auto'
         },
         children: [
@@ -2371,7 +2372,7 @@ const LoginPrompt = ()=>{
                 children: "이 지역의 숨겨진 역량, 지금 확인해보세요."
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
-                lineNumber: 195,
+                lineNumber: 202,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2384,7 +2385,7 @@ const LoginPrompt = ()=>{
                 children: "55개 상세 지표를 통해 지역의 진짜 모습을 확인할 수 있습니다."
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
-                lineNumber: 205,
+                lineNumber: 212,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2397,7 +2398,7 @@ const LoginPrompt = ()=>{
                     fontWeight: 'bold',
                     borderRadius: '8px',
                     cursor: 'pointer',
-                    minWidth: '280px',
+                    //   minWidth: '280px',
                     transition: 'all 0.3s ease'
                 },
                 onMouseEnter: (e)=>{
@@ -2409,13 +2410,13 @@ const LoginPrompt = ()=>{
                 children: "로그인하고 인사이트 더 보기"
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
-                lineNumber: 215,
+                lineNumber: 222,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
-        lineNumber: 183,
+        lineNumber: 189,
         columnNumber: 5
     }, this);
 };
@@ -2430,9 +2431,7 @@ const RankingSection = ()=>{
             flexDirection: 'column',
             width: '100%',
             justifyContent: 'center',
-            padding: '40px 20px',
             marginBottom: '250px',
-            maxWidth: '1200px',
             margin: '0 auto 250px auto'
         },
         children: [
@@ -2451,7 +2450,7 @@ const RankingSection = ()=>{
                         isLoggedIn: isLoggedIn
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
-                        lineNumber: 269,
+                        lineNumber: 274,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(RankingList, {
@@ -2461,24 +2460,24 @@ const RankingSection = ()=>{
                         isLoggedIn: isLoggedIn
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
-                        lineNumber: 277,
+                        lineNumber: 282,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
-                lineNumber: 260,
+                lineNumber: 265,
                 columnNumber: 7
             }, this),
             !isLoggedIn && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(LoginPrompt, {}, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
-                lineNumber: 286,
+                lineNumber: 291,
                 columnNumber: 23
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
-        lineNumber: 247,
+        lineNumber: 254,
         columnNumber: 5
     }, this);
 };
