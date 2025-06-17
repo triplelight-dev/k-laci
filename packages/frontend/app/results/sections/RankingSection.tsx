@@ -58,9 +58,10 @@ const RankingList: React.FC<{
   title: string;
   data: RankingItem[];
   icon: string;
-}> = ({ title, data, icon }) => {
+  isLoggedIn: boolean;
+}> = ({ title, data, icon, isLoggedIn = false }) => {
   return (
-    <div style={{ flex: 1, maxWidth: '45%' }}>
+    <div style={{ flex: 1, maxWidth: '45%', position: 'relative' }}>
       {/* 타이틀 */}
       <div
         style={{
@@ -114,6 +115,7 @@ const RankingList: React.FC<{
               alignItems: 'center',
               gap: '16px',
               padding: '8px 0',
+              opacity: isLoggedIn ? 1 : Math.max(0.3, 1 - index * 0.15), // 로그인하지 않았을 때 아래로 갈수록 투명해짐
             }}
           >
             {/* 순위 */}
@@ -156,16 +158,96 @@ const RankingList: React.FC<{
           </div>
         ))}
       </div>
+
+      {/* 로그인하지 않았을 때 그라데이션 오버레이 */}
+      {!isLoggedIn && (
+        <div
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: '100px',
+            background: 'linear-gradient(to bottom, transparent, white)',
+            pointerEvents: 'none',
+          }}
+        />
+      )}
+    </div>
+  );
+};
+
+// 로그인 유도 컴포넌트
+const LoginPrompt: React.FC = () => {
+  return (
+    <div
+      style={{
+        width: '100%',
+        backgroundColor: '#EAEAEA',
+        borderRadius: '10px',
+        padding: '40px',
+        textAlign: 'center',
+        marginTop: '40px',
+        maxWidth: '800px',
+        margin: '40px auto 0 auto',
+      }}
+    >
+      <div
+        style={{
+          fontSize: '20px',
+          fontWeight: 'bold',
+          marginBottom: '16px',
+          color: '#000000',
+        }}
+      >
+        이 지역의 숨겨진 역량, 지금 확인해보세요.
+      </div>
+      <div
+        style={{
+          fontSize: '16px',
+          marginBottom: '24px',
+          color: '#666666',
+          lineHeight: '1.5',
+        }}
+      >
+        55개 상세 지표를 통해 지역의 진짜 모습을 확인할 수 있습니다.
+      </div>
+      <button
+        style={{
+          backgroundColor: '#000000',
+          color: '#ffffff',
+          border: 'none',
+          padding: '16px 32px',
+          fontSize: '16px',
+          fontWeight: 'bold',
+          borderRadius: '8px',
+          cursor: 'pointer',
+          minWidth: '280px',
+          transition: 'all 0.3s ease',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.backgroundColor = '#333333';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundColor = '#000000';
+        }}
+      >
+        로그인하고 인사이트 더 보기
+      </button>
     </div>
   );
 };
 
 const RankingSection: React.FC = () => {
+  // 임시로 로그인 상태 설정 (실제로는 props나 상태 관리에서 받아올 수 있음)
+  const isLoggedIn = false; // true로 변경하면 로그인된 상태로 볼 수 있음
+  console.log('isLoggedIn', isLoggedIn);
+
   return (
     <div
       style={{
         display: 'flex',
-        gap: '40px',
+        flexDirection: 'column',
         width: '100%',
         justifyContent: 'center',
         padding: '40px 20px',
@@ -174,11 +256,34 @@ const RankingSection: React.FC = () => {
         margin: '0 auto 250px auto',
       }}
     >
-      {/* TOP 10 */}
-      <RankingList title="TOP 10" data={top10Data} icon="↑" />
+      {/* 랭킹 차트 컨테이너 */}
+      <div
+        style={{
+          display: 'flex',
+          gap: '40px',
+          width: '100%',
+          justifyContent: 'center',
+        }}
+      >
+        {/* TOP 10 */}
+        <RankingList
+          title="TOP 10"
+          data={top10Data}
+          icon="↑"
+          isLoggedIn={isLoggedIn}
+        />
 
-      {/* LOW 10 */}
-      <RankingList title="LOW 10" data={low10Data} icon="↓" />
+        {/* LOW 10 */}
+        <RankingList
+          title="LOW 10"
+          data={low10Data}
+          icon="↓"
+          isLoggedIn={isLoggedIn}
+        />
+      </div>
+
+      {/* 로그인하지 않았을 때만 로그인 유도 컴포넌트 표시 */}
+      {!isLoggedIn && <LoginPrompt />}
     </div>
   );
 };
