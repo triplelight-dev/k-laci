@@ -52,7 +52,10 @@ const Header = ()=>{
     const isHome = pathname === '/';
     const logoSrc = isHome ? '/klaci_logo_white.png' : '/klaci_logo_blue.png';
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
-        className: "w-full bg-transparent",
+        style: {
+            width: '100%',
+            backgroundColor: isHome ? 'transparent' : 'white'
+        },
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             style: {
                 display: 'flex',
@@ -80,12 +83,12 @@ const Header = ()=>{
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/components/Header.tsx",
-                                lineNumber: 30,
+                                lineNumber: 35,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/packages/frontend/components/Header.tsx",
-                            lineNumber: 29,
+                            lineNumber: 34,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
@@ -99,7 +102,7 @@ const Header = ()=>{
                                         children: "About"
                                     }, void 0, false, {
                                         fileName: "[project]/packages/frontend/components/Header.tsx",
-                                        lineNumber: 40,
+                                        lineNumber: 45,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -108,7 +111,7 @@ const Header = ()=>{
                                         children: "Summary"
                                     }, void 0, false, {
                                         fileName: "[project]/packages/frontend/components/Header.tsx",
-                                        lineNumber: 46,
+                                        lineNumber: 51,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -117,24 +120,24 @@ const Header = ()=>{
                                         children: "Results"
                                     }, void 0, false, {
                                         fileName: "[project]/packages/frontend/components/Header.tsx",
-                                        lineNumber: 52,
+                                        lineNumber: 57,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/packages/frontend/components/Header.tsx",
-                                lineNumber: 39,
+                                lineNumber: 44,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/packages/frontend/components/Header.tsx",
-                            lineNumber: 37,
+                            lineNumber: 42,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/packages/frontend/components/Header.tsx",
-                    lineNumber: 21,
+                    lineNumber: 26,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -148,13 +151,13 @@ const Header = ()=>{
                     children: "로그인"
                 }, void 0, false, {
                     fileName: "[project]/packages/frontend/components/Header.tsx",
-                    lineNumber: 63,
+                    lineNumber: 68,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/packages/frontend/components/Header.tsx",
-            lineNumber: 13,
+            lineNumber: 18,
             columnNumber: 7
         }, this)
     }, void 0, false, {
@@ -1916,13 +1919,13 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$atom
 const JewelChartSection = ()=>{
     const chartData = [
         85,
-        60,
-        50,
-        60,
-        55,
-        43,
-        55,
-        66
+        30,
+        80,
+        30,
+        25,
+        70,
+        40,
+        36
     ];
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         style: {
@@ -2021,13 +2024,13 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$atom
 const TitleSection = ()=>{
     const chartData = [
         85,
-        60,
-        50,
-        60,
-        55,
-        43,
-        55,
-        66
+        30,
+        80,
+        30,
+        25,
+        70,
+        40,
+        36
     ];
     const rank = 3; // 예시 데이터, 실제로는 props나 API에서 받아올 수 있습니다
     const districtName = '전라북도 전주시';

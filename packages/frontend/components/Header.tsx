@@ -9,7 +9,12 @@ const Header = () => {
   const logoSrc = isHome ? '/klaci_logo_white.png' : '/klaci_logo_blue.png';
 
   return (
-    <header className="w-full bg-transparent">
+    <header
+      style={{
+        width: '100%',
+        backgroundColor: isHome ? 'transparent' : 'white',
+      }}
+    >
       <div
         style={{
           display: 'flex',
