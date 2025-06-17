@@ -73,7 +73,7 @@ const SummarySection: React.FC<SummarySectionProps> = ({
           <p
             key={index}
             className="text-gray-700"
-            style={{ fontSize: '1rem', lineHeight: 2 }}
+            style={{ fontSize: '0.9rem', lineHeight: 2 }}
           >
             {paragraph}
           </p>

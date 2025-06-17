@@ -49,7 +49,6 @@ const RankBar: React.FC<RankBarProps> = ({
           width: '100%',
           height: '20px',
           backgroundColor: '#E7E8EA',
-          borderRadius: '10px',
           border: 'none',
           position: 'relative',
         }}
@@ -60,7 +59,7 @@ const RankBar: React.FC<RankBarProps> = ({
         style={{
           position: 'absolute',
           left: `${position}%`,
-          top: '20px',
+          top: '35px',
           transform: 'translate(-50%, -50%)',
           display: 'flex',
           flexDirection: 'column',
@@ -71,7 +70,7 @@ const RankBar: React.FC<RankBarProps> = ({
         <div
           style={{
             position: 'absolute',
-            top: '-35px', // 눈금 바 위로 충분히 떠있도록 조정
+            top: '-50px', // 눈금 바 위로 충분히 떠있도록 조정
             color,
             fontSize: '1rem',
             fontWeight: 'bold',
@@ -84,13 +83,13 @@ const RankBar: React.FC<RankBarProps> = ({
         {/* 눈금 바 */}
         <div
           style={{
-            width: '2px',
+            width: '6px',
             height: '50px',
             backgroundColor: color,
             position: 'absolute',
             top: '50%',
             transform: 'translateY(-50%)',
-            marginTop: '10px',
+            marginTop: '0px',
           }}
         />
       </div>
