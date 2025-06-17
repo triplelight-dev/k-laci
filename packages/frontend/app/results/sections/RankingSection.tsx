@@ -1,22 +1,8 @@
 'use client';
 
 import React from 'react';
-
-// 항목별 색상 매핑 (프로젝트에서 찾은 색상 정보 기반)
-const categoryColors = {
-  안전회복력: '#74BF9E',
-  인구성장력: '#F56542',
-  경제활동력: '#F2BA5D',
-  생활기반력: '#C2BDF3',
-  생활역동형: '#ACAAE8',
-  안전복원형: '#74BF9E',
-  인구정착형: '#F56542',
-  경제정속형: '#F4B04D',
-  생활정주형: '#ACAAE8',
-  안전정진형: '#74BF9E',
-  인구성장형: '#F56542',
-  경제혁신형: '#F4B04D',
-};
+import { useAuth } from '@/store';
+import { categoryColors } from '@/constants/colors';
 
 // 랭킹 데이터 타입
 interface RankingItem {
@@ -59,15 +45,9 @@ const RankingList: React.FC<{
   data: RankingItem[];
   icon: string;
   isLoggedIn: boolean;
-}> = ({ title, data, icon, isLoggedIn = false }) => {
+}> = ({ title, data, icon, isLoggedIn }) => {
   return (
-    <div
-      style={{
-        flex: 1,
-        maxWidth: '50%',
-        position: 'relative',
-      }}
-    >
+    <div style={{ flex: 1, maxWidth: '45%', position: 'relative' }}>
       {/* 타이틀 */}
       <div
         style={{
@@ -121,7 +101,7 @@ const RankingList: React.FC<{
               alignItems: 'center',
               gap: '16px',
               padding: '8px 0',
-              opacity: isLoggedIn ? 1 : Math.max(0.04, 1 - index * 0.15), // 로그인하지 않았을 때 아래로 갈수록 투명해짐
+              opacity: isLoggedIn ? 1 : Math.max(0.3, 1 - index * 0.15),
             }}
           >
             {/* 순위 */}
@@ -188,14 +168,12 @@ const LoginPrompt: React.FC = () => {
   return (
     <div
       style={{
-        width: '100%',
         backgroundColor: '#EAEAEA',
         borderRadius: '10px',
-        paddingTop: '40px',
-        paddingBottom: '40px',
+        padding: '40px',
         textAlign: 'center',
         marginTop: '40px',
-        // maxWidth: '800px',
+        maxWidth: '800px',
         margin: '40px auto 0 auto',
       }}
     >
@@ -229,7 +207,7 @@ const LoginPrompt: React.FC = () => {
           fontWeight: 'bold',
           borderRadius: '8px',
           cursor: 'pointer',
-          //   minWidth: '280px',
+          minWidth: '280px',
           transition: 'all 0.3s ease',
         }}
         onMouseEnter={(e) => {
@@ -246,9 +224,8 @@ const LoginPrompt: React.FC = () => {
 };
 
 const RankingSection: React.FC = () => {
-  // 임시로 로그인 상태 설정 (실제로는 props나 상태 관리에서 받아올 수 있음)
-  const isLoggedIn = false; // true로 변경하면 로그인된 상태로 볼 수 있음
-  console.log('isLoggedIn', isLoggedIn);
+  // useAuth 훅을 통해 로그인 상태 가져오기
+  const { isLoggedIn } = useAuth();
 
   return (
     <div
@@ -257,7 +234,9 @@ const RankingSection: React.FC = () => {
         flexDirection: 'column',
         width: '100%',
         justifyContent: 'center',
+        padding: '40px 20px',
         marginBottom: '250px',
+        maxWidth: '1200px',
         margin: '0 auto 250px auto',
       }}
     >
