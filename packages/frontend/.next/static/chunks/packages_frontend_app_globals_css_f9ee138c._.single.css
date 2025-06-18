@@ -80,10 +80,6 @@
   max-width: 1440px;
 }
 
-.flex-1 {
-  flex: 1;
-}
-
 .flex-\[1\.5\] {
   flex: 1.5;
 }
@@ -155,11 +151,6 @@
 .border {
   border-style: var(--tw-border-style);
   border-width: 1px;
-}
-
-.border-t {
-  border-top-style: var(--tw-border-style);
-  border-top-width: 1px;
 }
 
 .object-contain {

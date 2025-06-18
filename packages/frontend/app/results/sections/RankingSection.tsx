@@ -226,6 +226,7 @@ const LoginPrompt: React.FC = () => {
 const RankingSection: React.FC = () => {
   // useAuth 훅을 통해 로그인 상태 가져오기
   const { isLoggedIn } = useAuth();
+  console.log('isLoggedIn', isLoggedIn);
 
   return (
     <div
