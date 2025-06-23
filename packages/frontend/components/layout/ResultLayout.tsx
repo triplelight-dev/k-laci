@@ -17,7 +17,6 @@ const ResultLayout = ({ children }: { children: React.ReactNode }) => {
           width: '100%',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: '100px',
         }}
       >
         {children}
