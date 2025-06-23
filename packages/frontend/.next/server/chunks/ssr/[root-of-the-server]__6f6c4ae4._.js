@@ -2358,14 +2358,14 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
         '경제혁신형'
     ];
     const colorMap = {
-        생활역동형: '#ACAAE8',
-        생활정주형: '#ACAAE8',
-        안전복원형: '#74BF9E',
-        안전정진형: '#74BF9E',
-        인구정착형: '#F56542',
-        인구성장형: '#F56542',
-        경제정속형: '#F4B04D',
-        경제혁신형: '#F4B04D'
+        생활역동형: '#874FFF',
+        생활정주형: '#874FFF',
+        안전복원형: '#24CB71',
+        안전정진형: '#24CB71',
+        인구정착형: '#FF3737',
+        인구성장형: '#FF3737',
+        경제정속형: '#FFA600',
+        경제혁신형: '#FFA600'
     };
     const numAxes = categories.length;
     const angleStep = 2 * Math.PI / numAxes;
@@ -2875,6 +2875,59 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$atom
 ;
 ;
 ;
+// KLACI Code 원형 컴포넌트
+const KlaciCodeCircles = ()=>{
+    // KLACI 코드 목업 데이터
+    const klaciCodes = [
+        {
+            code: 'K',
+            color: '#FF3737'
+        },
+        {
+            code: 'L',
+            color: '#FFA600'
+        },
+        {
+            code: 'A',
+            color: '#874FFF'
+        },
+        {
+            code: 'C',
+            color: '#24CB71'
+        }
+    ];
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        style: {
+            display: 'flex',
+            gap: '8px',
+            marginBottom: '24px'
+        },
+        children: klaciCodes.map((item, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                style: {
+                    width: '30px',
+                    height: '30px',
+                    borderRadius: '50%',
+                    backgroundColor: item.color,
+                    color: 'white',
+                    border: `2px solid ${item.color}`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '1rem',
+                    fontWeight: 600
+                },
+                children: item.code
+            }, index, false, {
+                fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
+                lineNumber: 38,
+                columnNumber: 9
+            }, this))
+    }, void 0, false, {
+        fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
+        lineNumber: 30,
+        columnNumber: 5
+    }, this);
+};
 const TitleSection = ({ districtData })=>{
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRouter"])();
     const chartData = [
@@ -2958,12 +3011,12 @@ const TitleSection = ({ districtData })=>{
                     data: chartData
                 }, void 0, false, {
                     fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
-                    lineNumber: 78,
+                    lineNumber: 121,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
-                lineNumber: 68,
+                lineNumber: 111,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3010,17 +3063,17 @@ const TitleSection = ({ districtData })=>{
                                 strokeLinejoin: "round"
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
-                                lineNumber: 117,
+                                lineNumber: 160,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
-                            lineNumber: 109,
+                            lineNumber: 152,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
-                        lineNumber: 89,
+                        lineNumber: 132,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3032,7 +3085,7 @@ const TitleSection = ({ districtData })=>{
                         children: rankText
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
-                        lineNumber: 128,
+                        lineNumber: 171,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -3068,23 +3121,23 @@ const TitleSection = ({ districtData })=>{
                                 strokeLinejoin: "round"
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
-                                lineNumber: 166,
+                                lineNumber: 209,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
-                            lineNumber: 159,
+                            lineNumber: 202,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
-                        lineNumber: 139,
+                        lineNumber: 182,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
-                lineNumber: 80,
+                lineNumber: 123,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3092,18 +3145,91 @@ const TitleSection = ({ districtData })=>{
                     fontSize: '3.2rem',
                     color: '#000',
                     fontWeight: '600',
-                    marginBottom: '20px'
+                    marginBottom: '50px'
                 },
                 children: districtName
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
-                lineNumber: 178,
+                lineNumber: 221,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(KlaciCodeCircles, {}, void 0, false, {
+                fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
+                lineNumber: 233,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                style: {
+                    fontSize: '2.2rem',
+                    color: '#474E59',
+                    fontWeight: 'bold',
+                    marginBottom: '12px'
+                },
+                children: "안전복지형"
+            }, void 0, false, {
+                fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
+                lineNumber: 236,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                style: {
+                    fontSize: '1.3rem',
+                    fontWeight: 600,
+                    color: '#949FB0',
+                    marginBottom: '50px'
+                },
+                children: "인생 2막 올스타전 도시"
+            }, void 0, false, {
+                fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
+                lineNumber: 248,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                style: {
+                    fontSize: '1rem',
+                    color: '#333',
+                    lineHeight: 1.2,
+                    textAlign: 'center',
+                    maxWidth: '600px'
+                },
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        style: {
+                            marginBottom: '8px'
+                        },
+                        children: "인구 유입은 이루어지나 경제는 성장 정체 상태이고"
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
+                        lineNumber: 269,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        style: {
+                            marginBottom: '8px'
+                        },
+                        children: "생활 기반은 부족하지만, 안전 수준은 높아 안정적인 공동체를 이루고 있는 유형입니다."
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
+                        lineNumber: 272,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        children: "경제 활력 제고와 생활 환경 개선이 시급합니다"
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
+                        lineNumber: 276,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
+                lineNumber: 260,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
-        lineNumber: 58,
+        lineNumber: 101,
         columnNumber: 5
     }, this);
 };

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
+import RankBadge from '@/atoms/badges/RankBadge';
 
 import JewelRadarChart from '@/atoms/charts/RadarChart';
 
@@ -14,6 +15,48 @@ interface DistrictData {
 interface TitleSectionProps {
   districtData?: DistrictData | null;
 }
+
+// KLACI Code 원형 컴포넌트
+const KlaciCodeCircles: React.FC = () => {
+  // KLACI 코드 목업 데이터
+  const klaciCodes = [
+    { code: 'K', color: '#FF3737' },
+    { code: 'L', color: '#FFA600' },
+    { code: 'A', color: '#874FFF' },
+    { code: 'C', color: '#24CB71' },
+  ];
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        gap: '8px',
+        marginBottom: '24px',
+      }}
+    >
+      {klaciCodes.map((item, index) => (
+        <div
+          key={index}
+          style={{
+            width: '30px',
+            height: '30px',
+            borderRadius: '50%',
+            backgroundColor: item.color,
+            color: 'white',
+            border: `2px solid ${item.color}`,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '1rem',
+            fontWeight: 600,
+          }}
+        >
+          {item.code}
+        </div>
+      ))}
+    </div>
+  );
+};
 
 const TitleSection: React.FC<TitleSectionProps> = ({ districtData }) => {
   const router = useRouter();
@@ -180,10 +223,57 @@ const TitleSection: React.FC<TitleSectionProps> = ({ districtData }) => {
           fontSize: '3.2rem',
           color: '#000',
           fontWeight: '600',
-          marginBottom: '20px',
+          marginBottom: '50px',
         }}
       >
         {districtName}
+      </div>
+
+      {/* KLACI Code 원형 컴포넌트 */}
+      <KlaciCodeCircles />
+
+      {/* 유형 텍스트 */}
+      <div
+        style={{
+          fontSize: '2.2rem',
+          color: '#474E59',
+          fontWeight: 'bold',
+          marginBottom: '12px',
+        }}
+      >
+        안전복지형
+      </div>
+
+      {/* 유형 설명 */}
+      <div
+        style={{
+          fontSize: '1.3rem',
+          fontWeight: 600,
+          color: '#949FB0',
+          marginBottom: '50px',
+        }}
+      >
+        인생 2막 올스타전 도시
+      </div>
+
+      {/* 세 줄 텍스트 */}
+      <div
+        style={{
+          fontSize: '1rem',
+          color: '#333',
+          lineHeight: 1.2,
+          textAlign: 'center',
+          maxWidth: '600px',
+        }}
+      >
+        <div style={{ marginBottom: '8px' }}>
+          인구 유입은 이루어지나 경제는 성장 정체 상태이고
+        </div>
+        <div style={{ marginBottom: '8px' }}>
+          생활 기반은 부족하지만, 안전 수준은 높아 안정적인 공동체를 이루고 있는
+          유형입니다.
+        </div>
+        <div>경제 활력 제고와 생활 환경 개선이 시급합니다</div>
       </div>
     </div>
   );
