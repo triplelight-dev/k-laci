@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import IndexModal from '@/app/atoms/modal/IndexModal';
 
 // 색상 맵 정의
 const colorMap: Record<string, string> = {
@@ -21,7 +22,10 @@ interface IndexData {
 }
 
 // 지수 컴포넌트
-const IndexItem: React.FC<{ data: IndexData }> = ({ data }) => {
+const IndexItem: React.FC<{
+  data: IndexData;
+  onClick: (data: IndexData) => void;
+}> = ({ data, onClick }) => {
   const categoryColor = colorMap[data.category] || '#874FFF';
 
   return (
@@ -35,7 +39,15 @@ const IndexItem: React.FC<{ data: IndexData }> = ({ data }) => {
         border: '1px solid #D9D9E8',
         borderRadius: '12px',
         marginBottom: '8px',
-        // maxWidth: '300px',
+        cursor: 'pointer',
+        transition: 'all 0.2s ease',
+      }}
+      onClick={() => onClick(data)}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.backgroundColor = '#F5F5F5';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.backgroundColor = 'white';
       }}
     >
       {/* 뱃지 */}
@@ -73,7 +85,8 @@ const IndexSection: React.FC<{
   title: string;
   data: IndexData[];
   isStrength?: boolean;
-}> = ({ title, data, isStrength = true }) => {
+  onItemClick: (data: IndexData) => void;
+}> = ({ title, data, isStrength = true, onItemClick }) => {
   return (
     <div
       style={{
@@ -123,7 +136,7 @@ const IndexSection: React.FC<{
         }}
       >
         {data.map((item, index) => (
-          <IndexItem key={index} data={item} />
+          <IndexItem key={index} data={item} onClick={onItemClick} />
         ))}
       </div>
     </div>
@@ -132,9 +145,21 @@ const IndexSection: React.FC<{
 
 const StrengthWeaknessIndexSection: React.FC = () => {
   const [searchValue, setSearchValue] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedData, setSelectedData] = useState<IndexData | null>(null);
 
   const handleRecentSearchClick = (value: string) => {
     setSearchValue(value);
+  };
+
+  const handleItemClick = (data: IndexData) => {
+    setSelectedData(data);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedData(null);
   };
 
   // 목업 데이터
@@ -165,19 +190,40 @@ const StrengthWeaknessIndexSection: React.FC = () => {
   ];
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        gap: '50px',
-        width: '100%',
-      }}
-    >
-      {/* 강점지표 */}
-      <IndexSection title="강점지표" data={strengthData} isStrength={true} />
+    <>
+      <div
+        style={{
+          display: 'flex',
+          gap: '50px',
+          width: '100%',
+        }}
+      >
+        {/* 강점지표 */}
+        <IndexSection
+          title="강점지표"
+          data={strengthData}
+          isStrength={true}
+          onItemClick={handleItemClick}
+        />
 
-      {/* 약점지표 */}
-      <IndexSection title="약점지표" data={weaknessData} isStrength={false} />
-    </div>
+        {/* 약점지표 */}
+        <IndexSection
+          title="약점지표"
+          data={weaknessData}
+          isStrength={false}
+          onItemClick={handleItemClick}
+        />
+      </div>
+
+      {/* 모달 */}
+      {selectedData && (
+        <IndexModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          data={selectedData}
+        />
+      )}
+    </>
   );
 };
 
