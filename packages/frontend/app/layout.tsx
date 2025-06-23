@@ -15,7 +15,13 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'K-LACI',
   description: 'Korea Local Asset Competency Index',
-  viewport: 'width=device-width, initial-scale=1.0',
+  viewport: {
+    width: 'device-width',
+    initialScale: 1.0,
+    maximumScale: 1.0,
+    userScalable: false,
+    viewportFit: 'cover',
+  },
 };
 
 export default function RootLayout({
@@ -27,6 +33,10 @@ export default function RootLayout({
     <html lang="en" className="w-full">
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen w-full bg-white antialiased`}
+        style={{
+          overscrollBehavior: 'none',
+          WebkitOverflowScrolling: 'touch',
+        }}
       >
         {children}
       </body>
