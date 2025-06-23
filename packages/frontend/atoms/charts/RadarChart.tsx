@@ -39,14 +39,14 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
   ];
 
   const colorMap: Record<string, string> = {
-    생활역동형: '#ACAAE8',
-    생활정주형: '#ACAAE8',
-    안전복원형: '#74BF9E',
-    안전정진형: '#74BF9E',
-    인구정착형: '#F56542',
-    인구성장형: '#F56542',
-    경제정속형: '#F4B04D',
-    경제혁신형: '#F4B04D',
+    생활역동형: '#874FFF',
+    생활정주형: '#874FFF',
+    안전복원형: '#24CB71',
+    안전정진형: '#24CB71',
+    인구정착형: '#FF3737',
+    인구성장형: '#FF3737',
+    경제정속형: '#FFA600',
+    경제혁신형: '#FFA600',
   };
 
   const numAxes = categories.length;

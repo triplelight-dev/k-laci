@@ -24,7 +24,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({ data }) => {
   return (
     <div
       className="flex w-full flex-col rounded-lg bg-white p-6 shadow-sm"
-      style={{ marginBottom: '5rem' }}
+      style={{ marginBottom: '5rem', backgroundColor: 'red' }}
     >
       <div className="relative mb-4">
         {/* 타이틀 */}

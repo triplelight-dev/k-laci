@@ -11,6 +11,7 @@ interface CommonSelectProps {
   options: Option[];
   onChange: (value: string) => void;
   disabled?: boolean;
+  defaultLabel?: string;
 }
 
 const CommonSelect: React.FC<CommonSelectProps> = ({
@@ -18,12 +19,13 @@ const CommonSelect: React.FC<CommonSelectProps> = ({
   options,
   onChange,
   disabled = false,
+  defaultLabel = '선택',
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const selectedLabel =
-    options.find((option) => option.value === value)?.label || '선택';
+    options.find((option) => option.value === value)?.label || defaultLabel;
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -47,11 +49,11 @@ const CommonSelect: React.FC<CommonSelectProps> = ({
         position: 'relative',
         display: 'flex',
         alignItems: 'center',
-        border: '1px solid #264DBC',
+        // border: '1px solid #264DBC',
         borderRadius: '50px',
         padding: '0 20px',
         height: '50px',
-        minWidth: '180px',
+        minWidth: '100px',
         backgroundColor: 'white',
         opacity: disabled ? 0.5 : 1,
         cursor: disabled ? 'not-allowed' : 'pointer',
@@ -61,7 +63,11 @@ const CommonSelect: React.FC<CommonSelectProps> = ({
         if (!disabled) setIsOpen(!isOpen);
       }}
     >
-      <span style={{ flex: 1, color: '#264DBC', fontSize: '14px' }}>
+      <span style={{ 
+        flex: 1, 
+        color: '#264DBC', 
+        fontSize: '14px' 
+      }}>
         {selectedLabel}
       </span>
       <div style={{ pointerEvents: 'none' }}>

@@ -6,7 +6,7 @@ import { CategoryData } from '../types/category';
 import { categoryColors } from '@/constants/colors';
 
 const CategoryRankingSection = () => {
-  const title = '범주 및 세부지표 순위';
+  const title = '원형별 역량 분포';
 
   return (
     <div
@@ -26,10 +26,11 @@ const CategoryRankingSection = () => {
         {/* 타이틀 */}
         <div
           style={{
-            fontSize: '2.5rem',
+            fontSize: '1.5rem',
             fontWeight: 800,
             paddingTop: '3rem',
             marginBottom: '2rem',
+            color: '#949FB0',
           }}
         >
           {title}

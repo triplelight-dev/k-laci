@@ -29,7 +29,13 @@ const MOCK_DATA = {
   },
 };
 
-const DistrictSelectSection: React.FC = () => {
+interface DistrictSelectSectionProps {
+  isFloating?: boolean;
+}
+
+const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
+  isFloating = false,
+}) => {
   const [selectedProvince, setSelectedProvince] = useState('');
   const [selectedDistrict, setSelectedDistrict] = useState('');
 
@@ -50,12 +56,13 @@ const DistrictSelectSection: React.FC = () => {
     <div
       style={{
         display: 'flex',
-        gap: '16px',
+        gap: isFloating ? '12px' : '16px',
         width: '100%',
         justifyContent: 'center',
-        padding: '40px',
-        background: 'white',
-        borderBottom: '1px solid #E5E5E5',
+        padding: isFloating ? '8px 16px' : '40px',
+        borderRadius: isFloating ? '12px' : '20px',
+        height: isFloating ? '66px' : 'auto', // CommonSelect 높이(50px) + padding(16px)에 맞춤
+        alignItems: 'center',
       }}
     >
       <div
@@ -68,6 +75,7 @@ const DistrictSelectSection: React.FC = () => {
           value={selectedProvince}
           options={MOCK_DATA.provinces}
           onChange={handleProvinceChange}
+          defaultLabel="광역명"
         />
       </div>
       <div
@@ -81,6 +89,7 @@ const DistrictSelectSection: React.FC = () => {
           options={districtOptions}
           onChange={handleDistrictChange}
           disabled={!selectedProvince}
+          defaultLabel="지자체명"
         />
       </div>
     </div>
