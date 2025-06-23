@@ -2072,87 +2072,6 @@ const mockCategories = [
 ];
 const __TURBOPACK__default__export__ = CategoryRankingSection;
 }}),
-"[project]/packages/frontend/app/results/sections/components/SummaryHeader.tsx [app-ssr] (ecmascript)": ((__turbopack_context__) => {
-"use strict";
-
-var { g: global, __dirname } = __turbopack_context__;
-{
-__turbopack_context__.s({
-    "default": (()=>__TURBOPACK__default__export__)
-});
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
-;
-const SummaryHeader = ()=>{
-    // 여기서 필요한 데이터를 직접 가져오거나 처리
-    const title = '우리 마을 성장 일기'; // 실제 데이터로 대체
-    const typeName = '포용·성장·공동체형'; // 실제 데이터로 대체
-    const description = '인구가 점진적으로 증가하고 안전 수준도 높으며, 안정된 경제와 조용한 주거 환경 속에서 공동체적 가치를 증시하는 유형입니다. 안온한 성장을 추구합니다.'; // 실제 데이터로 대체
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "flex max-w-2xl flex-col items-center gap-4",
-        style: {
-            gap: '1.5rem',
-            marginBottom: '5rem'
-        },
-        children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "text-center text-3xl font-bold",
-                style: {
-                    fontSize: '2.5rem',
-                    fontWeight: 800
-                },
-                children: title
-            }, void 0, false, {
-                fileName: "[project]/packages/frontend/app/results/sections/components/SummaryHeader.tsx",
-                lineNumber: 16,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                style: {
-                    color: '#C8CDD4',
-                    fontSize: '1.5rem',
-                    fontWeight: 600
-                },
-                children: typeName
-            }, void 0, false, {
-                fileName: "[project]/packages/frontend/app/results/sections/components/SummaryHeader.tsx",
-                lineNumber: 23,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                style: {
-                    width: '70px',
-                    height: '3px',
-                    backgroundColor: 'black',
-                    marginBottom: '1rem',
-                    marginTop: '1rem'
-                }
-            }, void 0, false, {
-                fileName: "[project]/packages/frontend/app/results/sections/components/SummaryHeader.tsx",
-                lineNumber: 34,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "text-center leading-relaxed text-gray-600",
-                style: {
-                    width: '85%',
-                    fontSize: '1.2rem',
-                    lineHeight: 1.5
-                },
-                children: description
-            }, void 0, false, {
-                fileName: "[project]/packages/frontend/app/results/sections/components/SummaryHeader.tsx",
-                lineNumber: 45,
-                columnNumber: 7
-            }, this)
-        ]
-    }, void 0, true, {
-        fileName: "[project]/packages/frontend/app/results/sections/components/SummaryHeader.tsx",
-        lineNumber: 11,
-        columnNumber: 5
-    }, this);
-};
-const __TURBOPACK__default__export__ = SummaryHeader;
-}}),
 "[project]/packages/frontend/app/results/sections/components/SummaryContent.tsx [app-ssr] (ecmascript)": ((__turbopack_context__) => {
 "use strict";
 
@@ -2200,29 +2119,161 @@ const SummaryContent = ()=>{
             borderRadius: '15px'
         },
         children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(SummarySection, {
-                title: summaryData.characteristics.title,
-                paragraphs: summaryData.characteristics.paragraphs,
-                isFirst: true
-            }, void 0, false, {
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                style: {
+                    display: 'flex',
+                    paddingBottom: '2rem'
+                },
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        style: {
+                            flex: '0 0 200px',
+                            color: '#949FB0',
+                            fontSize: '1.5rem',
+                            fontWeight: 700,
+                            paddingRight: '2rem'
+                        },
+                        children: summaryData.characteristics.title
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/app/results/sections/components/SummaryContent.tsx",
+                        lineNumber: 49,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        style: {
+                            flex: 1,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '1rem'
+                        },
+                        children: summaryData.characteristics.paragraphs.map((paragraph, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                style: {
+                                    color: '#000000',
+                                    fontSize: '0.9rem',
+                                    lineHeight: 1.5,
+                                    margin: 0
+                                },
+                                children: paragraph
+                            }, index, false, {
+                                fileName: "[project]/packages/frontend/app/results/sections/components/SummaryContent.tsx",
+                                lineNumber: 69,
+                                columnNumber: 13
+                            }, this))
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/app/results/sections/components/SummaryContent.tsx",
+                        lineNumber: 60,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
                 fileName: "[project]/packages/frontend/app/results/sections/components/SummaryContent.tsx",
-                lineNumber: 42,
+                lineNumber: 43,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(SummarySection, {
-                title: summaryData.opportunities.title,
-                paragraphs: summaryData.opportunities.paragraphs
-            }, void 0, false, {
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                style: {
+                    display: 'flex',
+                    borderTop: '1px solid #D0D9E6',
+                    paddingTop: '2rem',
+                    paddingBottom: '2rem'
+                },
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        style: {
+                            flex: '0 0 200px',
+                            color: '#949FB0',
+                            fontSize: '1.5rem',
+                            fontWeight: 700,
+                            paddingRight: '2rem'
+                        },
+                        children: summaryData.opportunities.title
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/app/results/sections/components/SummaryContent.tsx",
+                        lineNumber: 93,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        style: {
+                            flex: 1,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '1rem'
+                        },
+                        children: summaryData.opportunities.paragraphs.map((paragraph, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                style: {
+                                    color: '#000000',
+                                    fontSize: '0.9rem',
+                                    lineHeight: 1.5,
+                                    margin: 0
+                                },
+                                children: paragraph
+                            }, index, false, {
+                                fileName: "[project]/packages/frontend/app/results/sections/components/SummaryContent.tsx",
+                                lineNumber: 113,
+                                columnNumber: 13
+                            }, this))
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/app/results/sections/components/SummaryContent.tsx",
+                        lineNumber: 104,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
                 fileName: "[project]/packages/frontend/app/results/sections/components/SummaryContent.tsx",
-                lineNumber: 47,
+                lineNumber: 85,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(SummarySection, {
-                title: summaryData.improvements.title,
-                paragraphs: summaryData.improvements.paragraphs
-            }, void 0, false, {
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                style: {
+                    display: 'flex',
+                    borderTop: '1px solid #D0D9E6',
+                    paddingTop: '2rem',
+                    paddingBottom: '2rem'
+                },
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        style: {
+                            flex: '0 0 200px',
+                            color: '#949FB0',
+                            fontSize: '1.5rem',
+                            fontWeight: 700,
+                            paddingRight: '2rem'
+                        },
+                        children: summaryData.improvements.title
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/app/results/sections/components/SummaryContent.tsx",
+                        lineNumber: 137,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        style: {
+                            flex: 1,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '1rem'
+                        },
+                        children: summaryData.improvements.paragraphs.map((paragraph, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                style: {
+                                    color: '#000000',
+                                    fontSize: '0.9rem',
+                                    lineHeight: 1.5,
+                                    margin: 0
+                                },
+                                children: paragraph
+                            }, index, false, {
+                                fileName: "[project]/packages/frontend/app/results/sections/components/SummaryContent.tsx",
+                                lineNumber: 157,
+                                columnNumber: 13
+                            }, this))
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/app/results/sections/components/SummaryContent.tsx",
+                        lineNumber: 148,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
                 fileName: "[project]/packages/frontend/app/results/sections/components/SummaryContent.tsx",
-                lineNumber: 51,
+                lineNumber: 129,
                 columnNumber: 7
             }, this)
         ]
@@ -2232,109 +2283,17 @@ const SummaryContent = ()=>{
         columnNumber: 5
     }, this);
 };
-const SummarySection = ({ title, paragraphs, isFirst = false })=>{
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        style: {
-            display: 'flex',
-            borderTop: isFirst ? 'none' : '1px solid #D0D9E6',
-            paddingTop: isFirst ? '0' : '2rem',
-            paddingBottom: '2rem'
-        },
-        children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                style: {
-                    flex: '0 0 200px',
-                    color: '#949FB0',
-                    fontSize: '1.5rem',
-                    fontWeight: 700,
-                    paddingRight: '2rem'
-                },
-                children: title
-            }, void 0, false, {
-                fileName: "[project]/packages/frontend/app/results/sections/components/SummaryContent.tsx",
-                lineNumber: 80,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                style: {
-                    flex: 1,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '1rem'
-                },
-                children: paragraphs.map((paragraph, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                        style: {
-                            color: '#000000',
-                            fontSize: '0.9rem',
-                            lineHeight: 1.5,
-                            margin: 0
-                        },
-                        children: paragraph
-                    }, index, false, {
-                        fileName: "[project]/packages/frontend/app/results/sections/components/SummaryContent.tsx",
-                        lineNumber: 102,
-                        columnNumber: 11
-                    }, this))
-            }, void 0, false, {
-                fileName: "[project]/packages/frontend/app/results/sections/components/SummaryContent.tsx",
-                lineNumber: 93,
-                columnNumber: 7
-            }, this)
-        ]
-    }, void 0, true, {
-        fileName: "[project]/packages/frontend/app/results/sections/components/SummaryContent.tsx",
-        lineNumber: 71,
-        columnNumber: 5
-    }, this);
-};
 const __TURBOPACK__default__export__ = SummaryContent;
 }}),
-"[project]/packages/frontend/app/results/sections/SummarySection.tsx [app-ssr] (ecmascript)": ((__turbopack_context__) => {
-"use strict";
+"[project]/packages/frontend/app/results/sections/SummarySection.tsx [app-ssr] (ecmascript)": (function(__turbopack_context__) {
 
-var { g: global, __dirname } = __turbopack_context__;
+var { g: global, __dirname, m: module, e: exports } = __turbopack_context__;
 {
-__turbopack_context__.s({
-    "default": (()=>__TURBOPACK__default__export__)
-});
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$components$2f$SummaryHeader$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/packages/frontend/app/results/sections/components/SummaryHeader.tsx [app-ssr] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$components$2f$SummaryContent$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/packages/frontend/app/results/sections/components/SummaryContent.tsx [app-ssr] (ecmascript)");
-;
-;
-;
-const SummarySection = ()=>{
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        style: {
-            display: 'flex',
-            justifyContent: 'center'
-        },
-        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
-            children: [
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$components$2f$SummaryHeader$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
-                    fileName: "[project]/packages/frontend/app/results/sections/SummarySection.tsx",
-                    lineNumber: 14,
-                    columnNumber: 9
-                }, this),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$components$2f$SummaryContent$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
-                    fileName: "[project]/packages/frontend/app/results/sections/SummarySection.tsx",
-                    lineNumber: 15,
-                    columnNumber: 9
-                }, this)
-            ]
-        }, void 0, true, {
-            fileName: "[project]/packages/frontend/app/results/sections/SummarySection.tsx",
-            lineNumber: 13,
-            columnNumber: 7
-        }, this)
-    }, void 0, false, {
-        fileName: "[project]/packages/frontend/app/results/sections/SummarySection.tsx",
-        lineNumber: 7,
-        columnNumber: 5
-    }, this);
-};
-const __TURBOPACK__default__export__ = SummarySection;
-}}),
+const e = new Error(`Could not parse module '[project]/packages/frontend/app/results/sections/SummarySection.tsx'
+
+Unexpected token `SummarySection`. Expected ... , *,  (, [, :, , ?, =, an identifier, public, protected, private, readonly, <.`);
+e.code = 'MODULE_UNPARSEABLE';
+throw e;}}),
 "[project]/packages/frontend/atoms/charts/RadarChart.tsx [app-ssr] (ecmascript)": ((__turbopack_context__) => {
 "use strict";
 
@@ -4107,4 +4066,4 @@ function ResultsPage() {
 
 };
 
-//# sourceMappingURL=%5Broot-of-the-server%5D__6f6c4ae4._.js.map
+//# sourceMappingURL=%5Broot-of-the-server%5D__e3595a63._.js.map

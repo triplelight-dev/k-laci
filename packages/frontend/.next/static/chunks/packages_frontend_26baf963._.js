@@ -2281,7 +2281,6 @@ const SummaryContent = ()=>{
         style: {
             display: 'flex',
             flexDirection: 'column',
-            gap: '2rem',
             backgroundColor: '#F8F8F8',
             padding: '10%',
             paddingTop: '12%',
@@ -2291,10 +2290,11 @@ const SummaryContent = ()=>{
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(SummarySection, {
                 title: summaryData.characteristics.title,
-                paragraphs: summaryData.characteristics.paragraphs
+                paragraphs: summaryData.characteristics.paragraphs,
+                isFirst: true
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/components/SummaryContent.tsx",
-                lineNumber: 43,
+                lineNumber: 42,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(SummarySection, {
@@ -2321,44 +2321,58 @@ const SummaryContent = ()=>{
     }, this);
 };
 _c = SummaryContent;
-const SummarySection = ({ title, paragraphs })=>{
+const SummarySection = ({ title, paragraphs, isFirst = false })=>{
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "flex flex-col gap-4",
+        style: {
+            display: 'flex',
+            borderTop: isFirst ? 'none' : '1px solid #D0D9E6',
+            paddingTop: isFirst ? '0' : '2rem',
+            paddingBottom: '2rem'
+        },
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 style: {
-                    fontSize: '2rem',
-                    fontWeight: 800
+                    flex: '0 0 200px',
+                    color: '#949FB0',
+                    fontSize: '1.5rem',
+                    fontWeight: 700,
+                    paddingRight: '2rem'
                 },
                 children: title
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/components/SummaryContent.tsx",
-                lineNumber: 70,
+                lineNumber: 80,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "flex flex-col gap-2",
+                style: {
+                    flex: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '1rem'
+                },
                 children: paragraphs.map((paragraph, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                        className: "text-gray-700",
                         style: {
+                            color: '#000000',
                             fontSize: '0.9rem',
-                            lineHeight: 2
+                            lineHeight: 1.5,
+                            margin: 0
                         },
                         children: paragraph
                     }, index, false, {
                         fileName: "[project]/packages/frontend/app/results/sections/components/SummaryContent.tsx",
-                        lineNumber: 73,
+                        lineNumber: 102,
                         columnNumber: 11
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/components/SummaryContent.tsx",
-                lineNumber: 71,
+                lineNumber: 93,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/packages/frontend/app/results/sections/components/SummaryContent.tsx",
-        lineNumber: 69,
+        lineNumber: 71,
         columnNumber: 5
     }, this);
 };

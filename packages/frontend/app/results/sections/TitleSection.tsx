@@ -105,7 +105,6 @@ const TitleSection: React.FC<TitleSectionProps> = ({ districtData }) => {
         width: '100%',
         alignItems: 'center',
         padding: '20px',
-        marginBottom: '250px',
       }}
     >
       <div

@@ -151,7 +151,7 @@ export default function ResultsPage() {
             style={{
               display: 'flex',
               flexDirection: 'column',
-              width: '50%',
+              width: '60%',
               gap: '100px',
               paddingTop: '100px',
             }}
