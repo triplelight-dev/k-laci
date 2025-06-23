@@ -30,7 +30,7 @@ export default function ResultsPage() {
   const [districtData, setDistrictData] = useState<DistrictData | null>(null);
   const [loading, setLoading] = useState(true);
   // const { isLoggedIn } = useAuth();
-  const isLoggedIn = false;
+  const isLoggedIn = true;
 
   // 지자체 데이터 매핑
   const districtsMap: Record<string, DistrictData> = {
