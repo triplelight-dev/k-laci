@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { categoryColors } from '@/constants/colors';
 
 const PreRegistrationSection: React.FC = () => {
   const title = '균형발전 전략의 시작, KLACI 인사이트 리포트';

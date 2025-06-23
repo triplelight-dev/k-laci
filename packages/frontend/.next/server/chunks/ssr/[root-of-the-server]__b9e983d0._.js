@@ -8,14 +8,6 @@ const mod = __turbopack_context__.x("next/dist/compiled/next-server/app-page-tur
 
 module.exports = mod;
 }}),
-"[externals]/next/dist/server/app-render/work-async-storage.external.js [external] (next/dist/server/app-render/work-async-storage.external.js, cjs)": (function(__turbopack_context__) {
-
-var { g: global, __dirname, m: module, e: exports } = __turbopack_context__;
-{
-const mod = __turbopack_context__.x("next/dist/server/app-render/work-async-storage.external.js", () => require("next/dist/server/app-render/work-async-storage.external.js"));
-
-module.exports = mod;
-}}),
 "[externals]/next/dist/server/app-render/action-async-storage.external.js [external] (next/dist/server/app-render/action-async-storage.external.js, cjs)": (function(__turbopack_context__) {
 
 var { g: global, __dirname, m: module, e: exports } = __turbopack_context__;
@@ -29,6 +21,14 @@ module.exports = mod;
 var { g: global, __dirname, m: module, e: exports } = __turbopack_context__;
 {
 const mod = __turbopack_context__.x("next/dist/server/app-render/work-unit-async-storage.external.js", () => require("next/dist/server/app-render/work-unit-async-storage.external.js"));
+
+module.exports = mod;
+}}),
+"[externals]/next/dist/server/app-render/work-async-storage.external.js [external] (next/dist/server/app-render/work-async-storage.external.js, cjs)": (function(__turbopack_context__) {
+
+var { g: global, __dirname, m: module, e: exports } = __turbopack_context__;
+{
+const mod = __turbopack_context__.x("next/dist/server/app-render/work-async-storage.external.js", () => require("next/dist/server/app-render/work-async-storage.external.js"));
 
 module.exports = mod;
 }}),
@@ -3022,8 +3022,10 @@ const TitleSection = ({ districtData })=>{
         }
         const targetDistrict = districts[targetIndex];
         console.log(`Navigating to ${targetDistrict.name} (${targetDistrict.rank}위)`);
-        // Dynamic route로 이동 - Next.js의 의도에 맞는 방식
-        router.push(`/results/${targetDistrict.id}`);
+        // replace를 사용하여 스크롤 위치 유지
+        router.replace(`/results/${targetDistrict.id}`, {
+            scroll: false
+        });
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         style: {
@@ -3158,9 +3160,9 @@ const TitleSection = ({ districtData })=>{
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 style: {
-                    fontSize: '3.5rem',
+                    fontSize: '3.2rem',
                     color: '#000',
-                    fontWeight: '800',
+                    fontWeight: '600',
                     marginBottom: '20px'
                 },
                 children: districtName
@@ -3749,7 +3751,7 @@ const RankingSection = ()=>{
 };
 const __TURBOPACK__default__export__ = RankingSection;
 }}),
-"[project]/packages/frontend/app/results/page.tsx [app-ssr] (ecmascript)": ((__turbopack_context__) => {
+"[project]/packages/frontend/app/results/[district]/page.tsx [app-ssr] (ecmascript)": ((__turbopack_context__) => {
 "use strict";
 
 var { g: global, __dirname } = __turbopack_context__;
@@ -3760,6 +3762,7 @@ __turbopack_context__.s({
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/styled-jsx/style.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$components$2f$layout$2f$ResultLayout$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/packages/frontend/components/layout/ResultLayout.tsx [app-ssr] (ecmascript)");
 // sections
 var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$DistrictSearchSection$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/packages/frontend/app/results/sections/DistrictSearchSection.tsx [app-ssr] (ecmascript)");
@@ -3783,18 +3786,117 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$
 ;
 ;
 ;
+;
 function ResultsPage() {
+    const params = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useParams"])();
+    const districtId = params.district;
     const [isFloating, setIsFloating] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [districtData, setDistrictData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(true);
+    // 지자체 데이터 매핑
+    const districtsMap = {
+        'seoul-gangnam': {
+            id: 'seoul-gangnam',
+            name: '서울시 강남구',
+            rank: 1
+        },
+        'seoul-songpa': {
+            id: 'seoul-songpa',
+            name: '서울시 송파구',
+            rank: 2
+        },
+        'jeonbuk-jeonju': {
+            id: 'jeonbuk-jeonju',
+            name: '전라북도 전주시',
+            rank: 3
+        },
+        'gyeonggi-seongnam': {
+            id: 'gyeonggi-seongnam',
+            name: '경기도 성남시',
+            rank: 4
+        },
+        'incheon-yeonsu': {
+            id: 'incheon-yeonsu',
+            name: '인천시 연수구',
+            rank: 5
+        }
+    };
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         const handleScroll = ()=>{
-            // DistrictSearchSection의 높이를 고려하여 스크롤 위치 계산
-            const scrollThreshold = 200; // 스크롤 임계값 (조정 가능)
+            const scrollThreshold = 200;
             const scrollY = window.scrollY;
             setIsFloating(scrollY > scrollThreshold);
         };
         window.addEventListener('scroll', handleScroll);
         return ()=>window.removeEventListener('scroll', handleScroll);
     }, []);
+    // districtId가 변경될 때마다 데이터 로드
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        const loadDistrictData = async ()=>{
+            setLoading(true);
+            try {
+                // 실제 구현에서는 API 호출
+                // const response = await fetch(`/api/districts/${districtId}`);
+                // const data = await response.json();
+                // 임시로 매핑된 데이터 사용
+                const data = districtsMap[districtId];
+                if (data) {
+                    setDistrictData(data);
+                } else {
+                    // 유효하지 않은 districtId인 경우 기본값 사용
+                    setDistrictData(districtsMap['jeonbuk-jeonju']);
+                }
+            } catch (error) {
+                console.error('Failed to load district data:', error);
+                // 에러 시 기본값 사용
+                setDistrictData(districtsMap['jeonbuk-jeonju']);
+            } finally{
+                setLoading(false);
+            }
+        };
+        if (districtId) {
+            loadDistrictData();
+        }
+    }, [
+        districtId
+    ]);
+    // URL 파라미터가 변경되었을 때 스크롤 위치 복원
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        const savedScrollY = sessionStorage.getItem('savedScrollY');
+        if (savedScrollY) {
+            // DOM이 완전히 렌더링된 후 스크롤 위치 복원
+            const timer = setTimeout(()=>{
+                window.scrollTo(0, parseInt(savedScrollY));
+                sessionStorage.removeItem('savedScrollY');
+            }, 200);
+            return ()=>clearTimeout(timer);
+        }
+    }, [
+        districtId
+    ]);
+    if (loading) {
+        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$components$2f$layout$2f$ResultLayout$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                style: {
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100vh',
+                    fontSize: '1.2rem',
+                    color: '#666'
+                },
+                children: "로딩 중..."
+            }, void 0, false, {
+                fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+                lineNumber: 102,
+                columnNumber: 9
+            }, this)
+        }, void 0, false, {
+            fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+            lineNumber: 101,
+            columnNumber: 7
+        }, this);
+    }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$components$2f$layout$2f$ResultLayout$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3808,13 +3910,13 @@ function ResultsPage() {
                 className: "jsx-c9be297a59958b1f",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$DistrictSearchSection$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
-                        fileName: "[project]/packages/frontend/app/results/page.tsx",
-                        lineNumber: 43,
+                        fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+                        lineNumber: 127,
                         columnNumber: 9
                     }, this),
                     !isFloating && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$DistrictSelectSection$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
-                        fileName: "[project]/packages/frontend/app/results/page.tsx",
-                        lineNumber: 46,
+                        fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+                        lineNumber: 129,
                         columnNumber: 25
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3838,40 +3940,42 @@ function ResultsPage() {
                             className: "jsx-c9be297a59958b1f",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$JewelChartSection$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
-                                    fileName: "[project]/packages/frontend/app/results/page.tsx",
-                                    lineNumber: 67,
+                                    fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+                                    lineNumber: 150,
                                     columnNumber: 13
                                 }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$TitleSection$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
-                                    fileName: "[project]/packages/frontend/app/results/page.tsx",
-                                    lineNumber: 68,
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$TitleSection$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+                                    districtData: districtData
+                                }, void 0, false, {
+                                    fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+                                    lineNumber: 151,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$SummarySection$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
-                                    fileName: "[project]/packages/frontend/app/results/page.tsx",
-                                    lineNumber: 69,
+                                    fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+                                    lineNumber: 152,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$RankingSection$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
-                                    fileName: "[project]/packages/frontend/app/results/page.tsx",
-                                    lineNumber: 70,
+                                    fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+                                    lineNumber: 153,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
-                            fileName: "[project]/packages/frontend/app/results/page.tsx",
-                            lineNumber: 58,
+                            fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+                            lineNumber: 141,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
-                        fileName: "[project]/packages/frontend/app/results/page.tsx",
-                        lineNumber: 48,
+                        fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+                        lineNumber: 131,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
-                fileName: "[project]/packages/frontend/app/results/page.tsx",
-                lineNumber: 34,
+                fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+                lineNumber: 118,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3882,13 +3986,13 @@ function ResultsPage() {
                 },
                 className: "jsx-c9be297a59958b1f",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$CategoryRankingSection$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
-                    fileName: "[project]/packages/frontend/app/results/page.tsx",
-                    lineNumber: 82,
+                    fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+                    lineNumber: 164,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
-                fileName: "[project]/packages/frontend/app/results/page.tsx",
-                lineNumber: 74,
+                fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+                lineNumber: 157,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3902,13 +4006,13 @@ function ResultsPage() {
                 },
                 className: "jsx-c9be297a59958b1f",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$PreRegistrationSection$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
-                    fileName: "[project]/packages/frontend/app/results/page.tsx",
-                    lineNumber: 95,
+                    fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+                    lineNumber: 177,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
-                fileName: "[project]/packages/frontend/app/results/page.tsx",
-                lineNumber: 85,
+                fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+                lineNumber: 167,
                 columnNumber: 7
             }, this),
             isFloating && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3924,13 +4028,13 @@ function ResultsPage() {
                 },
                 className: "jsx-c9be297a59958b1f",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$DistrictSelectSection$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
-                    fileName: "[project]/packages/frontend/app/results/page.tsx",
-                    lineNumber: 112,
+                    fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+                    lineNumber: 193,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
-                fileName: "[project]/packages/frontend/app/results/page.tsx",
-                lineNumber: 100,
+                fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+                lineNumber: 181,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -3939,8 +4043,8 @@ function ResultsPage() {
             }, void 0, false, void 0, this)
         ]
     }, void 0, true, {
-        fileName: "[project]/packages/frontend/app/results/page.tsx",
-        lineNumber: 33,
+        fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+        lineNumber: 117,
         columnNumber: 5
     }, this);
 }
@@ -3948,4 +4052,4 @@ function ResultsPage() {
 
 };
 
-//# sourceMappingURL=%5Broot-of-the-server%5D__3722ba02._.js.map
+//# sourceMappingURL=%5Broot-of-the-server%5D__b9e983d0._.js.map

@@ -3092,25 +3092,61 @@ __turbopack_context__.s({
     "default": (()=>__TURBOPACK__default__export__)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$atoms$2f$charts$2f$RadarChart$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/packages/frontend/atoms/charts/RadarChart.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$atoms$2f$badges$2f$RankBadge$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/packages/frontend/atoms/badges/RankBadge.tsx [app-client] (ecmascript)");
+;
+var _s = __turbopack_context__.k.signature();
 'use client';
 ;
 ;
-;
-const TitleSection = ()=>{
-    const chartData = [
-        85,
-        30,
-        80,
-        30,
-        25,
-        70,
-        40,
-        36
-    ];
-    const rank = 3; // 예시 데이터, 실제로는 props나 API에서 받아올 수 있습니다
-    const districtName = '전라북도 전주시';
+const TitleSection = ({ districtData })=>{
+    _s();
+    const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
+    // 기본값 설정
+    const rank = districtData?.rank || 3;
+    const rankText = `종합순위 ${rank}위`;
+    const districtName = districtData?.name || '전라북도 전주시';
+    // 다음/이전 지자체로 이동하는 함수
+    const handleNavigate = (direction)=>{
+        const districts = [
+            {
+                id: 'seoul-gangnam',
+                name: '서울시 강남구',
+                rank: 1
+            },
+            {
+                id: 'seoul-songpa',
+                name: '서울시 송파구',
+                rank: 2
+            },
+            {
+                id: 'jeonbuk-jeonju',
+                name: '전라북도 전주시',
+                rank: 3
+            },
+            {
+                id: 'gyeonggi-seongnam',
+                name: '경기도 성남시',
+                rank: 4
+            },
+            {
+                id: 'incheon-yeonsu',
+                name: '인천시 연수구',
+                rank: 5
+            }
+        ];
+        const currentIndex = districts.findIndex((d)=>d.id === districtData?.id);
+        let targetIndex;
+        if (direction === 'prev') {
+            targetIndex = currentIndex > 0 ? currentIndex - 1 : districts.length - 1;
+        } else {
+            targetIndex = currentIndex < districts.length - 1 ? currentIndex + 1 : 0;
+        }
+        const targetDistrict = districts[targetIndex];
+        console.log(`Navigating to ${targetDistrict.name} (${targetDistrict.rank}위)`);
+        // Dynamic route로 이동 - Next.js의 의도에 맞는 방식
+        router.push(`/results/${targetDistrict.id}`);
+    };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         style: {
             display: 'flex',
@@ -3121,41 +3157,159 @@ const TitleSection = ()=>{
             marginBottom: '250px'
         },
         children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$atoms$2f$charts$2f$RadarChart$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                data: chartData,
-                isJewel: true,
-                size: 300
-            }, void 0, false, {
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                style: {
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '20px',
+                    marginBottom: '20px'
+                },
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        onClick: ()=>handleNavigate('prev'),
+                        style: {
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            padding: '8px',
+                            borderRadius: '50%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            transition: 'background-color 0.2s ease'
+                        },
+                        onMouseEnter: (e)=>{
+                            e.currentTarget.style.backgroundColor = 'rgba(28, 63, 211, 0.1)';
+                        },
+                        onMouseLeave: (e)=>{
+                            e.currentTarget.style.backgroundColor = 'transparent';
+                        },
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                            width: "24",
+                            height: "24",
+                            viewBox: "0 0 24 24",
+                            fill: "none",
+                            xmlns: "http://www.w3.org/2000/svg",
+                            style: {
+                                transform: 'rotate(180deg)'
+                            },
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                d: "M7 17L17 7M17 7H7M17 7V17",
+                                stroke: "#1C3FD3",
+                                strokeWidth: "2",
+                                strokeLinecap: "round",
+                                strokeLinejoin: "round"
+                            }, void 0, false, {
+                                fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
+                                lineNumber: 102,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
+                            lineNumber: 94,
+                            columnNumber: 11
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
+                        lineNumber: 74,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        style: {
+                            fontSize: '1.2rem',
+                            color: '#1C3FD3',
+                            fontWeight: '600'
+                        },
+                        children: rankText
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
+                        lineNumber: 113,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        onClick: ()=>handleNavigate('next'),
+                        style: {
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            padding: '8px',
+                            borderRadius: '50%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            transition: 'background-color 0.2s ease'
+                        },
+                        onMouseEnter: (e)=>{
+                            e.currentTarget.style.backgroundColor = 'rgba(28, 63, 211, 0.1)';
+                        },
+                        onMouseLeave: (e)=>{
+                            e.currentTarget.style.backgroundColor = 'transparent';
+                        },
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                            width: "24",
+                            height: "24",
+                            viewBox: "0 0 24 24",
+                            fill: "none",
+                            xmlns: "http://www.w3.org/2000/svg",
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                d: "M7 17L17 7M17 7H7M17 7V17",
+                                stroke: "#1C3FD3",
+                                strokeWidth: "2",
+                                strokeLinecap: "round",
+                                strokeLinejoin: "round"
+                            }, void 0, false, {
+                                fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
+                                lineNumber: 151,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
+                            lineNumber: 144,
+                            columnNumber: 11
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
+                        lineNumber: 124,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
                 fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
-                lineNumber: 23,
+                lineNumber: 65,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 style: {
                     fontSize: '3.5rem',
                     color: '#000',
-                    fontWeight: '800'
+                    fontWeight: '800',
+                    marginBottom: '20px'
                 },
                 children: districtName
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
-                lineNumber: 24,
+                lineNumber: 163,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$atoms$2f$badges$2f$RankBadge$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                 rank: rank
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
-                lineNumber: 33,
+                lineNumber: 174,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/packages/frontend/app/results/sections/TitleSection.tsx",
-        lineNumber: 13,
+        lineNumber: 55,
         columnNumber: 5
     }, this);
 };
+_s(TitleSection, "fN7XvhJ+p5oE6+Xlo0NJmXpxjC8=", false, function() {
+    return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"]
+    ];
+});
 _c = TitleSection;
 const __TURBOPACK__default__export__ = TitleSection;
 var _c;
@@ -3205,7 +3359,7 @@ const PreRegistrationSection = ()=>{
                 children: title
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/PreRegistrationSection.tsx",
-                lineNumber: 29,
+                lineNumber: 28,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3217,7 +3371,7 @@ const PreRegistrationSection = ()=>{
                 children: descriptionLine1
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/PreRegistrationSection.tsx",
-                lineNumber: 41,
+                lineNumber: 40,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3229,7 +3383,7 @@ const PreRegistrationSection = ()=>{
                 children: descriptionLine2
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/PreRegistrationSection.tsx",
-                lineNumber: 50,
+                lineNumber: 49,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -3254,13 +3408,13 @@ const PreRegistrationSection = ()=>{
                 children: reservationButtonText
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/PreRegistrationSection.tsx",
-                lineNumber: 60,
+                lineNumber: 59,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/packages/frontend/app/results/sections/PreRegistrationSection.tsx",
-        lineNumber: 15,
+        lineNumber: 14,
         columnNumber: 5
     }, this);
 };
