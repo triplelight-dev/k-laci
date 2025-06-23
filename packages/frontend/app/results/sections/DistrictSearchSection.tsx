@@ -31,7 +31,7 @@ const DistrictSearchSection: React.FC = () => {
         padding: '20px',
         paddingTop: '60px',
         paddingBottom: '120px',
-        marginBottom: '50px',
+        position: 'relative',
       }}
     >
       <div

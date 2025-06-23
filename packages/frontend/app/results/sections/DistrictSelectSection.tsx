@@ -53,8 +53,9 @@ const DistrictSelectSection: React.FC = () => {
         gap: '16px',
         width: '100%',
         justifyContent: 'center',
-        padding: '20px',
-        marginBottom: '50px',
+        padding: '40px',
+        background: 'white',
+        borderBottom: '1px solid #E5E5E5',
       }}
     >
       <div
@@ -71,7 +72,6 @@ const DistrictSelectSection: React.FC = () => {
       </div>
       <div
         style={{
-          // width: '600px',
           display: 'flex',
           justifyContent: 'flex-start',
         }}

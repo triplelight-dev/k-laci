@@ -242,7 +242,6 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
             flexDirection: 'row',
             alignItems: 'center',
             gap: '8px',
-            marginTop: showDropdown ? '70px' : '0', // 드롭다운과 겹치지 않게
           }}
         >
           <div
