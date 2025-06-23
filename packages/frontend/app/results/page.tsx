@@ -1,3 +1,6 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import ResultLayout from '@/components/layout/ResultLayout';
 
 // sections
@@ -11,6 +14,21 @@ import PreRegistrationSection from './sections/PreRegistrationSection';
 import RankingSection from './sections/RankingSection';
 
 export default function ResultsPage() {
+  const [isFloating, setIsFloating] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // DistrictSearchSection의 높이를 고려하여 스크롤 위치 계산
+      const scrollThreshold = 200; // 스크롤 임계값 (조정 가능)
+      const scrollY = window.scrollY;
+      
+      setIsFloating(scrollY > scrollThreshold);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <ResultLayout>
       <div
@@ -22,17 +40,19 @@ export default function ResultsPage() {
           alignItems: 'center',
         }}
       >
+        <DistrictSearchSection />
+        
+        {/* 원래 위치의 DistrictSelectSection (플로팅이 아닐 때만 표시) */}
+        {!isFloating && <DistrictSelectSection />}
+        
         <div
           style={{
             display: 'flex',
             flexDirection: 'column',
             width: '75%',
-            // gap: '100px',
-            paddingTop: '70px',
+            // paddingTop: '70px',
           }}
         >
-          <DistrictSearchSection />
-          <DistrictSelectSection />
           <JewelChartSection />
         </div>
 
@@ -60,6 +80,35 @@ export default function ResultsPage() {
         <CategoryRankingSection />
       </div>
       <PreRegistrationSection />
+      
+      {/* 플로팅 DistrictSelectSection (플로팅일 때만 표시) */}
+      {isFloating && (
+        <div
+          style={{
+            position: 'fixed',
+            top: '30px', // 최상단에서 30px 간격
+            left: 0,
+            right: 0,
+            zIndex: 1000,
+            background: 'white',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+            animation: 'slideDown 0.3s ease-out',
+          }}
+        >
+          <DistrictSelectSection />
+        </div>
+      )}
+      
+      <style jsx>{`
+        @keyframes slideDown {
+          from {
+            transform: translateY(-100%);
+          }
+          to {
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </ResultLayout>
   );
 }

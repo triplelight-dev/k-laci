@@ -19,12 +19,31 @@ var _s = __turbopack_context__.k.signature();
 const Header = ()=>{
     _s();
     const pathname = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"])();
-    const isHome = pathname === '/';
-    const logoSrc = isHome ? '/klaci_logo_white.png' : '/klaci_logo_blue.png';
+    const logoSrc = '/klaci_logo_white.png';
+    // 현재 페이지 확인 함수
+    const isActivePage = (path)=>{
+        return pathname === path;
+    };
+    // Navigation 메뉴 데이터
+    const navigationItems = [
+        {
+            href: '/about',
+            label: '지역자산역량지수 소개'
+        },
+        {
+            href: '/summary',
+            label: '주요 분석 결과'
+        },
+        {
+            href: '/results',
+            label: '지자체별 리포트 조회'
+        }
+    ];
+    const loginButtonName = '로그인';
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
         style: {
             width: '100%',
-            backgroundColor: isHome ? 'transparent' : 'white'
+            backgroundColor: '#1C3FD3'
         },
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             style: {
@@ -38,101 +57,101 @@ const Header = ()=>{
                     style: {
                         display: 'flex',
                         gap: '35px',
-                        color: isHome ? 'white' : '#264DBC'
+                        color: 'white'
                     },
-                    children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                            href: "/",
-                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                                src: logoSrc,
-                                alt: "K-LACI Logo",
-                                style: {
-                                    height: '30px',
-                                    width: 'auto',
-                                    marginRight: '15px'
-                                }
-                            }, void 0, false, {
-                                fileName: "[project]/packages/frontend/components/Header.tsx",
-                                lineNumber: 35,
-                                columnNumber: 13
-                            }, this)
+                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                        href: "/",
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                            src: logoSrc,
+                            alt: "K-LACI Logo",
+                            style: {
+                                height: '30px',
+                                width: 'auto',
+                                marginRight: '15px'
+                            }
                         }, void 0, false, {
                             fileName: "[project]/packages/frontend/components/Header.tsx",
-                            lineNumber: 34,
-                            columnNumber: 11
-                        }, this),
+                            lineNumber: 57,
+                            columnNumber: 13
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/components/Header.tsx",
+                        lineNumber: 56,
+                        columnNumber: 11
+                    }, this)
+                }, void 0, false, {
+                    fileName: "[project]/packages/frontend/components/Header.tsx",
+                    lineNumber: 48,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    style: {
+                        display: 'flex',
+                        gap: '50px',
+                        color: 'white'
+                    },
+                    children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
                             className: "flex items-center",
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "flex items-center gap-[35px]",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                        href: "/about",
-                                        className: "font-poppins text-[0.9375rem] leading-[110%] font-semibold tracking-[-0.45px] text-black",
-                                        children: "About"
-                                    }, void 0, false, {
+                                className: "flex items-center gap-[50px]",
+                                children: navigationItems.map((item)=>{
+                                    const isActive = isActivePage(item.href);
+                                    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                        href: item.href,
+                                        className: "font-poppins text-[0.9375rem] leading-[110%] tracking-[-0.45px]",
+                                        style: {
+                                            color: isActive ? 'white' : '#BED3FF',
+                                            fontWeight: isActive ? 800 : 400,
+                                            textDecoration: 'none'
+                                        },
+                                        children: item.label
+                                    }, item.href, false, {
                                         fileName: "[project]/packages/frontend/components/Header.tsx",
-                                        lineNumber: 45,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                        href: "/summary",
-                                        className: "font-poppins text-[0.9375rem] leading-[110%] font-semibold tracking-[-0.45px] text-black",
-                                        children: "Summary"
-                                    }, void 0, false, {
-                                        fileName: "[project]/packages/frontend/components/Header.tsx",
-                                        lineNumber: 51,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                        href: "/results",
-                                        className: "font-poppins text-[0.9375rem] leading-[110%] font-semibold tracking-[-0.45px] text-black",
-                                        children: "Results"
-                                    }, void 0, false, {
-                                        fileName: "[project]/packages/frontend/components/Header.tsx",
-                                        lineNumber: 57,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true, {
+                                        lineNumber: 79,
+                                        columnNumber: 19
+                                    }, this);
+                                })
+                            }, void 0, false, {
                                 fileName: "[project]/packages/frontend/components/Header.tsx",
-                                lineNumber: 44,
+                                lineNumber: 75,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/packages/frontend/components/Header.tsx",
-                            lineNumber: 42,
+                            lineNumber: 73,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                            style: {
+                                border: '1px solid white',
+                                borderRadius: '8px',
+                                color: 'white',
+                                backgroundColor: 'transparent',
+                                cursor: 'pointer',
+                                padding: '10px 25px'
+                            },
+                            children: loginButtonName
+                        }, void 0, false, {
+                            fileName: "[project]/packages/frontend/components/Header.tsx",
+                            lineNumber: 97,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/packages/frontend/components/Header.tsx",
-                    lineNumber: 26,
-                    columnNumber: 9
-                }, this),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                    style: {
-                        border: 'none',
-                        color: isHome ? 'white' : '#264DBC',
-                        backgroundColor: 'transparent',
-                        cursor: 'pointer',
-                        padding: '10px 20px'
-                    },
-                    children: "로그인"
-                }, void 0, false, {
-                    fileName: "[project]/packages/frontend/components/Header.tsx",
-                    lineNumber: 68,
+                    lineNumber: 65,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/packages/frontend/components/Header.tsx",
-            lineNumber: 18,
+            lineNumber: 40,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/packages/frontend/components/Header.tsx",
-        lineNumber: 12,
+        lineNumber: 34,
         columnNumber: 5
     }, this);
 };

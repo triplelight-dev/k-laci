@@ -5,14 +5,36 @@ import { usePathname } from 'next/navigation';
 
 const Header = () => {
   const pathname = usePathname();
-  const isHome = pathname === '/';
-  const logoSrc = isHome ? '/klaci_logo_white.png' : '/klaci_logo_blue.png';
+  const logoSrc = '/klaci_logo_white.png';
+
+  // 현재 페이지 확인 함수
+  const isActivePage = (path: string) => {
+    return pathname === path;
+  };
+
+  // Navigation 메뉴 데이터
+  const navigationItems = [
+    {
+      href: '/about',
+      label: '지역자산역량지수 소개',
+    },
+    {
+      href: '/summary',
+      label: '주요 분석 결과',
+    },
+    {
+      href: '/results',
+      label: '지자체별 리포트 조회',
+    },
+  ];
+
+  const loginButtonName = '로그인';
 
   return (
     <header
       style={{
         width: '100%',
-        backgroundColor: isHome ? 'transparent' : 'white',
+        backgroundColor: '#1C3FD3',
       }}
     >
       <div
@@ -28,7 +50,7 @@ const Header = () => {
           style={{
             display: 'flex',
             gap: '35px',
-            color: isHome ? 'white' : '#264DBC',
+            color: 'white',
           }}
         >
           <Link href="/">
@@ -38,44 +60,53 @@ const Header = () => {
               style={{ height: '30px', width: 'auto', marginRight: '15px' }}
             />
           </Link>
+        </div>
+
+        <div
+          style={{
+            display: 'flex',
+            gap: '50px',
+            color: 'white',
+          }}
+        >
           {/* Navigation  */}
           <nav className="flex items-center">
             {/* Menu Links Container */}
-            <div className="flex items-center gap-[35px]">
-              <Link
-                href="/about"
-                className="font-poppins text-[0.9375rem] leading-[110%] font-semibold tracking-[-0.45px] text-black"
-              >
-                About
-              </Link>
-              <Link
-                href="/summary"
-                className="font-poppins text-[0.9375rem] leading-[110%] font-semibold tracking-[-0.45px] text-black"
-              >
-                Summary
-              </Link>
-              <Link
-                href="/results"
-                className="font-poppins text-[0.9375rem] leading-[110%] font-semibold tracking-[-0.45px] text-black"
-              >
-                Results
-              </Link>
+            <div className="flex items-center gap-[50px]">
+              {navigationItems.map((item) => {
+                const isActive = isActivePage(item.href);
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="font-poppins text-[0.9375rem] leading-[110%] tracking-[-0.45px]"
+                    style={{
+                      color: isActive ? 'white' : '#BED3FF',
+                      fontWeight: isActive ? 800 : 400,
+                      textDecoration: 'none',
+                    }}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
             </div>
           </nav>
-        </div>
 
-        {/* Login Button */}
-        <button
-          style={{
-            border: 'none',
-            color: isHome ? 'white' : '#264DBC',
-            backgroundColor: 'transparent',
-            cursor: 'pointer',
-            padding: '10px 20px',
-          }}
-        >
-          로그인
-        </button>
+          {/* Login Button */}
+          <button
+            style={{
+              border: '1px solid white',
+              borderRadius: '8px',
+              color: 'white',
+              backgroundColor: 'transparent',
+              cursor: 'pointer',
+              padding: '10px 25px',
+            }}
+          >
+            {loginButtonName}
+          </button>
+        </div>
       </div>
     </header>
   );

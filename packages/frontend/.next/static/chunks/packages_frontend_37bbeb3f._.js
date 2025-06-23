@@ -19,12 +19,31 @@ var _s = __turbopack_context__.k.signature();
 const Header = ()=>{
     _s();
     const pathname = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"])();
-    const isHome = pathname === '/';
-    const logoSrc = isHome ? '/klaci_logo_white.png' : '/klaci_logo_blue.png';
+    const logoSrc = '/klaci_logo_white.png';
+    // 현재 페이지 확인 함수
+    const isActivePage = (path)=>{
+        return pathname === path;
+    };
+    // Navigation 메뉴 데이터
+    const navigationItems = [
+        {
+            href: '/about',
+            label: '지역자산역량지수 소개'
+        },
+        {
+            href: '/summary',
+            label: '주요 분석 결과'
+        },
+        {
+            href: '/results',
+            label: '지자체별 리포트 조회'
+        }
+    ];
+    const loginButtonName = '로그인';
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
         style: {
             width: '100%',
-            backgroundColor: isHome ? 'transparent' : 'white'
+            backgroundColor: '#1C3FD3'
         },
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             style: {
@@ -38,101 +57,101 @@ const Header = ()=>{
                     style: {
                         display: 'flex',
                         gap: '35px',
-                        color: isHome ? 'white' : '#264DBC'
+                        color: 'white'
                     },
-                    children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                            href: "/",
-                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                                src: logoSrc,
-                                alt: "K-LACI Logo",
-                                style: {
-                                    height: '30px',
-                                    width: 'auto',
-                                    marginRight: '15px'
-                                }
-                            }, void 0, false, {
-                                fileName: "[project]/packages/frontend/components/Header.tsx",
-                                lineNumber: 35,
-                                columnNumber: 13
-                            }, this)
+                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                        href: "/",
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                            src: logoSrc,
+                            alt: "K-LACI Logo",
+                            style: {
+                                height: '30px',
+                                width: 'auto',
+                                marginRight: '15px'
+                            }
                         }, void 0, false, {
                             fileName: "[project]/packages/frontend/components/Header.tsx",
-                            lineNumber: 34,
-                            columnNumber: 11
-                        }, this),
+                            lineNumber: 57,
+                            columnNumber: 13
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/components/Header.tsx",
+                        lineNumber: 56,
+                        columnNumber: 11
+                    }, this)
+                }, void 0, false, {
+                    fileName: "[project]/packages/frontend/components/Header.tsx",
+                    lineNumber: 48,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    style: {
+                        display: 'flex',
+                        gap: '50px',
+                        color: 'white'
+                    },
+                    children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
                             className: "flex items-center",
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "flex items-center gap-[35px]",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                        href: "/about",
-                                        className: "font-poppins text-[0.9375rem] leading-[110%] font-semibold tracking-[-0.45px] text-black",
-                                        children: "About"
-                                    }, void 0, false, {
+                                className: "flex items-center gap-[50px]",
+                                children: navigationItems.map((item)=>{
+                                    const isActive = isActivePage(item.href);
+                                    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                        href: item.href,
+                                        className: "font-poppins text-[0.9375rem] leading-[110%] tracking-[-0.45px]",
+                                        style: {
+                                            color: isActive ? 'white' : '#BED3FF',
+                                            fontWeight: isActive ? 800 : 400,
+                                            textDecoration: 'none'
+                                        },
+                                        children: item.label
+                                    }, item.href, false, {
                                         fileName: "[project]/packages/frontend/components/Header.tsx",
-                                        lineNumber: 45,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                        href: "/summary",
-                                        className: "font-poppins text-[0.9375rem] leading-[110%] font-semibold tracking-[-0.45px] text-black",
-                                        children: "Summary"
-                                    }, void 0, false, {
-                                        fileName: "[project]/packages/frontend/components/Header.tsx",
-                                        lineNumber: 51,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                        href: "/results",
-                                        className: "font-poppins text-[0.9375rem] leading-[110%] font-semibold tracking-[-0.45px] text-black",
-                                        children: "Results"
-                                    }, void 0, false, {
-                                        fileName: "[project]/packages/frontend/components/Header.tsx",
-                                        lineNumber: 57,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true, {
+                                        lineNumber: 79,
+                                        columnNumber: 19
+                                    }, this);
+                                })
+                            }, void 0, false, {
                                 fileName: "[project]/packages/frontend/components/Header.tsx",
-                                lineNumber: 44,
+                                lineNumber: 75,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/packages/frontend/components/Header.tsx",
-                            lineNumber: 42,
+                            lineNumber: 73,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                            style: {
+                                border: '1px solid white',
+                                borderRadius: '8px',
+                                color: 'white',
+                                backgroundColor: 'transparent',
+                                cursor: 'pointer',
+                                padding: '10px 25px'
+                            },
+                            children: loginButtonName
+                        }, void 0, false, {
+                            fileName: "[project]/packages/frontend/components/Header.tsx",
+                            lineNumber: 97,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/packages/frontend/components/Header.tsx",
-                    lineNumber: 26,
-                    columnNumber: 9
-                }, this),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                    style: {
-                        border: 'none',
-                        color: isHome ? 'white' : '#264DBC',
-                        backgroundColor: 'transparent',
-                        cursor: 'pointer',
-                        padding: '10px 20px'
-                    },
-                    children: "로그인"
-                }, void 0, false, {
-                    fileName: "[project]/packages/frontend/components/Header.tsx",
-                    lineNumber: 68,
+                    lineNumber: 65,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/packages/frontend/components/Header.tsx",
-            lineNumber: 18,
+            lineNumber: 40,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/packages/frontend/components/Header.tsx",
-        lineNumber: 12,
+        lineNumber: 34,
         columnNumber: 5
     }, this);
 };
@@ -440,7 +459,35 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$imag
 var _s = __turbopack_context__.k.signature();
 ;
 ;
-const SearchTextInput = ({ value, onChange, placeholder = '지자체 검색', recentSearches = [], onRecentSearchClick })=>{
+// 지자체별 아이콘 매핑 (예시 데이터)
+const getRegionIcon = (regionName)=>{
+    const iconMap = {
+        서울특별시: '/icons/seoul.svg',
+        부산광역시: '/icons/busan.svg',
+        대구광역시: '/icons/daegu.svg',
+        인천광역시: '/icons/incheon.svg',
+        광주광역시: '/icons/gwangju.svg',
+        대전광역시: '/icons/daejeon.svg',
+        울산광역시: '/icons/ulsan.svg',
+        세종특별자치시: '/icons/sejong.svg',
+        제주특별자치도: '/icons/jeju.svg',
+        서귀포시: '/icons/jeju.svg',
+        제주시: '/icons/jeju.svg'
+    };
+    // 정확한 매칭 시도
+    if (iconMap[regionName]) {
+        return iconMap[regionName];
+    }
+    // 부분 매칭 시도
+    for (const [key, icon] of Object.entries(iconMap)){
+        if (regionName.includes(key) || key.includes(regionName)) {
+            return icon;
+        }
+    }
+    // 기본 아이콘
+    return '/districts/sample_dist_icon.png';
+};
+const SearchTextInput = ({ value, onChange, placeholder = '제주 서귀포시', recentSearches = [], onRecentSearchClick, regionData = [] })=>{
     _s();
     const [showDropdown, setShowDropdown] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [highlightedIndex, setHighlightedIndex] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(-1);
@@ -483,19 +530,23 @@ const SearchTextInput = ({ value, onChange, placeholder = '지자체 검색', re
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         style: {
             width: '100%',
-            position: 'relative'
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center'
         },
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 style: {
+                    width: '100%',
                     display: 'flex',
                     alignItems: 'center',
-                    borderRadius: '50px',
+                    borderRadius: '10px',
                     backgroundColor: 'white',
                     padding: '18px',
                     gap: '10px',
-                    boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.1)',
-                    marginBottom: recentSearches.length > 0 ? '20px' : '0'
+                    background: '#1638B1',
+                    marginBottom: recentSearches.length > 0 ? '25px' : '0'
                 },
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -507,12 +558,12 @@ const SearchTextInput = ({ value, onChange, placeholder = '지자체 검색', re
                             height: 15
                         }, void 0, false, {
                             fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                            lineNumber: 79,
+                            lineNumber: 128,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                        lineNumber: 78,
+                        lineNumber: 127,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -529,20 +580,20 @@ const SearchTextInput = ({ value, onChange, placeholder = '지자체 검색', re
                             height: '100%',
                             backgroundColor: 'transparent',
                             fontSize: '1rem',
-                            color: 'black',
-                            border: 'none',
+                            border: '1px solid transparent',
+                            color: 'white',
                             outline: 'none'
                         },
                         autoComplete: "off"
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                        lineNumber: 81,
+                        lineNumber: 130,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                lineNumber: 66,
+                lineNumber: 114,
                 columnNumber: 7
             }, this),
             showDropdown && filteredSearches.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -555,32 +606,89 @@ const SearchTextInput = ({ value, onChange, placeholder = '지자체 검색', re
                     borderRadius: '16px',
                     boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
                     zIndex: 10,
-                    padding: '8px 0',
+                    padding: '3px',
                     maxHeight: '180px',
                     overflowY: 'auto'
                 },
-                children: filteredSearches.map((search, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        onMouseDown: ()=>{
-                            onChange(search);
-                            onRecentSearchClick?.(search);
-                            setShowDropdown(false);
-                        },
-                        style: {
-                            padding: '10px 24px',
-                            cursor: 'pointer',
-                            background: idx === highlightedIndex ? '#F0F2F5' : 'white',
-                            color: '#222',
-                            fontSize: '15px'
-                        },
-                        children: search
-                    }, idx, false, {
-                        fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                        lineNumber: 121,
-                        columnNumber: 13
-                    }, this))
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    style: {
+                        background: '#F8F9FA',
+                        borderRadius: '13px',
+                        overflow: 'hidden'
+                    },
+                    children: filteredSearches.map((search, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            onMouseDown: ()=>{
+                                onChange(search);
+                                onRecentSearchClick?.(search);
+                                setShowDropdown(false);
+                            },
+                            onMouseEnter: ()=>setHighlightedIndex(idx),
+                            onMouseLeave: ()=>setHighlightedIndex(-1),
+                            style: {
+                                padding: '12px 24px',
+                                cursor: 'pointer',
+                                background: idx === highlightedIndex ? '#D9D9E8' : 'transparent',
+                                color: '#222',
+                                fontSize: '15px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '12px',
+                                transition: 'background-color 0.2s ease',
+                                userSelect: 'none'
+                            },
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    style: {
+                                        width: '24px',
+                                        height: '24px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        flexShrink: 0
+                                    },
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                        src: getRegionIcon(search),
+                                        alt: `${search} 아이콘`,
+                                        width: 20,
+                                        height: 20,
+                                        style: {
+                                            objectFit: 'contain'
+                                        }
+                                    }, void 0, false, {
+                                        fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
+                                        lineNumber: 211,
+                                        columnNumber: 19
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
+                                    lineNumber: 201,
+                                    columnNumber: 17
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    style: {
+                                        flex: 1,
+                                        fontWeight: idx === highlightedIndex ? '500' : '400'
+                                    },
+                                    children: search
+                                }, void 0, false, {
+                                    fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
+                                    lineNumber: 223,
+                                    columnNumber: 17
+                                }, this)
+                            ]
+                        }, idx, true, {
+                            fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
+                            lineNumber: 177,
+                            columnNumber: 15
+                        }, this))
+                }, void 0, false, {
+                    fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
+                    lineNumber: 169,
+                    columnNumber: 11
+                }, this)
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                lineNumber: 105,
+                lineNumber: 154,
                 columnNumber: 9
             }, this),
             recentSearches.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -595,57 +703,55 @@ const SearchTextInput = ({ value, onChange, placeholder = '지자체 검색', re
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         style: {
                             fontSize: '14px',
-                            color: '#B0B3BA',
+                            color: 'white',
                             background: 'transparent',
                             marginRight: '20px'
                         },
                         children: "최근 검색어"
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                        lineNumber: 153,
+                        lineNumber: 248,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         style: {
                             display: 'flex',
                             flexDirection: 'row',
-                            gap: '4px',
+                            gap: '15px',
                             flexWrap: 'wrap'
                         },
                         children: recentSearches.map((search, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                 onClick: ()=>onRecentSearchClick?.(search),
                                 style: {
                                     fontSize: '14px',
-                                    color: '#000000',
+                                    color: 'white',
                                     cursor: 'pointer',
                                     background: 'transparent',
-                                    border: 'none',
-                                    padding: 0
+                                    border: '1px solid white',
+                                    borderRadius: '10px',
+                                    padding: '6px 12px'
                                 },
-                                children: [
-                                    search,
-                                    index < recentSearches.length - 1 ? ', ' : ''
-                                ]
-                            }, index, true, {
+                                children: search
+                            }, index, false, {
                                 fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                                lineNumber: 172,
+                                lineNumber: 267,
                                 columnNumber: 15
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                        lineNumber: 163,
+                        lineNumber: 258,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                lineNumber: 144,
+                lineNumber: 239,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-        lineNumber: 65,
+        lineNumber: 105,
         columnNumber: 5
     }, this);
 };
@@ -681,7 +787,6 @@ const DistrictSearchSection = ()=>{
         setSearchValue(value);
     };
     const title = '229개 지자체중 우리 지역 찾아보기';
-    const text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt';
     const mockRecentSearches = [
         '서울시 강남구',
         '부산시 해운대구',
@@ -692,19 +797,19 @@ const DistrictSearchSection = ()=>{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            gap: '20px',
-            backgroundColor: '#F4F4F4',
-            borderRadius: '30px',
+            width: '100%',
+            gap: '30px',
+            backgroundColor: '#3352D7',
+            color: 'white',
             padding: '20px',
             paddingTop: '60px',
-            paddingBottom: '60px',
-            marginBottom: '50px'
+            paddingBottom: '120px'
         },
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 style: {
-                    fontSize: '2.2rem',
-                    fontWeight: 'bold'
+                    fontSize: '1.9rem',
+                    fontWeight: '600'
                 },
                 children: [
                     title,
@@ -712,15 +817,7 @@ const DistrictSearchSection = ()=>{
                 ]
             }, void 0, true, {
                 fileName: "[project]/packages/frontend/app/results/sections/DistrictSearchSection.tsx",
-                lineNumber: 38,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                className: "text-center text-base leading-relaxed text-gray-600",
-                children: text
-            }, void 0, false, {
-                fileName: "[project]/packages/frontend/app/results/sections/DistrictSearchSection.tsx",
-                lineNumber: 47,
+                lineNumber: 36,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -735,18 +832,18 @@ const DistrictSearchSection = ()=>{
                     onRecentSearchClick: handleRecentSearchClick
                 }, void 0, false, {
                     fileName: "[project]/packages/frontend/app/results/sections/DistrictSearchSection.tsx",
-                    lineNumber: 52,
+                    lineNumber: 46,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/DistrictSearchSection.tsx",
-                lineNumber: 51,
+                lineNumber: 45,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/packages/frontend/app/results/sections/DistrictSearchSection.tsx",
-        lineNumber: 24,
+        lineNumber: 22,
         columnNumber: 5
     }, this);
 };
@@ -1001,7 +1098,8 @@ const DistrictSelectSection = ()=>{
             width: '100%',
             justifyContent: 'center',
             padding: '20px',
-            marginBottom: '50px'
+            background: 'white',
+            borderBottom: '1px solid #E5E5E5'
         },
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1015,17 +1113,16 @@ const DistrictSelectSection = ()=>{
                     onChange: handleProvinceChange
                 }, void 0, false, {
                     fileName: "[project]/packages/frontend/app/results/sections/DistrictSelectSection.tsx",
-                    lineNumber: 66,
+                    lineNumber: 67,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/DistrictSelectSection.tsx",
-                lineNumber: 60,
+                lineNumber: 61,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 style: {
-                    // width: '600px',
                     display: 'flex',
                     justifyContent: 'flex-start'
                 },
@@ -1041,7 +1138,7 @@ const DistrictSelectSection = ()=>{
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/DistrictSelectSection.tsx",
-                lineNumber: 72,
+                lineNumber: 73,
                 columnNumber: 7
             }, this)
         ]
