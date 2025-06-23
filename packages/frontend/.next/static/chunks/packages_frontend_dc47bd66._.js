@@ -1150,11 +1150,11 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$imag
 var _s = __turbopack_context__.k.signature();
 ;
 ;
-const CommonSelect = ({ value, options, onChange, disabled = false })=>{
+const CommonSelect = ({ value, options, onChange, disabled = false, defaultLabel = '선택' })=>{
     _s();
     const [isOpen, setIsOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const containerRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
-    const selectedLabel = options.find((option)=>option.value === value)?.label || '선택';
+    const selectedLabel = options.find((option)=>option.value === value)?.label || defaultLabel;
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "CommonSelect.useEffect": ()=>{
             const handleClickOutside = {
@@ -1178,11 +1178,11 @@ const CommonSelect = ({ value, options, onChange, disabled = false })=>{
             position: 'relative',
             display: 'flex',
             alignItems: 'center',
-            border: '1px solid #264DBC',
+            // border: '1px solid #264DBC',
             borderRadius: '50px',
             padding: '0 20px',
             height: '50px',
-            minWidth: '180px',
+            minWidth: '100px',
             backgroundColor: 'white',
             opacity: disabled ? 0.5 : 1,
             cursor: disabled ? 'not-allowed' : 'pointer',
@@ -1201,7 +1201,7 @@ const CommonSelect = ({ value, options, onChange, disabled = false })=>{
                 children: selectedLabel
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/atoms/select/CommonSelect.tsx",
-                lineNumber: 64,
+                lineNumber: 66,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1215,12 +1215,12 @@ const CommonSelect = ({ value, options, onChange, disabled = false })=>{
                     height: 7
                 }, void 0, false, {
                     fileName: "[project]/packages/frontend/app/atoms/select/CommonSelect.tsx",
-                    lineNumber: 68,
+                    lineNumber: 74,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/atoms/select/CommonSelect.tsx",
-                lineNumber: 67,
+                lineNumber: 73,
                 columnNumber: 7
             }, this),
             isOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -1257,18 +1257,18 @@ const CommonSelect = ({ value, options, onChange, disabled = false })=>{
                         children: option.label
                     }, option.value, false, {
                         fileName: "[project]/packages/frontend/app/atoms/select/CommonSelect.tsx",
-                        lineNumber: 90,
+                        lineNumber: 96,
                         columnNumber: 13
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/atoms/select/CommonSelect.tsx",
-                lineNumber: 72,
+                lineNumber: 78,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/packages/frontend/app/atoms/select/CommonSelect.tsx",
-        lineNumber: 44,
+        lineNumber: 46,
         columnNumber: 5
     }, this);
 };
@@ -1358,7 +1358,7 @@ const MOCK_DATA = {
         ]
     }
 };
-const DistrictSelectSection = ()=>{
+const DistrictSelectSection = ({ isFloating = false })=>{
     _s();
     const [selectedProvince, setSelectedProvince] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
     const [selectedDistrict, setSelectedDistrict] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
@@ -1373,12 +1373,13 @@ const DistrictSelectSection = ()=>{
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         style: {
             display: 'flex',
-            gap: '16px',
+            gap: isFloating ? '12px' : '16px',
             width: '100%',
             justifyContent: 'center',
-            padding: '40px',
-            background: 'white',
-            borderBottom: '1px solid #E5E5E5'
+            padding: isFloating ? '8px 16px' : '40px',
+            borderRadius: isFloating ? '12px' : '20px',
+            height: isFloating ? '66px' : 'auto',
+            alignItems: 'center'
         },
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1389,15 +1390,16 @@ const DistrictSelectSection = ()=>{
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$atoms$2f$select$2f$CommonSelect$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                     value: selectedProvince,
                     options: MOCK_DATA.provinces,
-                    onChange: handleProvinceChange
+                    onChange: handleProvinceChange,
+                    defaultLabel: "광역명"
                 }, void 0, false, {
                     fileName: "[project]/packages/frontend/app/results/sections/DistrictSelectSection.tsx",
-                    lineNumber: 67,
+                    lineNumber: 74,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/DistrictSelectSection.tsx",
-                lineNumber: 61,
+                lineNumber: 68,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1409,21 +1411,22 @@ const DistrictSelectSection = ()=>{
                     value: selectedDistrict,
                     options: districtOptions,
                     onChange: handleDistrictChange,
-                    disabled: !selectedProvince
+                    disabled: !selectedProvince,
+                    defaultLabel: "지자체명"
                 }, void 0, false, {
                     fileName: "[project]/packages/frontend/app/results/sections/DistrictSelectSection.tsx",
-                    lineNumber: 79,
+                    lineNumber: 87,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/DistrictSelectSection.tsx",
-                lineNumber: 73,
+                lineNumber: 81,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/packages/frontend/app/results/sections/DistrictSelectSection.tsx",
-        lineNumber: 50,
+        lineNumber: 56,
         columnNumber: 5
     }, this);
 };
@@ -4421,13 +4424,21 @@ function ResultsPage() {
                     right: 0,
                     zIndex: 1000,
                     background: 'white',
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                    animation: 'slideDown 0.3s ease-out'
+                    borderRadius: '20px',
+                    width: '80%',
+                    margin: '0 auto',
+                    // boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                    animation: 'slideDown 0.3s ease-out',
+                    height: '64px',
+                    display: 'flex',
+                    alignItems: 'center'
                 },
                 className: "jsx-c9be297a59958b1f",
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$DistrictSelectSection$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$DistrictSelectSection$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                    isFloating: true
+                }, void 0, false, {
                     fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                    lineNumber: 203,
+                    lineNumber: 209,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {

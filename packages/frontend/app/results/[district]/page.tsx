@@ -196,11 +196,17 @@ export default function ResultsPage() {
             right: 0,
             zIndex: 1000,
             background: 'white',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+            borderRadius: '20px',
+            width: '80%',
+            margin: '0 auto',
+            // boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
             animation: 'slideDown 0.3s ease-out',
+            height: '64px',
+            display: 'flex',
+            alignItems: 'center',
           }}
         >
-          <DistrictSelectSection />
+          <DistrictSelectSection isFloating={true} />
         </div>
       )}
 
