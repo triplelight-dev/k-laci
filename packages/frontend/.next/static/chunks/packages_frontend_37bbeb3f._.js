@@ -459,7 +459,35 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$imag
 var _s = __turbopack_context__.k.signature();
 ;
 ;
-const SearchTextInput = ({ value, onChange, placeholder = '제주 서귀포시', recentSearches = [], onRecentSearchClick })=>{
+// 지자체별 아이콘 매핑 (예시 데이터)
+const getRegionIcon = (regionName)=>{
+    const iconMap = {
+        서울특별시: '/icons/seoul.svg',
+        부산광역시: '/icons/busan.svg',
+        대구광역시: '/icons/daegu.svg',
+        인천광역시: '/icons/incheon.svg',
+        광주광역시: '/icons/gwangju.svg',
+        대전광역시: '/icons/daejeon.svg',
+        울산광역시: '/icons/ulsan.svg',
+        세종특별자치시: '/icons/sejong.svg',
+        제주특별자치도: '/icons/jeju.svg',
+        서귀포시: '/icons/jeju.svg',
+        제주시: '/icons/jeju.svg'
+    };
+    // 정확한 매칭 시도
+    if (iconMap[regionName]) {
+        return iconMap[regionName];
+    }
+    // 부분 매칭 시도
+    for (const [key, icon] of Object.entries(iconMap)){
+        if (regionName.includes(key) || key.includes(regionName)) {
+            return icon;
+        }
+    }
+    // 기본 아이콘
+    return '/districts/sample_dist_icon.png';
+};
+const SearchTextInput = ({ value, onChange, placeholder = '제주 서귀포시', recentSearches = [], onRecentSearchClick, regionData = [] })=>{
     _s();
     const [showDropdown, setShowDropdown] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [highlightedIndex, setHighlightedIndex] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(-1);
@@ -530,12 +558,12 @@ const SearchTextInput = ({ value, onChange, placeholder = '제주 서귀포시',
                             height: 15
                         }, void 0, false, {
                             fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                            lineNumber: 88,
+                            lineNumber: 128,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                        lineNumber: 87,
+                        lineNumber: 127,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -552,18 +580,20 @@ const SearchTextInput = ({ value, onChange, placeholder = '제주 서귀포시',
                             height: '100%',
                             backgroundColor: 'transparent',
                             fontSize: '1rem',
-                            border: '1px solid transparent'
+                            border: '1px solid transparent',
+                            color: 'white',
+                            outline: 'none'
                         },
                         autoComplete: "off"
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                        lineNumber: 90,
+                        lineNumber: 130,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                lineNumber: 74,
+                lineNumber: 114,
                 columnNumber: 7
             }, this),
             showDropdown && filteredSearches.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -576,32 +606,89 @@ const SearchTextInput = ({ value, onChange, placeholder = '제주 서귀포시',
                     borderRadius: '16px',
                     boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
                     zIndex: 10,
-                    padding: '8px 0',
+                    padding: '3px',
                     maxHeight: '180px',
                     overflowY: 'auto'
                 },
-                children: filteredSearches.map((search, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        onMouseDown: ()=>{
-                            onChange(search);
-                            onRecentSearchClick?.(search);
-                            setShowDropdown(false);
-                        },
-                        style: {
-                            padding: '10px 24px',
-                            cursor: 'pointer',
-                            background: idx === highlightedIndex ? '#F0F2F5' : 'white',
-                            color: '#222',
-                            fontSize: '15px'
-                        },
-                        children: search
-                    }, idx, false, {
-                        fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                        lineNumber: 128,
-                        columnNumber: 13
-                    }, this))
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    style: {
+                        background: '#F8F9FA',
+                        borderRadius: '13px',
+                        overflow: 'hidden'
+                    },
+                    children: filteredSearches.map((search, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            onMouseDown: ()=>{
+                                onChange(search);
+                                onRecentSearchClick?.(search);
+                                setShowDropdown(false);
+                            },
+                            onMouseEnter: ()=>setHighlightedIndex(idx),
+                            onMouseLeave: ()=>setHighlightedIndex(-1),
+                            style: {
+                                padding: '12px 24px',
+                                cursor: 'pointer',
+                                background: idx === highlightedIndex ? '#D9D9E8' : 'transparent',
+                                color: '#222',
+                                fontSize: '15px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '12px',
+                                transition: 'background-color 0.2s ease',
+                                userSelect: 'none'
+                            },
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    style: {
+                                        width: '24px',
+                                        height: '24px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        flexShrink: 0
+                                    },
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                        src: getRegionIcon(search),
+                                        alt: `${search} 아이콘`,
+                                        width: 20,
+                                        height: 20,
+                                        style: {
+                                            objectFit: 'contain'
+                                        }
+                                    }, void 0, false, {
+                                        fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
+                                        lineNumber: 211,
+                                        columnNumber: 19
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
+                                    lineNumber: 201,
+                                    columnNumber: 17
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    style: {
+                                        flex: 1,
+                                        fontWeight: idx === highlightedIndex ? '500' : '400'
+                                    },
+                                    children: search
+                                }, void 0, false, {
+                                    fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
+                                    lineNumber: 223,
+                                    columnNumber: 17
+                                }, this)
+                            ]
+                        }, idx, true, {
+                            fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
+                            lineNumber: 177,
+                            columnNumber: 15
+                        }, this))
+                }, void 0, false, {
+                    fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
+                    lineNumber: 169,
+                    columnNumber: 11
+                }, this)
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                lineNumber: 112,
+                lineNumber: 154,
                 columnNumber: 9
             }, this),
             recentSearches.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -623,7 +710,7 @@ const SearchTextInput = ({ value, onChange, placeholder = '제주 서귀포시',
                         children: "최근 검색어"
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                        lineNumber: 160,
+                        lineNumber: 248,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -647,24 +734,24 @@ const SearchTextInput = ({ value, onChange, placeholder = '제주 서귀포시',
                                 children: search
                             }, index, false, {
                                 fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                                lineNumber: 179,
+                                lineNumber: 267,
                                 columnNumber: 15
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                        lineNumber: 170,
+                        lineNumber: 258,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                lineNumber: 151,
+                lineNumber: 239,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-        lineNumber: 65,
+        lineNumber: 105,
         columnNumber: 5
     }, this);
 };
