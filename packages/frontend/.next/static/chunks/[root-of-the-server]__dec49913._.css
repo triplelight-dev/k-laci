@@ -235,6 +235,10 @@
   gap: 35px;
 }
 
+.gap-\[50px\] {
+  gap: 50px;
+}
+
 .overflow-x-auto {
   overflow-x: auto;
 }
