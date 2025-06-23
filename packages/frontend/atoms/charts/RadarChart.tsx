@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 type Props = {
   data: number[]; // [0~100] 값 8개
@@ -9,6 +9,9 @@ type Props = {
 };
 
 const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
+  const [hoveredPoint, setHoveredPoint] = useState<number | null>(null);
+  const [hoveredArea, setHoveredArea] = useState<'top' | 'bottom' | null>(null);
+
   const center = size / 2;
   const radius = size * 0.4;
 
@@ -19,6 +22,8 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
   const fontSize = {
     category: Math.round(size * 0.032), // 기존 16px (500px 기준)
     value: Math.round(size * 0.02), // 기존 10px (500px 기준)
+    tooltip: Math.round(size * 0.024), // 툴팁용 12px (500px 기준)
+    area: Math.round(size * 0.028), // 영역 툴팁용 14px (500px 기준)
   };
 
   // 라벨 위치 오프셋도 size에 비례하도록 조정
@@ -88,14 +93,16 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
         display: 'block',
         margin: 0,
         padding: 0,
+        cursor: 'pointer',
       }}
       viewBox={
         isJewel
           ? `${center - radius} ${center - radius} ${radius * 2} ${radius * 2}`
           : `0 0 ${size} ${size}`
       }
+      className="radar-chart"
     >
-      {/* 오른쪽 반원 배경 (0도 ~ 180도) - radius 크기까지만 */}
+      {/* 기존 오른쪽 반원 배경 (0도 ~ 180도) - radius 크기까지만 */}
       {!isJewel && (
         <>
           <path
@@ -141,6 +148,53 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
               );
             })}
         </mask>
+
+        {/* 호버 효과를 위한 마스크들 */}
+        <mask id="hoverTopMask">
+          <rect width={jewelSize} height={jewelSize} fill="white" />
+          {/* 180도 가로선 아래쪽을 검은색으로 마스킹 (위쪽만 보이게) */}
+          <rect
+            x={center - radius}
+            y={center}
+            width={radius * 2}
+            height={radius}
+            fill="black"
+          />
+        </mask>
+
+        <mask id="hoverBottomMask">
+          <rect width={jewelSize} height={jewelSize} fill="white" />
+          {/* 180도 가로선 위쪽을 검은색으로 마스킹 (아래쪽만 보이게) */}
+          <rect
+            x={center - radius}
+            y={0}
+            width={radius * 2}
+            height={center}
+            fill="black"
+          />
+        </mask>
+
+        {/* 호버 효과를 위한 스타일 */}
+        <style>
+          {`
+            .radar-chart:hover .jewel-triangle {
+              opacity: 0 !important;
+            }
+            .radar-chart:hover .hover-top-overlay {
+              opacity: 1 !important;
+            }
+            .radar-chart:hover .hover-bottom-overlay {
+              opacity: 1 !important;
+            }
+            .radar-chart:hover .data-point {
+              opacity: 1 !important;
+            }
+            .radar-chart:hover .data-point:hover {
+              r: 6 !important;
+              stroke-width: 2 !important;
+            }
+          `}
+        </style>
 
         {categories.map((category, i) => {
           const pct = Math.min(100, (vals[i] / 100) * 100);
@@ -216,7 +270,7 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
         })}
       </defs>
 
-      {/* 💎 보석 삼각형 */}
+      {/* 보석 삼각형 */}
       {points.map((pt, i) => {
         const next = points[(i + 1) % numAxes];
         return (
@@ -227,9 +281,150 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
             fillOpacity={0.7}
             stroke="white"
             strokeWidth={1}
+            className="jewel-triangle"
+            style={{
+              transition: 'opacity 0.3s ease',
+            }}
           />
         );
       })}
+
+      {/* 호버 효과를 위한 오버레이 레이어들 */}
+      {!isJewel && (
+        <>
+          {/* 상단 오버레이 (파란색) */}
+          <g mask="url(#hoverTopMask)">
+            {points.map((pt, i) => {
+              const next = points[(i + 1) % numAxes];
+              return (
+                <path
+                  key={`top-${i}`}
+                  d={`M${center},${center} L${pt.x},${pt.y} L${next.x},${next.y} Z`}
+                  fill="#3352D7"
+                  fillOpacity={1}
+                  stroke="white"
+                  strokeWidth={1}
+                  className="hover-top-overlay"
+                  style={{
+                    opacity: 0,
+                    transition: 'opacity 0.3s ease',
+                  }}
+                />
+              );
+            })}
+          </g>
+
+          {/* 하단 오버레이 (회색) */}
+          <g mask="url(#hoverBottomMask)">
+            {points.map((pt, i) => {
+              const next = points[(i + 1) % numAxes];
+              return (
+                <path
+                  key={`bottom-${i}`}
+                  d={`M${center},${center} L${pt.x},${pt.y} L${next.x},${next.y} Z`}
+                  fill="#95A6C1"
+                  fillOpacity={1}
+                  stroke="white"
+                  strokeWidth={1}
+                  className="hover-bottom-overlay"
+                  style={{
+                    opacity: 0,
+                    transition: 'opacity 0.3s ease',
+                  }}
+                />
+              );
+            })}
+          </g>
+        </>
+      )}
+
+      {/* 투명한 호버 영역들 */}
+      {!isJewel && (
+        <>
+          {/* 상단 호버 영역 */}
+          <path
+            d={`M ${center - radius} ${center - radius} 
+                L ${center + radius} ${center - radius}
+                L ${center + radius} ${center}
+                L ${center - radius} ${center}
+                Z`}
+            fill="transparent"
+            onMouseEnter={() => setHoveredArea('top')}
+            onMouseLeave={() => setHoveredArea(null)}
+            style={{ cursor: 'pointer' }}
+          />
+          
+          {/* 하단 호버 영역 */}
+          <path
+            d={`M ${center - radius} ${center} 
+                L ${center + radius} ${center}
+                L ${center + radius} ${center + radius}
+                L ${center - radius} ${center + radius}
+                Z`}
+            fill="transparent"
+            onMouseEnter={() => setHoveredArea('bottom')}
+            onMouseLeave={() => setHoveredArea(null)}
+            style={{ cursor: 'pointer' }}
+          />
+        </>
+      )}
+
+      {/* 📍 데이터 포인트 (작은 동그라미) */}
+      {!isJewel &&
+        points.map((pt, i) => {
+          // 180도 가로선 기준으로 상단/하단 판별 (center가 180도 가로선)
+          const isTop = pt.y <= center;
+          const pointColor = isTop ? '#3352D7' : '#95A6C1';
+
+          return (
+            <g key={`point-${i}`}>
+              {/* 데이터 포인트 동그라미 */}
+              <circle
+                cx={pt.x}
+                cy={pt.y}
+                r={4}
+                fill="white"
+                stroke={pointColor}
+                strokeWidth={1.5}
+                className="data-point"
+                style={{
+                  opacity: 0,
+                  transition:
+                    'opacity 0.3s ease, r 0.2s ease, stroke-width 0.2s ease',
+                  cursor: 'pointer',
+                }}
+                onMouseEnter={() => setHoveredPoint(i)}
+                onMouseLeave={() => setHoveredPoint(null)}
+              />
+
+              {/* 툴팁 */}
+              {hoveredPoint === i && (
+                <g>
+                  {/* 툴팁 배경 */}
+                  <rect
+                    x={pt.x + 10}
+                    y={pt.y - 25}
+                    width={40}
+                    height={30}
+                    rx={5}
+                    fill="rgba(0, 0, 0, 0.8)"
+                  />
+                  {/* 툴팁 텍스트 */}
+                  <text
+                    x={pt.x + 30}
+                    y={pt.y - 8}
+                    textAnchor="middle"
+                    fontSize={fontSize.tooltip}
+                    fill="white"
+                    fontWeight="bold"
+                  >
+                    {vals[i]}
+                  </text>
+                </g>
+              )}
+            </g>
+          );
+        })}
 
       {/* 🌀 원형 격자 (5개: 20,40,60,80,100) */}
       {!isJewel &&
@@ -242,6 +437,7 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
             fill="none"
             stroke="#AAA"
             strokeWidth={0.5}
+            strokeDasharray={rate === 1.0 ? "none" : "2 2"}
           />
         ))}
 
@@ -259,90 +455,20 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
           />
         ))}
 
-      {/* ➕ 십자형 점선 + 값 라벨 */}
+      {/* ➕ 가로 점선만 (세로 점선 제거, 숫자 라벨 제거) */}
       {!isJewel && (
-        <>
-          <line
-            x1={center - radius}
-            y1={center}
-            x2={center + radius}
-            y2={center}
-            stroke="#CCC"
-            strokeWidth={0.5}
-            strokeDasharray="4 4"
-          />
-          <line
-            x1={center}
-            y1={center - radius}
-            x2={center}
-            y2={center + radius}
-            stroke="#CCC"
-            strokeWidth={0.5}
-            strokeDasharray="4 4"
-          />
-          {/* 0 중앙에 한 번만 */}
-          <text
-            x={center}
-            y={center}
-            textAnchor="middle"
-            dy="0.35em"
-            fontSize={fontSize.value}
-            fill="#CCC"
-          >
-            0
-          </text>
-          {[20, 40, 60, 80, 100].map((val) => {
-            const r = (val / 100) * radius;
-            return (
-              <g key={val}>
-                <text
-                  x={center + r}
-                  y={center}
-                  dx={labelOffset.value}
-                  dy="0.35em"
-                  fontSize={fontSize.value}
-                  fill="#CCC"
-                >
-                  {val}
-                </text>
-                <text
-                  x={center - r}
-                  y={center}
-                  dx={-labelOffset.value}
-                  dy="0.35em"
-                  textAnchor="end"
-                  fontSize={fontSize.value}
-                  fill="#CCC"
-                >
-                  {val}
-                </text>
-                <text
-                  x={center}
-                  y={center + r}
-                  dy="1.2em"
-                  textAnchor="middle"
-                  fontSize={fontSize.value}
-                  fill="#CCC"
-                >
-                  {val}
-                </text>
-                <text
-                  x={center}
-                  y={center - r}
-                  dy="-0.3em"
-                  textAnchor="middle"
-                  fontSize={fontSize.value}
-                  fill="#CCC"
-                >
-                  {val}
-                </text>
-              </g>
-            );
-          })}
-        </>
+        <line
+          x1={center - radius - 40}
+          y1={center}
+          x2={center + radius + 40}
+          y2={center}
+          stroke="#CCC"
+          strokeWidth={0.5}
+          strokeDasharray="4 4"
+        />
       )}
 
-      {/* 🏷️ 축 라벨 */}
+      {/*️ 축 라벨 */}
       {!isJewel &&
         points.map((pt, i) => {
           let deg = (pt.angle * 180) / Math.PI + 90;
@@ -359,6 +485,11 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
           const y =
             center + (radius + labelOffset.category) * Math.sin(pt.angle);
 
+          // 인구성장형, 안전복원형 외에는 회색으로
+          const textColor = ['인구성장형', '안전복원형'].includes(categories[i])
+            ? colorMap[categories[i]]
+            : '#999999';
+
           return (
             <text
               key={i}
@@ -368,13 +499,39 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
               dy="0.4em"
               fontSize={fontSize.category}
               fontWeight="bold"
-              fill={colorMap[categories[i]]}
+              fill={textColor}
               transform={`rotate(${deg} ${x} ${y})`}
             >
               {categories[i]}
             </text>
           );
         })}
+
+      {/* 영역 호버 툴팁 - 호버 영역 밖에 배치 */}
+      {!isJewel && hoveredArea && (
+        <g>
+          {/* 툴팁 배경 */}
+          <rect
+            x={center - 50}
+            y={hoveredArea === 'top' ? center - 120 : center + 60}
+            width={100}
+            height={30}
+            rx={5}
+            fill="rgba(0, 0, 0, 0.8)"
+          />
+          {/* 툴팁 텍스트 */}
+          <text
+            x={center}
+            y={hoveredArea === 'top' ? center - 100 : center + 80}
+            textAnchor="middle"
+            fontSize={fontSize.area}
+            fill="white"
+            fontWeight="bold"
+          >
+            {hoveredArea === 'top' ? '강점영역' : '약점영역'}
+          </text>
+        </g>
+      )}
     </svg>
   );
 };

@@ -23,12 +23,18 @@ body {
   width: 100%;
   min-height: 100vh;
   overflow-x: hidden; /* Prevent horizontal scroll */
+  /* Prevent overscroll bounce */
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: "Pretendard Variable", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  /* Additional overscroll prevention for body */
+  overscroll-behavior-y: none;
+  position: relative;
 }
 
 /* Ensure full width for root elements */
@@ -36,6 +42,19 @@ body {
 main {
   width: 100%;
   min-height: 100vh;
+  /* Prevent overscroll bounce on main content */
+  overscroll-behavior: none;
+}
+
+/* Prevent overscroll on all scrollable elements */
+* {
+  overscroll-behavior: none;
+}
+
+/* Specific overscroll prevention for scrollable containers */
+.scroll-container {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 a {

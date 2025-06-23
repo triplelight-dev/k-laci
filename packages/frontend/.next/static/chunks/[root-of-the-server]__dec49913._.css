@@ -223,10 +223,6 @@
   align-items: flex-start;
 }
 
-.justify-between {
-  justify-content: space-between;
-}
-
 .justify-center {
   justify-content: center;
 }
@@ -332,6 +328,8 @@
 }
 
 html, body {
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
   width: 100%;
   min-height: 100vh;
   margin: 0;
@@ -342,12 +340,24 @@ html, body {
 body {
   background: var(--background);
   color: var(--foreground);
+  overscroll-behavior-y: none;
   font-family: Pretendard Variable, -apple-system, BlinkMacSystemFont, system-ui, Roboto, Helvetica Neue, Segoe UI, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, sans-serif;
+  position: relative;
 }
 
 #__next, main {
+  overscroll-behavior: none;
   width: 100%;
   min-height: 100vh;
+}
+
+* {
+  overscroll-behavior: none;
+}
+
+.scroll-container {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 a {

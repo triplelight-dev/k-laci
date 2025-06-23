@@ -723,6 +723,87 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
     __turbopack_context__.k.registerExports(module, globalThis.$RefreshHelpers$);
 }
 }}),
+"[project]/packages/frontend/store/slices/authSlice.ts [app-client] (ecmascript)": ((__turbopack_context__) => {
+"use strict";
+
+var { g: global, __dirname, k: __turbopack_refresh__, m: module } = __turbopack_context__;
+{
+__turbopack_context__.s({
+    "createAuthSlice": (()=>createAuthSlice)
+});
+const initialState = {
+    isLoggedIn: false
+};
+const createAuthSlice = (set)=>({
+        auth: initialState,
+        setIsLoggedIn: (isLoggedIn)=>{
+            set((state)=>({
+                    auth: {
+                        ...state.auth,
+                        isLoggedIn
+                    }
+                }));
+        }
+    });
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(module, globalThis.$RefreshHelpers$);
+}
+}}),
+"[project]/packages/frontend/store/index.ts [app-client] (ecmascript)": ((__turbopack_context__) => {
+"use strict";
+
+var { g: global, __dirname, k: __turbopack_refresh__, m: module } = __turbopack_context__;
+{
+__turbopack_context__.s({
+    "useAuth": (()=>useAuth),
+    "useAuthActions": (()=>useAuthActions),
+    "useStore": (()=>useStore)
+});
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zustand$2f$esm$2f$react$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/zustand/esm/react.mjs [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zustand$2f$esm$2f$middleware$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/zustand/esm/middleware.mjs [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$store$2f$slices$2f$authSlice$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/packages/frontend/store/slices/authSlice.ts [app-client] (ecmascript)");
+var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.signature();
+;
+;
+;
+const useStore = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zustand$2f$esm$2f$react$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["create"])()((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zustand$2f$esm$2f$middleware$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["devtools"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zustand$2f$esm$2f$middleware$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["persist"])((...args)=>({
+        ...(0, __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$store$2f$slices$2f$authSlice$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createAuthSlice"])(...args)
+    }), {
+    name: 'k-laci-store',
+    partialize: (state)=>({
+            auth: {
+                isLoggedIn: state.auth.isLoggedIn
+            }
+        })
+})));
+const useAuth = ()=>{
+    _s();
+    return useStore({
+        "useAuth.useStore": (state)=>state.auth
+    }["useAuth.useStore"]);
+};
+_s(useAuth, "tRpAAnpj2/w/nb/IphdrVKKBg0Y=", false, function() {
+    return [
+        useStore
+    ];
+});
+const useAuthActions = ()=>{
+    _s1();
+    return useStore({
+        "useAuthActions.useStore": (state)=>({
+                setIsLoggedIn: state.setIsLoggedIn
+            })
+    }["useAuthActions.useStore"]);
+};
+_s1(useAuthActions, "tRpAAnpj2/w/nb/IphdrVKKBg0Y=", false, function() {
+    return [
+        useStore
+    ];
+});
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(module, globalThis.$RefreshHelpers$);
+}
+}}),
 "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx [app-client] (ecmascript)": ((__turbopack_context__) => {
 "use strict";
 
@@ -2312,15 +2393,9 @@ __turbopack_context__.s({
     "default": (()=>__TURBOPACK__default__export__)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
-;
-var _s = __turbopack_context__.k.signature();
 'use client';
 ;
 const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
-    _s();
-    const [hoveredPoint, setHoveredPoint] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
-    const [hoveredArea, setHoveredArea] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const center = size / 2;
     const radius = size * 0.4;
     // isJewel일 때의 실제 크기 계산 (보석 크기만큼만)
@@ -2328,9 +2403,7 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
     // 폰트 크기 비율 계산 (기존 크기 기준)
     const fontSize = {
         category: Math.round(size * 0.032),
-        value: Math.round(size * 0.02),
-        tooltip: Math.round(size * 0.024),
-        area: Math.round(size * 0.028)
+        value: Math.round(size * 0.02)
     };
     // 라벨 위치 오프셋도 size에 비례하도록 조정
     const labelOffset = {
@@ -2414,11 +2487,9 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
         style: {
             display: 'block',
             margin: 0,
-            padding: 0,
-            cursor: 'pointer'
+            padding: 0
         },
         viewBox: isJewel ? `${center - radius} ${center - radius} ${radius * 2} ${radius * 2}` : `0 0 ${size} ${size}`,
-        className: "radar-chart",
         children: [
             !isJewel && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
                 children: [
@@ -2431,7 +2502,7 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
                         fill: "#F4F4F4"
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                        lineNumber: 108,
+                        lineNumber: 101,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -2444,7 +2515,7 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
                         mask: "url(#labelMask)"
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                        lineNumber: 118,
+                        lineNumber: 111,
                         columnNumber: 11
                     }, this)
                 ]
@@ -2460,7 +2531,7 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
                                 fill: "white"
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                lineNumber: 132,
+                                lineNumber: 125,
                                 columnNumber: 11
                             }, this),
                             !isJewel && points.map((pt, i)=>{
@@ -2473,96 +2544,14 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
                                     fill: "black"
                                 }, i, false, {
                                     fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                    lineNumber: 141,
+                                    lineNumber: 134,
                                     columnNumber: 17
                                 }, this);
                             })
                         ]
                     }, void 0, true, {
                         fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                        lineNumber: 131,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("mask", {
-                        id: "hoverTopMask",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                                width: jewelSize,
-                                height: jewelSize,
-                                fill: "white"
-                            }, void 0, false, {
-                                fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                lineNumber: 154,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                                x: center - radius,
-                                y: center,
-                                width: radius * 2,
-                                height: radius,
-                                fill: "black"
-                            }, void 0, false, {
-                                fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                lineNumber: 156,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                        lineNumber: 153,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("mask", {
-                        id: "hoverBottomMask",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                                width: jewelSize,
-                                height: jewelSize,
-                                fill: "white"
-                            }, void 0, false, {
-                                fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                lineNumber: 166,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                                x: center - radius,
-                                y: 0,
-                                width: radius * 2,
-                                height: center,
-                                fill: "black"
-                            }, void 0, false, {
-                                fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                lineNumber: 168,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                        lineNumber: 165,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("style", {
-                        children: `
-            .radar-chart:hover .jewel-triangle {
-              opacity: 0 !important;
-            }
-            .radar-chart:hover .hover-top-overlay {
-              opacity: 1 !important;
-            }
-            .radar-chart:hover .hover-bottom-overlay {
-              opacity: 1 !important;
-            }
-            .radar-chart:hover .data-point {
-              opacity: 1 !important;
-            }
-            .radar-chart:hover .data-point:hover {
-              r: 6 !important;
-              stroke-width: 2 !important;
-            }
-          `
-                    }, void 0, false, {
-                        fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                        lineNumber: 178,
+                        lineNumber: 124,
                         columnNumber: 9
                     }, this),
                     categories.map((category, i)=>{
@@ -2581,7 +2570,7 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
                                         stopColor: "#F56542"
                                     }, void 0, false, {
                                         fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                        lineNumber: 213,
+                                        lineNumber: 159,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
@@ -2589,7 +2578,7 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
                                         stopColor: "#F56542"
                                     }, void 0, false, {
                                         fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                        lineNumber: 214,
+                                        lineNumber: 160,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
@@ -2597,7 +2586,7 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
                                         stopColor: "#74BF9E"
                                     }, void 0, false, {
                                         fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                        lineNumber: 215,
+                                        lineNumber: 161,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
@@ -2605,13 +2594,13 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
                                         stopColor: "#74BF9E"
                                     }, void 0, false, {
                                         fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                        lineNumber: 216,
+                                        lineNumber: 162,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, i, true, {
                                 fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                lineNumber: 205,
+                                lineNumber: 151,
                                 columnNumber: 15
                             }, this);
                         }
@@ -2628,7 +2617,7 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
                                         stopColor: "#F56542"
                                     }, void 0, false, {
                                         fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                        lineNumber: 230,
+                                        lineNumber: 176,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
@@ -2637,7 +2626,7 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
                                         stopOpacity: 0.5
                                     }, void 0, false, {
                                         fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                        lineNumber: 231,
+                                        lineNumber: 177,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
@@ -2646,13 +2635,13 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
                                         stopOpacity: 0.5
                                     }, void 0, false, {
                                         fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                        lineNumber: 236,
+                                        lineNumber: 182,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, i, true, {
                                 fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                lineNumber: 222,
+                                lineNumber: 168,
                                 columnNumber: 15
                             }, this);
                         }
@@ -2669,7 +2658,7 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
                                         stopColor: "#F56542"
                                     }, void 0, false, {
                                         fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                        lineNumber: 250,
+                                        lineNumber: 196,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
@@ -2677,7 +2666,7 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
                                         stopColor: "#F4B04D"
                                     }, void 0, false, {
                                         fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                        lineNumber: 251,
+                                        lineNumber: 197,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
@@ -2685,13 +2674,13 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
                                         stopColor: "#F4B04D"
                                     }, void 0, false, {
                                         fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                        lineNumber: 252,
+                                        lineNumber: 198,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, i, true, {
                                 fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                lineNumber: 242,
+                                lineNumber: 188,
                                 columnNumber: 15
                             }, this);
                         }
@@ -2707,7 +2696,7 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
                                     stopColor: startColor
                                 }, void 0, false, {
                                     fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                    lineNumber: 265,
+                                    lineNumber: 211,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
@@ -2715,7 +2704,7 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
                                     stopColor: endColor
                                 }, void 0, false, {
                                     fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                    lineNumber: 266,
+                                    lineNumber: 212,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
@@ -2723,20 +2712,20 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
                                     stopColor: endColor
                                 }, void 0, false, {
                                     fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                    lineNumber: 267,
+                                    lineNumber: 213,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, i, true, {
                             fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                            lineNumber: 257,
+                            lineNumber: 203,
                             columnNumber: 13
                         }, this);
                     })
                 ]
             }, void 0, true, {
                 fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                lineNumber: 130,
+                lineNumber: 123,
                 columnNumber: 7
             }, this),
             points.map((pt, i)=>{
@@ -2746,175 +2735,11 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
                     fill: `url(#grad${i})`,
                     fillOpacity: 0.7,
                     stroke: "white",
-                    strokeWidth: 1,
-                    className: "jewel-triangle",
-                    style: {
-                        transition: 'opacity 0.3s ease'
-                    }
+                    strokeWidth: 1
                 }, i, false, {
                     fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                    lineNumber: 277,
+                    lineNumber: 223,
                     columnNumber: 11
-                }, this);
-            }),
-            !isJewel && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("g", {
-                        mask: "url(#hoverTopMask)",
-                        children: points.map((pt, i)=>{
-                            const next = points[(i + 1) % numAxes];
-                            return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                                d: `M${center},${center} L${pt.x},${pt.y} L${next.x},${next.y} Z`,
-                                fill: "#3352D7",
-                                fillOpacity: 1,
-                                stroke: "white",
-                                strokeWidth: 1,
-                                className: "hover-top-overlay",
-                                style: {
-                                    opacity: 0,
-                                    transition: 'opacity 0.3s ease'
-                                }
-                            }, `top-${i}`, false, {
-                                fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                lineNumber: 300,
-                                columnNumber: 17
-                            }, this);
-                        })
-                    }, void 0, false, {
-                        fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                        lineNumber: 296,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("g", {
-                        mask: "url(#hoverBottomMask)",
-                        children: points.map((pt, i)=>{
-                            const next = points[(i + 1) % numAxes];
-                            return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                                d: `M${center},${center} L${pt.x},${pt.y} L${next.x},${next.y} Z`,
-                                fill: "#95A6C1",
-                                fillOpacity: 1,
-                                stroke: "white",
-                                strokeWidth: 1,
-                                className: "hover-bottom-overlay",
-                                style: {
-                                    opacity: 0,
-                                    transition: 'opacity 0.3s ease'
-                                }
-                            }, `bottom-${i}`, false, {
-                                fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                lineNumber: 322,
-                                columnNumber: 17
-                            }, this);
-                        })
-                    }, void 0, false, {
-                        fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                        lineNumber: 318,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true),
-            !isJewel && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                        d: `M ${center - radius} ${center - radius} 
-                L ${center + radius} ${center - radius}
-                L ${center + radius} ${center}
-                L ${center - radius} ${center}
-                Z`,
-                        fill: "transparent",
-                        onMouseEnter: ()=>setHoveredArea('top'),
-                        onMouseLeave: ()=>setHoveredArea(null),
-                        style: {
-                            cursor: 'pointer'
-                        }
-                    }, void 0, false, {
-                        fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                        lineNumber: 345,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                        d: `M ${center - radius} ${center} 
-                L ${center + radius} ${center}
-                L ${center + radius} ${center + radius}
-                L ${center - radius} ${center + radius}
-                Z`,
-                        fill: "transparent",
-                        onMouseEnter: ()=>setHoveredArea('bottom'),
-                        onMouseLeave: ()=>setHoveredArea(null),
-                        style: {
-                            cursor: 'pointer'
-                        }
-                    }, void 0, false, {
-                        fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                        lineNumber: 358,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true),
-            !isJewel && points.map((pt, i)=>{
-                // 180도 가로선 기준으로 상단/하단 판별 (center가 180도 가로선)
-                const isTop = pt.y <= center;
-                const pointColor = isTop ? '#3352D7' : '#95A6C1';
-                return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("g", {
-                    children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                            cx: pt.x,
-                            cy: pt.y,
-                            r: 4,
-                            fill: "white",
-                            stroke: pointColor,
-                            strokeWidth: 1.5,
-                            className: "data-point",
-                            style: {
-                                opacity: 0,
-                                transition: 'opacity 0.3s ease, r 0.2s ease, stroke-width 0.2s ease',
-                                cursor: 'pointer'
-                            },
-                            onMouseEnter: ()=>setHoveredPoint(i),
-                            onMouseLeave: ()=>setHoveredPoint(null)
-                        }, void 0, false, {
-                            fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                            lineNumber: 382,
-                            columnNumber: 15
-                        }, this),
-                        hoveredPoint === i && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("g", {
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                                    x: pt.x + 10,
-                                    y: pt.y - 25,
-                                    width: 40,
-                                    height: 30,
-                                    rx: 5,
-                                    fill: "rgba(0, 0, 0, 0.8)"
-                                }, void 0, false, {
-                                    fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                    lineNumber: 404,
-                                    columnNumber: 19
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("text", {
-                                    x: pt.x + 30,
-                                    y: pt.y - 8,
-                                    textAnchor: "middle",
-                                    fontSize: fontSize.tooltip,
-                                    fill: "white",
-                                    fontWeight: "bold",
-                                    children: vals[i]
-                                }, void 0, false, {
-                                    fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                                    lineNumber: 413,
-                                    columnNumber: 19
-                                }, this)
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                            lineNumber: 402,
-                            columnNumber: 17
-                        }, this)
-                    ]
-                }, `point-${i}`, true, {
-                    fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                    lineNumber: 380,
-                    columnNumber: 13
                 }, this);
             }),
             !isJewel && [
@@ -2929,11 +2754,10 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
                     r: radius * rate,
                     fill: "none",
                     stroke: "#AAA",
-                    strokeWidth: 0.5,
-                    strokeDasharray: rate === 1.0 ? "none" : "2 2"
+                    strokeWidth: 0.5
                 }, i, false, {
                     fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                    lineNumber: 432,
+                    lineNumber: 237,
                     columnNumber: 11
                 }, this)),
             !isJewel && points.map((pt, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
@@ -2945,22 +2769,122 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
                     strokeWidth: 0.5
                 }, i, false, {
                     fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                    lineNumber: 447,
+                    lineNumber: 251,
                     columnNumber: 11
                 }, this)),
-            !isJewel && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
-                x1: center - radius - 40,
-                y1: center,
-                x2: center + radius + 40,
-                y2: center,
-                stroke: "#CCC",
-                strokeWidth: 0.5,
-                strokeDasharray: "4 4"
-            }, void 0, false, {
-                fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                lineNumber: 460,
-                columnNumber: 9
-            }, this),
+            !isJewel && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
+                        x1: center - radius,
+                        y1: center,
+                        x2: center + radius,
+                        y2: center,
+                        stroke: "#CCC",
+                        strokeWidth: 0.5,
+                        strokeDasharray: "4 4"
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                        lineNumber: 265,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
+                        x1: center,
+                        y1: center - radius,
+                        x2: center,
+                        y2: center + radius,
+                        stroke: "#CCC",
+                        strokeWidth: 0.5,
+                        strokeDasharray: "4 4"
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                        lineNumber: 274,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("text", {
+                        x: center,
+                        y: center,
+                        textAnchor: "middle",
+                        dy: "0.35em",
+                        fontSize: fontSize.value,
+                        fill: "#CCC",
+                        children: "0"
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                        lineNumber: 284,
+                        columnNumber: 11
+                    }, this),
+                    [
+                        20,
+                        40,
+                        60,
+                        80,
+                        100
+                    ].map((val)=>{
+                        const r = val / 100 * radius;
+                        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("g", {
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("text", {
+                                    x: center + r,
+                                    y: center,
+                                    dx: labelOffset.value,
+                                    dy: "0.35em",
+                                    fontSize: fontSize.value,
+                                    fill: "#CCC",
+                                    children: val
+                                }, void 0, false, {
+                                    fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                                    lineNumber: 298,
+                                    columnNumber: 17
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("text", {
+                                    x: center - r,
+                                    y: center,
+                                    dx: -labelOffset.value,
+                                    dy: "0.35em",
+                                    textAnchor: "end",
+                                    fontSize: fontSize.value,
+                                    fill: "#CCC",
+                                    children: val
+                                }, void 0, false, {
+                                    fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                                    lineNumber: 308,
+                                    columnNumber: 17
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("text", {
+                                    x: center,
+                                    y: center + r,
+                                    dy: "1.2em",
+                                    textAnchor: "middle",
+                                    fontSize: fontSize.value,
+                                    fill: "#CCC",
+                                    children: val
+                                }, void 0, false, {
+                                    fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                                    lineNumber: 319,
+                                    columnNumber: 17
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("text", {
+                                    x: center,
+                                    y: center - r,
+                                    dy: "-0.3em",
+                                    textAnchor: "middle",
+                                    fontSize: fontSize.value,
+                                    fill: "#CCC",
+                                    children: val
+                                }, void 0, false, {
+                                    fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                                    lineNumber: 329,
+                                    columnNumber: 17
+                                }, this)
+                            ]
+                        }, val, true, {
+                            fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
+                            lineNumber: 297,
+                            columnNumber: 15
+                        }, this);
+                    })
+                ]
+            }, void 0, true),
             !isJewel && points.map((pt, i)=>{
                 let deg = pt.angle * 180 / Math.PI + 90;
                 if (deg > 180) deg -= 180;
@@ -2974,11 +2898,6 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
                 }
                 const x = center + (radius + labelOffset.category) * Math.cos(pt.angle);
                 const y = center + (radius + labelOffset.category) * Math.sin(pt.angle);
-                // 인구성장형, 안전복원형 외에는 회색으로
-                const textColor = [
-                    '인구성장형',
-                    '안전복원형'
-                ].includes(categories[i]) ? colorMap[categories[i]] : '#999999';
                 return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("text", {
                     x: x,
                     y: y,
@@ -2986,56 +2905,22 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 })=>{
                     dy: "0.4em",
                     fontSize: fontSize.category,
                     fontWeight: "bold",
-                    fill: textColor,
+                    fill: colorMap[categories[i]],
                     transform: `rotate(${deg} ${x} ${y})`,
                     children: categories[i]
                 }, i, false, {
                     fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                    lineNumber: 494,
+                    lineNumber: 363,
                     columnNumber: 13
                 }, this);
-            }),
-            !isJewel && hoveredArea && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("g", {
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                        x: center - 50,
-                        y: hoveredArea === 'top' ? center - 120 : center + 60,
-                        width: 100,
-                        height: 30,
-                        rx: 5,
-                        fill: "rgba(0, 0, 0, 0.8)"
-                    }, void 0, false, {
-                        fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                        lineNumber: 514,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("text", {
-                        x: center,
-                        y: hoveredArea === 'top' ? center - 100 : center + 80,
-                        textAnchor: "middle",
-                        fontSize: fontSize.area,
-                        fill: "white",
-                        fontWeight: "bold",
-                        children: hoveredArea === 'top' ? '강점영역' : '약점영역'
-                    }, void 0, false, {
-                        fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                        lineNumber: 523,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-                lineNumber: 512,
-                columnNumber: 9
-            }, this)
+            })
         ]
     }, void 0, true, {
         fileName: "[project]/packages/frontend/atoms/charts/RadarChart.tsx",
-        lineNumber: 89,
+        lineNumber: 84,
         columnNumber: 5
     }, this);
 };
-_s(JewelRadarChart, "cCEGFqJLBb3HkVdmnAb9YpseH3c=");
 _c = JewelRadarChart;
 const __TURBOPACK__default__export__ = JewelRadarChart;
 var _c;
@@ -4441,6 +4326,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$styled$2d$js
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$components$2f$layout$2f$ResultLayout$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/packages/frontend/components/layout/ResultLayout.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$store$2f$index$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/packages/frontend/store/index.ts [app-client] (ecmascript)");
 // sections
 var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$DistrictSearchSection$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/packages/frontend/app/results/sections/DistrictSearchSection.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$DistrictSelectSection$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/packages/frontend/app/results/sections/DistrictSelectSection.tsx [app-client] (ecmascript)");
@@ -4465,6 +4351,7 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 ;
+;
 function ResultsPage() {
     _s();
     const params = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useParams"])();
@@ -4472,8 +4359,7 @@ function ResultsPage() {
     const [isFloating, setIsFloating] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [districtData, setDistrictData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
-    // const { isLoggedIn } = useAuth();
-    const isLoggedIn = true;
+    const { isLoggedIn } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$store$2f$index$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAuth"])();
     // 지자체 데이터 매핑
     const districtsMap = {
         'seoul-gangnam': {
@@ -4585,12 +4471,12 @@ function ResultsPage() {
                 children: "로딩 중..."
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                lineNumber: 113,
+                lineNumber: 112,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-            lineNumber: 112,
+            lineNumber: 111,
             columnNumber: 7
         }, this);
     }
@@ -4608,12 +4494,12 @@ function ResultsPage() {
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$DistrictSearchSection$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                         fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                        lineNumber: 140,
+                        lineNumber: 139,
                         columnNumber: 9
                     }, this),
                     !isFloating && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$DistrictSelectSection$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                         fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                        lineNumber: 142,
+                        lineNumber: 141,
                         columnNumber: 25
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4623,87 +4509,107 @@ function ResultsPage() {
                             alignItems: 'center',
                             flexDirection: 'column',
                             width: '100%',
-                            background: '#F4F4F4'
+                            background: '#F4F4F4',
+                            position: 'relative'
                         },
                         className: "jsx-c9be297a59958b1f",
-                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            style: {
-                                display: 'flex',
-                                flexDirection: 'column',
-                                width: '60%',
-                                gap: '50px',
-                                paddingTop: '100px'
-                            },
-                            className: "jsx-c9be297a59958b1f",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$TitleSection$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                    districtData: districtData
-                                }, void 0, false, {
-                                    fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                                    lineNumber: 163,
-                                    columnNumber: 13
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$SummarySection$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
-                                    fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                                    lineNumber: 164,
-                                    columnNumber: 13
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    style: {
-                                        position: 'relative'
-                                    },
-                                    className: "jsx-c9be297a59958b1f",
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$StrenthWeaknessIndexSection$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                style: {
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    width: '60%',
+                                    gap: '50px',
+                                    paddingTop: '100px'
+                                },
+                                className: "jsx-c9be297a59958b1f",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$TitleSection$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                        districtData: districtData
+                                    }, void 0, false, {
+                                        fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+                                        lineNumber: 163,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$SummarySection$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
+                                        fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+                                        lineNumber: 164,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        style: {
+                                            position: 'relative'
+                                        },
+                                        className: "jsx-c9be297a59958b1f",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$StrenthWeaknessIndexSection$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
+                                                fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+                                                lineNumber: 168,
+                                                columnNumber: 15
+                                            }, this),
+                                            !isLoggedIn && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                style: {
+                                                    position: 'absolute',
+                                                    top: '30%',
+                                                    left: 0,
+                                                    right: 0,
+                                                    bottom: 0,
+                                                    background: 'linear-gradient(to bottom, transparent, rgba(244, 244, 244, 0.8), #F4F4F4)',
+                                                    pointerEvents: 'none',
+                                                    zIndex: 10
+                                                },
+                                                className: "jsx-c9be297a59958b1f"
+                                            }, void 0, false, {
+                                                fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+                                                lineNumber: 172,
+                                                columnNumber: 17
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+                                        lineNumber: 167,
+                                        columnNumber: 13
+                                    }, this),
+                                    isLoggedIn && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$CompetencyDistSection$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                                             fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                                            lineNumber: 168,
-                                            columnNumber: 15
-                                        }, this),
-                                        !isLoggedIn && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            style: {
-                                                position: 'absolute',
-                                                top: '15%',
-                                                left: 0,
-                                                right: 0,
-                                                bottom: 0,
-                                                background: 'linear-gradient(to bottom, transparent, rgba(244, 244, 244, 0.95), #F4F4F4)',
-                                                pointerEvents: 'none',
-                                                zIndex: 10
-                                            },
-                                            className: "jsx-c9be297a59958b1f"
-                                        }, void 0, false, {
-                                            fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                                            lineNumber: 172,
+                                            lineNumber: 190,
                                             columnNumber: 17
                                         }, this)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                                    lineNumber: 167,
-                                    columnNumber: 13
-                                }, this),
-                                isLoggedIn && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$CompetencyDistSection$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
-                                        fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                                        lineNumber: 190,
-                                        columnNumber: 17
-                                    }, this)
-                                }, void 0, false)
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                            lineNumber: 154,
-                            columnNumber: 11
-                        }, this)
-                    }, void 0, false, {
+                                    }, void 0, false)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+                                lineNumber: 154,
+                                columnNumber: 11
+                            }, this),
+                            !isLoggedIn && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                style: {
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    background: '#F4F4F4',
+                                    zIndex: 5,
+                                    pointerEvents: 'none'
+                                },
+                                className: "jsx-c9be297a59958b1f"
+                            }, void 0, false, {
+                                fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+                                lineNumber: 197,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true, {
                         fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                        lineNumber: 144,
+                        lineNumber: 143,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                lineNumber: 131,
+                lineNumber: 130,
                 columnNumber: 7
             }, this),
             isLoggedIn && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4715,12 +4621,12 @@ function ResultsPage() {
                 className: "jsx-c9be297a59958b1f",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$CategoryRankingSection$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                     fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                    lineNumber: 206,
+                    lineNumber: 222,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                lineNumber: 199,
+                lineNumber: 215,
                 columnNumber: 9
             }, this),
             isLoggedIn && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4735,12 +4641,12 @@ function ResultsPage() {
                 className: "jsx-c9be297a59958b1f",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$PreRegistrationSection$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                     fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                    lineNumber: 222,
+                    lineNumber: 238,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                lineNumber: 212,
+                lineNumber: 228,
                 columnNumber: 9
             }, this),
             isFloating && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4765,12 +4671,12 @@ function ResultsPage() {
                     isFloating: true
                 }, void 0, false, {
                     fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                    lineNumber: 245,
+                    lineNumber: 261,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                lineNumber: 227,
+                lineNumber: 243,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -4780,13 +4686,14 @@ function ResultsPage() {
         ]
     }, void 0, true, {
         fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-        lineNumber: 130,
+        lineNumber: 129,
         columnNumber: 5
     }, this);
 }
-_s(ResultsPage, "oV1UHlLIyglBEg4hK282BXsPbm8=", false, function() {
+_s(ResultsPage, "O3QuCrsqsN+0/xX8J2n2EvqmDv0=", false, function() {
     return [
-        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useParams"]
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useParams"],
+        __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$store$2f$index$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAuth"]
     ];
 });
 _c = ResultsPage;
@@ -4798,4 +4705,4 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 }}),
 }]);
 
-//# sourceMappingURL=packages_frontend_8c996f60._.js.map
+//# sourceMappingURL=packages_frontend_08becea6._.js.map

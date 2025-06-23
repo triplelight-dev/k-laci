@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import ResultLayout from '@/components/layout/ResultLayout';
+import { useAuth } from '@/store';
 
 // sections
 import DistrictSearchSection from '../sections/DistrictSearchSection';
@@ -28,6 +29,8 @@ export default function ResultsPage() {
   const [isFloating, setIsFloating] = useState(false);
   const [districtData, setDistrictData] = useState<DistrictData | null>(null);
   const [loading, setLoading] = useState(true);
+  // const { isLoggedIn } = useAuth();
+  const isLoggedIn = true;
 
   // 지자체 데이터 매핑
   const districtsMap: Record<string, DistrictData> = {
@@ -159,33 +162,66 @@ export default function ResultsPage() {
           >
             <TitleSection districtData={districtData} />
             <SummarySection />
-            <StrengthWeaknessIndexSection />
-            <CompetencyDistSection />
+            
+            {/* StrengthWeaknessIndexSection을 조건부로 렌더링 */}
+            <div style={{ position: 'relative' }}>
+              <StrengthWeaknessIndexSection />
+              
+              {/* 로그인하지 않은 경우 그라데이션 오버레이 적용 */}
+              {!isLoggedIn && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '15%', // 상단 30%는 보이도록
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: 'linear-gradient(to bottom, transparent, rgba(244, 244, 244, 0.95), #F4F4F4)',
+                    pointerEvents: 'none',
+                    zIndex: 10,
+                  }}
+                />
+              )}
+            </div>
+            
+            {/* 로그인한 경우에만 나머지 섹션들 표시 */}
+            {isLoggedIn && (
+              <>
+                <CompetencyDistSection />
+              </>
+            )}
           </div>
         </div>
       </div>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          background: '#F8F8F8',
-        }}
-      >
-        <CategoryRankingSection />
-      </div>
+      
+      {/* 로그인한 경우에만 CategoryRankingSection 표시 */}
+      {isLoggedIn && (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            background: '#F8F8F8',
+          }}
+        >
+          <CategoryRankingSection />
+        </div>
+      )}
 
-      <div
-        style={{
-          display: 'flex',
-          width: '90%',
-          justifyContent: 'center',
-          background: '#F8F8F8',
-          marginTop: '100px',
-          marginBottom: '100px',
-        }}
-      >
-        <PreRegistrationSection />
-      </div>
+      {/* 로그인한 경우에만 PreRegistrationSection 표시 */}
+      {isLoggedIn && (
+        <div
+          style={{
+            display: 'flex',
+            width: '90%',
+            justifyContent: 'center',
+            background: '#F8F8F8',
+            marginTop: '100px',
+            marginBottom: '100px',
+          }}
+        >
+          <PreRegistrationSection />
+        </div>
+      )}
 
       {isFloating && (
         <div
