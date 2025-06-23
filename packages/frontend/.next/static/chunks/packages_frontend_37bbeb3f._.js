@@ -163,87 +163,70 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 const FooterTopSection = ()=>{
     const sitemapData = {
         personal: {
-            title: "개인정보",
+            title: '개인정보',
             links: [
                 {
-                    name: "개인정보처리방침",
-                    href: "/privacy"
+                    name: '회원가입',
+                    href: '/signup'
                 },
                 {
-                    name: "이용약관",
-                    href: "/terms"
+                    name: '회원정보',
+                    href: '/profile'
                 },
                 {
-                    name: "쿠키정책",
-                    href: "/cookies"
+                    name: '개인정보 처리방침',
+                    href: '/privacy'
                 },
                 {
-                    name: "개인정보수집",
-                    href: "/data-collection"
+                    name: '이용약관',
+                    href: '/terms'
                 }
             ]
         },
         paid: {
-            title: "유료상품",
+            title: '유료상품',
             links: [
                 {
-                    name: "프리미엄 플랜",
-                    href: "/premium"
+                    name: '웨비나',
+                    href: '/webinar'
                 },
                 {
-                    name: "비즈니스 플랜",
-                    href: "/business"
+                    name: '세미나',
+                    href: '/seminar'
                 },
                 {
-                    name: "엔터프라이즈",
-                    href: "/enterprise"
-                },
-                {
-                    name: "가격 안내",
-                    href: "/pricing"
+                    name: '리포트',
+                    href: '/report'
                 }
             ]
         },
         contact: {
-            title: "Contact",
+            title: 'Contact',
             links: [
                 {
-                    name: "고객센터",
-                    href: "/support"
+                    name: '프로젝트 문의',
+                    href: '/project-inquiry'
                 },
                 {
-                    name: "문의하기",
-                    href: "/contact"
-                },
-                {
-                    name: "FAQ",
-                    href: "/faq"
-                },
-                {
-                    name: "피드백",
-                    href: "/feedback"
+                    name: '기관 소개',
+                    href: '/about'
                 }
             ]
         }
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
         style: {
-            padding: '48px 0',
-            borderBottom: '1px solid #374151',
+            width: '100%',
+            paddingTop: '48px',
             backgroundColor: '#000000',
-            color: '#ffffff'
+            color: '#ffffff',
+            marginBottom: '70px'
         },
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            style: {
-                maxWidth: '1200px',
-                margin: '0 auto',
-                padding: '0 24px'
-            },
             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 style: {
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-                    gap: '32px'
+                    display: 'flex',
+                    gap: '70px'
                 },
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -258,7 +241,7 @@ const FooterTopSection = ()=>{
                                 children: sitemapData.personal.title
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                                lineNumber: 53,
+                                lineNumber: 50,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -284,23 +267,23 @@ const FooterTopSection = ()=>{
                                             children: link.name
                                         }, void 0, false, {
                                             fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                                            lineNumber: 64,
+                                            lineNumber: 63,
                                             columnNumber: 19
                                         }, this)
                                     }, index, false, {
                                         fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                                        lineNumber: 63,
+                                        lineNumber: 62,
                                         columnNumber: 17
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                                lineNumber: 61,
+                                lineNumber: 60,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                        lineNumber: 52,
+                        lineNumber: 49,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -315,7 +298,7 @@ const FooterTopSection = ()=>{
                                 children: sitemapData.paid.title
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                                lineNumber: 84,
+                                lineNumber: 83,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -341,23 +324,23 @@ const FooterTopSection = ()=>{
                                             children: link.name
                                         }, void 0, false, {
                                             fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                                            lineNumber: 95,
+                                            lineNumber: 96,
                                             columnNumber: 19
                                         }, this)
                                     }, index, false, {
                                         fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                                        lineNumber: 94,
+                                        lineNumber: 95,
                                         columnNumber: 17
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                                lineNumber: 92,
+                                lineNumber: 93,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                        lineNumber: 83,
+                        lineNumber: 82,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -372,7 +355,7 @@ const FooterTopSection = ()=>{
                                 children: sitemapData.contact.title
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                                lineNumber: 115,
+                                lineNumber: 116,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -398,29 +381,29 @@ const FooterTopSection = ()=>{
                                             children: link.name
                                         }, void 0, false, {
                                             fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                                            lineNumber: 126,
+                                            lineNumber: 129,
                                             columnNumber: 19
                                         }, this)
                                     }, index, false, {
                                         fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                                        lineNumber: 125,
+                                        lineNumber: 128,
                                         columnNumber: 17
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                                lineNumber: 123,
+                                lineNumber: 126,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                        lineNumber: 114,
+                        lineNumber: 115,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                lineNumber: 46,
+                lineNumber: 42,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
@@ -430,7 +413,7 @@ const FooterTopSection = ()=>{
         }, this)
     }, void 0, false, {
         fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-        lineNumber: 35,
+        lineNumber: 32,
         columnNumber: 5
     }, this);
 };
@@ -451,13 +434,56 @@ __turbopack_context__.s({
     "default": (()=>__TURBOPACK__default__export__)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/image.js [app-client] (ecmascript)");
+;
+var _s = __turbopack_context__.k.signature();
 ;
 ;
 const SearchTextInput = ({ value, onChange, placeholder = '지자체 검색', recentSearches = [], onRecentSearchClick })=>{
+    _s();
+    const [showDropdown, setShowDropdown] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [highlightedIndex, setHighlightedIndex] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(-1);
+    const inputRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    // 입력값에 따라 최근 검색어 필터링
+    const filteredSearches = value ? recentSearches.filter((search)=>search.includes(value)) : recentSearches;
+    // 인풋 포커스/블러 처리
+    const handleFocus = ()=>{
+        if (filteredSearches.length > 0) setShowDropdown(true);
+    };
+    const handleBlur = ()=>{
+        setTimeout(()=>setShowDropdown(false), 100); // 버튼 클릭 허용
+    };
+    // 키보드 네비게이션
+    const handleKeyDown = (e)=>{
+        if (!showDropdown || filteredSearches.length === 0) return;
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            setHighlightedIndex((prev)=>prev < filteredSearches.length - 1 ? prev + 1 : 0);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            setHighlightedIndex((prev)=>prev > 0 ? prev - 1 : filteredSearches.length - 1);
+        } else if (e.key === 'Enter' && highlightedIndex >= 0) {
+            e.preventDefault();
+            const selected = filteredSearches[highlightedIndex];
+            onChange(selected);
+            onRecentSearchClick?.(selected);
+            setShowDropdown(false);
+            inputRef.current?.blur();
+        }
+    };
+    // 입력값 바뀌면 하이라이트 초기화
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "SearchTextInput.useEffect": ()=>{
+            setHighlightedIndex(-1);
+        }
+    }["SearchTextInput.useEffect"], [
+        value
+    ]);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         style: {
-            width: '100%'
+            width: '100%',
+            position: 'relative'
         },
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -481,19 +507,23 @@ const SearchTextInput = ({ value, onChange, placeholder = '지자체 검색', re
                             height: 15
                         }, void 0, false, {
                             fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                            lineNumber: 34,
+                            lineNumber: 79,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                        lineNumber: 33,
+                        lineNumber: 78,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                        ref: inputRef,
                         type: "text",
                         placeholder: placeholder,
                         value: value,
                         onChange: (e)=>onChange(e.target.value),
+                        onFocus: handleFocus,
+                        onBlur: handleBlur,
+                        onKeyDown: handleKeyDown,
                         style: {
                             width: '100%',
                             height: '100%',
@@ -502,24 +532,64 @@ const SearchTextInput = ({ value, onChange, placeholder = '지자체 검색', re
                             color: 'black',
                             border: 'none',
                             outline: 'none'
-                        }
+                        },
+                        autoComplete: "off"
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                        lineNumber: 36,
+                        lineNumber: 81,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                lineNumber: 21,
+                lineNumber: 66,
                 columnNumber: 7
+            }, this),
+            showDropdown && filteredSearches.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                style: {
+                    position: 'absolute',
+                    top: '60px',
+                    left: 0,
+                    right: 0,
+                    background: 'white',
+                    borderRadius: '16px',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
+                    zIndex: 10,
+                    padding: '8px 0',
+                    maxHeight: '180px',
+                    overflowY: 'auto'
+                },
+                children: filteredSearches.map((search, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        onMouseDown: ()=>{
+                            onChange(search);
+                            onRecentSearchClick?.(search);
+                            setShowDropdown(false);
+                        },
+                        style: {
+                            padding: '10px 24px',
+                            cursor: 'pointer',
+                            background: idx === highlightedIndex ? '#F0F2F5' : 'white',
+                            color: '#222',
+                            fontSize: '15px'
+                        },
+                        children: search
+                    }, idx, false, {
+                        fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
+                        lineNumber: 121,
+                        columnNumber: 13
+                    }, this))
+            }, void 0, false, {
+                fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
+                lineNumber: 105,
+                columnNumber: 9
             }, this),
             recentSearches.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 style: {
                     display: 'flex',
                     flexDirection: 'row',
                     alignItems: 'center',
-                    gap: '8px'
+                    gap: '8px',
+                    marginTop: showDropdown ? '70px' : '0'
                 },
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -532,7 +602,7 @@ const SearchTextInput = ({ value, onChange, placeholder = '지자체 검색', re
                         children: "최근 검색어"
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                        lineNumber: 62,
+                        lineNumber: 153,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -558,27 +628,28 @@ const SearchTextInput = ({ value, onChange, placeholder = '지자체 검색', re
                                 ]
                             }, index, true, {
                                 fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                                lineNumber: 81,
+                                lineNumber: 172,
                                 columnNumber: 15
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                        lineNumber: 72,
+                        lineNumber: 163,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-                lineNumber: 54,
+                lineNumber: 144,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/packages/frontend/app/atoms/input/SearchTextInput.tsx",
-        lineNumber: 20,
+        lineNumber: 65,
         columnNumber: 5
     }, this);
 };
+_s(SearchTextInput, "VkzO+sdtLUkLY19Sq0cFdQJ/ynA=");
 _c = SearchTextInput;
 const __TURBOPACK__default__export__ = SearchTextInput;
 var _c;
@@ -2977,6 +3048,7 @@ const RankingSection = ()=>{
     _s();
     // useAuth 훅을 통해 로그인 상태 가져오기
     const { isLoggedIn } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$store$2f$index$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAuth"])();
+    console.log('isLoggedIn', isLoggedIn);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         style: {
             display: 'flex',
@@ -3004,7 +3076,7 @@ const RankingSection = ()=>{
                         isLoggedIn: isLoggedIn
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
-                        lineNumber: 253,
+                        lineNumber: 254,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(RankingList, {
@@ -3014,24 +3086,24 @@ const RankingSection = ()=>{
                         isLoggedIn: isLoggedIn
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
-                        lineNumber: 261,
+                        lineNumber: 262,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
-                lineNumber: 244,
+                lineNumber: 245,
                 columnNumber: 7
             }, this),
             !isLoggedIn && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(LoginPrompt, {}, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
-                lineNumber: 270,
+                lineNumber: 271,
                 columnNumber: 23
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/packages/frontend/app/results/sections/RankingSection.tsx",
-        lineNumber: 231,
+        lineNumber: 232,
         columnNumber: 5
     }, this);
 };
