@@ -11,8 +11,8 @@ import CategoryRankingSection from '../sections/CategoryRankingSection';
 import SummarySection from '../sections/SummarySection';
 import TitleSection from '../sections/TitleSection';
 import PreRegistrationSection from '../sections/PreRegistrationSection';
-import RankingSection from '../sections/RankingSection';
 import StrengthWeaknessIndexSection from '../sections/StrenthWeaknessIndexSection';
+import CompetencyDistSection from '../sections/CompetencyDistSection';
 
 // 지자체 데이터 타입 정의
 interface DistrictData {
@@ -160,7 +160,7 @@ export default function ResultsPage() {
             <TitleSection districtData={districtData} />
             <SummarySection />
             <StrengthWeaknessIndexSection />
-            <RankingSection />
+            <CompetencyDistSection />
           </div>
         </div>
       </div>
