@@ -22,16 +22,15 @@ export default function ResultsPage() {
           alignItems: 'center',
         }}
       >
+        <DistrictSearchSection />
         <div
           style={{
             display: 'flex',
             flexDirection: 'column',
             width: '75%',
-            // gap: '100px',
             paddingTop: '70px',
           }}
         >
-          <DistrictSearchSection />
           <DistrictSelectSection />
           <JewelChartSection />
         </div>

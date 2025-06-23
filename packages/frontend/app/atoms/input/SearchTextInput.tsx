@@ -12,7 +12,7 @@ interface SearchTextInputProps {
 const SearchTextInput: React.FC<SearchTextInputProps> = ({
   value,
   onChange,
-  placeholder = '지자체 검색',
+  placeholder = '제주 서귀포시',
   recentSearches = [],
   onRecentSearchClick,
 }) => {
@@ -39,12 +39,12 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
     if (e.key === 'ArrowDown') {
       e.preventDefault();
       setHighlightedIndex((prev) =>
-        prev < filteredSearches.length - 1 ? prev + 1 : 0
+        prev < filteredSearches.length - 1 ? prev + 1 : 0,
       );
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       setHighlightedIndex((prev) =>
-        prev > 0 ? prev - 1 : filteredSearches.length - 1
+        prev > 0 ? prev - 1 : filteredSearches.length - 1,
       );
     } else if (e.key === 'Enter' && highlightedIndex >= 0) {
       e.preventDefault();
@@ -62,17 +62,26 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
   }, [value]);
 
   return (
-    <div style={{ width: '100%', position: 'relative' }}>
+    <div
+      style={{
+        width: '100%',
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+    >
       <div
         style={{
+          width: '100%',
           display: 'flex',
           alignItems: 'center',
-          borderRadius: '50px',
+          borderRadius: '10px',
           backgroundColor: 'white',
           padding: '18px',
           gap: '10px',
-          boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.1)',
-          marginBottom: recentSearches.length > 0 ? '20px' : '0',
+          background: '#1638B1',
+          marginBottom: recentSearches.length > 0 ? '25px' : '0',
         }}
       >
         <div className="mr-3 flex-shrink-0">
@@ -92,9 +101,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
             height: '100%',
             backgroundColor: 'transparent',
             fontSize: '1rem',
-            color: 'black',
-            border: 'none',
-            outline: 'none',
+            border: '1px solid transparent',
           }}
           autoComplete="off"
         />
@@ -153,7 +160,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
           <div
             style={{
               fontSize: '14px',
-              color: '#B0B3BA',
+              color: 'white',
               background: 'transparent',
               marginRight: '20px',
             }}
@@ -164,7 +171,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
             style={{
               display: 'flex',
               flexDirection: 'row',
-              gap: '4px',
+              gap: '15px',
               flexWrap: 'wrap',
             }}
           >
@@ -174,15 +181,15 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
                 onClick={() => onRecentSearchClick?.(search)}
                 style={{
                   fontSize: '14px',
-                  color: '#000000',
+                  color: 'white',
                   cursor: 'pointer',
                   background: 'transparent',
-                  border: 'none',
-                  padding: 0,
+                  border: '1px solid white',
+                  borderRadius: '10px',
+                  padding: '6px 12px',
                 }}
               >
                 {search}
-                {index < recentSearches.length - 1 ? ', ' : ''}
               </button>
             ))}
           </div>

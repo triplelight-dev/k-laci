@@ -231,10 +231,6 @@
   justify-content: flex-end;
 }
 
-.gap-\[35px\] {
-  gap: 35px;
-}
-
 .gap-\[50px\] {
   gap: 50px;
 }
@@ -353,6 +349,23 @@ body {
 a {
   color: inherit !important;
   text-decoration: none !important;
+}
+
+.search-input-placeholder::placeholder {
+  color: #93a4ec !important;
+}
+
+.search-input-placeholder::placeholder {
+  color: #93a4ec !important;
+}
+
+.search-input-placeholder::-moz-placeholder {
+  opacity: 1;
+  color: #93a4ec !important;
+}
+
+.search-input-placeholder:-ms-placeholder-shown {
+  color: #93a4ec !important;
 }
 
 @property --tw-rotate-x {

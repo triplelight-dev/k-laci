@@ -42,3 +42,20 @@ a {
   color: inherit !important;
   text-decoration: none !important;
 }
+
+.search-input-placeholder::placeholder {
+  color: #93A4EC !important;
+}
+
+.search-input-placeholder::-webkit-input-placeholder {
+  color: #93A4EC !important;
+}
+
+.search-input-placeholder::-moz-placeholder {
+  color: #93A4EC !important;
+  opacity: 1;
+}
+
+.search-input-placeholder:-ms-input-placeholder {
+  color: #93A4EC !important;
+}

@@ -29,12 +29,7 @@ const STYLES = {
     fontWeight: 'bold',
     marginBottom: '1rem',
   },
-  description: {
-    width: '45%',
-    fontSize: '1rem',
-    lineHeight: '1.3rem',
-    marginBottom: '2rem',
-  },
+
   searchContainer: {
     width: '50%',
     position: 'relative' as const,
