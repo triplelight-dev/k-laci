@@ -12,6 +12,7 @@ import SummarySection from '../sections/SummarySection';
 import TitleSection from '../sections/TitleSection';
 import PreRegistrationSection from '../sections/PreRegistrationSection';
 import RankingSection from '../sections/RankingSection';
+import StrengthWeaknessIndexSection from '../sections/StrenthWeaknessIndexSection';
 
 // 지자체 데이터 타입 정의
 interface DistrictData {
@@ -152,12 +153,13 @@ export default function ResultsPage() {
               display: 'flex',
               flexDirection: 'column',
               width: '60%',
-              gap: '100px',
+              gap: '50px',
               paddingTop: '100px',
             }}
           >
             <TitleSection districtData={districtData} />
             <SummarySection />
+            <StrengthWeaknessIndexSection />
             <RankingSection />
           </div>
         </div>

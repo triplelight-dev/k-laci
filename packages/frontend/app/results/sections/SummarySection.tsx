@@ -49,8 +49,8 @@ const SummaryItem: React.FC<SummaryItemProps> = ({ data }) => {
       style={{
         display: 'flex',
         borderTop: '1px solid #D0D9E6',
-        paddingTop: '2rem',
-        paddingBottom: '2rem',
+        paddingTop: '40px',
+        paddingBottom: '60px',
       }}
     >
       <div
