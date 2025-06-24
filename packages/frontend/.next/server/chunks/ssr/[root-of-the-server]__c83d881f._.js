@@ -1387,137 +1387,6 @@ const DistrictSelectSection = ({ isFloating = false })=>{
 };
 const __TURBOPACK__default__export__ = DistrictSelectSection;
 }}),
-"[project]/packages/frontend/atoms/bars/RankBar.tsx [app-ssr] (ecmascript)": ((__turbopack_context__) => {
-"use strict";
-
-var { g: global, __dirname } = __turbopack_context__;
-{
-__turbopack_context__.s({
-    "default": (()=>__TURBOPACK__default__export__)
-});
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
-'use client';
-;
-const RankBar = ({ currentRank, minRank = 1, maxRank = 229, color })=>{
-    // 현재 순위의 위치를 백분율로 계산 (1위가 왼쪽, 229위가 오른쪽)
-    // 수정된 계산 로직: (currentRank - minRank) / (maxRank - minRank) * 100
-    const position = (currentRank - minRank) / (maxRank - minRank) * 100;
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        style: {
-            position: 'relative',
-            width: '100%',
-            marginTop: '1rem',
-            marginBottom: '2rem'
-        },
-        children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                style: {
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    marginBottom: '8px',
-                    color: '#666666',
-                    fontSize: '0.9rem',
-                    fontWeight: 'bold'
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                        children: [
-                            minRank,
-                            "위"
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/packages/frontend/atoms/bars/RankBar.tsx",
-                        lineNumber: 42,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                        children: [
-                            maxRank,
-                            "위"
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/packages/frontend/atoms/bars/RankBar.tsx",
-                        lineNumber: 43,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/packages/frontend/atoms/bars/RankBar.tsx",
-                lineNumber: 32,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                style: {
-                    width: '100%',
-                    height: '20px',
-                    backgroundColor: '#E7E8EA',
-                    border: 'none',
-                    position: 'relative'
-                }
-            }, void 0, false, {
-                fileName: "[project]/packages/frontend/atoms/bars/RankBar.tsx",
-                lineNumber: 47,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                style: {
-                    position: 'absolute',
-                    left: `${position}%`,
-                    top: '35px',
-                    transform: 'translate(-50%, -50%)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center'
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        style: {
-                            position: 'absolute',
-                            top: '-50px',
-                            color,
-                            fontSize: '1rem',
-                            fontWeight: 'bold',
-                            whiteSpace: 'nowrap'
-                        },
-                        children: [
-                            currentRank,
-                            "위"
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/packages/frontend/atoms/bars/RankBar.tsx",
-                        lineNumber: 70,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        style: {
-                            width: '6px',
-                            height: '50px',
-                            backgroundColor: color,
-                            position: 'absolute',
-                            top: '50%',
-                            transform: 'translateY(-50%)',
-                            marginTop: '0px'
-                        }
-                    }, void 0, false, {
-                        fileName: "[project]/packages/frontend/atoms/bars/RankBar.tsx",
-                        lineNumber: 84,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/packages/frontend/atoms/bars/RankBar.tsx",
-                lineNumber: 58,
-                columnNumber: 7
-            }, this)
-        ]
-    }, void 0, true, {
-        fileName: "[project]/packages/frontend/atoms/bars/RankBar.tsx",
-        lineNumber: 23,
-        columnNumber: 5
-    }, this);
-};
-const __TURBOPACK__default__export__ = RankBar;
-}}),
 "[project]/packages/frontend/app/atoms/modal/CategoryDetailModal.tsx [app-ssr] (ecmascript)": ((__turbopack_context__) => {
 "use strict";
 
@@ -1701,10 +1570,8 @@ __turbopack_context__.s({
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$atoms$2f$bars$2f$RankBar$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/packages/frontend/atoms/bars/RankBar.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$atoms$2f$modal$2f$CategoryDetailModal$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/packages/frontend/app/atoms/modal/CategoryDetailModal.tsx [app-ssr] (ecmascript)");
 'use client';
-;
 ;
 ;
 ;
@@ -1721,7 +1588,8 @@ const CategoryRanking = ({ data })=>{
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "flex w-full flex-col rounded-lg bg-white shadow-sm",
         style: {
-            marginBottom: '5rem'
+            marginBottom: '5rem',
+            gap: '40px'
         },
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1729,12 +1597,11 @@ const CategoryRanking = ({ data })=>{
                     height: '1px',
                     backgroundColor: '#D0D9E6',
                     borderTopLeftRadius: '8px',
-                    borderTopRightRadius: '8px',
-                    marginBottom: '20px'
+                    borderTopRightRadius: '8px'
                 }
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                lineNumber: 33,
+                lineNumber: 32,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1757,7 +1624,7 @@ const CategoryRanking = ({ data })=>{
                                 children: title
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                                lineNumber: 48,
+                                lineNumber: 49,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1773,7 +1640,7 @@ const CategoryRanking = ({ data })=>{
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                                lineNumber: 60,
+                                lineNumber: 61,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1788,13 +1655,13 @@ const CategoryRanking = ({ data })=>{
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                                lineNumber: 72,
+                                lineNumber: 73,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                        lineNumber: 46,
+                        lineNumber: 44,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1810,35 +1677,18 @@ const CategoryRanking = ({ data })=>{
                             children: description
                         }, void 0, false, {
                             fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                            lineNumber: 84,
+                            lineNumber: 85,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                        lineNumber: 83,
+                        lineNumber: 84,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                lineNumber: 44,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "px-6 pb-6",
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$atoms$2f$bars$2f$RankBar$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                    currentRank: currentRank,
-                    minRank: 1,
-                    maxRank: totalRank,
-                    color: color
-                }, void 0, false, {
-                    fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                    lineNumber: 98,
-                    columnNumber: 9
-                }, this)
-            }, void 0, false, {
-                fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                lineNumber: 97,
+                lineNumber: 42,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1883,7 +1733,7 @@ const CategoryRanking = ({ data })=>{
                                     children: score.indicator
                                 }, void 0, false, {
                                     fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                                    lineNumber: 138,
+                                    lineNumber: 129,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1896,7 +1746,7 @@ const CategoryRanking = ({ data })=>{
                                     children: score.score
                                 }, void 0, false, {
                                     fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                                    lineNumber: 148,
+                                    lineNumber: 139,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1911,7 +1761,7 @@ const CategoryRanking = ({ data })=>{
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                                    lineNumber: 158,
+                                    lineNumber: 149,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1923,23 +1773,23 @@ const CategoryRanking = ({ data })=>{
                                     children: score.source
                                 }, void 0, false, {
                                     fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                                    lineNumber: 167,
+                                    lineNumber: 158,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, index, true, {
                             fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                            lineNumber: 110,
+                            lineNumber: 101,
                             columnNumber: 13
                         }, this))
                 }, void 0, false, {
                     fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                    lineNumber: 108,
+                    lineNumber: 99,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                lineNumber: 107,
+                lineNumber: 98,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$atoms$2f$modal$2f$CategoryDetailModal$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -1949,13 +1799,13 @@ const CategoryRanking = ({ data })=>{
                 color: color
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                lineNumber: 181,
+                lineNumber: 172,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-        lineNumber: 28,
+        lineNumber: 27,
         columnNumber: 5
     }, this);
 };
@@ -2049,7 +1899,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$cons
 ;
 ;
 const CategoryRankingSection = ()=>{
-    const title = '원형별 역량 분포';
+    const title = '범주 및 세부지표 순위';
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         style: {
             // width: '100%',
@@ -4691,4 +4541,4 @@ function ResultsPage() {
 
 };
 
-//# sourceMappingURL=%5Broot-of-the-server%5D__c1eecc43._.js.map
+//# sourceMappingURL=%5Broot-of-the-server%5D__c83d881f._.js.map

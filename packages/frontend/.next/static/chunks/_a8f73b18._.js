@@ -1757,12 +1757,6 @@ const STYLES = {
         fontWeight: 'bold',
         marginBottom: '1rem'
     },
-    description: {
-        width: '45%',
-        fontSize: '1rem',
-        lineHeight: '1.3rem',
-        marginBottom: '2rem'
-    },
     searchContainer: {
         width: '50%',
         position: 'relative'
@@ -1797,7 +1791,7 @@ const DistrictSearchSection = ()=>{
                         children: SECTION_CONTENT.title
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/home/DistrictSearchSection.tsx",
-                        lineNumber: 65,
+                        lineNumber: 60,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1805,7 +1799,7 @@ const DistrictSearchSection = ()=>{
                         children: SECTION_CONTENT.description
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/app/home/DistrictSearchSection.tsx",
-                        lineNumber: 68,
+                        lineNumber: 63,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1817,12 +1811,12 @@ const DistrictSearchSection = ()=>{
                                     size: 20
                                 }, void 0, false, {
                                     fileName: "[project]/packages/frontend/app/home/DistrictSearchSection.tsx",
-                                    lineNumber: 73,
+                                    lineNumber: 68,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/app/home/DistrictSearchSection.tsx",
-                                lineNumber: 72,
+                                lineNumber: 67,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1831,29 +1825,29 @@ const DistrictSearchSection = ()=>{
                                 style: STYLES.searchInput
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/app/home/DistrictSearchSection.tsx",
-                                lineNumber: 75,
+                                lineNumber: 70,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/packages/frontend/app/home/DistrictSearchSection.tsx",
-                        lineNumber: 71,
+                        lineNumber: 66,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/packages/frontend/app/home/DistrictSearchSection.tsx",
-                lineNumber: 63,
+                lineNumber: 58,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/packages/frontend/app/home/DistrictSearchSection.tsx",
-            lineNumber: 62,
+            lineNumber: 57,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/packages/frontend/app/home/DistrictSearchSection.tsx",
-        lineNumber: 61,
+        lineNumber: 56,
         columnNumber: 5
     }, this);
 };

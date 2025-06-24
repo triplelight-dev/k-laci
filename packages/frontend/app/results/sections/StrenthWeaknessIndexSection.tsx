@@ -44,10 +44,10 @@ const IndexItem: React.FC<{
       }}
       onClick={() => onClick(data)}
       onMouseEnter={(e) => {
-        e.currentTarget.style.backgroundColor = '#F5F5F5';
+        e.currentTarget.style.border = `1px solid ${categoryColor}`;
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.backgroundColor = 'white';
+        e.currentTarget.style.border = '1px solid #D9D9E8';
       }}
     >
       {/* 뱃지 */}
