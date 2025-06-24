@@ -162,11 +162,11 @@ export default function ResultsPage() {
           >
             <TitleSection districtData={districtData} />
             <SummarySection />
-            
+
             {/* StrengthWeaknessIndexSection을 조건부로 렌더링 */}
             <div style={{ position: 'relative' }}>
               <StrengthWeaknessIndexSection />
-              
+
               {/* 로그인하지 않은 경우 그라데이션 오버레이 적용 */}
               {!isLoggedIn && (
                 <div
@@ -176,36 +176,25 @@ export default function ResultsPage() {
                     left: 0,
                     right: 0,
                     bottom: 0,
-                    background: 'linear-gradient(to bottom, transparent, rgba(244, 244, 244, 0.95), #F4F4F4)',
+                    background:
+                      'linear-gradient(to bottom, transparent, rgba(244, 244, 244, 0.95), #F4F4F4)',
                     pointerEvents: 'none',
                     zIndex: 10,
                   }}
                 />
               )}
             </div>
-            
+
             {/* 로그인한 경우에만 나머지 섹션들 표시 */}
             {isLoggedIn && (
               <>
                 <CompetencyDistSection />
+                <CategoryRankingSection />
               </>
             )}
           </div>
         </div>
       </div>
-      
-      {/* 로그인한 경우에만 CategoryRankingSection 표시 */}
-      {isLoggedIn && (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            background: '#F8F8F8',
-          }}
-        >
-          <CategoryRankingSection />
-        </div>
-      )}
 
       {/* 로그인한 경우에만 PreRegistrationSection 표시 */}
       {isLoggedIn && (

@@ -6,12 +6,12 @@ import { CategoryData } from '../types/category';
 import { categoryColors } from '@/constants/colors';
 
 const CategoryRankingSection = () => {
-  const title = '원형별 역량 분포';
+  const title = '범주 및 세부지표 순위';
 
   return (
     <div
       style={{
-        width: '50%',
+        // width: '100%',
         display: 'flex',
         justifyContent: 'center',
       }}

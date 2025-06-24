@@ -2,15 +2,15 @@
 
 import React, { useState } from 'react';
 import { CategoryData, CategoryScore } from '../types/category';
-import RankBar from '@/atoms/bars/RankBar';
 import CategoryDetailModal from '@/app/atoms/modal/CategoryDetailModal';
+import CategoryScoreGrid from './CategoryScoreGrid';
 
 interface CategoryRankingProps {
   data: CategoryData;
 }
 
 const CategoryRanking: React.FC<CategoryRankingProps> = ({ data }) => {
-  const { title, color, currentRank, description, scores } = data;
+  const { title, color, currentRank, totalRank, description, scores } = data;
   const [selectedScore, setSelectedScore] = useState<CategoryScore | null>(
     null,
   );
@@ -21,116 +21,87 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({ data }) => {
     setIsModalOpen(true);
   };
 
+  // 상위 퍼센트 계산
+  const topPercentage = Math.round((currentRank / totalRank) * 100);
+
   return (
     <div
-      className="flex w-full flex-col rounded-lg bg-white p-6 shadow-sm"
-      style={{ marginBottom: '5rem', backgroundColor: 'red' }}
+      className="flex w-full flex-col rounded-lg bg-white shadow-sm"
+      style={{ marginBottom: '5rem', gap: '50px' }}
     >
-      <div className="relative mb-4">
-        {/* 타이틀 */}
+      {/* 상단 보더탑 */}
+      <div
+        style={{
+          height: '1px',
+          backgroundColor: '#D0D9E6',
+          borderTopLeftRadius: '8px',
+          borderTopRightRadius: '8px',
+        }}
+      />
+
+      {/* 메인 콘텐츠 */}
+      <div className="flex p-6">
+        {/* 좌측 박스 (1:3 비율에서 1) */}
         <div
-          style={{
-            fontSize: '2rem',
-            fontWeight: 800,
-            color,
-            marginBottom: '20px',
-          }}
+          className="flex flex-col"
+          style={{ width: '25%', paddingRight: '2rem' }}
         >
-          {title}
+          {/* 타이틀 */}
+          <div
+            style={{
+              fontSize: '30px',
+              fontWeight: 600,
+              color: '#474E59',
+              marginBottom: '1rem',
+            }}
+          >
+            {title}
+          </div>
+
+          {/* 키컬러로 N위 */}
+          <div
+            style={{
+              fontSize: '32px',
+              fontWeight: 600,
+              color: color,
+              marginBottom: '0.5rem',
+            }}
+          >
+            {currentRank}위
+          </div>
+
+          {/* 상위 N% */}
+          <div
+            style={{
+              fontSize: '0.9rem',
+              color: '#ADB5C4',
+            }}
+          >
+            상위 {topPercentage}%
+          </div>
+        </div>
+
+        {/* 우측 박스 (1:3 비율에서 3) */}
+        <div style={{ width: '75%' }}>
+          <div
+            style={{
+              color: '#474E59',
+              lineHeight: '1.5',
+              fontSize: '0.95rem',
+            }}
+          >
+            {description}
+          </div>
         </div>
       </div>
 
-      {/* 설명 */}
-      <div
-        className="mb-6 whitespace-pre-line text-gray-600"
-        style={{
-          fontSize: '0.9rem',
-          lineHeight: '1.5rem',
-          marginBottom: '1rem',
-        }}
-      >
-        {description}
-      </div>
-
-      {/* 랭크 바 */}
-      <RankBar
-        currentRank={currentRank}
-        minRank={1}
-        maxRank={229}
-        color={color}
-      />
-
       {/* 세부 점수 그리드 */}
-      <div className="grid grid-cols-4" style={{ gap: '1.2rem' }}>
-        {scores.map((score, index) => (
-          <div
-            key={index}
-            className="flex cursor-pointer flex-col rounded-lg p-6 transition-all duration-300"
-            style={{
-              backgroundColor: '#E7E8EA',
-              padding: '1.2rem',
-              borderRadius: '10px',
-              aspectRatio: '1',
-              justifyContent: 'space-between',
-            }}
-            onClick={() => handleScoreClick(score)}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = color;
-              const spans = e.currentTarget.getElementsByTagName('span');
-              for (let span of spans) {
-                span.style.color = 'white';
-              }
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#E7E8EA';
-              const spans = e.currentTarget.getElementsByTagName('span');
-              for (let span of spans) {
-                span.style.color = span.classList.contains('source')
-                  ? '#666666'
-                  : '#000000';
-              }
-            }}
-          >
-            <span
-              className="mb-3 text-sm"
-              style={{
-                fontSize: '1.1rem',
-                fontWeight: 600,
-                color: '#000000',
-              }}
-            >
-              {score.indicator}
-            </span>
-            <span
-              className="mb-2 text-2xl font-extrabold"
-              style={{
-                fontSize: '2rem',
-                fontWeight: 600,
-                color: '#000000',
-              }}
-            >
-              {score.score}
-            </span>
-            <span
-              className="mb-2 text-xl font-bold"
-              style={{
-                fontWeight: 600,
-                color: '#000000',
-              }}
-            >
-              {score.rank}위
-            </span>
-            <span
-              className="source text-sm"
-              style={{
-                fontSize: '1rem',
-                color: '#666666',
-              }}
-            >
-              {score.source}
-            </span>
-          </div>
-        ))}
+      <div className="px-6 pb-6">
+        <CategoryScoreGrid
+          scores={scores}
+          color={color}
+          onScoreClick={handleScoreClick}
+        />
       </div>
 
       <CategoryDetailModal

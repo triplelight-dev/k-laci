@@ -1775,155 +1775,237 @@ var _s = __turbopack_context__.k.signature();
 ;
 const CategoryRanking = ({ data })=>{
     _s();
-    const { title, color, currentRank, description, scores } = data;
+    const { title, color, currentRank, totalRank, description, scores } = data;
     const [selectedScore, setSelectedScore] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [isModalOpen, setIsModalOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const handleScoreClick = (score)=>{
         setSelectedScore(score);
         setIsModalOpen(true);
     };
+    // 상위 퍼센트 계산
+    const topPercentage = Math.round(currentRank / totalRank * 100);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "flex w-full flex-col rounded-lg bg-white p-6 shadow-sm",
+        className: "flex w-full flex-col rounded-lg bg-white shadow-sm",
         style: {
-            marginBottom: '5rem',
-            backgroundColor: 'red'
+            marginBottom: '5rem'
         },
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "relative mb-4",
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    style: {
-                        fontSize: '2rem',
-                        fontWeight: 800,
-                        color,
-                        marginBottom: '20px'
-                    },
-                    children: title
-                }, void 0, false, {
-                    fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                    lineNumber: 31,
-                    columnNumber: 9
-                }, this)
+                style: {
+                    height: '1px',
+                    backgroundColor: '#D0D9E6',
+                    borderTopLeftRadius: '8px',
+                    borderTopRightRadius: '8px',
+                    marginBottom: '20px'
+                }
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                lineNumber: 29,
+                lineNumber: 33,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "mb-6 whitespace-pre-line text-gray-600",
-                style: {
-                    fontSize: '0.9rem',
-                    lineHeight: '1.5rem',
-                    marginBottom: '1rem'
-                },
-                children: description
-            }, void 0, false, {
-                fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                lineNumber: 44,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$atoms$2f$bars$2f$RankBar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                currentRank: currentRank,
-                minRank: 1,
-                maxRank: 229,
-                color: color
-            }, void 0, false, {
-                fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                lineNumber: 56,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "grid grid-cols-4",
-                style: {
-                    gap: '1.2rem'
-                },
-                children: scores.map((score, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex cursor-pointer flex-col rounded-lg p-6 transition-all duration-300",
+                className: "flex p-6",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex flex-col justify-center",
                         style: {
-                            backgroundColor: '#E7E8EA',
-                            padding: '1.2rem',
-                            borderRadius: '10px',
-                            aspectRatio: '1',
-                            justifyContent: 'space-between'
-                        },
-                        onClick: ()=>handleScoreClick(score),
-                        onMouseEnter: (e)=>{
-                            e.currentTarget.style.backgroundColor = color;
-                            const spans = e.currentTarget.getElementsByTagName('span');
-                            for (let span of spans){
-                                span.style.color = 'white';
-                            }
-                        },
-                        onMouseLeave: (e)=>{
-                            e.currentTarget.style.backgroundColor = '#E7E8EA';
-                            const spans = e.currentTarget.getElementsByTagName('span');
-                            for (let span of spans){
-                                span.style.color = span.classList.contains('source') ? '#666666' : '#000000';
-                            }
+                            width: '25%',
+                            paddingRight: '2rem'
                         },
                         children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "mb-3 text-sm",
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 style: {
                                     fontSize: '1.1rem',
                                     fontWeight: 600,
-                                    color: '#000000'
+                                    color: '#333333',
+                                    marginBottom: '1rem'
                                 },
-                                children: score.indicator
+                                children: title
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                                lineNumber: 94,
-                                columnNumber: 13
+                                lineNumber: 48,
+                                columnNumber: 11
                             }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "mb-2 text-2xl font-extrabold",
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 style: {
-                                    fontSize: '2rem',
-                                    fontWeight: 600,
-                                    color: '#000000'
-                                },
-                                children: score.score
-                            }, void 0, false, {
-                                fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                                lineNumber: 104,
-                                columnNumber: 13
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "mb-2 text-xl font-bold",
-                                style: {
-                                    fontWeight: 600,
-                                    color: '#000000'
+                                    fontSize: '2.5rem',
+                                    fontWeight: 800,
+                                    color: color,
+                                    marginBottom: '0.5rem'
                                 },
                                 children: [
-                                    score.rank,
+                                    currentRank,
                                     "위"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                                lineNumber: 114,
-                                columnNumber: 13
+                                lineNumber: 60,
+                                columnNumber: 11
                             }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "source text-sm",
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 style: {
-                                    fontSize: '1rem',
+                                    fontSize: '0.9rem',
                                     color: '#666666'
                                 },
-                                children: score.source
-                            }, void 0, false, {
+                                children: [
+                                    "상위 ",
+                                    topPercentage,
+                                    "%"
+                                ]
+                            }, void 0, true, {
                                 fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                                lineNumber: 123,
-                                columnNumber: 13
+                                lineNumber: 72,
+                                columnNumber: 11
                             }, this)
                         ]
-                    }, index, true, {
+                    }, void 0, true, {
                         fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                        lineNumber: 66,
-                        columnNumber: 11
-                    }, this))
+                        lineNumber: 46,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        style: {
+                            width: '75%'
+                        },
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            style: {
+                                color: '#474E59',
+                                lineHeight: '1.5',
+                                fontSize: '0.95rem'
+                            },
+                            children: description
+                        }, void 0, false, {
+                            fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
+                            lineNumber: 84,
+                            columnNumber: 11
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
+                        lineNumber: 83,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
+                lineNumber: 44,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "px-6 pb-6",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$atoms$2f$bars$2f$RankBar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                    currentRank: currentRank,
+                    minRank: 1,
+                    maxRank: totalRank,
+                    color: color
+                }, void 0, false, {
+                    fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
+                    lineNumber: 98,
+                    columnNumber: 9
+                }, this)
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                lineNumber: 64,
+                lineNumber: 97,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "px-6 pb-6",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "grid grid-cols-4",
+                    style: {
+                        gap: '1.2rem'
+                    },
+                    children: scores.map((score, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "flex cursor-pointer flex-col rounded-lg p-6 transition-all duration-300",
+                            style: {
+                                backgroundColor: '#E7E8EA',
+                                padding: '1.2rem',
+                                borderRadius: '10px',
+                                aspectRatio: '1',
+                                justifyContent: 'space-between'
+                            },
+                            onClick: ()=>handleScoreClick(score),
+                            onMouseEnter: (e)=>{
+                                e.currentTarget.style.backgroundColor = color;
+                                const spans = e.currentTarget.getElementsByTagName('span');
+                                for (let span of spans){
+                                    span.style.color = 'white';
+                                }
+                            },
+                            onMouseLeave: (e)=>{
+                                e.currentTarget.style.backgroundColor = '#E7E8EA';
+                                const spans = e.currentTarget.getElementsByTagName('span');
+                                for (let span of spans){
+                                    span.style.color = span.classList.contains('source') ? '#666666' : '#000000';
+                                }
+                            },
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    className: "mb-3 text-sm",
+                                    style: {
+                                        fontSize: '1.1rem',
+                                        fontWeight: 600,
+                                        color: '#000000'
+                                    },
+                                    children: score.indicator
+                                }, void 0, false, {
+                                    fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
+                                    lineNumber: 138,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    className: "mb-2 text-2xl font-extrabold",
+                                    style: {
+                                        fontSize: '2rem',
+                                        fontWeight: 600,
+                                        color: '#000000'
+                                    },
+                                    children: score.score
+                                }, void 0, false, {
+                                    fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
+                                    lineNumber: 148,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    className: "mb-2 text-xl font-bold",
+                                    style: {
+                                        fontWeight: 600,
+                                        color: '#000000'
+                                    },
+                                    children: [
+                                        score.rank,
+                                        "위"
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
+                                    lineNumber: 158,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    className: "source text-sm",
+                                    style: {
+                                        fontSize: '1rem',
+                                        color: '#666666'
+                                    },
+                                    children: score.source
+                                }, void 0, false, {
+                                    fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
+                                    lineNumber: 167,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, index, true, {
+                            fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
+                            lineNumber: 110,
+                            columnNumber: 13
+                        }, this))
+                }, void 0, false, {
+                    fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
+                    lineNumber: 108,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
+                lineNumber: 107,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$atoms$2f$modal$2f$CategoryDetailModal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1933,13 +2015,13 @@ const CategoryRanking = ({ data })=>{
                 color: color
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-                lineNumber: 136,
+                lineNumber: 181,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/packages/frontend/app/results/components/CategoryRanking.tsx",
-        lineNumber: 25,
+        lineNumber: 28,
         columnNumber: 5
     }, this);
 };
@@ -2046,7 +2128,7 @@ const CategoryRankingSection = ()=>{
     const title = '원형별 역량 분포';
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         style: {
-            width: '50%',
+            // width: '100%',
             display: 'flex',
             justifyContent: 'center'
         },
@@ -3809,10 +3891,10 @@ const IndexItem = ({ data, onClick })=>{
         },
         onClick: ()=>onClick(data),
         onMouseEnter: (e)=>{
-            e.currentTarget.style.backgroundColor = '#F5F5F5';
+            e.currentTarget.style.border = `1px solid ${categoryColor}`;
         },
         onMouseLeave: (e)=>{
-            e.currentTarget.style.backgroundColor = 'white';
+            e.currentTarget.style.border = '1px solid #D9D9E8';
         },
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4683,12 +4765,19 @@ function ResultsPage() {
                                     columnNumber: 13
                                 }, this),
                                 isLoggedIn && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$CompetencyDistSection$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
-                                        fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                                        lineNumber: 190,
-                                        columnNumber: 17
-                                    }, this)
-                                }, void 0, false)
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$CompetencyDistSection$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
+                                            fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+                                            lineNumber: 191,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$CategoryRankingSection$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
+                                            fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
+                                            lineNumber: 192,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
@@ -4709,23 +4798,6 @@ function ResultsPage() {
             isLoggedIn && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 style: {
                     display: 'flex',
-                    justifyContent: 'center',
-                    background: '#F8F8F8'
-                },
-                className: "jsx-c9be297a59958b1f",
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$CategoryRankingSection$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
-                    fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                    lineNumber: 206,
-                    columnNumber: 11
-                }, this)
-            }, void 0, false, {
-                fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                lineNumber: 199,
-                columnNumber: 9
-            }, this),
-            isLoggedIn && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                style: {
-                    display: 'flex',
                     width: '90%',
                     justifyContent: 'center',
                     background: '#F8F8F8',
@@ -4735,12 +4807,12 @@ function ResultsPage() {
                 className: "jsx-c9be297a59958b1f",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$app$2f$results$2f$sections$2f$PreRegistrationSection$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                     fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                    lineNumber: 222,
+                    lineNumber: 211,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                lineNumber: 212,
+                lineNumber: 201,
                 columnNumber: 9
             }, this),
             isFloating && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4765,12 +4837,12 @@ function ResultsPage() {
                     isFloating: true
                 }, void 0, false, {
                     fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                    lineNumber: 245,
+                    lineNumber: 234,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/app/results/[district]/page.tsx",
-                lineNumber: 227,
+                lineNumber: 216,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
