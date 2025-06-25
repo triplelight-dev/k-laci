@@ -1,20 +1,19 @@
-import MainLayout from '@/components/layout/MainLayout';
+import IntroSection from '@/features/home/sections/IntroSection';
+import DistrictSearchSection from '@/features/home/sections/DistrictSearchSection';
+import TopDistrictSection from '@/features/home/sections/TopDistrictSection';
+import StandardSection from '@/features/home/sections/StandardSection';
+import ReportReservationSection from '@/features/home/sections/ReportReservationSection';
 
-// sections
-import IntroSection from './home/IntroSection';
-import StandardSection from './home/StandardSection';
-import TopDistrictSection from './home/TopDistrictSection';
-import ReportReservationSection from './home/ReportReservationSection';
-import DistrictSearchSection from './home/DistrictSearchSection';
+import HomeLayout from '@/components/layout/HomeLayout';
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <MainLayout>
+    <HomeLayout>
       <IntroSection />
-      <StandardSection />
-      <TopDistrictSection />
-      <ReportReservationSection />
       <DistrictSearchSection />
-    </MainLayout>
+      <TopDistrictSection />
+      <StandardSection />
+      <ReportReservationSection />
+    </HomeLayout>
   );
 }
