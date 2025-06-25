@@ -1,19 +1,18 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
 import ResultLayout from '@/components/layout/ResultLayout';
-import { useAuth } from '@/store';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 // sections
+import CategoryRankingSection from '@/features/results/sections/CategoryRankingSection';
+import CompetencyDistSection from '@/features/results/sections/CompetencyDistSection';
 import DistrictSearchSection from '@/features/results/sections/DistrictSearchSection';
 import DistrictSelectSection from '@/features/results/sections/DistrictSelectSection';
-import CategoryRankingSection from '@/features/results/sections/CategoryRankingSection';
-import TitleSection from '@/features/results/sections/TitleSection';
-import SummarySection from '@/features/results/sections/SummarySection';
-import StrengthWeaknessIndexSection from '@/features/results/sections/StrenthWeaknessIndexSection';
-import CompetencyDistSection from '@/features/results/sections/CompetencyDistSection';
 import PreRegistrationSection from '@/features/results/sections/PreRegistrationSection';
+import StrengthWeaknessIndexSection from '@/features/results/sections/StrenthWeaknessIndexSection';
+import SummarySection from '@/features/results/sections/SummarySection';
+import TitleSection from '@/features/results/sections/TitleSection';
 
 // 지자체 데이터 타입 정의
 interface DistrictData {
@@ -29,7 +28,6 @@ export default function ResultsPage() {
   const [isFloating, setIsFloating] = useState(false);
   const [districtData, setDistrictData] = useState<DistrictData | null>(null);
   const [loading, setLoading] = useState(true);
-  // const { isLoggedIn } = useAuth();
   const isLoggedIn = true;
 
   // 지자체 데이터 매핑
@@ -77,12 +75,18 @@ export default function ResultsPage() {
           setDistrictData(data);
         } else {
           // 유효하지 않은 districtId인 경우 기본값 사용
-          setDistrictData(districtsMap['jeonbuk-jeonju']);
+          const defaultData = districtsMap['jeonbuk-jeonju'];
+          if (defaultData) {
+            setDistrictData(defaultData);
+          }
         }
       } catch (error) {
         console.error('Failed to load district data:', error);
         // 에러 시 기본값 사용
-        setDistrictData(districtsMap['jeonbuk-jeonju']);
+        const defaultData = districtsMap['jeonbuk-jeonju'];
+        if (defaultData) {
+          setDistrictData(defaultData);
+        }
       } finally {
         setLoading(false);
       }
@@ -105,6 +109,7 @@ export default function ResultsPage() {
 
       return () => clearTimeout(timer);
     }
+    return;
   }, [districtId]);
 
   if (loading) {
@@ -198,18 +203,7 @@ export default function ResultsPage() {
 
       {/* 로그인한 경우에만 PreRegistrationSection 표시 */}
       {isLoggedIn && (
-        <div
-          style={{
-            display: 'flex',
-            width: '90%',
-            justifyContent: 'center',
-            background: '#F8F8F8',
-            marginTop: '100px',
-            marginBottom: '100px',
-          }}
-        >
-          <PreRegistrationSection />
-        </div>
+        <PreRegistrationSection />
       )}
 
       {isFloating && (

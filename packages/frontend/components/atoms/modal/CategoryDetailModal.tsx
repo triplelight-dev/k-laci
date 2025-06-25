@@ -1,7 +1,7 @@
 'use client';
 
-import React from 'react';
 import { CategoryScore } from '@/types/category';
+import React from 'react';
 
 interface CategoryDetailModalProps {
   isOpen: boolean;
@@ -81,7 +81,7 @@ const CategoryDetailModal: React.FC<CategoryDetailModalProps> = ({
               color: color,
             }}
           >
-            {score.indicator}
+            {score.name}
           </h2>
 
           <div
@@ -103,7 +103,7 @@ const CategoryDetailModal: React.FC<CategoryDetailModalProps> = ({
               }}
             >
               <p style={{ fontSize: '1.5rem', fontWeight: '600' }}>
-                점수: {score.score}
+                점수: {score.value}
               </p>
               <p style={{ fontSize: '1.5rem', fontWeight: '600' }}>
                 순위: {score.rank}위
@@ -115,7 +115,7 @@ const CategoryDetailModal: React.FC<CategoryDetailModalProps> = ({
                   marginTop: '1rem',
                 }}
               >
-                {score.source}
+                {score.description || '데이터 출처 정보가 없습니다.'}
               </p>
             </div>
           </div>

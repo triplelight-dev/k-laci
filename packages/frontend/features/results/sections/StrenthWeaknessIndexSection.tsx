@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
 import IndexModal from '@/components/atoms/modal/IndexModal';
+import React, { useState } from 'react';
 
 // 색상 맵 정의
 const colorMap: Record<string, string> = {
@@ -86,7 +86,7 @@ const IndexSection: React.FC<{
   data: IndexData[];
   isStrength?: boolean;
   onItemClick: (data: IndexData) => void;
-}> = ({ title, data, isStrength = true, onItemClick }) => {
+}> = ({ title, data, onItemClick }) => {
   return (
     <div
       style={{
@@ -144,13 +144,8 @@ const IndexSection: React.FC<{
 };
 
 const StrengthWeaknessIndexSection: React.FC = () => {
-  const [searchValue, setSearchValue] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedData, setSelectedData] = useState<IndexData | null>(null);
-
-  const handleRecentSearchClick = (value: string) => {
-    setSearchValue(value);
-  };
 
   const handleItemClick = (data: IndexData) => {
     setSelectedData(data);
@@ -210,7 +205,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
         <IndexSection
           title="약점지표"
           data={weaknessData}
-          isStrength={false}
+          isStrength={true}
           onItemClick={handleItemClick}
         />
       </div>

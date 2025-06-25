@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { DistrictCard } from '../components/DistrictCard';
 import DistrictSlider from '../components/DistrictSlider';
 
 const DistrictSearchSection: React.FC = () => {
