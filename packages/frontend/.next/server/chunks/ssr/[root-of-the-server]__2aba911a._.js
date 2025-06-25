@@ -252,6 +252,12 @@ const FooterTopSection = ()=>{
             ]
         }
     };
+    const handleMouseEnter = (e)=>{
+        e.currentTarget.style.color = '#ffffff';
+    };
+    const handleMouseLeave = (e)=>{
+        e.currentTarget.style.color = '#D1D5DB';
+    };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
         style: {
             width: '100%',
@@ -279,7 +285,7 @@ const FooterTopSection = ()=>{
                                 children: sitemapData.personal.title
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                                lineNumber: 50,
+                                lineNumber: 58,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -300,28 +306,28 @@ const FooterTopSection = ()=>{
                                                 fontSize: '14px',
                                                 transition: 'color 0.2s ease'
                                             },
-                                            onMouseEnter: (e)=>e.target.style.color = '#ffffff',
-                                            onMouseLeave: (e)=>e.target.style.color = '#D1D5DB',
+                                            onMouseEnter: handleMouseEnter,
+                                            onMouseLeave: handleMouseLeave,
                                             children: link.name
                                         }, void 0, false, {
                                             fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                                            lineNumber: 63,
+                                            lineNumber: 71,
                                             columnNumber: 19
                                         }, this)
                                     }, index, false, {
                                         fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                                        lineNumber: 62,
+                                        lineNumber: 70,
                                         columnNumber: 17
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                                lineNumber: 60,
+                                lineNumber: 68,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                        lineNumber: 49,
+                        lineNumber: 57,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -336,7 +342,7 @@ const FooterTopSection = ()=>{
                                 children: sitemapData.paid.title
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                                lineNumber: 83,
+                                lineNumber: 91,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -357,28 +363,28 @@ const FooterTopSection = ()=>{
                                                 fontSize: '14px',
                                                 transition: 'color 0.2s ease'
                                             },
-                                            onMouseEnter: (e)=>e.target.style.color = '#ffffff',
-                                            onMouseLeave: (e)=>e.target.style.color = '#D1D5DB',
+                                            onMouseEnter: handleMouseEnter,
+                                            onMouseLeave: handleMouseLeave,
                                             children: link.name
                                         }, void 0, false, {
                                             fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                                            lineNumber: 96,
+                                            lineNumber: 104,
                                             columnNumber: 19
                                         }, this)
                                     }, index, false, {
                                         fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                                        lineNumber: 95,
+                                        lineNumber: 103,
                                         columnNumber: 17
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                                lineNumber: 93,
+                                lineNumber: 101,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                        lineNumber: 82,
+                        lineNumber: 90,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -393,7 +399,7 @@ const FooterTopSection = ()=>{
                                 children: sitemapData.contact.title
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                                lineNumber: 116,
+                                lineNumber: 124,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -414,44 +420,44 @@ const FooterTopSection = ()=>{
                                                 fontSize: '14px',
                                                 transition: 'color 0.2s ease'
                                             },
-                                            onMouseEnter: (e)=>e.target.style.color = '#ffffff',
-                                            onMouseLeave: (e)=>e.target.style.color = '#D1D5DB',
+                                            onMouseEnter: handleMouseEnter,
+                                            onMouseLeave: handleMouseLeave,
                                             children: link.name
                                         }, void 0, false, {
                                             fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                                            lineNumber: 129,
+                                            lineNumber: 137,
                                             columnNumber: 19
                                         }, this)
                                     }, index, false, {
                                         fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                                        lineNumber: 128,
+                                        lineNumber: 136,
                                         columnNumber: 17
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                                lineNumber: 126,
+                                lineNumber: 134,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                        lineNumber: 115,
+                        lineNumber: 123,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-                lineNumber: 42,
+                lineNumber: 50,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-            lineNumber: 41,
+            lineNumber: 49,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/packages/frontend/components/Footer/FooterTopSection.tsx",
-        lineNumber: 32,
+        lineNumber: 40,
         columnNumber: 5
     }, this);
 };

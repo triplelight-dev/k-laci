@@ -28,6 +28,14 @@ const FooterTopSection = () => {
     },
   };
 
+  const handleMouseEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.currentTarget.style.color = '#ffffff';
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.currentTarget.style.color = '#D1D5DB';
+  };
+
   return (
     <section
       style={{
@@ -68,8 +76,8 @@ const FooterTopSection = () => {
                       fontSize: '14px',
                       transition: 'color 0.2s ease',
                     }}
-                    onMouseEnter={(e) => (e.target.style.color = '#ffffff')}
-                    onMouseLeave={(e) => (e.target.style.color = '#D1D5DB')}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
                   >
                     {link.name}
                   </a>
@@ -101,8 +109,8 @@ const FooterTopSection = () => {
                       fontSize: '14px',
                       transition: 'color 0.2s ease',
                     }}
-                    onMouseEnter={(e) => (e.target.style.color = '#ffffff')}
-                    onMouseLeave={(e) => (e.target.style.color = '#D1D5DB')}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
                   >
                     {link.name}
                   </a>
@@ -134,8 +142,8 @@ const FooterTopSection = () => {
                       fontSize: '14px',
                       transition: 'color 0.2s ease',
                     }}
-                    onMouseEnter={(e) => (e.target.style.color = '#ffffff')}
-                    onMouseLeave={(e) => (e.target.style.color = '#D1D5DB')}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
                   >
                     {link.name}
                   </a>
