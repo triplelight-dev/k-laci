@@ -1,7 +1,7 @@
 'use client';
 
+import { CategoryScore } from '@/types/category';
 import React from 'react';
-import { CategoryScore } from '../types/category';
 
 interface CategoryScoreGridProps {
   scores: CategoryScore[];

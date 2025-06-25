@@ -1,8 +1,7 @@
 'use client';
 
-import React from 'react';
 import { useRouter } from 'next/navigation';
-import RankBadge from '@/components/atoms/badges/RankBadge';
+import React from 'react';
 
 import JewelRadarChart from '@/components/atoms/charts/RadarChart';
 
@@ -88,6 +87,8 @@ const TitleSection: React.FC<TitleSectionProps> = ({ districtData }) => {
     }
 
     const targetDistrict = districts[targetIndex];
+
+    if (!targetDistrict) return null;
 
     console.log(
       `Navigating to ${targetDistrict.name} (${targetDistrict.rank}위)`,

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 type Props = {
   data: number[]; // [0~100] 값 8개
@@ -9,7 +9,6 @@ type Props = {
 };
 
 const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
-  const [hoveredPoint, setHoveredPoint] = useState<number | null>(null);
   const [hoveredArea, setHoveredArea] = useState<'top' | 'bottom' | null>(null);
 
   const center = size / 2;
@@ -197,8 +196,9 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
         </style>
 
         {categories.map((category, i) => {
-          const pct = Math.min(100, (vals[i] / 100) * 100);
-          const [startColor, endColor] = fixedColorPairs[i];
+          if (!category) return null;
+          const pct = Math.min(100, (vals[i] ?? 0) / 100 * 100);
+          const [startColor, endColor] = fixedColorPairs[i] ?? ['#000', '#000'];
 
           if (category === '안전복원형') {
             return (
@@ -273,6 +273,8 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
       {/* 보석 삼각형 */}
       {points.map((pt, i) => {
         const next = points[(i + 1) % numAxes];
+        if (!next) return null;
+        
         return (
           <path
             key={i}
@@ -296,6 +298,8 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
           <g mask="url(#hoverTopMask)">
             {points.map((pt, i) => {
               const next = points[(i + 1) % numAxes];
+              if (!next) return null;
+              
               return (
                 <path
                   key={`top-${i}`}
@@ -318,6 +322,8 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
           <g mask="url(#hoverBottomMask)">
             {points.map((pt, i) => {
               const next = points[(i + 1) % numAxes];
+              if (!next) return null;
+              
               return (
                 <path
                   key={`bottom-${i}`}
@@ -372,6 +378,8 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
       {/* 📍 데이터 포인트 (작은 동그라미) */}
       {!isJewel &&
         points.map((pt, i) => {
+          const category = categories[i];
+          if (!category) return null;
           // 180도 가로선 기준으로 상단/하단 판별 (center가 180도 가로선)
           const isTop = pt.y <= center;
           const pointColor = isTop ? '#3352D7' : '#95A6C1';
@@ -393,35 +401,47 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
                     'opacity 0.3s ease, r 0.2s ease, stroke-width 0.2s ease',
                   cursor: 'pointer',
                 }}
-                onMouseEnter={() => setHoveredPoint(i)}
-                onMouseLeave={() => setHoveredPoint(null)}
+                onMouseEnter={() => {
+                  // 호버 시 동그라미 크기 증가
+                  const circle = document.querySelector(
+                    `circle[data-index="${i}"]`
+                  ) as SVGElement;
+                  if (circle) {
+                    circle.style.r = '6';
+                    circle.style.strokeWidth = '2';
+                  }
+                }}
+                onMouseLeave={() => {
+                  // 호버 해제 시 동그라미 크기 복원
+                  const circle = document.querySelector(
+                    `circle[data-index="${i}"]`
+                  ) as SVGElement;
+                  if (circle) {
+                    circle.style.r = '4';
+                    circle.style.strokeWidth = '1.5';
+                  }
+                }}
+                data-index={i}
               />
 
-              {/* 툴팁 */}
-              {hoveredPoint === i && (
-                <g>
-                  {/* 툴팁 배경 */}
-                  <rect
-                    x={pt.x + 10}
-                    y={pt.y - 25}
-                    width={40}
-                    height={30}
-                    rx={5}
-                    fill="rgba(0, 0, 0, 0.8)"
-                  />
-                  {/* 툴팁 텍스트 */}
-                  <text
-                    x={pt.x + 30}
-                    y={pt.y - 8}
-                    textAnchor="middle"
-                    fontSize={fontSize.tooltip}
-                    fill="white"
-                    fontWeight="bold"
-                  >
-                    {vals[i]}
-                  </text>
-                </g>
-              )}
+              {/* 카테고리 텍스트 */}
+              <text
+                x={pt.x}
+                y={pt.y - 15}
+                textAnchor="middle"
+                fontSize="12"
+                fontWeight="600"
+                fill={['인구성장형', '안전복원형'].includes(category)
+                  ? colorMap[category] || '#333'
+                  : '#333'}
+                className="category-text"
+                style={{
+                  opacity: 0,
+                  transition: 'opacity 0.3s ease',
+                }}
+              >
+                {category}
+              </text>
             </g>
           );
         })}
@@ -471,11 +491,14 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
       {/*️ 축 라벨 */}
       {!isJewel &&
         points.map((pt, i) => {
+          const category = categories[i];
+          if (!category) return null;
+          
           let deg = (pt.angle * 180) / Math.PI + 90;
           if (deg > 180) deg -= 180;
           if (
             ['경제혁신형', '인구성장형', '경제정속형', '인구정착형'].includes(
-              categories[i],
+              category,
             )
           ) {
             deg += 180;
@@ -486,8 +509,8 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
             center + (radius + labelOffset.category) * Math.sin(pt.angle);
 
           // 인구성장형, 안전복원형 외에는 회색으로
-          const textColor = ['인구성장형', '안전복원형'].includes(categories[i])
-            ? colorMap[categories[i]]
+          const textColor = ['인구성장형', '안전복원형'].includes(category)
+            ? colorMap[category] || '#999999'
             : '#999999';
 
           return (
@@ -502,7 +525,7 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
               fill={textColor}
               transform={`rotate(${deg} ${x} ${y})`}
             >
-              {categories[i]}
+              {category}
             </text>
           );
         })}
