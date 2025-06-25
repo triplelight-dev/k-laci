@@ -1,4 +1,4 @@
-import NewsletterForm from '@/atoms/NewsletterForm';
+import NewsletterForm from '@/components/atoms/NewsletterForm';
 
 const NewsletterSection = () => (
   <div className="flex-[1.5] flex flex-col items-start" style={{ width: '100%', gap: '1rem' }}>

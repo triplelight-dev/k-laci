@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///Users/jincheoljuhn/Desktop/Projects/k-laci/packages/frontend/features/summary/components/SummaryGridItem.tsx"],"sourcesContent":["'use client';\n\nimport React from 'react';\n\ninterface SummaryGridItemProps {\n  title: string;\n  value: string | number;\n  description?: string;\n  color?: string;\n}\n\nconst SummaryGridItem: React.FC<SummaryGridItemProps> = ({\n  title,\n  value,\n  description,\n  color = '#3B82F6'\n}) => {\n  return (\n    <div className=\"bg-white p-6 rounded-lg shadow-sm border border-gray-200\">\n      <div className=\"text-sm text-gray-600 mb-2\">{title}</div>\n      <div \n        className=\"text-2xl font-bold mb-2\"\n        style={{ color }}\n      >\n        {value}\n      </div>\n      {description && (\n        <div className=\"text-xs text-gray-500\">{description}</div>\n      )}\n    </div>\n  );\n};\n\nexport default SummaryGridItem; "],"names":[],"mappings":";;;;AAAA;;AAWA,MAAM,kBAAkD,CAAC,EACvD,KAAK,EACL,KAAK,EACL,WAAW,EACX,QAAQ,SAAS,EAClB;IACC,qBACE,6LAAC;QAAI,WAAU;;0BACb,6LAAC;gBAAI,WAAU;0BAA8B;;;;;;0BAC7C,6LAAC;gBACC,WAAU;gBACV,OAAO;oBAAE;gBAAM;0BAEd;;;;;;YAEF,6BACC,6LAAC;gBAAI,WAAU;0BAAyB;;;;;;;;;;;;AAIhD;KApBM;uCAsBS","debugId":null}}]
+}

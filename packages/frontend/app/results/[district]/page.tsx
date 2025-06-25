@@ -6,14 +6,14 @@ import ResultLayout from '@/components/layout/ResultLayout';
 import { useAuth } from '@/store';
 
 // sections
-import DistrictSearchSection from '../sections/DistrictSearchSection';
-import DistrictSelectSection from '../sections/DistrictSelectSection';
-import CategoryRankingSection from '../sections/CategoryRankingSection';
-import SummarySection from '../sections/SummarySection';
-import TitleSection from '../sections/TitleSection';
-import PreRegistrationSection from '../sections/PreRegistrationSection';
-import StrengthWeaknessIndexSection from '../sections/StrenthWeaknessIndexSection';
-import CompetencyDistSection from '../sections/CompetencyDistSection';
+import DistrictSearchSection from '@/features/results/sections/DistrictSearchSection';
+import DistrictSelectSection from '@/features/results/sections/DistrictSelectSection';
+import CategoryRankingSection from '@/features/results/sections/CategoryRankingSection';
+import TitleSection from '@/features/results/sections/TitleSection';
+import SummarySection from '@/features/results/sections/SummarySection';
+import StrengthWeaknessIndexSection from '@/features/results/sections/StrenthWeaknessIndexSection';
+import CompetencyDistSection from '@/features/results/sections/CompetencyDistSection';
+import PreRegistrationSection from '@/features/results/sections/PreRegistrationSection';
 
 // 지자체 데이터 타입 정의
 interface DistrictData {

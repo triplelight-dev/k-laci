@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///Users/jincheoljuhn/Desktop/Projects/k-laci/packages/frontend/app/results/layout.tsx"],"sourcesContent":["import Header from '@/components/layout/Header';\nimport Footer from '@/components/layout/Footer';\n\nexport default function ResultsLayout({ children }: { children: React.ReactNode }) {\n  return (\n    <div style={{ width: '100%' }}>\n      <Header />\n      <div style={{\n        display: 'flex',\n        flexDirection: 'column',\n        width: '100%',\n        alignItems: 'center',\n        justifyContent: 'center',\n      }}>\n        {children}\n      </div>\n      <Footer />\n    </div>\n  );\n} "],"names":[],"mappings":";;;;;;;;;;;;;;;;;AAGe,SAAS,cAAc,EAAE,QAAQ,EAAiC;IAC/E,qBACE,8OAAC;QAAI,OAAO;YAAE,OAAO;QAAO;;0BAC1B,8OAAC;;;;;0BACD,8OAAC;gBAAI,OAAO;oBACV,SAAS;oBACT,eAAe;oBACf,OAAO;oBACP,YAAY;oBACZ,gBAAgB;gBAClB;0BACG;;;;;;0BAEH,8OAAC;;;;;;;;;;;AAGP","debugId":null}}]
+}

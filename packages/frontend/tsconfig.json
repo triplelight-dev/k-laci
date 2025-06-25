@@ -27,7 +27,7 @@
         "name": "next"
       }
     ],
-    "paths": { "@/*": ["./*"], "atoms/*": ["./atoms/*"] }
+    "paths": { "@/*": ["./*"], "atoms/*": ["components/atoms/*"] }
   },
   "include": [
     "next-env.d.ts",

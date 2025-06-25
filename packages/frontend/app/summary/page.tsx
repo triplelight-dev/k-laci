@@ -1,8 +1,13 @@
 'use client';
 
 import SummaryLayout from '@/components/layout/SummaryLayout';
-import SummaryGridItem from './components/SummaryGridItem';
-import { SummaryItem } from './types/summary';
+import SummaryGridItem from '@/features/summary/components/SummaryGridItem';
+
+interface SummaryItem {
+  keyName: string;
+  rankName: string;
+  link: string;
+}
 
 const mockSummaryItems: SummaryItem[] = [
   {

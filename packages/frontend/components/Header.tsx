@@ -14,14 +14,14 @@ const Header = () => {
 
   // Navigation 메뉴 데이터
   const navigationItems = [
-    {
-      href: '/about',
-      label: '지역자산역량지수 소개',
-    },
-    {
-      href: '/summary',
-      label: '주요 분석 결과',
-    },
+    // {
+    //   href: '/about',
+    //   label: '지역자산역량지수 소개',
+    // },
+    // {
+    //   href: '/summary',
+    //   label: '주요 분석 결과',
+    // },
     {
       href: '/results',
       label: '지자체별 리포트 조회',
