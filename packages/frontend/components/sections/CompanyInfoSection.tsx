@@ -1,4 +1,8 @@
-const companyInfo = [
+interface CompanyInfo {
+  text: string;
+}
+
+const companyInfo: CompanyInfo[] = [
   { text: '대표: 이은화, 정유진' },
   { text: '사업자등록번호: 525-88-01428' },
 ];
@@ -14,4 +18,4 @@ const CompanyInfoSection = () => (
   </div>
 );
 
-export default CompanyInfoSection; 
+export default CompanyInfoSection;

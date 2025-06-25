@@ -1,5 +1,5 @@
 import React from 'react';
-import { DistrictRank } from '@/app/types/district';
+import { DistrictRank } from '@/types/district';
 
 interface DistrictCardProps {
   data: DistrictRank;
