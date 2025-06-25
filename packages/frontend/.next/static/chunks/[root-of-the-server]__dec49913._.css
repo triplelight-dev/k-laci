@@ -148,6 +148,10 @@
   margin-inline: auto;
 }
 
+.mt-auto {
+  margin-top: auto;
+}
+
 .block {
   display: block;
 }
@@ -330,6 +334,12 @@
   transition-duration: var(--tw-duration, 0s);
 }
 
+.transition-all {
+  transition-property: all;
+  transition-timing-function: var(--tw-ease, ease);
+  transition-duration: var(--tw-duration, 0s);
+}
+
 .transition-colors {
   transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to;
   transition-timing-function: var(--tw-ease, ease);
@@ -356,6 +366,12 @@
 .duration-300 {
   --tw-duration: .3s;
   transition-duration: .3s;
+}
+
+@media (hover: hover) {
+  .hover\:border-current:hover {
+    border-color: currentColor;
+  }
 }
 
 @media (hover: hover) {
