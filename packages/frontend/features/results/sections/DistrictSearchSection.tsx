@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import SearchTextInput from '@/components/atoms/input/SearchTextInput';
+import SearchTextInput from '@/components/ui/SearchTextInput';
 
 const DistrictSearchSection: React.FC = () => {
   const [searchValue, setSearchValue] = useState('');
