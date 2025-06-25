@@ -729,6 +729,81 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
     __turbopack_context__.k.registerExports(module, globalThis.$RefreshHelpers$);
 }
 }}),
+"[project]/packages/frontend/constants/colors.ts [app-client] (ecmascript)": ((__turbopack_context__) => {
+"use strict";
+
+var { g: global, __dirname, k: __turbopack_refresh__, m: module } = __turbopack_context__;
+{
+// 카테고리별 색상 매핑
+__turbopack_context__.s({
+    "categories": (()=>categories),
+    "categoryColors": (()=>categoryColors),
+    "gradientColorPairs": (()=>gradientColorPairs)
+});
+const categoryColors = {
+    // 4대 영역
+    안전회복력: '#74BF9E',
+    인구성장력: '#F56542',
+    경제활동력: '#F2BA5D',
+    생활기반력: '#C2BDF3',
+    // 8개 유형
+    생활역동형: '#ACAAE8',
+    안전복원형: '#74BF9E',
+    인구정착형: '#F56542',
+    경제정속형: '#F4B04D',
+    생활정주형: '#ACAAE8',
+    안전정진형: '#74BF9E',
+    인구성장형: '#F56542',
+    경제혁신형: '#F4B04D'
+};
+const gradientColorPairs = [
+    [
+        '#ACAAE8',
+        '#8E8AE5'
+    ],
+    [
+        '#74BF9E',
+        '#59A37D'
+    ],
+    [
+        '#F56542',
+        '#D64A2E'
+    ],
+    [
+        '#F4B04D',
+        '#D09B3F'
+    ],
+    [
+        '#ACAAE8',
+        '#8E8AE5'
+    ],
+    [
+        '#74BF9E',
+        '#59A37D'
+    ],
+    [
+        '#F56542',
+        '#D64A2E'
+    ],
+    [
+        '#F4B04D',
+        '#D09B3F'
+    ]
+];
+const categories = [
+    '생활역동형',
+    '안전복원형',
+    '인구정착형',
+    '경제정속형',
+    '생활정주형',
+    '안전정진형',
+    '인구성장형',
+    '경제혁신형'
+];
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(module, globalThis.$RefreshHelpers$);
+}
+}}),
 "[project]/packages/frontend/components/ui/CategoryDetailModal.tsx [app-client] (ecmascript)": ((__turbopack_context__) => {
 "use strict";
 
@@ -904,47 +979,101 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 ;
 const CategoryScoreGrid = ({ scores, color, onScoreClick })=>{
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4",
+        style: {
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: '16px',
+            maxWidth: '100%'
+        },
         children: scores.map((score, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "p-4 border border-gray-200 rounded-lg cursor-pointer hover:shadow-md transition-shadow",
+                style: {
+                    position: 'relative',
+                    cursor: 'pointer',
+                    borderRadius: '8px',
+                    border: '1px solid #e5e7eb',
+                    backgroundColor: 'white',
+                    padding: '20px',
+                    transition: 'all 0.2s ease',
+                    minHeight: '70px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between'
+                },
+                onMouseEnter: (e)=>{
+                    e.currentTarget.style.borderColor = color;
+                    e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+                },
+                onMouseLeave: (e)=>{
+                    e.currentTarget.style.borderColor = '#e5e7eb';
+                    e.currentTarget.style.boxShadow = 'none';
+                },
                 onClick: ()=>onScoreClick(score),
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "text-sm text-gray-600 mb-2",
-                        children: score.name
-                    }, void 0, false, {
-                        fileName: "[project]/packages/frontend/features/results/components/CategoryScoreGrid.tsx",
-                        lineNumber: 25,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "text-2xl font-bold",
                         style: {
-                            color: color
+                            position: 'absolute',
+                            top: '16px',
+                            right: '16px'
                         },
-                        children: score.value
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                            width: "16",
+                            height: "16",
+                            viewBox: "0 0 24 24",
+                            fill: "none",
+                            xmlns: "http://www.w3.org/2000/svg",
+                            style: {
+                                color: '#9ca3af'
+                            },
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                d: "M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z",
+                                fill: "currentColor"
+                            }, void 0, false, {
+                                fileName: "[project]/packages/frontend/features/results/components/CategoryScoreGrid.tsx",
+                                lineNumber: 69,
+                                columnNumber: 15
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "[project]/packages/frontend/features/results/components/CategoryScoreGrid.tsx",
+                            lineNumber: 61,
+                            columnNumber: 13
+                        }, this)
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/features/results/components/CategoryScoreGrid.tsx",
-                        lineNumber: 26,
+                        lineNumber: 54,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "text-xs text-gray-500 mt-1",
+                        style: {
+                            fontSize: '20px',
+                            fontWeight: '600',
+                            color: '#9BA5B5'
+                        },
+                        children: "보육시설수"
+                    }, void 0, false, {
+                        fileName: "[project]/packages/frontend/features/results/components/CategoryScoreGrid.tsx",
+                        lineNumber: 77,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        style: {
+                            fontSize: '24px',
+                            fontWeight: '700',
+                            color: color,
+                            marginTop: 'auto'
+                        },
                         children: [
                             score.rank,
-                            "위 / ",
-                            score.totalRank,
-                            "개"
+                            "위"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/packages/frontend/features/results/components/CategoryScoreGrid.tsx",
-                        lineNumber: 32,
+                        lineNumber: 88,
                         columnNumber: 11
                     }, this)
                 ]
             }, index, true, {
                 fileName: "[project]/packages/frontend/features/results/components/CategoryScoreGrid.tsx",
-                lineNumber: 20,
+                lineNumber: 27,
                 columnNumber: 9
             }, this))
     }, void 0, false, {
@@ -1138,81 +1267,6 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
     __turbopack_context__.k.registerExports(module, globalThis.$RefreshHelpers$);
 }
 }}),
-"[project]/packages/frontend/constants/colors.ts [app-client] (ecmascript)": ((__turbopack_context__) => {
-"use strict";
-
-var { g: global, __dirname, k: __turbopack_refresh__, m: module } = __turbopack_context__;
-{
-// 카테고리별 색상 매핑
-__turbopack_context__.s({
-    "categories": (()=>categories),
-    "categoryColors": (()=>categoryColors),
-    "gradientColorPairs": (()=>gradientColorPairs)
-});
-const categoryColors = {
-    // 4대 영역
-    안전회복력: '#74BF9E',
-    인구성장력: '#F56542',
-    경제활동력: '#F2BA5D',
-    생활기반력: '#C2BDF3',
-    // 8개 유형
-    생활역동형: '#ACAAE8',
-    안전복원형: '#74BF9E',
-    인구정착형: '#F56542',
-    경제정속형: '#F4B04D',
-    생활정주형: '#ACAAE8',
-    안전정진형: '#74BF9E',
-    인구성장형: '#F56542',
-    경제혁신형: '#F4B04D'
-};
-const gradientColorPairs = [
-    [
-        '#ACAAE8',
-        '#8E8AE5'
-    ],
-    [
-        '#74BF9E',
-        '#59A37D'
-    ],
-    [
-        '#F56542',
-        '#D64A2E'
-    ],
-    [
-        '#F4B04D',
-        '#D09B3F'
-    ],
-    [
-        '#ACAAE8',
-        '#8E8AE5'
-    ],
-    [
-        '#74BF9E',
-        '#59A37D'
-    ],
-    [
-        '#F56542',
-        '#D64A2E'
-    ],
-    [
-        '#F4B04D',
-        '#D09B3F'
-    ]
-];
-const categories = [
-    '생활역동형',
-    '안전복원형',
-    '인구정착형',
-    '경제정속형',
-    '생활정주형',
-    '안전정진형',
-    '인구성장형',
-    '경제혁신형'
-];
-if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
-    __turbopack_context__.k.registerExports(module, globalThis.$RefreshHelpers$);
-}
-}}),
 "[project]/packages/frontend/features/results/sections/CategoryRankingSection.tsx [app-client] (ecmascript)": ((__turbopack_context__) => {
 "use strict";
 
@@ -1222,8 +1276,8 @@ __turbopack_context__.s({
     "default": (()=>__TURBOPACK__default__export__)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$features$2f$results$2f$components$2f$CategoryRanking$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/packages/frontend/features/results/components/CategoryRanking.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$constants$2f$colors$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/packages/frontend/constants/colors.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$features$2f$results$2f$components$2f$CategoryRanking$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/packages/frontend/features/results/components/CategoryRanking.tsx [app-client] (ecmascript)");
 'use client';
 ;
 ;
@@ -1254,7 +1308,7 @@ const CategoryRankingSection = ()=>{
                     children: title
                 }, void 0, false, {
                     fileName: "[project]/packages/frontend/features/results/sections/CategoryRankingSection.tsx",
-                    lineNumber: 28,
+                    lineNumber: 27,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1263,23 +1317,23 @@ const CategoryRankingSection = ()=>{
                             data: category
                         }, index, false, {
                             fileName: "[project]/packages/frontend/features/results/sections/CategoryRankingSection.tsx",
-                            lineNumber: 43,
+                            lineNumber: 42,
                             columnNumber: 13
                         }, this))
                 }, void 0, false, {
                     fileName: "[project]/packages/frontend/features/results/sections/CategoryRankingSection.tsx",
-                    lineNumber: 41,
+                    lineNumber: 40,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/packages/frontend/features/results/sections/CategoryRankingSection.tsx",
-            lineNumber: 20,
+            lineNumber: 19,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/packages/frontend/features/results/sections/CategoryRankingSection.tsx",
-        lineNumber: 13,
+        lineNumber: 12,
         columnNumber: 5
     }, this);
 };
@@ -4538,4 +4592,4 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 }}),
 }]);
 
-//# sourceMappingURL=packages_frontend_803939b3._.js.map
+//# sourceMappingURL=packages_frontend_d3c53f5e._.js.map

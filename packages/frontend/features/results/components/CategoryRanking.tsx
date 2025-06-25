@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
-import { CategoryData, CategoryScore } from '@/types/category';
 import CategoryDetailModal from '@/components/ui/CategoryDetailModal';
+import { CategoryData, CategoryScore } from '@/types/category';
+import React, { useState } from 'react';
 import CategoryScoreGrid from './CategoryScoreGrid';
 
 interface CategoryRankingProps {

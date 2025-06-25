@@ -1,10 +1,9 @@
 'use client';
 
-import React from 'react';
 
+import { categoryColors } from '@/constants/colors';
 import CategoryRanking from '@/features/results/components/CategoryRanking';
 import { CategoryData } from '@/types/category';
-import { categoryColors } from '@/constants/colors';
 
 const CategoryRankingSection = () => {
   const title = '범주 및 세부지표 순위';
