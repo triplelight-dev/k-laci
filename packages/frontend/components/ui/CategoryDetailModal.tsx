@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { CategoryScore } from '@/features/results/types/category';
+import { CategoryScore } from '@/types/category';
 
 interface CategoryDetailModalProps {
   isOpen: boolean;
@@ -19,9 +19,9 @@ const CategoryDetailModal: React.FC<CategoryDetailModalProps> = ({
   if (!isOpen || !score) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-        <div className="flex justify-between items-center mb-4">
+    <div className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black">
+      <div className="mx-4 w-full max-w-md rounded-lg bg-white p-6">
+        <div className="mb-4 flex items-center justify-between">
           <h3 className="text-xl font-semibold">{score.name}</h3>
           <button
             onClick={onClose}
@@ -30,25 +30,22 @@ const CategoryDetailModal: React.FC<CategoryDetailModalProps> = ({
             ✕
           </button>
         </div>
-        
+
         <div className="space-y-4">
           <div>
             <div className="text-sm text-gray-600">점수</div>
-            <div 
-              className="text-3xl font-bold"
-              style={{ color }}
-            >
+            <div className="text-3xl font-bold" style={{ color }}>
               {score.value}
             </div>
           </div>
-          
+
           <div>
             <div className="text-sm text-gray-600">순위</div>
             <div className="text-lg font-semibold">
               {score.rank}위 / {score.totalRank}개
             </div>
           </div>
-          
+
           {score.description && (
             <div>
               <div className="text-sm text-gray-600">설명</div>
@@ -56,10 +53,10 @@ const CategoryDetailModal: React.FC<CategoryDetailModalProps> = ({
             </div>
           )}
         </div>
-        
+
         <button
           onClick={onClose}
-          className="w-full mt-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors"
+          className="mt-6 w-full rounded-lg bg-gray-200 py-2 text-gray-800 transition-colors hover:bg-gray-300"
         >
           닫기
         </button>
@@ -68,4 +65,4 @@ const CategoryDetailModal: React.FC<CategoryDetailModalProps> = ({
   );
 };
 
-export default CategoryDetailModal; 
+export default CategoryDetailModal;

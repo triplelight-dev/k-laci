@@ -80,14 +80,24 @@ const eslintConfig = [
           },
         },
       ],
-      // 사용하지 않는 변수 경고
-      '@typescript-eslint/no-unused-vars': 'warn',
-      // 명시적인 any 타입 사용 경고
-      '@typescript-eslint/no-explicit-any': 'warn',
+      // 사용하지 않는 변수 에러
+      '@typescript-eslint/no-unused-vars': 'error',
+      // 명시적인 any 타입 사용 에러
+      '@typescript-eslint/no-explicit-any': 'error',
+      // 사용하지 않는 import 에러
+      'import/no-unused-modules': 'error',
+      // 존재하지 않는 import 에러
+      'import/no-unresolved': 'error',
+      // 중복된 import 에러
+      'import/no-duplicates': 'error',
       // React 17+에서는 JSX를 사용하기 위해 React를 import할 필요가 없음
       'react/react-in-jsx-scope': 'off',
       // prop-types는 TypeScript 사용 시 불필요
       'react/prop-types': 'off',
+      // 타입 체크 강화
+      '@typescript-eslint/no-non-null-assertion': 'warn',
+      '@typescript-eslint/prefer-nullish-coalescing': 'error',
+      '@typescript-eslint/prefer-optional-chain': 'error',
     },
   },
 ];

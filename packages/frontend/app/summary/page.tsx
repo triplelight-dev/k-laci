@@ -2,12 +2,7 @@
 
 import SummaryLayout from '@/components/layout/SummaryLayout';
 import SummaryGridItem from '@/features/summary/components/SummaryGridItem';
-
-interface SummaryItem {
-  keyName: string;
-  rankName: string;
-  link: string;
-}
+import { SummaryItem } from '@/types/summary';
 
 const mockSummaryItems: SummaryItem[] = [
   {
