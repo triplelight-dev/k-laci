@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///Users/jincheoljuhn/Desktop/Projects/k-laci-old/packages/frontend/app/results/page.tsx"],"sourcesContent":["'use client';\n\nimport { useEffect } from 'react';\nimport { useRouter } from 'next/navigation';\n\nexport default function ResultsPage() {\n  const router = useRouter();\n\n  useEffect(() => {\n    // 기본 지자체로 리다이렉트\n    router.replace('/results/jeonbuk-jeonju');\n  }, [router]);\n\n  return (\n    <div style={{ \n      display: 'flex', \n      justifyContent: 'center', \n      alignItems: 'center', \n      height: '100vh',\n      fontSize: '1.2rem',\n      color: '#666'\n    }}>\n      리다이렉트 중...\n    </div>\n  );\n}\n"],"names":[],"mappings":";;;;AAEA;AACA;;;AAHA;;;AAKe,SAAS;;IACtB,MAAM,SAAS,CAAA,GAAA,qIAAA,CAAA,YAAS,AAAD;IAEvB,CAAA,GAAA,6JAAA,CAAA,YAAS,AAAD;iCAAE;YACR,gBAAgB;YAChB,OAAO,OAAO,CAAC;QACjB;gCAAG;QAAC;KAAO;IAEX,qBACE,6LAAC;QAAI,OAAO;YACV,SAAS;YACT,gBAAgB;YAChB,YAAY;YACZ,QAAQ;YACR,UAAU;YACV,OAAO;QACT;kBAAG;;;;;;AAIP;GApBwB;;QACP,qIAAA,CAAA,YAAS;;;KADF","debugId":null}},
-    {"offset": {"line": 61, "column": 0}, "map": {"version":3,"sources":["file:///Users/jincheoljuhn/Desktop/Projects/k-laci-old/node_modules/next/navigation.js"],"sourcesContent":["module.exports = require('./dist/client/components/navigation')\n"],"names":[],"mappings":"AAAA,OAAO,OAAO","ignoreList":[0],"debugId":null}}]
-}

@@ -10,9 +10,9 @@ type StoreState = AuthSlice & DistrictSlice;
 export const useStore = create<StoreState>()(
   devtools(
     persist(
-      (...args) => ({
-        ...createAuthSlice(...args),
-        ...createDistrictSlice(...args),
+      (set, get, api) => ({
+        ...createAuthSlice(set, get, api),
+        ...createDistrictSlice(set, get, api),
       }),
       {
         name: 'k-laci-store', // localStorage에 저장될 키 이름

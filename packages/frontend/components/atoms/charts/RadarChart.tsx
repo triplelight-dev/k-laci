@@ -534,12 +534,12 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
         })}
 
       {/* 데이터 포인트 툴팁 */}
-      {!isJewel && hoveredPoint !== null && (
+      {!isJewel && hoveredPoint !== null && points[hoveredPoint] && (
         <g>
           {/* 툴팁 배경 */}
           <rect
-            x={points[hoveredPoint].x - 40}
-            y={points[hoveredPoint].y - 50}
+            x={points[hoveredPoint]!.x - 40}
+            y={points[hoveredPoint]!.y - 50}
             width={80}
             height={40}
             rx={5}
@@ -547,8 +547,8 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
           />
           {/* 툴팁 텍스트 */}
           <text
-            x={points[hoveredPoint].x}
-            y={points[hoveredPoint].y - 35}
+            x={points[hoveredPoint]!.x}
+            y={points[hoveredPoint]!.y - 35}
             textAnchor="middle"
             fontSize={fontSize.tooltip}
             fill="white"
@@ -557,8 +557,8 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
             {categories[hoveredPoint]}
           </text>
           <text
-            x={points[hoveredPoint].x}
-            y={points[hoveredPoint].y - 20}
+            x={points[hoveredPoint]!.x}
+            y={points[hoveredPoint]!.y - 20}
             textAnchor="middle"
             fontSize={fontSize.tooltip}
             fill="white"

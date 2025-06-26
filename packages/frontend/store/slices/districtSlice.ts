@@ -2,7 +2,6 @@ import provinceData from '@/data/province_data.json';
 import regionsData from '@/data/regions_data.json';
 import { StateCreator } from 'zustand';
 import {
-  DistrictSlice,
   DistrictState,
   Province,
   Region,
@@ -10,6 +9,8 @@ import {
 
 export interface DistrictSlice {
   district: DistrictState;
+  provinces: Province[];
+  regions: Region[];
   setSelectedProvince: (provinceId: number | null) => void;
   setSelectedDistrict: (districtId: number | null) => void;
   clearDistrictSelection: () => void;
@@ -21,16 +22,15 @@ export interface DistrictSlice {
 const initialState: DistrictState = {
   selectedProvince: null,
   selectedDistrict: null,
-  provinces: provinceData as Province[],
-  regions: regionsData as Region[],
 };
 
 export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
   district: initialState,
+  provinces: provinceData as Province[],
+  regions: regionsData as Region[],
   
   setSelectedProvince: (provinceId: number | null) => {
-    const currentState = get();
-    const province = provinceId ? currentState.getProvinceById(provinceId) : null;
+    const province = provinceId ? get().getProvinceById(provinceId) : null;
     
     set((state) => ({
       district: {
@@ -42,8 +42,7 @@ export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
   },
   
   setSelectedDistrict: (districtId: number | null) => {
-    const currentState = get();
-    const district = districtId ? currentState.getRegionById(districtId) : null;
+    const district = districtId ? get().getRegionById(districtId) : null;
     
     set((state) => ({
       district: {
@@ -64,23 +63,17 @@ export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
   },
 
   getProvinceById: (id: number) => {
-    const currentState = get();
-    // 직접 JSON 데이터 사용
-    const provinces = provinceData as Province[];
+    const provinces = get().provinces;
     return provinces.find(province => province.id === id) || null;
   },
 
   getRegionById: (id: number) => {
-    const currentState = get();
-    // 직접 JSON 데이터 사용
-    const regions = regionsData as Region[];
+    const regions = get().regions;
     return regions.find(region => region.id === id) || null;
   },
 
   getRegionsByProvinceId: (provinceId: number) => {
-    const currentState = get();
-    // 직접 JSON 데이터 사용
-    const regions = regionsData as Region[];
+    const regions = get().regions;
     return regions.filter(region => region.province_id === provinceId);
   },
 });
