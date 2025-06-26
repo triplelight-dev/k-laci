@@ -1,6 +1,6 @@
 'use client';
 
-import { useDistrict } from '@/store';
+import { useDistrict, useGetProvinceById } from '@/store';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
@@ -62,16 +62,24 @@ const TitleSection: React.FC<TitleSectionProps> = ({ districtData }) => {
   const router = useRouter();
 
   // Zustand store에서 선택된 지역 정보 가져오기
-  const { selectedProvince, selectedDistrict } = useDistrict();
+  const { selectedDistrict } = useDistrict();
+  const getProvinceById = useGetProvinceById();
 
   const chartData = [85, 30, 80, 30, 25, 70, 40, 36];
 
   // 안전한 지역명 생성 함수
   const getDistrictName = (): string => {
-    console.log(selectedProvince, selectedDistrict);
-    // selectedProvince와 selectedDistrict가 모두 유효한 객체이고 name 속성이 있는 경우
-    if (selectedProvince?.name && selectedDistrict?.name) {
-      return `${selectedProvince.name} ${selectedDistrict.name}`;
+    console.log('Selected district:', selectedDistrict);
+
+    // selectedDistrict가 유효한 객체이고 name 속성이 있는 경우
+    if (selectedDistrict?.name && selectedDistrict?.province_id) {
+      // province_id를 사용해서 province 정보 가져오기
+      const province = getProvinceById(selectedDistrict.province_id);
+      console.log('Found province:', province);
+
+      if (province?.name) {
+        return `${province.name} ${selectedDistrict.name}`;
+      }
     }
 
     // 둘 중 하나라도 없거나 name 속성이 없는 경우

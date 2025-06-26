@@ -760,20 +760,19 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$data
 ;
 const initialState = {
     selectedProvince: null,
-    selectedDistrict: null
+    selectedDistrict: null,
+    provinces: __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$data$2f$province_data$2e$json__$28$json$29$__["default"],
+    regions: __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$data$2f$regions_data$2e$json__$28$json$29$__["default"]
 };
 const createDistrictSlice = (set, get)=>({
         district: initialState,
-        provinces: __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$data$2f$province_data$2e$json__$28$json$29$__["default"],
-        regions: __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$data$2f$regions_data$2e$json__$28$json$29$__["default"],
         setSelectedProvince: (provinceId)=>{
             const currentState = get();
             const province = provinceId ? currentState.getProvinceById(provinceId) : null;
             set((state)=>({
                     district: {
                         ...state.district,
-                        selectedProvince: province,
-                        selectedDistrict: null
+                        selectedProvince: province
                     }
                 }));
         },
@@ -798,15 +797,21 @@ const createDistrictSlice = (set, get)=>({
         },
         getProvinceById: (id)=>{
             const currentState = get();
-            return currentState.provinces.find((province)=>province.id === id) || null;
+            // 직접 JSON 데이터 사용
+            const provinces = __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$data$2f$province_data$2e$json__$28$json$29$__["default"];
+            return provinces.find((province)=>province.id === id) || null;
         },
         getRegionById: (id)=>{
             const currentState = get();
-            return currentState.regions.find((region)=>region.id === id) || null;
+            // 직접 JSON 데이터 사용
+            const regions = __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$data$2f$regions_data$2e$json__$28$json$29$__["default"];
+            return regions.find((region)=>region.id === id) || null;
         },
         getRegionsByProvinceId: (provinceId)=>{
             const currentState = get();
-            return currentState.regions.filter((region)=>region.province_id === provinceId);
+            // 직접 JSON 데이터 사용
+            const regions = __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$data$2f$regions_data$2e$json__$28$json$29$__["default"];
+            return regions.filter((region)=>region.province_id === provinceId);
         }
     });
 }}),
@@ -4041,7 +4046,8 @@ const KlaciCodeCircles = ()=>{
 const TitleSection = ({ districtData })=>{
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRouter"])();
     // Zustand store에서 선택된 지역 정보 가져오기
-    const { selectedProvince, selectedDistrict } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$store$2f$index$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useDistrict"])();
+    const { selectedDistrict } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$store$2f$index$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useDistrict"])();
+    const getProvinceById = (0, __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$store$2f$index$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useGetProvinceById"])();
     const chartData = [
         85,
         30,
@@ -4054,10 +4060,15 @@ const TitleSection = ({ districtData })=>{
     ];
     // 안전한 지역명 생성 함수
     const getDistrictName = ()=>{
-        console.log(selectedProvince, selectedDistrict);
-        // selectedProvince와 selectedDistrict가 모두 유효한 객체이고 name 속성이 있는 경우
-        if (selectedProvince?.name && selectedDistrict?.name) {
-            return `${selectedProvince.name} ${selectedDistrict.name}`;
+        console.log('Selected district:', selectedDistrict);
+        // selectedDistrict가 유효한 객체이고 name 속성이 있는 경우
+        if (selectedDistrict?.name && selectedDistrict?.province_id) {
+            // province_id를 사용해서 province 정보 가져오기
+            const province = getProvinceById(selectedDistrict.province_id);
+            console.log('Found province:', province);
+            if (province?.name) {
+                return `${province.name} ${selectedDistrict.name}`;
+            }
         }
         // 둘 중 하나라도 없거나 name 속성이 없는 경우
         return '선택없음';
@@ -4133,12 +4144,12 @@ const TitleSection = ({ districtData })=>{
                     data: chartData
                 }, void 0, false, {
                     fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                    lineNumber: 137,
+                    lineNumber: 145,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                lineNumber: 127,
+                lineNumber: 135,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4185,17 +4196,17 @@ const TitleSection = ({ districtData })=>{
                                 strokeLinejoin: "round"
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                                lineNumber: 176,
+                                lineNumber: 184,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                            lineNumber: 168,
+                            lineNumber: 176,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                        lineNumber: 148,
+                        lineNumber: 156,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4207,7 +4218,7 @@ const TitleSection = ({ districtData })=>{
                         children: rankText
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                        lineNumber: 187,
+                        lineNumber: 195,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4243,23 +4254,23 @@ const TitleSection = ({ districtData })=>{
                                 strokeLinejoin: "round"
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                                lineNumber: 225,
+                                lineNumber: 233,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                            lineNumber: 218,
+                            lineNumber: 226,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                        lineNumber: 198,
+                        lineNumber: 206,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                lineNumber: 139,
+                lineNumber: 147,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4272,12 +4283,12 @@ const TitleSection = ({ districtData })=>{
                 children: districtName
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                lineNumber: 237,
+                lineNumber: 245,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(KlaciCodeCircles, {}, void 0, false, {
                 fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                lineNumber: 249,
+                lineNumber: 257,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4290,7 +4301,7 @@ const TitleSection = ({ districtData })=>{
                 children: "안전복지형"
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                lineNumber: 252,
+                lineNumber: 260,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4303,7 +4314,7 @@ const TitleSection = ({ districtData })=>{
                 children: "인생 2막 올스타전 도시"
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                lineNumber: 264,
+                lineNumber: 272,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4322,7 +4333,7 @@ const TitleSection = ({ districtData })=>{
                         children: "인구 유입은 이루어지나 경제는 성장 정체 상태이고"
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                        lineNumber: 285,
+                        lineNumber: 293,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4332,26 +4343,26 @@ const TitleSection = ({ districtData })=>{
                         children: "생활 기반은 부족하지만, 안전 수준은 높아 안정적인 공동체를 이루고 있는 유형입니다."
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                        lineNumber: 288,
+                        lineNumber: 296,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         children: "경제 활력 제고와 생활 환경 개선이 시급합니다"
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                        lineNumber: 292,
+                        lineNumber: 300,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                lineNumber: 276,
+                lineNumber: 284,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-        lineNumber: 118,
+        lineNumber: 126,
         columnNumber: 5
     }, this);
 };
