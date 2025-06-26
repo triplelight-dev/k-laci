@@ -10,6 +10,7 @@ type Props = {
 
 const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
   const [hoveredArea, setHoveredArea] = useState<'top' | 'bottom' | null>(null);
+  const [hoveredPoint, setHoveredPoint] = useState<number | null>(null);
 
   const center = size / 2;
   const radius = size * 0.4;
@@ -402,6 +403,7 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
                   cursor: 'pointer',
                 }}
                 onMouseEnter={() => {
+                  setHoveredPoint(i);
                   // 호버 시 동그라미 크기 증가
                   const circle = document.querySelector(
                     `circle[data-index="${i}"]`
@@ -412,6 +414,7 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
                   }
                 }}
                 onMouseLeave={() => {
+                  setHoveredPoint(null);
                   // 호버 해제 시 동그라미 크기 복원
                   const circle = document.querySelector(
                     `circle[data-index="${i}"]`
@@ -530,8 +533,43 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
           );
         })}
 
+      {/* 데이터 포인트 툴팁 */}
+      {!isJewel && hoveredPoint !== null && points[hoveredPoint] && (
+        <g>
+          {/* 툴팁 배경 */}
+          <rect
+            x={points[hoveredPoint]!.x - 40}
+            y={points[hoveredPoint]!.y - 50}
+            width={80}
+            height={40}
+            rx={5}
+            fill="rgba(0, 0, 0, 0.8)"
+          />
+          {/* 툴팁 텍스트 */}
+          <text
+            x={points[hoveredPoint]!.x}
+            y={points[hoveredPoint]!.y - 35}
+            textAnchor="middle"
+            fontSize={fontSize.tooltip}
+            fill="white"
+            fontWeight="bold"
+          >
+            {categories[hoveredPoint]}
+          </text>
+          <text
+            x={points[hoveredPoint]!.x}
+            y={points[hoveredPoint]!.y - 20}
+            textAnchor="middle"
+            fontSize={fontSize.tooltip}
+            fill="white"
+          >
+            {vals[hoveredPoint]}점
+          </text>
+        </g>
+      )}
+
       {/* 영역 호버 툴팁 - 호버 영역 밖에 배치 */}
-      {!isJewel && hoveredArea && (
+      {!isJewel && hoveredArea && hoveredPoint === null && (
         <g>
           {/* 툴팁 배경 */}
           <rect

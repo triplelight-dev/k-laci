@@ -1,6 +1,36 @@
+export interface Province {
+  id: number;
+  name: string;
+}
+
+export interface Region {
+  id: number;
+  province_id: number;
+  name: string;
+  district_type: string;
+  weight_class: string;
+  klaci_code: string;
+  growth_score: number;
+  economy_score: number;
+  living_score: number;
+  safety_score: number;
+}
+
 export interface DistrictState {
-  selectedProvince: string;
-  selectedDistrict: string;
+  selectedProvince: Province | null;
+  selectedDistrict: Region | null;
+}
+
+export interface DistrictSlice {
+  district: DistrictState;
+  provinces: Province[];
+  regions: Region[];
+  setSelectedProvince: (provinceId: number | null) => void;
+  setSelectedDistrict: (districtId: number | null) => void;
+  clearDistrictSelection: () => void;
+  getProvinceById: (id: number) => Province | null;
+  getRegionById: (id: number) => Region | null;
+  getRegionsByProvinceId: (provinceId: number) => Region[];
 }
 
 export interface ProvinceOption {
