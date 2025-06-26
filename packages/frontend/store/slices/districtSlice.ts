@@ -1,32 +1,42 @@
+import provinceData from '@/data/province_data.json';
+import regionsData from '@/data/regions_data.json';
 import { StateCreator } from 'zustand';
-import { DistrictState } from '../types/district';
-
-export interface DistrictSlice {
-  district: DistrictState;
-  setSelectedProvince: (province: string) => void;
-  setSelectedDistrict: (district: string) => void;
-  clearDistrictSelection: () => void;
-}
+import {
+  DistrictSlice,
+  DistrictState,
+  Province,
+  Region,
+} from '../types/district';
 
 const initialState: DistrictState = {
-  selectedProvince: '',
-  selectedDistrict: '',
+  selectedProvince: null,
+  selectedDistrict: null,
 };
 
-export const createDistrictSlice: StateCreator<DistrictSlice> = (set) => ({
+export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
   district: initialState,
-  
-  setSelectedProvince: (province: string) => {
+  provinces: provinceData as Province[],
+  regions: regionsData as Region[],
+
+  setSelectedProvince: (provinceId: number | null) => {
+    const currentState = get();
+    const province = provinceId
+      ? currentState.getProvinceById(provinceId)
+      : null;
+
     set((state) => ({
       district: {
         ...state.district,
         selectedProvince: province,
-        selectedDistrict: '', // province 변경시 district 초기화
+        selectedDistrict: null, // province 변경시 district 초기화
       },
     }));
   },
-  
-  setSelectedDistrict: (district: string) => {
+
+  setSelectedDistrict: (districtId: number | null) => {
+    const currentState = get();
+    const district = districtId ? currentState.getRegionById(districtId) : null;
+
     set((state) => ({
       district: {
         ...state.district,
@@ -34,13 +44,33 @@ export const createDistrictSlice: StateCreator<DistrictSlice> = (set) => ({
       },
     }));
   },
-  
+
   clearDistrictSelection: () => {
     set((state) => ({
       district: {
-        selectedProvince: '',
-        selectedDistrict: '',
+        ...state.district,
+        selectedProvince: null,
+        selectedDistrict: null,
       },
     }));
   },
-}); 
+
+  getProvinceById: (id: number) => {
+    const currentState = get();
+    return (
+      currentState.provinces.find((province) => province.id === id) || null
+    );
+  },
+
+  getRegionById: (id: number) => {
+    const currentState = get();
+    return currentState.regions.find((region) => region.id === id) || null;
+  },
+
+  getRegionsByProvinceId: (provinceId: number) => {
+    const currentState = get();
+    return currentState.regions.filter(
+      (region) => region.province_id === provinceId,
+    );
+  },
+});

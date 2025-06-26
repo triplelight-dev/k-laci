@@ -6,7 +6,7 @@ import regionsData from '@/data/regions_data.json';
 import {
   useDistrict,
   useSetSelectedDistrict,
-  useSetSelectedProvince
+  useSetSelectedProvince,
 } from '@/store';
 import React from 'react';
 
@@ -40,11 +40,11 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
   const setSelectedDistrict = useSetSelectedDistrict();
 
   const handleProvinceChange = (value: string) => {
-    setSelectedProvince(value);
+    setSelectedProvince(value ? Number(value) : null);
   };
 
   const handleDistrictChange = (value: string) => {
-    setSelectedDistrict(value);
+    setSelectedDistrict(value ? Number(value) : null);
   };
 
   // province_data.json에서 광역시/도 데이터 가져오기
@@ -58,7 +58,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
   // regions_data.json에서 선택된 광역시/도에 해당하는 지자체 데이터 가져오기
   const districtOptions = selectedProvince
     ? (regionsData as RegionDataType[])
-        .filter((region) => region.province_id === Number(selectedProvince))
+        .filter((region) => region.province_id === selectedProvince.id)
         .map((region) => ({
           value: String(region.id),
           label: region.name,
@@ -86,7 +86,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
         }}
       >
         <CommonSelect
-          value={selectedProvince}
+          value={selectedProvince ? String(selectedProvince.id) : ''}
           options={provinceOptions}
           onChange={handleProvinceChange}
           defaultLabel="광역명"
@@ -99,7 +99,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
         }}
       >
         <CommonSelect
-          value={selectedDistrict}
+          value={selectedDistrict ? String(selectedDistrict.id) : ''}
           options={districtOptions}
           onChange={handleDistrictChange}
           disabled={!selectedProvince}

@@ -23,6 +23,7 @@ export const useStore = create<StoreState>()(
           district: {
             selectedProvince: state.district.selectedProvince,
             selectedDistrict: state.district.selectedDistrict,
+            // provinces와 regions는 캐시이므로 persist하지 않음
           },
         }), // 저장할 상태 선택
       },
@@ -41,4 +42,9 @@ export const useDistrict = () => useStore((state) => state.district);
 // 개별 action들로 export (무한 루프 방지)
 export const useSetSelectedProvince = () => useStore((state) => state.setSelectedProvince);
 export const useSetSelectedDistrict = () => useStore((state) => state.setSelectedDistrict);
-export const useClearDistrictSelection = () => useStore((state) => state.clearDistrictSelection); 
+export const useClearDistrictSelection = () => useStore((state) => state.clearDistrictSelection);
+
+// 유틸리티 함수들 export
+export const useGetProvinceById = () => useStore((state) => state.getProvinceById);
+export const useGetRegionById = () => useStore((state) => state.getRegionById);
+export const useGetRegionsByProvinceId = () => useStore((state) => state.getRegionsByProvinceId); 

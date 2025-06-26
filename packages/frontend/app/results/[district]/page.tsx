@@ -1,6 +1,7 @@
 'use client';
 
 import ResultLayout from '@/components/layout/ResultLayout';
+import { useDistrict } from '@/store';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -30,21 +31,68 @@ export default function ResultsPage() {
   const [loading, setLoading] = useState(true);
   const isLoggedIn = true;
 
-  // 지자체 데이터 매핑
-  const districtsMap: Record<string, DistrictData> = {
-    'seoul-gangnam': { id: 'seoul-gangnam', name: '서울시 강남구', rank: 1 },
-    'seoul-songpa': { id: 'seoul-songpa', name: '서울시 송파구', rank: 2 },
-    'jeonbuk-jeonju': {
-      id: 'jeonbuk-jeonju',
-      name: '전라북도 전주시',
-      rank: 3,
-    },
-    'gyeonggi-seongnam': {
-      id: 'gyeonggi-seongnam',
-      name: '경기도 성남시',
-      rank: 4,
-    },
-    'incheon-yeonsu': { id: 'incheon-yeonsu', name: '인천시 연수구', rank: 5 },
+  // Zustand store에서 선택된 지역 정보 가져오기
+  const { selectedProvince, selectedDistrict } = useDistrict();
+
+  // 디버깅용 - store 상태 확인
+  useEffect(() => {
+    console.log('Current store state:');
+    console.log('selectedProvince:', selectedProvince);
+    console.log('selectedDistrict:', selectedDistrict);
+    console.log('selectedProvince type:', typeof selectedProvince);
+    console.log('selectedDistrict type:', typeof selectedDistrict);
+  }, [selectedProvince, selectedDistrict]);
+
+  // 안전한 지역명 생성 함수
+  const getDistrictName = (): string => {
+    // selectedProvince와 selectedDistrict가 모두 유효한 객체이고 name 속성이 있는 경우
+    if (selectedProvince?.name && selectedDistrict?.name) {
+      return `${selectedProvince.name} ${selectedDistrict.name}`;
+    }
+
+    // 둘 중 하나라도 없거나 name 속성이 없는 경우
+    return '선택없음';
+  };
+
+  // 지자체 데이터 매핑 - 동적으로 생성
+  const getDistrictsMap = (): Record<string, DistrictData> => {
+    const districtName = getDistrictName();
+
+    // 선택된 지역 정보가 있으면 동적으로 생성
+    if (districtName !== '선택없음') {
+      console.log('Selected province:', selectedProvince);
+      console.log('Selected district:', selectedDistrict);
+      console.log('Generated name:', districtName);
+
+      return {
+        [districtId]: {
+          id: districtId,
+          name: districtName,
+          rank: 3, // 기본값, 실제로는 API에서 가져와야 함
+        },
+      };
+    }
+
+    // 기본값 (선택된 지역 정보가 없는 경우)
+    return {
+      'seoul-gangnam': { id: 'seoul-gangnam', name: '서울시 강남구', rank: 1 },
+      'seoul-songpa': { id: 'seoul-songpa', name: '서울시 송파구', rank: 2 },
+      'jeonbuk-jeonju': {
+        id: 'jeonbuk-jeonju',
+        name: '전라북도 전주시',
+        rank: 3,
+      },
+      'gyeonggi-seongnam': {
+        id: 'gyeonggi-seongnam',
+        name: '경기도 성남시',
+        rank: 4,
+      },
+      'incheon-yeonsu': {
+        id: 'incheon-yeonsu',
+        name: '인천시 연수구',
+        rank: 5,
+      },
+    };
   };
 
   useEffect(() => {
@@ -68,7 +116,8 @@ export default function ResultsPage() {
         // const response = await fetch(`/api/districts/${districtId}`);
         // const data = await response.json();
 
-        // 임시로 매핑된 데이터 사용
+        // 동적으로 생성된 매핑된 데이터 사용
+        const districtsMap = getDistrictsMap();
         const data = districtsMap[districtId];
 
         if (data) {
@@ -83,6 +132,7 @@ export default function ResultsPage() {
       } catch (error) {
         console.error('Failed to load district data:', error);
         // 에러 시 기본값 사용
+        const districtsMap = getDistrictsMap();
         const defaultData = districtsMap['jeonbuk-jeonju'];
         if (defaultData) {
           setDistrictData(defaultData);
@@ -95,7 +145,7 @@ export default function ResultsPage() {
     if (districtId) {
       loadDistrictData();
     }
-  }, [districtId]);
+  }, [districtId, selectedProvince, selectedDistrict]); // selectedProvince, selectedDistrict 의존성 추가
 
   // URL 파라미터가 변경되었을 때 스크롤 위치 복원
   useEffect(() => {
@@ -202,9 +252,7 @@ export default function ResultsPage() {
       </div>
 
       {/* 로그인한 경우에만 PreRegistrationSection 표시 */}
-      {isLoggedIn && (
-        <PreRegistrationSection />
-      )}
+      {isLoggedIn && <PreRegistrationSection />}
 
       {isFloating && (
         <div
