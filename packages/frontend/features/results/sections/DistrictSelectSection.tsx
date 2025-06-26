@@ -1,33 +1,32 @@
 'use client';
 
-import React, { useState } from 'react';
 import CommonSelect from '@/components/atoms/select/CommonSelect';
+import provinceData from '@/data/province_data.json';
+import regionsData from '@/data/regions_data.json';
+import {
+  useDistrict,
+  useSetSelectedDistrict,
+  useSetSelectedProvince
+} from '@/store';
+import React from 'react';
 
-// 임시 데이터
-const MOCK_DATA = {
-  provinces: [
-    { value: 'seoul', label: '서울특별시' },
-    { value: 'busan', label: '부산광역시' },
-    { value: 'incheon', label: '인천광역시' },
-  ],
-  districts: {
-    seoul: [
-      { value: 'gangnam', label: '강남구' },
-      { value: 'gangdong', label: '강동구' },
-      { value: 'gangbuk', label: '강북구' },
-    ],
-    busan: [
-      { value: 'haeundae', label: '해운대구' },
-      { value: 'jung', label: '중구' },
-      { value: 'seo', label: '서구' },
-    ],
-    incheon: [
-      { value: 'yeonsu', label: '연수구' },
-      { value: 'namdong', label: '남동구' },
-      { value: 'bupyeong', label: '부평구' },
-    ],
-  },
-};
+interface ProvinceDataType {
+  id: number;
+  name: string;
+}
+
+interface RegionDataType {
+  id: number;
+  province_id: number;
+  name: string;
+  district_type: string;
+  weight_class: string;
+  klaci_code: string;
+  growth_score: number;
+  economy_score: number;
+  living_score: number;
+  safety_score: number;
+}
 
 interface DistrictSelectSectionProps {
   isFloating?: boolean;
@@ -36,20 +35,35 @@ interface DistrictSelectSectionProps {
 const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
   isFloating = false,
 }) => {
-  const [selectedProvince, setSelectedProvince] = useState('');
-  const [selectedDistrict, setSelectedDistrict] = useState('');
+  const { selectedProvince, selectedDistrict } = useDistrict();
+  const setSelectedProvince = useSetSelectedProvince();
+  const setSelectedDistrict = useSetSelectedDistrict();
 
   const handleProvinceChange = (value: string) => {
     setSelectedProvince(value);
-    setSelectedDistrict(''); // 광역시 변경시 지자체 선택 초기화
   };
 
   const handleDistrictChange = (value: string) => {
     setSelectedDistrict(value);
   };
 
+  // province_data.json에서 광역시/도 데이터 가져오기
+  const provinceOptions = (provinceData as ProvinceDataType[]).map(
+    (province) => ({
+      value: String(province.id),
+      label: province.name,
+    }),
+  );
+
+  // regions_data.json에서 선택된 광역시/도에 해당하는 지자체 데이터 가져오기
   const districtOptions = selectedProvince
-    ? MOCK_DATA.districts[selectedProvince as keyof typeof MOCK_DATA.districts]
+    ? (regionsData as RegionDataType[])
+        .filter((region) => region.province_id === Number(selectedProvince))
+        .map((region) => ({
+          value: String(region.id),
+          label: region.name,
+          ...region,
+        }))
     : [];
 
   return (
@@ -73,7 +87,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
       >
         <CommonSelect
           value={selectedProvince}
-          options={MOCK_DATA.provinces}
+          options={provinceOptions}
           onChange={handleProvinceChange}
           defaultLabel="광역명"
         />
