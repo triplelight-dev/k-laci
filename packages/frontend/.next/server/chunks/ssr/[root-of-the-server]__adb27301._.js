@@ -3984,8 +3984,10 @@ __turbopack_context__.s({
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$store$2f$index$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/packages/frontend/store/index.ts [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$frontend$2f$components$2f$atoms$2f$charts$2f$RadarChart$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/packages/frontend/components/atoms/charts/RadarChart.tsx [app-ssr] (ecmascript)");
 'use client';
+;
 ;
 ;
 ;
@@ -4058,6 +4060,145 @@ const TitleSection = ({ districtData })=>{
         40,
         36
     ];
+    // URL path 생성 함수
+    const generateDistrictPath = (district)=>{
+        if (!district?.name || !district?.province_id) {
+            return 'jeonbuk-jeonju'; // 기본값
+        }
+        const province = getProvinceById(district.province_id);
+        if (!province?.name) {
+            return 'jeonbuk-jeonju'; // 기본값
+        }
+        // 한글-영문 매핑
+        const provinceMapping = {
+            '강원특별자치도': 'gangwon',
+            '경기도': 'gyeonggi',
+            '경상남도': 'gyeongnam',
+            '경상북도': 'gyeongbuk',
+            '광주광역시': 'gwangju',
+            '대구광역시': 'daegu',
+            '대전광역시': 'daejeon',
+            '부산광역시': 'busan',
+            '서울특별시': 'seoul',
+            '세종특별자치시': 'sejong',
+            '울산광역시': 'ulsan',
+            '인천광역시': 'incheon',
+            '전라남도': 'jeonnam',
+            '전라북도': 'jeonbuk',
+            '제주특별자치도': 'jeju',
+            '충청남도': 'chungnam',
+            '충청북도': 'chungbuk'
+        };
+        const districtMapping = {
+            // 서울특별시
+            '종로구': 'jongno',
+            '중구': 'jung',
+            '용산구': 'yongsan',
+            '성동구': 'seongdong',
+            '광진구': 'gwangjin',
+            '동대문구': 'dongdaemun',
+            '중랑구': 'jungnang',
+            '성북구': 'seongbuk',
+            '강북구': 'gangbuk',
+            '도봉구': 'dobong',
+            '노원구': 'nowon',
+            '은평구': 'eunpyeong',
+            '서대문구': 'seodaemun',
+            '마포구': 'mapo',
+            '양천구': 'yangcheon',
+            '강서구': 'gangseo',
+            '구로구': 'guro',
+            '금천구': 'geumcheon',
+            '영등포구': 'yeongdeungpo',
+            '동작구': 'dongjak',
+            '관악구': 'gwanak',
+            '서초구': 'seocho',
+            '강남구': 'gangnam',
+            '송파구': 'songpa',
+            '강동구': 'gangdong',
+            // 경기도
+            '수원시': 'suwon',
+            '성남시': 'seongnam',
+            '의정부시': 'uijeongbu',
+            '안양시': 'anyang',
+            '부천시': 'bucheon',
+            '광명시': 'gwangmyeong',
+            '평택시': 'pyeongtaek',
+            '동두천시': 'dongducheon',
+            '안산시': 'ansan',
+            '고양시': 'goyang',
+            '과천시': 'gwacheon',
+            '구리시': 'guri',
+            '남양주시': 'namyangju',
+            '오산시': 'osan',
+            '시흥시': 'siheung',
+            '군포시': 'gunpo',
+            '의왕시': 'uiwang',
+            '하남시': 'hanam',
+            '용인시': 'yongin',
+            '파주시': 'paju',
+            '이천시': 'icheon',
+            '안성시': 'anseong',
+            '김포시': 'gimpo',
+            '화성시': 'hwaseong',
+            '광주시': 'gwangju-gyeonggi',
+            '여주시': 'yeoju',
+            '양평군': 'yangpyeong',
+            '고양군': 'goyang-gun',
+            '연천군': 'yeoncheon',
+            '가평군': 'gapyeong',
+            '포천군': 'pocheon',
+            // 전라북도
+            '전주시': 'jeonju',
+            '군산시': 'gunsan',
+            '익산시': 'iksan',
+            '정읍시': 'jeongeup',
+            '남원시': 'namwon',
+            '김제시': 'gimje',
+            '완주군': 'wanju',
+            '진안군': 'jinan',
+            '무주군': 'muju',
+            '장수군': 'jangsu',
+            '임실군': 'imsil',
+            '순창군': 'sunchang',
+            '고창군': 'gochang',
+            '부안군': 'buan',
+            // 인천광역시
+            '중구': 'jung-incheon',
+            '동구': 'dong-incheon',
+            '미추홀구': 'michuhol',
+            '연수구': 'yeonsu',
+            '남동구': 'namdong',
+            '부평구': 'bupyeong',
+            '계양구': 'gyeyang',
+            '서구': 'seo-incheon',
+            '강화군': 'ganghwa',
+            '옹진군': 'ongjin'
+        };
+        // province name을 영문으로 변환
+        const provinceName = provinceMapping[province.name] || province.name.toLowerCase().replace(/특별자치도|광역시|특별시/g, '').replace(/\s+/g, '');
+        // district name을 영문으로 변환
+        const districtName = districtMapping[district.name] || district.name.toLowerCase().replace(/시|군|구/g, '').replace(/\s+/g, '');
+        return `${provinceName}-${districtName}`;
+    };
+    // selectedDistrict 변경 시 URL 업데이트
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        if (selectedDistrict) {
+            const newPath = generateDistrictPath(selectedDistrict);
+            console.log('Updating URL to:', newPath);
+            // 현재 URL과 다를 때만 업데이트 (무한 루프 방지)
+            const currentPath = window.location.pathname.split('/').pop();
+            if (currentPath !== newPath) {
+                router.replace(`/results/${newPath}`, {
+                    scroll: false
+                });
+            }
+        }
+    }, [
+        selectedDistrict,
+        router,
+        getProvinceById
+    ]);
     // 안전한 지역명 생성 함수
     const getDistrictName = ()=>{
         console.log('Selected district:', selectedDistrict);
@@ -4070,8 +4211,8 @@ const TitleSection = ({ districtData })=>{
                 return `${province.name} ${selectedDistrict.name}`;
             }
         }
-        // 둘 중 하나라도 없거나 name 속성이 없는 경우
-        return '선택없음';
+        // selectedDistrict가 없거나 유효하지 않은 경우 기본값 반환
+        return '전라북도 전주시';
     };
     // 기본값 설정
     const rank = districtData?.rank || 3;
@@ -4144,12 +4285,12 @@ const TitleSection = ({ districtData })=>{
                     data: chartData
                 }, void 0, false, {
                     fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                    lineNumber: 145,
+                    lineNumber: 294,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                lineNumber: 135,
+                lineNumber: 284,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4196,17 +4337,17 @@ const TitleSection = ({ districtData })=>{
                                 strokeLinejoin: "round"
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                                lineNumber: 184,
+                                lineNumber: 333,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                            lineNumber: 176,
+                            lineNumber: 325,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                        lineNumber: 156,
+                        lineNumber: 305,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4218,7 +4359,7 @@ const TitleSection = ({ districtData })=>{
                         children: rankText
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                        lineNumber: 195,
+                        lineNumber: 344,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4254,23 +4395,23 @@ const TitleSection = ({ districtData })=>{
                                 strokeLinejoin: "round"
                             }, void 0, false, {
                                 fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                                lineNumber: 233,
+                                lineNumber: 382,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                            lineNumber: 226,
+                            lineNumber: 375,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                        lineNumber: 206,
+                        lineNumber: 355,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                lineNumber: 147,
+                lineNumber: 296,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4283,12 +4424,12 @@ const TitleSection = ({ districtData })=>{
                 children: districtName
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                lineNumber: 245,
+                lineNumber: 394,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(KlaciCodeCircles, {}, void 0, false, {
                 fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                lineNumber: 257,
+                lineNumber: 406,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4301,7 +4442,7 @@ const TitleSection = ({ districtData })=>{
                 children: "안전복지형"
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                lineNumber: 260,
+                lineNumber: 409,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4314,7 +4455,7 @@ const TitleSection = ({ districtData })=>{
                 children: "인생 2막 올스타전 도시"
             }, void 0, false, {
                 fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                lineNumber: 272,
+                lineNumber: 421,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4333,7 +4474,7 @@ const TitleSection = ({ districtData })=>{
                         children: "인구 유입은 이루어지나 경제는 성장 정체 상태이고"
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                        lineNumber: 293,
+                        lineNumber: 442,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4343,26 +4484,26 @@ const TitleSection = ({ districtData })=>{
                         children: "생활 기반은 부족하지만, 안전 수준은 높아 안정적인 공동체를 이루고 있는 유형입니다."
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                        lineNumber: 296,
+                        lineNumber: 445,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         children: "경제 활력 제고와 생활 환경 개선이 시급합니다"
                     }, void 0, false, {
                         fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                        lineNumber: 300,
+                        lineNumber: 449,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-                lineNumber: 284,
+                lineNumber: 433,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/packages/frontend/features/results/sections/TitleSection.tsx",
-        lineNumber: 126,
+        lineNumber: 275,
         columnNumber: 5
     }, this);
 };
