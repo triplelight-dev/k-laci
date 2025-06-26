@@ -59,6 +59,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
   const districtOptions = selectedProvince
     ? (regionsData as RegionDataType[])
         .filter((region) => region.province_id === selectedProvince.id)
+        .sort((a, b) => a.name.localeCompare(b.name, 'ko'))
         .map((region) => ({
           value: String(region.id),
           label: region.name,
