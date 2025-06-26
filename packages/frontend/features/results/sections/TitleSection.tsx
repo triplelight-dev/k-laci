@@ -79,15 +79,17 @@ const TitleSection: React.FC<TitleSectionProps> = ({ districtData }) => {
       safety_score = 50,
     } = district;
 
+    // RadarChart의 categories 순서에 맞춰 반환:
+    // ['생활역동형', '안전복원형', '인구정착형', '경제정속형', '생활정주형', '안전정진형', '인구성장형', '경제혁신형']
     return [
-      growth_score, // 인구성장형
-      100 - growth_score, // 인구정착형
-      economy_score, // 경제혁신형
-      100 - economy_score, // 경제정속형
-      living_score, // 생활역동형
-      100 - living_score, // 생활정주형
-      safety_score, // 안전복원형
-      100 - safety_score, // 안정정진형
+      living_score,        // index 0: 생활역동형
+      safety_score,        // index 1: 안전복원형
+      100 - growth_score,  // index 2: 인구정착형
+      100 - economy_score, // index 3: 경제정속형
+      100 - living_score,  // index 4: 생활정주형
+      100 - safety_score,  // index 5: 안전정진형
+      growth_score,        // index 6: 인구성장형
+      economy_score,       // index 7: 경제혁신형
     ];
   };
 
