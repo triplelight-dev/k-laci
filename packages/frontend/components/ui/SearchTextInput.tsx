@@ -1,11 +1,8 @@
 import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
-
-// 지자체 데이터 타입 정의
-interface RegionData {
-  name: string;
-  icon: string;
-}
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import provinceData from '../../data/province_data.json';
+import regionsData from '../../data/regions_data.json';
+import { useStore } from '../../store';
 
 interface SearchTextInputProps {
   value: string;
@@ -13,7 +10,6 @@ interface SearchTextInputProps {
   placeholder?: string;
   recentSearches?: string[];
   onRecentSearchClick?: (value: string) => void;
-  regionData?: RegionData[]; // 지자체 데이터 추가
 }
 
 // 지자체별 아이콘 매핑 (예시 데이터)
@@ -48,6 +44,38 @@ const getRegionIcon = (regionName: string): string => {
   return '/districts/sample_dist_icon.png';
 };
 
+// 전체 지역 데이터 생성 (시도 + 구/군 페어만) - useMemo로 최적화
+const useAllRegions = () => {
+  return useMemo(() => {
+    const allRegions: string[] = [];
+
+    // 구/군 데이터만 추가 (시도명 + 구/군명 형태)
+    regionsData.forEach((region) => {
+      const province = provinceData.find((p) => p.id === region.province_id);
+      if (province) {
+        allRegions.push(`${province.name} ${region.name}`);
+      }
+    });
+
+    // 가나다순으로 정렬
+    return allRegions.sort((a, b) => a.localeCompare(b, 'ko'));
+  }, []);
+};
+
+// 지역명으로부터 Province와 Region 객체 찾기
+const findProvinceAndRegionByName = (fullName: string) => {
+  const [provinceName, districtName] = fullName.split(' ');
+
+  const province = provinceData.find((p) => p.name === provinceName);
+  if (!province) return { province: null, region: null };
+
+  const region = regionsData.find(
+    (r) => r.province_id === province.id && r.name === districtName,
+  );
+
+  return { province, region };
+};
+
 const SearchTextInput: React.FC<SearchTextInputProps> = ({
   value,
   onChange,
@@ -59,10 +87,46 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // 입력값에 따라 최근 검색어 필터링
-  const filteredSearches = value
-    ? recentSearches.filter((search) => search.includes(value))
-    : recentSearches;
+  // Zustand store에서 필요한 함수들 가져오기
+  const { setSelectedProvince, setSelectedDistrict } = useStore();
+
+  // 전체 지역 데이터
+  const allRegions = useAllRegions();
+
+  // 입력값에 따라 지역 데이터 필터링 (최대 20개로 증가)
+  const filteredRegions = useMemo(() => {
+    if (!value) return [];
+
+    return allRegions
+      .filter((region) => region.toLowerCase().includes(value.toLowerCase()))
+      .slice(0, 20); // 최대 20개로 증가
+  }, [value, allRegions]);
+
+  // 최근 검색어와 지역 데이터를 합쳐서 표시
+  const filteredSearches = useMemo(() => {
+    if (!value) return recentSearches;
+
+    const recentMatches = recentSearches.filter((search) =>
+      search.toLowerCase().includes(value.toLowerCase()),
+    );
+
+    // 최근 검색어를 먼저 표시하고, 그 다음에 지역 데이터를 가나다순으로 표시
+    return [...recentMatches, ...filteredRegions];
+  }, [value, recentSearches, filteredRegions]);
+
+  // 지역 선택 처리 함수
+  const handleRegionSelect = (selectedRegion: string) => {
+    onChange(selectedRegion);
+    onRecentSearchClick?.(selectedRegion);
+    setShowDropdown(false);
+
+    // Zustand store에 반영
+    const { province, region } = findProvinceAndRegionByName(selectedRegion);
+    if (province && region) {
+      setSelectedProvince(province.id);
+      setSelectedDistrict(region.id);
+    }
+  };
 
   // 인풋 포커스/블러 처리
   const handleFocus = () => {
@@ -89,9 +153,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
       e.preventDefault();
       const selected = filteredSearches[highlightedIndex];
       if (selected !== undefined) {
-        onChange(selected);
-        onRecentSearchClick?.(selected);
-        setShowDropdown(false);
+        handleRegionSelect(selected);
         inputRef.current?.blur();
       }
     }
@@ -177,11 +239,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
             {filteredSearches.map((search, idx) => (
               <div
                 key={idx}
-                onMouseDown={() => {
-                  onChange(search);
-                  onRecentSearchClick?.(search);
-                  setShowDropdown(false);
-                }}
+                onMouseDown={() => handleRegionSelect(search)}
                 onMouseEnter={() => setHighlightedIndex(idx)}
                 onMouseLeave={() => setHighlightedIndex(-1)}
                 style={{
@@ -266,7 +324,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
             {recentSearches.map((search, index) => (
               <button
                 key={index}
-                onClick={() => onRecentSearchClick?.(search)}
+                onClick={() => handleRegionSelect(search)}
                 style={{
                   fontSize: '14px',
                   color: 'white',
