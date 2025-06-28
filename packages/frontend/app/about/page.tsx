@@ -1,3 +1,5 @@
+export const dynamic = 'force-static';
+
 export default function AboutPage() {
   return (
     <div className="flex min-h-screen flex-col">
