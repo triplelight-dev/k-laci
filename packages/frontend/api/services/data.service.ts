@@ -10,6 +10,15 @@ export interface Region {
   id: string;
   name: string;
   provinceId: string;
+  district_type: string;
+  weight_class: string;
+  klaci_code: string;
+  growth_score: number;
+  economy_score: number;
+  living_score: number;
+  safety_score: number;
+  total_score: number;
+  total_rank: number;
 }
 
 export interface Category {
