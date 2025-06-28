@@ -1,13 +1,15 @@
 'use client';
 
+import { useRegion } from '@/api/hooks/useRegion';
 import CommonSelect from '@/components/atoms/select/CommonSelect';
 import { useProvincesWithRegions } from '@/hooks/useProvincesWithRegions';
 import {
   useDistrict,
   useSetSelectedDistrict,
   useSetSelectedProvince,
+  useSetSelectedRegion,
 } from '@/store';
-import React from 'react';
+import React, { useCallback } from 'react';
 
 interface DistrictSelectSectionProps {
   isFloating?: boolean;
@@ -16,13 +18,13 @@ interface DistrictSelectSectionProps {
 const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
   isFloating = false,
 }) => {
-  const { selectedProvince, selectedDistrict } = useDistrict();
+  const { selectedProvince, selectedDistrict, selectedRegion } = useDistrict();
   const setSelectedProvince = useSetSelectedProvince();
   const setSelectedDistrict = useSetSelectedDistrict();
+  const setSelectedRegion = useSetSelectedRegion();
 
   const { provincesWithRegions, loading, error } = useProvincesWithRegions();
-
-  console.log('provincesWithRegions', provincesWithRegions);
+  const { getRegion, loading: regionLoading } = useRegion();
 
   const handleProvinceChange = (value: string) => {
     setSelectedProvince(value ? Number(value) : null);
@@ -30,9 +32,22 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
     setSelectedDistrict(null);
   };
 
-  const handleDistrictChange = (value: string) => {
+  const handleDistrictChange = useCallback(async (value: string) => {
     setSelectedDistrict(value ? Number(value) : null);
-  };
+    
+    // 지자체가 선택되면 해당 ID로 상세 정보를 가져옴
+    if (value) {
+      try {
+        const regionDetails = await getRegion(value);
+        setSelectedRegion(regionDetails);
+      } catch (error) {
+        // 에러가 발생해도 기본 district 정보는 유지
+      }
+    } else {
+      // 지자체 선택이 해제되면 region 정보도 초기화
+      setSelectedRegion(null);
+    }
+  }, [setSelectedDistrict, setSelectedRegion, getRegion]);
 
   // API에서 가져온 데이터로 province 옵션 생성
   const provinceOptions = provincesWithRegions.map((province) => ({
@@ -50,26 +65,6 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
           ...region,
         })) || []
     : [];
-
-  // 로딩 중이거나 에러가 있는 경우 처리
-  if (loading) {
-    return (
-      <div
-        style={{
-          display: 'flex',
-          width: '500px',
-          padding: '5px',
-          justifyContent: 'center',
-          borderRadius: '50px',
-          alignItems: 'center',
-          backgroundColor: 'white',
-          marginTop: isFloating ? 'auto' : '50px',
-        }}
-      >
-        <div>로딩 중...</div>
-      </div>
-    );
-  }
 
   if (error) {
     return (
@@ -101,7 +96,6 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
         alignItems: 'center',
         backgroundColor: 'white',
         marginTop: isFloating ? 'auto' : '50px',
-        // marginBottom: '20px',
       }}
     >
       <div
@@ -127,8 +121,8 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
           value={selectedDistrict ? String(selectedDistrict.id) : ''}
           options={districtOptions}
           onChange={handleDistrictChange}
-          disabled={!selectedProvince}
-          defaultLabel="지자체명"
+          disabled={!selectedProvince || regionLoading}
+          defaultLabel={regionLoading ? "로딩 중..." : "지자체명"}
         />
       </div>
     </div>

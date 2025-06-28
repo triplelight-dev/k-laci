@@ -18,9 +18,30 @@ export interface Region {
   total_rank: number;
 }
 
+export interface RegionWithDetails {
+  id: number;
+  province_id: number;
+  name: string;
+  district_type: string;
+  weight_class: string;
+  klaci_code: string;
+  growth_score: number;
+  economy_score: number;
+  living_score: number;
+  safety_score: number;
+  total_score: number;
+  total_rank: number;
+  province: Province;
+  klaci: {
+    code: string;
+    nickname: string;
+  };
+}
+
 export interface DistrictState {
   selectedProvince: Province | null;
   selectedDistrict: Region | null;
+  selectedRegion: RegionWithDetails | null;
 }
 
 export interface DistrictSlice {
@@ -29,6 +50,7 @@ export interface DistrictSlice {
   regions: Region[];
   setSelectedProvince: (provinceId: number | null) => void;
   setSelectedDistrict: (districtId: number | null) => void;
+  setSelectedRegion: (region: RegionWithDetails | null) => void;
   clearDistrictSelection: () => void;
   getProvinceById: (id: number) => Province | null;
   getRegionById: (id: number) => Region | null;
