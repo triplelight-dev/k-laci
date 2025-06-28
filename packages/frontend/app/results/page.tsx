@@ -1,7 +1,8 @@
 'use client';
 
 import ResultLayout from '@/components/layout/ResultLayout';
-import { useDistrict } from '@/store';
+import { useDistrict, useSetSelectedDistrict } from '@/store';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 // sections
@@ -23,6 +24,8 @@ interface DistrictData {
 }
 
 export default function ResultsPage() {
+  const searchParams = useSearchParams();
+  const setSelectedDistrict = useSetSelectedDistrict();
   const [isFloating, setIsFloating] = useState(false);
   const [districtData, setDistrictData] = useState<DistrictData | null>(null);
   const [showAnimation, setShowAnimation] = useState(false);
@@ -31,6 +34,14 @@ export default function ResultsPage() {
 
   // Zustand store에서 선택된 지역 정보 가져오기
   const { selectedProvince, selectedDistrict, selectedRegion } = useDistrict();
+
+  // URL 쿼리 파라미터에서 district ID 가져오기
+  useEffect(() => {
+    const districtId = searchParams.get('district');
+    if (districtId) {
+      setSelectedDistrict(Number(districtId));
+    }
+  }, [searchParams, setSelectedDistrict]);
 
   // 안전한 지역명 생성 함수
   const getDistrictName = (): string => {
