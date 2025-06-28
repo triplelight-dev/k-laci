@@ -1,15 +1,15 @@
 'use client';
 
-import { useRegion } from '@/api/hooks/useRegion';
 import CommonSelect from '@/components/atoms/select/CommonSelect';
 import { useProvincesWithRegions } from '@/hooks/useProvincesWithRegions';
+import { useRegion } from '@/hooks/useRegion';
 import {
   useDistrict,
   useSetSelectedDistrict,
   useSetSelectedProvince,
   useSetSelectedRegion,
 } from '@/store';
-import React, { useCallback } from 'react';
+import React, { useEffect } from 'react';
 
 interface DistrictSelectSectionProps {
   isFloating?: boolean;
@@ -18,13 +18,33 @@ interface DistrictSelectSectionProps {
 const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
   isFloating = false,
 }) => {
-  const { selectedProvince, selectedDistrict, selectedRegion } = useDistrict();
+  const { selectedProvince, selectedDistrict } = useDistrict();
   const setSelectedProvince = useSetSelectedProvince();
   const setSelectedDistrict = useSetSelectedDistrict();
   const setSelectedRegion = useSetSelectedRegion();
 
-  const { provincesWithRegions, loading, error } = useProvincesWithRegions();
-  const { getRegion, loading: regionLoading } = useRegion();
+  // React Query 사용
+  const { 
+    data: provincesWithRegions = [], 
+    isLoading, 
+    error 
+  } = useProvincesWithRegions();
+  
+  const { 
+    data: regionDetails, 
+    isLoading: regionLoading 
+  } = useRegion(
+    selectedDistrict ? String(selectedDistrict.id) : null
+  );
+
+  // regionDetails가 변경되면 selectedRegion 업데이트
+  useEffect(() => {
+    if (regionDetails) {
+      setSelectedRegion(regionDetails);
+    } else {
+      setSelectedRegion(null);
+    }
+  }, [regionDetails, setSelectedRegion]);
 
   const handleProvinceChange = (value: string) => {
     setSelectedProvince(value ? Number(value) : null);
@@ -32,22 +52,9 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
     setSelectedDistrict(null);
   };
 
-  const handleDistrictChange = useCallback(async (value: string) => {
+  const handleDistrictChange = (value: string) => {
     setSelectedDistrict(value ? Number(value) : null);
-    
-    // 지자체가 선택되면 해당 ID로 상세 정보를 가져옴
-    if (value) {
-      try {
-        const regionDetails = await getRegion(value);
-        setSelectedRegion(regionDetails);
-      } catch (error) {
-        // 에러가 발생해도 기본 district 정보는 유지
-      }
-    } else {
-      // 지자체 선택이 해제되면 region 정보도 초기화
-      setSelectedRegion(null);
-    }
-  }, [setSelectedDistrict, setSelectedRegion, getRegion]);
+  };
 
   // API에서 가져온 데이터로 province 옵션 생성
   const provinceOptions = provincesWithRegions.map((province) => ({

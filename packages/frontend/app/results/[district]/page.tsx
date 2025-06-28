@@ -3,7 +3,7 @@
 import ResultLayout from '@/components/layout/ResultLayout';
 import { useDistrict } from '@/store';
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 // sections
 import CategoryRankingSection from '@/features/results/sections/CategoryRankingSection';
@@ -29,7 +29,9 @@ export default function ResultsPage() {
   const [isFloating, setIsFloating] = useState(false);
   const [districtData, setDistrictData] = useState<DistrictData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showAnimation, setShowAnimation] = useState(false);
   const isLoggedIn = true;
+  const hasAnimatedRef = useRef(false); // ref로 애니메이션 실행 여부 추적
 
   // Zustand store에서 선택된 지역 정보 가져오기
   const { selectedProvince, selectedDistrict } = useDistrict();
@@ -99,12 +101,37 @@ export default function ResultsPage() {
     const handleScroll = () => {
       const scrollThreshold = 200;
       const scrollY = window.scrollY;
-      setIsFloating(scrollY > scrollThreshold);
+      const newIsFloating = scrollY > scrollThreshold;
+      
+      if (newIsFloating && !isFloating) {
+        // floating 상태가 되었을 때만 애니메이션 실행 (한 번만)
+        if (!hasAnimatedRef.current) {
+          setShowAnimation(true);
+          hasAnimatedRef.current = true;
+        }
+      } else if (!newIsFloating && isFloating) {
+        // floating 상태가 해제되면 애니메이션 상태 리셋
+        hasAnimatedRef.current = false;
+        setShowAnimation(false);
+      }
+      
+      setIsFloating(newIsFloating);
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isFloating]);
+
+  // 애니메이션 완료 후 클래스 제거
+  useEffect(() => {
+    if (showAnimation) {
+      const timer = setTimeout(() => {
+        setShowAnimation(false);
+      }, 500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showAnimation]);
 
   // districtId가 변경될 때마다 데이터 로드
   useEffect(() => {
@@ -257,6 +284,7 @@ export default function ResultsPage() {
 
       {isFloating && (
         <div
+          className={showAnimation ? 'floating-select-animation' : ''}
           style={{
             position: 'fixed',
             top: '30px',
@@ -267,7 +295,6 @@ export default function ResultsPage() {
             borderRadius: '20px',
             padding: '5px',
             boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-            animation: 'slideDown 0.5s ease-out',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -278,6 +305,10 @@ export default function ResultsPage() {
       )}
 
       <style jsx>{`
+        .floating-select-animation {
+          animation: slideDown 0.5s ease-out;
+        }
+        
         @keyframes slideDown {
           from {
             transform: translateX(-50%) translateY(-100%);

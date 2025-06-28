@@ -1,39 +1,13 @@
-import { DataService, ProvinceWithRegions } from '@/api/services';
-import { useEffect, useState } from 'react';
+import { DataService } from '@/api/services';
+import { useQuery } from '@tanstack/react-query';
 
-interface UseProvincesWithRegionsReturn {
-  provincesWithRegions: ProvinceWithRegions[];
-  loading: boolean;
-  error: string | null;
-  refetch: () => void;
-}
-
-export const useProvincesWithRegions = (): UseProvincesWithRegionsReturn => {
-  const [provincesWithRegions, setProvincesWithRegions] = useState<ProvinceWithRegions[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      setError(null);
+export const useProvincesWithRegions = () => {
+  return useQuery({
+    queryKey: ['provinces-with-regions'],
+    queryFn: async () => {
       const response = await DataService.getProvincesWithRegions();
-      setProvincesWithRegions(response.data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch provinces with regions');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  return {
-    provincesWithRegions,
-    loading,
-    error,
-    refetch: fetchData,
-  };
+      return response.data;
+    },
+    staleTime: 10 * 60 * 1000, // 10분간 fresh
+  });
 }; 
