@@ -1,5 +1,5 @@
-import FooterTopSection from './FooterTopSection';
 import FooterBottomSection from './FooterBottomSection';
+import FooterTopSection from './FooterTopSection';
 
 const Footer = () => {
   return (
@@ -9,6 +9,7 @@ const Footer = () => {
         justifyContent: 'center',
         backgroundColor: '#000000',
         color: '#ffffff',
+        padding: '20px 20px',
       }}
     >
       <div style={{ width: '90%' }}>

@@ -1,10 +1,10 @@
 const FooterBottomSection = () => {
-  const LOGO_SRC = '/klaci_logo_white.png';
-  const LOGO_ALT = 'K-LACI Logo';
-  const TITLE_KR = '지역자산역량지수';
-  const TITLE_EN_1 = 'Korea Local Asset';
-  const TITLE_EN_2 = 'Competency Index';
   const currentYear = new Date().getFullYear();
+
+  const mockTexts = [
+    '본 웹사이트에서 제공하는 모든 자료는 저작권법에 의하여 보호받는 저작물로써',
+    '사전 합의되지 않은 상업적 목적의 무단 복제 및 배포를 금합니다.',
+  ];
 
   return (
     <section
@@ -15,46 +15,34 @@ const FooterBottomSection = () => {
         marginBottom: '70px',
       }}
     >
-      {/* 좌측: 로고 및 텍스트 */}
+      {/* 좌측: 저작권 */}
       <div
         style={{
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-start',
-        }}
-      >
-        <div style={{ marginBottom: '16px' }}>
-          <img
-            src={LOGO_SRC}
-            alt={LOGO_ALT}
-            style={{
-              height: '32px',
-              width: 'auto',
-            }}
-          />
-        </div>
-        <div
-          style={{
-            color: '#D1D5DB',
-            fontSize: '16px',
-          }}
-        >
-          <div style={{ fontWeight: 'bold', lineHeight: 2 }}>{TITLE_KR}</div>
-          <div style={{ fontWeight: 'bold' }}>{TITLE_EN_1}</div>
-          <div style={{ fontWeight: 'bold' }}>{TITLE_EN_2}</div>
-        </div>
-      </div>
-
-      {/* 우측: 저작권 */}
-      <div
-        style={{
-          color: '#9CA3AF',
+          flex: 1,
+          color: 'white',
           fontSize: '14px',
         }}
       >
         <div style={{ margin: 0 }}>
-          &copy; {currentYear} K-LACI. All rights reserved.
+          &copy; {currentYear} 트리플라잇 주식회사
         </div>
+      </div>
+
+      {/* 우측: 목업 텍스트 */}
+      <div
+        style={{
+          color: '#9A9EA3',
+          fontSize: '14px',
+          textAlign: 'left',
+          flex: 1,
+        }}
+      >
+        {mockTexts.map((text, index) => (
+          <div key={index} style={{ margin: 0, lineHeight: '1.4' }}>
+            {text}
+          </div>
+        ))}
       </div>
     </section>
   );

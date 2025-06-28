@@ -28,6 +28,12 @@ const FooterTopSection = () => {
     },
   };
 
+  const LOGO_SRC = '/klaci_logo_white.png';
+  const LOGO_ALT = 'K-LACI Logo';
+  const TITLE_KR = '지역자산역량지수';
+  const TITLE_EN_1 = 'Korea Local Asset';
+  const TITLE_EN_2 = 'Competency Index';
+
   const handleMouseEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.currentTarget.style.color = '#ffffff';
   };
@@ -46,16 +52,55 @@ const FooterTopSection = () => {
         marginBottom: '70px',
       }}
     >
-      <div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start',
+        }}
+      >
+        {/* 좌측: 로고 및 텍스트 */}
         <div
           style={{
             display: 'flex',
+            flex: 1,
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+          }}
+        >
+          <div style={{ marginBottom: '16px' }}>
+            <img
+              src={LOGO_SRC}
+              alt={LOGO_ALT}
+              style={{
+                height: '45px',
+                width: 'auto',
+              }}
+            />
+          </div>
+          <div
+            style={{
+              color: '#D1D5DB',
+              fontSize: '16px',
+            }}
+          >
+            <div style={{ fontWeight: 'bold', lineHeight: 2 }}>{TITLE_KR}</div>
+            <div style={{ fontWeight: 'bold' }}>{TITLE_EN_1}</div>
+            <div style={{ fontWeight: 'bold' }}>{TITLE_EN_2}</div>
+          </div>
+        </div>
+
+        {/* 우측: 기존 TopSection 요소들 */}
+        <div
+          style={{
+            display: 'flex',
+            flex: 1,
             gap: '70px',
           }}
         >
           {/* 개인정보 섹션 */}
           <div>
-            <h3
+            <div
               style={{
                 fontSize: '18px',
                 fontWeight: '600',
@@ -64,7 +109,7 @@ const FooterTopSection = () => {
               }}
             >
               {sitemapData.personal.title}
-            </h3>
+            </div>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
               {sitemapData.personal.links.map((link, index) => (
                 <li key={index} style={{ marginBottom: '12px' }}>
@@ -88,7 +133,7 @@ const FooterTopSection = () => {
 
           {/* 유료상품 섹션 */}
           <div>
-            <h3
+            <div
               style={{
                 fontSize: '18px',
                 fontWeight: '600',
@@ -97,7 +142,7 @@ const FooterTopSection = () => {
               }}
             >
               {sitemapData.paid.title}
-            </h3>
+            </div>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
               {sitemapData.paid.links.map((link, index) => (
                 <li key={index} style={{ marginBottom: '12px' }}>
@@ -121,7 +166,7 @@ const FooterTopSection = () => {
 
           {/* Contact 섹션 */}
           <div>
-            <h3
+            <div
               style={{
                 fontSize: '18px',
                 fontWeight: '600',
@@ -130,7 +175,7 @@ const FooterTopSection = () => {
               }}
             >
               {sitemapData.contact.title}
-            </h3>
+            </div>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
               {sitemapData.contact.links.map((link, index) => (
                 <li key={index} style={{ marginBottom: '12px' }}>
