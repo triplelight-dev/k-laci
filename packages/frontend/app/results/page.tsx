@@ -3,7 +3,7 @@
 import ResultLayout from '@/components/layout/ResultLayout';
 import { useDistrict, useSetSelectedDistrict } from '@/store';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 
 // sections
 import CategoryRankingSection from '@/features/results/sections/CategoryRankingSection';
@@ -23,7 +23,8 @@ interface DistrictData {
   // 필요한 다른 데이터들...
 }
 
-export default function ResultsPage() {
+// 실제 페이지 컴포넌트
+function ResultsPageContent() {
   const searchParams = useSearchParams();
   const setSelectedDistrict = useSetSelectedDistrict();
   const [isFloating, setIsFloating] = useState(false);
@@ -224,5 +225,34 @@ export default function ResultsPage() {
         }
       `}</style>
     </ResultLayout>
+  );
+}
+
+// 로딩 컴포넌트
+function ResultsPageLoading() {
+  return (
+    <ResultLayout>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+          fontSize: '1.2rem',
+          color: '#666',
+        }}
+      >
+        로딩 중...
+      </div>
+    </ResultLayout>
+  );
+}
+
+// 메인 페이지 컴포넌트
+export default function ResultsPage() {
+  return (
+    <Suspense fallback={<ResultsPageLoading />}>
+      <ResultsPageContent />
+    </Suspense>
   );
 }
