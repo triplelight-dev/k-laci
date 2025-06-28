@@ -4,6 +4,7 @@ import { useDistrict, useGetProvinceById } from '@/store';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useMemo } from 'react';
 
+import RankArrowButton from '@/components/atoms/buttons/RankArrowButton';
 import JewelRadarChart from '@/components/atoms/charts/RadarChart';
 
 interface DistrictData {
@@ -389,54 +390,21 @@ const TitleSection: React.FC<TitleSectionProps> = ({ districtData }) => {
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '20px',
+          gap: '40px',
           marginBottom: '20px',
         }}
       >
         {/* 이전 지자체 화살표 */}
-        <button
+        <RankArrowButton
+          direction="left"
           onClick={() => handleNavigate('prev')}
-          style={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            padding: '8px',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            transition: 'background-color 0.2s ease',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(28, 63, 211, 0.1)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'transparent';
-          }}
-        >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            style={{ transform: 'rotate(180deg)' }}
-          >
-            <path
-              d="M7 17L17 7M17 7H7M17 7V17"
-              stroke="#1C3FD3"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
+        />
 
         {/* 순위 텍스트 */}
         <div
           style={{
             fontSize: '1.2rem',
-            color: '#1C3FD3',
+            color: '#000000',
             fontWeight: '600',
           }}
         >
@@ -444,42 +412,10 @@ const TitleSection: React.FC<TitleSectionProps> = ({ districtData }) => {
         </div>
 
         {/* 다음 지자체 화살표 */}
-        <button
+        <RankArrowButton
+          direction="right"
           onClick={() => handleNavigate('next')}
-          style={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            padding: '8px',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            transition: 'background-color 0.2s ease',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(28, 63, 211, 0.1)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'transparent';
-          }}
-        >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M7 17L17 7M17 7H7M17 7V17"
-              stroke="#1C3FD3"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
+        />
       </div>
 
       {/* 지자체 이름 */}
