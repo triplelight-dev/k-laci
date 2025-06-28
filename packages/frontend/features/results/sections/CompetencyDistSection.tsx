@@ -85,111 +85,72 @@ const CompetencyDistSection = () => {
         <PremiumContentTitle title={title} />
 
         {/* 카테고리 카드들 */}
-        <div className="space-y-6">
+        <div
+          className="space-y-6"
+          style={{
+            background: '#FAFAFA',
+            borderRadius: '42px',
+            padding: '35px 30px',
+          }}
+        >
           {categories.map((category, index) => (
-            <div
-              key={index}
-              style={{
-                backgroundColor: 'white',
-                borderRadius: '15px',
-                padding: '35px',
-                // boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                marginBottom: '25px',
-              }}
-            >
-              {/* 상단 헤더 */}
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  marginBottom: '1rem',
-                }}
-              >
-                {/* 좌측: 카테고리 키컬러 타이틀과 원 */}
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.75rem',
-                  }}
-                >
-                  <div
-                    style={{
-                      fontSize: '1.25rem',
-                      fontWeight: 700,
-                      color: category.color,
-                    }}
-                  >
-                    {category.title}
-                  </div>
-                  <div
-                    style={{
-                      width: '24px',
-                      height: '24px',
-                      borderRadius: '50%',
-                      backgroundColor: category.color,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: 'white',
-                      fontSize: '0.8rem',
-                      fontWeight: 600,
-                    }}
-                  >
-                    {String.fromCharCode(65 + index)} {/* A, B, C, D */}
-                  </div>
-                </div>
-
-                {/* 우측: DBDBE5 색상 타이틀 */}
-                <div
-                  style={{
-                    fontSize: '1.125rem',
-                    fontWeight: 600,
-                    color: '#DBDBE5',
-                  }}
-                >
-                  {category.title}
-                </div>
-              </div>
-
-              {/* 바 컴포넌트 */}
-              <div
-                style={{
-                  marginTop: '35px',
-                  marginBottom: '35px',
-                }}
-              >
-                <ScoreBar score={category.score} color={category.color} />
-              </div>
-
-              {/* 하단: description */}
-              <div
-                style={{
-                  fontSize: '0.875rem',
-                  lineHeight: '1.5',
-                  color: '#666',
-                }}
-              >
-                {Array.isArray(category.description)
-                  ? category.description.map((paragraph, pIndex) => (
-                      <p key={pIndex} style={{ marginBottom: '0.75rem' }}>
-                        {paragraph}
-                      </p>
-                    ))
-                  : category.description}
-              </div>
-            </div>
+            <CategoryCard key={index} category={category} index={index} />
           ))}
         </div>
-
-        {/* grid는 주석처리 */}
-        {/* <div className="grid grid-cols-1 gap-8">
-          {mockCategories.map((category, index) => (
-            <CategoryRanking key={index} data={category} />
-          ))}
-        </div> */}
       </section>
+    </div>
+  );
+};
+
+interface CategoryCardProps {
+  category: CategoryData;
+  index: number;
+}
+
+const CategoryCard: React.FC<CategoryCardProps> = ({ category, index }) => {
+  const isFirstIndex = index === 0;
+  return (
+    <div
+      key={index}
+      style={{
+        marginBottom: '25px',
+        borderTop: isFirstIndex ? 'none' : '1px solid #D9D9E8',
+        padding: '30px',
+        paddingTop: '35px',
+        paddingBottom: '35px',
+      }}
+    >
+      {/* 바 컴포넌트 */}
+      <div
+        style={{
+          marginTop: '35px',
+          marginBottom: '35px',
+        }}
+      >
+        <ScoreBar
+          leftItem={category.title}
+          rightItem={category.title}
+          score={category.score}
+          color={category.color}
+        />
+      </div>
+
+      {/* 하단: description */}
+      <div
+        style={{
+          fontSize: '0.875rem',
+          lineHeight: '1.5',
+          color: 'black',
+        }}
+      >
+        {Array.isArray(category.description)
+          ? category.description.map((paragraph, pIndex) => (
+              <p key={pIndex} style={{ marginBottom: '0.75rem' }}>
+                {paragraph}
+              </p>
+            ))
+          : category.description}
+      </div>
     </div>
   );
 };
