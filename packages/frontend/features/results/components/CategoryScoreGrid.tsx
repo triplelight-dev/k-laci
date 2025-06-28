@@ -1,6 +1,7 @@
 'use client';
 
 import { CategoryScore } from '@/types/category';
+import Image from 'next/image';
 import React from 'react';
 
 interface CategoryScoreGridProps {
@@ -30,22 +31,24 @@ const CategoryScoreGrid: React.FC<CategoryScoreGridProps> = ({
             position: 'relative',
             cursor: 'pointer',
             borderRadius: '8px',
-            border: '1px solid #e5e7eb',
-            backgroundColor: 'white',
-            padding: '20px',
+            border: '1px solid transparent',
+            backgroundColor: '#F1F1F1',
+            padding: '15px',
             transition: 'all 0.2s ease',
-            minHeight: '70px',
+            minHeight: '60px',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.borderColor = color;
+            e.currentTarget.style.backgroundColor = 'white';
             e.currentTarget.style.boxShadow =
               '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = '#e5e7eb';
+            e.currentTarget.style.borderColor = 'transparent';
+            e.currentTarget.style.backgroundColor = '#F1F1F1';
             e.currentTarget.style.boxShadow = 'none';
           }}
           onClick={() => onScoreClick(score)}
@@ -58,27 +61,21 @@ const CategoryScoreGrid: React.FC<CategoryScoreGridProps> = ({
               right: '16px',
             }}
           >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+            <Image
+              src="/icons/info_icon.png"
+              alt="정보 아이콘"
+              width={16}
+              height={16}
               style={{ color: '#9ca3af' }}
-            >
-              <path
-                d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z"
-                fill="currentColor"
-              />
-            </svg>
+            />
           </div>
 
           {/* 좌상단 텍스트 */}
           <div
             style={{
-              fontSize: '20px',
+              fontSize: '15px',
               fontWeight: '600',
-              color: '#9BA5B5',
+              color: 'black',
             }}
           >
             보육시설수

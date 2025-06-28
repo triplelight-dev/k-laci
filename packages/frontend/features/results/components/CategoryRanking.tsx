@@ -6,10 +6,11 @@ import React, { useState } from 'react';
 import CategoryScoreGrid from './CategoryScoreGrid';
 
 interface CategoryRankingProps {
+  index: number;
   data: CategoryData;
 }
 
-const CategoryRanking: React.FC<CategoryRankingProps> = ({ data }) => {
+const CategoryRanking: React.FC<CategoryRankingProps> = ({ data, index }) => {
   const { title, color, currentRank, totalRank, description, scores } = data;
   const [selectedScore, setSelectedScore] = useState<CategoryScore | null>(
     null,
@@ -21,6 +22,8 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({ data }) => {
     setIsModalOpen(true);
   };
 
+  const isFirstIndex = index === 0;
+
   // 상위 퍼센트 계산
   const topPercentage = Math.round((currentRank / totalRank) * 100);
 
@@ -30,14 +33,16 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({ data }) => {
       style={{ marginBottom: '5rem', gap: '50px' }}
     >
       {/* 상단 보더탑 */}
-      <div
-        style={{
-          height: '1px',
-          backgroundColor: '#D0D9E6',
-          borderTopLeftRadius: '8px',
-          borderTopRightRadius: '8px',
-        }}
-      />
+      {!isFirstIndex && (
+        <div
+          style={{
+            height: '1px',
+            backgroundColor: '#D0D9E6',
+            borderTopLeftRadius: '8px',
+            borderTopRightRadius: '8px',
+          }}
+        />
+      )}
 
       {/* 메인 콘텐츠 */}
       <div className="flex p-6">
@@ -49,10 +54,10 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({ data }) => {
           {/* 타이틀 */}
           <div
             style={{
-              fontSize: '30px',
+              fontSize: '20px',
               fontWeight: 600,
-              color: '#474E59',
-              marginBottom: '1rem',
+              color: 'black',
+              marginBottom: '8px',
             }}
           >
             {title}
@@ -61,7 +66,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({ data }) => {
           {/* 키컬러로 N위 */}
           <div
             style={{
-              fontSize: '32px',
+              fontSize: '40px',
               fontWeight: 600,
               color: color,
               marginBottom: '0.5rem',
@@ -74,7 +79,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({ data }) => {
           <div
             style={{
               fontSize: '0.9rem',
-              color: '#ADB5C4',
+              color: 'black',
             }}
           >
             상위 {topPercentage}%
@@ -85,7 +90,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({ data }) => {
         <div style={{ width: '75%' }}>
           <div
             style={{
-              color: '#474E59',
+              color: 'black',
               lineHeight: '1.5',
               fontSize: '0.95rem',
             }}
