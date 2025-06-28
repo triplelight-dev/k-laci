@@ -190,6 +190,7 @@ export default function ResultsPage() {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
+          background: '#F4F4F4',
         }}
       >
         <DistrictSearchSection />

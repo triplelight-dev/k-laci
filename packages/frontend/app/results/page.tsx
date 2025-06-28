@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function ResultsPage() {
   const router = useRouter();
@@ -18,6 +18,7 @@ export default function ResultsPage() {
       alignItems: 'center', 
       height: '100vh',
       fontSize: '1.2rem',
+      backgroundColor: '#F4F4F4',
       color: '#666'
     }}>
       리다이렉트 중...
