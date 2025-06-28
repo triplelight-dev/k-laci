@@ -1,15 +1,7 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Post
-} from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
-import { SignInDto, SignInResponseDto } from './dto/sign-in.dto';
 import { SignUpDto, SignUpResponseDto } from './dto/sign-up.dto';
 
 @ApiTags('auth')
@@ -27,22 +19,22 @@ export class AuthController {
   })
   @ApiResponse({ status: 400, description: 'Invalid input data' })
   async signUp(@Body() signUpDto: SignUpDto): Promise<SignUpResponseDto> {
-    return this.authService.signUp(signUpDto);
+    return this.authService.signup(signUpDto);
   }
 
-  @Public()
-  @Post('signin')
-  @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'Sign in a user' })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'User has been successfully signed in',
-    type: SignInResponseDto,
-  })
-  @ApiResponse({ status: 401, description: 'Invalid credentials' })
-  async signIn(@Body() signInDto: SignInDto): Promise<SignInResponseDto> {
-    return this.authService.signIn(signInDto);
-  }
+  // @Public()
+  // @Post('signin')
+  // @HttpCode(HttpStatus.OK)
+  // @ApiOperation({ summary: 'Sign in a user' })
+  // @ApiResponse({
+  //   status: HttpStatus.OK,
+  //   description: 'User has been successfully signed in',
+  //   type: SignInResponseDto,
+  // })
+  // @ApiResponse({ status: 401, description: 'Invalid credentials' })
+  // async signIn(@Body() signInDto: SignInDto): Promise<SignInResponseDto> {
+  //   return this.authService.sig(signInDto);
+  // }
 
   @Post('signout')
   @ApiOperation({ summary: 'Sign out the current user' })

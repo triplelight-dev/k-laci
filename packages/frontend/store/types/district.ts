@@ -14,6 +14,8 @@ export interface Region {
   economy_score: number;
   living_score: number;
   safety_score: number;
+  total_score: number;
+  total_rank: number;
 }
 
 export interface DistrictState {

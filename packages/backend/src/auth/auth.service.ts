@@ -2,7 +2,6 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { SignUpDto, SignUpResponseDto } from './dto/sign-up.dto';
-import { SignInDto, SignInResponseDto } from './dto/sign-in.dto';
 
 @Injectable()
 export class AuthService {
@@ -49,7 +48,11 @@ export class AuthService {
     return data;
   }
 
-  async signup(name: string, email: string, password: string): Promise<SignUpResponseDto> {
+  async signup({
+    name,
+    email,
+    password,
+  }: SignUpDto): Promise<SignUpResponseDto> {
     // 1. Create user in auth.users
     const { data: authData, error: authError } =
       await this.supabase.auth.signUp({

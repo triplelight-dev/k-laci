@@ -1,13 +1,13 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import {
-  RegionWithDetails,
-  RegionsResponse,
-  Region,
-} from './types/region.types';
-import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
+import {
+  Region,
+  RegionsResponse,
+  RegionWithDetails,
+} from './types/region.types';
 
 export const REGION_SCORE_TYPES = {
   growth: 'growth',
@@ -39,13 +39,14 @@ export class DataService {
     if (regionsResponse) {
       return regionsResponse;
     }
+    console.log('getRegions');
+    console.log('cache', regionsResponse);
     let query = this.supabase
       .from('regions')
       .select(
         `
         *,
         province:provinces(id, name),
-        weight_class:weight_classes(id, name),
         klaci:klaci_codes(code, nickname)
         `,
         { count: 'exact' },
@@ -60,6 +61,10 @@ export class DataService {
     }
 
     const { data, error, count } = await query;
+
+    console.log('data', data);
+    console.log('error', error);
+    console.log('count', count);
 
     if (error) {
       throw error;
@@ -89,7 +94,6 @@ export class DataService {
         `
         *,
         province:provinces(id, name),
-        weight_class:weight_classes(id, name),
         klaci:klaci_codes(code, nickname)
         `,
       )
@@ -125,11 +129,11 @@ export class DataService {
     if (provinceError || !province) {
       return null;
     }
-    // 하위 regions 조회 (district_type, weight_class 포함)
+    // 하위 regions 조회 (새로운 필드들 포함)
     const { data: regions, error: regionError } = await this.supabase
       .from('regions')
       .select(
-        'id, name, province_id, district_type, weight_class, klaci_code, growth_score, economy_score, living_score, safety_score',
+        'id, name, province_id, district_type, weight_class, klaci_code, growth_score, economy_score, living_score, safety_score, total_score, total_rank',
       )
       .eq('province_id', provinceId);
     if (regionError) {
@@ -186,7 +190,7 @@ export class DataService {
     const { data: regions, error: regionError } = await this.supabase
       .from('regions')
       .select(
-        'id, name, province_id, district_type, weight_class, klaci_code, growth_score, economy_score, living_score, safety_score',
+        'id, name, province_id, district_type, weight_class, klaci_code, growth_score, economy_score, living_score, safety_score, total_score, total_rank',
       );
     if (regionError) {
       throw regionError;

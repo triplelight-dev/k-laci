@@ -21,6 +21,8 @@ export interface Region {
   economy_score: number;
   living_score: number;
   safety_score: number;
+  total_score: number;
+  total_rank: number;
 }
 
 export interface RegionWithDetails extends Region {
@@ -66,4 +68,8 @@ export class RegionResponseDto {
   living_score: number;
   @ApiProperty()
   safety_score: number;
+  @ApiProperty()
+  total_score: number;
+  @ApiProperty()
+  total_rank: number;
 }
