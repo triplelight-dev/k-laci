@@ -1,14 +1,12 @@
 'use client';
 
-import { useDistrict, useGetProvinceById } from '@/store';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo } from 'react';
-
 import RankArrowButton from '@/components/atoms/buttons/RankArrowButton';
 import JewelRadarChart from '@/components/atoms/charts/RadarChart';
 import KlaciCodeCircles from '@/components/atoms/circle/KlaciCodeCircles';
-import { generateDistrictPath } from '@/utils/districtPath';
+import { useDistrict, useGetProvinceById, useSetSelectedRegion } from '@/store';
+import { useMemo } from 'react';
 
+// 지자체 데이터 타입 정의
 interface DistrictData {
   id: string;
   name: string;
@@ -20,10 +18,9 @@ interface TitleSectionProps {
 }
 
 const TitleSection: React.FC<TitleSectionProps> = ({ districtData }) => {
-  const router = useRouter();
-
   // Zustand store에서 선택된 지역 정보 가져오기
   const { selectedRegion } = useDistrict();
+  const setSelectedRegion = useSetSelectedRegion();
   const getProvinceById = useGetProvinceById();
 
   // 차트 데이터를 동적으로 생성하는 함수
@@ -59,21 +56,7 @@ const TitleSection: React.FC<TitleSectionProps> = ({ districtData }) => {
     return generateChartData(selectedRegion);
   }, [selectedRegion]);
 
-  // selectedRegion 변경 시 URL 업데이트
-  useEffect(() => {
-    if (selectedRegion) {
-      const newPath = generateDistrictPath(selectedRegion, {
-        getProvinceById,
-      });
-      console.log('Updating URL to:', newPath);
-
-      // 현재 URL과 다를 때만 업데이트 (무한 루프 방지)
-      const currentPath = window.location.pathname.split('/').pop();
-      if (currentPath !== newPath) {
-        router.replace(`/results/${newPath}`, { scroll: false });
-      }
-    }
-  }, [selectedRegion, router, getProvinceById]);
+  // URL 업데이트 로직 제거 - SPA 방식으로 변경
 
   // 안전한 지역명 생성 함수
   const getDistrictName = (): string => {
@@ -81,11 +64,10 @@ const TitleSection: React.FC<TitleSectionProps> = ({ districtData }) => {
       return `${selectedRegion.province.name} ${selectedRegion.name}`;
     }
     // selectedRegion이 없거나 유효하지 않은 경우 기본값 반환
-    return 'NOT SELECTED';
+    return '전라북도 전주시';
   };
 
   // 기본값 설정
-  // const rank = districtData?.rank || selectedRegion?.total_rank || 3;
   const rank = useMemo(() => {
     return selectedRegion?.total_rank || 3;
   }, [selectedRegion]);
@@ -96,35 +78,100 @@ const TitleSection: React.FC<TitleSectionProps> = ({ districtData }) => {
   const klaciCode = selectedRegion?.klaci?.code || 'KLAC';
   const klaciNickname = selectedRegion?.klaci?.nickname || '안전복지형';
 
-  // 다음/이전 지자체로 이동하는 함수
+  // 다음/이전 지자체로 이동하는 함수 (상태만 변경)
   const handleNavigate = (direction: 'prev' | 'next') => {
     const districts = [
-      { id: 'seoul-gangnam', name: '서울시 강남구', rank: 1 },
-      { id: 'seoul-songpa', name: '서울시 송파구', rank: 2 },
-      { id: 'jeonbuk-jeonju', name: '전라북도 전주시', rank: 3 },
-      { id: 'gyeonggi-seongnam', name: '경기도 성남시', rank: 4 },
-      { id: 'incheon-yeonsu', name: '인천시 연수구', rank: 5 },
+      {
+        id: 1,
+        province_id: 1,
+        name: '서울시 강남구',
+        district_type: '구',
+        weight_class: '대형',
+        klaci_code: 'KLAC',
+        growth_score: 80,
+        economy_score: 90,
+        living_score: 85,
+        safety_score: 88,
+        total_score: 85.75,
+        total_rank: 1,
+        province: { id: 1, name: '서울시' },
+        klaci: { code: 'KLAC', nickname: '경제혁신형' },
+      },
+      {
+        id: 2,
+        province_id: 1,
+        name: '서울시 송파구',
+        district_type: '구',
+        weight_class: '대형',
+        klaci_code: 'KLAC',
+        growth_score: 78,
+        economy_score: 85,
+        living_score: 80,
+        safety_score: 82,
+        total_score: 81.25,
+        total_rank: 2,
+        province: { id: 1, name: '서울시' },
+        klaci: { code: 'KLAC', nickname: '생활역동형' },
+      },
+      {
+        id: 3,
+        province_id: 2,
+        name: '전라북도 전주시',
+        district_type: '시',
+        weight_class: '중형',
+        klaci_code: 'KLAC',
+        growth_score: 60,
+        economy_score: 55,
+        living_score: 45,
+        safety_score: 85,
+        total_score: 61.25,
+        total_rank: 3,
+        province: { id: 2, name: '전라북도' },
+        klaci: { code: 'KLAC', nickname: '안전복지형' },
+      },
+      {
+        id: 4,
+        province_id: 3,
+        name: '경기도 성남시',
+        district_type: '시',
+        weight_class: '대형',
+        klaci_code: 'KLAC',
+        growth_score: 75,
+        economy_score: 70,
+        living_score: 70,
+        safety_score: 65,
+        total_score: 70,
+        total_rank: 4,
+        province: { id: 3, name: '경기도' },
+        klaci: { code: 'KLAC', nickname: '인구성장형' },
+      },
+      {
+        id: 5,
+        province_id: 4,
+        name: '인천시 연수구',
+        district_type: '구',
+        weight_class: '중형',
+        klaci_code: 'KLAC',
+        growth_score: 65,
+        economy_score: 60,
+        living_score: 75,
+        safety_score: 70,
+        total_score: 67.5,
+        total_rank: 5,
+        province: { id: 4, name: '인천시' },
+        klaci: { code: 'KLAC', nickname: '경제정속형' },
+      },
     ];
-
-    const currentIndex = districts.findIndex((d) => d.id === districtData?.id);
+    const currentIndex = districts.findIndex((d) => d.id === selectedRegion?.id);
     let targetIndex: number;
-
     if (direction === 'prev') {
       targetIndex = currentIndex > 0 ? currentIndex - 1 : districts.length - 1;
     } else {
       targetIndex = currentIndex < districts.length - 1 ? currentIndex + 1 : 0;
     }
-
     const targetDistrict = districts[targetIndex];
-
-    if (!targetDistrict) return null;
-
-    console.log(
-      `Navigating to ${targetDistrict.name} (${targetDistrict.rank}위)`,
-    );
-
-    // replace를 사용하여 스크롤 위치 유지
-    router.replace(`/results/${targetDistrict.id}`, { scroll: false });
+    if (!targetDistrict) return;
+    setSelectedRegion(targetDistrict);
   };
 
   return (
@@ -211,33 +258,16 @@ const TitleSection: React.FC<TitleSectionProps> = ({ districtData }) => {
       {/* 유형 설명 */}
       <div
         style={{
-          fontSize: '1.3rem',
-          fontWeight: 600,
-          color: '#949FB0',
-          marginBottom: '50px',
-        }}
-      >
-        인생 2막 올스타전 도시
-      </div>
-
-      {/* 세 줄 텍스트 */}
-      <div
-        style={{
-          fontSize: '1rem',
-          color: '#333',
-          lineHeight: 1.2,
+          fontSize: '1.1rem',
+          color: '#666',
           textAlign: 'center',
+          lineHeight: '1.6',
           maxWidth: '600px',
         }}
       >
-        <div style={{ marginBottom: '8px' }}>
-          인구 유입은 이루어지나 경제는 성장 정체 상태이고
-        </div>
-        <div style={{ marginBottom: '8px' }}>
-          생활 기반은 부족하지만, 안전 수준은 높아 안정적인 공동체를 이루고 있는
-          유형입니다.
-        </div>
-        <div>경제 활력 제고와 생활 환경 개선이 시급합니다</div>
+        이 지역은 {klaciNickname} 유형으로 분류되며, 
+        인구 성장과 경제 발전, 생활 환경, 안전 등 다양한 측면에서 
+        균형 잡힌 발전을 추구하고 있습니다.
       </div>
     </div>
   );
