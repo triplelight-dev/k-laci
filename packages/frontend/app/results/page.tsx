@@ -25,7 +25,6 @@ interface DistrictData {
 export default function ResultsPage() {
   const [isFloating, setIsFloating] = useState(false);
   const [districtData, setDistrictData] = useState<DistrictData | null>(null);
-  const [loading, setLoading] = useState(false);
   const [showAnimation, setShowAnimation] = useState(false);
   const isLoggedIn = true;
   const hasAnimatedRef = useRef(false); // ref로 애니메이션 실행 여부 추적
@@ -39,7 +38,7 @@ export default function ResultsPage() {
     if (selectedRegion?.province?.name && selectedRegion?.name) {
       return `${selectedRegion.province.name} ${selectedRegion.name}`;
     }
-    
+
     // selectedProvince와 selectedDistrict가 모두 유효한 객체이고 name 속성이 있는 경우
     if (selectedProvince?.name && selectedDistrict?.name) {
       return `${selectedProvince.name} ${selectedDistrict.name}`;
@@ -72,7 +71,7 @@ export default function ResultsPage() {
       const scrollThreshold = 200;
       const scrollY = window.scrollY;
       const newIsFloating = scrollY > scrollThreshold;
-      
+
       if (newIsFloating && !isFloating) {
         // floating 상태가 되었을 때만 애니메이션 실행 (한 번만)
         if (!hasAnimatedRef.current) {
@@ -84,7 +83,7 @@ export default function ResultsPage() {
         hasAnimatedRef.current = false;
         setShowAnimation(false);
       }
-      
+
       setIsFloating(newIsFloating);
     };
 
@@ -203,7 +202,7 @@ export default function ResultsPage() {
         .floating-select-animation {
           animation: slideDown 0.5s ease-out;
         }
-        
+
         @keyframes slideDown {
           from {
             transform: translateX(-50%) translateY(-100%);

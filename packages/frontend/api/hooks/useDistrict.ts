@@ -1,4 +1,3 @@
-import { DataService } from '@/api/services';
 import { useCallback, useState } from 'react';
 import { District, DistrictSearchParams, DistrictService } from '../services/district.service';
 import { ApiError } from '../types/api.types';
@@ -59,20 +58,4 @@ export const useDistrict = () => {
     getDistricts,
     searchDistricts,
   };
-};
-
-// 특정 지역 정보 가져오기
-const fetchRegion = async (regionId: string) => {
-  try {
-    const response = await DataService.getRegion(regionId);
-    console.log('Region details:', response.data);
-    // response.data에는 다음 정보가 포함됩니다:
-    // - id, name, province_id, district_type, weight_class, klaci_code
-    // - growth_score, economy_score, living_score, safety_score
-    // - total_score, total_rank
-    // - province: { id, name }
-    // - klaci: { code, nickname }
-  } catch (error) {
-    console.error('Failed to fetch region:', error);
-  }
 }; 

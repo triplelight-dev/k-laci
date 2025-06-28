@@ -1,12 +1,3 @@
-import { QueryClient } from '@tanstack/react-query';
-
-export const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 5 * 60 * 1000, // 5분
-      cacheTime: 10 * 60 * 1000, // 10분
-      retry: 2,
-      refetchOnWindowFocus: false,
-    },
-  },
-}); 
+// 이 파일은 더 이상 사용되지 않습니다.
+// Providers.tsx에서 직접 QueryClient를 생성합니다.
+export { };

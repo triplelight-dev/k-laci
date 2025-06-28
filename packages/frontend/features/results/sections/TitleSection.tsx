@@ -3,7 +3,7 @@
 import RankArrowButton from '@/components/atoms/buttons/RankArrowButton';
 import JewelRadarChart from '@/components/atoms/charts/RadarChart';
 import KlaciCodeCircles from '@/components/atoms/circle/KlaciCodeCircles';
-import { useDistrict, useGetProvinceById, useSetSelectedRegion } from '@/store';
+import { useDistrict, useSetSelectedRegion } from '@/store';
 import { useMemo } from 'react';
 
 // 지자체 데이터 타입 정의
@@ -17,11 +17,10 @@ interface TitleSectionProps {
   districtData?: DistrictData | null;
 }
 
-const TitleSection: React.FC<TitleSectionProps> = ({ districtData }) => {
+const TitleSection: React.FC<TitleSectionProps> = () => {
   // Zustand store에서 선택된 지역 정보 가져오기
   const { selectedRegion } = useDistrict();
   const setSelectedRegion = useSetSelectedRegion();
-  const getProvinceById = useGetProvinceById();
 
   // 차트 데이터를 동적으로 생성하는 함수
   const generateChartData = (region: any): number[] => {
@@ -162,7 +161,9 @@ const TitleSection: React.FC<TitleSectionProps> = ({ districtData }) => {
         klaci: { code: 'KLAC', nickname: '경제정속형' },
       },
     ];
-    const currentIndex = districts.findIndex((d) => d.id === selectedRegion?.id);
+    const currentIndex = districts.findIndex(
+      (d) => d.id === selectedRegion?.id,
+    );
     let targetIndex: number;
     if (direction === 'prev') {
       targetIndex = currentIndex > 0 ? currentIndex - 1 : districts.length - 1;
@@ -265,9 +266,8 @@ const TitleSection: React.FC<TitleSectionProps> = ({ districtData }) => {
           maxWidth: '600px',
         }}
       >
-        이 지역은 {klaciNickname} 유형으로 분류되며, 
-        인구 성장과 경제 발전, 생활 환경, 안전 등 다양한 측면에서 
-        균형 잡힌 발전을 추구하고 있습니다.
+        이 지역은 {klaciNickname} 유형으로 분류되며, 인구 성장과 경제 발전, 생활
+        환경, 안전 등 다양한 측면에서 균형 잡힌 발전을 추구하고 있습니다.
       </div>
     </div>
   );

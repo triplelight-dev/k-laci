@@ -1,15 +1,17 @@
 'use client';
 
+import { useRegion } from '@/api/hooks/useRegion';
+import { RegionWithDetails as ApiRegionWithDetails } from '@/api/services/data.service';
 import CommonSelect from '@/components/atoms/select/CommonSelect';
 import { useProvincesWithRegions } from '@/hooks/useProvincesWithRegions';
-import { useRegion } from '@/hooks/useRegion';
 import {
   useDistrict,
   useSetSelectedDistrict,
   useSetSelectedProvince,
   useSetSelectedRegion,
 } from '@/store';
-import React, { useEffect } from 'react';
+import { RegionWithDetails as StoreRegionWithDetails } from '@/store/types/district';
+import React, { useEffect, useState } from 'react';
 
 interface DistrictSelectSectionProps {
   isFloating?: boolean;
@@ -24,18 +26,43 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
   const setSelectedRegion = useSetSelectedRegion();
 
   // React Query 사용
-  const { 
-    data: provincesWithRegions = [], 
-    isLoading, 
-    error 
-  } = useProvincesWithRegions();
-  
-  const { 
-    data: regionDetails, 
-    isLoading: regionLoading 
-  } = useRegion(
-    selectedDistrict ? String(selectedDistrict.id) : null
-  );
+  const { data: provincesWithRegions = [], error } = useProvincesWithRegions();
+
+  // useRegion hook 사용
+  const { getRegion, loading: regionLoading } = useRegion();
+  const [regionDetails, setRegionDetails] =
+    useState<StoreRegionWithDetails | null>(null);
+
+  // selectedDistrict가 변경될 때 region 정보 가져오기
+  useEffect(() => {
+    const fetchRegionDetails = async () => {
+      if (selectedDistrict) {
+        try {
+          const details: ApiRegionWithDetails = await getRegion(
+            String(selectedDistrict.id),
+          );
+          // Convert API type to store type
+          const storeDetails: StoreRegionWithDetails = {
+            ...details,
+            id: Number(details.id),
+            province_id: Number(details.provinceId),
+            province: {
+              id: Number(details.province.id),
+              name: details.province.name,
+            },
+          };
+          setRegionDetails(storeDetails);
+        } catch (error) {
+          console.error('Failed to fetch region details:', error);
+          setRegionDetails(null);
+        }
+      } else {
+        setRegionDetails(null);
+      }
+    };
+
+    fetchRegionDetails();
+  }, [selectedDistrict, getRegion]);
 
   // regionDetails가 변경되면 selectedRegion 업데이트
   useEffect(() => {
@@ -129,7 +156,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
           options={districtOptions}
           onChange={handleDistrictChange}
           disabled={!selectedProvince || regionLoading}
-          defaultLabel={regionLoading ? "로딩 중..." : "지자체명"}
+          defaultLabel={regionLoading ? '로딩 중...' : '지자체명'}
         />
       </div>
     </div>
