@@ -190,6 +190,7 @@ export default function ResultsPage() {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
+          background: '#F4F4F4',
         }}
       >
         <DistrictSearchSection />
@@ -259,18 +260,17 @@ export default function ResultsPage() {
           style={{
             position: 'fixed',
             top: '30px',
-            left: 0,
-            right: 0,
+            left: '50%',
+            transform: 'translateX(-50%)',
             zIndex: 1000,
             background: 'white',
             borderRadius: '20px',
-            width: '80%',
-            margin: '0 auto',
-            // boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-            animation: 'slideDown 0.3s ease-out',
-            height: '64px',
+            padding: '5px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+            animation: 'slideDown 0.5s ease-out',
             display: 'flex',
             alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
           <DistrictSelectSection isFloating={true} />
@@ -280,10 +280,10 @@ export default function ResultsPage() {
       <style jsx>{`
         @keyframes slideDown {
           from {
-            transform: translateY(-100%);
+            transform: translateX(-50%) translateY(-100%);
           }
           to {
-            transform: translateY(0);
+            transform: translateX(-50%) translateY(0);
           }
         }
       `}</style>

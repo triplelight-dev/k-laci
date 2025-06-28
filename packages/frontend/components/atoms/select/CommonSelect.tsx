@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface Option {
   value: string;
@@ -65,7 +65,7 @@ const CommonSelect: React.FC<CommonSelectProps> = ({
     >
       <span style={{ 
         flex: 1, 
-        color: '#264DBC', 
+        color: '#000000', 
         fontSize: '14px' 
       }}>
         {selectedLabel}

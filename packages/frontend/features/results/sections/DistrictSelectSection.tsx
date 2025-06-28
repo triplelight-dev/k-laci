@@ -71,13 +71,14 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
     <div
       style={{
         display: 'flex',
-        gap: isFloating ? '12px' : '16px',
-        width: '100%',
+        width: '500px',
+        padding: '5px',
         justifyContent: 'center',
-        padding: isFloating ? '8px 16px' : '40px',
-        borderRadius: isFloating ? '12px' : '20px',
-        height: isFloating ? '66px' : 'auto', // CommonSelect 높이(50px) + padding(16px)에 맞춤
+        borderRadius: '50px',
         alignItems: 'center',
+        backgroundColor: 'white',
+        marginTop: isFloating ? 'auto' : '50px',
+        // marginBottom: '20px',
       }}
     >
       <div

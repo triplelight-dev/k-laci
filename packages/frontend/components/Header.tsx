@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 
 const Header = () => {
   const pathname = usePathname();
-  const logoSrc = '/klaci_logo_white.png';
+  const logoSrc = '/klaci_logo_black.png';
 
   // 현재 페이지 확인 함수
   const isActivePage = (path: string) => {
@@ -34,7 +34,8 @@ const Header = () => {
     <header
       style={{
         width: '100%',
-        backgroundColor: '#1C3FD3',
+        backgroundColor: '#F4F4F4',
+        color: '#1B1C2D',
       }}
     >
       <div
@@ -50,7 +51,7 @@ const Header = () => {
           style={{
             display: 'flex',
             gap: '35px',
-            color: 'white',
+            // color: 'white',
           }}
         >
           <Link href="/">
@@ -66,7 +67,7 @@ const Header = () => {
           style={{
             display: 'flex',
             gap: '50px',
-            color: 'white',
+            // color: 'white',
           }}
         >
           {/* Navigation  */}
@@ -98,7 +99,7 @@ const Header = () => {
             style={{
               border: '1px solid white',
               borderRadius: '8px',
-              color: 'white',
+              // color: 'white',
               backgroundColor: 'transparent',
               cursor: 'pointer',
               padding: '10px 25px',

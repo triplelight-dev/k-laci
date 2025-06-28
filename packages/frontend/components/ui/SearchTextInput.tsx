@@ -180,10 +180,9 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
           display: 'flex',
           alignItems: 'center',
           borderRadius: '10px',
-          backgroundColor: 'white',
           padding: '18px',
           gap: '10px',
-          background: '#1638B1',
+          background: 'white',
           marginBottom: recentSearches.length > 0 ? '25px' : '0',
         }}
       >
@@ -205,7 +204,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
             backgroundColor: 'transparent',
             fontSize: '1rem',
             border: '1px solid transparent',
-            color: 'white',
+            color: '#000000',
             outline: 'none',
           }}
           autoComplete="off"
@@ -306,7 +305,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
           <div
             style={{
               fontSize: '14px',
-              color: 'white',
+              color: 'black',
               background: 'transparent',
               marginRight: '20px',
             }}
@@ -327,10 +326,10 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
                 onClick={() => handleRegionSelect(search)}
                 style={{
                   fontSize: '14px',
-                  color: 'white',
+                  color: 'black',
                   cursor: 'pointer',
                   background: 'transparent',
-                  border: '1px solid white',
+                  border: '1px solid black',
                   borderRadius: '10px',
                   padding: '6px 12px',
                 }}

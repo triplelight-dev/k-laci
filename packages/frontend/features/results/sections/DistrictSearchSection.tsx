@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
 import SearchTextInput from '@/components/ui/SearchTextInput';
+import React, { useState } from 'react';
 
 const DistrictSearchSection: React.FC = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -24,14 +24,15 @@ const DistrictSearchSection: React.FC = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        width: '100%',
+        width: '80%',
         gap: '30px',
-        backgroundColor: '#3352D7',
-        color: 'white',
+        backgroundColor: 'skyblue',
+        color: '#000000',
         padding: '20px',
-        paddingTop: '60px',
-        paddingBottom: '120px',
+        paddingTop: '80px',
+        paddingBottom: '100px',
         position: 'relative',
+        borderRadius: '50px',
       }}
     >
       <div

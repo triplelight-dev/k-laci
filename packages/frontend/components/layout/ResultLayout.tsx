@@ -1,6 +1,6 @@
-import React from 'react';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Header from '@/components/Header';
+import React from 'react';
 
 const ResultLayout = ({ children }: { children: React.ReactNode }) => {
   return (

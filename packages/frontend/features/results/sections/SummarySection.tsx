@@ -48,21 +48,32 @@ const SummaryItem: React.FC<SummaryItemProps> = ({ data }) => {
     <div
       style={{
         display: 'flex',
-        borderTop: '1px solid #D0D9E6',
-        paddingTop: '40px',
         paddingBottom: '60px',
       }}
     >
       <div
         style={{
-          flex: '0 0 200px',
-          color: '#949FB0',
-          fontSize: '1.3rem',
+          flex: '0 0 120px',
+          color: '#000000',
+          fontSize: '1rem',
           fontWeight: 600,
           paddingRight: '2rem',
         }}
       >
-        {data.title}
+        <div
+          style={{
+            display: 'inline-block',
+            padding: '6px 14px',
+            borderRadius: '5px',
+            border: '1px solid #000000',
+            backgroundColor: 'transparent',
+            color: '#000000',
+            fontSize: '0.9rem',
+            fontWeight: 600,
+          }}
+        >
+          {data.title}
+        </div>
       </div>
       <div
         style={{
@@ -76,7 +87,7 @@ const SummaryItem: React.FC<SummaryItemProps> = ({ data }) => {
           <p
             key={index}
             style={{
-              color: '#2B2D30',
+              color: '#000000',
               fontSize: '0.9rem',
               lineHeight: 1.8,
               margin: 0,
@@ -112,7 +123,9 @@ const SummarySection: React.FC = () => {
             flexDirection: 'column',
             paddingTop: '12%',
             paddingBottom: '12%',
-            borderRadius: '15px',
+            borderRadius: '56px',
+            backgroundColor: 'white',
+            padding: '80px',
           }}
         >
           {summaryItems.map((item, index) => (
