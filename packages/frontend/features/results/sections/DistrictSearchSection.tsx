@@ -26,13 +26,20 @@ const DistrictSearchSection: React.FC = () => {
         alignItems: 'center',
         width: '80%',
         gap: '30px',
-        backgroundColor: 'skyblue',
         color: '#000000',
         padding: '20px',
         paddingTop: '80px',
         paddingBottom: '100px',
         position: 'relative',
         borderRadius: '50px',
+        backgroundImage: `
+        url('/title_bg.png'),
+        linear-gradient(90deg, rgba(247, 247, 251, 0.7) 0%, rgba(233, 243, 254, 0.7) 100%)
+      `,
+        backgroundSize: '150% 150%',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        overflow: 'hidden',
       }}
     >
       <div

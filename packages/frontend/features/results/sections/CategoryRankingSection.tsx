@@ -1,6 +1,6 @@
 'use client';
 
-
+import PremiumContentTitle from '@/components/ui/PremiumContentTitle';
 import { categoryColors } from '@/constants/colors';
 import CategoryRanking from '@/features/results/components/CategoryRanking';
 import { CategoryData } from '@/types/category';
@@ -24,17 +24,7 @@ const CategoryRankingSection = () => {
         }}
       >
         {/* 타이틀 */}
-        <div
-          style={{
-            fontSize: '1.5rem',
-            fontWeight: 800,
-            paddingTop: '3rem',
-            marginBottom: '2rem',
-            color: '#949FB0',
-          }}
-        >
-          {title}
-        </div>
+        <PremiumContentTitle title={title} />
 
         {/* 카테고리 그리드 */}
         <div className="grid grid-cols-1 gap-8">
