@@ -1,32 +1,13 @@
 'use client';
 
 import CommonSelect from '@/components/atoms/select/CommonSelect';
-import provinceData from '@/data/province_data.json';
-import regionsData from '@/data/regions_data.json';
+import { useProvincesWithRegions } from '@/hooks/useProvincesWithRegions';
 import {
   useDistrict,
   useSetSelectedDistrict,
   useSetSelectedProvince,
 } from '@/store';
 import React from 'react';
-
-interface ProvinceDataType {
-  id: number;
-  name: string;
-}
-
-interface RegionDataType {
-  id: number;
-  province_id: number;
-  name: string;
-  district_type: string;
-  weight_class: string;
-  klaci_code: string;
-  growth_score: number;
-  economy_score: number;
-  living_score: number;
-  safety_score: number;
-}
 
 interface DistrictSelectSectionProps {
   isFloating?: boolean;
@@ -39,33 +20,75 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
   const setSelectedProvince = useSetSelectedProvince();
   const setSelectedDistrict = useSetSelectedDistrict();
 
+  const { provincesWithRegions, loading, error } = useProvincesWithRegions();
+
+  console.log('provincesWithRegions', provincesWithRegions);
+
   const handleProvinceChange = (value: string) => {
     setSelectedProvince(value ? Number(value) : null);
+    // 도/시가 변경되면 선택된 지역도 초기화
+    setSelectedDistrict(null);
   };
 
   const handleDistrictChange = (value: string) => {
     setSelectedDistrict(value ? Number(value) : null);
   };
 
-  // province_data.json에서 광역시/도 데이터 가져오기
-  const provinceOptions = (provinceData as ProvinceDataType[]).map(
-    (province) => ({
-      value: String(province.id),
-      label: province.name,
-    }),
-  );
+  // API에서 가져온 데이터로 province 옵션 생성
+  const provinceOptions = provincesWithRegions.map((province) => ({
+    value: String(province.id),
+    label: province.name,
+  }));
 
-  // regions_data.json에서 선택된 광역시/도에 해당하는 지자체 데이터 가져오기
+  // 선택된 도/시에 해당하는 지역 옵션 생성
   const districtOptions = selectedProvince
-    ? (regionsData as RegionDataType[])
-        .filter((region) => region.province_id === selectedProvince.id)
-        .sort((a, b) => a.name.localeCompare(b.name, 'ko'))
-        .map((region) => ({
+    ? provincesWithRegions
+        .find((province) => province.id === selectedProvince.id)
+        ?.regions.map((region) => ({
           value: String(region.id),
           label: region.name,
           ...region,
-        }))
+        })) || []
     : [];
+
+  // 로딩 중이거나 에러가 있는 경우 처리
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          width: '500px',
+          padding: '5px',
+          justifyContent: 'center',
+          borderRadius: '50px',
+          alignItems: 'center',
+          backgroundColor: 'white',
+          marginTop: isFloating ? 'auto' : '50px',
+        }}
+      >
+        <div>로딩 중...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          width: '500px',
+          padding: '5px',
+          justifyContent: 'center',
+          borderRadius: '50px',
+          alignItems: 'center',
+          backgroundColor: 'white',
+          marginTop: isFloating ? 'auto' : '50px',
+        }}
+      >
+        <div>데이터를 불러오는 중 오류가 발생했습니다.</div>
+      </div>
+    );
+  }
 
   return (
     <div

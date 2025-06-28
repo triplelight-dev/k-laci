@@ -29,6 +29,12 @@ export interface RegionWithDetails extends Region {
   };
 }
 
+export interface ProvinceWithRegions {
+  id: number;
+  name: string;
+  regions: Region[];
+}
+
 export interface Category {
   id: string;
   name: string;
@@ -49,6 +55,11 @@ export class DataService {
 
   static async getRegion(id: string): Promise<ApiResponse<RegionWithDetails>> {
     const response = await apiClient.get(`/data/regions/${id}`);
+    return response.data;
+  }
+
+  static async getProvincesWithRegions(): Promise<ApiResponse<ProvinceWithRegions[]>> {
+    const response = await apiClient.get('/data/provinces-with-regions');
     return response.data;
   }
 
