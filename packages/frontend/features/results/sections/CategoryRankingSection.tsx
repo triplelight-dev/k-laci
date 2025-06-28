@@ -29,7 +29,7 @@ const CategoryRankingSection = () => {
         {/* 카테고리 그리드 */}
         <div className="grid grid-cols-1 gap-8">
           {mockCategories.map((category, index) => (
-            <CategoryRanking key={index} data={category} />
+            <CategoryRanking key={index} data={category} index={index} />
           ))}
         </div>
       </section>
