@@ -1,32 +1,17 @@
 'use client';
 
+import { useRegion } from '@/api/hooks/useRegion';
+import { RegionWithDetails as ApiRegionWithDetails } from '@/api/services/data.service';
 import CommonSelect from '@/components/atoms/select/CommonSelect';
-import provinceData from '@/data/province_data.json';
-import regionsData from '@/data/regions_data.json';
+import { useProvincesWithRegions } from '@/hooks/useProvincesWithRegions';
 import {
   useDistrict,
   useSetSelectedDistrict,
   useSetSelectedProvince,
+  useSetSelectedRegion,
 } from '@/store';
-import React from 'react';
-
-interface ProvinceDataType {
-  id: number;
-  name: string;
-}
-
-interface RegionDataType {
-  id: number;
-  province_id: number;
-  name: string;
-  district_type: string;
-  weight_class: string;
-  klaci_code: string;
-  growth_score: number;
-  economy_score: number;
-  living_score: number;
-  safety_score: number;
-}
+import { RegionWithDetails as StoreRegionWithDetails } from '@/store/types/district';
+import React, { useEffect, useState } from 'react';
 
 interface DistrictSelectSectionProps {
   isFloating?: boolean;
@@ -38,34 +23,101 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
   const { selectedProvince, selectedDistrict } = useDistrict();
   const setSelectedProvince = useSetSelectedProvince();
   const setSelectedDistrict = useSetSelectedDistrict();
+  const setSelectedRegion = useSetSelectedRegion();
+
+  // React Query 사용
+  const { data: provincesWithRegions = [], error } = useProvincesWithRegions();
+
+  // useRegion hook 사용
+  const { getRegion, loading: regionLoading } = useRegion();
+  const [regionDetails, setRegionDetails] =
+    useState<StoreRegionWithDetails | null>(null);
+
+  // selectedDistrict가 변경될 때 region 정보 가져오기
+  useEffect(() => {
+    const fetchRegionDetails = async () => {
+      if (selectedDistrict) {
+        try {
+          const details: ApiRegionWithDetails = await getRegion(
+            String(selectedDistrict.id),
+          );
+          // Convert API type to store type
+          const storeDetails: StoreRegionWithDetails = {
+            ...details,
+            id: Number(details.id),
+            province_id: Number(details.provinceId),
+            province: {
+              id: Number(details.province.id),
+              name: details.province.name,
+            },
+          };
+          setRegionDetails(storeDetails);
+        } catch (error) {
+          console.error('Failed to fetch region details:', error);
+          setRegionDetails(null);
+        }
+      } else {
+        setRegionDetails(null);
+      }
+    };
+
+    fetchRegionDetails();
+  }, [selectedDistrict, getRegion]);
+
+  // regionDetails가 변경되면 selectedRegion 업데이트
+  useEffect(() => {
+    if (regionDetails) {
+      setSelectedRegion(regionDetails);
+    } else {
+      setSelectedRegion(null);
+    }
+  }, [regionDetails, setSelectedRegion]);
 
   const handleProvinceChange = (value: string) => {
     setSelectedProvince(value ? Number(value) : null);
+    // 도/시가 변경되면 선택된 지역도 초기화
+    setSelectedDistrict(null);
   };
 
   const handleDistrictChange = (value: string) => {
     setSelectedDistrict(value ? Number(value) : null);
   };
 
-  // province_data.json에서 광역시/도 데이터 가져오기
-  const provinceOptions = (provinceData as ProvinceDataType[]).map(
-    (province) => ({
-      value: String(province.id),
-      label: province.name,
-    }),
-  );
+  // API에서 가져온 데이터로 province 옵션 생성
+  const provinceOptions = provincesWithRegions.map((province) => ({
+    value: String(province.id),
+    label: province.name,
+  }));
 
-  // regions_data.json에서 선택된 광역시/도에 해당하는 지자체 데이터 가져오기
+  // 선택된 도/시에 해당하는 지역 옵션 생성
   const districtOptions = selectedProvince
-    ? (regionsData as RegionDataType[])
-        .filter((region) => region.province_id === selectedProvince.id)
-        .sort((a, b) => a.name.localeCompare(b.name, 'ko'))
-        .map((region) => ({
+    ? provincesWithRegions
+        .find((province) => province.id === selectedProvince.id)
+        ?.regions.map((region) => ({
           value: String(region.id),
           label: region.name,
           ...region,
-        }))
+        })) || []
     : [];
+
+  if (error) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          width: '500px',
+          padding: '5px',
+          justifyContent: 'center',
+          borderRadius: '50px',
+          alignItems: 'center',
+          backgroundColor: 'white',
+          marginTop: isFloating ? 'auto' : '50px',
+        }}
+      >
+        <div>데이터를 불러오는 중 오류가 발생했습니다.</div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -78,7 +130,6 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
         alignItems: 'center',
         backgroundColor: 'white',
         marginTop: isFloating ? 'auto' : '50px',
-        // marginBottom: '20px',
       }}
     >
       <div
@@ -104,8 +155,8 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
           value={selectedDistrict ? String(selectedDistrict.id) : ''}
           options={districtOptions}
           onChange={handleDistrictChange}
-          disabled={!selectedProvince}
-          defaultLabel="지자체명"
+          disabled={!selectedProvince || regionLoading}
+          defaultLabel={regionLoading ? '로딩 중...' : '지자체명'}
         />
       </div>
     </div>

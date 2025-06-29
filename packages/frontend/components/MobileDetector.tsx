@@ -1,6 +1,5 @@
 'use client';
 
-import { useIsMobile } from '@/hooks/useIsMobile';
 import React from 'react';
 import MobileNotice from './MobileNotice';
 
@@ -9,7 +8,8 @@ interface MobileDetectorProps {
 }
 
 const MobileDetector: React.FC<MobileDetectorProps> = ({ children }) => {
-  const isMobile = useIsMobile();
+  // const isMobile = useIsMobile();
+  const isMobile = false;
 
   // 모바일인 경우 안내 페이지 표시
   if (isMobile) {

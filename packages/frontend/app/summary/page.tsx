@@ -4,6 +4,8 @@ import SummaryLayout from '@/components/layout/SummaryLayout';
 import SummaryGridItem from '@/features/summary/components/SummaryGridItem';
 import { SummaryItem } from '@/types/summary';
 
+export const dynamic = 'force-static';
+
 const mockSummaryItems: SummaryItem[] = [
   {
     keyName: '종합순위',

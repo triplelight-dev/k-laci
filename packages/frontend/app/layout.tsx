@@ -1,4 +1,5 @@
 import MobileDetector from '@/components/MobileDetector';
+import Providers from '@/components/Providers';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
@@ -27,11 +28,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en" className="w-full">
+    <html lang="ko" className="w-full">
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen w-full bg-white antialiased`}
         style={{
@@ -39,9 +40,11 @@ export default function RootLayout({
           WebkitOverflowScrolling: 'touch',
         }}
       >
-        <MobileDetector>
-          {children}
-        </MobileDetector>
+        <Providers>
+          <MobileDetector>
+            {children}
+          </MobileDetector>
+        </Providers>
       </body>
     </html>
   );

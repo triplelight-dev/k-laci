@@ -42,6 +42,7 @@ export const useDistrict = () => useStore((state) => state.district);
 // 개별 action들로 export (무한 루프 방지)
 export const useSetSelectedProvince = () => useStore((state) => state.setSelectedProvince);
 export const useSetSelectedDistrict = () => useStore((state) => state.setSelectedDistrict);
+export const useSetSelectedRegion = () => useStore((state) => state.setSelectedRegion);
 export const useClearDistrictSelection = () => useStore((state) => state.clearDistrictSelection);
 
 // 유틸리티 함수들 export

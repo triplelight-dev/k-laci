@@ -1,12 +1,12 @@
 'use client';
 
-import { useDistrict, useGetProvinceById } from '@/store';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo } from 'react';
-
 import RankArrowButton from '@/components/atoms/buttons/RankArrowButton';
 import JewelRadarChart from '@/components/atoms/charts/RadarChart';
+import KlaciCodeCircles from '@/components/atoms/circle/KlaciCodeCircles';
+import { useDistrict, useSetSelectedRegion } from '@/store';
+import { useMemo } from 'react';
 
+// 지자체 데이터 타입 정의
 interface DistrictData {
   id: string;
   name: string;
@@ -17,64 +17,14 @@ interface TitleSectionProps {
   districtData?: DistrictData | null;
 }
 
-// KLACI Code 원형 컴포넌트
-const KlaciCodeCircles: React.FC<{ klaciCode: string }> = ({ klaciCode }) => {
-  // KLACI 코드 색상 매핑 (대문자 기준)
-  const codeColorMapping: Record<string, string> = {
-    G: '#FF3737',
-    T: '#FFA600',
-    V: '#874FFF',
-    R: '#24CB71',
-  };
-
-  // klaci_code 문자열을 개별 문자로 분리
-  const klaciCodes = klaciCode.split('').map((code) => ({
-    code, // 원본 코드 그대로 표시 (소문자면 소문자로)
-    color: codeColorMapping[code.toUpperCase()] || '#666666', // 색상 매칭은 대문자로 변환
-  }));
-
-  return (
-    <div
-      style={{
-        display: 'flex',
-        gap: '8px',
-        marginBottom: '24px',
-      }}
-    >
-      {klaciCodes.map((item, index) => (
-        <div
-          key={index}
-          style={{
-            width: '30px',
-            height: '30px',
-            borderRadius: '50%',
-            backgroundColor: item.color,
-            color: 'white',
-            border: `2px solid ${item.color}`,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '1rem',
-            fontWeight: 600,
-          }}
-        >
-          {item.code}
-        </div>
-      ))}
-    </div>
-  );
-};
-
-const TitleSection: React.FC<TitleSectionProps> = ({ districtData }) => {
-  const router = useRouter();
-
+const TitleSection: React.FC<TitleSectionProps> = () => {
   // Zustand store에서 선택된 지역 정보 가져오기
-  const { selectedDistrict } = useDistrict();
-  const getProvinceById = useGetProvinceById();
+  const { selectedRegion } = useDistrict();
+  const setSelectedRegion = useSetSelectedRegion();
 
   // 차트 데이터를 동적으로 생성하는 함수
-  const generateChartData = (district: any): number[] => {
-    if (!district) {
+  const generateChartData = (region: any): number[] => {
+    if (!region) {
       // 기본값 반환
       return [50, 50, 50, 50, 50, 50, 50, 50];
     }
@@ -84,7 +34,7 @@ const TitleSection: React.FC<TitleSectionProps> = ({ districtData }) => {
       economy_score = 50,
       living_score = 50,
       safety_score = 50,
-    } = district;
+    } = region;
 
     // RadarChart의 categories 순서에 맞춰 반환:
     // ['생활역동형', '안전복원형', '인구정착형', '경제정속형', '생활정주형', '안전정진형', '인구성장형', '경제혁신형']
@@ -100,268 +50,129 @@ const TitleSection: React.FC<TitleSectionProps> = ({ districtData }) => {
     ];
   };
 
-  // selectedDistrict가 변경될 때마다 차트 데이터 재계산
+  // selectedRegion가 변경될 때마다 차트 데이터 재계산
   const chartData = useMemo(() => {
-    return generateChartData(selectedDistrict);
-  }, [selectedDistrict]);
+    return generateChartData(selectedRegion);
+  }, [selectedRegion]);
 
-  // URL path 생성 함수
-  const generateDistrictPath = (district: any): string => {
-    if (!district?.name || !district?.province_id) {
-      return 'jeonbuk-jeonju'; // 기본값
-    }
-
-    const province = getProvinceById(district.province_id);
-    if (!province?.name) {
-      return 'jeonbuk-jeonju'; // 기본값
-    }
-
-    // 한글-영문 매핑
-    const provinceMapping: Record<string, string> = {
-      강원특별자치도: 'gangwon',
-      경기도: 'gyeonggi',
-      경상남도: 'gyeongnam',
-      경상북도: 'gyeongbuk',
-      광주광역시: 'gwangju',
-      대구광역시: 'daegu',
-      대전광역시: 'daejeon',
-      부산광역시: 'busan',
-      서울특별시: 'seoul',
-      세종특별자치시: 'sejong',
-      울산광역시: 'ulsan',
-      인천광역시: 'incheon',
-      전라남도: 'jeonnam',
-      전라북도: 'jeonbuk',
-      제주특별자치도: 'jeju',
-      충청남도: 'chungnam',
-      충청북도: 'chungbuk',
-    };
-
-    // 지역별 매핑 (province와 district를 함께 고려)
-    const getDistrictMapping = (
-      provinceName: string,
-      districtName: string,
-    ): string => {
-      // 서울특별시
-      if (provinceName === '서울특별시') {
-        const seoulMapping: Record<string, string> = {
-          종로구: 'jongno',
-          중구: 'jung-seoul',
-          용산구: 'yongsan',
-          성동구: 'seongdong',
-          광진구: 'gwangjin',
-          동대문구: 'dongdaemun',
-          중랑구: 'jungnang',
-          성북구: 'seongbuk',
-          강북구: 'gangbuk',
-          도봉구: 'dobong',
-          노원구: 'nowon',
-          은평구: 'eunpyeong',
-          서대문구: 'seodaemun',
-          마포구: 'mapo',
-          양천구: 'yangcheon',
-          강서구: 'gangseo',
-          구로구: 'guro',
-          금천구: 'geumcheon',
-          영등포구: 'yeongdeungpo',
-          동작구: 'dongjak',
-          관악구: 'gwanak',
-          서초구: 'seocho',
-          강남구: 'gangnam',
-          송파구: 'songpa',
-          강동구: 'gangdong',
-        };
-        return (
-          seoulMapping[districtName] ||
-          districtName
-            .toLowerCase()
-            .replace(/시|군|구/g, '')
-            .replace(/\s+/g, '')
-        );
-      }
-
-      // 인천광역시
-      if (provinceName === '인천광역시') {
-        const incheonMapping: Record<string, string> = {
-          중구: 'jung-incheon',
-          동구: 'dong-incheon',
-          미추홀구: 'michuhol',
-          연수구: 'yeonsu',
-          남동구: 'namdong',
-          부평구: 'bupyeong',
-          계양구: 'gyeyang',
-          서구: 'seo-incheon',
-          강화군: 'ganghwa',
-          옹진군: 'ongjin',
-        };
-        return (
-          incheonMapping[districtName] ||
-          districtName
-            .toLowerCase()
-            .replace(/시|군|구/g, '')
-            .replace(/\s+/g, '')
-        );
-      }
-
-      // 경기도
-      if (provinceName === '경기도') {
-        const gyeonggiMapping: Record<string, string> = {
-          수원시: 'suwon',
-          성남시: 'seongnam',
-          의정부시: 'uijeongbu',
-          안양시: 'anyang',
-          부천시: 'bucheon',
-          광명시: 'gwangmyeong',
-          평택시: 'pyeongtaek',
-          동두천시: 'dongducheon',
-          안산시: 'ansan',
-          고양시: 'goyang',
-          과천시: 'gwacheon',
-          구리시: 'guri',
-          남양주시: 'namyangju',
-          오산시: 'osan',
-          시흥시: 'siheung',
-          군포시: 'gunpo',
-          의왕시: 'uiwang',
-          하남시: 'hanam',
-          용인시: 'yongin',
-          파주시: 'paju',
-          이천시: 'icheon',
-          안성시: 'anseong',
-          김포시: 'gimpo',
-          화성시: 'hwaseong',
-          광주시: 'gwangju-gyeonggi',
-          여주시: 'yeoju',
-          양평군: 'yangpyeong',
-          고양군: 'goyang-gun',
-          연천군: 'yeoncheon',
-          가평군: 'gapyeong',
-          포천군: 'pocheon',
-        };
-        return (
-          gyeonggiMapping[districtName] ||
-          districtName
-            .toLowerCase()
-            .replace(/시|군|구/g, '')
-            .replace(/\s+/g, '')
-        );
-      }
-
-      // 전라북도
-      if (provinceName === '전라북도') {
-        const jeonbukMapping: Record<string, string> = {
-          전주시: 'jeonju',
-          군산시: 'gunsan',
-          익산시: 'iksan',
-          정읍시: 'jeongeup',
-          남원시: 'namwon',
-          김제시: 'gimje',
-          완주군: 'wanju',
-          진안군: 'jinan',
-          무주군: 'muju',
-          장수군: 'jangsu',
-          임실군: 'imsil',
-          순창군: 'sunchang',
-          고창군: 'gochang',
-          부안군: 'buan',
-        };
-        return (
-          jeonbukMapping[districtName] ||
-          districtName
-            .toLowerCase()
-            .replace(/시|군|구/g, '')
-            .replace(/\s+/g, '')
-        );
-      }
-
-      // 기본 처리
-      return districtName
-        .toLowerCase()
-        .replace(/시|군|구/g, '')
-        .replace(/\s+/g, '');
-    };
-
-    // province name을 영문으로 변환
-    const provinceName =
-      provinceMapping[province.name] ||
-      province.name
-        .toLowerCase()
-        .replace(/특별자치도|광역시|특별시/g, '')
-        .replace(/\s+/g, '');
-
-    // district name을 영문으로 변환 (province 정보를 함께 고려)
-    const districtName = getDistrictMapping(province.name, district.name);
-
-    return `${provinceName}-${districtName}`;
-  };
-
-  // selectedDistrict 변경 시 URL 업데이트
-  useEffect(() => {
-    if (selectedDistrict) {
-      const newPath = generateDistrictPath(selectedDistrict);
-      console.log('Updating URL to:', newPath);
-
-      // 현재 URL과 다를 때만 업데이트 (무한 루프 방지)
-      const currentPath = window.location.pathname.split('/').pop();
-      if (currentPath !== newPath) {
-        router.replace(`/results/${newPath}`, { scroll: false });
-      }
-    }
-  }, [selectedDistrict, router, getProvinceById]);
+  // URL 업데이트 로직 제거 - SPA 방식으로 변경
 
   // 안전한 지역명 생성 함수
   const getDistrictName = (): string => {
-    console.log('Selected district:', selectedDistrict);
-
-    // selectedDistrict가 유효한 객체이고 name 속성이 있는 경우
-    if (selectedDistrict?.name && selectedDistrict?.province_id) {
-      // province_id를 사용해서 province 정보 가져오기
-      const province = getProvinceById(selectedDistrict.province_id);
-      console.log('Found province:', province);
-
-      if (province?.name) {
-        return `${province.name} ${selectedDistrict.name}`;
-      }
+    if (selectedRegion?.province?.name && selectedRegion?.name) {
+      return `${selectedRegion.province.name} ${selectedRegion.name}`;
     }
-
-    // selectedDistrict가 없거나 유효하지 않은 경우 기본값 반환
+    // selectedRegion이 없거나 유효하지 않은 경우 기본값 반환
     return '전라북도 전주시';
   };
 
   // 기본값 설정
-  const rank = districtData?.rank || 3;
+  const rank = useMemo(() => {
+    return selectedRegion?.total_rank || 3;
+  }, [selectedRegion]);
   const rankText = `종합순위 ${rank}위`;
   const districtName = getDistrictName();
 
-  // 다음/이전 지자체로 이동하는 함수
+  // KLACI 코드와 닉네임 가져오기
+  const klaciCode = selectedRegion?.klaci?.code || 'KLAC';
+  const klaciNickname = selectedRegion?.klaci?.nickname || '안전복지형';
+
+  // 다음/이전 지자체로 이동하는 함수 (상태만 변경)
   const handleNavigate = (direction: 'prev' | 'next') => {
     const districts = [
-      { id: 'seoul-gangnam', name: '서울시 강남구', rank: 1 },
-      { id: 'seoul-songpa', name: '서울시 송파구', rank: 2 },
-      { id: 'jeonbuk-jeonju', name: '전라북도 전주시', rank: 3 },
-      { id: 'gyeonggi-seongnam', name: '경기도 성남시', rank: 4 },
-      { id: 'incheon-yeonsu', name: '인천시 연수구', rank: 5 },
+      {
+        id: 1,
+        province_id: 1,
+        name: '서울시 강남구',
+        district_type: '구',
+        weight_class: '대형',
+        klaci_code: 'KLAC',
+        growth_score: 80,
+        economy_score: 90,
+        living_score: 85,
+        safety_score: 88,
+        total_score: 85.75,
+        total_rank: 1,
+        province: { id: 1, name: '서울시' },
+        klaci: { code: 'KLAC', nickname: '경제혁신형' },
+      },
+      {
+        id: 2,
+        province_id: 1,
+        name: '서울시 송파구',
+        district_type: '구',
+        weight_class: '대형',
+        klaci_code: 'KLAC',
+        growth_score: 78,
+        economy_score: 85,
+        living_score: 80,
+        safety_score: 82,
+        total_score: 81.25,
+        total_rank: 2,
+        province: { id: 1, name: '서울시' },
+        klaci: { code: 'KLAC', nickname: '생활역동형' },
+      },
+      {
+        id: 3,
+        province_id: 2,
+        name: '전라북도 전주시',
+        district_type: '시',
+        weight_class: '중형',
+        klaci_code: 'KLAC',
+        growth_score: 60,
+        economy_score: 55,
+        living_score: 45,
+        safety_score: 85,
+        total_score: 61.25,
+        total_rank: 3,
+        province: { id: 2, name: '전라북도' },
+        klaci: { code: 'KLAC', nickname: '안전복지형' },
+      },
+      {
+        id: 4,
+        province_id: 3,
+        name: '경기도 성남시',
+        district_type: '시',
+        weight_class: '대형',
+        klaci_code: 'KLAC',
+        growth_score: 75,
+        economy_score: 70,
+        living_score: 70,
+        safety_score: 65,
+        total_score: 70,
+        total_rank: 4,
+        province: { id: 3, name: '경기도' },
+        klaci: { code: 'KLAC', nickname: '인구성장형' },
+      },
+      {
+        id: 5,
+        province_id: 4,
+        name: '인천시 연수구',
+        district_type: '구',
+        weight_class: '중형',
+        klaci_code: 'KLAC',
+        growth_score: 65,
+        economy_score: 60,
+        living_score: 75,
+        safety_score: 70,
+        total_score: 67.5,
+        total_rank: 5,
+        province: { id: 4, name: '인천시' },
+        klaci: { code: 'KLAC', nickname: '경제정속형' },
+      },
     ];
-
-    const currentIndex = districts.findIndex((d) => d.id === districtData?.id);
+    const currentIndex = districts.findIndex(
+      (d) => d.id === selectedRegion?.id,
+    );
     let targetIndex: number;
-
     if (direction === 'prev') {
       targetIndex = currentIndex > 0 ? currentIndex - 1 : districts.length - 1;
     } else {
       targetIndex = currentIndex < districts.length - 1 ? currentIndex + 1 : 0;
     }
-
     const targetDistrict = districts[targetIndex];
-
-    if (!targetDistrict) return null;
-
-    console.log(
-      `Navigating to ${targetDistrict.name} (${targetDistrict.rank}위)`,
-    );
-
-    // replace를 사용하여 스크롤 위치 유지
-    router.replace(`/results/${targetDistrict.id}`, { scroll: false });
+    if (!targetDistrict) return;
+    setSelectedRegion(targetDistrict);
   };
 
   return (
@@ -430,10 +241,10 @@ const TitleSection: React.FC<TitleSectionProps> = ({ districtData }) => {
         {districtName}
       </div>
 
-      {/* KLACI Code 원형 컴포넌트 - selectedDistrict의 klaci_code 사용 */}
-      <KlaciCodeCircles klaciCode={selectedDistrict?.klaci_code || 'KLAC'} />
+      {/* KLACI Code 원형 컴포넌트 - selectedRegion의 klaci 정보 우선 사용 */}
+      <KlaciCodeCircles klaciCode={klaciCode} />
 
-      {/* 유형 텍스트 */}
+      {/* 유형 텍스트 - selectedRegion의 klaci 닉네임 사용 */}
       <div
         style={{
           fontSize: '2.2rem',
@@ -442,39 +253,21 @@ const TitleSection: React.FC<TitleSectionProps> = ({ districtData }) => {
           marginBottom: '12px',
         }}
       >
-        안전복지형
+        {klaciNickname}
       </div>
 
       {/* 유형 설명 */}
       <div
         style={{
-          fontSize: '1.3rem',
-          fontWeight: 600,
-          color: '#949FB0',
-          marginBottom: '50px',
-        }}
-      >
-        인생 2막 올스타전 도시
-      </div>
-
-      {/* 세 줄 텍스트 */}
-      <div
-        style={{
-          fontSize: '1rem',
-          color: '#333',
-          lineHeight: 1.2,
+          fontSize: '1.1rem',
+          color: '#666',
           textAlign: 'center',
+          lineHeight: '1.6',
           maxWidth: '600px',
         }}
       >
-        <div style={{ marginBottom: '8px' }}>
-          인구 유입은 이루어지나 경제는 성장 정체 상태이고
-        </div>
-        <div style={{ marginBottom: '8px' }}>
-          생활 기반은 부족하지만, 안전 수준은 높아 안정적인 공동체를 이루고 있는
-          유형입니다.
-        </div>
-        <div>경제 활력 제고와 생활 환경 개선이 시급합니다</div>
+        이 지역은 {klaciNickname} 유형으로 분류되며, 인구 성장과 경제 발전, 생활
+        환경, 안전 등 다양한 측면에서 균형 잡힌 발전을 추구하고 있습니다.
       </div>
     </div>
   );

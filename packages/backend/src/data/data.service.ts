@@ -34,13 +34,16 @@ export class DataService {
 
   async getRegions(limit?: number, offset?: number): Promise<RegionsResponse> {
     const cacheKey = `regions:limit=${limit ?? 'none'}:offset=${offset ?? 'none'}`;
+    console.log('🔍 Checking cache for key:', cacheKey);
+
     let regionsResponse =
       await this.cacheManager.get<RegionsResponse>(cacheKey);
     if (regionsResponse) {
+      console.log('✅ Cache HIT - returning cached data');
       return regionsResponse;
     }
-    console.log('getRegions');
-    console.log('cache', regionsResponse);
+
+    console.log('❌ Cache MISS - fetching from database');
     let query = this.supabase
       .from('regions')
       .select(
@@ -78,7 +81,9 @@ export class DataService {
         offset: offset || 0,
       },
     };
-    await this.cacheManager.set(cacheKey, regionsResponse, 300); // 5분 TTL
+
+    console.log('💾 Storing in cache with key:', cacheKey);
+    await this.cacheManager.set(cacheKey, regionsResponse, 300);
     return regionsResponse;
   }
 

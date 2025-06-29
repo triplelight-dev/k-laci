@@ -1,11 +1,18 @@
+import { CacheModule } from '@nestjs/cache-manager';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { DataService } from './data.service';
 import { DataController } from './data.controller';
-import { CacheModule } from '@nestjs/cache-manager';
+import { DataService } from './data.service';
 
 @Module({
-  imports: [ConfigModule, CacheModule.register({ ttl: 300, max: 100 })],
+  imports: [
+    ConfigModule,
+    CacheModule.register({
+      ttl: 300,
+      max: 1000,
+      isGlobal: true,
+    }),
+  ],
   controllers: [DataController],
   providers: [DataService],
   exports: [DataService],

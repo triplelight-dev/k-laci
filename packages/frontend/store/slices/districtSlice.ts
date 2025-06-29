@@ -2,9 +2,10 @@ import provinceData from '@/data/province_data.json';
 import regionsData from '@/data/regions_data.json';
 import { StateCreator } from 'zustand';
 import {
-  DistrictState,
-  Province,
-  Region,
+    DistrictState,
+    Province,
+    Region,
+    RegionWithDetails,
 } from '../types/district';
 
 export interface DistrictSlice {
@@ -13,6 +14,7 @@ export interface DistrictSlice {
   regions: Region[];
   setSelectedProvince: (provinceId: number | null) => void;
   setSelectedDistrict: (districtId: number | null) => void;
+  setSelectedRegion: (region: RegionWithDetails | null) => void;
   clearDistrictSelection: () => void;
   getProvinceById: (id: number) => Province | null;
   getRegionById: (id: number) => Region | null;
@@ -22,6 +24,7 @@ export interface DistrictSlice {
 const initialState: DistrictState = {
   selectedProvince: null,
   selectedDistrict: null,
+  selectedRegion: null,
 };
 
 export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
@@ -36,7 +39,7 @@ export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
       district: {
         ...state.district,
         selectedProvince: province,
-        // province 변경시 district는 유지 (null로 초기화하지 않음)
+        // province 변경시 district와 region은 유지 (null로 초기화하지 않음)
       },
     }));
   },
@@ -48,6 +51,17 @@ export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
       district: {
         ...state.district,
         selectedDistrict: district,
+        // district 변경시 region은 초기화 (새로운 region 정보를 가져올 예정)
+        selectedRegion: null,
+      },
+    }));
+  },
+
+  setSelectedRegion: (region: RegionWithDetails | null) => {
+    set((state) => ({
+      district: {
+        ...state.district,
+        selectedRegion: region,
       },
     }));
   },
@@ -58,6 +72,7 @@ export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
         ...state.district,
         selectedProvince: null,
         selectedDistrict: null,
+        selectedRegion: null,
       },
     }));
   },

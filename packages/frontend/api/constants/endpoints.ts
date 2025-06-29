@@ -13,6 +13,8 @@ export const API_ENDPOINTS = {
   DATA: {
     PROVINCES: '/data/provinces',
     REGIONS: '/data/regions',
+    REGION: (id: string) => `/data/regions/${id}`,
+    PROVINCES_WITH_REGIONS: '/data/provinces-with-regions',
     CATEGORIES: '/data/categories',
   },
 } as const; 

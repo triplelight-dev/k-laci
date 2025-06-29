@@ -21,6 +21,20 @@ export interface Region {
   total_rank: number;
 }
 
+export interface RegionWithDetails extends Region {
+  province: Province;
+  klaci: {
+    code: string;
+    nickname: string;
+  };
+}
+
+export interface ProvinceWithRegions {
+  id: number;
+  name: string;
+  regions: Region[];
+}
+
 export interface Category {
   id: string;
   name: string;
@@ -36,6 +50,16 @@ export class DataService {
   static async getRegions(provinceId?: string): Promise<ApiResponse<Region[]>> {
     const params = provinceId ? { provinceId } : {};
     const response = await apiClient.get('/data/regions', { params });
+    return response.data;
+  }
+
+  static async getRegion(id: string): Promise<ApiResponse<RegionWithDetails>> {
+    const response = await apiClient.get(`/data/regions/${id}`);
+    return response.data;
+  }
+
+  static async getProvincesWithRegions(): Promise<ApiResponse<ProvinceWithRegions[]>> {
+    const response = await apiClient.get('/data/provinces-with-regions');
     return response.data;
   }
 
