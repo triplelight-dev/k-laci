@@ -293,7 +293,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
       )}
 
       {/* 기존 최근 검색어 라벨은 그대로 */}
-      {recentSearches.length > 0 && (
+      {/* {recentSearches.length > 0 && (
         <div
           style={{
             display: 'flex',
@@ -339,7 +339,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
             ))}
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
