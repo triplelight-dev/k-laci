@@ -117,7 +117,7 @@ export class DataService {
 
     region = regionData as RegionWithDetails;
 
-    // key index ranks 조회 - key_indexes의 id, code, name 포함
+    // key index ranks 조회 - key_indexes의 id, code, name, category 포함
     try {
       const { data: keyIndexData, error: keyIndexError } = await this.supabase
         .from('region_key_index_ranks')
@@ -131,7 +131,8 @@ export class DataService {
           key_indexes!key_index_id(
             id,
             code,
-            name
+            name,
+            category
           )
         `,
         )
@@ -150,6 +151,7 @@ export class DataService {
             id: item.key_index_id,
             code: 'Unknown',
             name: 'Unknown',
+            category: 'Unknown',
           },
         }));
 
@@ -303,7 +305,8 @@ export class DataService {
         key_indexes!key_index_id(
           id,
           code,
-          name
+          name,
+          category
         )
       `,
       )
@@ -326,6 +329,7 @@ export class DataService {
         id: item.key_index_id,
         code: 'Unknown',
         name: 'Unknown',
+        category: 'Unknown',
       },
     }));
 
@@ -360,7 +364,8 @@ export class DataService {
         key_indexes!key_index_id(
           id,
           code,
-          name
+          name,
+          category
         )
       `,
       )
@@ -384,6 +389,7 @@ export class DataService {
         id: item.key_index_id,
         code: 'Unknown',
         name: 'Unknown',
+        category: 'Unknown',
       },
     }));
 
