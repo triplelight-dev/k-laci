@@ -4,9 +4,9 @@ import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Cache } from 'cache-manager';
 import {
-  Region,
-  RegionsResponse,
-  RegionWithDetails,
+    Region,
+    RegionsResponse,
+    RegionWithDetails,
 } from './types/region.types';
 
 export const REGION_SCORE_TYPES = {
@@ -50,7 +50,7 @@ export class DataService {
         `
         *,
         province:provinces(id, name),
-        klaci:klaci_codes(code, nickname)
+        klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
         `,
         { count: 'exact' },
       )
@@ -99,7 +99,7 @@ export class DataService {
         `
         *,
         province:provinces(id, name),
-        klaci:klaci_codes(code, nickname)
+        klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
         `,
       )
       .eq('id', id)
@@ -189,7 +189,7 @@ export class DataService {
     const { data: provinces, error: provinceError } = await this.supabase
       .from('provinces')
       .select('id, name');
-    if (provinceError) {
+    if (provinceError || !provinces) {
       throw provinceError;
     }
     const { data: regions, error: regionError } = await this.supabase
@@ -197,7 +197,7 @@ export class DataService {
       .select(
         'id, name, province_id, district_type, weight_class, klaci_code, growth_score, economy_score, living_score, safety_score, total_score, total_rank',
       );
-    if (regionError) {
+    if (regionError || !regions) {
       throw regionError;
     }
     // provinces별로 하위 regions를 가나다(오름차순)로 정렬하여 묶음

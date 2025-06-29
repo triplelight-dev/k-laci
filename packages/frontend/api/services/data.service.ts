@@ -26,6 +26,11 @@ export interface RegionWithDetails extends Region {
   klaci: {
     code: string;
     nickname: string;
+    type?: string;
+    trait?: string[] | null;
+    opportunity?: string[] | null;
+    strategy?: string[] | null;
+    summary?: string | null;
   };
 }
 
