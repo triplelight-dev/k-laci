@@ -48,8 +48,6 @@ const CompetencyDistSection = () => {
 
   const categories = getCategoriesData();
 
-  console.log('categories', categories);
-
   return (
     <div
       style={{
@@ -92,6 +90,70 @@ interface CategoryCardProps {
 }
 
 const CategoryCard: React.FC<CategoryCardProps> = ({ category, index }) => {
+  const getItems = (
+    index: number,
+  ): {
+    leftItem: string;
+    rightItem: string;
+  } => {
+    if (index === 0) {
+      return {
+        leftItem: '인구성장형',
+        rightItem: '인구정체형',
+      };
+    }
+    if (index === 1) {
+      return {
+        leftItem: '경제혁신형',
+        rightItem: '경제정속형',
+      };
+    }
+    if (index === 2) {
+      return {
+        leftItem: '생활역동형',
+        rightItem: '생활정체형',
+      };
+    }
+    if (index === 3) {
+      return {
+        leftItem: '안전회복형',
+        rightItem: '안전정진형',
+      };
+    }
+    return {
+      leftItem: '',
+      rightItem: '',
+    };
+  };
+
+  const { leftItem, rightItem } = getItems(index);
+
+  const item = category.title;
+  const getBoldItem = (item: string): 'left' | 'right' | 'none' => {
+    const isRightItem = [
+      '인구성장형',
+      '경제혁신형',
+      '생활역동형',
+      '안전회복형',
+    ].includes(item);
+
+    const isLeftItem = [
+      '인구정착형',
+      '경제정속형',
+      '생활정체형',
+      '안전정진형',
+    ].includes(item);
+
+    if (isLeftItem) {
+      return 'left';
+    }
+    if (isRightItem) {
+      return 'right';
+    }
+    return 'none';
+  };
+  const isBold = getBoldItem(item);
+
   const isFirstIndex = index === 0;
   return (
     <div
@@ -112,10 +174,11 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index }) => {
         }}
       >
         <ScoreBar
-          leftItem={category.title}
-          rightItem={category.title}
+          leftItem={leftItem}
+          rightItem={rightItem}
           score={category.score}
           color={category.color}
+          isBold={isBold}
         />
       </div>
 
