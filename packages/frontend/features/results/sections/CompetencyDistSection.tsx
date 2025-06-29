@@ -8,7 +8,7 @@ import { parseKlaciCode } from '@/utils/klaciCodeParser';
 
 const CompetencyDistSection = () => {
   const title = '원형별 역량 분포';
-  const selectedRegion = useStore((state) => state.district.selectedRegion);
+  const { selectedRegion, regionLoading } = useStore((state) => state.district);
 
   // KLACI 코드 파싱 예시 (selectedRegion에 klaci_code가 있다고 가정)
   const klaciCodeResult = selectedRegion?.klaci_code
@@ -48,6 +48,41 @@ const CompetencyDistSection = () => {
 
   const categories = getCategoriesData();
 
+  // 로딩 중일 때는 기존 데이터를 유지하면서 로딩 표시
+  if (regionLoading && !selectedRegion) {
+    return (
+      <div
+        style={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
+        <section
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+          }}
+        >
+          <PremiumContentTitle title={title} />
+          <div
+            style={{
+              background: '#FAFAFA',
+              borderRadius: '42px',
+              padding: '35px 30px',
+              width: '100%',
+              textAlign: 'center',
+              color: '#666',
+            }}
+          >
+            데이터를 불러오는 중...
+          </div>
+        </section>
+      </div>
+    );
+  }
+
   return (
     <div
       style={{
@@ -73,6 +108,8 @@ const CompetencyDistSection = () => {
             background: '#FAFAFA',
             borderRadius: '42px',
             padding: '35px 30px',
+            opacity: regionLoading ? 0.7 : 1, // 로딩 중일 때 약간 투명하게
+            transition: 'opacity 0.3s ease', // 부드러운 전환 효과
           }}
         >
           {categories.map((category, index) => (

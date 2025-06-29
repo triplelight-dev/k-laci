@@ -39,7 +39,6 @@ const DistrictSearchSection: React.FC = () => {
         backgroundSize: '150% 150%',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
-        overflow: 'hidden',
       }}
     >
       <div

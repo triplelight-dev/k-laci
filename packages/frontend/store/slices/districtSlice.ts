@@ -15,6 +15,7 @@ export interface DistrictSlice {
   setSelectedProvince: (provinceId: number | null) => void;
   setSelectedDistrict: (districtId: number | null) => void;
   setSelectedRegion: (region: RegionWithDetails | null) => void;
+  setRegionLoading: (loading: boolean) => void;
   clearDistrictSelection: () => void;
   getProvinceById: (id: number) => Province | null;
   getRegionById: (id: number) => Region | null;
@@ -25,6 +26,7 @@ const initialState: DistrictState = {
   selectedProvince: null,
   selectedDistrict: null,
   selectedRegion: null,
+  regionLoading: false,
 };
 
 export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
@@ -51,8 +53,8 @@ export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
       district: {
         ...state.district,
         selectedDistrict: district,
-        // district 변경시 region은 초기화 (새로운 region 정보를 가져올 예정)
-        selectedRegion: null,
+        regionLoading: true,
+        // selectedRegion은 유지 (새 데이터 로딩 중에도 기존 데이터 표시)
       },
     }));
   },
@@ -62,6 +64,16 @@ export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
       district: {
         ...state.district,
         selectedRegion: region,
+        regionLoading: false,
+      },
+    }));
+  },
+
+  setRegionLoading: (loading: boolean) => {
+    set((state) => ({
+      district: {
+        ...state.district,
+        regionLoading: loading,
       },
     }));
   },
@@ -73,6 +85,7 @@ export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
         selectedProvince: null,
         selectedDistrict: null,
         selectedRegion: null,
+        regionLoading: false,
       },
     }));
   },

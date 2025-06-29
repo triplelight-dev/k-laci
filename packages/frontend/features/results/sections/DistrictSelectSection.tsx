@@ -5,13 +5,14 @@ import { RegionWithDetails as ApiRegionWithDetails } from '@/api/services/data.s
 import CommonSelect from '@/components/atoms/select/CommonSelect';
 import { useProvincesWithRegions } from '@/hooks/useProvincesWithRegions';
 import {
-  useDistrict,
-  useSetSelectedDistrict,
-  useSetSelectedProvince,
-  useSetSelectedRegion,
+    useDistrict,
+    useSetRegionLoading,
+    useSetSelectedDistrict,
+    useSetSelectedProvince,
+    useSetSelectedRegion,
 } from '@/store';
 import { RegionWithDetails as StoreRegionWithDetails } from '@/store/types/district';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 interface DistrictSelectSectionProps {
   isFloating?: boolean;
@@ -20,24 +21,24 @@ interface DistrictSelectSectionProps {
 const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
   isFloating = false,
 }) => {
-  const { selectedProvince, selectedDistrict } = useDistrict();
+  const { selectedProvince, selectedDistrict, regionLoading } = useDistrict();
   const setSelectedProvince = useSetSelectedProvince();
   const setSelectedDistrict = useSetSelectedDistrict();
   const setSelectedRegion = useSetSelectedRegion();
+  const setRegionLoading = useSetRegionLoading();
 
   // React Query 사용
   const { data: provincesWithRegions = [], error } = useProvincesWithRegions();
 
   // useRegion hook 사용
-  const { getRegion, loading: regionLoading } = useRegion();
-  const [regionDetails, setRegionDetails] =
-    useState<StoreRegionWithDetails | null>(null);
+  const { getRegion } = useRegion();
 
   // selectedDistrict가 변경될 때 region 정보 가져오기
   useEffect(() => {
     const fetchRegionDetails = async () => {
       if (selectedDistrict) {
         try {
+          setRegionLoading(true); // 로딩 시작
           const details: ApiRegionWithDetails = await getRegion(
             String(selectedDistrict.id),
           );
@@ -51,31 +52,24 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
               name: details.province.name,
             },
           };
-          setRegionDetails(storeDetails);
+          setSelectedRegion(storeDetails);
         } catch (error) {
           console.error('Failed to fetch region details:', error);
-          setRegionDetails(null);
+          setSelectedRegion(null);
+        } finally {
+          setRegionLoading(false); // 로딩 완료
         }
       } else {
-        setRegionDetails(null);
+        setSelectedRegion(null);
+        setRegionLoading(false);
       }
     };
 
     fetchRegionDetails();
-  }, [selectedDistrict, getRegion]);
-
-  // regionDetails가 변경되면 selectedRegion 업데이트
-  useEffect(() => {
-    if (regionDetails) {
-      setSelectedRegion(regionDetails);
-    } else {
-      setSelectedRegion(null);
-    }
-  }, [regionDetails, setSelectedRegion]);
+  }, [selectedDistrict, getRegion, setSelectedRegion, setRegionLoading]);
 
   const handleProvinceChange = (value: string) => {
     setSelectedProvince(value ? Number(value) : null);
-    // province 변경 시 district 선택 유지 (초기화하지 않음)
   };
 
   const handleDistrictChange = (value: string) => {

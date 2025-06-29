@@ -37,7 +37,7 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
     '안전복원형',
     '인구정착형',
     '경제정속형',
-    '생활정주형',
+    '생활정체형',
     '안전정진형',
     '인구성장형',
     '경제혁신형',
@@ -45,7 +45,7 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
 
   const colorMap: Record<string, string> = {
     생활역동형: '#874FFF',
-    생활정주형: '#874FFF',
+    생활정체형: '#874FFF',
     안전복원형: '#24CB71',
     안전정진형: '#24CB71',
     인구정착형: '#FF3737',
@@ -79,7 +79,7 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
     ['#74BF9E', '#59A37D'], // 안전복원형
     ['#F56542', '#D64A2E'], // 인구정착형
     ['#F4B04D', '#D09B3F'], // 경제정속형
-    ['#ACAAE8', '#8E8AE5'], // 생활정주형
+    ['#ACAAE8', '#8E8AE5'], // 생활정체형
     ['#74BF9E', '#59A37D'], // 안전정진형
     ['#F56542', '#D64A2E'], // 인구성장형
     ['#F4B04D', '#D09B3F'], // 경제혁신형
