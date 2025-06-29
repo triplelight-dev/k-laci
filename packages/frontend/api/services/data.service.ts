@@ -21,6 +21,15 @@ export interface Region {
   total_rank: number;
 }
 
+export interface RegionCategoryRank {
+  id: number;
+  region_id: number;
+  category_id: number;
+  rank: number;
+  year: number;
+  category: Category;
+}
+
 export interface RegionWithDetails extends Region {
   province: Province;
   klaci: {
@@ -32,6 +41,7 @@ export interface RegionWithDetails extends Region {
     strategy?: string[] | null;
     summary?: string | null;
   };
+  category_ranks?: RegionCategoryRank[];
 }
 
 export interface ProvinceWithRegions {
@@ -41,9 +51,8 @@ export interface ProvinceWithRegions {
 }
 
 export interface Category {
-  id: string;
+  id: number;
   name: string;
-  description?: string;
 }
 
 export interface Key {
