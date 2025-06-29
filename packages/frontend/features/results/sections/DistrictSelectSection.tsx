@@ -75,8 +75,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
 
   const handleProvinceChange = (value: string) => {
     setSelectedProvince(value ? Number(value) : null);
-    // 도/시가 변경되면 선택된 지역도 초기화
-    setSelectedDistrict(null);
+    // province 변경 시 district 선택 유지 (초기화하지 않음)
   };
 
   const handleDistrictChange = (value: string) => {

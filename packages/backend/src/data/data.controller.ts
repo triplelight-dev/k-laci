@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags, ApiQuery } from '@nestjs/swagger';
-import { DataService } from './data.service';
+import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/auth/decorators/public.decorator';
+import { DataService } from './data.service';
 
 @ApiTags('data')
 @Controller('data')
@@ -95,5 +95,56 @@ export class DataController {
       scoreType,
       limit,
     );
+  }
+
+  @Public()
+  @Get('regions/:id/key-index-ranks')
+  @ApiOperation({ summary: 'Get key index ranks for a specific region' })
+  @ApiResponse({
+    status: 200,
+    description:
+      'Returns key index ranks with key index details for the region',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Region not found',
+  })
+  async getRegionKeyIndexRanks(@Param('id') id: string) {
+    const regionId = Number(id);
+    if (isNaN(regionId)) {
+      throw new Error('Invalid region ID');
+    }
+    return this.dataService.getRegionKeyIndexRanks(regionId);
+  }
+
+  @Public()
+  @Get('regions/:id/key-index-ranks/:year')
+  @ApiOperation({
+    summary: 'Get key index ranks for a specific region and year',
+  })
+  @ApiResponse({
+    status: 200,
+    description:
+      'Returns key index ranks with key index details for the region and year',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Region or year not found',
+  })
+  async getRegionKeyIndexRanksByYear(
+    @Param('id') id: string,
+    @Param('year') year: string,
+  ) {
+    const regionId = Number(id);
+    const yearNumber = Number(year);
+
+    if (isNaN(regionId)) {
+      throw new Error('Invalid region ID');
+    }
+    if (isNaN(yearNumber)) {
+      throw new Error('Invalid year');
+    }
+
+    return this.dataService.getRegionKeyIndexRanksByYear(regionId, yearNumber);
   }
 }

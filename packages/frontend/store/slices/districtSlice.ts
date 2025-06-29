@@ -58,6 +58,10 @@ export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
   },
 
   setSelectedRegion: (region: RegionWithDetails | null) => {
+    console.log('🏪 Store: Setting selectedRegion:', region);
+    if (region) {
+      console.log('🏪 Store: Region key_index_ranks:', region.key_index_ranks);
+    }
     set((state) => ({
       district: {
         ...state.district,
