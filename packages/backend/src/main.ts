@@ -1,7 +1,7 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AppModule } from './app.module';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 
 async function bootstrap() {
@@ -9,7 +9,11 @@ async function bootstrap() {
 
   // Enable CORS
   app.enableCors({
-    origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+    origin: [
+      /^http:\/\/localhost:\d+$/, // 모든 localhost 포트 허용
+      /^https:\/\/.*\.klaci\.kr$/, // klaci.kr 서브도메인 모두 허용
+      'https://klaci.kr', // 메인 도메인도 명시적으로 허용
+    ],
     credentials: true,
   });
 
