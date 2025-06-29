@@ -4,64 +4,46 @@ import ScoreBar from '@/components/atoms/bars/ScoreBar';
 import PremiumContentTitle from '@/components/ui/PremiumContentTitle';
 import { categoryColors } from '@/constants/colors';
 import { useStore } from '@/store';
+import { parseKlaciCode } from '@/utils/klaciCodeParser';
 
 const CompetencyDistSection = () => {
   const title = '원형별 역량 분포';
-  const selectedDistrict = useStore((state) => state.district.selectedDistrict);
-  console.log(selectedDistrict);
+  const selectedRegion = useStore((state) => state.district.selectedRegion);
 
-  // selectedDistrict에서 점수 데이터를 가져와서 카테고리 데이터 생성
+  // KLACI 코드 파싱 예시 (selectedRegion에 klaci_code가 있다고 가정)
+  const klaciCodeResult = selectedRegion?.klaci_code
+    ? parseKlaciCode(selectedRegion.klaci_code)
+    : [];
+
+  // selectedRegion에서 점수 데이터를 가져와서 카테고리 데이터 생성
   const getCategoriesData = (): CategoryData[] => {
-    if (!selectedDistrict) {
-      return mockCategories; // 기본값 반환
+    if (!selectedRegion) {
+      return []; // 기본값 반환
     }
 
-    return [
-      {
-        title: '인구성장력',
-        color: categoryColors.인구성장력,
-        currentRank: 33,
-        totalRank: 229,
-        score: selectedDistrict.growth_score,
-        description: [
-          '인구성장력은 지역의 지속가능성을 가늠하는 핵심 지표로서, 단순한 인구 수의 증감을 넘어 인구 구조의 활력, 변화의 역동성, 그리고 미래 성장 잠재력을 종합적으로 반영합니다. 인구성장력은 지역의 지속가능성을 가늠하는 핵심 지표로서, 단순한 인구 수의 증감을 넘어 인구 구조의 활력, 변화의 역동성, 그리고 미래 성장 잠재력을 종합적으로 반영합니다.',
-          '인구성장력은 지역의 지속가능성을 가늠하는 핵심 지표로서, 단순한 인구 수의 증감을 넘어 인구 구조의 활력, 변화의 역동성, 그리고 미래 성장 잠재력을 종합적으로 반영합니다. 인구성장력은 지역의 지속가능성을 가늠하는 핵심 지표로서, 단순한 인구 수의 증감을 넘어 인구 구조의 활력, 변화의 역동성, 그리고 미래 성장 잠재력을 종합적으로 반영합니다.',
-        ],
+    const score = {
+      G: selectedRegion.growth_score ? selectedRegion.growth_score : 50,
+      S: selectedRegion.growth_score ? selectedRegion.growth_score : 50,
+      T: selectedRegion.economy_score ? selectedRegion.economy_score : 50,
+      C: selectedRegion.economy_score ? selectedRegion.economy_score : 50,
+      V: selectedRegion.living_score ? selectedRegion.living_score : 50,
+      M: selectedRegion.living_score ? selectedRegion.living_score : 50,
+      R: selectedRegion.safety_score ? selectedRegion.safety_score : 50,
+      A: selectedRegion.safety_score ? selectedRegion.safety_score : 50,
+    };
+
+    const categoryData: CategoryData[] = klaciCodeResult.map(
+      ({ name, code, description }) => {
+        return {
+          title: name,
+          code,
+          color: categoryColors[name as keyof typeof categoryColors],
+          score: score[code as keyof typeof score],
+          description,
+        };
       },
-      {
-        title: '경제활동력',
-        color: categoryColors.경제활동력,
-        currentRank: 195,
-        totalRank: 229,
-        score: selectedDistrict.economy_score,
-        description: [
-          '재정자립도, 지방세 수입 규모와 같은 재정 건전성 지표부터 지역내총생산(GRDP)으로 대표되는 경제 규모, 실업률 및 청년고용률과 같은 고용 상황, 인구 천 명당 사업체 수, 도·소매업 및 제조업 사업체 수, 코스닥·코스피 상장기업 및 벤처기업 현황, 특허 출원 건수, 농공·산업단지 및 상권 수 등 산업 구조와 혁신 역량을 나타내는 지표들을 포괄합니다.',
-          '재정자립도, 지방세 수입 규모와 같은 재정 건전성 지표부터 지역내총생산(GRDP)으로 대표되는 경제 규모, 실업률 및 청년고용률과 같은 고용 상황, 인구 천 명당 사업체 수, 도·소매업 및 제조업 사업체 수, 코스닥·코스피 상장기업 및 벤처기업 현황, 특허 출원 건수, 농공·산업단지 및 상권 수 등 산업 구조와 혁신 역량을 나타내는 지표들을 포괄합니다.',
-        ],
-      },
-      {
-        title: '생활기반력',
-        color: categoryColors.생활기반력,
-        currentRank: 47,
-        totalRank: 229,
-        score: selectedDistrict.living_score,
-        description: [
-          '생활기반력은 지역 주민들의 일상생활과 삶의 질에 직접적인 영향을 미치는 물리적·사회적 환경을 종합적으로 평가하는 범주입니다. 생활기반력은 지역 주민들의 일상생활과 삶의 질에 직접적인 영향을 미치는 물리적·사회적 환경을 종합적으로 평가하는 범주입니다.  생활기반력은 지역 주민들의 일상생활과 삶의 질에 직접적인 영향을 미치는 물리적·사회적 환경을 종합적으로 평가하는 범주입니다.',
-          '생활기반력은 지역 주민들의 일상생활과 삶의 질에 직접적인 영향을 미치는 물리적·사회적 환경을 종합적으로 평가하는 범주입니다. 생활기반력은 지역 주민들의 일상생활과 삶의 질에 직접적인 영향을 미치는 물리적·사회적 환경을 종합적으로 평가하는 범주입니다.  생활기반력은 지역 주민들의 일상생활과 삶의 질에 직접적인 영향을 미치는 물리적·사회적 환경을 종합적으로 평가하는 범주입니다.',
-        ],
-      },
-      {
-        title: '안전회복력',
-        color: categoryColors.안전회복력,
-        currentRank: 192,
-        totalRank: 229,
-        score: selectedDistrict.safety_score,
-        description: [
-          '안전회복력은 지역사회가 주민들에게 제공하는 안전의 수준과 다양한 외부 충격 및 위기 상황으로부터 얼마나 효과적으로 회복하고 적응할 수 있는지를 나타내는 종합적인 역량입니다. 안전회복력은 지역사회가 주민들에게 제공하는 안전의 수준과 다양한 외부 충격 및 위기 상황으로부터 얼마나 효과적으로 회복하고 적응할 수 있는지를 나타내는 종합적인 역량입니다.',
-          '안전회복력은 지역사회가 주민들에게 제공하는 안전의 수준과 다양한 외부 충격 및 위기 상황으로부터 얼마나 효과적으로 회복하고 적응할 수 있는지를 나타내는 종합적인 역량입니다. 안전회복력은 지역사회가 주민들에게 제공하는 안전의 수준과 다양한 외부 충격 및 위기 상황으로부터 얼마나 효과적으로 회복하고 적응할 수 있는지를 나타내는 종합적인 역량입니다.',
-        ],
-      },
-    ];
+    );
+    return categoryData;
   };
 
   const categories = getCategoriesData();
@@ -108,6 +90,70 @@ interface CategoryCardProps {
 }
 
 const CategoryCard: React.FC<CategoryCardProps> = ({ category, index }) => {
+  const getItems = (
+    index: number,
+  ): {
+    leftItem: string;
+    rightItem: string;
+  } => {
+    if (index === 0) {
+      return {
+        leftItem: '인구성장형',
+        rightItem: '인구정체형',
+      };
+    }
+    if (index === 1) {
+      return {
+        leftItem: '경제혁신형',
+        rightItem: '경제정속형',
+      };
+    }
+    if (index === 2) {
+      return {
+        leftItem: '생활역동형',
+        rightItem: '생활정체형',
+      };
+    }
+    if (index === 3) {
+      return {
+        leftItem: '안전회복형',
+        rightItem: '안전정진형',
+      };
+    }
+    return {
+      leftItem: '',
+      rightItem: '',
+    };
+  };
+
+  const { leftItem, rightItem } = getItems(index);
+
+  const item = category.title;
+  const getBoldItem = (item: string): 'left' | 'right' | 'none' => {
+    const isRightItem = [
+      '인구성장형',
+      '경제혁신형',
+      '생활역동형',
+      '안전회복형',
+    ].includes(item);
+
+    const isLeftItem = [
+      '인구정착형',
+      '경제정속형',
+      '생활정체형',
+      '안전정진형',
+    ].includes(item);
+
+    if (isLeftItem) {
+      return 'left';
+    }
+    if (isRightItem) {
+      return 'right';
+    }
+    return 'none';
+  };
+  const isBold = getBoldItem(item);
+
   const isFirstIndex = index === 0;
   return (
     <div
@@ -128,10 +174,11 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index }) => {
         }}
       >
         <ScoreBar
-          leftItem={category.title}
-          rightItem={category.title}
+          leftItem={leftItem}
+          rightItem={rightItem}
           score={category.score}
           color={category.color}
+          isBold={isBold}
         />
       </div>
 
@@ -158,57 +205,8 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index }) => {
 interface CategoryData {
   title: string;
   color: string;
-  currentRank: number;
-  totalRank: number;
   description: string | string[];
   score: number;
 }
-
-const mockCategories: CategoryData[] = [
-  {
-    title: '인구성장력',
-    color: categoryColors.인구성장력,
-    currentRank: 33,
-    totalRank: 229,
-    score: 75,
-    description: [
-      '인구성장력은 지역의 지속가능성을 가늠하는 핵심 지표로서, 단순한 인구 수의 증감을 넘어 인구 구조의 활력, 변화의 역동성, 그리고 미래 성장 잠재력을 종합적으로 반영합니다. 인구성장력은 지역의 지속가능성을 가늠하는 핵심 지표로서, 단순한 인구 수의 증감을 넘어 인구 구조의 활력, 변화의 역동성, 그리고 미래 성장 잠재력을 종합적으로 반영합니다.',
-      '인구성장력은 지역의 지속가능성을 가늠하는 핵심 지표로서, 단순한 인구 수의 증감을 넘어 인구 구조의 활력, 변화의 역동성, 그리고 미래 성장 잠재력을 종합적으로 반영합니다. 인구성장력은 지역의 지속가능성을 가늠하는 핵심 지표로서, 단순한 인구 수의 증감을 넘어 인구 구조의 활력, 변화의 역동성, 그리고 미래 성장 잠재력을 종합적으로 반영합니다.',
-    ],
-  },
-  {
-    title: '경제활동력',
-    color: categoryColors.경제활동력,
-    currentRank: 195,
-    totalRank: 229,
-    score: 45,
-    description: [
-      '재정자립도, 지방세 수입 규모와 같은 재정 건전성 지표부터 지역내총생산(GRDP)으로 대표되는 경제 규모, 실업률 및 청년고용률과 같은 고용 상황, 인구 천 명당 사업체 수, 도·소매업 및 제조업 사업체 수, 코스닥·코스피 상장기업 및 벤처기업 현황, 특허 출원 건수, 농공·산업단지 및 상권 수 등 산업 구조와 혁신 역량을 나타내는 지표들을 포괄합니다.',
-      '재정자립도, 지방세 수입 규모와 같은 재정 건전성 지표부터 지역내총생산(GRDP)으로 대표되는 경제 규모, 실업률 및 청년고용률과 같은 고용 상황, 인구 천 명당 사업체 수, 도·소매업 및 제조업 사업체 수, 코스닥·코스피 상장기업 및 벤처기업 현황, 특허 출원 건수, 농공·산업단지 및 상권 수 등 산업 구조와 혁신 역량을 나타내는 지표들을 포괄합니다.',
-    ],
-  },
-  {
-    title: '생활기반력',
-    color: categoryColors.생활기반력,
-    currentRank: 47,
-    totalRank: 229,
-    score: 82,
-    description: [
-      '생활기반력은 지역 주민들의 일상생활과 삶의 질에 직접적인 영향을 미치는 물리적·사회적 환경을 종합적으로 평가하는 범주입니다. 생활기반력은 지역 주민들의 일상생활과 삶의 질에 직접적인 영향을 미치는 물리적·사회적 환경을 종합적으로 평가하는 범주입니다.  생활기반력은 지역 주민들의 일상생활과 삶의 질에 직접적인 영향을 미치는 물리적·사회적 환경을 종합적으로 평가하는 범주입니다.',
-      '생활기반력은 지역 주민들의 일상생활과 삶의 질에 직접적인 영향을 미치는 물리적·사회적 환경을 종합적으로 평가하는 범주입니다. 생활기반력은 지역 주민들의 일상생활과 삶의 질에 직접적인 영향을 미치는 물리적·사회적 환경을 종합적으로 평가하는 범주입니다.  생활기반력은 지역 주민들의 일상생활과 삶의 질에 직접적인 영향을 미치는 물리적·사회적 환경을 종합적으로 평가하는 범주입니다.',
-    ],
-  },
-  {
-    title: '안전회복력',
-    color: categoryColors.안전회복력,
-    currentRank: 192,
-    totalRank: 229,
-    score: 38,
-    description: [
-      '안전회복력은 지역사회가 주민들에게 제공하는 안전의 수준과 다양한 외부 충격 및 위기 상황으로부터 얼마나 효과적으로 회복하고 적응할 수 있는지를 나타내는 종합적인 역량입니다. 안전회복력은 지역사회가 주민들에게 제공하는 안전의 수준과 다양한 외부 충격 및 위기 상황으로부터 얼마나 효과적으로 회복하고 적응할 수 있는지를 나타내는 종합적인 역량입니다.',
-      '안전회복력은 지역사회가 주민들에게 제공하는 안전의 수준과 다양한 외부 충격 및 위기 상황으로부터 얼마나 효과적으로 회복하고 적응할 수 있는지를 나타내는 종합적인 역량입니다. 안전회복력은 지역사회가 주민들에게 제공하는 안전의 수준과 다양한 외부 충격 및 위기 상황으로부터 얼마나 효과적으로 회복하고 적응할 수 있는지를 나타내는 종합적인 역량입니다.',
-    ],
-  },
-];
 
 export default CompetencyDistSection;

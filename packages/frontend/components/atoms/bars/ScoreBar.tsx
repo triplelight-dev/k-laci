@@ -5,6 +5,7 @@ interface ScoreBarProps {
   color: string;
   leftItem: string; // 좌측 항목명
   rightItem: string; // 우측 항목명
+  isBold: 'left' | 'right' | 'none';
 }
 
 const ScoreBar: React.FC<ScoreBarProps> = ({
@@ -12,15 +13,16 @@ const ScoreBar: React.FC<ScoreBarProps> = ({
   color,
   leftItem = '',
   rightItem = '',
+  isBold = 'none',
 }) => {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '30px' }}>
       {/* 좌측 항목명 */}
       <div
         style={{
-          color: '#949FB0',
+          color: isBold === 'left' ? '#000000' : '#949FB0',
           fontSize: '1rem',
-          fontWeight: 600,
+          fontWeight: isBold === 'left' ? 800 : 600,
           minWidth: 'fit-content',
         }}
       >
@@ -101,9 +103,9 @@ const ScoreBar: React.FC<ScoreBarProps> = ({
       {/* 우측 항목명 */}
       <div
         style={{
-          color: '#949FB0',
+          color: isBold === 'right' ? '#000000' : '#949FB0',
           fontSize: '1rem',
-          fontWeight: 600,
+          fontWeight: isBold === 'right' ? 800 : 600,
           minWidth: 'fit-content',
         }}
       >
