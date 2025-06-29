@@ -43,6 +43,7 @@ export const useDistrict = () => useStore((state) => state.district);
 export const useSetSelectedProvince = () => useStore((state) => state.setSelectedProvince);
 export const useSetSelectedDistrict = () => useStore((state) => state.setSelectedDistrict);
 export const useSetSelectedRegion = () => useStore((state) => state.setSelectedRegion);
+export const useSetRegionLoading = () => useStore((state) => state.setRegionLoading);
 export const useClearDistrictSelection = () => useStore((state) => state.clearDistrictSelection);
 
 // 유틸리티 함수들 export

@@ -124,6 +124,7 @@ function ResultsPageContent() {
           justifyContent: 'center',
           alignItems: 'center',
           background: '#F4F4F4',
+          gap: '30px'
         }}
       >
         <DistrictSearchSection />

@@ -95,7 +95,10 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
 
   // 입력값에 따라 지역 데이터 필터링 (최대 20개로 증가)
   const filteredRegions = useMemo(() => {
-    if (!value) return [];
+    if (!value) {
+      // 입력값이 없을 때는 전체 지역 데이터를 반환 (최대 20개)
+      return allRegions;
+    }
 
     return allRegions
       .filter((region) => region.toLowerCase().includes(value.toLowerCase()))
@@ -104,7 +107,10 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
 
   // 최근 검색어와 지역 데이터를 합쳐서 표시
   const filteredSearches = useMemo(() => {
-    if (!value) return recentSearches;
+    if (!value) {
+      // 입력값이 없을 때는 전체 지역 데이터만 표시 (최근 검색어 제외)
+      return filteredRegions;
+    }
 
     const recentMatches = recentSearches.filter((search) =>
       search.toLowerCase().includes(value.toLowerCase()),
@@ -222,8 +228,8 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
             background: 'white',
             borderRadius: '16px',
             boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
-            zIndex: 10,
-            padding: '3px', // 박스 모서리에 흰색 여백을 위한 패딩
+            zIndex: 9999,
+            padding: '3px',
             maxHeight: '180px',
             overflowY: 'auto',
           }}

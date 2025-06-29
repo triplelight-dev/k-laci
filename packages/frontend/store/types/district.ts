@@ -77,6 +77,7 @@ export interface DistrictState {
   selectedProvince: Province | null;
   selectedDistrict: Region | null;
   selectedRegion: RegionWithDetails | null;
+  regionLoading: boolean;
 }
 
 export interface DistrictSlice {
@@ -86,6 +87,7 @@ export interface DistrictSlice {
   setSelectedProvince: (provinceId: number | null) => void;
   setSelectedDistrict: (districtId: number | null) => void;
   setSelectedRegion: (region: RegionWithDetails | null) => void;
+  setRegionLoading: (loading: boolean) => void;
   clearDistrictSelection: () => void;
   getProvinceById: (id: number) => Province | null;
   getRegionById: (id: number) => Region | null;
