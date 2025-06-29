@@ -1,5 +1,5 @@
 {
-  "name": "k-laci",
+  "name": "klaci",
   "private": true,
   "workspaces": [
     "packages/*"

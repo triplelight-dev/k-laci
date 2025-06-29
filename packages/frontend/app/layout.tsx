@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'K-LACI',
+  title: 'KLACI',
   description: 'Korea Local Asset Competency Index',
   viewport: {
     width: 'device-width',

@@ -26,7 +26,7 @@ const MobileNotice: React.FC = () => {
 
         {/* 설명 */}
         <p className="mb-6 leading-relaxed text-gray-600" style={{ lineHeight: 1.5}}>
-          K-LACI는 PC 환경에 최적화되어 있습니다.
+          KLACI는 PC 환경에 최적화되어 있습니다.
           <br />더 나은 경험을 위해 PC로 접속해 주세요!
         </p>
       </div>
