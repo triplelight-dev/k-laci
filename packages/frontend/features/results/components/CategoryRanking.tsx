@@ -2,9 +2,9 @@
 
 import CategoryDetailModal from '@/components/ui/CategoryDetailModal';
 import { TOTAL_RANK } from '@/constants/data';
-import { CategoryData, CategoryScore } from '@/types/category';
+import { CategoryData, CategoryRank } from '@/types/category';
 import React, { useEffect, useState } from 'react';
-import CategoryScoreGrid from './CategoryScoreGrid';
+import CategoryRankGrid from './CategoryScoreGrid';
 
 interface CategoryRankingProps {
   index: number;
@@ -12,10 +12,8 @@ interface CategoryRankingProps {
 }
 
 const CategoryRanking: React.FC<CategoryRankingProps> = ({ data, index }) => {
-  const { title, color, currentRank, description, scores } = data;
-  const [selectedScore, setSelectedScore] = useState<CategoryScore | null>(
-    null,
-  );
+  const { title, color, currentRank, description, rank } = data;
+  const [selectedRank, setSelectedRank] = useState<CategoryRank | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
 
@@ -24,15 +22,15 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({ data, index }) => {
     setIsClient(true);
   }, []);
 
-  const handleScoreClick = (score: CategoryScore) => {
-    setSelectedScore(score);
+  const handleRankClick = (rank: CategoryRank) => {
+    setSelectedRank(rank);
     setIsModalOpen(true);
   };
 
   const isFirstIndex = index === 0;
 
   // 상위 퍼센트 계산
-  const topPercentage = Math.round((currentRank / TOTAL_RANK) * 100);
+  const topPercentage = ((currentRank / TOTAL_RANK) * 100).toFixed(1);
 
   // 클라이언트 사이드에서만 렌더링
   if (!isClient) {
@@ -166,17 +164,17 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({ data, index }) => {
 
       {/* 세부 점수 그리드 */}
       <div className="px-6 pb-6">
-        <CategoryScoreGrid
-          scores={scores}
+        <CategoryRankGrid
+          rank={rank}
           color={color}
-          onScoreClick={handleScoreClick}
+          onScoreClick={handleRankClick}
         />
       </div>
 
       <CategoryDetailModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        score={selectedScore}
+        score={selectedRank}
         color={color}
       />
     </div>

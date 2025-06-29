@@ -1,8 +1,7 @@
-export interface CategoryScore {
+export interface CategoryRank {
   name: string;
   value: number;
   rank: number;
-  totalRank: number;
   description?: string;
 }
 
@@ -11,5 +10,5 @@ export interface CategoryData {
   color: string;
   currentRank: number;
   description: string;
-  scores: CategoryScore[];
+  rank: CategoryRank[];
 }
