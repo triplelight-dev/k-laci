@@ -22,16 +22,12 @@ jobs:
 
       # 3. EC2 서버에 배포 스크립트 실행
       - name: Deploy to EC2
-        env:
-          PROJECT_NAME: k-laci-backend
-          DEPLOY_DIR: /home/ec2-user/k-laci-backend
-          BRANCH: develop
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-          cd $DEPLOY_DIR
-          git pull origin $BRANCH
-          cd packages/backend
-          yarn install --frozen-lockfile
-          yarn build
-          pm2 restart $PROJECT_NAME || pm2 start dist/main.js --name $PROJECT_NAME
-          EOF 
+          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "
+            cd /home/ec2-user/k-laci && \
+            git pull origin develop && \
+            cd packages/backend && \
+            yarn install --frozen-lockfile && \
+            yarn build && \
+            pm2 restart k-laci-backend || pm2 start dist/main.js --name k-laci-backend
+          " 
