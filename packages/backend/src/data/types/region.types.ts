@@ -44,6 +44,31 @@ export interface RegionsResponse {
   };
 }
 
+export interface KeyIndex {
+  id: number;
+  code: string;
+  name: string;
+}
+
+// Supabase JOIN 결과를 위한 타입
+export interface RegionKeyIndexScoreRaw {
+  id: number;
+  region_id: number;
+  key_index_id: number;
+  score: number;
+  year: number;
+  key_index: KeyIndex[];
+}
+
+export interface RegionKeyIndexScore {
+  id: number;
+  region_id: number;
+  key_index_id: number;
+  score: number;
+  year: number;
+  key_index: KeyIndex;
+}
+
 // DTOs
 export class ProvinceResponseDto {
   @ApiProperty()

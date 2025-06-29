@@ -4,9 +4,11 @@ import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Cache } from 'cache-manager';
 import {
-    Region,
-    RegionsResponse,
-    RegionWithDetails,
+  Region,
+  RegionKeyIndexScore,
+  RegionKeyIndexScoreRaw,
+  RegionsResponse,
+  RegionWithDetails,
 } from './types/region.types';
 
 export const REGION_SCORE_TYPES = {
@@ -211,6 +213,112 @@ export class DataService {
       }),
     );
     await this.cacheManager.set(cacheKey, result, 300); // 5분 TTL
+    return result;
+  }
+
+  async getRegionKeyIndexScores(
+    regionId: number,
+  ): Promise<RegionKeyIndexScore[]> {
+    const cacheKey = `region-key-index-scores:${regionId}`;
+
+    // 캐시 확인
+    const cached = await this.cacheManager.get<RegionKeyIndexScore[]>(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
+    // region_keyindex_scores 테이블에서 key_indexes 정보와 함께 조회
+    const { data, error } = await this.supabase
+      .from('region_keyindex_scores')
+      .select(
+        `
+        id,
+        region_id,
+        key_index_id,
+        score,
+        year,
+        key_index:key_indexes(
+          id,
+          code,
+          name
+        )
+      `,
+      )
+      .eq('region_id', regionId)
+      .order('key_index_id', { ascending: true });
+
+    if (error) {
+      throw error;
+    }
+
+    // Supabase JOIN 결과를 올바른 타입으로 변환
+    const rawData = data as RegionKeyIndexScoreRaw[];
+    const result: RegionKeyIndexScore[] = rawData.map((item) => ({
+      id: item.id,
+      region_id: item.region_id,
+      key_index_id: item.key_index_id,
+      score: item.score,
+      year: item.year,
+      key_index: item.key_index[0], // 배열의 첫 번째 요소 사용
+    }));
+
+    // 캐시에 저장 (5분 TTL)
+    await this.cacheManager.set(cacheKey, result, 300);
+
+    return result;
+  }
+
+  async getRegionKeyIndexScoresByYear(
+    regionId: number,
+    year: number,
+  ): Promise<RegionKeyIndexScore[]> {
+    const cacheKey = `region-key-index-scores:${regionId}:${year}`;
+
+    // 캐시 확인
+    const cached = await this.cacheManager.get<RegionKeyIndexScore[]>(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
+    // 특정 연도의 데이터만 조회
+    const { data, error } = await this.supabase
+      .from('region_keyindex_scores')
+      .select(
+        `
+        id,
+        region_id,
+        key_index_id,
+        score,
+        year,
+        key_index:key_indexes(
+          id,
+          code,
+          name
+        )
+      `,
+      )
+      .eq('region_id', regionId)
+      .eq('year', year)
+      .order('key_index_id', { ascending: true });
+
+    if (error) {
+      throw error;
+    }
+
+    // Supabase JOIN 결과를 올바른 타입으로 변환
+    const rawData = data as RegionKeyIndexScoreRaw[];
+    const result: RegionKeyIndexScore[] = rawData.map((item) => ({
+      id: item.id,
+      region_id: item.region_id,
+      key_index_id: item.key_index_id,
+      score: item.score,
+      year: item.year,
+      key_index: item.key_index[0], // 배열의 첫 번째 요소 사용
+    }));
+
+    // 캐시에 저장 (5분 TTL)
+    await this.cacheManager.set(cacheKey, result, 300);
+
     return result;
   }
 }
