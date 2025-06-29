@@ -1,28 +1,29 @@
 'use client';
 
+import { TOTAL_RANK } from '@/constants/data';
+import { CategoryRank } from '@/types/category';
 import React from 'react';
-import { CategoryScore } from '@/types/category';
 
 interface CategoryDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
-  score: CategoryScore | null;
+  rank: CategoryRank | null;
   color: string;
 }
 
 const CategoryDetailModal: React.FC<CategoryDetailModalProps> = ({
   isOpen,
   onClose,
-  score,
+  rank,
   color,
 }) => {
-  if (!isOpen || !score) return null;
+  if (!isOpen || !rank) return null;
 
   return (
     <div className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black">
       <div className="mx-4 w-full max-w-md rounded-lg bg-white p-6">
         <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-xl font-semibold">{score.name}</h3>
+          <h3 className="text-xl font-semibold">{rank.name}</h3>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700"
@@ -35,21 +36,21 @@ const CategoryDetailModal: React.FC<CategoryDetailModalProps> = ({
           <div>
             <div className="text-sm text-gray-600">점수</div>
             <div className="text-3xl font-bold" style={{ color }}>
-              {score.value}
+              {rank.value}
             </div>
           </div>
 
           <div>
             <div className="text-sm text-gray-600">순위</div>
             <div className="text-lg font-semibold">
-              {score.rank}위 / {score.totalRank}개
+              {rank?.rank}위 / {TOTAL_RANK}개
             </div>
           </div>
 
-          {score.description && (
+          {rank?.description && (
             <div>
               <div className="text-sm text-gray-600">설명</div>
-              <div className="text-sm">{score.description}</div>
+              <div className="text-sm">{rank.description}</div>
             </div>
           )}
         </div>
