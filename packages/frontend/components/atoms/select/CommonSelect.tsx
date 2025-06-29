@@ -49,7 +49,6 @@ const CommonSelect: React.FC<CommonSelectProps> = ({
         position: 'relative',
         display: 'flex',
         alignItems: 'center',
-        // border: '1px solid #264DBC',
         borderRadius: '50px',
         padding: '0 20px',
         height: '50px',
@@ -70,26 +69,40 @@ const CommonSelect: React.FC<CommonSelectProps> = ({
       }}>
         {selectedLabel}
       </span>
-      <div style={{ pointerEvents: 'none' }}>
+      <div style={{ 
+        pointerEvents: 'none',
+        transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+        transition: 'transform 0.2s ease-in-out',
+      }}>
         <Image src="/arrow_down.png" alt="선택" width={12} height={7} />
       </div>
 
-      {isOpen && (
+      <div
+        style={{
+          position: 'absolute',
+          top: '100%',
+          left: 0,
+          marginTop: '8px',
+          backgroundColor: 'white',
+          border: '1px solid #E5E7EB',
+          borderRadius: '12px',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+          width: '100%',
+          zIndex: 1000,
+          maxHeight: isOpen ? '200px' : '0px',
+          overflow: 'hidden',
+          transition: 'max-height 0.2s ease-in-out',
+          visibility: isOpen ? 'visible' : 'hidden',
+        }}
+      >
         <ul
           style={{
-            position: 'absolute',
-            top: '100%',
-            left: 0,
-            marginTop: '0px', // 간격 제거
-            backgroundColor: 'white',
-            border: '1px solid #264DBC',
-            borderRadius: '12px',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-            width: '100%',
-            zIndex: 1000,
             listStyle: 'none',
-            padding: 0,
-            overflow: 'hidden',
+            padding: '8px 0',
+            margin: 0,
+            maxHeight: '200px',
+            overflowY: 'auto',
+            overflowX: 'hidden',
           }}
         >
           {options.map((option) => (
@@ -101,14 +114,15 @@ const CommonSelect: React.FC<CommonSelectProps> = ({
                 setIsOpen(false);
               }}
               style={{
-                padding: '12px 16px',
+                padding: '12px 20px',
                 fontSize: '14px',
-                color: '#264DBC',
+                color: '#374151',
                 backgroundColor: 'white',
                 cursor: 'pointer',
+                transition: 'background-color 0.15s ease-in-out',
               }}
               onMouseEnter={(e) =>
-                (e.currentTarget.style.backgroundColor = '#F4F4F4')
+                (e.currentTarget.style.backgroundColor = '#F9FAFB')
               }
               onMouseLeave={(e) =>
                 (e.currentTarget.style.backgroundColor = 'white')
@@ -118,7 +132,7 @@ const CommonSelect: React.FC<CommonSelectProps> = ({
             </li>
           ))}
         </ul>
-      )}
+      </div>
     </div>
   );
 };
