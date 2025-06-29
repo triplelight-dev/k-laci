@@ -133,7 +133,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
     if (filteredSearches.length > 0) setShowDropdown(true);
   };
   const handleBlur = () => {
-    setTimeout(() => setShowDropdown(false), 100); // 버튼 클릭 허용
+    setTimeout(() => setShowDropdown(false), 150); // 시간을 늘려서 클릭 이벤트가 처리될 수 있도록 함
   };
 
   // 키보드 네비게이션
@@ -238,7 +238,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
             {filteredSearches.map((search, idx) => (
               <div
                 key={idx}
-                onMouseDown={() => handleRegionSelect(search)}
+                onClick={() => handleRegionSelect(search)}
                 onMouseEnter={() => setHighlightedIndex(idx)}
                 onMouseLeave={() => setHighlightedIndex(-1)}
                 style={{
@@ -293,7 +293,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
       )}
 
       {/* 기존 최근 검색어 라벨은 그대로 */}
-      {recentSearches.length > 0 && (
+      {/* {recentSearches.length > 0 && (
         <div
           style={{
             display: 'flex',
@@ -339,7 +339,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
             ))}
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
