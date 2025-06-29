@@ -1,6 +1,5 @@
 'use client';
 
-import RankArrowButton from '@/components/atoms/buttons/RankArrowButton';
 import JewelRadarChart from '@/components/atoms/charts/RadarChart';
 import KlaciCodeCircles from '@/components/atoms/circle/KlaciCodeCircles';
 import { useDistrict, useSetSelectedRegion } from '@/store';
@@ -208,10 +207,10 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
         }}
       >
         {/* 이전 지자체 화살표 */}
-        <RankArrowButton
+        {/* <RankArrowButton
           direction="left"
           onClick={() => handleNavigate('prev')}
-        />
+        /> */}
 
         {/* 순위 텍스트 */}
         <div
@@ -225,10 +224,10 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
         </div>
 
         {/* 다음 지자체 화살표 */}
-        <RankArrowButton
+        {/* <RankArrowButton
           direction="right"
           onClick={() => handleNavigate('next')}
-        />
+        /> */}
       </div>
 
       {/* 지자체 이름 */}
