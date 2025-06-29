@@ -27,7 +27,6 @@ jobs:
             cd /home/ec2-user/k-laci && \
             git pull origin develop && \
             cd packages/backend && \
-            yarn install --frozen-lockfile && \
-            yarn build && \
-            pm2 restart k-laci-backend || pm2 start dist/main.js --name k-laci-backend
+            NODE_OPTIONS='--max-old-space-size=512' yarn install --frozen-lockfile --network-timeout 100000 && \
+            pm2 restart k-laci-backend || pm2 start yarn --name k-laci-backend -- start:dev
           " 
