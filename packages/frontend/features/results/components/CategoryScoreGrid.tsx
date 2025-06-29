@@ -15,6 +15,39 @@ const CategoryScoreGrid: React.FC<CategoryScoreGridProps> = ({
   color,
   onScoreClick,
 }) => {
+  // scores가 undefined이거나 빈 배열인 경우 처리
+  if (!scores || scores.length === 0) {
+    return (
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: '16px',
+          maxWidth: '100%',
+        }}
+      >
+        <div
+          style={{
+            position: 'relative',
+            borderRadius: '8px',
+            border: '1px solid #E5E7EB',
+            backgroundColor: '#F9FAFB',
+            padding: '15px',
+            minHeight: '60px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            color: '#6B7280',
+            fontSize: '14px',
+          }}
+        >
+          데이터가 없습니다
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       style={{
@@ -26,7 +59,7 @@ const CategoryScoreGrid: React.FC<CategoryScoreGridProps> = ({
     >
       {scores.map((score, index) => (
         <div
-          key={index}
+          key={`${score.name}-${index}`}
           style={{
             position: 'relative',
             cursor: 'pointer',
@@ -78,7 +111,7 @@ const CategoryScoreGrid: React.FC<CategoryScoreGridProps> = ({
               color: 'black',
             }}
           >
-            보육시설수
+            {score.name}
           </div>
 
           {/* 좌하단 순위 */}

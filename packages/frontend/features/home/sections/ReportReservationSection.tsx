@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
 import Image from 'next/image';
+import React, { useState } from 'react';
 
 const ReportReservationSection: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -9,7 +9,6 @@ const ReportReservationSection: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // 예약 로직 구현
-    console.log('Reserving report for:', email);
   };
 
   return (

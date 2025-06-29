@@ -10,7 +10,6 @@ export interface CategoryData {
   title: string;
   color: string;
   currentRank: number;
-  totalRank: number;
   description: string;
   scores: CategoryScore[];
 }

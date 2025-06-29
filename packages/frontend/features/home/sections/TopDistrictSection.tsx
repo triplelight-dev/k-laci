@@ -29,7 +29,7 @@ const TopDistrictSection: React.FC = () => {
             <DistrictCard
               key={district.id}
               district={district}
-              onClick={() => console.log(`Clicked ${district.name}`)}
+              onClick={() => {}}
             />
           ))}
         </div>

@@ -2,10 +2,10 @@ import provinceData from '@/data/province_data.json';
 import regionsData from '@/data/regions_data.json';
 import { StateCreator } from 'zustand';
 import {
-    DistrictState,
-    Province,
-    Region,
-    RegionWithDetails,
+  DistrictState,
+  Province,
+  Region,
+  RegionWithDetails,
 } from '../types/district';
 
 export interface DistrictSlice {
@@ -58,10 +58,6 @@ export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
   },
 
   setSelectedRegion: (region: RegionWithDetails | null) => {
-    console.log('🏪 Store: Setting selectedRegion:', region);
-    if (region) {
-      console.log('🏪 Store: Region key_index_ranks:', region.key_index_ranks);
-    }
     set((state) => ({
       district: {
         ...state.district,

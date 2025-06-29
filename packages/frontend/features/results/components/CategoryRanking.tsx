@@ -1,8 +1,9 @@
 'use client';
 
 import CategoryDetailModal from '@/components/ui/CategoryDetailModal';
+import { TOTAL_RANK } from '@/constants/data';
 import { CategoryData, CategoryScore } from '@/types/category';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CategoryScoreGrid from './CategoryScoreGrid';
 
 interface CategoryRankingProps {
@@ -11,11 +12,17 @@ interface CategoryRankingProps {
 }
 
 const CategoryRanking: React.FC<CategoryRankingProps> = ({ data, index }) => {
-  const { title, color, currentRank, totalRank, description, scores } = data;
+  const { title, color, currentRank, description, scores } = data;
   const [selectedScore, setSelectedScore] = useState<CategoryScore | null>(
     null,
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  // Hydration 에러 방지를 위한 클라이언트 사이드 렌더링
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const handleScoreClick = (score: CategoryScore) => {
     setSelectedScore(score);
@@ -25,7 +32,64 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({ data, index }) => {
   const isFirstIndex = index === 0;
 
   // 상위 퍼센트 계산
-  const topPercentage = Math.round((currentRank / totalRank) * 100);
+  const topPercentage = Math.round((currentRank / TOTAL_RANK) * 100);
+
+  // 클라이언트 사이드에서만 렌더링
+  if (!isClient) {
+    return (
+      <div
+        className="flex w-full flex-col rounded-lg bg-white shadow-sm"
+        style={{ marginBottom: '5rem', gap: '50px' }}
+      >
+        <div className="flex p-6">
+          <div
+            className="flex flex-col"
+            style={{ width: '25%', paddingRight: '2rem' }}
+          >
+            <div
+              style={{
+                fontSize: '20px',
+                fontWeight: 600,
+                color: 'black',
+                marginBottom: '8px',
+              }}
+            >
+              {title}
+            </div>
+            <div
+              style={{
+                fontSize: '40px',
+                fontWeight: 600,
+                color: color,
+                marginBottom: '0.5rem',
+              }}
+            >
+              {currentRank}위
+            </div>
+            <div
+              style={{
+                fontSize: '0.9rem',
+                color: 'black',
+              }}
+            >
+              상위 {topPercentage}%
+            </div>
+          </div>
+          <div style={{ width: '75%' }}>
+            <div
+              style={{
+                color: 'black',
+                lineHeight: '1.5',
+                fontSize: '0.95rem',
+              }}
+            >
+              {description}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div

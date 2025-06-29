@@ -1,8 +1,8 @@
 'use client';
 
-import React from 'react';
-import { useAuth } from '@/store';
 import { categoryColors } from '@/constants/colors';
+import { useAuth } from '@/store';
+import React from 'react';
 
 // 랭킹 데이터 타입
 interface RankingItem {
@@ -226,7 +226,6 @@ const LoginPrompt: React.FC = () => {
 const RankingSection: React.FC = () => {
   // useAuth 훅을 통해 로그인 상태 가져오기
   const { isLoggedIn } = useAuth();
-  console.log('isLoggedIn', isLoggedIn);
 
   return (
     <div
