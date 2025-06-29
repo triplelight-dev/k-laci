@@ -15,6 +15,22 @@ export interface KlaciCode {
   summary?: string | null;
 }
 
+// 새로운 Category 타입 추가
+export interface Category {
+  id: number;
+  name: string;
+}
+
+// 새로운 RegionCategoryRank 타입 추가
+export interface RegionCategoryRank {
+  id: number;
+  region_id: number;
+  category_id: number;
+  rank: number;
+  year: number;
+  category: Category; // JOIN으로 가져올 category 정보
+}
+
 export interface Region {
   id: number;
   name: string;
@@ -41,6 +57,8 @@ export interface RegionWithDetails extends Region {
     living_category_ranks: CategoryKeyIndexRank[];
     safety_category_ranks: CategoryKeyIndexRank[];
   };
+  // 새로운 category_ranks 필드 추가
+  category_ranks?: RegionCategoryRank[];
 }
 
 export interface RegionsResponse {
@@ -175,4 +193,27 @@ export class RegionResponseDto {
   total_rank: number;
   @ApiProperty({ type: KeyIndexRanksResponseDto, required: false })
   key_index_ranks?: KeyIndexRanksResponseDto;
+}
+
+// 새로운 DTO들 추가
+export class CategoryResponseDto {
+  @ApiProperty()
+  id: number;
+  @ApiProperty()
+  name: string;
+}
+
+export class RegionCategoryRankResponseDto {
+  @ApiProperty()
+  id: number;
+  @ApiProperty()
+  region_id: number;
+  @ApiProperty()
+  category_id: number;
+  @ApiProperty()
+  rank: number;
+  @ApiProperty()
+  year: number;
+  @ApiProperty()
+  category: CategoryResponseDto;
 }

@@ -1,18 +1,21 @@
 'use client';
 
 import CategoryDetailModal from '@/components/ui/CategoryDetailModal';
-import { TOTAL_RANK } from '@/constants/data';
+import { NUM_OF_REGIONS } from '@/constants/data';
 import { CategoryData, CategoryRank } from '@/types/category';
 import React, { useEffect, useState } from 'react';
 import CategoryRankGrid from './CategoryScoreGrid';
 
 interface CategoryRankingProps {
   index: number;
-  data: CategoryData;
+  categoryData: CategoryData;
 }
 
-const CategoryRanking: React.FC<CategoryRankingProps> = ({ data, index }) => {
-  const { title, color, currentRank, description, rank } = data;
+const CategoryRanking: React.FC<CategoryRankingProps> = ({
+  index,
+  categoryData,
+}) => {
+  const { title, color, currentRank, description, rank } = categoryData;
   const [selectedRank, setSelectedRank] = useState<CategoryRank | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
@@ -30,7 +33,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({ data, index }) => {
   const isFirstIndex = index === 0;
 
   // 상위 퍼센트 계산
-  const topPercentage = ((currentRank / TOTAL_RANK) * 100).toFixed(1);
+  const topPercentage = ((currentRank / NUM_OF_REGIONS) * 100).toFixed(1);
 
   // 클라이언트 사이드에서만 렌더링
   if (!isClient) {

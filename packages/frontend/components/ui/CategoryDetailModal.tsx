@@ -1,6 +1,6 @@
 'use client';
 
-import { TOTAL_RANK } from '@/constants/data';
+import { NUM_OF_REGIONS } from '@/constants/data';
 import { CategoryRank } from '@/types/category';
 import React from 'react';
 
@@ -43,7 +43,7 @@ const CategoryDetailModal: React.FC<CategoryDetailModalProps> = ({
           <div>
             <div className="text-sm text-gray-600">순위</div>
             <div className="text-lg font-semibold">
-              {rank?.rank}위 / {TOTAL_RANK}개
+              {rank?.rank}위 / {NUM_OF_REGIONS}개
             </div>
           </div>
 

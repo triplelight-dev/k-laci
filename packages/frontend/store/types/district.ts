@@ -25,6 +25,20 @@ export interface CategoryKeyIndexRank {
   rank: number;
 }
 
+export interface Category {
+  id: number;
+  name: string;
+}
+
+export interface RegionCategoryRank {
+  id: number;
+  region_id: number;
+  category_id: number;
+  rank: number;
+  year: number;
+  category: Category;
+}
+
 export interface Region {
   id: number;
   province_id: number;
@@ -71,6 +85,7 @@ export interface RegionWithDetails {
     living_category_ranks: CategoryKeyIndexRank[];
     safety_category_ranks: CategoryKeyIndexRank[];
   };
+  category_ranks?: RegionCategoryRank[];
 }
 
 export interface DistrictState {

@@ -4,11 +4,11 @@ import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Cache } from 'cache-manager';
 import {
-  CategoryKeyIndexRank,
-  Region,
-  RegionKeyIndexRank,
-  RegionsResponse,
-  RegionWithDetails,
+    CategoryKeyIndexRank,
+    Region,
+    RegionKeyIndexRank,
+    RegionsResponse,
+    RegionWithDetails,
 } from './types/region.types';
 
 export const REGION_SCORE_TYPES = {
@@ -118,7 +118,45 @@ export class DataService {
 
     region = regionData as RegionWithDetails;
 
-    // key index ranks 조회 - key_indexes의 id, code, name, category 포함
+    // 새로운 category_ranks 조회 추가
+    try {
+      const { data: categoryRanksData, error: categoryRanksError } =
+        await this.supabase
+          .from('region_category_ranks')
+          .select(
+            `
+          id,
+          region_id,
+          category_id,
+          rank,
+          year,
+          category:categories(id, name)
+        `,
+          )
+          .eq('region_id', id)
+          .order('rank', { ascending: true });
+
+      if (!categoryRanksError && categoryRanksData) {
+        const categoryRanks = categoryRanksData.map((item: any) => ({
+          id: item.id,
+          region_id: item.region_id,
+          category_id: item.category_id,
+          rank: item.rank,
+          year: item.year,
+          category: item.category || {
+            id: item.category_id,
+            name: 'Unknown',
+          },
+        }));
+
+        region.category_ranks = categoryRanks;
+      }
+    } catch (error) {
+      console.error('Error fetching category ranks:', error);
+      // 에러가 발생해도 기본 region 정보는 반환
+    }
+
+    // 기존 key index ranks 조회 (유지)
     try {
       const { data: keyIndexData, error: keyIndexError } = await this.supabase
         .from('region_key_index_ranks')
@@ -216,19 +254,12 @@ export class DataService {
           safety_category_ranks: [],
         };
       }
-    } catch (keyIndexError) {
-      console.warn('Failed to fetch key index ranks:', keyIndexError);
-      region.key_index_ranks = {
-        top: [],
-        bottom: [],
-        growth_category_ranks: [],
-        economy_category_ranks: [],
-        living_category_ranks: [],
-        safety_category_ranks: [],
-      };
+    } catch (error) {
+      console.error('Error fetching key index ranks:', error);
     }
 
-    await this.cacheManager.set(cacheKey, region, 300); // 5분 TTL
+    // 캐시에 저장
+    await this.cacheManager.set(cacheKey, region, 300);
     return region;
   }
 

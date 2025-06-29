@@ -20,6 +20,17 @@ export const categoryColors = {
 // 색상 타입 정의
 export type CategoryColorKey = keyof typeof categoryColors;
 
+// 4대 영역 카테고리 이름 상수
+export const CATEGORY_NAMES = {
+  GROWTH: '인구성장력',
+  ECONOMY: '경제활동력',
+  LIVING: '생활기반력',
+  SAFETY: '안전회복력',
+} as const;
+
+// 카테고리 이름 타입 정의
+export type CategoryName = typeof CATEGORY_NAMES[keyof typeof CATEGORY_NAMES];
+
 // 그라데이션 색상 쌍 (RadarChart에서 사용)
 export const gradientColorPairs: [string, string][] = [
   ['#ACAAE8', '#8E8AE5'], // 생활역동형

@@ -1,1 +1,1 @@
-export const TOTAL_RANK = 229;
+export const NUM_OF_REGIONS = 229;
