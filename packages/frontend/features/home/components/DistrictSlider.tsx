@@ -51,7 +51,7 @@ const DistrictSlider: React.FC = () => {
             <div key={district.id} className="w-full flex-shrink-0">
               <DistrictCard
                 district={district}
-                onClick={() => console.log(`Clicked ${district.name}`)}
+                onClick={() => {}}
               />
             </div>
           ))}

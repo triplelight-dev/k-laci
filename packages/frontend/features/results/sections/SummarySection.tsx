@@ -80,8 +80,6 @@ const SummarySection: React.FC = () => {
   // Zustand에서 selectedRegion 가져오기
   const { selectedRegion } = useDistrict();
 
-  console.log('Selected Region:', selectedRegion); // 데이터 확인용
-
   // selectedRegion이 없을 때 로딩 상태 표시
   if (!selectedRegion) {
     return (

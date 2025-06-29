@@ -1,20 +1,58 @@
 'use client';
 
-import { CategoryScore } from '@/types/category';
+import { CategoryRank } from '@/types/category';
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 
-interface CategoryScoreGridProps {
-  scores: CategoryScore[];
+interface CategoryRankGridProps {
+  rank: CategoryRank[];
   color: string;
-  onScoreClick: (score: CategoryScore) => void;
+  onScoreClick: (score: CategoryRank) => void;
 }
 
-const CategoryScoreGrid: React.FC<CategoryScoreGridProps> = ({
-  scores,
+const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
+  rank,
   color,
   onScoreClick,
 }) => {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  // rank가 undefined이거나 빈 배열인 경우 처리
+  if (!rank || rank.length === 0) {
+    return (
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: '16px',
+          maxWidth: '100%',
+        }}
+      >
+        <div
+          style={{
+            position: 'relative',
+            borderRadius: '8px',
+            border: '1px solid #E5E7EB',
+            backgroundColor: '#F9FAFB',
+            padding: '15px',
+            minHeight: '60px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            color: '#6B7280',
+            fontSize: '14px',
+          }}
+        >
+          데이터가 없습니다
+        </div>
+      </div>
+    );
+  }
+
+  // 최고 순위(가장 낮은 rank 값) 찾기
+  const highestRank = Math.min(...rank.map((score) => score.rank));
+
   return (
     <div
       style={{
@@ -24,78 +62,80 @@ const CategoryScoreGrid: React.FC<CategoryScoreGridProps> = ({
         maxWidth: '100%',
       }}
     >
-      {scores.map((score, index) => (
-        <div
-          key={index}
-          style={{
-            position: 'relative',
-            cursor: 'pointer',
-            borderRadius: '8px',
-            border: '1px solid transparent',
-            backgroundColor: '#F1F1F1',
-            padding: '15px',
-            transition: 'all 0.2s ease',
-            minHeight: '60px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = color;
-            e.currentTarget.style.backgroundColor = 'white';
-            e.currentTarget.style.boxShadow =
-              '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = 'transparent';
-            e.currentTarget.style.backgroundColor = '#F1F1F1';
-            e.currentTarget.style.boxShadow = 'none';
-          }}
-          onClick={() => onScoreClick(score)}
-        >
-          {/* 우상단 아이콘 */}
-          <div
-            style={{
-              position: 'absolute',
-              top: '16px',
-              right: '16px',
-            }}
-          >
-            <Image
-              src="/icons/info_icon.png"
-              alt="정보 아이콘"
-              width={16}
-              height={16}
-              style={{ color: '#9ca3af' }}
-            />
-          </div>
+      {rank.map((score, index) => {
+        const isHighestRank = score.rank === highestRank;
+        const isHovered = hoveredIndex === index;
 
-          {/* 좌상단 텍스트 */}
+        return (
           <div
+            key={`${score.name}-${index}`}
             style={{
-              fontSize: '15px',
-              fontWeight: '600',
-              color: 'black',
+              position: 'relative',
+              cursor: 'pointer',
+              borderRadius: '8px',
+              border: '1px solid transparent',
+              backgroundColor: isHovered ? 'white' : (isHighestRank ? color : '#F1F1F1'),
+              padding: '15px',
+              transition: 'all 0.2s ease',
+              minHeight: '60px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
             }}
+            onMouseEnter={() => {
+              setHoveredIndex(index);
+            }}
+            onMouseLeave={() => {
+              setHoveredIndex(null);
+            }}
+            onClick={() => onScoreClick(score)}
           >
-            보육시설수
-          </div>
+            {/* 우상단 아이콘 */}
+            <div
+              style={{
+                position: 'absolute',
+                top: '16px',
+                right: '16px',
+              }}
+            >
+              <Image
+                src="/icons/info_icon.png"
+                alt="정보 아이콘"
+                width={16}
+                height={16}
+                style={{
+                  filter: isHovered ? 'none' : (isHighestRank ? 'brightness(0) invert(1)' : 'none'),
+                }}
+              />
+            </div>
 
-          {/* 좌하단 순위 */}
-          <div
-            style={{
-              fontSize: '24px',
-              fontWeight: '700',
-              color: color,
-              marginTop: 'auto',
-            }}
-          >
-            {score.rank}위
+            {/* 좌상단 텍스트 */}
+            <div
+              style={{
+                fontSize: '15px',
+                fontWeight: '600',
+                color: isHovered ? 'black' : (isHighestRank ? 'white' : 'black'),
+              }}
+            >
+              {score.name}
+            </div>
+
+            {/* 좌하단 순위 */}
+            <div
+              style={{
+                fontSize: '24px',
+                fontWeight: '700',
+                color: isHovered ? color : (isHighestRank ? 'white' : color),
+                marginTop: 'auto',
+              }}
+            >
+              {score.rank}위
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };
 
-export default CategoryScoreGrid;
+export default CategoryRankGrid;

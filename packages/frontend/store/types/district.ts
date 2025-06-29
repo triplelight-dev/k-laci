@@ -7,6 +7,7 @@ export interface KeyIndex {
   id: number;
   code: string;
   name: string;
+  category?: string;
 }
 
 export interface RegionKeyIndexRank {
@@ -16,6 +17,12 @@ export interface RegionKeyIndexRank {
   rank: number;
   year: number;
   key_index: KeyIndex;
+}
+
+export interface CategoryKeyIndexRank {
+  key_index_id: number;
+  name: string;
+  rank: number;
 }
 
 export interface Region {
@@ -59,6 +66,10 @@ export interface RegionWithDetails {
   key_index_ranks?: {
     top: RegionKeyIndexRank[];
     bottom: RegionKeyIndexRank[];
+    growth_category_ranks: CategoryKeyIndexRank[];
+    economy_category_ranks: CategoryKeyIndexRank[];
+    living_category_ranks: CategoryKeyIndexRank[];
+    safety_category_ranks: CategoryKeyIndexRank[];
   };
 }
 

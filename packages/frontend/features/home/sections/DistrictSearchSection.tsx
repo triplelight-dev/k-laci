@@ -9,7 +9,6 @@ const DistrictSearchSection: React.FC = () => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     // 검색 로직 구현
-    console.log('Searching for:', searchTerm);
   };
 
   return (

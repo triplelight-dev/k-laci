@@ -36,6 +36,10 @@ export interface RegionWithDetails extends Region {
   key_index_ranks?: {
     top: RegionKeyIndexRank[];
     bottom: RegionKeyIndexRank[];
+    growth_category_ranks: CategoryKeyIndexRank[];
+    economy_category_ranks: CategoryKeyIndexRank[];
+    living_category_ranks: CategoryKeyIndexRank[];
+    safety_category_ranks: CategoryKeyIndexRank[];
   };
 }
 
@@ -52,6 +56,7 @@ export interface KeyIndex {
   id: number;
   code: string;
   name: string;
+  category?: string;
 }
 
 // Supabase JOIN 결과를 위한 타입 (수정됨)
@@ -73,6 +78,13 @@ export interface RegionKeyIndexRank {
   key_index: KeyIndex;
 }
 
+// 카테고리별 key_index rank를 위한 새로운 타입
+export interface CategoryKeyIndexRank {
+  key_index_id: number;
+  name: string;
+  rank: number;
+}
+
 // DTOs
 export class ProvinceResponseDto {
   @ApiProperty()
@@ -88,6 +100,8 @@ export class KeyIndexResponseDto {
   code: string;
   @ApiProperty()
   name: string;
+  @ApiProperty({ required: false })
+  category?: string;
 }
 
 export class RegionKeyIndexRankResponseDto {
@@ -105,12 +119,33 @@ export class RegionKeyIndexRankResponseDto {
   key_index: KeyIndexResponseDto;
 }
 
+export class CategoryKeyIndexRankResponseDto {
+  @ApiProperty()
+  key_index_id: number;
+  @ApiProperty()
+  name: string;
+  @ApiProperty()
+  rank: number;
+}
+
 export class KeyIndexRanksResponseDto {
   @ApiProperty({ type: [RegionKeyIndexRankResponseDto] })
   top: RegionKeyIndexRankResponseDto[];
 
   @ApiProperty({ type: [RegionKeyIndexRankResponseDto] })
   bottom: RegionKeyIndexRankResponseDto[];
+
+  @ApiProperty({ type: [CategoryKeyIndexRankResponseDto] })
+  growth_category_ranks: CategoryKeyIndexRankResponseDto[];
+
+  @ApiProperty({ type: [CategoryKeyIndexRankResponseDto] })
+  economy_category_ranks: CategoryKeyIndexRankResponseDto[];
+
+  @ApiProperty({ type: [CategoryKeyIndexRankResponseDto] })
+  living_category_ranks: CategoryKeyIndexRankResponseDto[];
+
+  @ApiProperty({ type: [CategoryKeyIndexRankResponseDto] })
+  safety_category_ranks: CategoryKeyIndexRankResponseDto[];
 }
 
 export class RegionResponseDto {

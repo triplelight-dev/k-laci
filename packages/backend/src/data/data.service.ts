@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Cache } from 'cache-manager';
 import {
+  CategoryKeyIndexRank,
   Region,
   RegionKeyIndexRank,
   RegionsResponse,
@@ -117,7 +118,7 @@ export class DataService {
 
     region = regionData as RegionWithDetails;
 
-    // key index ranks 조회 - key_indexes의 id, code, name 포함
+    // key index ranks 조회 - key_indexes의 id, code, name, category 포함
     try {
       const { data: keyIndexData, error: keyIndexError } = await this.supabase
         .from('region_key_index_ranks')
@@ -131,7 +132,8 @@ export class DataService {
           key_indexes!key_index_id(
             id,
             code,
-            name
+            name,
+            category
           )
         `,
         )
@@ -150,6 +152,7 @@ export class DataService {
             id: item.key_index_id,
             code: 'Unknown',
             name: 'Unknown',
+            category: 'Unknown',
           },
         }));
 
@@ -157,14 +160,60 @@ export class DataService {
         const topRanks = allRanks.slice(0, topBottomCount);
         const bottomRanks = allRanks.slice(-topBottomCount).reverse(); // 하위는 내림차순으로 정렬
 
+        // 카테고리별로 그룹화
+        const growthCategoryRanks: CategoryKeyIndexRank[] = [];
+        const economyCategoryRanks: CategoryKeyIndexRank[] = [];
+        const livingCategoryRanks: CategoryKeyIndexRank[] = [];
+        const safetyCategoryRanks: CategoryKeyIndexRank[] = [];
+
+        allRanks.forEach((rank) => {
+          const categoryRank: CategoryKeyIndexRank = {
+            key_index_id: rank.key_index_id,
+            name: rank.key_index.name,
+            rank: rank.rank,
+          };
+
+          switch (rank.key_index.category) {
+            case '인구성장력':
+              growthCategoryRanks.push(categoryRank);
+              break;
+            case '경제활동력':
+              economyCategoryRanks.push(categoryRank);
+              break;
+            case '생활기반력':
+              livingCategoryRanks.push(categoryRank);
+              break;
+            case '안전회복력':
+              safetyCategoryRanks.push(categoryRank);
+              break;
+            default:
+              // 카테고리가 명확하지 않은 경우 기본값으로 처리
+              break;
+          }
+        });
+
+        // 각 카테고리별로 rank 순으로 정렬
+        growthCategoryRanks.sort((a, b) => a.rank - b.rank);
+        economyCategoryRanks.sort((a, b) => a.rank - b.rank);
+        livingCategoryRanks.sort((a, b) => a.rank - b.rank);
+        safetyCategoryRanks.sort((a, b) => a.rank - b.rank);
+
         region.key_index_ranks = {
           top: topRanks,
           bottom: bottomRanks,
+          growth_category_ranks: growthCategoryRanks,
+          economy_category_ranks: economyCategoryRanks,
+          living_category_ranks: livingCategoryRanks,
+          safety_category_ranks: safetyCategoryRanks,
         };
       } else {
         region.key_index_ranks = {
           top: [],
           bottom: [],
+          growth_category_ranks: [],
+          economy_category_ranks: [],
+          living_category_ranks: [],
+          safety_category_ranks: [],
         };
       }
     } catch (keyIndexError) {
@@ -172,6 +221,10 @@ export class DataService {
       region.key_index_ranks = {
         top: [],
         bottom: [],
+        growth_category_ranks: [],
+        economy_category_ranks: [],
+        living_category_ranks: [],
+        safety_category_ranks: [],
       };
     }
 
@@ -303,7 +356,8 @@ export class DataService {
         key_indexes!key_index_id(
           id,
           code,
-          name
+          name,
+          category
         )
       `,
       )
@@ -326,6 +380,7 @@ export class DataService {
         id: item.key_index_id,
         code: 'Unknown',
         name: 'Unknown',
+        category: 'Unknown',
       },
     }));
 
@@ -360,7 +415,8 @@ export class DataService {
         key_indexes!key_index_id(
           id,
           code,
-          name
+          name,
+          category
         )
       `,
       )
@@ -384,6 +440,7 @@ export class DataService {
         id: item.key_index_id,
         code: 'Unknown',
         name: 'Unknown',
+        category: 'Unknown',
       },
     }));
 

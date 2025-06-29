@@ -46,6 +46,10 @@ export interface Category {
   description?: string;
 }
 
+export interface Key {
+  // Add appropriate properties for the Key type
+}
+
 export class DataService {
   static async getProvinces(): Promise<ApiResponse<Province[]>> {
     const response = await apiClient.get('/data/provinces');
