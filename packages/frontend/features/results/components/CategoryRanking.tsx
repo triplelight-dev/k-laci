@@ -174,7 +174,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({ data, index }) => {
       <CategoryDetailModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        score={selectedRank}
+        rank={selectedRank}
         color={color}
       />
     </div>

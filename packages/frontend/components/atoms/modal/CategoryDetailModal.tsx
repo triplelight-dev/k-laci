@@ -1,7 +1,16 @@
 'use client';
 
-import { CategoryScore } from '@/types/category';
 import React from 'react';
+
+interface CategoryScore {
+  category: string;
+  score: number;
+  rank: number;
+  name: string;
+  value: number;
+  totalRank?: number;
+  description?: string;
+}
 
 interface CategoryDetailModalProps {
   isOpen: boolean;
