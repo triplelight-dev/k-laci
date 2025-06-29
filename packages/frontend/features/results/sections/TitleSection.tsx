@@ -3,7 +3,7 @@
 import JewelRadarChart from '@/components/atoms/charts/RadarChart';
 import KlaciCodeCircles from '@/components/atoms/circle/KlaciCodeCircles';
 import { useDistrict, useSetSelectedRegion } from '@/store';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 
 // 지자체 데이터 타입 정의
 interface DistrictData {
@@ -17,9 +17,18 @@ interface TitleSectionProps {
 }
 
 const TitleSection: React.FC<TitleSectionProps> = () => {
-  // Zustand store에서 선택된 지역 정보 가져오기
   const { selectedRegion } = useDistrict();
   const setSelectedRegion = useSetSelectedRegion();
+  
+  // 이전 selectedRegion 값을 유지하기 위한 ref
+  const previousRegionRef = useRef(selectedRegion);
+
+  // selectedRegion이 변경될 때 이전 값 업데이트
+  useEffect(() => {
+    if (selectedRegion) {
+      previousRegionRef.current = selectedRegion;
+    }
+  }, [selectedRegion]);
 
   // 차트 데이터를 동적으로 생성하는 함수
   const generateChartData = (region: any): number[] => {
@@ -49,33 +58,36 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
     ];
   };
 
+  // 현재 region 또는 이전 region 사용 (새 데이터 로딩 중 기존 데이터 유지)
+  const currentRegion = selectedRegion || previousRegionRef.current;
+
   // selectedRegion가 변경될 때마다 차트 데이터 재계산
   const chartData = useMemo(() => {
-    return generateChartData(selectedRegion);
-  }, [selectedRegion]);
+    return generateChartData(currentRegion);
+  }, [currentRegion]);
 
   // URL 업데이트 로직 제거 - SPA 방식으로 변경
 
   // 안전한 지역명 생성 함수
   const getDistrictName = (): string => {
-    if (selectedRegion?.province?.name && selectedRegion?.name) {
-      return `${selectedRegion.province.name} ${selectedRegion.name}`;
+    if (currentRegion?.province?.name && currentRegion?.name) {
+      return `${currentRegion.province.name} ${currentRegion.name}`;
     }
-    // selectedRegion이 없거나 유효하지 않은 경우 기본값 반환
+    // currentRegion이 없거나 유효하지 않은 경우 기본값 반환
     return '전라북도 전주시';
   };
 
   // 기본값 설정
   const rank = useMemo(() => {
-    return selectedRegion?.total_rank || 3;
-  }, [selectedRegion]);
+    return currentRegion?.total_rank || 3;
+  }, [currentRegion]);
   const rankText = `종합순위 ${rank}위`;
   const districtName = getDistrictName();
 
   // KLACI 코드와 닉네임 가져오기
-  const klaciCode = selectedRegion?.klaci?.code || 'KLAC';
-  const klaciNickname = selectedRegion?.klaci?.nickname || '안전복지형';
-  const klaciSummary = selectedRegion?.klaci.summary || '';
+  const klaciCode = currentRegion?.klaci?.code || 'KLAC';
+  const klaciNickname = currentRegion?.klaci?.nickname || '안전복지형';
+  const klaciSummary = currentRegion?.klaci.summary || '';
   const klaciSummaryArray = klaciSummary.split('.');
 
   // 다음/이전 지자체로 이동하는 함수 (상태만 변경)
@@ -163,7 +175,7 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
       },
     ];
     const currentIndex = districts.findIndex(
-      (d) => d.id === selectedRegion?.id,
+      (d) => d.id === currentRegion?.id,
     );
     let targetIndex: number;
     if (direction === 'prev') {
