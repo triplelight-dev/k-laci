@@ -33,6 +33,10 @@ export interface Region {
 export interface RegionWithDetails extends Region {
   province: Province;
   klaci: KlaciCode;
+  key_index_ranks?: {
+    top: RegionKeyIndexRank[];
+    bottom: RegionKeyIndexRank[];
+  };
 }
 
 export interface RegionsResponse {
@@ -50,21 +54,21 @@ export interface KeyIndex {
   name: string;
 }
 
-// Supabase JOIN 결과를 위한 타입
-export interface RegionKeyIndexScoreRaw {
+// Supabase JOIN 결과를 위한 타입 (수정됨)
+export interface RegionKeyIndexRankRaw {
   id: number;
   region_id: number;
   key_index_id: number;
-  score: number;
+  rank: number;
   year: number;
-  key_index: KeyIndex[];
+  key_indexes: KeyIndex; // 배열이 아닌 단일 객체
 }
 
-export interface RegionKeyIndexScore {
+export interface RegionKeyIndexRank {
   id: number;
   region_id: number;
   key_index_id: number;
-  score: number;
+  rank: number;
   year: number;
   key_index: KeyIndex;
 }
@@ -75,6 +79,38 @@ export class ProvinceResponseDto {
   id: number;
   @ApiProperty()
   name: string;
+}
+
+export class KeyIndexResponseDto {
+  @ApiProperty()
+  id: number;
+  @ApiProperty()
+  code: string;
+  @ApiProperty()
+  name: string;
+}
+
+export class RegionKeyIndexRankResponseDto {
+  @ApiProperty()
+  id: number;
+  @ApiProperty()
+  region_id: number;
+  @ApiProperty()
+  key_index_id: number;
+  @ApiProperty()
+  rank: number;
+  @ApiProperty()
+  year: number;
+  @ApiProperty()
+  key_index: KeyIndexResponseDto;
+}
+
+export class KeyIndexRanksResponseDto {
+  @ApiProperty({ type: [RegionKeyIndexRankResponseDto] })
+  top: RegionKeyIndexRankResponseDto[];
+
+  @ApiProperty({ type: [RegionKeyIndexRankResponseDto] })
+  bottom: RegionKeyIndexRankResponseDto[];
 }
 
 export class RegionResponseDto {
@@ -102,4 +138,6 @@ export class RegionResponseDto {
   total_score: number;
   @ApiProperty()
   total_rank: number;
+  @ApiProperty({ type: KeyIndexRanksResponseDto, required: false })
+  key_index_ranks?: KeyIndexRanksResponseDto;
 }

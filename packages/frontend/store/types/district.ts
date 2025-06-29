@@ -3,6 +3,21 @@ export interface Province {
   name: string;
 }
 
+export interface KeyIndex {
+  id: number;
+  code: string;
+  name: string;
+}
+
+export interface RegionKeyIndexRank {
+  id: number;
+  region_id: number;
+  key_index_id: number;
+  rank: number;
+  year: number;
+  key_index: KeyIndex;
+}
+
 export interface Region {
   id: number;
   province_id: number;
@@ -40,6 +55,10 @@ export interface RegionWithDetails {
     opportunity?: string[] | null;
     strategy?: string[] | null;
     summary?: string | null;
+  };
+  key_index_ranks?: {
+    top: RegionKeyIndexRank[];
+    bottom: RegionKeyIndexRank[];
   };
 }
 

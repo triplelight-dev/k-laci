@@ -98,40 +98,40 @@ export class DataController {
   }
 
   @Public()
-  @Get('regions/:id/key-index-scores')
-  @ApiOperation({ summary: 'Get key index scores for a specific region' })
+  @Get('regions/:id/key-index-ranks')
+  @ApiOperation({ summary: 'Get key index ranks for a specific region' })
   @ApiResponse({
     status: 200,
     description:
-      'Returns key index scores with key index details for the region',
+      'Returns key index ranks with key index details for the region',
   })
   @ApiResponse({
     status: 404,
     description: 'Region not found',
   })
-  async getRegionKeyIndexScores(@Param('id') id: string) {
+  async getRegionKeyIndexRanks(@Param('id') id: string) {
     const regionId = Number(id);
     if (isNaN(regionId)) {
       throw new Error('Invalid region ID');
     }
-    return this.dataService.getRegionKeyIndexScores(regionId);
+    return this.dataService.getRegionKeyIndexRanks(regionId);
   }
 
   @Public()
-  @Get('regions/:id/key-index-scores/:year')
+  @Get('regions/:id/key-index-ranks/:year')
   @ApiOperation({
-    summary: 'Get key index scores for a specific region and year',
+    summary: 'Get key index ranks for a specific region and year',
   })
   @ApiResponse({
     status: 200,
     description:
-      'Returns key index scores with key index details for the region and year',
+      'Returns key index ranks with key index details for the region and year',
   })
   @ApiResponse({
     status: 404,
     description: 'Region or year not found',
   })
-  async getRegionKeyIndexScoresByYear(
+  async getRegionKeyIndexRanksByYear(
     @Param('id') id: string,
     @Param('year') year: string,
   ) {
@@ -145,6 +145,6 @@ export class DataController {
       throw new Error('Invalid year');
     }
 
-    return this.dataService.getRegionKeyIndexScoresByYear(regionId, yearNumber);
+    return this.dataService.getRegionKeyIndexRanksByYear(regionId, yearNumber);
   }
 }

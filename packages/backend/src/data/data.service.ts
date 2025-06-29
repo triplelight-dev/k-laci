@@ -5,8 +5,7 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Cache } from 'cache-manager';
 import {
   Region,
-  RegionKeyIndexScore,
-  RegionKeyIndexScoreRaw,
+  RegionKeyIndexRank,
   RegionsResponse,
   RegionWithDetails,
 } from './types/region.types';
@@ -36,7 +35,7 @@ export class DataService {
 
   async getRegions(limit?: number, offset?: number): Promise<RegionsResponse> {
     const cacheKey = `regions:limit=${limit ?? 'none'}:offset=${offset ?? 'none'}`;
-    console.log('🔍 Checking cache for key:', cacheKey);
+    console.log('�� Checking cache for key:', cacheKey);
 
     let regionsResponse =
       await this.cacheManager.get<RegionsResponse>(cacheKey);
@@ -89,13 +88,18 @@ export class DataService {
     return regionsResponse;
   }
 
-  async getRegion(id: string): Promise<RegionWithDetails> {
-    const cacheKey = `region:${id}`;
+  async getRegion(
+    id: string,
+    topBottomCount: number = 10,
+  ): Promise<RegionWithDetails> {
+    const cacheKey = `region:${id}:topBottom:${topBottomCount}`;
     let region = await this.cacheManager.get<RegionWithDetails>(cacheKey);
     if (region) {
       return region;
     }
-    const { data, error } = await this.supabase
+
+    // 기본 region 정보 조회
+    const { data: regionData, error: regionError } = await this.supabase
       .from('regions')
       .select(
         `
@@ -107,11 +111,70 @@ export class DataService {
       .eq('id', id)
       .single();
 
-    if (error) {
-      throw error;
+    if (regionError) {
+      throw regionError;
     }
 
-    region = data as RegionWithDetails;
+    region = regionData as RegionWithDetails;
+
+    // key index ranks 조회 - key_indexes의 id, code, name 포함
+    try {
+      const { data: keyIndexData, error: keyIndexError } = await this.supabase
+        .from('region_key_index_ranks')
+        .select(
+          `
+          id,
+          region_id,
+          key_index_id,
+          rank,
+          year,
+          key_indexes!key_index_id(
+            id,
+            code,
+            name
+          )
+        `,
+        )
+        .eq('region_id', id)
+        .order('rank', { ascending: true });
+
+      if (!keyIndexError && keyIndexData) {
+        const rawData = keyIndexData as any[];
+        const allRanks = rawData.map((item) => ({
+          id: item.id,
+          region_id: item.region_id,
+          key_index_id: item.key_index_id,
+          rank: item.rank,
+          year: item.year,
+          key_index: item.key_indexes || {
+            id: item.key_index_id,
+            code: 'Unknown',
+            name: 'Unknown',
+          },
+        }));
+
+        // 상위 N개와 하위 N개 분리
+        const topRanks = allRanks.slice(0, topBottomCount);
+        const bottomRanks = allRanks.slice(-topBottomCount).reverse(); // 하위는 내림차순으로 정렬
+
+        region.key_index_ranks = {
+          top: topRanks,
+          bottom: bottomRanks,
+        };
+      } else {
+        region.key_index_ranks = {
+          top: [],
+          bottom: [],
+        };
+      }
+    } catch (keyIndexError) {
+      console.warn('Failed to fetch key index ranks:', keyIndexError);
+      region.key_index_ranks = {
+        top: [],
+        bottom: [],
+      };
+    }
+
     await this.cacheManager.set(cacheKey, region, 300); // 5분 TTL
     return region;
   }
@@ -216,28 +279,28 @@ export class DataService {
     return result;
   }
 
-  async getRegionKeyIndexScores(
+  async getRegionKeyIndexRanks(
     regionId: number,
-  ): Promise<RegionKeyIndexScore[]> {
-    const cacheKey = `region-key-index-scores:${regionId}`;
+  ): Promise<RegionKeyIndexRank[]> {
+    const cacheKey = `region-key-index-ranks:${regionId}`;
 
     // 캐시 확인
-    const cached = await this.cacheManager.get<RegionKeyIndexScore[]>(cacheKey);
+    const cached = await this.cacheManager.get<RegionKeyIndexRank[]>(cacheKey);
     if (cached) {
       return cached;
     }
 
-    // region_keyindex_scores 테이블에서 key_indexes 정보와 함께 조회
+    // region_key_index_ranks 테이블에서 key_indexes 정보와 함께 조회
     const { data, error } = await this.supabase
-      .from('region_keyindex_scores')
+      .from('region_key_index_ranks')
       .select(
         `
         id,
         region_id,
         key_index_id,
-        score,
+        rank,
         year,
-        key_index:key_indexes(
+        key_indexes!key_index_id(
           id,
           code,
           name
@@ -252,14 +315,18 @@ export class DataService {
     }
 
     // Supabase JOIN 결과를 올바른 타입으로 변환
-    const rawData = data as RegionKeyIndexScoreRaw[];
-    const result: RegionKeyIndexScore[] = rawData.map((item) => ({
+    const rawData = data as any[];
+    const result: RegionKeyIndexRank[] = rawData.map((item) => ({
       id: item.id,
       region_id: item.region_id,
       key_index_id: item.key_index_id,
-      score: item.score,
+      rank: item.rank,
       year: item.year,
-      key_index: item.key_index[0], // 배열의 첫 번째 요소 사용
+      key_index: item.key_indexes || {
+        id: item.key_index_id,
+        code: 'Unknown',
+        name: 'Unknown',
+      },
     }));
 
     // 캐시에 저장 (5분 TTL)
@@ -268,29 +335,29 @@ export class DataService {
     return result;
   }
 
-  async getRegionKeyIndexScoresByYear(
+  async getRegionKeyIndexRanksByYear(
     regionId: number,
     year: number,
-  ): Promise<RegionKeyIndexScore[]> {
-    const cacheKey = `region-key-index-scores:${regionId}:${year}`;
+  ): Promise<RegionKeyIndexRank[]> {
+    const cacheKey = `region-key-index-ranks:${regionId}:${year}`;
 
     // 캐시 확인
-    const cached = await this.cacheManager.get<RegionKeyIndexScore[]>(cacheKey);
+    const cached = await this.cacheManager.get<RegionKeyIndexRank[]>(cacheKey);
     if (cached) {
       return cached;
     }
 
-    // 특정 연도의 데이터만 조회
+    // JOIN 구문 수정 - key_indexes!key_index_id 사용
     const { data, error } = await this.supabase
-      .from('region_keyindex_scores')
+      .from('region_key_index_ranks')
       .select(
         `
         id,
         region_id,
         key_index_id,
-        score,
+        rank,
         year,
-        key_index:key_indexes(
+        key_indexes!key_index_id(
           id,
           code,
           name
@@ -306,14 +373,18 @@ export class DataService {
     }
 
     // Supabase JOIN 결과를 올바른 타입으로 변환
-    const rawData = data as RegionKeyIndexScoreRaw[];
-    const result: RegionKeyIndexScore[] = rawData.map((item) => ({
+    const rawData = data as any[];
+    const result: RegionKeyIndexRank[] = rawData.map((item) => ({
       id: item.id,
       region_id: item.region_id,
       key_index_id: item.key_index_id,
-      score: item.score,
+      rank: item.rank,
       year: item.year,
-      key_index: item.key_index[0], // 배열의 첫 번째 요소 사용
+      key_index: item.key_indexes || {
+        id: item.key_index_id,
+        code: 'Unknown',
+        name: 'Unknown',
+      },
     }));
 
     // 캐시에 저장 (5분 TTL)
