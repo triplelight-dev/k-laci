@@ -167,7 +167,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
 
   const handleItemClick = (data: IndexData) => {
     setSelectedData(data);
-    setIsModalOpen(true);
+    // setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
