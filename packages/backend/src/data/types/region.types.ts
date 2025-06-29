@@ -8,6 +8,11 @@ export interface Province {
 export interface KlaciCode {
   code: string;
   nickname: string;
+  type?: string;
+  trait?: string[] | null;
+  opportunity?: string[] | null;
+  strategy?: string[] | null;
+  summary?: string | null;
 }
 
 export interface Region {

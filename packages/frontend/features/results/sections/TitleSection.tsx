@@ -76,6 +76,8 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
   // KLACI 코드와 닉네임 가져오기
   const klaciCode = selectedRegion?.klaci?.code || 'KLAC';
   const klaciNickname = selectedRegion?.klaci?.nickname || '안전복지형';
+  const klaciSummary = selectedRegion?.klaci.summary || '';
+  const klaciSummaryArray = klaciSummary.split('.');
 
   // 다음/이전 지자체로 이동하는 함수 (상태만 변경)
   const handleNavigate = (direction: 'prev' | 'next') => {
@@ -94,7 +96,7 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
         total_score: 85.75,
         total_rank: 1,
         province: { id: 1, name: '서울시' },
-        klaci: { code: 'KLAC', nickname: '경제혁신형' },
+        klaci: { code: 'KLAC', nickname: '경제혁신형', type: '샘플타입' },
       },
       {
         id: 2,
@@ -110,7 +112,7 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
         total_score: 81.25,
         total_rank: 2,
         province: { id: 1, name: '서울시' },
-        klaci: { code: 'KLAC', nickname: '생활역동형' },
+        klaci: { code: 'KLAC', nickname: '생활역동형', type: '샘플타입' },
       },
       {
         id: 3,
@@ -126,7 +128,7 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
         total_score: 61.25,
         total_rank: 3,
         province: { id: 2, name: '전라북도' },
-        klaci: { code: 'KLAC', nickname: '안전복지형' },
+        klaci: { code: 'KLAC', nickname: '안전복지형', type: '샘플타입' },
       },
       {
         id: 4,
@@ -142,7 +144,7 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
         total_score: 70,
         total_rank: 4,
         province: { id: 3, name: '경기도' },
-        klaci: { code: 'KLAC', nickname: '인구성장형' },
+        klaci: { code: 'KLAC', nickname: '인구성장형', type: '샘플타입' },
       },
       {
         id: 5,
@@ -158,7 +160,7 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
         total_score: 67.5,
         total_rank: 5,
         province: { id: 4, name: '인천시' },
-        klaci: { code: 'KLAC', nickname: '경제정속형' },
+        klaci: { code: 'KLAC', nickname: '경제정속형', type: '샘플타입' },
       },
     ];
     const currentIndex = districts.findIndex(
@@ -266,8 +268,9 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
           maxWidth: '600px',
         }}
       >
-        이 지역은 {klaciNickname} 유형으로 분류되며, 인구 성장과 경제 발전, 생활
-        환경, 안전 등 다양한 측면에서 균형 잡힌 발전을 추구하고 있습니다.
+        {klaciSummaryArray.map((line, idx) => (
+          <div key={idx}>{line}</div>
+        ))}
       </div>
     </div>
   );
