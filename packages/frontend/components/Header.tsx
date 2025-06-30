@@ -29,6 +29,7 @@ const Header = () => {
   ];
 
   const loginButtonName = '로그인';
+  const signupButtonName = '회원가입';
 
   return (
     <header
@@ -94,19 +95,42 @@ const Header = () => {
             </div>
           </nav>
 
-          {/* Login Button */}
-          <button
-            style={{
-              border: '1px solid white',
-              borderRadius: '8px',
-              // color: 'white',
-              backgroundColor: 'transparent',
-              cursor: 'pointer',
-              padding: '10px 25px',
-            }}
-          >
-            {loginButtonName}
-          </button>
+          {/* Auth Buttons */}
+          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+            {/* Login Button */}
+            <button
+              style={{
+                border: '1px solid #1B1C2D',
+                borderRadius: '8px',
+                color: '#1B1C2D',
+                backgroundColor: 'transparent',
+                cursor: 'pointer',
+                padding: '10px 25px',
+                fontSize: '14px',
+                fontWeight: '500',
+              }}
+            >
+              {loginButtonName}
+            </button>
+
+            {/* Signup Button */}
+            <Link href="/auth/signup">
+              <button
+                style={{
+                  border: '1px solid #1B1C2D',
+                  borderRadius: '8px',
+                  color: '#1B1C2D',
+                  backgroundColor: 'transparent',
+                  cursor: 'pointer',
+                  padding: '10px 25px',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                }}
+              >
+                {signupButtonName}
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
     </header>

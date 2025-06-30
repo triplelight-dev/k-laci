@@ -1,6 +1,11 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import {
+    CompleteSignupDto,
+    CompleteSignupResponseDto,
+} from './dto/complete-signup.dto';
+import { SendVerificationEmailDto } from './dto/send-verification-email.dto';
 import { SignUpDto, SignUpResponseDto } from './dto/sign-up.dto';
 
 @Injectable()
@@ -46,6 +51,106 @@ export class AuthService {
     }
 
     return data;
+  }
+
+  async sendVerificationEmail({ email }: SendVerificationEmailDto) {
+    try {
+      // 이메일 중복 체크
+      const { data: existingUsers, error: listError } =
+        await this.supabase.auth.admin.listUsers();
+
+      if (listError) {
+        throw new UnauthorizedException(
+          '사용자 목록 조회 중 오류가 발생했습니다.',
+        );
+      }
+
+      const isEmailExists = existingUsers.users.some(
+        (user) => user.email === email,
+      );
+
+      if (isEmailExists) {
+        throw new UnauthorizedException('이미 가입된 이메일입니다.');
+      }
+
+      // 인증 이메일 발송
+      const frontendUrl =
+        this.configService.get<string>('FRONTEND_URL') ||
+        'http://localhost:3000';
+      const { error } = await this.supabase.auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: `${frontendUrl}/auth/signup/profile`,
+        },
+      });
+
+      if (error) {
+        throw new UnauthorizedException(error.message);
+      }
+
+      return { message: '인증메일이 발송되었습니다.' };
+    } catch (error) {
+      if (error instanceof UnauthorizedException) {
+        throw error;
+      }
+      throw new UnauthorizedException('인증메일 발송 중 오류가 발생했습니다.');
+    }
+  }
+
+  async completeSignup(
+    completeSignupDto: CompleteSignupDto,
+  ): Promise<CompleteSignupResponseDto> {
+    try {
+      // 토큰으로 사용자 확인
+      const {
+        data: { user },
+        error: tokenError,
+      } = await this.supabase.auth.getUser(completeSignupDto.token);
+
+      if (tokenError || !user) {
+        throw new UnauthorizedException('유효하지 않은 인증 토큰입니다.');
+      }
+
+      // 비밀번호 설정 및 사용자 정보 업데이트
+      const { error: updateError } = await this.supabase.auth.updateUser({
+        password: completeSignupDto.password,
+        data: {
+          name: completeSignupDto.name,
+        },
+      });
+
+      if (updateError) {
+        throw new UnauthorizedException(updateError.message);
+      }
+
+      // 사용자 프로필 생성
+      const { error: profileError } = await this.supabase
+        .from('user_profiles')
+        .insert([
+          {
+            id: user.id,
+            email: user.email,
+            name: completeSignupDto.name,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          },
+        ]);
+
+      if (profileError) {
+        throw new UnauthorizedException('프로필 생성에 실패했습니다.');
+      }
+
+      return {
+        user_id: user.id,
+        email: user.email,
+        name: completeSignupDto.name,
+      };
+    } catch (error) {
+      if (error instanceof UnauthorizedException) {
+        throw error;
+      }
+      throw new UnauthorizedException('회원가입 완료 중 오류가 발생했습니다.');
+    }
   }
 
   async signup({
