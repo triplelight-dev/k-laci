@@ -110,11 +110,14 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
       )}
 
       {/* 메인 콘텐츠 */}
-      <div className="flex p-6">
+      <div className="flex p-6" style={{ gap: '2rem' }}>
         {/* 좌측 박스 (1:3 비율에서 1) */}
         <div
           className="flex flex-col"
-          style={{ width: '25%', paddingRight: '2rem' }}
+          style={{
+            flex: 1,
+            paddingRight: '2rem',
+          }}
         >
           {/* 타이틀 */}
           <div
@@ -131,7 +134,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
           {/* 키컬러로 N위 */}
           <div
             style={{
-              fontSize: '40px',
+              fontSize: '35px',
               fontWeight: 600,
               color: color,
               marginBottom: '0.5rem',
@@ -151,8 +154,8 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
           </div>
         </div>
 
-        {/* 우측 박스 (1:3 비율에서 3) */}
-        <div style={{ width: '75%' }}>
+        {/* 우측 박스 (1:4 비율에서 4) */}
+        <div style={{ flex: 4 }}>
           <div
             style={{
               color: 'black',

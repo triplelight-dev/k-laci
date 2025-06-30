@@ -124,7 +124,7 @@ function ResultsPageContent() {
           justifyContent: 'center',
           alignItems: 'center',
           background: '#F4F4F4',
-          gap: '30px'
+          gap: '30px',
         }}
       >
         <DistrictSearchSection />
@@ -146,6 +146,7 @@ function ResultsPageContent() {
               display: 'flex',
               flexDirection: 'column',
               width: '60%',
+              maxWidth: '800px',
               gap: '50px',
               paddingTop: '100px',
             }}
@@ -154,7 +155,13 @@ function ResultsPageContent() {
             <SummarySection />
 
             {/* StrengthWeaknessIndexSection을 조건부로 렌더링 */}
-            <div style={{ position: 'relative' }}>
+            <div
+              style={{
+                position: 'relative',
+                paddingTop: '100px',
+                paddingBottom: '100px',
+              }}
+            >
               <StrengthWeaknessIndexSection />
 
               {/* 로그인하지 않은 경우 그라데이션 오버레이 적용 */}
