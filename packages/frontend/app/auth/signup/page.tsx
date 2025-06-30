@@ -18,7 +18,9 @@ export default function SignUpPage() {
       await AuthService.sendVerificationEmail({ email });
       setShowModal(true);
     } catch (err: any) {
-      setError(err.response?.data?.message || '인증메일 발송 중 오류가 발생했습니다.');
+      setError(
+        err.response?.data?.message || '인증메일 발송 중 오류가 발생했습니다.',
+      );
     } finally {
       setIsLoading(false);
     }
@@ -32,100 +34,288 @@ export default function SignUpPage() {
       await AuthService.sendVerificationEmail({ email });
       setShowModal(true);
     } catch (err: any) {
-      setError(err.response?.data?.message || '인증메일 재발송 중 오류가 발생했습니다.');
+      setError(
+        err.response?.data?.message ||
+          '인증메일 재발송 중 오류가 발생했습니다.',
+      );
     } finally {
       setIsLoading(false);
     }
   };
 
+  const descriptionTexts = [
+    'KLACI 계정으로 사용할 이메일 인증이 필요합니다.',
+    '이메일 도메인에 따라 회원 유형이 자동 분류되며 맞춤 정보가 제공됩니다.',
+  ];
+
   return (
-    <div className="min-h-screen w-full" style={{ backgroundColor: '#F4F4F4' }}>
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-md mx-auto">
-          <h1 className="text-2xl font-bold text-center mb-8">
-            회원가입
-          </h1>
-          
-          {/* 진행 상태 표시 */}
-          <div className="flex items-center justify-center mb-8">
-            <div className="flex items-center">
-              <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
-                1
-              </div>
-              <div className="ml-2 text-sm font-medium text-blue-600">이메일 인증</div>
-            </div>
-            <div className="w-12 h-px bg-gray-300 mx-4"></div>
-            <div className="flex items-center">
-              <div className="w-8 h-8 bg-gray-300 text-gray-500 rounded-full flex items-center justify-center text-sm font-bold">
-                2
-              </div>
-              <div className="ml-2 text-sm font-medium text-gray-500">회원정보 입력</div>
+    <div
+      style={{
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#F4F4F4',
+        paddingTop: '80px',
+      }}
+    >
+      <div style={{ width: '100%', maxWidth: '800px', margin: '0 1rem' }}>
+        {/* 메인 컨테이너 */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'white',
+            borderRadius: '50px',
+            padding: '80px 100px',
+          }}
+        >
+          {/* 1/2 단계 뱃지 */}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <div
+              style={{
+                border: '1px solid black',
+                borderRadius: '12px',
+                padding: '6px 12px',
+                fontSize: '16px',
+                fontWeight: '500',
+                color: 'black',
+              }}
+            >
+              1/2 단계
             </div>
           </div>
 
-          <div className="bg-white rounded-lg p-6 shadow-sm">
-            <form onSubmit={handleEmailSubmit} className="space-y-4">
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                  이메일 주소
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="example@email.com"
-                  required
-                  disabled={isLoading}
-                />
-              </div>
+          {/* 타이틀 */}
+          <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+            <h1
+              style={{
+                fontSize: '1.875rem',
+                fontWeight: '700',
+                color: '#111827',
+              }}
+            >
+              이메일로 회원가입
+            </h1>
+          </div>
 
-              {error && (
-                <div className="text-red-600 text-sm">
-                  {error}
-                </div>
-              )}
-
-              <button
-                type="submit"
-                disabled={isLoading || !email}
-                className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+          {/* 설명 텍스트 */}
+          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+            {descriptionTexts.map((text, index) => (
+              <div
+                key={index}
+                style={{
+                  color: 'black',
+                  fontSize: '0.875rem',
+                  lineHeight: '1.625',
+                }}
               >
-                {isLoading ? (
-                  <div className="flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                    인증메일 발송 중...
-                  </div>
-                ) : (
-                  '인증메일 보내기'
-                )}
-              </button>
-            </form>
+                {text}
+              </div>
+            ))}
           </div>
+
+          {/* 폼 */}
+          <form
+            onSubmit={handleEmailSubmit}
+            style={{
+              width: '70%',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '20px',
+            }}
+          >
+            {/* 이메일 입력 */}
+            <div style={{ width: '100%' }}>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                style={{
+                  width: '100%',
+                  height: '50px',
+                  fontSize: '16px',
+                  padding: '0 1rem',
+                  border: '1px solid #D1D5DB',
+                  borderRadius: '0.5rem',
+                  outline: 'none',
+                  color: '#111827',
+                  boxSizing: 'border-box',
+                }}
+                placeholder="이메일 주소 (예: klaci@korea.kr)"
+                required
+                disabled={isLoading}
+              />
+            </div>
+
+            {/* 에러 메시지 */}
+            {error && (
+              <div
+                style={{
+                  color: '#DC2626',
+                  fontSize: '0.875rem',
+                  textAlign: 'center',
+                }}
+              >
+                {error}
+              </div>
+            )}
+
+            {/* 인증메일 보내기 버튼 */}
+            <button
+              type="submit"
+              disabled={isLoading || !email}
+              style={{
+                width: '100%',
+                height: '50px',
+                backgroundColor: isLoading || !email ? '#9CA3AF' : '#000000',
+                color: 'white',
+                borderRadius: '0.5rem',
+                fontWeight: '500',
+                cursor: isLoading || !email ? 'not-allowed' : 'pointer',
+                border: 'none',
+                transition: 'background-color 0.2s',
+                fontSize: '16px',
+              }}
+              onMouseEnter={(e) => {
+                if (!isLoading && email) {
+                  e.currentTarget.style.backgroundColor = '#1F2937';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isLoading && email) {
+                  e.currentTarget.style.backgroundColor = '#000000';
+                }
+              }}
+            >
+              {isLoading ? (
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <div
+                    style={{
+                      animation: 'spin 1s linear infinite',
+                      borderRadius: '50%',
+                      height: '1rem',
+                      width: '1rem',
+                      border: '2px solid transparent',
+                      borderBottomColor: 'white',
+                      marginRight: '0.5rem',
+                    }}
+                  ></div>
+                  인증메일 발송 중...
+                </div>
+              ) : (
+                '인증메일 보내기'
+              )}
+            </button>
+          </form>
         </div>
       </div>
 
       {/* 인증메일 발송 완료 모달 */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md mx-4">
-            <h3 className="text-lg font-semibold mb-4">인증메일 발송 완료</h3>
-            <p className="text-gray-600 mb-6">
-              {email}로 인증메일을 발송했습니다.<br />
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 50,
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: 'white',
+              borderRadius: '0.5rem',
+              padding: '1.5rem',
+              maxWidth: '28rem',
+              margin: '0 1rem',
+            }}
+          >
+            <h3
+              style={{
+                fontSize: '1.125rem',
+                fontWeight: '600',
+                marginBottom: '1rem',
+              }}
+            >
+              인증메일 발송 완료
+            </h3>
+            <p
+              style={{
+                color: '#4B5563',
+                marginBottom: '1.5rem',
+              }}
+            >
+              {email}로 인증메일을 발송했습니다.
+              <br />
               이메일의 링크를 클릭하여 인증을 완료해주세요.
             </p>
-            <div className="flex gap-3">
+            <div style={{ display: 'flex', gap: '0.75rem' }}>
               <button
                 onClick={handleResendEmail}
                 disabled={isLoading}
-                className="flex-1 bg-gray-200 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-300 disabled:bg-gray-100 disabled:cursor-not-allowed transition-colors"
+                style={{
+                  flex: 1,
+                  backgroundColor: isLoading ? '#F3F4F6' : '#E5E7EB',
+                  color: '#1F2937',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '0.375rem',
+                  border: 'none',
+                  cursor: isLoading ? 'not-allowed' : 'pointer',
+                  transition: 'background-color 0.2s',
+                }}
+                onMouseEnter={(e) => {
+                  if (!isLoading) {
+                    e.currentTarget.style.backgroundColor = '#D1D5DB';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isLoading) {
+                    e.currentTarget.style.backgroundColor = '#E5E7EB';
+                  }
+                }}
               >
                 {isLoading ? '재발송 중...' : '재발송'}
               </button>
               <button
                 onClick={() => setShowModal(false)}
-                className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+                style={{
+                  flex: 1,
+                  backgroundColor: '#2563EB',
+                  color: 'white',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '0.375rem',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'background-color 0.2s',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#1D4ED8';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#2563EB';
+                }}
               >
                 닫기
               </button>
@@ -133,6 +323,17 @@ export default function SignUpPage() {
           </div>
         </div>
       )}
+
+      <style jsx>{`
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
     </div>
   );
 }

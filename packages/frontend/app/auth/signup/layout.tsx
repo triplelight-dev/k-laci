@@ -1,4 +1,3 @@
-import AuthLayout from '@/components/layout/AuthLayout';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -11,5 +10,5 @@ export default function AuthSignupLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <AuthLayout>{children}</AuthLayout>;
+  return <>{children}</>;
 } 
