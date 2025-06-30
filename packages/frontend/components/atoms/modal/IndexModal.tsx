@@ -36,8 +36,8 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
         style={{
           display: 'flex',
           width: '800px',
-          height: '430px',
-          borderRadius: '12px',
+          height: '450px',
+          borderRadius: '30px',
           overflow: 'hidden',
           backgroundColor: 'white',
         }}
@@ -168,8 +168,9 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
             padding: '32px',
             paddingLeft: '50px',
             paddingRight: '50px',
+            paddingTop: '90px',
             display: 'flex',
-            alignItems: 'center',
+            // alignItems: 'center',
             justifyContent: 'center',
           }}
         >
@@ -177,8 +178,8 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
             style={{
               fontSize: '15px',
               fontWeight: '400',
-              color: '#474E59',
-              lineHeight: 1.5,
+              color: 'black',
+              lineHeight: 1.6,
               // textAlign: 'center',
             }}
           >
