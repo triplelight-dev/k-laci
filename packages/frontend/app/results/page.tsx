@@ -1,7 +1,8 @@
 'use client';
 
+import { useRegion } from '@/api/hooks/useRegion';
 import ResultLayout from '@/components/layout/ResultLayout';
-import { useDistrict, useSetSelectedDistrict } from '@/store';
+import { useDistrict, useSetSelectedDistrict, useSetSelectedProvince, useSetSelectedRegion } from '@/store';
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useRef, useState } from 'react';
 
@@ -27,22 +28,58 @@ interface DistrictData {
 function ResultsPageContent() {
   const searchParams = useSearchParams();
   const setSelectedDistrict = useSetSelectedDistrict();
+  const setSelectedProvince = useSetSelectedProvince();
+  const setSelectedRegion = useSetSelectedRegion();
   const [isFloating, setIsFloating] = useState(false);
   const [districtData, setDistrictData] = useState<DistrictData | null>(null);
   const [showAnimation, setShowAnimation] = useState(false);
   const isLoggedIn = true;
   const hasAnimatedRef = useRef(false); // ref로 애니메이션 실행 여부 추적
+  const [hasLoadedDefault, setHasLoadedDefault] = useState(false); // 기본 데이터 로드 여부 추적
 
   // Zustand store에서 선택된 지역 정보 가져오기
   const { selectedProvince, selectedDistrict, selectedRegion } = useDistrict();
+  const { getRegion } = useRegion();
+
+  // 기본 데이터 로드 함수
+  const loadDefaultData = async () => {
+    if (hasLoadedDefault) return; // 이미 로드했다면 중복 실행 방지
+    
+    try {
+      const defaultRegion = await getRegion('1'); // region_id: 1로 기본 데이터 로드
+      setSelectedRegion(defaultRegion);
+      
+      // 기본 province와 district도 설정
+      if (defaultRegion.province) {
+        // province ID를 숫자로 변환하여 설정
+        const provinceId = parseInt(defaultRegion.province.id);
+        if (!isNaN(provinceId)) {
+          setSelectedProvince(provinceId);
+        }
+      }
+      
+      // district ID를 숫자로 변환하여 설정
+      const districtId = parseInt(defaultRegion.id);
+      if (!isNaN(districtId)) {
+        setSelectedDistrict(districtId);
+      }
+      
+      setHasLoadedDefault(true);
+    } catch (error) {
+      console.error('기본 데이터 로드 실패:', error);
+    }
+  };
 
   // URL 쿼리 파라미터에서 district ID 가져오기
   useEffect(() => {
     const districtId = searchParams.get('district');
     if (districtId) {
       setSelectedDistrict(Number(districtId));
+    } else if (!selectedRegion && !hasLoadedDefault) {
+      // URL에 district 파라미터가 없고 selectedRegion도 없고 아직 기본 데이터를 로드하지 않은 경우
+      loadDefaultData();
     }
-  }, [searchParams, setSelectedDistrict]);
+  }, [searchParams, setSelectedDistrict, selectedRegion, hasLoadedDefault, getRegion, setSelectedRegion, setSelectedProvince]);
 
   // 안전한 지역명 생성 함수
   const getDistrictName = (): string => {
@@ -198,40 +235,19 @@ function ResultsPageContent() {
 
       {isFloating && (
         <div
-          className={showAnimation ? 'floating-select-animation' : ''}
+          className={`floating-district-select ${showAnimation ? 'animate-slide-in' : ''}`}
           style={{
             position: 'fixed',
-            top: '30px',
+            top: '20px',
             left: '50%',
             transform: 'translateX(-50%)',
             zIndex: 1000,
-            background: 'white',
-            borderRadius: '20px',
-            padding: '5px',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            transition: 'all 0.3s ease',
           }}
         >
-          <DistrictSelectSection isFloating={true} />
+          <DistrictSelectSection />
         </div>
       )}
-
-      <style jsx>{`
-        .floating-select-animation {
-          animation: slideDown 0.5s ease-out;
-        }
-
-        @keyframes slideDown {
-          from {
-            transform: translateX(-50%) translateY(-100%);
-          }
-          to {
-            transform: translateX(-50%) translateY(0);
-          }
-        }
-      `}</style>
     </ResultLayout>
   );
 }
@@ -242,15 +258,15 @@ function ResultsPageLoading() {
     <ResultLayout>
       <div
         style={{
+          width: '100%',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          height: '100vh',
-          fontSize: '1.2rem',
-          color: '#666',
+          background: '#F4F4F4',
+          minHeight: '100vh',
         }}
       >
-        로딩 중...
+        <div>로딩 중...</div>
       </div>
     </ResultLayout>
   );
