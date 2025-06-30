@@ -27,6 +27,7 @@ export interface IndexData {
   indexId: number;
   indexName: string;
   indexRank: number;
+  indexDescription: string;
 }
 
 // 기본 데이터 (서버와 클라이언트에서 동일하게 사용)
@@ -194,6 +195,8 @@ const StrengthWeaknessIndexSection: React.FC = () => {
 
     const fullRegionName = `${selectedRegion.province.name} ${selectedRegion.name} `;
 
+    console.log('#################### selectedRegion', selectedRegion);
+
     // top 배열을 strengthData로 변환
     setStrengthData(
       selectedRegion.key_index_ranks.top.map((item) => ({
@@ -202,6 +205,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
         indexId: item.key_index.id || 0,
         indexName: item.key_index.name || '',
         indexRank: item.rank || 0,
+        indexDescription: item.key_index.description || '',
       })),
     );
 
@@ -213,6 +217,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
         indexId: item.key_index.id || 0,
         indexName: item.key_index.name || '',
         indexRank: item.rank || 0,
+        indexDescription: item.key_index.description || '',
       })),
     );
   }, [selectedRegion]);

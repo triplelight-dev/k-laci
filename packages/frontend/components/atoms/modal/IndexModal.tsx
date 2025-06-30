@@ -14,9 +14,7 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
   if (!isOpen) return null;
 
   console.log('data', data);
-  const topPercentage = ((data.indexRank / NUM_OF_REGIONS) * 100).toFixed(
-    1,
-  );
+  const topPercentage = ((data.indexRank / NUM_OF_REGIONS) * 100).toFixed(1);
 
   return (
     <div
@@ -184,17 +182,7 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
               // textAlign: 'center',
             }}
           >
-            이 지표는 해당 지역의 특성을 나타내는 중요한 지표입니다. 높은 수치는
-            해당 분야에서 지역이 우수한 성과를 보이고 있음을 의미하며, 지역
-            발전과 정책 수립에 중요한 참고 자료로 활용됩니다. 이 지표는 해당
-            지역의 특성을 나타내는 중요한 지표입니다. 높은 수치는 해당 분야에서
-            지역이 우수한 성과를 보이고 있음을 의미하며, 지역 발전과 정책 수립에
-            중요한 참고 자료로 활용됩니다. 이 지표는 해당 지역의 특성을 나타내는
-            중요한 지표입니다. 높은 수치는 해당 분야에서 지역이 우수한 성과를
-            보이고 있음을 의미하며, 지역 발전과 정책 수립에 중요한 참고 자료로
-            활용됩니다. 이 지표는 해당 지역의 특성을 나타내는 중요한 지표입니다.
-            높은 수치는 해당 분야에서 지역이 우수한 성과를 보이고 있음을
-            의미하며, 지역 발전과 정책 수립에 중요한 참고 자료로 활용됩니다.
+            {data.indexDescription}
           </div>
         </div>
       </div>

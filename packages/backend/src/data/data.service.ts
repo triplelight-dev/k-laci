@@ -171,7 +171,8 @@ export class DataService {
             id,
             code,
             name,
-            category
+            category,
+            description
           )
         `,
         )
@@ -191,6 +192,7 @@ export class DataService {
             code: 'Unknown',
             name: 'Unknown',
             category: 'Unknown',
+            description: 'Unknown',
           },
         }));
 
@@ -388,7 +390,8 @@ export class DataService {
           id,
           code,
           name,
-          category
+          category,
+          description
         )
       `,
       )
@@ -412,6 +415,7 @@ export class DataService {
         code: 'Unknown',
         name: 'Unknown',
         category: 'Unknown',
+        description: 'Unknown',
       },
     }));
 
@@ -447,7 +451,8 @@ export class DataService {
           id,
           code,
           name,
-          category
+          category,
+          description
         )
       `,
       )
@@ -472,6 +477,7 @@ export class DataService {
         code: 'Unknown',
         name: 'Unknown',
         category: 'Unknown',
+        description: 'Unknown',
       },
     }));
 
