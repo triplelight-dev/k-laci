@@ -117,7 +117,7 @@ const IndexSection: React.FC<{
         {/* 타이틀 */}
         <div
           style={{
-            fontSize: '22px',
+            fontSize: '20px',
             fontWeight: '600',
             marginBottom: '4px',
           }}
@@ -133,7 +133,7 @@ const IndexSection: React.FC<{
             marginBottom: '16px',
           }}
         >
-          1위 - 50위 순
+          1~10위 순
         </div>
       </div>
 
@@ -143,7 +143,7 @@ const IndexSection: React.FC<{
           display: 'flex',
           flex: 2,
           flexDirection: 'column',
-          gap: '10px',
+          gap: '3px',
         }}
       >
         {data.map((item, index) => (

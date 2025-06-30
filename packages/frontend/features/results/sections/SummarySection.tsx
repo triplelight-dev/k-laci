@@ -28,7 +28,7 @@ const SummaryItem: React.FC<SummaryItemProps> = ({ data }) => {
     >
       <div
         style={{
-          flex: '0 0 120px',
+          flex: '0 0 85px',
           color: '#000000',
           fontSize: '1rem',
           fontWeight: 600,
@@ -38,8 +38,8 @@ const SummaryItem: React.FC<SummaryItemProps> = ({ data }) => {
         <div
           style={{
             display: 'inline-block',
-            padding: '6px 14px',
-            borderRadius: '5px',
+            padding: '6px 10px',
+            borderRadius: '8px',
             border: '1px solid #000000',
             backgroundColor: 'transparent',
             color: '#000000',
@@ -62,7 +62,7 @@ const SummaryItem: React.FC<SummaryItemProps> = ({ data }) => {
           <p
             key={index}
             style={{
-              color: '#000000',
+              color: 'black',
               fontSize: '0.9rem',
               lineHeight: 1.8,
               margin: 0,
