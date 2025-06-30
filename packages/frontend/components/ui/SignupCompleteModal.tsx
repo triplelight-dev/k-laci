@@ -4,8 +4,17 @@ interface SignupCompleteModalProps {
   onStart: () => void;
 }
 
-export default function SignupCompleteModal({ isOpen, onClose, onStart }: SignupCompleteModalProps) {
+export default function SignupCompleteModal({
+  isOpen,
+  onClose,
+  onStart,
+}: SignupCompleteModalProps) {
   if (!isOpen) return null;
+
+  const messages = [
+    '지금부터 전국 229개 지자체의',
+    '숨겨진 역량과 기회를 탐색해보세요!',
+  ];
 
   return (
     <div
@@ -27,15 +36,15 @@ export default function SignupCompleteModal({ isOpen, onClose, onStart }: Signup
       <div
         style={{
           backgroundColor: 'white',
-          borderRadius: '30px',
+          borderRadius: '20px',
           padding: '20px',
-          paddingTop: '30px',
-          maxWidth: '600px',
-          margin: '0 1rem',
+          paddingTop: '60px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center',
+          gap: '40px',
+          maxWidth: '600px',
+          width: '400px',
           cursor: 'default',
         }}
         onClick={(e) => e.stopPropagation()}
@@ -43,34 +52,34 @@ export default function SignupCompleteModal({ isOpen, onClose, onStart }: Signup
         {/* 타이틀 */}
         <div
           style={{
-            paddingTop: '30px',
-            paddingBottom: '10px',
-            fontSize: '30px',
-            fontWeight: '700',
+            fontSize: '24px',
+            fontWeight: 'bold',
             color: '#111827',
-            marginBottom: '30px',
             textAlign: 'center',
           }}
         >
-          회원가입 완료!
+          회원가입 완료
         </div>
 
-        {/* 설명 텍스트 */}
-        <div style={{ marginBottom: '3rem', textAlign: 'center' }}>
-          {[
-            'KLACI 회원가입이 완료되었습니다.',
-            '지금 바로 서비스를 이용해보세요.',
-          ].map((text, index) => (
+        {/* 메시지 */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            // gap: '8px',
+          }}
+        >
+          {messages.map((message, index) => (
             <div
               key={index}
               style={{
-                color: 'black',
                 fontSize: '16px',
-                lineHeight: 1.5,
-                marginBottom: '0.5rem',
+                textAlign: 'center',
+                lineHeight: '1.5',
               }}
             >
-              {text}
+              {message}
             </div>
           ))}
         </div>
@@ -80,21 +89,21 @@ export default function SignupCompleteModal({ isOpen, onClose, onStart }: Signup
           onClick={onStart}
           style={{
             width: '100%',
-            height: '50px',
-            backgroundColor: '#000000',
+            backgroundColor: '#111827',
             color: 'white',
-            borderRadius: '0.5rem',
             border: 'none',
+            borderRadius: '12px',
+            padding: '15px 60px',
+            fontSize: '18px',
+            fontWeight: '600',
             cursor: 'pointer',
-            fontSize: '16px',
-            fontWeight: '500',
             transition: 'background-color 0.2s',
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#1F2937';
+          onMouseOver={(e) => {
+            e.currentTarget.style.backgroundColor = '#374151';
           }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = '#000000';
+          onMouseOut={(e) => {
+            e.currentTarget.style.backgroundColor = '#111827';
           }}
         >
           시작하기
@@ -102,4 +111,4 @@ export default function SignupCompleteModal({ isOpen, onClose, onStart }: Signup
       </div>
     </div>
   );
-} 
+}

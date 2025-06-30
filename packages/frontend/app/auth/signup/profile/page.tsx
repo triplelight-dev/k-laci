@@ -32,6 +32,10 @@ export default function SignUpProfilePage() {
     interestDistrictId: '',
     agreeToTerms: false,
     agreeToReportReservation: false,
+    agreeToAge: false,
+    agreeToServiceTerms: false,
+    agreeToPrivacy: false,
+    agreeToMarketing: false,
   });
   const [errors, setErrors] = useState({
     name: '',
@@ -47,11 +51,15 @@ export default function SignUpProfilePage() {
     organization: false,
     phoneNumber: false,
   });
+  const [error, setError] = useState('');
 
   // 개발용 이메일 (실제로는 URL 파라미터나 상태에서 가져와야 함)
   const userEmail = 'klaci@korea.kr';
   const userType = '정부/공공기관 회원';
   const reportReservationLink = 'https://dev.klaci.kr';
+  const termsLink = 'https://dev.klaci.kr';
+  const privacyLink = 'https://dev.klaci.kr';
+  const marketingLink = 'https://dev.klaci.kr';
 
   // 블러 이벤트 핸들러들
   const handleNameBlur = () => {
@@ -89,17 +97,17 @@ export default function SignUpProfilePage() {
 
   // 관심 지역 변경 핸들러
   const handleInterestProvinceChange = (provinceId: string) => {
-    setFormData(prev => ({ 
-      ...prev, 
+    setFormData((prev) => ({
+      ...prev,
       interestProvinceId: provinceId,
-      interestDistrictId: '' // 광역 변경 시 지자체 초기화
+      interestDistrictId: '', // 광역 변경 시 지자체 초기화
     }));
   };
 
   const handleInterestDistrictChange = (districtId: string) => {
-    setFormData(prev => ({ 
-      ...prev, 
-      interestDistrictId: districtId 
+    setFormData((prev) => ({
+      ...prev,
+      interestDistrictId: districtId,
     }));
   };
 
@@ -139,61 +147,66 @@ export default function SignUpProfilePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // 모든 필드 터치 상태로 설정
-    setTouched({
-      name: true,
-      password: true,
-      confirmPassword: true,
-      organization: true,
-      phoneNumber: true,
-    });
-
-    // 전체 폼 검증
-    const validationResult = validateSignupForm(formData);
-    setErrors(validationResult);
-
-    // 에러가 있으면 제출 중단
-    if (!validationResult.isValid) {
-      return;
-    }
-
-    if (!formData.agreeToTerms) {
-      alert('이용약관에 동의해주세요.');
-      return;
-    }
-
     setIsLoading(true);
+    setError('');
+
+    // 필수 항목 검증
+    const validationResult = validateSignupForm(formData);
+    if (!validationResult.isValid) {
+      setError(validationResult.message);
+      setIsLoading(false);
+      return;
+    }
 
     try {
-      // 개발 편의를 위해 토큰이 없어도 진행할 수 있도록 수정
-      const tokenToUse = token || 'dev-token';
-
       await AuthService.completeSignup({
+        token: token || '',
         name: formData.name,
         password: formData.password,
-        token: tokenToUse,
+        organization: formData.organization,
+        phoneNumber: formData.phoneNumber,
+        // 관심 지역 정보 추가
+        provinceId: formData.interestProvinceId,
+        districtId: formData.interestDistrictId,
+        // 동의 항목들 추가
+        agreeToAge: formData.agreeToAge,
+        agreeToTerms: formData.agreeToTerms,
+        agreeToPrivacy: formData.agreeToPrivacy,
+        agreeToMarketing: formData.agreeToMarketing,
+        // 사전예약 신청
+        agreeToReportReservation: formData.agreeToReportReservation,
       });
 
       setShowCompleteModal(true);
     } catch (err: any) {
-      console.error('Signup error:', err);
-      alert(err.response?.data?.message || '회원가입 중 오류가 발생했습니다.');
+      setError(
+        err.response?.data?.message || '회원가입 중 오류가 발생했습니다.',
+      );
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleModalClose = () => {
-    setShowCompleteModal(false);
-  };
-
   const handleStart = () => {
-    router.push('/results');
+    setShowCompleteModal(false);
+    // 메인 페이지로 이동
+    router.push('/');
   };
 
   const handleReportReservationLink = () => {
     window.open(reportReservationLink, '_blank');
+  };
+
+  const handleTermsLink = () => {
+    window.open(termsLink, '_blank');
+  };
+
+  const handlePrivacyLink = () => {
+    window.open(privacyLink, '_blank');
+  };
+
+  const handleMarketingLink = () => {
+    window.open(marketingLink, '_blank');
   };
 
   // 개발 편의를 위해 토큰 체크 제거
@@ -401,7 +414,12 @@ export default function SignUpProfilePage() {
                     type="checkbox"
                     id="agreeToReportReservation"
                     checked={formData.agreeToReportReservation}
-                    onChange={(e) => setFormData({ ...formData, agreeToReportReservation: e.target.checked })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        agreeToReportReservation: e.target.checked,
+                      })
+                    }
                     style={{
                       marginRight: '8px',
                     }}
@@ -427,7 +445,7 @@ export default function SignUpProfilePage() {
                   선택 사항
                 </span>
               </div>
-              
+
               {/* 설명 텍스트 */}
               <div
                 style={{
@@ -439,7 +457,7 @@ export default function SignUpProfilePage() {
               >
                 사전예약자에 한해 특별 할인코드를 메일로 보내드립니다
               </div>
-              
+
               {/* 더 알아보기 링크 */}
               <div style={{ marginLeft: '24px' }}>
                 <button
@@ -461,45 +479,198 @@ export default function SignUpProfilePage() {
               </div>
             </div>
 
-            {/* 이용약관 동의 */}
+            {/* 동의 항목 박스 */}
             <div
               style={{
-                display: 'flex',
-                alignItems: 'flex-start',
                 width: '100%',
-                marginTop: '10px',
+                backgroundColor: '#F1F1F1',
+                borderRadius: '0.5rem',
+                padding: '20px',
+                marginTop: '20px',
+                marginBottom: '20px',
               }}
             >
-              <input
-                type="checkbox"
-                id="agreeToTerms"
-                checked={formData.agreeToTerms}
-                onChange={(e) =>
-                  setFormData({ ...formData, agreeToTerms: e.target.checked })
-                }
+              {/* 만 14세 이상 */}
+              <div
                 style={{
-                  marginTop: '4px',
-                  marginRight: '8px',
-                }}
-              />
-              <label
-                htmlFor="agreeToTerms"
-                style={{
-                  fontSize: '14px',
-                  color: '#374151',
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginBottom: '12px',
                 }}
               >
-                <a
-                  href="/terms"
+                <input
+                  type="checkbox"
+                  id="agreeToAge"
+                  checked={formData.agreeToAge}
+                  onChange={(e) =>
+                    setFormData({ ...formData, agreeToAge: e.target.checked })
+                  }
                   style={{
-                    color: '#2563EB',
-                    textDecoration: 'underline',
+                    marginRight: '8px',
+                  }}
+                />
+                <label
+                  htmlFor="agreeToAge"
+                  style={{
+                    fontSize: '14px',
+                    color: '#374151',
                   }}
                 >
-                  이용약관
-                </a>
-                에 동의합니다.
-              </label>
+                  만 14세 이상입니다
+                </label>
+              </div>
+
+              {/* 서비스 이용약관 */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginBottom: '12px',
+                }}
+              >
+                <input
+                  type="checkbox"
+                  id="agreeToServiceTerms"
+                  checked={formData.agreeToServiceTerms}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      agreeToServiceTerms: e.target.checked,
+                    })
+                  }
+                  style={{
+                    marginRight: '8px',
+                  }}
+                />
+                <label
+                  htmlFor="agreeToServiceTerms"
+                  style={{
+                    fontSize: '14px',
+                    color: '#374151',
+                  }}
+                >
+                  <button
+                    type="button"
+                    onClick={handleTermsLink}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      padding: 0,
+                      fontSize: '14px',
+                      color: '#374151',
+                      textDecoration: 'underline',
+                      cursor: 'pointer',
+                      fontFamily: 'inherit',
+                    }}
+                  >
+                    서비스 이용약관
+                  </button>
+                </label>
+              </div>
+
+              {/* 개인정보 수집 및 이용 */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginBottom: '12px',
+                }}
+              >
+                <input
+                  type="checkbox"
+                  id="agreeToPrivacy"
+                  checked={formData.agreeToPrivacy}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      agreeToPrivacy: e.target.checked,
+                    })
+                  }
+                  style={{
+                    marginRight: '8px',
+                  }}
+                />
+                <label
+                  htmlFor="agreeToPrivacy"
+                  style={{
+                    fontSize: '14px',
+                    color: '#374151',
+                  }}
+                >
+                  <button
+                    type="button"
+                    onClick={handlePrivacyLink}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      padding: 0,
+                      fontSize: '14px',
+                      color: '#374151',
+                      textDecoration: 'underline',
+                      cursor: 'pointer',
+                      fontFamily: 'inherit',
+                    }}
+                  >
+                    개인정보 수집 및 이용
+                  </button>
+                </label>
+              </div>
+
+              {/* 세미나 및 이벤트 등 마케팅 정보 수신 */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                <input
+                  type="checkbox"
+                  id="agreeToMarketing"
+                  checked={formData.agreeToMarketing}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      agreeToMarketing: e.target.checked,
+                    })
+                  }
+                  style={{
+                    marginRight: '8px',
+                  }}
+                />
+                <label
+                  htmlFor="agreeToMarketing"
+                  style={{
+                    fontSize: '14px',
+                    color: '#374151',
+                  }}
+                >
+                  <button
+                    type="button"
+                    onClick={handleMarketingLink}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      padding: 0,
+                      fontSize: '14px',
+                      color: '#374151',
+                      textDecoration: 'underline',
+                      cursor: 'pointer',
+                      fontFamily: 'inherit',
+                    }}
+                  >
+                    세미나 및 이벤트 등 마케팅 정보 수신
+                  </button>
+                  <span
+                    style={{
+                      fontSize: '14px',
+                      color: '#6B7280',
+                      marginLeft: '4px',
+                    }}
+                  >
+                    (선택)
+                  </span>
+                </label>
+              </div>
             </div>
 
             {/* 회원가입 완료 버튼 */}
@@ -561,7 +732,7 @@ export default function SignUpProfilePage() {
       {/* 회원가입 완료 모달 */}
       <SignupCompleteModal
         isOpen={showCompleteModal}
-        onClose={handleModalClose}
+        onClose={() => setShowCompleteModal(false)}
         onStart={handleStart}
       />
 

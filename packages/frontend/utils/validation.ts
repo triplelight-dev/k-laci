@@ -71,6 +71,24 @@ export const validatePhoneNumber = (phoneNumber: string): ValidationResult => {
   return { isValid: true, message: '' };
 };
 
+// 동의 항목 검증
+export const validateAgreements = (agreements: {
+  agreeToAge: boolean;
+  agreeToServiceTerms: boolean;
+  agreeToPrivacy: boolean;
+}): ValidationResult => {
+  if (!agreements.agreeToAge) {
+    return { isValid: false, message: '만 14세 이상 동의가 필요합니다.' };
+  }
+  if (!agreements.agreeToServiceTerms) {
+    return { isValid: false, message: '서비스 이용약관 동의가 필요합니다.' };
+  }
+  if (!agreements.agreeToPrivacy) {
+    return { isValid: false, message: '개인정보 수집 및 이용 동의가 필요합니다.' };
+  }
+  return { isValid: true, message: '' };
+};
+
 // 전체 폼 검증 함수
 export const validateSignupForm = (formData: {
   name: string;
@@ -78,12 +96,20 @@ export const validateSignupForm = (formData: {
   confirmPassword: string;
   organization: string;
   phoneNumber: string;
+  agreeToAge: boolean;
+  agreeToServiceTerms: boolean;
+  agreeToPrivacy: boolean;
 }) => {
   const nameValidation = validateName(formData.name);
   const passwordValidation = validatePassword(formData.password);
   const confirmPasswordValidation = validateConfirmPassword(formData.confirmPassword, formData.password);
   const organizationValidation = validateOrganization(formData.organization);
   const phoneNumberValidation = validatePhoneNumber(formData.phoneNumber);
+  const agreementsValidation = validateAgreements({
+    agreeToAge: formData.agreeToAge,
+    agreeToServiceTerms: formData.agreeToServiceTerms,
+    agreeToPrivacy: formData.agreeToPrivacy,
+  });
 
   return {
     name: nameValidation.message,
@@ -91,10 +117,12 @@ export const validateSignupForm = (formData: {
     confirmPassword: confirmPasswordValidation.message,
     organization: organizationValidation.message,
     phoneNumber: phoneNumberValidation.message,
+    agreements: agreementsValidation.message,
     isValid: nameValidation.isValid && 
              passwordValidation.isValid && 
              confirmPasswordValidation.isValid && 
              organizationValidation.isValid && 
-             phoneNumberValidation.isValid
+             phoneNumberValidation.isValid &&
+             agreementsValidation.isValid
   };
 }; 
