@@ -29,6 +29,7 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: 9999,
+        cursor: 'pointer',
       }}
       onClick={onClose}
     >
@@ -40,6 +41,7 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
           borderRadius: '30px',
           overflow: 'hidden',
           backgroundColor: 'white',
+          cursor: 'default',
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -146,7 +148,7 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
                 color: '#474E59',
               }}
             >
-              전라북도 전주시 0.43234점
+              {data.fullRegionName} 000점 (update)
             </div>
             <div
               style={{
