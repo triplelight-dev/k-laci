@@ -1,18 +1,22 @@
 'use client';
 
+import { NUM_OF_REGIONS } from '@/constants/data';
+import { IndexData } from '@/features/results/sections/StrenthWeaknessIndexSection';
 import React from 'react';
 
 interface IndexModalProps {
   isOpen: boolean;
   onClose: () => void;
-  data: {
-    category: string;
-    value: string;
-  };
+  data: IndexData;
 }
 
 const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
   if (!isOpen) return null;
+
+  console.log('data', data);
+  const topPercentage = ((data.indexRank / NUM_OF_REGIONS) * 100).toFixed(
+    1,
+  );
 
   return (
     <div
@@ -65,7 +69,7 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
               alignSelf: 'flex-start',
             }}
           >
-            전라북도 전주시
+            {data.fullRegionName}
           </div>
 
           {/* 강점지표 값 */}
@@ -77,7 +81,7 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
               marginTop: '8px',
             }}
           >
-            {data.value}
+            {data.indexName}
           </div>
 
           {/* 순위 */}
@@ -88,7 +92,7 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
               color: '#FF3737',
             }}
           >
-            1위
+            {data.indexRank}위
           </div>
 
           {/* 상위 퍼센트 */}
@@ -99,7 +103,7 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
               color: '#ADB5C4',
             }}
           >
-            상위 54%
+            상위 {topPercentage}%
           </div>
 
           {/* 통계청 */}

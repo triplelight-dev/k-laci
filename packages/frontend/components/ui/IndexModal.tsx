@@ -17,9 +17,9 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-        <div className="flex justify-between items-center mb-4">
+    <div className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black">
+      <div className="mx-4 w-full max-w-md rounded-lg bg-white p-6">
+        <div className="mb-4 flex items-center justify-between">
           <h3 className="text-xl font-semibold">{data.category}</h3>
           <button
             onClick={onClose}
@@ -28,25 +28,26 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
             ✕
           </button>
         </div>
-        
+
         <div className="space-y-4">
           <div>
             <div className="text-sm text-gray-600">지표명</div>
             <div className="text-lg font-semibold">{data.value}</div>
           </div>
-          
+
           <div>
             <div className="text-sm text-gray-600">설명</div>
             <div className="text-sm text-gray-700">
-              이 지표는 {data.category} 유형의 지역에서 중요한 평가 기준입니다. 
-              높은 수치는 해당 지역의 강점을 나타내며, 낮은 수치는 개선이 필요한 영역을 의미합니다.
+              이 지표는 {data.category} 유형의 지역에서 중요한 평가 기준입니다.
+              높은 수치는 해당 지역의 강점을 나타내며, 낮은 수치는 개선이 필요한
+              영역을 의미합니다.
             </div>
           </div>
         </div>
-        
+
         <button
           onClick={onClose}
-          className="w-full mt-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors"
+          className="mt-6 w-full rounded-lg bg-gray-200 py-2 text-gray-800 transition-colors hover:bg-gray-300"
         >
           닫기
         </button>
@@ -55,4 +56,4 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
   );
 };
 
-export default IndexModal; 
+export default IndexModal;
