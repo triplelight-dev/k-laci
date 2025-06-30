@@ -26,23 +26,6 @@ export default function SignUpPage() {
     }
   };
 
-  const handleResendEmail = async () => {
-    setIsLoading(true);
-    setError('');
-
-    try {
-      await AuthService.sendVerificationEmail({ email });
-      setShowModal(true);
-    } catch (err: any) {
-      setError(
-        err.response?.data?.message ||
-          '인증메일 재발송 중 오류가 발생했습니다.',
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const descriptionTexts = [
     'KLACI 계정으로 사용할 이메일 인증이 필요합니다.',
     '이메일 도메인에 따라 회원 유형이 자동 분류되며 맞춤 정보가 제공됩니다.',
@@ -241,85 +224,112 @@ export default function SignUpPage() {
             alignItems: 'center',
             justifyContent: 'center',
             zIndex: 50,
+            cursor: 'pointer',
           }}
+          onClick={() => setShowModal(false)}
         >
           <div
             style={{
               backgroundColor: 'white',
-              borderRadius: '0.5rem',
-              padding: '1.5rem',
-              maxWidth: '28rem',
+              borderRadius: '30px',
+              padding: '20px',
+              paddingTop: '30px',
+              maxWidth: '600px',
               margin: '0 1rem',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'default',
             }}
+            onClick={(e) => e.stopPropagation()}
           >
-            <h3
+            {/* 타이틀 */}
+            <div
               style={{
-                fontSize: '1.125rem',
-                fontWeight: '600',
-                marginBottom: '1rem',
+                paddingTop: '30px',
+                paddingBottom: '10px',
+                fontSize: '30px',
+                fontWeight: '700',
+                color: '#111827',
+                marginBottom: '30px',
+                textAlign: 'center',
               }}
             >
               인증메일 발송 완료
-            </h3>
-            <p
+            </div>
+
+            {/* 이메일 주소 안내 */}
+            <div style={{ marginBottom: '30px', textAlign: 'center' }}>
+              {[
+                `입력하신 주소 '${email}'로`,
+                '발송된 인증 메일을 확인해주세요.',
+              ].map((text, index) => (
+                <div
+                  key={index}
+                  style={{
+                    color: 'black',
+                    fontSize: '16px',
+                    fontWeight: 600,
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {text}
+                </div>
+              ))}
+            </div>
+
+            {/* 추가 안내 */}
+            <div
               style={{
-                color: '#4B5563',
-                marginBottom: '1.5rem',
+                marginBottom: '3rem',
+                textAlign: 'center',
+                background: '#F5F5F5',
+                padding: '20px 50px',
+                borderRadius: '10px',
               }}
             >
-              {email}로 인증메일을 발송했습니다.
-              <br />
-              이메일의 링크를 클릭하여 인증을 완료해주세요.
-            </p>
-            <div style={{ display: 'flex', gap: '0.75rem' }}>
-              <button
-                onClick={handleResendEmail}
-                disabled={isLoading}
-                style={{
-                  flex: 1,
-                  backgroundColor: isLoading ? '#F3F4F6' : '#E5E7EB',
-                  color: '#1F2937',
-                  padding: '0.5rem 1rem',
-                  borderRadius: '0.375rem',
-                  border: 'none',
-                  cursor: isLoading ? 'not-allowed' : 'pointer',
-                  transition: 'background-color 0.2s',
-                }}
-                onMouseEnter={(e) => {
-                  if (!isLoading) {
-                    e.currentTarget.style.backgroundColor = '#D1D5DB';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!isLoading) {
-                    e.currentTarget.style.backgroundColor = '#E5E7EB';
-                  }
-                }}
-              >
-                {isLoading ? '재발송 중...' : '재발송'}
-              </button>
-              <button
-                onClick={() => setShowModal(false)}
-                style={{
-                  flex: 1,
-                  backgroundColor: '#2563EB',
-                  color: 'white',
-                  padding: '0.5rem 1rem',
-                  borderRadius: '0.375rem',
-                  border: 'none',
-                  cursor: 'pointer',
-                  transition: 'background-color 0.2s',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#1D4ED8';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#2563EB';
-                }}
-              >
-                닫기
-              </button>
+              {[
+                '받은 편지함에서 인증 메일을 확인할 수 없는 경우',
+                "스팸 메일함이나 전체 메일함에서 'KLACI'를 검색해주세요.",
+              ].map((text, index) => (
+                <div
+                  key={index}
+                  style={{
+                    color: 'black',
+                    fontSize: '16px',
+                    marginBottom: '0.5rem',
+                  }}
+                >
+                  {text}
+                </div>
+              ))}
             </div>
+
+            {/* 닫기 버튼 */}
+            <button
+              onClick={() => setShowModal(false)}
+              style={{
+                width: '100%',
+                height: '50px',
+                backgroundColor: '#000000',
+                color: 'white',
+                borderRadius: '0.5rem',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '16px',
+                fontWeight: '500',
+                transition: 'background-color 0.2s',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#1F2937';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#000000';
+              }}
+            >
+              닫기
+            </button>
           </div>
         </div>
       )}
