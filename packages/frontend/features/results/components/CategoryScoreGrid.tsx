@@ -74,7 +74,11 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
               cursor: 'pointer',
               borderRadius: '8px',
               border: '1px solid transparent',
-              backgroundColor: isHovered ? 'white' : (isHighestRank ? color : '#F1F1F1'),
+              backgroundColor: isHovered
+                ? 'white'
+                : isHighestRank
+                  ? color
+                  : '#F1F1F1',
               padding: '15px',
               transition: 'all 0.2s ease',
               minHeight: '60px',
@@ -104,7 +108,11 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
                 width={16}
                 height={16}
                 style={{
-                  filter: isHovered ? 'none' : (isHighestRank ? 'brightness(0) invert(1)' : 'none'),
+                  filter: isHovered
+                    ? 'none'
+                    : isHighestRank
+                      ? 'brightness(0) invert(1)'
+                      : 'none',
                 }}
               />
             </div>
@@ -114,7 +122,8 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
               style={{
                 fontSize: '15px',
                 fontWeight: '600',
-                color: isHovered ? 'black' : (isHighestRank ? 'white' : 'black'),
+                color: isHovered ? 'black' : isHighestRank ? 'white' : 'black',
+                cursor: 'pointer',
               }}
             >
               {score.name}
@@ -125,8 +134,9 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
               style={{
                 fontSize: '24px',
                 fontWeight: '700',
-                color: isHovered ? color : (isHighestRank ? 'white' : color),
+                color: isHovered ? color : isHighestRank ? 'white' : color,
                 marginTop: 'auto',
+                cursor: 'pointer',
               }}
             >
               {score.rank}위

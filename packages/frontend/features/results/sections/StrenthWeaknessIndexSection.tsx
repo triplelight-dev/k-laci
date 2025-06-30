@@ -5,11 +5,11 @@ import { useDistrict } from '@/store';
 import React, { useEffect, useState } from 'react';
 
 // 색상 맵 정의
-const colorMap: Record<string, string> = {
+export const colorMap: Record<string, string> = {
   인구성장력: '#FF3737',
-  경제활동력: '#874FFF',
-  생활기반력: '#24CB71',
-  안전회복력: '#FFA600',
+  경제활동력: '#FFA600',
+  생활기반력: '#874FFF',
+  안전회복력: '#24CB71',
 };
 
 // HEX 색상을 RGBA로 변환하는 함수
@@ -41,8 +41,6 @@ const IndexItem: React.FC<{
   onClick: (data: IndexData) => void;
 }> = ({ data, onClick }) => {
   const categoryColor = colorMap[data.category] || '#874FFF';
-
-  console.log('indexitemdata', data);
 
   return (
     <div
@@ -103,8 +101,6 @@ const IndexSection: React.FC<{
   isStrength?: boolean;
   onItemClick: (data: IndexData) => void;
 }> = ({ title, data, onItemClick }) => {
-  console.log('index section data!!!:', data);
-
   return (
     <div
       style={{
@@ -194,8 +190,6 @@ const StrengthWeaknessIndexSection: React.FC = () => {
     }
 
     const fullRegionName = `${selectedRegion.province.name} ${selectedRegion.name} `;
-
-    console.log('#################### selectedRegion', selectedRegion);
 
     // top 배열을 strengthData로 변환
     setStrengthData(

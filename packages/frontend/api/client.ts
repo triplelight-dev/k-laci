@@ -2,8 +2,6 @@ import axios, { AxiosInstance } from 'axios';
 
 // 환경별 base URL 설정
 const getBaseURL = () => {
-  return 'http://localhost:8000'
-  // return 'https:///api.klaci.kr'
   if (process.env.NODE_ENV === 'development') {
     return 'http://localhost:8000'; // NestJS 백엔드 포트
   }
@@ -31,7 +29,7 @@ apiClient.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 // 응답 인터셉터 (에러 처리)
@@ -46,5 +44,5 @@ apiClient.interceptors.response.use(
       }
     }
     return Promise.reject(error);
-  }
-); 
+  },
+);

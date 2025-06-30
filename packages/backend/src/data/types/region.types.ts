@@ -78,6 +78,20 @@ export interface KeyIndex {
   description?: string;
 }
 
+// 새로운 KeyIndexData 타입 추가
+export interface KeyIndexData {
+  id: number;
+  code: string;
+  name: string;
+  category: string;
+  description: string;
+  unit?: string;
+  source?: string;
+  calculation_method?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
 // Supabase JOIN 결과를 위한 타입 (수정됨)
 export interface RegionKeyIndexRankRaw {
   id: number;
@@ -219,4 +233,28 @@ export class RegionCategoryRankResponseDto {
   year: number;
   @ApiProperty()
   category: CategoryResponseDto;
+}
+
+// 새로운 DTO 추가
+export class KeyIndexDataResponseDto {
+  @ApiProperty()
+  id: number;
+  @ApiProperty()
+  code: string;
+  @ApiProperty()
+  name: string;
+  @ApiProperty()
+  category: string;
+  @ApiProperty()
+  description: string;
+  @ApiProperty({ required: false })
+  unit?: string;
+  @ApiProperty({ required: false })
+  source?: string;
+  @ApiProperty({ required: false })
+  calculation_method?: string;
+  @ApiProperty({ required: false })
+  created_at?: string;
+  @ApiProperty({ required: false })
+  updated_at?: string;
 }

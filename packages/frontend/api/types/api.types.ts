@@ -31,4 +31,17 @@ export interface ApiError {
 export interface RequestState {
   loading: boolean;
   error: ApiError | null;
+}
+
+export interface KeyIndexData {
+  id: number;
+  code: string;
+  name: string;
+  category: string;
+  description: string;
+  unit?: string;
+  source?: string;
+  calculation_method?: string;
+  created_at?: string;
+  updated_at?: string;
 } 

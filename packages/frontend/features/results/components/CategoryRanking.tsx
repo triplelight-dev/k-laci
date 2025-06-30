@@ -1,7 +1,10 @@
 'use client';
 
-import CategoryDetailModal from '@/components/ui/CategoryDetailModal';
+import { useKeyIndexData } from '@/api/hooks/useKeyIndexData';
+import IndexModal from '@/components/atoms/modal/IndexModal';
 import { NUM_OF_REGIONS } from '@/constants/data';
+import { IndexData } from '@/features/results/sections/StrenthWeaknessIndexSection';
+import { useDistrict } from '@/store';
 import { CategoryData, CategoryRank } from '@/types/category';
 import React, { useEffect, useState } from 'react';
 import CategoryRankGrid from './CategoryScoreGrid';
@@ -16,18 +19,60 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
   categoryData,
 }) => {
   const { title, color, currentRank, description, rank } = categoryData;
-  const [selectedRank, setSelectedRank] = useState<CategoryRank | null>(null);
+  const [selectedIndexData, setSelectedIndexData] = useState<IndexData | null>(
+    null,
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
+
+  // Zustand store에서 선택된 지역 정보 가져오기
+  const { selectedRegion } = useDistrict();
+
+  const { getKeyIndexData } = useKeyIndexData();
 
   // Hydration 에러 방지를 위한 클라이언트 사이드 렌더링
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  const handleRankClick = (rank: CategoryRank) => {
-    setSelectedRank(rank);
+  const handleRankClick = async (rank: CategoryRank) => {
+    if (!selectedRegion) return;
+
+    const indexDescription = rank.description || '설명이 없습니다.';
+    let indexData: IndexData = {
+      fullRegionName: `${selectedRegion.province.name} ${selectedRegion.name}`,
+      category: title,
+      indexId: rank.key_index_id,
+      indexName: rank.name,
+      indexRank: rank.rank,
+      indexDescription,
+    };
+
+    // API에서 상세 정보 받아오기
+    let keyIndexDetail: {
+      description?: string;
+      name?: string;
+      source?: string;
+    } = {};
+    try {
+      keyIndexDetail = await getKeyIndexData(rank.key_index_id);
+    } catch (e) {
+      // 에러 시 기본값 유지
+    }
+
+    if (keyIndexDetail && keyIndexDetail.description) {
+      indexData.indexDescription = keyIndexDetail.description;
+    }
+
+    console.log('keyIndexDetail!!!!!!!', keyIndexDetail);
+
+    setSelectedIndexData(indexData);
     setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedIndexData(null);
   };
 
   const isFirstIndex = index === 0;
@@ -177,12 +222,14 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
         />
       </div>
 
-      <CategoryDetailModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        rank={selectedRank}
-        color={color}
-      />
+      {/* IndexModal 사용 */}
+      {selectedIndexData && (
+        <IndexModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          data={selectedIndexData}
+        />
+      )}
     </div>
   );
 };

@@ -135,26 +135,26 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index }) => {
   } => {
     if (index === 0) {
       return {
-        leftItem: '인구성장형',
-        rightItem: '인구정체형',
+        leftItem: '인구정체형',
+        rightItem: '인구성장형',
       };
     }
     if (index === 1) {
       return {
-        leftItem: '경제혁신형',
-        rightItem: '경제정속형',
+        leftItem: '경제정속형',
+        rightItem: '경제혁신형',
       };
     }
     if (index === 2) {
       return {
-        leftItem: '생활역동형',
-        rightItem: '생활정체형',
+        leftItem: '생활정체형',
+        rightItem: '생활역동형',
       };
     }
     if (index === 3) {
       return {
-        leftItem: '안전회복형',
-        rightItem: '안전정진형',
+        leftItem: '안전정진형',
+        rightItem: '안전회복형',
       };
     }
     return {

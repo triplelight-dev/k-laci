@@ -1,8 +1,11 @@
 'use client';
 
+import React from 'react';
+
 import { NUM_OF_REGIONS } from '@/constants/data';
 import { IndexData } from '@/features/results/sections/StrenthWeaknessIndexSection';
-import React from 'react';
+
+import { colorMap } from '@/features/results/sections/StrenthWeaknessIndexSection';
 
 interface IndexModalProps {
   isOpen: boolean;
@@ -13,8 +16,13 @@ interface IndexModalProps {
 const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
   if (!isOpen) return null;
 
-  console.log('data', data);
   const topPercentage = ((data.indexRank / NUM_OF_REGIONS) * 100).toFixed(1);
+  const MOCK_SOURCE = '통계청';
+  const source = MOCK_SOURCE;
+  console.log('data.category!!!!!!!', data.category);
+
+  // 카테고리에 따른 색상 설정
+  const rankColor = colorMap[data.category] || '#FF3737'; // 기본값으로 빨간색
 
   return (
     <div
@@ -84,12 +92,12 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
             {data.indexName}
           </div>
 
-          {/* 순위 */}
+          {/* 순위 - 카테고리별 색상 적용 */}
           <div
             style={{
               fontSize: '25px',
               fontWeight: '600',
-              color: '#FF3737',
+              color: rankColor,
             }}
           >
             {data.indexRank}위
@@ -116,7 +124,7 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
               borderTop: '1px solid #D9D9E8',
             }}
           >
-            통계청
+            {source}
           </div>
 
           {/* 참고용 로데이터 */}
@@ -172,7 +180,6 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
             paddingRight: '50px',
             paddingTop: '90px',
             display: 'flex',
-            // alignItems: 'center',
             justifyContent: 'center',
           }}
         >
@@ -182,7 +189,6 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
               fontWeight: '400',
               color: 'black',
               lineHeight: 1.6,
-              // textAlign: 'center',
             }}
           >
             {data.indexDescription}
