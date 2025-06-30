@@ -12,6 +12,26 @@ export interface SignUpRequest {
   name: string;
 }
 
+export interface SendVerificationEmailRequest {
+  email: string;
+}
+
+export interface SendVerificationEmailResponse {
+  message: string;
+}
+
+export interface CompleteSignupRequest {
+  name: string;
+  password: string;
+  token: string;
+}
+
+export interface CompleteSignupResponse {
+  user_id: string;
+  email: string;
+  name: string;
+}
+
 export interface AuthResponse {
   user: {
     id: string;
@@ -22,6 +42,16 @@ export interface AuthResponse {
 }
 
 export class AuthService {
+  static async sendVerificationEmail(data: SendVerificationEmailRequest): Promise<ApiResponse<SendVerificationEmailResponse>> {
+    const response = await apiClient.post('/auth/send-verification-email', data);
+    return response.data;
+  }
+
+  static async completeSignup(data: CompleteSignupRequest): Promise<ApiResponse<CompleteSignupResponse>> {
+    const response = await apiClient.post('/auth/complete-signup', data);
+    return response.data;
+  }
+
   static async signIn(data: SignInRequest): Promise<ApiResponse<AuthResponse>> {
     const response = await apiClient.post('/auth/sign-in', data);
     return response.data;

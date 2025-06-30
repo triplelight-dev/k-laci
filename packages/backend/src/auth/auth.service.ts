@@ -2,8 +2,8 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import {
-    CompleteSignupDto,
-    CompleteSignupResponseDto,
+  CompleteSignupDto,
+  CompleteSignupResponseDto,
 } from './dto/complete-signup.dto';
 import { SendVerificationEmailDto } from './dto/send-verification-email.dto';
 import { SignUpDto, SignUpResponseDto } from './dto/sign-up.dto';
@@ -55,21 +55,19 @@ export class AuthService {
 
   async sendVerificationEmail({ email }: SendVerificationEmailDto) {
     try {
-      // 이메일 중복 체크
-      const { data: existingUsers, error: listError } =
-        await this.supabase.auth.admin.listUsers();
+      // 이메일 중복 체크 - user_profiles 테이블에서 확인
+      const { data: existingProfile, error: profileError } = await this.supabase
+        .from('user_profiles')
+        .select('email')
+        .eq('email', email)
+        .single();
 
-      if (listError) {
-        throw new UnauthorizedException(
-          '사용자 목록 조회 중 오류가 발생했습니다.',
-        );
+      if (profileError && profileError.code !== 'PGRST116') {
+        // PGRST116는 "결과가 없음" 에러
+        throw new UnauthorizedException('사용자 조회 중 오류가 발생했습니다.');
       }
 
-      const isEmailExists = existingUsers.users.some(
-        (user) => user.email === email,
-      );
-
-      if (isEmailExists) {
+      if (existingProfile) {
         throw new UnauthorizedException('이미 가입된 이메일입니다.');
       }
 
