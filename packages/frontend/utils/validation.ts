@@ -74,13 +74,13 @@ export const validatePhoneNumber = (phoneNumber: string): ValidationResult => {
 // 동의 항목 검증
 export const validateAgreements = (agreements: {
   agreeToAge: boolean;
-  agreeToServiceTerms: boolean;
+  agreeToTerms: boolean;
   agreeToPrivacy: boolean;
 }): ValidationResult => {
   if (!agreements.agreeToAge) {
     return { isValid: false, message: '만 14세 이상 동의가 필요합니다.' };
   }
-  if (!agreements.agreeToServiceTerms) {
+  if (!agreements.agreeToTerms) {
     return { isValid: false, message: '서비스 이용약관 동의가 필요합니다.' };
   }
   if (!agreements.agreeToPrivacy) {
@@ -97,7 +97,7 @@ export const validateSignupForm = (formData: {
   organization: string;
   phoneNumber: string;
   agreeToAge: boolean;
-  agreeToServiceTerms: boolean;
+  agreeToTerms: boolean;
   agreeToPrivacy: boolean;
 }) => {
   const nameValidation = validateName(formData.name);
@@ -107,7 +107,7 @@ export const validateSignupForm = (formData: {
   const phoneNumberValidation = validatePhoneNumber(formData.phoneNumber);
   const agreementsValidation = validateAgreements({
     agreeToAge: formData.agreeToAge,
-    agreeToServiceTerms: formData.agreeToServiceTerms,
+    agreeToTerms: formData.agreeToTerms,
     agreeToPrivacy: formData.agreeToPrivacy,
   });
 

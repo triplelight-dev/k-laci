@@ -24,12 +24,23 @@ export interface CompleteSignupRequest {
   name: string;
   password: string;
   token: string;
+  organization?: string;
+  phoneNumber?: string;
+  regionId?: string;
+  agreeToAge: boolean;
+  agreeToTerms: boolean;
+  agreeToPrivacy: boolean;
+  agreeToMarketing?: boolean;
+  agreeToReportReservation?: boolean;
 }
 
 export interface CompleteSignupResponse {
   user_id: string;
   email: string;
   name: string;
+  organization?: string;
+  phoneNumber?: string;
+  regionId?: string;
 }
 
 export interface AuthResponse {

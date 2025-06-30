@@ -4,60 +4,49 @@ import { useEffect, useRef, useState } from 'react';
 
 interface InterestRegionSelectProps {
   selectedProvinceId?: string;
-  selectedDistrictId?: string;
+  selectedRegionId?: string;
   onProvinceChange: (provinceId: string) => void;
-  onDistrictChange: (districtId: string) => void;
+  onRegionChange: (regionId: string) => void;
 }
 
 export default function InterestRegionSelect({
   selectedProvinceId,
-  selectedDistrictId,
+  selectedRegionId,
   onProvinceChange,
-  onDistrictChange,
+  onRegionChange,
 }: InterestRegionSelectProps) {
   const { data: provincesWithRegions = [], error } = useProvincesWithRegions();
   const [isProvinceOpen, setIsProvinceOpen] = useState(false);
-  const [isDistrictOpen, setIsDistrictOpen] = useState(false);
+  const [isRegionOpen, setIsRegionOpen] = useState(false);
   const provinceRef = useRef<HTMLDivElement>(null);
-  const districtRef = useRef<HTMLDivElement>(null);
+  const regionRef = useRef<HTMLDivElement>(null);
 
   // API에서 가져온 데이터로 province 옵션 생성
-  const provinceOptions = provincesWithRegions.map((province) => ({
-    value: String(province.id),
-    label: province.name,
+  const provinceOptions = provincesWithRegions.map(province => ({
+    value: province.id,
+    label: province.name
   }));
 
-  // 선택된 도/시에 해당하는 지역 옵션 생성
-  const districtOptions = selectedProvinceId
-    ? provincesWithRegions
-        .find((province) => String(province.id) === selectedProvinceId)
-        ?.regions.map((region) => ({
-          value: String(region.id),
-          label: region.name,
-        })) || []
-    : [];
+  // 선택된 province에 따른 region 옵션 생성
+  const selectedProvince = provincesWithRegions.find(p => p.id === selectedProvinceId);
+  const regionOptions = selectedProvince?.regions?.map(region => ({
+    value: region.id,
+    label: region.name
+  })) || [];
 
   // 외부 클릭 시 드롭다운 닫기
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        provinceRef.current &&
-        !provinceRef.current.contains(event.target as Node)
-      ) {
+      if (provinceRef.current && !provinceRef.current.contains(event.target as Node)) {
         setIsProvinceOpen(false);
       }
-      if (
-        districtRef.current &&
-        !districtRef.current.contains(event.target as Node)
-      ) {
-        setIsDistrictOpen(false);
+      if (regionRef.current && !regionRef.current.contains(event.target as Node)) {
+        setIsRegionOpen(false);
       }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   if (error) {
@@ -81,217 +70,223 @@ export default function InterestRegionSelect({
   }
 
   return (
-    <div
-      style={{
-        width: '100%',
-        height: '50px',
-        backgroundColor: 'white',
-        borderRadius: '0.5rem',
-        border: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '0 10px',
-      }}
-    >
-      {/* 광역 셀렉트 */}
+    <div style={{ width: '100%' }}>
       <div
-        ref={provinceRef}
         style={{
-          width: '150px',
-          height: '40px',
           display: 'flex',
+          justifyContent: 'space-between',
           alignItems: 'center',
-          padding: '0 12px',
-          cursor: 'pointer',
-          position: 'relative',
-          backgroundColor: 'transparent',
+          marginBottom: '8px',
         }}
-        onClick={() => setIsProvinceOpen(!isProvinceOpen)}
       >
+        <label
+          style={{
+            fontSize: '16px',
+            fontWeight: '600',
+            color: '#111827',
+          }}
+        >
+          관심 지역 설정
+        </label>
         <span
           style={{
-            flex: 1,
-            color: selectedProvinceId ? '#000000' : '#9CA3AF',
             fontSize: '14px',
-            textAlign: 'center',
+            color: '#9A9EA3',
           }}
         >
-          {selectedProvinceId
-            ? provinceOptions.find((opt) => opt.value === selectedProvinceId)
-                ?.label
-            : '광역명'}
+          선택 사항
         </span>
-        <div
-          style={{
-            pointerEvents: 'none',
-            transform: isProvinceOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-            transition: 'transform 0.2s ease-in-out',
-            marginLeft: '8px',
-          }}
-        >
-          <Image src="/arrow_down.png" alt="선택" width={12} height={7} />
-        </div>
-
-        {/* 광역 드롭다운 */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '100%',
-            left: 0,
-            marginTop: '8px',
-            backgroundColor: 'white',
-            border: '1px solid #E5E7EB',
-            borderRadius: '12px',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-            width: '100%',
-            zIndex: 1000,
-            maxHeight: isProvinceOpen ? '200px' : '0px',
-            overflow: 'hidden',
-            transition: 'max-height 0.2s ease-in-out',
-            visibility: isProvinceOpen ? 'visible' : 'hidden',
-          }}
-        >
-          <ul
-            style={{
-              listStyle: 'none',
-              padding: '8px 0',
-              margin: 0,
-              maxHeight: '200px',
-              overflowY: 'auto',
-              overflowX: 'hidden',
-            }}
-          >
-            {provinceOptions.map((option) => (
-              <li
-                key={option.value}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onProvinceChange(option.value);
-                  setIsProvinceOpen(false);
-                }}
-                style={{
-                  padding: '12px 20px',
-                  fontSize: '14px',
-                  color: '#374151',
-                  backgroundColor: 'white',
-                  cursor: 'pointer',
-                  transition: 'background-color 0.15s ease-in-out',
-                  textAlign: 'center',
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.backgroundColor = '#F9FAFB')
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.backgroundColor = 'white')
-                }
-              >
-                {option.label}
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
-
-      {/* 지자체 셀렉트 */}
+      
       <div
-        ref={districtRef}
         style={{
-          width: '150px',
-          height: '40px',
+          width: '100%',
+          height: '50px',
+          backgroundColor: 'white',
+          borderRadius: '0.5rem',
+          padding: '0 1rem',
           display: 'flex',
           alignItems: 'center',
-          padding: '0 12px',
-          cursor: selectedProvinceId ? 'pointer' : 'not-allowed',
-          position: 'relative',
-          backgroundColor: 'transparent',
-        }}
-        onClick={() => {
-          if (!selectedProvinceId) return;
-          setIsDistrictOpen(!isDistrictOpen);
+          justifyContent: 'center',
+          gap: '20px',
+          boxSizing: 'border-box',
         }}
       >
-        <span
-          style={{
-            flex: 1,
-            color: selectedDistrictId ? '#000000' : '#9CA3AF',
-            fontSize: '14px',
-            textAlign: 'center',
-          }}
-        >
-          {selectedDistrictId
-            ? districtOptions.find((opt) => opt.value === selectedDistrictId)
-                ?.label
-            : '지자체명'}
-        </span>
+        {/* 광역시/도 선택 */}
         <div
+          ref={provinceRef}
           style={{
-            pointerEvents: 'none',
-            transform: isDistrictOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-            transition: 'transform 0.2s ease-in-out',
-            marginLeft: '8px',
+            position: 'relative',
+            width: '150px',
           }}
         >
-          <Image src="/arrow_down.png" alt="선택" width={12} height={7} />
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '8px 12px',
+              border: '1px solid #D1D5DB',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              backgroundColor: 'white',
+            }}
+            onClick={() => setIsProvinceOpen(!isProvinceOpen)}
+          >
+            <span
+              style={{
+                fontSize: '14px',
+                color: selectedProvinceId ? '#111827' : '#9CA3AF',
+              }}
+            >
+              {selectedProvinceId 
+                ? provinceOptions.find(opt => opt.value === selectedProvinceId)?.label 
+                : '광역시/도'
+              }
+            </span>
+            <Image
+              src="/arrow_down.png"
+              alt="arrow down"
+              width={12}
+              height={12}
+              style={{
+                transform: isProvinceOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform 0.2s',
+              }}
+            />
+          </div>
+          
+          {isProvinceOpen && (
+            <div
+              style={{
+                position: 'absolute',
+                top: '100%',
+                left: 0,
+                right: 0,
+                backgroundColor: 'white',
+                border: '1px solid #D1D5DB',
+                borderRadius: '4px',
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                zIndex: 10,
+                maxHeight: '200px',
+                overflowY: 'auto',
+              }}
+            >
+              {provinceOptions.map((option) => (
+                <div
+                  key={option.value}
+                  style={{
+                    padding: '8px 12px',
+                    cursor: 'pointer',
+                    fontSize: '14px',
+                    color: '#111827',
+                    borderBottom: '1px solid #F3F4F6',
+                  }}
+                  onClick={() => {
+                    onProvinceChange(option.value);
+                    setIsProvinceOpen(false);
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.backgroundColor = '#F9FAFB';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.backgroundColor = 'white';
+                  }}
+                >
+                  {option.label}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* 지자체 드롭다운 */}
+        {/* 시/군/구 선택 */}
         <div
+          ref={regionRef}
           style={{
-            position: 'absolute',
-            top: '100%',
-            left: 0,
-            marginTop: '8px',
-            backgroundColor: 'white',
-            border: '1px solid #E5E7EB',
-            borderRadius: '12px',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-            width: '100%',
-            zIndex: 1000,
-            maxHeight: isDistrictOpen ? '200px' : '0px',
-            overflow: 'hidden',
-            transition: 'max-height 0.2s ease-in-out',
-            visibility: isDistrictOpen ? 'visible' : 'hidden',
+            position: 'relative',
+            width: '150px',
           }}
         >
-          <ul
+          <div
             style={{
-              listStyle: 'none',
-              padding: '8px 0',
-              margin: 0,
-              maxHeight: '200px',
-              overflowY: 'auto',
-              overflowX: 'hidden',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '8px 12px',
+              border: '1px solid #D1D5DB',
+              borderRadius: '4px',
+              cursor: selectedProvinceId ? 'pointer' : 'not-allowed',
+              backgroundColor: selectedProvinceId ? 'white' : '#F9FAFB',
+              opacity: selectedProvinceId ? 1 : 0.5,
             }}
+            onClick={() => selectedProvinceId && setIsRegionOpen(!isRegionOpen)}
           >
-            {districtOptions.map((option) => (
-              <li
-                key={option.value}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onDistrictChange(option.value);
-                  setIsDistrictOpen(false);
-                }}
-                style={{
-                  padding: '12px 20px',
-                  fontSize: '14px',
-                  color: '#374151',
-                  backgroundColor: 'white',
-                  cursor: 'pointer',
-                  transition: 'background-color 0.15s ease-in-out',
-                  textAlign: 'center',
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.backgroundColor = '#F9FAFB')
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.backgroundColor = 'white')
-                }
-              >
-                {option.label}
-              </li>
-            ))}
-          </ul>
+            <span
+              style={{
+                fontSize: '14px',
+                color: selectedRegionId ? '#111827' : '#9CA3AF',
+              }}
+            >
+              {selectedRegionId 
+                ? regionOptions.find(opt => opt.value === selectedRegionId)?.label 
+                : '시/군/구'
+              }
+            </span>
+            <Image
+              src="/arrow_down.png"
+              alt="arrow down"
+              width={12}
+              height={12}
+              style={{
+                transform: isRegionOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform 0.2s',
+              }}
+            />
+          </div>
+          
+          {isRegionOpen && selectedProvinceId && (
+            <div
+              style={{
+                position: 'absolute',
+                top: '100%',
+                left: 0,
+                right: 0,
+                backgroundColor: 'white',
+                border: '1px solid #D1D5DB',
+                borderRadius: '4px',
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                zIndex: 10,
+                maxHeight: '200px',
+                overflowY: 'auto',
+              }}
+            >
+              {regionOptions.map((option) => (
+                <div
+                  key={option.value}
+                  style={{
+                    padding: '8px 12px',
+                    cursor: 'pointer',
+                    fontSize: '14px',
+                    color: '#111827',
+                    borderBottom: '1px solid #F3F4F6',
+                  }}
+                  onClick={() => {
+                    onRegionChange(option.value);
+                    setIsRegionOpen(false);
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.backgroundColor = '#F9FAFB';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.backgroundColor = 'white';
+                  }}
+                >
+                  {option.label}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -109,6 +109,15 @@ export class AuthService {
         throw new UnauthorizedException('유효하지 않은 인증 토큰입니다.');
       }
 
+      // 필수 동의 항목 확인
+      if (
+        !completeSignupDto.agreeToAge ||
+        !completeSignupDto.agreeToTerms ||
+        !completeSignupDto.agreeToPrivacy
+      ) {
+        throw new UnauthorizedException('필수 동의 항목에 모두 동의해주세요.');
+      }
+
       // 비밀번호 설정 및 사용자 정보 업데이트
       const { error: updateError } = await this.supabase.auth.updateUser({
         password: completeSignupDto.password,
@@ -129,8 +138,16 @@ export class AuthService {
             id: user.id,
             email: user.email,
             name: completeSignupDto.name,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
+            organization: completeSignupDto.organization,
+            phone_number: completeSignupDto.phoneNumber,
+            interest_region_id: completeSignupDto.regionId
+              ? parseInt(completeSignupDto.regionId)
+              : null,
+            agree_to_marketing: completeSignupDto.agreeToMarketing || false,
+            agree_to_report_reservation:
+              completeSignupDto.agreeToReportReservation || false,
+            is_over_thirteen: completeSignupDto.agreeToAge, // 14세 이상 동의 여부
+            // created_at, updated_at은 자동으로 설정됨
           },
         ]);
 
@@ -142,6 +159,9 @@ export class AuthService {
         user_id: user.id,
         email: user.email,
         name: completeSignupDto.name,
+        organization: completeSignupDto.organization,
+        phoneNumber: completeSignupDto.phoneNumber,
+        regionId: completeSignupDto.regionId,
       };
     } catch (error) {
       if (error instanceof UnauthorizedException) {

@@ -14,28 +14,30 @@ import {
   validatePhoneNumber,
   validateSignupForm,
 } from '@/utils/validation';
+import { createClient } from '@supabase/supabase-js';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function SignUpProfilePage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [showCompleteModal, setShowCompleteModal] = useState(false);
+  const [userEmail, setUserEmail] = useState<string>('');
+  const [userType, setUserType] = useState<string>('');
   const [formData, setFormData] = useState({
     name: '',
     password: '',
     confirmPassword: '',
     organization: '',
     phoneNumber: '',
-    interestProvinceId: '',
-    interestDistrictId: '',
-    agreeToTerms: false,
-    agreeToReportReservation: false,
+    provinceId: '',
+    regionId: '',
     agreeToAge: false,
-    agreeToServiceTerms: false,
+    agreeToTerms: false,
     agreeToPrivacy: false,
     agreeToMarketing: false,
+    agreeToReportReservation: false,
   });
   const [errors, setErrors] = useState({
     name: '',
@@ -53,13 +55,82 @@ export default function SignUpProfilePage() {
   });
   const [error, setError] = useState('');
 
-  // 개발용 이메일 (실제로는 URL 파라미터나 상태에서 가져와야 함)
-  const userEmail = 'klaci@korea.kr';
-  const userType = '정부/공공기관 회원';
   const reportReservationLink = 'https://dev.klaci.kr';
   const termsLink = 'https://dev.klaci.kr';
   const privacyLink = 'https://dev.klaci.kr';
   const marketingLink = 'https://dev.klaci.kr';
+
+  // URL에서 토큰 추출
+  const getTokenFromUrl = () => {
+    // 1. URL 파라미터에서 토큰 찾기
+    const token =
+      searchParams.get('token') ||
+      searchParams.get('access_token') ||
+      searchParams.get('refresh_token');
+
+    if (token) return token;
+
+    // 2. 해시 파라미터에서 토큰 찾기 (Supabase가 자주 사용)
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.substring(1);
+      const hashParams = new URLSearchParams(hash);
+      const hashToken =
+        hashParams.get('access_token') || hashParams.get('refresh_token');
+      if (hashToken) return hashToken;
+    }
+
+    return null;
+  };
+
+  const token = getTokenFromUrl();
+
+  // 토큰으로 사용자 정보 가져오기
+  useEffect(() => {
+    const getUserInfo = async () => {
+      if (token && typeof window !== 'undefined') {
+        try {
+          // 환경변수 확인
+          const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+          const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+          
+          if (!supabaseUrl || !supabaseKey) {
+            console.error('Supabase environment variables are not set');
+            return;
+          }
+
+          const supabase = createClient(supabaseUrl, supabaseKey);
+          const { data: { user }, error } = await supabase.auth.getUser(token);
+          
+          if (user && !error) {
+            setUserEmail(user.email || '');
+            // 이메일 도메인에 따른 사용자 타입 설정
+            const domain = user.email?.split('@')[1];
+            if (domain?.includes('korea.kr') || domain?.includes('go.kr')) {
+              setUserType('정부/공공기관 회원');
+            } else if (domain?.includes('ac.kr')) {
+              setUserType('대학교 회원');
+            } else {
+              setUserType('일반 회원');
+            }
+          }
+        } catch (error) {
+          console.error('Failed to get user info:', error);
+        }
+      }
+    };
+
+    getUserInfo();
+  }, [token]);
+
+  // 토큰 체크와 리디렉션 로직
+  useEffect(() => {
+    if (!token) {
+      console.log('No token found in URL');
+      router.push('/auth/signup');
+    } else {
+      console.log('Token found:', token.substring(0, 20) + '...');
+    }
+  }, [token, router]);
 
   // 블러 이벤트 핸들러들
   const handleNameBlur = () => {
@@ -99,51 +170,17 @@ export default function SignUpProfilePage() {
   const handleInterestProvinceChange = (provinceId: string) => {
     setFormData((prev) => ({
       ...prev,
-      interestProvinceId: provinceId,
-      interestDistrictId: '', // 광역 변경 시 지자체 초기화
+      provinceId,
+      regionId: '', // 광역 변경 시 지자체 초기화
     }));
   };
 
   const handleInterestDistrictChange = (districtId: string) => {
     setFormData((prev) => ({
       ...prev,
-      interestDistrictId: districtId,
+      regionId: districtId,
     }));
   };
-
-  // URL에서 토큰 추출 - Supabase는 여러 형태의 토큰을 사용할 수 있음
-  const getTokenFromUrl = () => {
-    // 1. URL 파라미터에서 토큰 찾기
-    const token =
-      searchParams.get('token') ||
-      searchParams.get('access_token') ||
-      searchParams.get('refresh_token');
-
-    if (token) return token;
-
-    // 2. 해시 파라미터에서 토큰 찾기 (Supabase가 자주 사용)
-    if (typeof window !== 'undefined') {
-      const hash = window.location.hash.substring(1);
-      const hashParams = new URLSearchParams(hash);
-      const hashToken =
-        hashParams.get('access_token') || hashParams.get('refresh_token');
-      if (hashToken) return hashToken;
-    }
-
-    return null;
-  };
-
-  const token = getTokenFromUrl();
-
-  // 개발 편의를 위해 토큰 체크와 리디렉션 주석처리
-  // useEffect(() => {
-  //   if (!token) {
-  //     console.log('No token found in URL');
-  //     router.push('/auth/signup');
-  //   } else {
-  //     console.log('Token found:', token.substring(0, 20) + '...');
-  //   }
-  // }, [token, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -165,15 +202,11 @@ export default function SignUpProfilePage() {
         password: formData.password,
         organization: formData.organization,
         phoneNumber: formData.phoneNumber,
-        // 관심 지역 정보 추가
-        provinceId: formData.interestProvinceId,
-        districtId: formData.interestDistrictId,
-        // 동의 항목들 추가
+        regionId: formData.regionId,
         agreeToAge: formData.agreeToAge,
         agreeToTerms: formData.agreeToTerms,
         agreeToPrivacy: formData.agreeToPrivacy,
         agreeToMarketing: formData.agreeToMarketing,
-        // 사전예약 신청
         agreeToReportReservation: formData.agreeToReportReservation,
       });
 
@@ -209,18 +242,18 @@ export default function SignUpProfilePage() {
     window.open(marketingLink, '_blank');
   };
 
-  // 개발 편의를 위해 토큰 체크 제거
-  // if (!token) {
-  //   return (
-  //     <div className="min-h-screen w-full flex items-center justify-center" style={{ backgroundColor: '#F4F4F4' }}>
-  //       <div className="text-center">
-  //         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
-  //         <p className="text-gray-600">인증 정보를 확인 중입니다...</p>
-  //         <p className="text-sm text-gray-500 mt-2">잠시 후 자동으로 회원가입 페이지로 이동합니다.</p>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  // 토큰 체크 로직
+  if (!token) {
+    return (
+      <div className="min-h-screen w-full flex items-center justify-center" style={{ backgroundColor: '#F4F4F4' }}>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">인증 정보를 확인 중입니다...</p>
+          <p className="text-sm text-gray-500 mt-2">잠시 후 자동으로 회원가입 페이지로 이동합니다.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -392,10 +425,18 @@ export default function SignUpProfilePage() {
                 </span>
               </div>
               <InterestRegionSelect
-                selectedProvinceId={formData.interestProvinceId}
-                selectedDistrictId={formData.interestDistrictId}
-                onProvinceChange={handleInterestProvinceChange}
-                onDistrictChange={handleInterestDistrictChange}
+                selectedProvinceId={formData.provinceId}
+                selectedRegionId={formData.regionId}
+                onProvinceChange={(provinceId) => {
+                  setFormData((prev) => ({
+                    ...prev,
+                    provinceId,
+                    regionId: '', // province가 변경되면 region 초기화
+                  }));
+                }}
+                onRegionChange={(regionId) => {
+                  setFormData((prev) => ({ ...prev, regionId }));
+                }}
               />
             </div>
 
@@ -531,11 +572,11 @@ export default function SignUpProfilePage() {
                 <input
                   type="checkbox"
                   id="agreeToServiceTerms"
-                  checked={formData.agreeToServiceTerms}
+                  checked={formData.agreeToTerms}
                   onChange={(e) =>
                     setFormData({
                       ...formData,
-                      agreeToServiceTerms: e.target.checked,
+                      agreeToTerms: e.target.checked,
                     })
                   }
                   style={{
