@@ -1,7 +1,9 @@
 'use client';
 
-import CategoryDetailModal from '@/components/ui/CategoryDetailModal';
+import IndexModal from '@/components/atoms/modal/IndexModal';
 import { NUM_OF_REGIONS } from '@/constants/data';
+import { IndexData } from '@/features/results/sections/StrenthWeaknessIndexSection';
+import { useDistrict } from '@/store';
 import { CategoryData, CategoryRank } from '@/types/category';
 import React, { useEffect, useState } from 'react';
 import CategoryRankGrid from './CategoryScoreGrid';
@@ -16,9 +18,14 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
   categoryData,
 }) => {
   const { title, color, currentRank, description, rank } = categoryData;
-  const [selectedRank, setSelectedRank] = useState<CategoryRank | null>(null);
+  const [selectedIndexData, setSelectedIndexData] = useState<IndexData | null>(
+    null,
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
+
+  // Zustand store에서 선택된 지역 정보 가져오기
+  const { selectedRegion } = useDistrict();
 
   // Hydration 에러 방지를 위한 클라이언트 사이드 렌더링
   useEffect(() => {
@@ -26,8 +33,28 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
   }, []);
 
   const handleRankClick = (rank: CategoryRank) => {
-    setSelectedRank(rank);
+    if (!selectedRegion) return;
+
+    // CategoryRank에 이미 description이 포함되어 있으므로 직접 사용
+    const indexDescription = rank.description || '설명이 없습니다.';
+
+    // IndexData 형태로 변환
+    const indexData: IndexData = {
+      fullRegionName: `${selectedRegion.province.name} ${selectedRegion.name}`,
+      category: title,
+      indexId: rank.key_index_id,
+      indexName: rank.name,
+      indexRank: rank.rank,
+      indexDescription,
+    };
+
+    setSelectedIndexData(indexData);
     setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedIndexData(null);
   };
 
   const isFirstIndex = index === 0;
@@ -177,12 +204,14 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
         />
       </div>
 
-      <CategoryDetailModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        rank={selectedRank}
-        color={color}
-      />
+      {/* IndexModal 사용 */}
+      {selectedIndexData && (
+        <IndexModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          data={selectedIndexData}
+        />
+      )}
     </div>
   );
 };

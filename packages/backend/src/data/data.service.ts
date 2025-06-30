@@ -4,11 +4,11 @@ import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Cache } from 'cache-manager';
 import {
-    CategoryKeyIndexRank,
-    Region,
-    RegionKeyIndexRank,
-    RegionsResponse,
-    RegionWithDetails,
+  CategoryKeyIndexRank,
+  Region,
+  RegionKeyIndexRank,
+  RegionsResponse,
+  RegionWithDetails,
 } from './types/region.types';
 
 export const REGION_SCORE_TYPES = {
@@ -36,16 +36,13 @@ export class DataService {
 
   async getRegions(limit?: number, offset?: number): Promise<RegionsResponse> {
     const cacheKey = `regions:limit=${limit ?? 'none'}:offset=${offset ?? 'none'}`;
-    console.log('�� Checking cache for key:', cacheKey);
 
     let regionsResponse =
       await this.cacheManager.get<RegionsResponse>(cacheKey);
     if (regionsResponse) {
-      console.log('✅ Cache HIT - returning cached data');
       return regionsResponse;
     }
 
-    console.log('❌ Cache MISS - fetching from database');
     let query = this.supabase
       .from('regions')
       .select(
@@ -67,10 +64,6 @@ export class DataService {
 
     const { data, error, count } = await query;
 
-    console.log('data', data);
-    console.log('error', error);
-    console.log('count', count);
-
     if (error) {
       throw error;
     }
@@ -84,7 +77,6 @@ export class DataService {
       },
     };
 
-    console.log('💾 Storing in cache with key:', cacheKey);
     await this.cacheManager.set(cacheKey, regionsResponse, 300);
     return regionsResponse;
   }

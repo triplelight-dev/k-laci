@@ -13,8 +13,9 @@ interface IndexModalProps {
 const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
   if (!isOpen) return null;
 
-  console.log('data', data);
   const topPercentage = ((data.indexRank / NUM_OF_REGIONS) * 100).toFixed(1);
+  const { indexId } = data;
+  console.log('i am gonna get desctription with this indexId', indexId);
 
   return (
     <div

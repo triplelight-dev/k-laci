@@ -82,7 +82,7 @@ function ResultsPageContent() {
       
       setHasLoadedDefault(true);
     } catch (error) {
-      console.error('기본 데이터 로드 실패:', error);
+      // 기본 데이터 로드 실패 시 무시
     }
   };
 

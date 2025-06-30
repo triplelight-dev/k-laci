@@ -3,6 +3,7 @@ export interface CategoryRank {
   value: number;
   rank: number;
   description?: string;
+  key_index_id: number;
 }
 
 export interface CategoryData {

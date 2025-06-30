@@ -42,8 +42,6 @@ const IndexItem: React.FC<{
 }> = ({ data, onClick }) => {
   const categoryColor = colorMap[data.category] || '#874FFF';
 
-  console.log('indexitemdata', data);
-
   return (
     <div
       style={{
@@ -103,8 +101,6 @@ const IndexSection: React.FC<{
   isStrength?: boolean;
   onItemClick: (data: IndexData) => void;
 }> = ({ title, data, onItemClick }) => {
-  console.log('index section data!!!:', data);
-
   return (
     <div
       style={{
@@ -194,8 +190,6 @@ const StrengthWeaknessIndexSection: React.FC = () => {
     }
 
     const fullRegionName = `${selectedRegion.province.name} ${selectedRegion.name} `;
-
-    console.log('#################### selectedRegion', selectedRegion);
 
     // top 배열을 strengthData로 변환
     setStrengthData(
