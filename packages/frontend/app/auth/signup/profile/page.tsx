@@ -17,14 +17,35 @@ export default function SignUpProfilePage() {
   });
   const [error, setError] = useState('');
 
-  // URL에서 토큰 추출 (Supabase는 여러 형태의 토큰을 사용할 수 있음)
-  const token = searchParams.get('token') || 
-                searchParams.get('access_token') || 
-                searchParams.get('refresh_token');
+  // URL에서 토큰 추출 - Supabase는 여러 형태의 토큰을 사용할 수 있음
+  const getTokenFromUrl = () => {
+    // 1. URL 파라미터에서 토큰 찾기
+    const token = searchParams.get('token') || 
+                  searchParams.get('access_token') || 
+                  searchParams.get('refresh_token');
+    
+    if (token) return token;
+
+    // 2. 해시 파라미터에서 토큰 찾기 (Supabase가 자주 사용)
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.substring(1);
+      const hashParams = new URLSearchParams(hash);
+      const hashToken = hashParams.get('access_token') || 
+                       hashParams.get('refresh_token');
+      if (hashToken) return hashToken;
+    }
+
+    return null;
+  };
+
+  const token = getTokenFromUrl();
 
   useEffect(() => {
     if (!token) {
+      console.log('No token found in URL');
       router.push('/auth/signup');
+    } else {
+      console.log('Token found:', token.substring(0, 20) + '...');
     }
   }, [token, router]);
 
@@ -58,6 +79,7 @@ export default function SignUpProfilePage() {
 
       setShowCompleteModal(true);
     } catch (err: any) {
+      console.error('Signup error:', err);
       setError(err.response?.data?.message || '회원가입 중 오류가 발생했습니다.');
     } finally {
       setIsLoading(false);
@@ -70,6 +92,7 @@ export default function SignUpProfilePage() {
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <p className="text-gray-600">인증 정보를 확인 중입니다...</p>
+          <p className="text-sm text-gray-500 mt-2">잠시 후 자동으로 회원가입 페이지로 이동합니다.</p>
         </div>
       </div>
     );
