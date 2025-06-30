@@ -147,4 +147,23 @@ export class DataController {
 
     return this.dataService.getRegionKeyIndexRanksByYear(regionId, yearNumber);
   }
+
+  @Public()
+  @Get('key-indexes/:id')
+  @ApiOperation({ summary: 'Get key index data by ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns the key index data with the specified ID',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Key index not found',
+  })
+  async getKeyIndexData(@Param('id') id: string) {
+    const indexId = Number(id);
+    if (isNaN(indexId)) {
+      throw new Error('Invalid key index ID');
+    }
+    return this.dataService.getKeyIndexData(indexId);
+  }
 }

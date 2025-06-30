@@ -5,11 +5,11 @@ import { useDistrict } from '@/store';
 import React, { useEffect, useState } from 'react';
 
 // 색상 맵 정의
-const colorMap: Record<string, string> = {
+export const colorMap: Record<string, string> = {
   인구성장력: '#FF3737',
-  경제활동력: '#874FFF',
-  생활기반력: '#24CB71',
-  안전회복력: '#FFA600',
+  경제활동력: '#FFA600',
+  생활기반력: '#874FFF',
+  안전회복력: '#24CB71',
 };
 
 // HEX 색상을 RGBA로 변환하는 함수

@@ -59,6 +59,19 @@ export interface Key {
   // Add appropriate properties for the Key type
 }
 
+export interface KeyIndexData {
+  id: number;
+  code: string;
+  name: string;
+  category: string;
+  description: string;
+  unit?: string;
+  source?: string;
+  calculation_method?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
 export class DataService {
   static async getProvinces(): Promise<ApiResponse<Province[]>> {
     const response = await apiClient.get('/data/provinces');
@@ -83,6 +96,11 @@ export class DataService {
 
   static async getCategories(): Promise<ApiResponse<Category[]>> {
     const response = await apiClient.get('/data/categories');
+    return response.data;
+  }
+
+  static async getKeyIndexData(indexId: number): Promise<ApiResponse<KeyIndexData>> {
+    const response = await apiClient.get(`/data/key-indexes/${indexId}`);
     return response.data;
   }
 } 

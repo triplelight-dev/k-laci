@@ -16,5 +16,6 @@ export const API_ENDPOINTS = {
     REGION: (id: string) => `/data/regions/${id}`,
     PROVINCES_WITH_REGIONS: '/data/provinces-with-regions',
     CATEGORIES: '/data/categories',
+    KEY_INDEX: (id: number) => `/data/key-indexes/${id}`,
   },
 } as const; 

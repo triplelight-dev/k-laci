@@ -5,6 +5,7 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Cache } from 'cache-manager';
 import {
   CategoryKeyIndexRank,
+  KeyIndexData,
   Region,
   RegionKeyIndexRank,
   RegionsResponse,
@@ -477,5 +478,31 @@ export class DataService {
     await this.cacheManager.set(cacheKey, result, 300);
 
     return result;
+  }
+
+  async getKeyIndexData(indexId: number): Promise<KeyIndexData> {
+    const cacheKey = `key_index:${indexId}`;
+    let keyIndexData = await this.cacheManager.get<KeyIndexData>(cacheKey);
+    if (keyIndexData) {
+      return keyIndexData;
+    }
+
+    const { data, error } = await this.supabase
+      .from('key_indexes')
+      .select('*')
+      .eq('id', indexId)
+      .single();
+
+    if (error) {
+      throw error;
+    }
+
+    if (!data) {
+      throw new Error('Key index not found');
+    }
+
+    keyIndexData = data as KeyIndexData;
+    await this.cacheManager.set(cacheKey, keyIndexData, 300);
+    return keyIndexData;
   }
 }

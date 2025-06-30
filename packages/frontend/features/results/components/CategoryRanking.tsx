@@ -1,5 +1,6 @@
 'use client';
 
+import { useKeyIndexData } from '@/api/hooks/useKeyIndexData';
 import IndexModal from '@/components/atoms/modal/IndexModal';
 import { NUM_OF_REGIONS } from '@/constants/data';
 import { IndexData } from '@/features/results/sections/StrenthWeaknessIndexSection';
@@ -27,19 +28,18 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
   // Zustand store에서 선택된 지역 정보 가져오기
   const { selectedRegion } = useDistrict();
 
+  const { getKeyIndexData } = useKeyIndexData();
+
   // Hydration 에러 방지를 위한 클라이언트 사이드 렌더링
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  const handleRankClick = (rank: CategoryRank) => {
+  const handleRankClick = async (rank: CategoryRank) => {
     if (!selectedRegion) return;
 
-    // CategoryRank에 이미 description이 포함되어 있으므로 직접 사용
     const indexDescription = rank.description || '설명이 없습니다.';
-
-    // IndexData 형태로 변환
-    const indexData: IndexData = {
+    let indexData: IndexData = {
       fullRegionName: `${selectedRegion.province.name} ${selectedRegion.name}`,
       category: title,
       indexId: rank.key_index_id,
@@ -47,6 +47,24 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
       indexRank: rank.rank,
       indexDescription,
     };
+
+    // API에서 상세 정보 받아오기
+    let keyIndexDetail: {
+      description?: string;
+      name?: string;
+      source?: string;
+    } = {};
+    try {
+      keyIndexDetail = await getKeyIndexData(rank.key_index_id);
+    } catch (e) {
+      // 에러 시 기본값 유지
+    }
+
+    if (keyIndexDetail && keyIndexDetail.description) {
+      indexData.indexDescription = keyIndexDetail.description;
+    }
+
+    console.log('keyIndexDetail!!!!!!!', keyIndexDetail);
 
     setSelectedIndexData(indexData);
     setIsModalOpen(true);
