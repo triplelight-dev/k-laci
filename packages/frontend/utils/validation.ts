@@ -26,13 +26,21 @@ export const validatePassword = (password: string): ValidationResult => {
   if (password.length > 20) {
     return { isValid: false, message: '비밀번호는 20자 이하로 입력해주세요.' };
   }
-  if (!/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/.test(password)) {
-    return { isValid: false, message: '영어, 숫자, 특수문자를 모두 포함해야 합니다.' };
+  if (
+    !/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/.test(password)
+  ) {
+    return {
+      isValid: false,
+      message: '영어, 숫자, 특수문자를 모두 포함해야 합니다.',
+    };
   }
   return { isValid: true, message: '' };
 };
 
-export const validateConfirmPassword = (confirmPassword: string, password: string): ValidationResult => {
+export const validateConfirmPassword = (
+  confirmPassword: string,
+  password: string,
+): ValidationResult => {
   if (!confirmPassword) {
     return { isValid: false, message: '비밀번호 확인을 입력해주세요.' };
   }
@@ -42,7 +50,9 @@ export const validateConfirmPassword = (confirmPassword: string, password: strin
   return { isValid: true, message: '' };
 };
 
-export const validateOrganization = (organization: string): ValidationResult => {
+export const validateOrganization = (
+  organization: string,
+): ValidationResult => {
   if (!organization.trim()) {
     return { isValid: false, message: '소속을 입력해주세요.' };
   }
@@ -66,7 +76,10 @@ export const validatePhoneNumber = (phoneNumber: string): ValidationResult => {
     return { isValid: false, message: '올바른 휴대폰 번호를 입력해주세요.' };
   }
   if (phoneNumber.length > 11) {
-    return { isValid: false, message: '휴대폰 번호는 11자 이하로 입력해주세요.' };
+    return {
+      isValid: false,
+      message: '휴대폰 번호는 11자 이하로 입력해주세요.',
+    };
   }
   return { isValid: true, message: '' };
 };
@@ -84,7 +97,10 @@ export const validateAgreements = (agreements: {
     return { isValid: false, message: '서비스 이용약관 동의가 필요합니다.' };
   }
   if (!agreements.agreeToPrivacy) {
-    return { isValid: false, message: '개인정보 수집 및 이용 동의가 필요합니다.' };
+    return {
+      isValid: false,
+      message: '개인정보 수집 및 이용 동의가 필요합니다.',
+    };
   }
   return { isValid: true, message: '' };
 };
@@ -99,10 +115,13 @@ export const validateSignupForm = (formData: {
   agreeToAge: boolean;
   agreeToTerms: boolean;
   agreeToPrivacy: boolean;
-}) => {
+}): ValidationResult => {
   const nameValidation = validateName(formData.name);
   const passwordValidation = validatePassword(formData.password);
-  const confirmPasswordValidation = validateConfirmPassword(formData.confirmPassword, formData.password);
+  const confirmPasswordValidation = validateConfirmPassword(
+    formData.confirmPassword,
+    formData.password,
+  );
   const organizationValidation = validateOrganization(formData.organization);
   const phoneNumberValidation = validatePhoneNumber(formData.phoneNumber);
   const agreementsValidation = validateAgreements({
@@ -111,18 +130,26 @@ export const validateSignupForm = (formData: {
     agreeToPrivacy: formData.agreeToPrivacy,
   });
 
+  const isValid =
+    nameValidation.isValid &&
+    passwordValidation.isValid &&
+    confirmPasswordValidation.isValid &&
+    organizationValidation.isValid &&
+    phoneNumberValidation.isValid &&
+    agreementsValidation.isValid;
+
+  // 첫 번째 에러 메시지 반환
+  const errorMessages = [
+    nameValidation.message,
+    passwordValidation.message,
+    confirmPasswordValidation.message,
+    organizationValidation.message,
+    phoneNumberValidation.message,
+    agreementsValidation.message,
+  ].filter((msg): msg is string => msg !== '');
+
   return {
-    name: nameValidation.message,
-    password: passwordValidation.message,
-    confirmPassword: confirmPasswordValidation.message,
-    organization: organizationValidation.message,
-    phoneNumber: phoneNumberValidation.message,
-    agreements: agreementsValidation.message,
-    isValid: nameValidation.isValid && 
-             passwordValidation.isValid && 
-             confirmPasswordValidation.isValid && 
-             organizationValidation.isValid && 
-             phoneNumberValidation.isValid &&
-             agreementsValidation.isValid
+    isValid,
+    message: errorMessages.length > 0 ? errorMessages[0]! : '',
   };
-}; 
+};

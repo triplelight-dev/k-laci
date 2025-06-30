@@ -53,7 +53,7 @@ export default function SignUpProfilePage() {
     organization: false,
     phoneNumber: false,
   });
-  const [error, setError] = useState('');
+  const [, setError] = useState('');
 
   const reportReservationLink = 'https://dev.klaci.kr';
   const termsLink = 'https://dev.klaci.kr';
@@ -166,21 +166,21 @@ export default function SignUpProfilePage() {
     setErrors((prev) => ({ ...prev, phoneNumber: validation.message }));
   };
 
-  // 관심 지역 변경 핸들러
-  const handleInterestProvinceChange = (provinceId: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      provinceId,
-      regionId: '', // 광역 변경 시 지자체 초기화
-    }));
-  };
+  // // 관심 지역 변경 핸들러
+  // const handleInterestProvinceChange = (provinceId: string) => {
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     provinceId,
+  //     regionId: '', // 광역 변경 시 지자체 초기화
+  //   }));
+  // };
 
-  const handleInterestDistrictChange = (districtId: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      regionId: districtId,
-    }));
-  };
+  // const handleInterestDistrictChange = (districtId: string) => {
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     regionId: districtId,
+  //   }));
+  // };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -23,12 +23,12 @@ export default function InterestRegionSelect({
 
   // API에서 가져온 데이터로 province 옵션 생성
   const provinceOptions = provincesWithRegions.map(province => ({
-    value: province.id,
+    value: province.id.toString(),
     label: province.name
   }));
 
   // 선택된 province에 따른 region 옵션 생성
-  const selectedProvince = provincesWithRegions.find(p => p.id === selectedProvinceId);
+  const selectedProvince = provincesWithRegions.find(p => p.id.toString() === selectedProvinceId);
   const regionOptions = selectedProvince?.regions?.map(region => ({
     value: region.id,
     label: region.name
