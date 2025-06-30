@@ -37,17 +37,70 @@ body {
   position: relative;
 }
 
+/* Global cursor settings */
+* {
+  cursor: default;
+  overscroll-behavior: none;
+  /* Prevent text selection and copy */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /* Prevent context menu */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Allow text selection for input fields and textareas */
+input,
+textarea,
+[contenteditable="true"],
+.selectable {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+/* Clickable elements should have pointer cursor */
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+input[type="file"],
+select,
+textarea,
+a,
+[role="button"],
+[tabindex]:not([tabindex="-1"]),
+.clickable,
+[onclick],
+[data-clickable="true"] {
+  cursor: pointer;
+}
+
+/* Input fields should have text cursor */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+textarea {
+  cursor: text;
+}
+
 /* Ensure full width for root elements */
 #__next,
 main {
   width: 100%;
   min-height: 100vh;
   /* Prevent overscroll bounce on main content */
-  overscroll-behavior: none;
-}
-
-/* Prevent overscroll on all scrollable elements */
-* {
   overscroll-behavior: none;
 }
 

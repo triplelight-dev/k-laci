@@ -75,6 +75,7 @@ export interface KeyIndex {
   code: string;
   name: string;
   category?: string;
+  description?: string;
 }
 
 // Supabase JOIN 결과를 위한 타입 (수정됨)
@@ -120,6 +121,8 @@ export class KeyIndexResponseDto {
   name: string;
   @ApiProperty({ required: false })
   category?: string;
+  @ApiProperty({ required: false })
+  description?: string;
 }
 
 export class RegionKeyIndexRankResponseDto {

@@ -21,10 +21,13 @@ const hexToRgba = (hex: string, alpha: number = 0.2): string => {
 };
 
 // 지수 데이터 타입
-interface IndexData {
+export interface IndexData {
+  fullRegionName: string;
   category: string;
-  value: string;
-  score?: number;
+  indexId: number;
+  indexName: string;
+  indexRank: number;
+  indexDescription: string;
 }
 
 // 기본 데이터 (서버와 클라이언트에서 동일하게 사용)
@@ -38,6 +41,8 @@ const IndexItem: React.FC<{
   onClick: (data: IndexData) => void;
 }> = ({ data, onClick }) => {
   const categoryColor = colorMap[data.category] || '#874FFF';
+
+  console.log('indexitemdata', data);
 
   return (
     <div
@@ -85,7 +90,7 @@ const IndexItem: React.FC<{
           fontWeight: '400',
         }}
       >
-        {data.value}
+        {data.indexName}
       </span>
     </div>
   );
@@ -98,6 +103,8 @@ const IndexSection: React.FC<{
   isStrength?: boolean;
   onItemClick: (data: IndexData) => void;
 }> = ({ title, data, onItemClick }) => {
+  console.log('index section data!!!:', data);
+
   return (
     <div
       style={{
@@ -167,29 +174,12 @@ const StrengthWeaknessIndexSection: React.FC = () => {
 
   const handleItemClick = (data: IndexData) => {
     setSelectedData(data);
-    // setIsModalOpen(true);
+    setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedData(null);
-  };
-
-  const getCategoryIndexByCode = (code: string) => {
-    const firstChar = code.charAt(0);
-
-    switch (firstChar) {
-      case '1':
-        return '인구성장력';
-      case '2':
-        return '경제활동력';
-      case '3':
-        return '생활기반력';
-      case '4':
-        return '안전회복력';
-      default:
-        return '';
-    }
   };
 
   // selectedRegion의 key_index_ranks를 바탕으로 동적으로 데이터 생성
@@ -203,21 +193,31 @@ const StrengthWeaknessIndexSection: React.FC = () => {
       return;
     }
 
+    const fullRegionName = `${selectedRegion.province.name} ${selectedRegion.name} `;
+
+    console.log('#################### selectedRegion', selectedRegion);
+
     // top 배열을 strengthData로 변환
     setStrengthData(
       selectedRegion.key_index_ranks.top.map((item) => ({
-        category: getCategoryIndexByCode(item.key_index.code),
-        value: item.key_index.name,
-        score: 50,
+        fullRegionName,
+        category: item.key_index.category || '',
+        indexId: item.key_index.id || 0,
+        indexName: item.key_index.name || '',
+        indexRank: item.rank || 0,
+        indexDescription: item.key_index.description || '',
       })),
     );
 
     // bottom 배열을 weaknessData로 변환
     setWeaknessData(
       selectedRegion.key_index_ranks.bottom.map((item) => ({
-        category: getCategoryIndexByCode(item.key_index.code),
-        value: item.key_index.name,
-        score: 50,
+        fullRegionName,
+        category: item.key_index.category || '',
+        indexId: item.key_index.id || 0,
+        indexName: item.key_index.name || '',
+        indexRank: item.rank || 0,
+        indexDescription: item.key_index.description || '',
       })),
     );
   }, [selectedRegion]);

@@ -8,6 +8,7 @@ export interface KeyIndex {
   code: string;
   name: string;
   category?: string;
+  description?: string;
 }
 
 export interface RegionKeyIndexRank {

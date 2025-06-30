@@ -1,18 +1,20 @@
 'use client';
 
+import { NUM_OF_REGIONS } from '@/constants/data';
+import { IndexData } from '@/features/results/sections/StrenthWeaknessIndexSection';
 import React from 'react';
 
 interface IndexModalProps {
   isOpen: boolean;
   onClose: () => void;
-  data: {
-    category: string;
-    value: string;
-  };
+  data: IndexData;
 }
 
 const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
   if (!isOpen) return null;
+
+  console.log('data', data);
+  const topPercentage = ((data.indexRank / NUM_OF_REGIONS) * 100).toFixed(1);
 
   return (
     <div
@@ -27,6 +29,7 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: 9999,
+        cursor: 'pointer',
       }}
       onClick={onClose}
     >
@@ -34,10 +37,11 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
         style={{
           display: 'flex',
           width: '800px',
-          height: '430px',
-          borderRadius: '12px',
+          height: '450px',
+          borderRadius: '30px',
           overflow: 'hidden',
           backgroundColor: 'white',
+          cursor: 'default',
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -65,7 +69,7 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
               alignSelf: 'flex-start',
             }}
           >
-            전라북도 전주시
+            {data.fullRegionName}
           </div>
 
           {/* 강점지표 값 */}
@@ -77,7 +81,7 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
               marginTop: '8px',
             }}
           >
-            {data.value}
+            {data.indexName}
           </div>
 
           {/* 순위 */}
@@ -88,7 +92,7 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
               color: '#FF3737',
             }}
           >
-            1위
+            {data.indexRank}위
           </div>
 
           {/* 상위 퍼센트 */}
@@ -99,7 +103,7 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
               color: '#ADB5C4',
             }}
           >
-            상위 54%
+            상위 {topPercentage}%
           </div>
 
           {/* 통계청 */}
@@ -144,7 +148,7 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
                 color: '#474E59',
               }}
             >
-              전라북도 전주시 0.43234점
+              {data.fullRegionName} 000점 (update)
             </div>
             <div
               style={{
@@ -166,8 +170,9 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
             padding: '32px',
             paddingLeft: '50px',
             paddingRight: '50px',
+            paddingTop: '90px',
             display: 'flex',
-            alignItems: 'center',
+            // alignItems: 'center',
             justifyContent: 'center',
           }}
         >
@@ -175,22 +180,12 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
             style={{
               fontSize: '15px',
               fontWeight: '400',
-              color: '#474E59',
-              lineHeight: 1.5,
+              color: 'black',
+              lineHeight: 1.6,
               // textAlign: 'center',
             }}
           >
-            이 지표는 해당 지역의 특성을 나타내는 중요한 지표입니다. 높은 수치는
-            해당 분야에서 지역이 우수한 성과를 보이고 있음을 의미하며, 지역
-            발전과 정책 수립에 중요한 참고 자료로 활용됩니다. 이 지표는 해당
-            지역의 특성을 나타내는 중요한 지표입니다. 높은 수치는 해당 분야에서
-            지역이 우수한 성과를 보이고 있음을 의미하며, 지역 발전과 정책 수립에
-            중요한 참고 자료로 활용됩니다. 이 지표는 해당 지역의 특성을 나타내는
-            중요한 지표입니다. 높은 수치는 해당 분야에서 지역이 우수한 성과를
-            보이고 있음을 의미하며, 지역 발전과 정책 수립에 중요한 참고 자료로
-            활용됩니다. 이 지표는 해당 지역의 특성을 나타내는 중요한 지표입니다.
-            높은 수치는 해당 분야에서 지역이 우수한 성과를 보이고 있음을
-            의미하며, 지역 발전과 정책 수립에 중요한 참고 자료로 활용됩니다.
+            {data.indexDescription}
           </div>
         </div>
       </div>
