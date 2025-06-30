@@ -3,6 +3,7 @@
 import { useRegion } from '@/api/hooks/useRegion';
 import ResultLayout from '@/components/layout/ResultLayout';
 import { useDistrict, useSetSelectedDistrict, useSetSelectedProvince, useSetSelectedRegion } from '@/store';
+import { RegionWithDetails as StoreRegionWithDetails } from '@/store/types/district';
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useRef, useState } from 'react';
 
@@ -23,6 +24,31 @@ interface DistrictData {
   rank: number;
   // 필요한 다른 데이터들...
 }
+
+// API 응답을 store 타입으로 변환하는 함수
+const transformApiRegionToStoreRegion = (apiRegion: any): StoreRegionWithDetails => {
+  return {
+    id: parseInt(apiRegion.id),
+    province_id: parseInt(apiRegion.provinceId),
+    name: apiRegion.name,
+    district_type: apiRegion.district_type,
+    weight_class: apiRegion.weight_class,
+    klaci_code: apiRegion.klaci_code,
+    growth_score: apiRegion.growth_score,
+    economy_score: apiRegion.economy_score,
+    living_score: apiRegion.living_score,
+    safety_score: apiRegion.safety_score,
+    total_score: apiRegion.total_score,
+    total_rank: apiRegion.total_rank,
+    province: {
+      id: parseInt(apiRegion.province.id),
+      name: apiRegion.province.name,
+    },
+    klaci: apiRegion.klaci,
+    category_ranks: apiRegion.category_ranks,
+    key_index_ranks: apiRegion.key_index_ranks,
+  };
+};
 
 // 실제 페이지 컴포넌트
 function ResultsPageContent() {
@@ -46,23 +72,13 @@ function ResultsPageContent() {
     if (hasLoadedDefault) return; // 이미 로드했다면 중복 실행 방지
     
     try {
-      const defaultRegion = await getRegion('1'); // region_id: 1로 기본 데이터 로드
-      setSelectedRegion(defaultRegion);
+      const apiResponse = await getRegion('1'); // region_id: 1로 기본 데이터 로드
+      const storeRegion = transformApiRegionToStoreRegion(apiResponse);
+      setSelectedRegion(storeRegion);
       
       // 기본 province와 district도 설정
-      if (defaultRegion.province) {
-        // province ID를 숫자로 변환하여 설정
-        const provinceId = parseInt(defaultRegion.province.id);
-        if (!isNaN(provinceId)) {
-          setSelectedProvince(provinceId);
-        }
-      }
-      
-      // district ID를 숫자로 변환하여 설정
-      const districtId = parseInt(defaultRegion.id);
-      if (!isNaN(districtId)) {
-        setSelectedDistrict(districtId);
-      }
+      setSelectedProvince(storeRegion.province_id);
+      setSelectedDistrict(storeRegion.id);
       
       setHasLoadedDefault(true);
     } catch (error) {
