@@ -8,7 +8,6 @@ interface CodeVerificationFormProps {
   countdown: number;
   onSubmit: (e: React.FormEvent) => void;
   onResend: () => void;
-  onBackToStep1: () => void;
   formatTime: (seconds: number) => string;
 }
 
@@ -20,7 +19,6 @@ export default function CodeVerificationForm({
   countdown,
   onSubmit,
   onResend,
-  onBackToStep1,
   formatTime,
 }: CodeVerificationFormProps) {
   return (
@@ -43,21 +41,26 @@ export default function CodeVerificationForm({
         onChange={(e) => setVerificationCode(e.target.value)}
         placeholder="인증번호를 입력해주세요"
         required={true}
-        isRequired={true}
+        isRequired={false}
       />
 
-      {/* 카운트다운 */}
+      {/* 카운트다운 - 좌측 정렬로 변경 */}
       {countdown > 0 && (
         <div
           style={{
             fontSize: '14px',
             color: '#6B7280',
-            textAlign: 'center',
+            textAlign: 'left',
+            width: '100%',
+            marginTop: '-10px', // 입력창과의 간격 조정
           }}
         >
           {formatTime(countdown)}
         </div>
       )}
+
+      {/* 간격 추가 */}
+      <div style={{ height: '20px' }}></div>
 
       {/* 인증번호 검증 버튼 */}
       <button
@@ -141,24 +144,6 @@ export default function CodeVerificationForm({
         }}
       >
         {isLoading ? '처리 중...' : '인증번호 재발송'}
-      </button>
-
-      {/* 1/2 단계로 돌아가기 */}
-      <button
-        type="button"
-        onClick={onBackToStep1}
-        style={{
-          background: 'none',
-          border: 'none',
-          padding: 0,
-          fontSize: '14px',
-          color: '#6B7280',
-          textDecoration: 'underline',
-          cursor: 'pointer',
-          fontFamily: 'inherit',
-        }}
-      >
-        다른 이메일로 인증하기
       </button>
     </form>
   );

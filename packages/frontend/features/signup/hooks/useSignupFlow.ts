@@ -134,16 +134,6 @@ export const useSignupFlow = () => {
     }
   };
 
-  // 1/2 단계로 돌아가기
-  const handleBackToStep1 = () => {
-    setIsCodeSent(false);
-    setIsVerified(false);
-    setVerificationCode('');
-    setCountdown(0);
-    setError('');
-    setVerificationError('');
-  };
-
   // 회원가입 완료
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -210,13 +200,12 @@ export const useSignupFlow = () => {
     showCompleteModal,
     userType,
     formData,
-    setFormData: (data: SignupFormData | ((prev: SignupFormData) => SignupFormData)) => setFormData(data),
+    setFormData,
     
     // Handlers
     handleEmailSubmit,
     handleCodeSubmit,
     handleResendCode,
-    handleBackToStep1,
     handleSubmit,
     handleStart,
     formatTime,

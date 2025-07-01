@@ -45,6 +45,7 @@ export default function ProfileForm({
     organization: '',
     phoneNumber: '',
   });
+  
   const [touched, setTouched] = useState({
     name: false,
     password: false,
@@ -58,7 +59,7 @@ export default function ProfileForm({
   const [selectedRegionId, setSelectedRegionId] = useState<string>('');
 
   // React Query 사용
-  const { data: provincesWithRegions = [], error } = useProvincesWithRegions();
+  const { data: provincesWithRegions = [] } = useProvincesWithRegions();
 
   // 블러 이벤트 핸들러들
   const handleNameBlur = () => {
@@ -162,9 +163,7 @@ export default function ProfileForm({
           setFormData({ ...formData, confirmPassword: e.target.value })
         }
         passwordError={touched.password ? errors.password : ''}
-        confirmPasswordError={
-          touched.confirmPassword ? errors.confirmPassword : ''
-        }
+        confirmPasswordError={touched.confirmPassword ? errors.confirmPassword : ''}
         onPasswordBlur={handlePasswordBlur}
         onConfirmPasswordBlur={handleConfirmPasswordBlur}
       />

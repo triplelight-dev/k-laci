@@ -5,9 +5,9 @@ import CodeVerificationSection from '@/features/signup/sections/CodeVerification
 import EmailVerificationSection from '@/features/signup/sections/EmailVerificationSection';
 import ProfileSection from '@/features/signup/sections/ProfileSection';
 import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 
-export default function SignUpPage() {
+function SignUpPageContent() {
   const searchParams = useSearchParams();
   const isDevMode = searchParams.get('dev') === 'true';
   const devUserType = searchParams.get('userType') as 'GOV' | 'EDU' | 'GENERAL' | null;
@@ -35,7 +35,6 @@ export default function SignUpPage() {
     handleEmailSubmit,
     handleCodeSubmit,
     handleResendCode,
-    handleBackToStep1,
     handleSubmit,
     handleStart,
     formatTime,
@@ -103,7 +102,6 @@ export default function SignUpPage() {
         countdown={countdown}
         onSubmit={handleCodeSubmit}
         onResend={handleResendCode}
-        onBackToStep1={handleBackToStep1}
         formatTime={formatTime}
         verificationError={verificationError}
       />
@@ -118,5 +116,46 @@ export default function SignUpPage() {
       onSubmit={handleEmailSubmit}
       error={error}
     />
+  );
+}
+
+// 로딩 컴포넌트
+function SignUpPageLoading() {
+  return (
+    <div
+      style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#F4F4F4',
+      }}
+    >
+      <div
+        style={{
+          width: '16px',
+          height: '16px',
+          border: '2px solid #000000',
+          borderTop: '2px solid transparent',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite',
+        }}
+      ></div>
+      <style jsx>{`
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+export default function SignUpPage() {
+  return (
+    <Suspense fallback={<SignUpPageLoading />}>
+      <SignUpPageContent />
+    </Suspense>
   );
 }

@@ -8,7 +8,6 @@ interface CodeVerificationSectionProps {
   countdown: number;
   onSubmit: (e: React.FormEvent) => void;
   onResend: () => void;
-  onBackToStep1: () => void;
   formatTime: (seconds: number) => string;
   verificationError: string;
 }
@@ -21,7 +20,6 @@ export default function CodeVerificationSection({
   countdown,
   onSubmit,
   onResend,
-  onBackToStep1,
   formatTime,
   verificationError,
 }: CodeVerificationSectionProps) {
@@ -93,7 +91,6 @@ export default function CodeVerificationSection({
             countdown={countdown}
             onSubmit={onSubmit}
             onResend={onResend}
-            onBackToStep1={onBackToStep1}
             formatTime={formatTime}
           />
 
