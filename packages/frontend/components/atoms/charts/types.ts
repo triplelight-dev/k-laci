@@ -10,6 +10,7 @@ export interface RadarChartProps {
     economy_score?: number;
     living_score?: number;
     safety_score?: number;
+    klaci_code?: string;
   };
 }
 
@@ -43,6 +44,7 @@ export interface RadarChartContext {
     economy_score?: number;
     living_score?: number;
     safety_score?: number;
+    klaci_code?: string;
   };
 }
 

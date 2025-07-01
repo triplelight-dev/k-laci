@@ -17,6 +17,11 @@ const JewelRadarChart = ({
   const radius = size * 0.4;
   const jewelSize = isJewel ? radius * 2 : size;
 
+  // 라벨이 잘리지 않도록 전체 SVG 크기와 viewBox를 더 크게 설정
+  const padding = size * 0.2; // 20% 패딩
+  const svgSize = size + padding * 2;
+  const svgCenter = center + padding;
+
   // 폰트 크기 비율 계산
   const fontSize = {
     category: Math.round(size * 0.028),
@@ -67,8 +72,8 @@ const JewelRadarChart = ({
     const angle = -Math.PI / 2 + rotation + i * angleStep;
     const r = (value / 100) * radius;
     return {
-      x: center + r * Math.cos(angle),
-      y: center + r * Math.sin(angle),
+      x: svgCenter + r * Math.cos(angle),
+      y: svgCenter + r * Math.sin(angle),
       angle,
     };
   });
@@ -86,7 +91,7 @@ const JewelRadarChart = ({
   ];
 
   const context: RadarChartContext = {
-    center,
+    center: svgCenter,
     radius,
     size,
     jewelSize,
@@ -98,36 +103,30 @@ const JewelRadarChart = ({
     points,
     vals,
     fixedColorPairs,
-    regionData,
+    regionData: regionData || {},
   };
 
   return (
     <svg
-      width={jewelSize}
-      height={jewelSize}
+      width={svgSize}
+      height={svgSize}
       style={{
         display: 'block',
         margin: 0,
         padding: 0,
         cursor: 'pointer',
       }}
-      viewBox={
-        isJewel
-          ? `${center - radius} ${center - radius} ${radius * 2} ${radius * 2}`
-          : `0 0 ${size} ${size}`
-      }
+      viewBox={`0 0 ${svgSize} ${svgSize}`}
       className="radar-chart"
     >
       {/* 라벨 마스크 */}
       {!isJewel && (
         <defs>
           <mask id="labelMask">
-            <rect width={jewelSize} height={jewelSize} fill="white" />
+            <rect width={svgSize} height={svgSize} fill="white" />
             {points.map((pt, i) => {
-              const x =
-                center + (radius + labelOffset.category) * Math.cos(pt.angle);
-              const y =
-                center + (radius + labelOffset.category) * Math.sin(pt.angle);
+              const x = pt.x;
+              const y = pt.y;
               return (
                 <circle
                   key={i}
