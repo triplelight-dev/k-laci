@@ -152,8 +152,6 @@ const RadarJewel = ({ context, imageUrl }: RadarJewelProps) => {
               d={`M${center},${center} L${pt.x},${pt.y} L${next.x},${next.y} Z`}
               fill={`url(#grad${i})`}
               fillOpacity={0.7}
-              stroke="white"
-              strokeWidth={1}
               className="jewel-triangle"
               style={{
                 transition: 'opacity 0.3s ease',
@@ -162,26 +160,7 @@ const RadarJewel = ({ context, imageUrl }: RadarJewelProps) => {
           );
         })}
 
-      {/* 보석 테두리 (이미지가 있을 때도 표시) */}
-      {imageUrl &&
-        points.map((pt, i) => {
-          const next = points[(i + 1) % numAxes];
-          if (!next) return null;
-
-          return (
-            <path
-              key={`border-${i}`}
-              d={`M${center},${center} L${pt.x},${pt.y} L${next.x},${next.y} Z`}
-              fill="none"
-              stroke="white"
-              strokeWidth={1}
-              className="jewel-triangle"
-              style={{
-                transition: 'opacity 0.3s ease',
-              }}
-            />
-          );
-        })}
+      {/* 보석 테두리 완전 제거 */}
     </>
   );
 };
