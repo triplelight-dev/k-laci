@@ -1,6 +1,8 @@
 'use client';
 
 import { AuthService } from '@/api/services/auth.service';
+import { HeaderAuthButton } from '@/components/atoms/buttons/HeaderAuthButton';
+import { ROUTES } from '@/constants/data';
 import { useIsLoggedIn, useLogout, useUser } from '@/store';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -19,17 +21,17 @@ const Header = () => {
 
   // Navigation 메뉴 데이터
   const navigationItems = [
-    // {
-    //   href: '/about',
-    //   label: '지역자산역량지수 소개',
-    // },
-    // {
-    //   href: '/summary',
-    //   label: '주요 분석 결과',
-    // },
     {
-      href: '/results',
-      label: '지자체별 리포트 조회',
+      href: ROUTES.ABOUT,
+      label: '소개',
+    },
+    {
+      href: ROUTES.SUMMARY,
+      label: '주요 결과',
+    },
+    {
+      href: ROUTES.RESULT,
+      label: '지자체 조회',
     },
   ];
 
@@ -38,7 +40,10 @@ const Header = () => {
       // 서버에 로그아웃 요청
       await AuthService.signOut();
     } catch (error) {
-      console.warn('Signout API failed, but continuing with local logout:', error);
+      console.warn(
+        'Signout API failed, but continuing with local logout:',
+        error,
+      );
     } finally {
       // 항상 로컬 상태는 초기화
       logout();
@@ -57,37 +62,48 @@ const Header = () => {
         style={{
           display: 'flex',
           justifyContent: 'space-between',
-          padding: '1.5rem 6rem',
+          alignItems: 'center',
+          width: '80%',
+          margin: '0 auto',
+          padding: '1.5rem 0',
         }}
       >
-        {/* Logo or Title */}
+        {/* 1. 좌측: 로고 */}
         <div
-          className="font-poppins text-[2.1875rem] leading-[110%] font-bold tracking-[-1.05px] text-black"
           style={{
+            flex: '0 0 auto',
             display: 'flex',
-            gap: '35px',
-            // color: 'white',
+            justifyContent: 'flex-start',
+            minWidth: '200px',
           }}
         >
-          <Link href="/">
-            <img
-              src={logoSrc}
-              alt="K-LACI Logo"
-              style={{ height: '30px', width: 'auto', marginRight: '15px' }}
-            />
-          </Link>
+          <div
+            className="font-poppins text-[2.1875rem] leading-[110%] font-bold tracking-[-1.05px] text-black"
+            style={{
+              display: 'flex',
+              gap: '35px',
+            }}
+          >
+            <Link href="/">
+              <img
+                src={logoSrc}
+                alt="K-LACI Logo"
+                style={{ height: '30px', width: 'auto', marginRight: '15px' }}
+              />
+            </Link>
+          </div>
         </div>
 
+        {/* 2. 가운데: 페이지 이동 버튼들 */}
         <div
           style={{
+            flex: '1',
             display: 'flex',
-            gap: '50px',
-            // color: 'white',
+            justifyContent: 'center',
+            padding: '0 20px',
           }}
         >
-          {/* Navigation  */}
           <nav className="flex items-center">
-            {/* Menu Links Container */}
             <div className="flex items-center gap-[50px]">
               {navigationItems.map((item) => {
                 const isActive = isActivePage(item.href);
@@ -108,8 +124,17 @@ const Header = () => {
               })}
             </div>
           </nav>
+        </div>
 
-          {/* Auth Buttons */}
+        {/* 3. 우측: 회원가입/로그인 버튼 그룹 */}
+        <div
+          style={{
+            flex: '0 0 auto',
+            display: 'flex',
+            justifyContent: 'flex-end',
+            minWidth: '200px',
+          }}
+        >
           <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
             {isLoggedIn ? (
               <>
@@ -123,61 +148,23 @@ const Header = () => {
                 >
                   {user?.profile.name}님
                 </span>
-                
+
                 {/* 로그아웃 버튼 */}
-                <button
-                  onClick={handleLogout}
-                  style={{
-                    border: '1px solid #1B1C2D',
-                    borderRadius: '8px',
-                    color: '#1B1C2D',
-                    backgroundColor: 'transparent',
-                    cursor: 'pointer',
-                    padding: '10px 25px',
-                    fontSize: '14px',
-                    fontWeight: '500',
-                  }}
-                >
+                <HeaderAuthButton variant="logout" onClick={handleLogout}>
                   로그아웃
-                </button>
+                </HeaderAuthButton>
               </>
             ) : (
               <>
                 {/* Login Button */}
-                <Link href="/auth/login">
-                  <button
-                    style={{
-                      border: '1px solid #1B1C2D',
-                      borderRadius: '8px',
-                      color: '#1B1C2D',
-                      backgroundColor: 'transparent',
-                      cursor: 'pointer',
-                      padding: '10px 25px',
-                      fontSize: '14px',
-                      fontWeight: '500',
-                    }}
-                  >
-                    로그인
-                  </button>
-                </Link>
+                <HeaderAuthButton variant="login" href="/auth/login">
+                  로그인
+                </HeaderAuthButton>
 
                 {/* Signup Button */}
-                <Link href="/auth/signup">
-                  <button
-                    style={{
-                      border: '1px solid #1B1C2D',
-                      borderRadius: '8px',
-                      color: '#1B1C2D',
-                      backgroundColor: 'transparent',
-                      cursor: 'pointer',
-                      padding: '10px 25px',
-                      fontSize: '14px',
-                      fontWeight: '500',
-                    }}
-                  >
-                    회원가입
-                  </button>
-                </Link>
+                <HeaderAuthButton variant="signup" href="/auth/signup">
+                  회원가입
+                </HeaderAuthButton>
               </>
             )}
           </div>
