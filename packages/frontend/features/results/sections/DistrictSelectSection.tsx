@@ -69,11 +69,13 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
   }, [selectedDistrict, getRegion, setSelectedRegion, setRegionLoading]);
 
   const handleProvinceChange = (value: string) => {
-    setSelectedProvince(value ? Number(value) : null);
+    const provinceId = value ? Number(value) : null;
+    setSelectedProvince(provinceId);
   };
 
   const handleDistrictChange = (value: string) => {
-    setSelectedDistrict(value ? Number(value) : null);
+    const districtId = value ? Number(value) : null;
+    setSelectedDistrict(districtId);
   };
 
   // API에서 가져온 데이터로 province 옵션 생성

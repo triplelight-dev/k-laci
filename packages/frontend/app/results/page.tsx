@@ -3,14 +3,14 @@
 import { useRegion } from '@/api/hooks/useRegion';
 import ResultLayout from '@/components/layout/ResultLayout';
 import {
-  useDistrict,
-  useIsLoggedIn,
-  useSetSelectedDistrict,
-  useSetSelectedProvince,
-  useSetSelectedRegion,
+    useDistrict,
+    useIsLoggedIn,
+    useSetSelectedDistrict,
+    useSetSelectedProvince,
+    useSetSelectedRegion,
 } from '@/store';
 import { RegionWithDetails as StoreRegionWithDetails } from '@/store/types/district';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useRef, useState } from 'react';
 
 // sections
@@ -61,16 +61,16 @@ const transformApiRegionToStoreRegion = (
 // 실제 페이지 컴포넌트
 function ResultsPageContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const setSelectedDistrict = useSetSelectedDistrict();
   const setSelectedProvince = useSetSelectedProvince();
   const setSelectedRegion = useSetSelectedRegion();
   const [isFloating, setIsFloating] = useState(false);
   const [districtData, setDistrictData] = useState<DistrictData | null>(null);
   const [showAnimation, setShowAnimation] = useState(false);
-  // const isLoggedIn = true;
   const isLoggedIn = useIsLoggedIn();
-  const hasAnimatedRef = useRef(false); // ref로 애니메이션 실행 여부 추적
-  const [hasLoadedDefault, setHasLoadedDefault] = useState(false); // 기본 데이터 로드 여부 추적
+  const hasAnimatedRef = useRef(false);
+  const [hasLoadedDefault, setHasLoadedDefault] = useState(false);
 
   // Zustand store에서 선택된 지역 정보 가져오기
   const { selectedProvince, selectedDistrict, selectedRegion } = useDistrict();
@@ -78,56 +78,83 @@ function ResultsPageContent() {
 
   // 기본 데이터 로드 함수
   const loadDefaultData = async () => {
-    if (hasLoadedDefault) return; // 이미 로드했다면 중복 실행 방지
+    if (hasLoadedDefault) return;
 
     try {
-      const apiResponse = await getRegion('1'); // region_id: 1로 기본 데이터 로드
+      const apiResponse = await getRegion('1');
       const storeRegion = transformApiRegionToStoreRegion(apiResponse);
       setSelectedRegion(storeRegion);
-
-      // 기본 province와 district도 설정
       setSelectedProvince(storeRegion.province_id);
       setSelectedDistrict(storeRegion.id);
-
       setHasLoadedDefault(true);
     } catch (error) {
       // 기본 데이터 로드 실패 시 무시
     }
   };
 
-  // URL 쿼리 파라미터에서 district ID 가져오기
+  // URL 업데이트 함수
+  const updateURL = (regionId: number | null) => {
+    const params = new URLSearchParams(searchParams.toString());
+    
+    if (regionId) {
+      params.set('regionId', regionId.toString());
+    } else {
+      params.delete('regionId');
+    }
+    
+    const newURL = `${window.location.pathname}?${params.toString()}`;
+    if (newURL !== window.location.pathname + window.location.search) {
+      router.replace(newURL, { scroll: false });
+    }
+  };
+
+  // selectedRegion이 변경될 때 URL 업데이트
   useEffect(() => {
-    const districtId = searchParams.get('district');
-    if (districtId) {
-      setSelectedDistrict(Number(districtId));
-    } else if (!selectedRegion && !hasLoadedDefault) {
-      // URL에 district 파라미터가 없고 selectedRegion도 없고 아직 기본 데이터를 로드하지 않은 경우
+    if (selectedRegion) {
+      updateURL(selectedRegion.id);
+    } else {
+      updateURL(null);
+    }
+  }, [selectedRegion]);
+
+  // URL에서 regionId 읽어와서 상태 업데이트
+  useEffect(() => {
+    const regionId = searchParams.get('regionId');
+    
+    if (regionId && (!selectedRegion || selectedRegion.id !== Number(regionId))) {
+      // URL에 regionId가 있고, 현재 selectedRegion과 다른 경우에만 API 호출
+      const fetchRegionFromURL = async () => {
+        try {
+          const apiResponse = await getRegion(regionId);
+          const storeRegion = transformApiRegionToStoreRegion(apiResponse);
+          setSelectedRegion(storeRegion);
+          setSelectedProvince(storeRegion.province_id);
+          setSelectedDistrict(storeRegion.id);
+        } catch (error) {
+          console.error('Failed to fetch region from URL:', error);
+          // 실패 시 기본 데이터 로드
+          if (!hasLoadedDefault) {
+            loadDefaultData();
+          }
+        }
+      };
+      
+      fetchRegionFromURL();
+    } else if (!regionId && !selectedRegion && !hasLoadedDefault) {
+      // URL에 regionId가 없고 selectedRegion도 없고 아직 기본 데이터를 로드하지 않은 경우
       loadDefaultData();
     }
-  }, [
-    searchParams,
-    setSelectedDistrict,
-    selectedRegion,
-    hasLoadedDefault,
-    getRegion,
-    setSelectedRegion,
-    setSelectedProvince,
-  ]);
+  }, [searchParams]);
 
   // 안전한 지역명 생성 함수
   const getDistrictName = (): string => {
-    // selectedRegion이 있으면 우선 사용
     if (selectedRegion?.province?.name && selectedRegion?.name) {
       return `${selectedRegion.province.name} ${selectedRegion.name}`;
     }
-
-    // selectedProvince와 selectedDistrict가 모두 유효한 객체이고 name 속성이 있는 경우
     if (selectedProvince?.name && selectedDistrict?.name) {
       return `${selectedProvince.name} ${selectedDistrict.name}`;
     }
-
-    // 둘 중 하나라도 없거나 name 속성이 없는 경우
-    return '전라북도 전주시'; // 기본값
+    return '전라북도 전주시';
   };
 
   // 지자체 데이터 동적 생성
