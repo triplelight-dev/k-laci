@@ -1,9 +1,11 @@
 'use client';
 
+import { useRegion } from '@/api/hooks/useRegion';
+import RankArrowButton from '@/components/atoms/buttons/RankArrowButton';
 import JewelRadarChart from '@/components/atoms/charts/RadarChart';
 import KlaciCodeCircles from '@/components/atoms/circle/KlaciCodeCircles';
-import { useDistrict } from '@/store';
-import { useEffect, useMemo, useRef } from 'react';
+import { useDistrict, useSetSelectedRegion, useStore } from '@/store';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 // 지자체 데이터 타입 정의
 interface DistrictData {
@@ -18,9 +20,13 @@ interface TitleSectionProps {
 
 const TitleSection: React.FC<TitleSectionProps> = () => {
   const { selectedRegion } = useDistrict();
-  // const setSelectedRegion = useSetSelectedRegion();
-  // const isLoggedIn = true;
-  // const hasAnimatedRef = useRef(false);
+  const setSelectedRegion = useSetSelectedRegion();
+  const { getRegion } = useRegion();
+  const [isNavigating, setIsNavigating] = useState(false);
+  const [animatedChartData, setAnimatedChartData] = useState<number[]>([50, 50, 50, 50, 50, 50, 50, 50]);
+
+  // regions 데이터를 직접 가져오기
+  const regions = useStore((state) => state.regions);
 
   // 이전 selectedRegion 값을 유지하기 위한 ref
   const previousRegionRef = useRef(selectedRegion);
@@ -31,6 +37,48 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
       previousRegionRef.current = selectedRegion;
     }
   }, [selectedRegion]);
+
+  // regionId 기준으로 정렬된 regions 배열
+  const sortedRegions = useMemo(() => {
+    if (!regions || !Array.isArray(regions)) return [];
+    return [...regions].sort((a, b) => a.id - b.id);
+  }, [regions]);
+
+  // 현재 region의 이전/다음 region 찾기
+  const getAdjacentRegions = useMemo(() => {
+    if (!selectedRegion) return { prev: null, next: null };
+    
+    const currentIndex = sortedRegions.findIndex(region => region.id === selectedRegion.id);
+    if (currentIndex === -1) return { prev: null, next: null };
+    
+    return {
+      prev: currentIndex > 0 ? sortedRegions[currentIndex - 1] : null,
+      next: currentIndex < sortedRegions.length - 1 ? sortedRegions[currentIndex + 1] : null,
+    };
+  }, [selectedRegion, sortedRegions]);
+
+  // 이전/다음 region으로 이동하는 함수
+  const navigateToRegion = async (region: any) => {
+    if (!region || isNavigating) return;
+    
+    setIsNavigating(true);
+    try {
+      const regionDetails = await getRegion(String(region.id));
+      setSelectedRegion({
+        ...regionDetails,
+        id: Number(regionDetails.id),
+        province_id: Number(regionDetails.provinceId),
+        province: {
+          id: Number(regionDetails.province.id),
+          name: regionDetails.province.name,
+        },
+      });
+    } catch (error) {
+      console.error('Failed to navigate to region:', error);
+    } finally {
+      setIsNavigating(false);
+    }
+  };
 
   // 차트 데이터를 동적으로 생성하는 함수
   const generateChartData = (region: any): number[] => {
@@ -64,12 +112,43 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
   const currentRegion = selectedRegion || previousRegionRef.current;
 
   // selectedRegion가 변경될 때마다 차트 데이터 재계산
-  const chartData = useMemo(() => {
+  const targetChartData = useMemo(() => {
     return generateChartData(currentRegion);
   }, [currentRegion]);
-  // const chartData = [100, 100, 100, 100, 100, 100, 100, 100];
 
-  // URL 업데이트 로직 제거 - SPA 방식으로 변경
+  // 애니메이션 효과를 위한 useEffect
+  useEffect(() => {
+    const duration = 500; // 0.8초로 늘림
+    const steps = 40; // 60단계로 더 세밀하게
+    const stepDuration = duration / steps;
+    
+    let currentStep = 0;
+    
+    const animate = () => {
+      if (currentStep >= steps) {
+        setAnimatedChartData(targetChartData);
+        return;
+      }
+      
+      const progress = currentStep / steps;
+      // 더 부드러운 ease-out 효과 (cubic-bezier)
+      const easeProgress = 1 - Math.pow(1 - progress, 4);
+      
+      const newData = animatedChartData.map((currentValue, index) => {
+        const targetValue = targetChartData[index];
+        if (targetValue === undefined) return currentValue;
+        const diff = targetValue - currentValue;
+        return currentValue + (diff * easeProgress);
+      });
+      
+      setAnimatedChartData(newData);
+      currentStep++;
+      
+      setTimeout(animate, stepDuration);
+    };
+    
+    animate();
+  }, [targetChartData]);
 
   // 안전한 지역명 생성 함수
   const getDistrictName = (): string => {
@@ -115,7 +194,7 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
       >
         <JewelRadarChart 
           size={470} 
-          data={chartData} 
+          data={animatedChartData} 
           regionData={currentRegion ? {
             growth_score: currentRegion.growth_score,
             economy_score: currentRegion.economy_score,
@@ -133,6 +212,12 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
           marginBottom: '20px',
         }}
       >
+        {/* 이전 버튼 */}
+        <RankArrowButton
+          direction="left"
+          onClick={() => navigateToRegion(getAdjacentRegions.prev)}
+        />
+        
         {/* 순위 텍스트 */}
         <div
           style={{
@@ -143,6 +228,12 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
         >
           {rankText}
         </div>
+        
+        {/* 다음 버튼 */}
+        <RankArrowButton
+          direction="right"
+          onClick={() => navigateToRegion(getAdjacentRegions.next)}
+        />
       </div>
 
       {/* 지자체 이름 */}

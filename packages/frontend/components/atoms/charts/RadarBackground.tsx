@@ -123,18 +123,20 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
         />
       ))}
 
-      {/* 방사형 축선 */}
-      {points.map((pt, i) => (
-        <line
-          key={i}
-          x1={center}
-          y1={center}
-          x2={center + radius * Math.cos(pt.angle)}
-          y2={center + radius * Math.sin(pt.angle)}
-          stroke="#D9D9E8"
-          strokeWidth={0.5}
-        />
-      ))}
+      {/* 방사형 축선 - 보석 위에서는 보이지 않게 마스크 적용 */}
+      <g mask="url(#jewelMask)">
+        {points.map((pt, i) => (
+          <line
+            key={i}
+            x1={center}
+            y1={center}
+            x2={center + radius * Math.cos(pt.angle)}
+            y2={center + radius * Math.sin(pt.angle)}
+            stroke="#D9D9E8"
+            strokeWidth={0.5}
+          />
+        ))}
+      </g>
 
       {/* 가로 점선 */}
       <line
