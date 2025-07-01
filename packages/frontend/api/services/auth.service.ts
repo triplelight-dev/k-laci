@@ -82,4 +82,14 @@ export class AuthService {
     const response = await apiClient.get('/auth/profile');
     return response.data;
   }
+
+  static async sendVerificationCode(data: SendVerificationEmailRequest): Promise<ApiResponse<SendVerificationEmailResponse>> {
+    const response = await apiClient.post('/auth/send-verification-code', data);
+    return response.data;
+  }
+
+  static async verifyCode(data: { email: string; code: string }): Promise<ApiResponse<{ verified: boolean; message: string }>> {
+    const response = await apiClient.post('/auth/verify-code', data);
+    return response.data;
+  }
 } 
