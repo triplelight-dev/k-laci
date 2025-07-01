@@ -1,11 +1,15 @@
 'use client';
 
+import { useIsLoggedIn, useLogout, useUser } from '@/store';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const Header = () => {
   const pathname = usePathname();
   const logoSrc = '/klaci_logo_black.png';
+  const isLoggedIn = useIsLoggedIn();
+  const user = useUser();
+  const logout = useLogout();
 
   // 현재 페이지 확인 함수
   const isActivePage = (path: string) => {
@@ -28,8 +32,10 @@ const Header = () => {
     },
   ];
 
-  const loginButtonName = '로그인';
-  const signupButtonName = '회원가입';
+  const handleLogout = () => {
+    // Zustand 스토어에서 로그아웃
+    logout();
+  };
 
   return (
     <header
@@ -97,39 +103,75 @@ const Header = () => {
 
           {/* Auth Buttons */}
           <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-            {/* Login Button */}
-            <button
-              style={{
-                border: '1px solid #1B1C2D',
-                borderRadius: '8px',
-                color: '#1B1C2D',
-                backgroundColor: 'transparent',
-                cursor: 'pointer',
-                padding: '10px 25px',
-                fontSize: '14px',
-                fontWeight: '500',
-              }}
-            >
-              {loginButtonName}
-            </button>
+            {isLoggedIn ? (
+              <>
+                {/* 사용자 정보 표시 */}
+                <span
+                  style={{
+                    fontSize: '14px',
+                    color: '#1B1C2D',
+                    marginRight: '10px',
+                  }}
+                >
+                  {user?.profile.name}님
+                </span>
+                
+                {/* 로그아웃 버튼 */}
+                <button
+                  onClick={handleLogout}
+                  style={{
+                    border: '1px solid #1B1C2D',
+                    borderRadius: '8px',
+                    color: '#1B1C2D',
+                    backgroundColor: 'transparent',
+                    cursor: 'pointer',
+                    padding: '10px 25px',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                  }}
+                >
+                  로그아웃
+                </button>
+              </>
+            ) : (
+              <>
+                {/* Login Button */}
+                <Link href="/auth/login">
+                  <button
+                    style={{
+                      border: '1px solid #1B1C2D',
+                      borderRadius: '8px',
+                      color: '#1B1C2D',
+                      backgroundColor: 'transparent',
+                      cursor: 'pointer',
+                      padding: '10px 25px',
+                      fontSize: '14px',
+                      fontWeight: '500',
+                    }}
+                  >
+                    로그인
+                  </button>
+                </Link>
 
-            {/* Signup Button */}
-            <Link href="/auth/signup">
-              <button
-                style={{
-                  border: '1px solid #1B1C2D',
-                  borderRadius: '8px',
-                  color: '#1B1C2D',
-                  backgroundColor: 'transparent',
-                  cursor: 'pointer',
-                  padding: '10px 25px',
-                  fontSize: '14px',
-                  fontWeight: '500',
-                }}
-              >
-                {signupButtonName}
-              </button>
-            </Link>
+                {/* Signup Button */}
+                <Link href="/auth/signup">
+                  <button
+                    style={{
+                      border: '1px solid #1B1C2D',
+                      borderRadius: '8px',
+                      color: '#1B1C2D',
+                      backgroundColor: 'transparent',
+                      cursor: 'pointer',
+                      padding: '10px 25px',
+                      fontSize: '14px',
+                      fontWeight: '500',
+                    }}
+                  >
+                    회원가입
+                  </button>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>
