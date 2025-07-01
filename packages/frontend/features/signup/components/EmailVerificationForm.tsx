@@ -32,7 +32,7 @@ export default function EmailVerificationForm({
     <form
       onSubmit={onSubmit}
       style={{
-        width: '70%',
+        width: '80%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -54,6 +54,7 @@ export default function EmailVerificationForm({
             width: '100%',
             gap: '8px',
             marginTop: '16px',
+            marginBottom: '50px',
           }}
         >
           <UserTypeBadge type="GOV" isActive={userType === 'GOV'} />

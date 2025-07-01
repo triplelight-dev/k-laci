@@ -10,10 +10,10 @@ interface EmailInputProps {
 export default function EmailInput({
   value,
   onChange,
-  placeholder = "이메일 주소 (예: klaci@korea.kr)",
+  placeholder = '이메일 주소 (예: klaci@korea.kr)',
   error,
 }: EmailInputProps) {
-  const [isFocused, setIsFocused] = useState(false);
+  const [, setIsFocused] = useState(false);
 
   return (
     <div style={{ width: '100%' }}>
@@ -50,4 +50,4 @@ export default function EmailInput({
       )}
     </div>
   );
-} 
+}

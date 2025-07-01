@@ -44,7 +44,7 @@ export default function ProfileSection({
         paddingTop: '80px',
       }}
     >
-      <div style={{ width: '100%', maxWidth: '800px', margin: '0 1rem' }}>
+      <div style={{ width: '100%', maxWidth: '600px' }}>
         {/* 메인 컨테이너 */}
         <div
           style={{
@@ -54,7 +54,7 @@ export default function ProfileSection({
             justifyContent: 'center',
             backgroundColor: 'white',
             borderRadius: '50px',
-            padding: '80px 100px',
+            // padding: '80px 100px',
           }}
         >
           {/* 2/2 단계 뱃지 */}
@@ -119,6 +119,36 @@ export default function ProfileSection({
               {error}
             </div>
           )}
+
+          {/* 로그인 링크 */}
+          <div
+            style={{
+              textAlign: 'center',
+              marginTop: '15px',
+            }}
+          >
+            <span
+              style={{
+                fontSize: '14px',
+                color: '#000000',
+              }}
+            >
+              이미 계정이 있으신가요?{' '}
+            </span>
+            <a
+              href="/auth/login"
+              style={{
+                fontSize: '14px',
+                color: '#000000',
+                textDecoration: 'underline',
+                textDecorationColor: '#000000',
+                textDecorationThickness: '1px',
+                fontWeight: '500',
+              }}
+            >
+              로그인 바로가기
+            </a>
+          </div>
         </div>
 
         {/* 회원가입 완료 모달 */}
@@ -130,4 +160,4 @@ export default function ProfileSection({
       </div>
     </div>
   );
-} 
+}

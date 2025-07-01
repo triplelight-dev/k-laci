@@ -25,8 +25,12 @@ export default function UserTypeBadge({ type, isActive }: UserTypeBadgeProps) {
     <div
       style={{
         flex: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '10px',
         padding: '8px 16px',
-        borderRadius: '20px',
+        borderRadius: '16px',
         backgroundColor: isActive ? 'white' : '#F3F4F6',
         color: isActive ? '#000000' : '#6B7280',
         fontSize: '14px',

@@ -110,6 +110,36 @@ export default function CodeVerificationSection({
               {verificationError}
             </div>
           )}
+
+          {/* 로그인 링크 */}
+          <div
+            style={{
+              textAlign: 'center',
+              marginTop: '2rem',
+            }}
+          >
+            <span
+              style={{
+                fontSize: '14px',
+                color: '#000000',
+              }}
+            >
+              이미 계정이 있으신가요?{' '}
+            </span>
+            <a
+              href="/auth/login"
+              style={{
+                fontSize: '14px',
+                color: '#000000',
+                textDecoration: 'underline',
+                textDecorationColor: '#000000',
+                textDecorationThickness: '1px',
+                fontWeight: '500',
+              }}
+            >
+              로그인 바로가기
+            </a>
+          </div>
         </div>
       </div>
     </div>
