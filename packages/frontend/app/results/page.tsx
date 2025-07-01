@@ -2,7 +2,13 @@
 
 import { useRegion } from '@/api/hooks/useRegion';
 import ResultLayout from '@/components/layout/ResultLayout';
-import { useDistrict, useSetSelectedDistrict, useSetSelectedProvince, useSetSelectedRegion } from '@/store';
+import {
+  useDistrict,
+  useIsLoggedIn,
+  useSetSelectedDistrict,
+  useSetSelectedProvince,
+  useSetSelectedRegion,
+} from '@/store';
 import { RegionWithDetails as StoreRegionWithDetails } from '@/store/types/district';
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useRef, useState } from 'react';
@@ -26,7 +32,9 @@ interface DistrictData {
 }
 
 // API 응답을 store 타입으로 변환하는 함수
-const transformApiRegionToStoreRegion = (apiRegion: any): StoreRegionWithDetails => {
+const transformApiRegionToStoreRegion = (
+  apiRegion: any,
+): StoreRegionWithDetails => {
   return {
     id: parseInt(apiRegion.id),
     province_id: parseInt(apiRegion.provinceId),
@@ -59,7 +67,8 @@ function ResultsPageContent() {
   const [isFloating, setIsFloating] = useState(false);
   const [districtData, setDistrictData] = useState<DistrictData | null>(null);
   const [showAnimation, setShowAnimation] = useState(false);
-  const isLoggedIn = true;
+  // const isLoggedIn = true;
+  const isLoggedIn = useIsLoggedIn();
   const hasAnimatedRef = useRef(false); // ref로 애니메이션 실행 여부 추적
   const [hasLoadedDefault, setHasLoadedDefault] = useState(false); // 기본 데이터 로드 여부 추적
 
@@ -70,16 +79,16 @@ function ResultsPageContent() {
   // 기본 데이터 로드 함수
   const loadDefaultData = async () => {
     if (hasLoadedDefault) return; // 이미 로드했다면 중복 실행 방지
-    
+
     try {
       const apiResponse = await getRegion('1'); // region_id: 1로 기본 데이터 로드
       const storeRegion = transformApiRegionToStoreRegion(apiResponse);
       setSelectedRegion(storeRegion);
-      
+
       // 기본 province와 district도 설정
       setSelectedProvince(storeRegion.province_id);
       setSelectedDistrict(storeRegion.id);
-      
+
       setHasLoadedDefault(true);
     } catch (error) {
       // 기본 데이터 로드 실패 시 무시
@@ -95,7 +104,15 @@ function ResultsPageContent() {
       // URL에 district 파라미터가 없고 selectedRegion도 없고 아직 기본 데이터를 로드하지 않은 경우
       loadDefaultData();
     }
-  }, [searchParams, setSelectedDistrict, selectedRegion, hasLoadedDefault, getRegion, setSelectedRegion, setSelectedProvince]);
+  }, [
+    searchParams,
+    setSelectedDistrict,
+    selectedRegion,
+    hasLoadedDefault,
+    getRegion,
+    setSelectedRegion,
+    setSelectedProvince,
+  ]);
 
   // 안전한 지역명 생성 함수
   const getDistrictName = (): string => {
