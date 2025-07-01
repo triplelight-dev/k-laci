@@ -23,12 +23,22 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
 
   return (
     <>
-      {/* 배경 반원 */}
+      {/* 위쪽 반원 배경 (0도 ~ 180도) */}
       <path
         d={`M ${center} ${center} 
             L ${center + radius * Math.cos(0)} ${center + radius * Math.sin(0)}
             A ${radius} ${radius} 0 0 1 
             ${center + radius * Math.cos(Math.PI)} ${center + radius * Math.sin(Math.PI)}
+            Z`}
+        fill="#EBEBEB"
+      />
+
+      {/* 아래쪽 반원 배경 (180도 ~ 360도) */}
+      <path
+        d={`M ${center} ${center} 
+            L ${center + radius * Math.cos(Math.PI)} ${center + radius * Math.sin(Math.PI)}
+            A ${radius} ${radius} 0 0 1 
+            ${center + radius * Math.cos(2 * Math.PI)} ${center + radius * Math.sin(2 * Math.PI)}
             Z`}
         fill="#F4F4F4"
       />
@@ -39,6 +49,16 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
             L ${center + radius * Math.cos(0)} ${center + radius * Math.sin(0)}
             A ${radius} ${radius} 0 0 1 
             ${center + radius * Math.cos(Math.PI)} ${center + radius * Math.sin(Math.PI)}
+            Z`}
+        fill="#EBEBEB"
+        mask="url(#labelMask)"
+      />
+
+      <path
+        d={`M ${center} ${center} 
+            L ${center + radius * Math.cos(Math.PI)} ${center + radius * Math.sin(Math.PI)}
+            A ${radius} ${radius} 0 0 1 
+            ${center + radius * Math.cos(2 * Math.PI)} ${center + radius * Math.sin(2 * Math.PI)}
             Z`}
         fill="#F4F4F4"
         mask="url(#labelMask)"
