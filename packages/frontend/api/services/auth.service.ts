@@ -35,7 +35,7 @@ export interface CompleteSignupRequest {
   token: string;
   organization?: string;
   phoneNumber?: string;
-  regionId?: string;
+  regionId?: number | null;
   userType: 'GOV' | 'EDU' | 'GENERAL';
   agreeToAge: boolean;
   agreeToTerms: boolean;

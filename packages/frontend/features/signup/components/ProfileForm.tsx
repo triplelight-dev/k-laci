@@ -198,8 +198,8 @@ export default function ProfileForm({
         </div>
         <InterestRegionSelect
           selectedRegionId={formData.regionId}
-          onRegionChange={(regionId) => {
-            setFormData((prev) => ({ ...prev, regionId }));
+          onRegionChange={(regionId: string) => {
+            setFormData({ ...formData, regionId });
           }}
         />
       </div>

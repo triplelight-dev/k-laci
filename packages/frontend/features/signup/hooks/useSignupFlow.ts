@@ -156,7 +156,7 @@ export const useSignupFlow = () => {
         password: formData.password,
         name: formData.name,
         phone_number: formData.phoneNumber,
-        interest_region_id: formData.regionId || null,
+        interest_region_id: formData.regionId ? Number(formData.regionId) : null,
         organization: formData.organization,
         user_type: userType,
         agree_to_age: formData.agreeToAge,
@@ -210,7 +210,7 @@ export const useSignupFlow = () => {
     showCompleteModal,
     userType,
     formData,
-    setFormData,
+    setFormData: (data: SignupFormData | ((prev: SignupFormData) => SignupFormData)) => setFormData(data),
     
     // Handlers
     handleEmailSubmit,
