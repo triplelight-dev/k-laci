@@ -27,6 +27,6 @@ export const AUTH_ENDPOINTS = {
   
   // 기존 API들
   SEND_VERIFICATION_EMAIL: '/auth/send-verification-email', // 사용하지 않음
-  SIGNUP: '/auth/signup',
-  SIGNIN: '/auth/signin',
+  SIGNUP: '/auth/sign-up',
+  SIGNIN: '/auth/sign-in',
 } as const; 

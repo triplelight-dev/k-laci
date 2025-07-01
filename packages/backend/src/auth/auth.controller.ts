@@ -1,4 +1,12 @@
-import { Body, Controller, Get, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Headers,
+  HttpStatus,
+  Post,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
@@ -125,8 +133,14 @@ export class AuthController {
     status: 401,
     description: 'Signout failed',
   })
-  async signOut() {
-    return this.authService.signOut();
+  async signOut(@Headers('authorization') authHeader: string) {
+    // Authorization 헤더에서 토큰 추출
+    const token = authHeader?.replace('Bearer ', '');
+    if (!token) {
+      throw new UnauthorizedException('Authorization token is required');
+    }
+
+    return this.authService.signOut(token);
   }
 
   @Get('profile')

@@ -1,13 +1,21 @@
 'use client';
 
+import { getCurrentEnvConfig } from '@/config/environment';
 import { useEffect, useState } from 'react';
 
 export const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(false);
+  const envConfig = getCurrentEnvConfig();
 
   useEffect(() => {
+    // 개발 환경에서 설정된 값 사용
+    if (envConfig.isMobile !== null) {
+      setIsMobile(envConfig.isMobile);
+      return;
+    }
+
+    // 프로덕션에서는 실제 디바이스 감지
     const checkIsMobile = () => {
-      // 화면 너비가 768px 이하이거나, User-Agent가 모바일인 경우
       const isMobileByWidth = window.innerWidth <= 768;
       const isMobileByUserAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent
@@ -16,16 +24,13 @@ export const useIsMobile = () => {
       setIsMobile(isMobileByWidth || isMobileByUserAgent);
     };
 
-    // 초기 체크
     checkIsMobile();
-
-    // 리사이즈 이벤트 리스너 추가
     window.addEventListener('resize', checkIsMobile);
 
     return () => {
       window.removeEventListener('resize', checkIsMobile);
     };
-  }, []);
+  }, [envConfig.isMobile]);
 
   return isMobile;
 }; 

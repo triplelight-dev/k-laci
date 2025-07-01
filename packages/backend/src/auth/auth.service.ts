@@ -35,12 +35,31 @@ export class AuthService {
     this.supabase = createClient(supabaseUrl, supabaseKey);
   }
 
-  async signOut() {
-    const { error } = await this.supabase.auth.signOut();
-    if (error) {
-      throw new UnauthorizedException(error.message);
+  async signOut(token: string) {
+    try {
+      // 토큰으로 사용자 확인
+      const {
+        data: { user },
+        error: tokenError,
+      } = await this.supabase.auth.getUser(token);
+
+      if (tokenError || !user) {
+        throw new UnauthorizedException('유효하지 않은 인증 토큰입니다.');
+      }
+
+      // Supabase에서 로그아웃
+      const { error } = await this.supabase.auth.signOut();
+      if (error) {
+        throw new UnauthorizedException(error.message);
+      }
+
+      return { message: 'Successfully signed out' };
+    } catch (error) {
+      if (error instanceof UnauthorizedException) {
+        throw error;
+      }
+      throw new UnauthorizedException('로그아웃 중 오류가 발생했습니다.');
     }
-    return { message: 'Successfully signed out' };
   }
 
   async getSession() {
