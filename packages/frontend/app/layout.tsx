@@ -1,4 +1,4 @@
-import DevAuthProvider from '@/components/DevAuthProvider';
+import AuthPersistenceProvider from '@/components/AuthPersistenceProvider';
 import MobileDetector from '@/components/MobileDetector';
 import Providers from '@/components/Providers';
 import type { Metadata } from 'next';
@@ -43,11 +43,11 @@ export default function RootLayout({
         }}
       >
         <Providers>
-          <DevAuthProvider>
+          <AuthPersistenceProvider>
             <MobileDetector>
               {children}
             </MobileDetector>
-          </DevAuthProvider>
+          </AuthPersistenceProvider>
         </Providers>
       </body>
     </html>

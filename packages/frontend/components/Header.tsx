@@ -21,16 +21,14 @@ const Header = () => {
 
   // Navigation 메뉴 데이터
   const navigationItems = [
-    {
-      // href: ROUTES.ABOUT,
-      href: ROUTES.RESULT,
-      label: '소개',
-    },
-    {
-      // href: ROUTES.SUMMARY,
-      href: ROUTES.RESULT,
-      label: '주요 결과',
-    },
+    // {
+    //   href: ROUTES.ABOUT,
+    //   label: '소개',
+    // },
+    // {
+    //   href: ROUTES.SUMMARY,
+    //   label: '주요 결과',
+    // },
     {
       href: ROUTES.RESULT,
       label: '지자체 조회',
