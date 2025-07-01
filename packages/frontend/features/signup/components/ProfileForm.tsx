@@ -1,7 +1,8 @@
 import CommonInput from '@/components/atoms/CommonInput';
 import EmailDisplayBox from '@/components/atoms/EmailDisplayBox';
 import PasswordInputGroup from '@/components/atoms/PasswordInputGroup';
-import InterestRegionSelect from '@/components/atoms/select/InterestRegionSelect';
+import CommonSelect from '@/components/atoms/select/CommonSelect';
+import { useProvincesWithRegions } from '@/hooks/useProvincesWithRegions';
 import {
   validateConfirmPassword,
   validateName,
@@ -52,6 +53,13 @@ export default function ProfileForm({
     phoneNumber: false,
   });
 
+  // 관심지역 선택을 위한 상태
+  const [selectedProvinceId, setSelectedProvinceId] = useState<string>('');
+  const [selectedRegionId, setSelectedRegionId] = useState<string>('');
+
+  // React Query 사용
+  const { data: provincesWithRegions = [], error } = useProvincesWithRegions();
+
   // 블러 이벤트 핸들러들
   const handleNameBlur = () => {
     setTouched((prev) => ({ ...prev, name: true }));
@@ -85,6 +93,34 @@ export default function ProfileForm({
     const validation = validatePhoneNumber(formData.phoneNumber);
     setErrors((prev) => ({ ...prev, phoneNumber: validation.message }));
   };
+
+  // 관심지역 선택 핸들러들
+  const handleProvinceChange = (value: string) => {
+    setSelectedProvinceId(value);
+    setSelectedRegionId(''); // 도/시가 변경되면 지역 선택 초기화
+    setFormData({ ...formData, regionId: '' }); // 폼 데이터도 초기화
+  };
+
+  const handleRegionChange = (value: string) => {
+    setSelectedRegionId(value);
+    setFormData({ ...formData, regionId: value }); // regionId만 폼에 저장
+  };
+
+  // API에서 가져온 데이터로 province 옵션 생성
+  const provinceOptions = provincesWithRegions.map((province) => ({
+    value: String(province.id),
+    label: province.name,
+  }));
+
+  // 선택된 도/시에 해당하는 지역 옵션 생성
+  const regionOptions = selectedProvinceId
+    ? provincesWithRegions
+        .find((province) => province.id === Number(selectedProvinceId))
+        ?.regions.map((region) => ({
+          value: String(region.id),
+          label: region.name,
+        })) || []
+    : [];
 
   return (
     <form
@@ -178,7 +214,7 @@ export default function ProfileForm({
           <label
             style={{
               fontSize: '14px',
-              fontWeight: '500',
+              fontWeight: '700',
               color: '#374151',
             }}
           >
@@ -194,25 +230,214 @@ export default function ProfileForm({
             선택 사항
           </span>
         </div>
-        <InterestRegionSelect
-          selectedRegionId={formData.regionId}
-          onRegionChange={(regionId: string) => {
-            setFormData({ ...formData, regionId });
+        
+        {/* 관심지역 선택 컨테이너 */}
+        <div
+          style={{
+            display: 'flex',
+            gap: '10px',
+            width: '100%',
           }}
-        />
+        >
+          {/* 광역 선택 */}
+          <div style={{ flex: 1 }}>
+            <CommonSelect
+              value={selectedProvinceId}
+              options={provinceOptions}
+              onChange={handleProvinceChange}
+              defaultLabel="광역명"
+            />
+          </div>
+          
+          {/* 지자체 선택 */}
+          <div style={{ flex: 1 }}>
+            <CommonSelect
+              value={selectedRegionId}
+              options={regionOptions}
+              onChange={handleRegionChange}
+              disabled={!selectedProvinceId}
+              defaultLabel="지자체명"
+            />
+          </div>
+        </div>
       </div>
 
-      {/* KLACI 인사이트 리포트 사전예약 신청 */}
+      {/* 약관 동의 섹션 */}
       <div style={{ width: '100%' }}>
         <div
           style={{
             display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: '8px',
+            flexDirection: 'column',
+            gap: '12px',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          {/* 나이 동의 */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
+            <input
+              type="checkbox"
+              id="agreeToAge"
+              checked={formData.agreeToAge}
+              onChange={(e) =>
+                setFormData({ ...formData, agreeToAge: e.target.checked })
+              }
+              style={{
+                width: '16px',
+                height: '16px',
+                accentColor: '#000000',
+              }}
+            />
+            <label
+              htmlFor="agreeToAge"
+              style={{
+                fontSize: '14px',
+                color: '#374151',
+                cursor: 'pointer',
+              }}
+            >
+              만 14세 이상입니다 (필수)
+            </label>
+          </div>
+
+          {/* 서비스 이용약관 동의 */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
+            <input
+              type="checkbox"
+              id="agreeToTerms"
+              checked={formData.agreeToTerms}
+              onChange={(e) =>
+                setFormData({ ...formData, agreeToTerms: e.target.checked })
+              }
+              style={{
+                width: '16px',
+                height: '16px',
+                accentColor: '#000000',
+              }}
+            />
+            <label
+              htmlFor="agreeToTerms"
+              style={{
+                fontSize: '14px',
+                color: '#374151',
+                cursor: 'pointer',
+              }}
+            >
+              <span
+                onClick={onTermsLink}
+                style={{
+                  textDecoration: 'underline',
+                  cursor: 'pointer',
+                }}
+              >
+                서비스 이용약관
+              </span>
+              에 동의합니다 (필수)
+            </label>
+          </div>
+
+          {/* 개인정보 처리방침 동의 */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
+            <input
+              type="checkbox"
+              id="agreeToPrivacy"
+              checked={formData.agreeToPrivacy}
+              onChange={(e) =>
+                setFormData({ ...formData, agreeToPrivacy: e.target.checked })
+              }
+              style={{
+                width: '16px',
+                height: '16px',
+                accentColor: '#000000',
+              }}
+            />
+            <label
+              htmlFor="agreeToPrivacy"
+              style={{
+                fontSize: '14px',
+                color: '#374151',
+                cursor: 'pointer',
+              }}
+            >
+              <span
+                onClick={onPrivacyLink}
+                style={{
+                  textDecoration: 'underline',
+                  cursor: 'pointer',
+                }}
+              >
+                개인정보 처리방침
+              </span>
+              에 동의합니다 (필수)
+            </label>
+          </div>
+
+          {/* 마케팅 정보 수신 동의 */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
+            <input
+              type="checkbox"
+              id="agreeToMarketing"
+              checked={formData.agreeToMarketing}
+              onChange={(e) =>
+                setFormData({ ...formData, agreeToMarketing: e.target.checked })
+              }
+              style={{
+                width: '16px',
+                height: '16px',
+                accentColor: '#000000',
+              }}
+            />
+            <label
+              htmlFor="agreeToMarketing"
+              style={{
+                fontSize: '14px',
+                color: '#374151',
+                cursor: 'pointer',
+              }}
+            >
+              <span
+                onClick={onMarketingLink}
+                style={{
+                  textDecoration: 'underline',
+                  cursor: 'pointer',
+                }}
+              >
+                마케팅 정보 수신
+              </span>
+              에 동의합니다 (선택)
+            </label>
+          </div>
+
+          {/* 리포트 예약 동의 */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
             <input
               type="checkbox"
               id="agreeToReportReservation"
@@ -224,309 +449,52 @@ export default function ProfileForm({
                 })
               }
               style={{
-                marginRight: '8px',
+                width: '16px',
+                height: '16px',
+                accentColor: '#000000',
               }}
             />
             <label
               htmlFor="agreeToReportReservation"
               style={{
                 fontSize: '14px',
-                fontWeight: '700',
                 color: '#374151',
+                cursor: 'pointer',
               }}
             >
-              KLACI 인사이트 리포트 사전예약 신청
+              <span
+                onClick={onReportReservationLink}
+                style={{
+                  textDecoration: 'underline',
+                  cursor: 'pointer',
+                }}
+              >
+                리포트 예약 서비스
+              </span>
+              에 동의합니다 (선택)
             </label>
           </div>
-          <span
-            style={{
-              fontSize: '12px',
-              color: '#9A9EA3',
-              fontWeight: '500',
-            }}
-          >
-            선택 사항
-          </span>
-        </div>
-
-        {/* 설명 텍스트 */}
-        <div
-          style={{
-            fontSize: '12px',
-            color: '#6B7280',
-            marginBottom: '4px',
-            marginLeft: '24px',
-          }}
-        >
-          사전예약자에 한해 특별 할인코드를 메일로 보내드립니다
-        </div>
-
-        {/* 더 알아보기 링크 */}
-        <div style={{ marginLeft: '24px' }}>
-          <button
-            type="button"
-            onClick={onReportReservationLink}
-            style={{
-              background: 'none',
-              border: 'none',
-              padding: 0,
-              fontSize: '12px',
-              color: '#000000',
-              textDecoration: 'underline',
-              cursor: 'pointer',
-              fontFamily: 'inherit',
-            }}
-          >
-            더 알아보기 (새창)
-          </button>
         </div>
       </div>
 
-      {/* 동의 항목 박스 */}
-      <div
-        style={{
-          width: '95%',
-          backgroundColor: '#F1F1F1',
-          borderRadius: '0.5rem',
-          padding: '20px',
-          marginTop: '20px',
-          marginBottom: '20px',
-        }}
-      >
-        {/* 만 14세 이상 */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            marginBottom: '12px',
-          }}
-        >
-          <input
-            type="checkbox"
-            id="agreeToAge"
-            checked={formData.agreeToAge}
-            onChange={(e) =>
-              setFormData({ ...formData, agreeToAge: e.target.checked })
-            }
-            style={{
-              marginRight: '8px',
-            }}
-          />
-          <label
-            htmlFor="agreeToAge"
-            style={{
-              fontSize: '14px',
-              color: '#374151',
-            }}
-          >
-            만 14세 이상입니다
-          </label>
-        </div>
-
-        {/* 서비스 이용약관 */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            marginBottom: '12px',
-          }}
-        >
-          <input
-            type="checkbox"
-            id="agreeToServiceTerms"
-            checked={formData.agreeToTerms}
-            onChange={(e) =>
-              setFormData({
-                ...formData,
-                agreeToTerms: e.target.checked,
-              })
-            }
-            style={{
-              marginRight: '8px',
-            }}
-          />
-          <label
-            htmlFor="agreeToServiceTerms"
-            style={{
-              fontSize: '14px',
-              color: '#374151',
-            }}
-          >
-            <button
-              type="button"
-              onClick={onTermsLink}
-              style={{
-                background: 'none',
-                border: 'none',
-                padding: 0,
-                fontSize: '14px',
-                color: '#374151',
-                textDecoration: 'underline',
-                cursor: 'pointer',
-                fontFamily: 'inherit',
-              }}
-            >
-              서비스 이용약관
-            </button>
-          </label>
-        </div>
-
-        {/* 개인정보 수집 및 이용 */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            marginBottom: '12px',
-          }}
-        >
-          <input
-            type="checkbox"
-            id="agreeToPrivacy"
-            checked={formData.agreeToPrivacy}
-            onChange={(e) =>
-              setFormData({
-                ...formData,
-                agreeToPrivacy: e.target.checked,
-              })
-            }
-            style={{
-              marginRight: '8px',
-            }}
-          />
-          <label
-            htmlFor="agreeToPrivacy"
-            style={{
-              fontSize: '14px',
-              color: '#374151',
-            }}
-          >
-            <button
-              type="button"
-              onClick={onPrivacyLink}
-              style={{
-                background: 'none',
-                border: 'none',
-                padding: 0,
-                fontSize: '14px',
-                color: '#374151',
-                textDecoration: 'underline',
-                cursor: 'pointer',
-                fontFamily: 'inherit',
-              }}
-            >
-              개인정보 수집 및 이용
-            </button>
-          </label>
-        </div>
-
-        {/* 세미나 및 이벤트 등 마케팅 정보 수신 */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <input
-            type="checkbox"
-            id="agreeToMarketing"
-            checked={formData.agreeToMarketing}
-            onChange={(e) =>
-              setFormData({
-                ...formData,
-                agreeToMarketing: e.target.checked,
-              })
-            }
-            style={{
-              marginRight: '8px',
-            }}
-          />
-          <label
-            htmlFor="agreeToMarketing"
-            style={{
-              fontSize: '14px',
-              color: '#374151',
-            }}
-          >
-            <button
-              type="button"
-              onClick={onMarketingLink}
-              style={{
-                background: 'none',
-                border: 'none',
-                padding: 0,
-                fontSize: '14px',
-                color: '#374151',
-                textDecoration: 'underline',
-                cursor: 'pointer',
-                fontFamily: 'inherit',
-              }}
-            >
-              세미나 및 이벤트 등 마케팅 정보 수신
-            </button>
-            <span
-              style={{
-                fontSize: '14px',
-                color: '#6B7280',
-                marginLeft: '4px',
-              }}
-            >
-              (선택)
-            </span>
-          </label>
-        </div>
-      </div>
-
-      {/* 회원가입 완료 버튼 */}
+      {/* 회원가입 버튼 */}
       <button
         type="submit"
         disabled={isProfileLoading}
         style={{
           width: '100%',
-          height: '60px',
-          backgroundColor: isProfileLoading ? '#9CA3AF' : '#000000',
+          height: '50px',
+          backgroundColor: '#000000',
           color: 'white',
-          borderRadius: '0.5rem',
-          fontWeight: '500',
-          cursor: isProfileLoading ? 'not-allowed' : 'pointer',
           border: 'none',
-          transition: 'background-color 0.2s',
-          fontSize: '20px',
-        }}
-        onMouseEnter={(e) => {
-          if (!isProfileLoading) {
-            e.currentTarget.style.backgroundColor = '#1F2937';
-          }
-        }}
-        onMouseLeave={(e) => {
-          if (!isProfileLoading) {
-            e.currentTarget.style.backgroundColor = '#000000';
-          }
+          borderRadius: '0.5rem',
+          fontSize: '16px',
+          fontWeight: '600',
+          cursor: isProfileLoading ? 'not-allowed' : 'pointer',
+          opacity: isProfileLoading ? 0.6 : 1,
         }}
       >
-        {isProfileLoading ? (
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <div
-              style={{
-                animation: 'spin 1s linear infinite',
-                borderRadius: '50%',
-                height: '1rem',
-                width: '1rem',
-                border: '2px solid transparent',
-                borderBottomColor: 'white',
-                marginRight: '0.5rem',
-              }}
-            ></div>
-            제출 중...
-          </div>
-        ) : (
-          '회원정보 제출하기'
-        )}
+        {isProfileLoading ? '가입 중...' : '회원가입'}
       </button>
     </form>
   );

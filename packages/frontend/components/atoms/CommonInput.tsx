@@ -47,7 +47,7 @@ export default function CommonInput({
           htmlFor={id}
           style={{
             fontSize: '14px',
-            fontWeight: '500',
+            fontWeight: '700',
             color: '#374151',
           }}
         >
