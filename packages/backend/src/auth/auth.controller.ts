@@ -10,6 +10,7 @@ import {
   SendVerificationEmailDto,
   SendVerificationEmailResponseDto,
 } from './dto/send-verification-email.dto';
+import { SignInDto, SignInResponseDto } from './dto/sign-in.dto';
 import { SignUpDto, SignUpResponseDto } from './dto/sign-up.dto';
 import {
   SendVerificationCodeDto,
@@ -140,5 +141,22 @@ export class AuthController {
   })
   async getProfile() {
     return this.authService.getSession();
+  }
+
+  @Public()
+  @Post('sign-in')
+  @ApiOperation({ summary: 'Sign in user with email and password' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'User signed in successfully',
+    type: SignInResponseDto,
+  })
+  @ApiResponse({ status: 400, description: 'Invalid input data' })
+  @ApiResponse({
+    status: 401,
+    description: 'Invalid email or password',
+  })
+  async signIn(@Body() dto: SignInDto): Promise<SignInResponseDto> {
+    return this.authService.signIn(dto);
   }
 }
