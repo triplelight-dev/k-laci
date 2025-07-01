@@ -1,5 +1,6 @@
 'use client';
 
+import { CATEGORIES } from '../../../constants/categories';
 import RadarBackground from './RadarBackground';
 import RadarHoverEffects from './RadarHoverEffects';
 import RadarJewel from './RadarJewel';
@@ -9,7 +10,7 @@ const JewelRadarChart = ({
   data,
   isJewel = false,
   size = 500,
-  imageUrl = '/backgrounds/radar_chart_bg.png', // 기본 이미지 URL 설정
+  imageUrl = '/backgrounds/radar_chart_bg.png',
 }: RadarChartProps) => {
   const center = size / 2;
   const radius = size * 0.4;
@@ -29,26 +30,27 @@ const JewelRadarChart = ({
     value: Math.round(size * 0.008),
   };
 
+  // 차트 순서에 맞게 카테고리 배열 생성 (순서 중요!)
   const categories = [
-    '생활역동형',
-    '안전복원형',
-    '인구정착형',
-    '경제정속형',
-    '생활정체형',
-    '안전정진형',
-    '인구성장형',
-    '경제혁신형',
+    CATEGORIES.생활역동형,
+    CATEGORIES.안전복원형,
+    CATEGORIES.인구정착형,
+    CATEGORIES.경제정속형,
+    CATEGORIES.생활정체형,
+    CATEGORIES.안전정진형,
+    CATEGORIES.인구성장형,
+    CATEGORIES.경제혁신형,
   ];
 
   const colorMap: Record<string, string> = {
-    생활역동형: '#874FFF',
-    생활정체형: '#874FFF',
-    안전복원형: '#24CB71',
-    안전정진형: '#24CB71',
-    인구정착형: '#FF3737',
-    인구성장형: '#FF3737',
-    경제정속형: '#FFA600',
-    경제혁신형: '#FFA600',
+    [CATEGORIES.생활역동형]: '#874FFF',
+    [CATEGORIES.생활정체형]: '#874FFF',
+    [CATEGORIES.안전복원형]: '#24CB71',
+    [CATEGORIES.안전정진형]: '#24CB71',
+    [CATEGORIES.인구정착형]: '#FF3737',
+    [CATEGORIES.인구성장형]: '#FF3737',
+    [CATEGORIES.경제정속형]: '#FFA600',
+    [CATEGORIES.경제혁신형]: '#FFA600',
   };
 
   const numAxes = categories.length;

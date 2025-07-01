@@ -2,6 +2,7 @@
 
 import ScoreBar from '@/components/atoms/bars/ScoreBar';
 import PremiumContentTitle from '@/components/ui/PremiumContentTitle';
+import { CATEGORIES } from '@/constants/categories';
 import { categoryColors } from '@/constants/colors';
 import { useStore } from '@/store';
 import { parseKlaciCode } from '@/utils/klaciCodeParser';
@@ -135,26 +136,26 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index }) => {
   } => {
     if (index === 0) {
       return {
-        leftItem: '인구정체형',
-        rightItem: '인구성장형',
+        leftItem: CATEGORIES.인구정착형,
+        rightItem: CATEGORIES.인구성장형,
       };
     }
     if (index === 1) {
       return {
-        leftItem: '경제정속형',
-        rightItem: '경제혁신형',
+        leftItem: CATEGORIES.경제정속형,
+        rightItem: CATEGORIES.경제혁신형,
       };
     }
     if (index === 2) {
       return {
-        leftItem: '생활정체형',
-        rightItem: '생활역동형',
+        leftItem: CATEGORIES.생활정체형,
+        rightItem: CATEGORIES.생활역동형,
       };
     }
     if (index === 3) {
       return {
-        leftItem: '안전정진형',
-        rightItem: '안전회복형',
+        leftItem: CATEGORIES.안전정진형,
+        rightItem: CATEGORIES.안전회복형,
       };
     }
     return {
@@ -168,17 +169,17 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index }) => {
   const item = category.title;
   const getBoldItem = (item: string): 'left' | 'right' | 'none' => {
     const isRightItem = [
-      '인구성장형',
-      '경제혁신형',
-      '생활역동형',
-      '안전회복형',
+      CATEGORIES.인구성장형,
+      CATEGORIES.경제혁신형,
+      CATEGORIES.생활역동형,
+      CATEGORIES.안전회복형,
     ].includes(item);
 
     const isLeftItem = [
-      '인구정착형',
-      '경제정속형',
-      '생활정체형',
-      '안전정진형',
+      CATEGORIES.인구정착형,
+      CATEGORIES.경제정속형,
+      CATEGORIES.생활정체형,
+      CATEGORIES.안전정진형,
     ].includes(item);
 
     if (isLeftItem) {
