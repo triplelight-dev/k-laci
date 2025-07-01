@@ -1,12 +1,25 @@
 interface EmailDisplayBoxProps {
   email: string;
-  userType: string;
+  userType: 'GOV' | 'EDU' | 'GENERAL';
 }
 
 export default function EmailDisplayBox({
   email,
   userType,
 }: EmailDisplayBoxProps) {
+  const getUserTypeLabel = (type: 'GOV' | 'EDU' | 'GENERAL') => {
+    switch (type) {
+      case 'GOV':
+        return '정부/공공기관 회원';
+      case 'EDU':
+        return '대학교 회원';
+      case 'GENERAL':
+        return '일반 회원';
+      default:
+        return '일반 회원';
+    }
+  };
+
   return (
     <div style={{ width: '100%' }}>
       <div
@@ -56,7 +69,7 @@ export default function EmailDisplayBox({
           textAlign: 'left',
         }}
       >
-        {userType}
+        {getUserTypeLabel(userType)}
       </div>
     </div>
   );

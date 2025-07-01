@@ -17,6 +17,9 @@ import {
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+// UserType 타입 정의
+type UserType = 'GOV' | 'EDU' | 'GENERAL';
+
 export default function SignUpPage() {
   const router = useRouter();
   
@@ -34,14 +37,13 @@ export default function SignUpPage() {
   const [isVerified, setIsVerified] = useState(false);
   const [isProfileLoading, setIsProfileLoading] = useState(false);
   const [showCompleteModal, setShowCompleteModal] = useState(false);
-  const [userType, setUserType] = useState<string>('');
+  const [userType, setUserType] = useState<UserType>('GENERAL');
   const [formData, setFormData] = useState({
     name: '',
     password: '',
     confirmPassword: '',
     organization: '',
     phoneNumber: '',
-    provinceId: '',
     regionId: '',
     agreeToAge: false,
     agreeToTerms: false,
@@ -117,11 +119,11 @@ export default function SignUpPage() {
         // 이메일 도메인에 따른 사용자 타입 설정
         const domain = email.split('@')[1];
         if (domain?.includes('korea.kr') || domain?.includes('go.kr')) {
-          setUserType('정부/공공기관 회원');
+          setUserType('GOV');
         } else if (domain?.includes('ac.kr')) {
-          setUserType('대학교 회원');
+          setUserType('EDU');
         } else {
-          setUserType('일반 회원');
+          setUserType('GENERAL');
         }
       } else {
         setVerificationError('인증번호가 일치하지 않습니다.');
@@ -212,21 +214,24 @@ export default function SignUpPage() {
     }
 
     try {
-      console.log('Submitting signup data:', {
+      const signupData = {
         email: email,
         password: formData.password,
         name: formData.name,
         phone_number: formData.phoneNumber,
         interest_region_id: formData.regionId,
-      });
+        organization: formData.organization,
+        user_type: userType,
+        agree_to_age: formData.agreeToAge,
+        agree_to_terms: formData.agreeToTerms,
+        agree_to_privacy: formData.agreeToPrivacy,
+        agree_to_marketing: formData.agreeToMarketing,
+        agree_to_report_reservation: formData.agreeToReportReservation,
+      };
 
-      const response = await AuthService.signUp({
-        email: email,
-        password: formData.password,
-        name: formData.name,
-        phone_number: formData.phoneNumber,
-        interest_region_id: formData.regionId,
-      });
+      console.log('Submitting signup data:', signupData);
+
+      const response = await AuthService.signUp(signupData);
 
       console.log('Signup response:', response);
       setShowCompleteModal(true);
@@ -445,15 +450,7 @@ export default function SignUpPage() {
                   </span>
                 </div>
                 <InterestRegionSelect
-                  selectedProvinceId={formData.provinceId}
                   selectedRegionId={formData.regionId}
-                  onProvinceChange={(provinceId) => {
-                    setFormData((prev) => ({
-                      ...prev,
-                      provinceId,
-                      regionId: '', // province가 변경되면 region 초기화
-                    }));
-                  }}
                   onRegionChange={(regionId) => {
                     setFormData((prev) => ({ ...prev, regionId }));
                   }}
@@ -800,7 +797,7 @@ export default function SignUpPage() {
     );
   }
 
-  // 1/2 단계 렌더링 (기존 코드)
+  // 1/2 단계 렌더링
   return (
     <div
       style={{
@@ -830,6 +827,7 @@ export default function SignUpPage() {
             style={{
               display: 'flex',
               justifyContent: 'center',
+              marginBottom: '2rem',
             }}
           >
             <div
@@ -847,7 +845,7 @@ export default function SignUpPage() {
           </div>
 
           {/* 타이틀 */}
-          <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
             <h1
               style={{
                 fontSize: '1.875rem',
@@ -855,28 +853,34 @@ export default function SignUpPage() {
                 color: '#111827',
               }}
             >
-              이메일로 회원가입
+              이메일 인증
             </h1>
           </div>
 
           {/* 설명 텍스트 */}
-          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+          <div
+            style={{
+              textAlign: 'center',
+              marginBottom: '2rem',
+              maxWidth: '400px',
+            }}
+          >
             {descriptionTexts.map((text, index) => (
-              <div
+              <p
                 key={index}
                 style={{
-                  color: 'black',
-                  fontSize: '0.875rem',
-                  lineHeight: '1.625',
+                  fontSize: '14px',
+                  color: '#6B7280',
+                  marginBottom: '0.5rem',
                 }}
               >
                 {text}
-              </div>
+              </p>
             ))}
           </div>
 
-          {/* 이메일 입력 폼 */}
-          {!isCodeSent && (
+          {/* 폼 */}
+          {!isCodeSent ? (
             <form
               onSubmit={handleEmailSubmit}
               style={{
@@ -889,65 +893,40 @@ export default function SignUpPage() {
               }}
             >
               {/* 이메일 입력 */}
-              <div style={{ width: '100%' }}>
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  style={{
-                    width: '100%',
-                    height: '50px',
-                    fontSize: '16px',
-                    padding: '0 1rem',
-                    border: '1px solid #D1D5DB',
-                    borderRadius: '0.5rem',
-                    outline: 'none',
-                    color: '#111827',
-                    boxSizing: 'border-box',
-                  }}
-                  placeholder="이메일 주소 (예: klaci@korea.kr)"
-                  required
-                  disabled={isLoading}
-                />
-              </div>
+              <CommonInput
+                id="email"
+                label="이메일"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="이메일을 입력해주세요"
+                type="email"
+                required={true}
+                isRequired={true}
+              />
 
-              {/* 에러 메시지 */}
-              {error && (
-                <div
-                  style={{
-                    color: '#DC2626',
-                    fontSize: '0.875rem',
-                    textAlign: 'center',
-                  }}
-                >
-                  {error}
-                </div>
-              )}
-
-              {/* 인증번호 보내기 버튼 */}
+              {/* 인증번호 발송 버튼 */}
               <button
                 type="submit"
-                disabled={isLoading || !email}
+                disabled={isLoading}
                 style={{
                   width: '100%',
                   height: '50px',
-                  backgroundColor: isLoading || !email ? '#9CA3AF' : '#000000',
+                  backgroundColor: isLoading ? '#9CA3AF' : '#000000',
                   color: 'white',
                   borderRadius: '0.5rem',
                   fontWeight: '500',
-                  cursor: isLoading || !email ? 'not-allowed' : 'pointer',
+                  cursor: isLoading ? 'not-allowed' : 'pointer',
                   border: 'none',
                   transition: 'background-color 0.2s',
                   fontSize: '16px',
                 }}
                 onMouseEnter={(e) => {
-                  if (!isLoading && email) {
+                  if (!isLoading) {
                     e.currentTarget.style.backgroundColor = '#1F2937';
                   }
                 }}
                 onMouseLeave={(e) => {
-                  if (!isLoading && email) {
+                  if (!isLoading) {
                     e.currentTarget.style.backgroundColor = '#000000';
                   }
                 }}
@@ -971,18 +950,16 @@ export default function SignUpPage() {
                         marginRight: '0.5rem',
                       }}
                     ></div>
-                    인증번호 발송 중...
+                    처리 중...
                   </div>
                 ) : (
-                  '인증번호 보내기'
+                  '인증번호 발송'
                 )}
               </button>
             </form>
-          )}
-
-          {/* 인증번호 입력 폼 */}
-          {isCodeSent && (
-            <div
+          ) : (
+            <form
+              onSubmit={handleCodeSubmit}
               style={{
                 width: '70%',
                 display: 'flex',
@@ -992,182 +969,163 @@ export default function SignUpPage() {
                 gap: '20px',
               }}
             >
-              {/* 인증번호 발송 완료 메시지 */}
-              <div
-                style={{
-                  textAlign: 'center',
-                  marginBottom: '1rem',
-                  padding: '15px',
-                  backgroundColor: '#F0F9FF',
-                  borderRadius: '8px',
-                  border: '1px solid #0EA5E9',
-                }}
-              >
-                <div style={{ color: '#0C4A6E', fontSize: '14px', fontWeight: '500' }}>
-                  {email}로 인증번호가 발송되었습니다.
-                </div>
-              </div>
+              {/* 인증번호 입력 */}
+              <CommonInput
+                id="verificationCode"
+                label="인증번호"
+                value={verificationCode}
+                onChange={(e) => setVerificationCode(e.target.value)}
+                placeholder="인증번호를 입력해주세요"
+                required={true}
+                isRequired={true}
+              />
 
               {/* 카운트다운 */}
               {countdown > 0 && (
-                <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
-                  <div style={{ color: '#DC2626', fontSize: '14px', fontWeight: '500' }}>
-                    남은 시간: {formatTime(countdown)}
-                  </div>
+                <div
+                  style={{
+                    fontSize: '14px',
+                    color: '#6B7280',
+                    textAlign: 'center',
+                  }}
+                >
+                  {formatTime(countdown)}
                 </div>
               )}
 
-              {/* 인증번호 입력 폼 */}
-              <form
-                onSubmit={handleCodeSubmit}
+              {/* 인증번호 검증 버튼 */}
+              <button
+                type="submit"
+                disabled={isVerifying}
                 style={{
                   width: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '15px',
+                  height: '50px',
+                  backgroundColor: isVerifying ? '#9CA3AF' : '#000000',
+                  color: 'white',
+                  borderRadius: '0.5rem',
+                  fontWeight: '500',
+                  cursor: isVerifying ? 'not-allowed' : 'pointer',
+                  border: 'none',
+                  transition: 'background-color 0.2s',
+                  fontSize: '16px',
+                }}
+                onMouseEnter={(e) => {
+                  if (!isVerifying) {
+                    e.currentTarget.style.backgroundColor = '#1F2937';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isVerifying) {
+                    e.currentTarget.style.backgroundColor = '#000000';
+                  }
                 }}
               >
-                <div style={{ width: '100%' }}>
-                  <input
-                    type="text"
-                    value={verificationCode}
-                    onChange={(e) => setVerificationCode(e.target.value)}
-                    style={{
-                      width: '100%',
-                      height: '50px',
-                      fontSize: '16px',
-                      padding: '0 1rem',
-                      border: '1px solid #D1D5DB',
-                      borderRadius: '0.5rem',
-                      outline: 'none',
-                      color: '#111827',
-                      boxSizing: 'border-box',
-                      textAlign: 'center',
-                      letterSpacing: '2px',
-                    }}
-                    placeholder="인증번호 6자리 입력"
-                    maxLength={6}
-                    required
-                    disabled={isVerifying || countdown === 0}
-                  />
-                </div>
-
-                {/* 검증 에러 메시지 */}
-                {verificationError && (
+                {isVerifying ? (
                   <div
                     style={{
-                      color: '#DC2626',
-                      fontSize: '0.875rem',
-                      textAlign: 'center',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
                     }}
                   >
-                    {verificationError}
-                  </div>
-                )}
-
-                {/* 인증번호 확인 버튼 */}
-                <button
-                  type="submit"
-                  disabled={isVerifying || !verificationCode || countdown === 0}
-                  style={{
-                    width: '100%',
-                    height: '50px',
-                    backgroundColor: isVerifying || !verificationCode || countdown === 0 ? '#9CA3AF' : '#000000',
-                    color: 'white',
-                    borderRadius: '0.5rem',
-                    fontWeight: '500',
-                    cursor: isVerifying || !verificationCode || countdown === 0 ? 'not-allowed' : 'pointer',
-                    border: 'none',
-                    transition: 'background-color 0.2s',
-                    fontSize: '16px',
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isVerifying && verificationCode && countdown > 0) {
-                      e.currentTarget.style.backgroundColor = '#1F2937';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isVerifying && verificationCode && countdown > 0) {
-                      e.currentTarget.style.backgroundColor = '#000000';
-                    }
-                  }}
-                >
-                  {isVerifying ? (
                     <div
                       style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
+                        animation: 'spin 1s linear infinite',
+                        borderRadius: '50%',
+                        height: '1rem',
+                        width: '1rem',
+                        border: '2px solid transparent',
+                        borderBottomColor: 'white',
+                        marginRight: '0.5rem',
                       }}
-                    >
-                      <div
-                        style={{
-                          animation: 'spin 1s linear infinite',
-                          borderRadius: '50%',
-                          height: '1rem',
-                          width: '1rem',
-                          border: '2px solid transparent',
-                          borderBottomColor: 'white',
-                          marginRight: '0.5rem',
-                        }}
-                      ></div>
-                      인증 중...
-                    </div>
-                  ) : (
-                    '인증번호 확인'
-                  )}
-                </button>
-              </form>
+                    ></div>
+                    처리 중...
+                  </div>
+                ) : (
+                  '인증번호 확인'
+                )}
+              </button>
 
               {/* 재발송 버튼 */}
-              <div style={{ textAlign: 'center' }}>
-                <button
-                  onClick={handleResendCode}
-                  disabled={isLoading || countdown > 0}
-                  style={{
-                    backgroundColor: 'transparent',
-                    color: isLoading || countdown > 0 ? '#9CA3AF' : '#0EA5E9',
-                    border: 'none',
-                    cursor: isLoading || countdown > 0 ? 'not-allowed' : 'pointer',
-                    fontSize: '14px',
-                    textDecoration: 'underline',
-                  }}
-                >
-                  {isLoading ? '재발송 중...' : '인증번호 재발송'}
-                </button>
-              </div>
+              <button
+                type="button"
+                onClick={handleResendCode}
+                disabled={isLoading || countdown > 0}
+                style={{
+                  width: '100%',
+                  height: '40px',
+                  backgroundColor: 'transparent',
+                  color: countdown > 0 ? '#9CA3AF' : '#000000',
+                  borderRadius: '0.5rem',
+                  fontWeight: '500',
+                  cursor: countdown > 0 ? 'not-allowed' : 'pointer',
+                  border: '1px solid #D1D5DB',
+                  transition: 'all 0.2s',
+                  fontSize: '14px',
+                }}
+                onMouseEnter={(e) => {
+                  if (countdown === 0) {
+                    e.currentTarget.style.backgroundColor = '#F9FAFB';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (countdown === 0) {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                  }
+                }}
+              >
+                {isLoading ? '처리 중...' : '인증번호 재발송'}
+              </button>
 
-              {/* 이메일 변경 버튼 */}
-              <div style={{ textAlign: 'center' }}>
-                <button
-                  onClick={handleBackToStep1}
-                  style={{
-                    backgroundColor: 'transparent',
-                    color: '#6B7280',
-                    border: 'none',
-                    cursor: 'pointer',
-                    fontSize: '14px',
-                    textDecoration: 'underline',
-                  }}
-                >
-                  이메일 주소 변경
-                </button>
-              </div>
+              {/* 1/2 단계로 돌아가기 */}
+              <button
+                type="button"
+                onClick={handleBackToStep1}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  padding: 0,
+                  fontSize: '14px',
+                  color: '#6B7280',
+                  textDecoration: 'underline',
+                  cursor: 'pointer',
+                  fontFamily: 'inherit',
+                }}
+              >
+                다른 이메일로 인증하기
+              </button>
+            </form>
+          )}
+
+          {/* 에러 메시지 */}
+          {error && (
+            <div
+              style={{
+                fontSize: '14px',
+                color: '#EF4444',
+                textAlign: 'center',
+                marginTop: '1rem',
+              }}
+            >
+              {error}
+            </div>
+          )}
+
+          {/* 인증 에러 메시지 */}
+          {verificationError && (
+            <div
+              style={{
+                fontSize: '14px',
+                color: '#EF4444',
+                textAlign: 'center',
+                marginTop: '1rem',
+              }}
+            >
+              {verificationError}
             </div>
           )}
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes spin {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-      `}</style>
     </div>
   );
 }
