@@ -22,11 +22,13 @@ const Header = () => {
   // Navigation 메뉴 데이터
   const navigationItems = [
     {
-      href: ROUTES.ABOUT,
+      // href: ROUTES.ABOUT,
+      href: ROUTES.RESULT,
       label: '소개',
     },
     {
-      href: ROUTES.SUMMARY,
+      // href: ROUTES.SUMMARY,
+      href: ROUTES.RESULT,
       label: '주요 결과',
     },
     {
@@ -114,7 +116,7 @@ const Header = () => {
                     href={item.href}
                     className="font-poppins text-[0.9375rem] leading-[110%] tracking-[-0.45px]"
                     style={{
-                      fontSize: '18px',
+                      fontSize: '16px',
                       color: isActive ? 'white' : '#BED3FF',
                       fontWeight: isActive ? 800 : 400,
                       textDecoration: 'none',
