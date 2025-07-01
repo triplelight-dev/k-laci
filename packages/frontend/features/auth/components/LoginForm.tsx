@@ -25,11 +25,14 @@ export default function LoginForm({
       {/* 이메일 입력 */}
       <div style={{ marginBottom: '1.5rem' }}>
         <CommonInput
+          id="login-email"
+          label="이메일"
           type="email"
           placeholder="이메일을 입력해주세요"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          isRequired
         />
       </div>
 

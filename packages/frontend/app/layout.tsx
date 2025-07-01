@@ -1,6 +1,6 @@
+import DevAuthProvider from '@/components/DevAuthProvider';
 import MobileDetector from '@/components/MobileDetector';
 import Providers from '@/components/Providers';
-import { useDevAuth } from '@/hooks/useDevAuth';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
@@ -18,13 +18,14 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'KLACI',
   description: 'Korea Local Asset Competency Index',
-  viewport: {
-    width: 'device-width',
-    initialScale: 1.0,
-    maximumScale: 1.0,
-    userScalable: false,
-    viewportFit: 'cover',
-  },
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1.0,
+  maximumScale: 1.0,
+  userScalable: false,
+  viewportFit: 'cover' as const,
 };
 
 export default function RootLayout({
@@ -51,9 +52,4 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
-
-function DevAuthProvider({ children }: { children: React.ReactNode }) {
-  useDevAuth();
-  return <>{children}</>;
 }
