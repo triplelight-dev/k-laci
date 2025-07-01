@@ -113,7 +113,17 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
           marginBottom: '50px',
         }}
       >
-        <JewelRadarChart size={470} data={chartData} />
+        <JewelRadarChart 
+          size={470} 
+          data={chartData} 
+          regionData={currentRegion ? {
+            growth_score: currentRegion.growth_score,
+            economy_score: currentRegion.economy_score,
+            living_score: currentRegion.living_score,
+            safety_score: currentRegion.safety_score,
+            klaci_code: currentRegion.klaci_code,
+          } : undefined}
+        />
       </div>
       <div
         style={{

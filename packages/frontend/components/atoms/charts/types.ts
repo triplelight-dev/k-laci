@@ -1,10 +1,17 @@
 export type RadarChartData = number[]; // [0~100] 값 8개
 
 export interface RadarChartProps {
-  data: RadarChartData;
+  data: number[];
   isJewel?: boolean;
   size?: number;
-  imageUrl?: string; // 이미지 URL 추가
+  imageUrl?: string;
+  regionData?: {
+    growth_score?: number;
+    economy_score?: number;
+    living_score?: number;
+    safety_score?: number;
+    klaci_code?: string;
+  };
 }
 
 export interface RadarChartContext {
@@ -32,6 +39,13 @@ export interface RadarChartContext {
   }>;
   vals: number[];
   fixedColorPairs: [string, string][];
+  regionData?: {
+    growth_score?: number;
+    economy_score?: number;
+    living_score?: number;
+    safety_score?: number;
+    klaci_code?: string;
+  };
 }
 
 export interface Point {
