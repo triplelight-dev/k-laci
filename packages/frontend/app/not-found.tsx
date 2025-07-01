@@ -1,7 +1,7 @@
 import { Metadata, Viewport } from 'next';
 
 export const metadata: Metadata = {
-  title: '페이지를 찾을 수 없습니다',
+  title: 'KLACI',
   description: '요청하신 페이지를 찾을 수 없습니다.',
 };
 
