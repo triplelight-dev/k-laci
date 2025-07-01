@@ -1,16 +1,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
 import { useAuthActions, useAuth as useAuthStore } from '../../store';
-import {
-    AuthService
-} from '../services/auth.service';
+import { AuthService } from '../services/auth.service';
 import { ApiError } from '../types/api.types';
 
 export const useAuth = () => {
   const authState = useAuthStore();
   const { setIsLoggedIn } = useAuthActions();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<ApiError | null>(null);
+  const [loading] = useState(false);
+  const [error] = useState<ApiError | null>(null);
   const queryClient = useQueryClient();
 
   const sendVerificationCode = useMutation({
