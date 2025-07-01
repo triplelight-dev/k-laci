@@ -122,7 +122,7 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
             living_score: currentRegion.living_score,
             safety_score: currentRegion.safety_score,
             klaci_code: currentRegion.klaci_code,
-          } : undefined}
+          } : {}}
         />
       </div>
       <div
