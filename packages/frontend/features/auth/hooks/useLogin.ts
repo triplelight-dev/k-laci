@@ -32,6 +32,11 @@ export function useLogin() {
         // Zustand 스토어에 로그인 정보 저장
         loginAction(response.data, response.data.access_token);
         
+        // localStorage에 토큰 저장 (API 클라이언트에서 사용)
+        localStorage.setItem('access_token', response.data.access_token);
+        localStorage.setItem('user_id', response.data.user_id);
+        localStorage.setItem('user_profile', JSON.stringify(response.data.profile));
+        
         // 홈페이지로 리다이렉트
         router.push('/');
       } else {

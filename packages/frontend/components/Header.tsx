@@ -1,5 +1,6 @@
 'use client';
 
+import { AuthService } from '@/api/services/auth.service';
 import { useIsLoggedIn, useLogout, useUser } from '@/store';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -32,9 +33,16 @@ const Header = () => {
     },
   ];
 
-  const handleLogout = () => {
-    // Zustand 스토어에서 로그아웃
-    logout();
+  const handleLogout = async () => {
+    try {
+      // 서버에 로그아웃 요청
+      await AuthService.signOut();
+    } catch (error) {
+      console.warn('Signout API failed, but continuing with local logout:', error);
+    } finally {
+      // 항상 로컬 상태는 초기화
+      logout();
+    }
   };
 
   return (
