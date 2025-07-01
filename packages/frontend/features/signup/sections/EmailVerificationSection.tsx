@@ -21,109 +21,151 @@ export default function EmailVerificationSection({
   ];
 
   return (
-    <div
-      style={{
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#F4F4F4',
-        paddingTop: '80px',
-      }}
-    >
-      <div style={{ width: '100%', maxWidth: '800px', margin: '0 1rem' }}>
-        {/* 메인 컨테이너 */}
+    <div>
+      <div
+        style={{
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#F4F4F4',
+        }}
+      >
         <div
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'white',
-            borderRadius: '50px',
-            padding: '80px 100px',
+            width: '100%',
+            maxWidth: '800px',
+            margin: '0 1rem',
           }}
         >
-          {/* 1/2 단계 뱃지 */}
+          {/* 메인 컨테이너 */}
           <div
             style={{
               display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
               justifyContent: 'center',
-              marginBottom: '2rem',
+              backgroundColor: 'white',
+              borderRadius: '50px',
+              padding: '40px 100px',
             }}
           >
+            {/* 1/2 단계 뱃지 */}
             <div
               style={{
-                border: '1px solid black',
-                borderRadius: '12px',
-                padding: '6px 12px',
-                fontSize: '16px',
-                fontWeight: '500',
-                color: 'black',
+                display: 'flex',
+                justifyContent: 'center',
+                marginBottom: '5px',
               }}
             >
-              1/2 단계
-            </div>
-          </div>
-
-          {/* 타이틀 */}
-          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            <h1
-              style={{
-                fontSize: '1.875rem',
-                fontWeight: '700',
-                color: '#111827',
-              }}
-            >
-              이메일 인증
-            </h1>
-          </div>
-
-          {/* 설명 텍스트 */}
-          <div
-            style={{
-              textAlign: 'center',
-              marginBottom: '2rem',
-              maxWidth: '400px',
-            }}
-          >
-            {descriptionTexts.map((text, index) => (
-              <p
-                key={index}
+              <div
                 style={{
-                  fontSize: '14px',
-                  color: '#6B7280',
-                  marginBottom: '0.5rem',
+                  border: '1px solid black',
+                  borderRadius: '12px',
+                  padding: '6px 12px',
+                  fontSize: '16px',
+                  fontWeight: '500',
+                  color: 'black',
                 }}
               >
-                {text}
-              </p>
-            ))}
-          </div>
+                1/2 단계
+              </div>
+            </div>
 
-          {/* 폼 */}
-          <EmailVerificationForm
-            email={email}
-            setEmail={setEmail}
-            isLoading={isLoading}
-            onSubmit={onSubmit}
-          />
-
-          {/* 에러 메시지 */}
-          {error && (
+            {/* 타이틀 */}
             <div
               style={{
-                fontSize: '14px',
-                color: '#EF4444',
+                width: '100%',
                 textAlign: 'center',
-                marginTop: '1rem',
+                marginBottom: '2rem',
               }}
             >
-              {error}
+              <h1
+                style={{
+                  fontSize: '1.875rem',
+                  fontWeight: '700',
+                  color: '#111827',
+                }}
+              >
+                이메일로 회원가입
+              </h1>
             </div>
-          )}
+
+            {/* 설명 텍스트 */}
+            <div
+              style={{
+                width: '100%',
+                textAlign: 'center',
+                marginBottom: '30px',
+              }}
+            >
+              {descriptionTexts.map((text, index) => (
+                <div
+                  key={index}
+                  style={{
+                    lineHeight: '1.5',
+                    fontSize: '16px',
+                  }}
+                >
+                  {text}
+                </div>
+              ))}
+            </div>
+
+            {/* 폼 */}
+            <EmailVerificationForm
+              email={email}
+              setEmail={setEmail}
+              isLoading={isLoading}
+              onSubmit={onSubmit}
+            />
+
+            {/* 에러 메시지 */}
+            {error && (
+              <div
+                style={{
+                  fontSize: '14px',
+                  color: '#EF4444',
+                  textAlign: 'center',
+                  marginTop: '1rem',
+                }}
+              >
+                {error}
+              </div>
+            )}
+          </div>
         </div>
+      </div>
+
+      {/* 로그인 링크 */}
+      <div
+        style={{
+          textAlign: 'center',
+          marginTop: '30px',
+          fontSize: '16px',
+        }}
+      >
+        <div
+          style={{
+            color: '#000000',
+            lineHeight: '2',
+          }}
+        >
+          이미 계정이 있으신가요?{' '}
+        </div>
+        <a
+          href="/auth/login"
+          style={{
+            color: '#000000',
+            textDecoration: 'underline',
+            textDecorationColor: '#000000',
+            textDecorationThickness: '1px',
+            fontWeight: '500',
+          }}
+        >
+          로그인 바로가기
+        </a>
       </div>
     </div>
   );
-} 
+}
