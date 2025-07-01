@@ -6,6 +6,21 @@ export interface SignInRequest {
   password: string;
 }
 
+export interface UserProfile {
+  name: string;
+  email: string;
+  organization?: string;
+  interest_region_id?: number;
+  user_type: string;
+}
+
+export interface SignInResponse {
+  access_token: string;
+  user_id: string;
+  email: string;
+  profile: UserProfile;
+}
+
 export interface SignUpRequest {
   email: string;
   password: string;
@@ -77,16 +92,6 @@ export interface SignUpResponse {
   email: string;
 }
 
-export interface SignInResponse {
-  access_token: string;
-  refresh_token: string;
-  user: {
-    id: string;
-    email: string;
-    name: string;
-  };
-}
-
 export class AuthService {
   static async sendVerificationEmail(data: SendVerificationEmailRequest): Promise<ApiResponse<SendVerificationEmailResponse>> {
     const response = await apiClient.post('/auth/send-verification-email', data);
@@ -99,7 +104,7 @@ export class AuthService {
   }
 
   static async signIn(data: SignInRequest): Promise<ApiResponse<SignInResponse>> {
-    const response = await apiClient.post('/auth/signin', data);
+    const response = await apiClient.post('/auth/sign-in', data);
     return response.data;
   }
 

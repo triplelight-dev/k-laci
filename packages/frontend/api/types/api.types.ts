@@ -46,6 +46,15 @@ export interface KeyIndexData {
   updated_at?: string;
 }
 
+// 사용자 프로필 타입
+export interface UserProfile {
+  name: string;
+  email: string;
+  organization?: string;
+  interest_region_id?: number;
+  user_type: string;
+}
+
 // 인증 관련 타입들
 export interface AuthApiTypes {
   SendVerificationEmailRequest: {
@@ -85,11 +94,8 @@ export interface AuthApiTypes {
   
   SignInResponse: {
     access_token: string;
-    refresh_token: string;
-    user: {
-      id: string;
-      email: string;
-      name: string;
-    };
+    user_id: string;
+    email: string;
+    profile: UserProfile;
   };
 } 
