@@ -155,7 +155,7 @@ const RadarJewel = ({ context, imageUrl }: RadarJewelProps) => {
               stroke="none"
               className="jewel-triangle"
               style={{
-                transition: 'opacity 0.3s ease',
+                transition: 'opacity 0.8s ease, fill-opacity 0.8s ease',
               }}
             />
           );

@@ -58,6 +58,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
           {`
             .radar-chart:hover .jewel-triangle {
               opacity: 0 !important;
+              transition: opacity 0.8s ease !important;
             }
             .radar-chart:hover .data-point {
               opacity: 1 !important;
@@ -90,7 +91,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
               stroke="none"
               className="hover-top-overlay"
               style={{
-                transition: 'opacity 0.3s ease, fill 0.3s ease',
+                transition: 'opacity 0.8s ease, fill 0.8s ease',
               }}
             />
           );
@@ -112,7 +113,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
               stroke="none"
               className="hover-bottom-overlay"
               style={{
-                transition: 'opacity 0.3s ease, fill 0.3s ease',
+                transition: 'opacity 0.8s ease, fill 0.8s ease',
               }}
             />
           );
@@ -302,7 +303,12 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
 
       {/* 영역 호버 툴팁 - 흰색 배경에 검정색 보더 */}
       {hoveredArea && hoveredPoint === null && (
-        <g>
+        <g
+          style={{
+            opacity: 0,
+            animation: 'fadeIn 0.3s ease forwards',
+          }}
+        >
           {/* 툴팁 배경 */}
           <rect
             x={center - 120}
@@ -313,6 +319,9 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
             fill="white"
             stroke="#333"
             strokeWidth={1}
+            style={{
+              filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1))',
+            }}
           />
           {/* 툴팁 텍스트 */}
           {hoveredArea === 'top' ? (
