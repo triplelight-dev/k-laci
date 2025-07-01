@@ -2,14 +2,19 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import {
-    CompleteSignupDto,
-    CompleteSignupResponseDto,
+  CompleteSignupDto,
+  CompleteSignupResponseDto,
 } from './dto/complete-signup.dto';
 import { SendVerificationEmailDto } from './dto/send-verification-email.dto';
+import {
+  SignInDto,
+  SignInResponseDto,
+  UserProfileDto,
+} from './dto/sign-in.dto';
 import { SignUpDto, SignUpResponseDto } from './dto/sign-up.dto';
 import {
-    SendVerificationCodeDto,
-    VerifyCodeDto,
+  SendVerificationCodeDto,
+  VerifyCodeDto,
 } from './dto/verification-code.dto';
 import { EmailService } from './email.service';
 import { VerificationCodeService } from './verification-code.service';
@@ -339,6 +344,62 @@ export class AuthService {
         throw error;
       }
       throw new UnauthorizedException('인증 중 오류가 발생했습니다.');
+    }
+  }
+
+  async signIn(signInDto: SignInDto): Promise<SignInResponseDto> {
+    try {
+      const { email, password } = signInDto;
+
+      // Supabase를 사용한 로그인
+      const { data, error } = await this.supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        throw new UnauthorizedException(
+          '이메일 또는 비밀번호가 올바르지 않습니다.',
+        );
+      }
+
+      if (!data.user || !data.session) {
+        throw new UnauthorizedException('로그인에 실패했습니다.');
+      }
+
+      // 사용자 프로필 정보 가져오기 (필요한 필드만 선택)
+      const { data: profile, error: profileError } = await this.supabase
+        .from('user_profiles')
+        .select('name, email, organization, interest_region_id, user_type')
+        .eq('id', data.user.id)
+        .single();
+
+      if (profileError) {
+        throw new UnauthorizedException(
+          '사용자 프로필 정보를 가져올 수 없습니다.',
+        );
+      }
+
+      // 프로필 정보를 DTO 형태로 변환
+      const userProfile: UserProfileDto = {
+        name: profile.name,
+        email: profile.email,
+        organization: profile.organization || undefined,
+        interest_region_id: profile.interest_region_id || undefined,
+        user_type: profile.user_type,
+      };
+
+      return {
+        access_token: data.session.access_token,
+        user_id: data.user.id,
+        email: data.user.email,
+        profile: userProfile,
+      };
+    } catch (error) {
+      if (error instanceof UnauthorizedException) {
+        throw error;
+      }
+      throw new UnauthorizedException('로그인 중 오류가 발생했습니다.');
     }
   }
 }

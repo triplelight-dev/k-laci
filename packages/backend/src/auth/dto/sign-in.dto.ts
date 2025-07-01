@@ -1,5 +1,5 @@
-import { IsEmail, IsString, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsEmail, IsString, MinLength } from 'class-validator';
 
 export class SignInDto {
   @ApiProperty({
@@ -19,6 +19,23 @@ export class SignInDto {
   password: string;
 }
 
+export class UserProfileDto {
+  @ApiProperty({ description: 'User name' })
+  name: string;
+
+  @ApiProperty({ description: 'User email' })
+  email: string;
+
+  @ApiProperty({ description: 'User organization', required: false })
+  organization?: string;
+
+  @ApiProperty({ description: 'Interest region ID', required: false })
+  interest_region_id?: number;
+
+  @ApiProperty({ description: 'User type' })
+  user_type: string;
+}
+
 export class SignInResponseDto {
   @ApiProperty({ description: 'Access token' })
   access_token: string;
@@ -28,4 +45,10 @@ export class SignInResponseDto {
 
   @ApiProperty({ description: 'User email' })
   email: string;
+
+  @ApiProperty({
+    description: 'User profile information',
+    type: UserProfileDto,
+  })
+  profile: UserProfileDto;
 }
