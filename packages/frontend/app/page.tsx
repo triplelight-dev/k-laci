@@ -1,9 +1,10 @@
+import { ROUTES } from '@/constants/data';
 import { redirect } from 'next/navigation';
 
 export const dynamic = 'force-static';
 
-export default function HomePage() {
-  redirect('/results');
+export default function Home() {
+  redirect(ROUTES.RESULT);
 }
 
 // 'use client';

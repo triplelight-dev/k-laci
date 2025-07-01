@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '회원가입 - KLACI',
+  title: 'KLACI',
   description: 'KLACI 회원가입 페이지',
 };
 

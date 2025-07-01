@@ -3,7 +3,8 @@ import axios, { AxiosInstance } from 'axios';
 // 환경별 base URL 설정
 const getBaseURL = () => {
   if (process.env.NODE_ENV === 'development') {
-    return 'http://localhost:8000'; // NestJS 백엔드 포트
+    return 'https://api.klaci.kr';
+    // return 'http://localhost:8000'; // NestJS 백엔드 포트
   }
   return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 };

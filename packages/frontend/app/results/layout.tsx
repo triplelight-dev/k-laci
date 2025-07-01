@@ -1,7 +1,7 @@
 import { Metadata, Viewport } from 'next';
 
 export const metadata: Metadata = {
-  title: '결과',
+  title: 'KLACI',
   description: 'KLACI 결과 페이지',
 };
 

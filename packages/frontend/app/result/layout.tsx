@@ -2,7 +2,7 @@ import { Metadata, Viewport } from 'next';
 
 export const metadata: Metadata = {
   title: 'KLACI',
-  description: 'KLACI 요약 페이지',
+  description: 'KLACI 결과 페이지',
 };
 
 export const viewport: Viewport = {
@@ -12,7 +12,7 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
-export default function SummaryLayout({
+export default function ResultLayout({
   children,
 }: {
   children: React.ReactNode;
