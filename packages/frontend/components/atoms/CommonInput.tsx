@@ -40,14 +40,14 @@ export default function CommonInput({
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          marginBottom: '8px',
+          marginBottom: '10px',
         }}
       >
         <label
           htmlFor={id}
           style={{
             fontSize: '14px',
-            fontWeight: '500',
+            fontWeight: '700',
             color: '#374151',
           }}
         >

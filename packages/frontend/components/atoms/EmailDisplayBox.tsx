@@ -25,10 +25,10 @@ export default function EmailDisplayBox({
       <div
         style={{
           width: '100%',
-          height: '50px',
+          height: '60px',
           backgroundColor: '#F1F1F1',
           borderRadius: '0.5rem',
-          padding: '0 1rem',
+          padding: '0 20px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',

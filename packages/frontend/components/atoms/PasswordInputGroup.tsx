@@ -37,7 +37,7 @@ export default function PasswordInputGroup({
         <label
           style={{
             fontSize: '14px',
-            fontWeight: '500',
+            fontWeight: '700',
             color: '#374151',
           }}
         >

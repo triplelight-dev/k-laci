@@ -100,21 +100,29 @@ export default function EmailVerificationForm({
           >
             <div
               style={{
-                animation: 'spin 1s linear infinite',
+                width: '16px',
+                height: '16px',
+                border: '2px solid #ffffff',
+                borderTop: '2px solid transparent',
                 borderRadius: '50%',
-                height: '1rem',
-                width: '1rem',
-                border: '2px solid transparent',
-                borderBottomColor: 'white',
-                marginRight: '0.5rem',
+                animation: 'spin 1s linear infinite',
+                marginRight: '8px',
               }}
             ></div>
-            처리 중...
+            발송 중
           </div>
         ) : (
           '인증메일 보내기'
         )}
       </button>
+
+      {/* CSS 애니메이션 정의 */}
+      <style jsx>{`
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
     </form>
   );
 } 
