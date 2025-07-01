@@ -21,7 +21,7 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
   // const setSelectedRegion = useSetSelectedRegion();
   // const isLoggedIn = true;
   // const hasAnimatedRef = useRef(false);
-  
+
   // 이전 selectedRegion 값을 유지하기 위한 ref
   const previousRegionRef = useRef(selectedRegion);
 
@@ -67,6 +67,7 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
   const chartData = useMemo(() => {
     return generateChartData(currentRegion);
   }, [currentRegion]);
+  // const chartData = [100, 100, 100, 100, 100, 100, 100, 100];
 
   // URL 업데이트 로직 제거 - SPA 방식으로 변경
 
