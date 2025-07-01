@@ -1,8 +1,8 @@
 import { Metadata, Viewport } from 'next';
 
 export const metadata: Metadata = {
-  title: '회원가입 - 프로필',
-  description: 'KLACI 회원가입 프로필 정보 입력',
+  title: '요약',
+  description: 'KLACI 요약 페이지',
 };
 
 export const viewport: Viewport = {
@@ -12,7 +12,7 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
-export default function ProfileLayout({
+export default function SummaryLayout({
   children,
 }: {
   children: React.ReactNode;

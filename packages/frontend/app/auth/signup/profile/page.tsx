@@ -16,9 +16,10 @@ import {
 } from '@/utils/validation';
 import { createClient } from '@supabase/supabase-js';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 
-export default function SignUpProfilePage() {
+// Suspense 경계로 감싸는 컴포넌트
+function ProfilePageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
@@ -170,22 +171,6 @@ export default function SignUpProfilePage() {
     const validation = validatePhoneNumber(formData.phoneNumber);
     setErrors((prev) => ({ ...prev, phoneNumber: validation.message }));
   };
-
-  // // 관심 지역 변경 핸들러
-  // const handleInterestProvinceChange = (provinceId: string) => {
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     provinceId,
-  //     regionId: '', // 광역 변경 시 지자체 초기화
-  //   }));
-  // };
-
-  // const handleInterestDistrictChange = (districtId: string) => {
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     regionId: districtId,
-  //   }));
-  // };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -793,5 +778,26 @@ export default function SignUpProfilePage() {
         }
       `}</style>
     </div>
+  );
+}
+
+// 로딩 컴포넌트
+function ProfilePageLoading() {
+  return (
+    <div className="min-h-screen w-full flex items-center justify-center" style={{ backgroundColor: '#F4F4F4' }}>
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+        <p className="text-gray-600">페이지를 로딩 중입니다...</p>
+      </div>
+    </div>
+  );
+}
+
+// 메인 컴포넌트
+export default function SignUpProfilePage() {
+  return (
+    <Suspense fallback={<ProfilePageLoading />}>
+      <ProfilePageContent />
+    </Suspense>
   );
 }
