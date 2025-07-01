@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 const FooterTopSection = () => {
   const sitemapData = {
     personal: {
@@ -69,9 +71,11 @@ const FooterTopSection = () => {
           }}
         >
           <div style={{ marginBottom: '16px' }}>
-            <img
+            <Image
               src={LOGO_SRC}
               alt={LOGO_ALT}
+              width={120}
+              height={45}
               style={{
                 height: '45px',
                 width: 'auto',

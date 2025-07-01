@@ -4,6 +4,7 @@ import { AuthService } from '@/api/services/auth.service';
 import { HeaderAuthButton } from '@/components/atoms/buttons/HeaderAuthButton';
 import { ROUTES } from '@/constants/data';
 import { useIsLoggedIn, useLogout, useUser } from '@/store';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -86,9 +87,11 @@ const Header = () => {
             }}
           >
             <Link href="/">
-              <img
+              <Image
                 src={logoSrc}
                 alt="K-LACI Logo"
+                width={120}
+                height={30}
                 style={{ height: '30px', width: 'auto', marginRight: '15px' }}
               />
             </Link>
