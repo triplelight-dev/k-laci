@@ -2,8 +2,8 @@
 export interface ApiResponse<T = any> {
   success: boolean;
   data: T;
-  message?: string;
-  error?: string;
+  message: string | null;
+  errorCode: string | null;
 }
 
 // 페이지네이션 타입
@@ -44,4 +44,52 @@ export interface KeyIndexData {
   calculation_method?: string;
   created_at?: string;
   updated_at?: string;
+}
+
+// 인증 관련 타입들
+export interface AuthApiTypes {
+  SendVerificationEmailRequest: {
+    email: string;
+  };
+  
+  SendVerificationEmailResponse: {
+    message: string;
+  };
+  
+  VerifyCodeRequest: {
+    email: string;
+    code: string;
+  };
+  
+  VerifyCodeResponse: {
+    verified: boolean;
+    message: string;
+  };
+  
+  SignUpRequest: {
+    email: string;
+    password: string;
+    name: string;
+    phone: string;
+    interest_region: string;
+  };
+  
+  SignUpResponse: {
+    message: string;
+  };
+  
+  SignInRequest: {
+    email: string;
+    password: string;
+  };
+  
+  SignInResponse: {
+    access_token: string;
+    refresh_token: string;
+    user: {
+      id: string;
+      email: string;
+      name: string;
+    };
+  };
 } 

@@ -7,12 +7,22 @@ import {
 } from './dto/complete-signup.dto';
 import { SendVerificationEmailDto } from './dto/send-verification-email.dto';
 import { SignUpDto, SignUpResponseDto } from './dto/sign-up.dto';
+import {
+  SendVerificationCodeDto,
+  VerifyCodeDto,
+} from './dto/verification-code.dto';
+import { EmailService } from './email.service';
+import { VerificationCodeService } from './verification-code.service';
 
 @Injectable()
 export class AuthService {
   private supabase: SupabaseClient;
 
-  constructor(private configService: ConfigService) {
+  constructor(
+    private configService: ConfigService,
+    private verificationCodeService: VerificationCodeService,
+    private emailService: EmailService,
+  ) {
     const supabaseUrl = this.configService.getOrThrow<string>('SUPABASE_URL');
     const supabaseKey =
       this.configService.getOrThrow<string>('SUPABASE_ANON_KEY');
@@ -71,27 +81,15 @@ export class AuthService {
         throw new UnauthorizedException('이미 가입된 이메일입니다.');
       }
 
-      // 인증 이메일 발송
-      const frontendUrl =
-        this.configService.get<string>('FRONTEND_URL') ||
-        'http://localhost:3000';
-      const { error } = await this.supabase.auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: `${frontendUrl}/auth/signup/profile`,
-        },
-      });
+      // AWS SES를 사용한 인증번호 발송 (기존 매직링크 대신)
+      await this.verificationCodeService.generateAndSendCode(email);
 
-      if (error) {
-        throw new UnauthorizedException(error.message);
-      }
-
-      return { message: '인증메일이 발송되었습니다.' };
+      return { message: '인증번호가 발송되었습니다.' };
     } catch (error) {
       if (error instanceof UnauthorizedException) {
         throw error;
       }
-      throw new UnauthorizedException('인증메일 발송 중 오류가 발생했습니다.');
+      throw new UnauthorizedException('인증번호 발송 중 오류가 발생했습니다.');
     }
   }
 
@@ -175,58 +173,145 @@ export class AuthService {
     name,
     email,
     password,
+    phone_number,
+    interest_region_id,
   }: SignUpDto): Promise<SignUpResponseDto> {
-    // 1. Create user in auth.users
-    const { data: authData, error: authError } =
-      await this.supabase.auth.signUp({
+    try {
+      console.log(
+        'signup',
+        name,
         email,
         password,
-      });
-
-    if (authError) {
-      throw new UnauthorizedException(authError.message);
-    }
-
-    if (!authData.user) {
-      throw new UnauthorizedException('Failed to create user');
-    }
-
-    // 2. Create user profile in public.user_profiles
-    const { error: profileError } = await this.supabase
-      .from('user_profiles')
-      .insert([
-        {
-          id: authData.user.id,
-          email: authData.user.email,
-          name,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        },
-      ]);
-
-    if (profileError) {
-      // If profile creation fails, we should clean up the auth user
-      await this.supabase.auth.admin.deleteUser(authData.user.id);
-      throw new UnauthorizedException(
-        `Failed to create user profile: ${profileError.message}`,
+        phone_number,
+        interest_region_id,
       );
-    }
+      // 이메일 중복 체크
+      const { data: existingProfile, error: profileError } = await this.supabase
+        .from('user_profiles')
+        .select('email')
+        .eq('email', email)
+        .single();
 
-    return {
-      user_id: authData.user.id,
-      email: authData.user.email,
-    };
+      if (profileError && profileError.code !== 'PGRST116') {
+        throw new UnauthorizedException('사용자 조회 중 오류가 발생했습니다.');
+      }
+
+      if (existingProfile) {
+        throw new UnauthorizedException('이미 가입된 이메일입니다.');
+      }
+
+      // 1. Create user in auth.users
+      const { data: authData, error: authError } =
+        await this.supabase.auth.signUp({
+          email,
+          password,
+        });
+
+      if (authError) {
+        throw new UnauthorizedException(authError.message);
+      }
+
+      if (!authData.user) {
+        throw new UnauthorizedException('Failed to create user');
+      }
+
+      console.log('authData', authData);
+
+      // 2. Create user profile in public.user_profiles
+      const profileData = {
+        id: authData.user.id,
+        email: authData.user.email,
+        name,
+        phone_number: phone_number || null,
+        // interest_region_id는 받기만 하고 아무것도 하지 않음
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
+
+      console.log('Inserting profile data:', profileData);
+
+      const { error: insertError } = await this.supabase
+        .from('user_profiles')
+        .insert([profileData]);
+
+      if (insertError) {
+        console.error('Profile insertion error:', insertError);
+        throw new UnauthorizedException(
+          `Failed to create user profile: ${insertError.message}`,
+        );
+      }
+
+      console.log('profileData', profileData);
+
+      return {
+        user_id: authData.user.id,
+        email: authData.user.email,
+      };
+    } catch (error) {
+      if (error instanceof UnauthorizedException) {
+        throw error;
+      }
+      console.error('Signup error:', error);
+      throw new UnauthorizedException('회원가입 중 오류가 발생했습니다.');
+    }
+  }
+
+  async sendVerificationCode({ email }: SendVerificationCodeDto) {
+    try {
+      // 이메일 중복 체크 - user_profiles 테이블에서 확인
+      const { data: existingProfile, error: profileError } = await this.supabase
+        .from('user_profiles')
+        .select('email')
+        .eq('email', email)
+        .single();
+
+      if (profileError && profileError.code !== 'PGRST116') {
+        // PGRST116는 "결과가 없음" 에러
+        throw new UnauthorizedException('사용자 조회 중 오류가 발생했습니다.');
+      }
+
+      if (existingProfile) {
+        throw new UnauthorizedException('이미 가입된 이메일입니다.');
+      }
+
+      console.log('email', email);
+      console.log('## gonna send verification code');
+
+      // 인증번호 생성 및 발송
+      await this.verificationCodeService.generateAndSendCode(email);
+
+      return { message: '인증번호가 발송되었습니다.' };
+    } catch (error) {
+      if (error instanceof UnauthorizedException) {
+        throw error;
+      }
+      throw new UnauthorizedException('인증번호 발송 중 오류가 발생했습니다.');
+    }
+  }
+
+  async verifyCode({ email, code }: VerifyCodeDto) {
+    try {
+      const isVerified = await this.verificationCodeService.verifyCode(
+        email,
+        code,
+      );
+
+      if (isVerified) {
+        return {
+          verified: true,
+          message: '인증이 완료되었습니다.',
+        };
+      } else {
+        return {
+          verified: false,
+          message: '인증번호가 일치하지 않습니다.',
+        };
+      }
+    } catch (error) {
+      if (error instanceof UnauthorizedException) {
+        throw error;
+      }
+      throw new UnauthorizedException('인증 중 오류가 발생했습니다.');
+    }
   }
 }
-
-export const AUTH_ERRORS = {
-  NO_AUTH_HEADER: 'No authorization header',
-  INVALID_TYPE: 'Invalid authorization type',
-  NO_TOKEN: 'No token provided',
-  INVALID_TOKEN: 'Invalid token',
-  INVALID_CREDENTIALS: 'Invalid credentials',
-  USER_NOT_FOUND: 'User not found',
-  PROFILE_CREATION_FAILED: 'Failed to create user profile',
-} as const;
-
-export type AuthErrorKey = keyof typeof AUTH_ERRORS;

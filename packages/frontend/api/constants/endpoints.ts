@@ -18,4 +18,15 @@ export const API_ENDPOINTS = {
     CATEGORIES: '/data/categories',
     KEY_INDEX: (id: number) => `/data/key-indexes/${id}`,
   },
+} as const;
+
+export const AUTH_ENDPOINTS = {
+  // 새로운 인증번호 방식
+  SEND_VERIFICATION_CODE: '/auth/send-verification-code',
+  VERIFY_CODE: '/auth/verify-code',
+  
+  // 기존 API들
+  SEND_VERIFICATION_EMAIL: '/auth/send-verification-email', // 사용하지 않음
+  SIGNUP: '/auth/signup',
+  SIGNIN: '/auth/signin',
 } as const; 

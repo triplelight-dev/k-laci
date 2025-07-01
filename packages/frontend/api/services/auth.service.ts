@@ -10,6 +10,8 @@ export interface SignUpRequest {
   email: string;
   password: string;
   name: string;
+  phone_number: string;
+  interest_region_id: string;
 }
 
 export interface SendVerificationEmailRequest {
@@ -52,6 +54,30 @@ export interface AuthResponse {
   token: string;
 }
 
+export interface VerifyCodeRequest {
+  email: string;
+  code: string;
+}
+
+export interface VerifyCodeResponse {
+  verified: boolean;
+  message: string;
+}
+
+export interface SignUpResponse {
+  message: string;
+}
+
+export interface SignInResponse {
+  access_token: string;
+  refresh_token: string;
+  user: {
+    id: string;
+    email: string;
+    name: string;
+  };
+}
+
 export class AuthService {
   static async sendVerificationEmail(data: SendVerificationEmailRequest): Promise<ApiResponse<SendVerificationEmailResponse>> {
     const response = await apiClient.post('/auth/send-verification-email', data);
@@ -63,12 +89,12 @@ export class AuthService {
     return response.data;
   }
 
-  static async signIn(data: SignInRequest): Promise<ApiResponse<AuthResponse>> {
-    const response = await apiClient.post('/auth/sign-in', data);
+  static async signIn(data: SignInRequest): Promise<ApiResponse<SignInResponse>> {
+    const response = await apiClient.post('/auth/signin', data);
     return response.data;
   }
 
-  static async signUp(data: SignUpRequest): Promise<ApiResponse<AuthResponse>> {
+  static async signUp(data: SignUpRequest): Promise<ApiResponse<SignUpResponse>> {
     const response = await apiClient.post('/auth/sign-up', data);
     return response.data;
   }
@@ -80,6 +106,16 @@ export class AuthService {
 
   static async getProfile(): Promise<ApiResponse<AuthResponse['user']>> {
     const response = await apiClient.get('/auth/profile');
+    return response.data;
+  }
+
+  static async sendVerificationCode(data: SendVerificationEmailRequest): Promise<ApiResponse<SendVerificationEmailResponse>> {
+    const response = await apiClient.post('/auth/send-verification-code', data);
+    return response.data;
+  }
+
+  static async verifyCode(data: VerifyCodeRequest): Promise<ApiResponse<VerifyCodeResponse>> {
+    const response = await apiClient.post('/auth/verify-code', data);
     return response.data;
   }
 } 

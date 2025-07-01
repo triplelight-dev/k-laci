@@ -3,14 +3,20 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
 import {
-    CompleteSignupDto,
-    CompleteSignupResponseDto,
+  CompleteSignupDto,
+  CompleteSignupResponseDto,
 } from './dto/complete-signup.dto';
 import {
-    SendVerificationEmailDto,
-    SendVerificationEmailResponseDto,
+  SendVerificationEmailDto,
+  SendVerificationEmailResponseDto,
 } from './dto/send-verification-email.dto';
 import { SignUpDto, SignUpResponseDto } from './dto/sign-up.dto';
+import {
+  SendVerificationCodeDto,
+  SendVerificationCodeResponseDto,
+  VerifyCodeDto,
+  VerifyCodeResponseDto,
+} from './dto/verification-code.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -37,15 +43,54 @@ export class AuthController {
   }
 
   @Public()
-  @Post('complete-signup')
-  @ApiOperation({ summary: 'Complete signup with user information' })
+  @Post('send-verification-code')
+  @ApiOperation({ summary: 'Send verification code for signup' })
   @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'User signup completed successfully',
+    status: HttpStatus.OK,
+    description: 'Verification code sent successfully',
+    type: SendVerificationCodeResponseDto,
+  })
+  @ApiResponse({ status: 400, description: 'Invalid email format' })
+  @ApiResponse({
+    status: 401,
+    description: 'Email already exists or other error',
+  })
+  async sendVerificationCode(
+    @Body() dto: SendVerificationCodeDto,
+  ): Promise<SendVerificationCodeResponseDto> {
+    return this.authService.sendVerificationCode(dto);
+  }
+
+  @Public()
+  @Post('verify-code')
+  @ApiOperation({ summary: 'Verify email verification code' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Code verification result',
+    type: VerifyCodeResponseDto,
+  })
+  @ApiResponse({ status: 400, description: 'Invalid code format' })
+  @ApiResponse({
+    status: 401,
+    description: 'Invalid or expired code',
+  })
+  async verifyCode(@Body() dto: VerifyCodeDto): Promise<VerifyCodeResponseDto> {
+    return this.authService.verifyCode(dto);
+  }
+
+  @Public()
+  @Post('complete-signup')
+  @ApiOperation({ summary: 'Complete signup process' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Signup completed successfully',
     type: CompleteSignupResponseDto,
   })
   @ApiResponse({ status: 400, description: 'Invalid input data' })
-  @ApiResponse({ status: 401, description: 'Invalid token or other error' })
+  @ApiResponse({
+    status: 401,
+    description: 'Invalid token or missing required agreements',
+  })
   async completeSignup(
     @Body() dto: CompleteSignupDto,
   ): Promise<CompleteSignupResponseDto> {
@@ -53,52 +98,47 @@ export class AuthController {
   }
 
   @Public()
-  @Post('signup')
-  @ApiOperation({ summary: 'Sign up a new user (legacy method)' })
+  @Post('sign-up')
+  @ApiOperation({ summary: 'Sign up new user' })
   @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'User has been successfully created',
+    status: HttpStatus.OK,
+    description: 'User signed up successfully',
     type: SignUpResponseDto,
   })
   @ApiResponse({ status: 400, description: 'Invalid input data' })
-  async signUp(@Body() signUpDto: SignUpDto): Promise<SignUpResponseDto> {
-    return this.authService.signup(signUpDto);
+  @ApiResponse({
+    status: 401,
+    description: 'Signup failed',
+  })
+  async signUp(@Body() dto: SignUpDto): Promise<SignUpResponseDto> {
+    return this.authService.signup(dto);
   }
 
-  // @Public()
-  // @Post('signin')
-  // @HttpCode(HttpStatus.OK)
-  // @ApiOperation({ summary: 'Sign in a user' })
-  // @ApiResponse({
-  //   status: HttpStatus.OK,
-  //   description: 'User has been successfully signed in',
-  //   type: SignInResponseDto,
-  // })
-  // @ApiResponse({ status: 401, description: 'Invalid credentials' })
-  // async signIn(@Body() signInDto: SignInDto): Promise<SignInResponseDto> {
-  //   return this.authService.sig(signInDto);
-  // }
-
-  @Post('signout')
-  @ApiOperation({ summary: 'Sign out the current user' })
+  @Post('sign-out')
+  @ApiOperation({ summary: 'Sign out user' })
   @ApiResponse({
-    status: 200,
-    description: 'User successfully signed out',
-    type: Object,
+    status: HttpStatus.OK,
+    description: 'User signed out successfully',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Signout failed',
   })
   async signOut() {
     return this.authService.signOut();
   }
 
-  @Get('session')
-  @ApiOperation({ summary: 'Get current user session' })
+  @Get('profile')
+  @ApiOperation({ summary: 'Get user profile' })
   @ApiResponse({
-    status: 200,
-    description: 'Returns the current session',
-    type: Object,
+    status: HttpStatus.OK,
+    description: 'User profile retrieved successfully',
   })
-  @ApiResponse({ status: 401, description: 'No active session' })
-  async getSession() {
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+  })
+  async getProfile() {
     return this.authService.getSession();
   }
 }

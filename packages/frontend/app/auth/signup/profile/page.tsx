@@ -7,12 +7,12 @@ import PasswordInputGroup from '@/components/atoms/PasswordInputGroup';
 import InterestRegionSelect from '@/components/atoms/select/InterestRegionSelect';
 import SignupCompleteModal from '@/components/ui/SignupCompleteModal';
 import {
-  validateConfirmPassword,
-  validateName,
-  validateOrganization,
-  validatePassword,
-  validatePhoneNumber,
-  validateSignupForm,
+    validateConfirmPassword,
+    validateName,
+    validateOrganization,
+    validatePassword,
+    validatePhoneNumber,
+    validateSignupForm,
 } from '@/utils/validation';
 import { createClient } from '@supabase/supabase-js';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -59,6 +59,11 @@ export default function SignUpProfilePage() {
   const termsLink = 'https://dev.klaci.kr';
   const privacyLink = 'https://dev.klaci.kr';
   const marketingLink = 'https://dev.klaci.kr';
+
+  const email = searchParams.get('email');
+
+  // 이메일을 기본값으로 설정하거나 상태에 저장
+  console.log('인증된 이메일:', email);
 
   // URL에서 토큰 추출
   const getTokenFromUrl = () => {

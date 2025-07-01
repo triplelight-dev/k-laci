@@ -1,5 +1,5 @@
-import { IsEmail, IsString, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsEmail, IsOptional, IsString, MinLength } from 'class-validator';
 
 export class SignUpDto {
   @ApiProperty({
@@ -26,6 +26,24 @@ export class SignUpDto {
   @IsString()
   @MinLength(2)
   name: string;
+
+  @ApiProperty({
+    example: '01012345678',
+    description: 'The phone number of the user',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  phone_number?: string;
+
+  @ApiProperty({
+    example: 'region123',
+    description: 'The interest region ID of the user',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  interest_region_id?: string;
 }
 
 export class SignUpResponseDto {

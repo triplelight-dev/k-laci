@@ -1,21 +1,14 @@
 import { Module } from '@nestjs/common';
-import { APP_GUARD } from '@nestjs/core';
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
-import { ConfigModule } from '@nestjs/config';
 import { SupabaseModule } from '../supabase/supabase.module';
-import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
+import { EmailService } from './email.service';
+import { VerificationCodeService } from './verification-code.service';
 
 @Module({
-  imports: [ConfigModule, SupabaseModule],
-  providers: [
-    AuthService,
-    {
-      provide: APP_GUARD,
-      useClass: JwtAuthGuard,
-    },
-  ],
+  imports: [SupabaseModule],
   controllers: [AuthController],
+  providers: [AuthService, EmailService, VerificationCodeService],
   exports: [AuthService],
 })
 export class AuthModule {}
