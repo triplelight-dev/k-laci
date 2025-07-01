@@ -75,7 +75,7 @@ export default function EmailVerificationSection({
                 color: '#111827',
               }}
             >
-              이메일 인증
+              이메일로 회원가입
             </h1>
           </div>
 

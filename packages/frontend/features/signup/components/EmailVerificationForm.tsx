@@ -1,4 +1,8 @@
-import CommonInput from '@/components/atoms/CommonInput';
+import EmailInput from '@/components/atoms/EmailInput';
+import UserTypeBadge from '@/components/atoms/UserTypeBadge';
+import { getUserTypeFromEmail } from '@/utils/userTypeUtils';
+import { useEffect, useState } from 'react';
+import { UserType } from '../hooks/useSignupFlow';
 
 interface EmailVerificationFormProps {
   email: string;
@@ -13,6 +17,17 @@ export default function EmailVerificationForm({
   isLoading,
   onSubmit,
 }: EmailVerificationFormProps) {
+  const [userType, setUserType] = useState<UserType>('GENERAL');
+
+  // 이메일이 변경될 때마다 유저 타입 업데이트
+  useEffect(() => {
+    if (email && email.includes('@')) {
+      setUserType(getUserTypeFromEmail(email));
+    } else {
+      setUserType('GENERAL');
+    }
+  }, [email]);
+
   return (
     <form
       onSubmit={onSubmit}
@@ -26,16 +41,26 @@ export default function EmailVerificationForm({
       }}
     >
       {/* 이메일 입력 */}
-      <CommonInput
-        id="email"
-        label="이메일"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="이메일을 입력해주세요"
-        type="email"
-        required={true}
-        isRequired={true}
-      />
+      <div style={{ width: '100%' }}>
+        <EmailInput
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        
+        {/* 유저 타입 뱃지들 */}
+        <div
+          style={{
+            display: 'flex',
+            width: '100%',
+            gap: '8px',
+            marginTop: '16px',
+          }}
+        >
+          <UserTypeBadge type="GOV" isActive={userType === 'GOV'} />
+          <UserTypeBadge type="EDU" isActive={userType === 'EDU'} />
+          <UserTypeBadge type="GENERAL" isActive={userType === 'GENERAL'} />
+        </div>
+      </div>
 
       {/* 인증번호 발송 버튼 */}
       <button
@@ -86,7 +111,7 @@ export default function EmailVerificationForm({
             처리 중...
           </div>
         ) : (
-          '인증번호 발송'
+          '인증메일 보내기'
         )}
       </button>
     </form>
