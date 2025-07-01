@@ -136,6 +136,7 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
       
       const newData = animatedChartData.map((currentValue, index) => {
         const targetValue = targetChartData[index];
+        if (targetValue === undefined) return currentValue;
         const diff = targetValue - currentValue;
         return currentValue + (diff * easeProgress);
       });

@@ -184,7 +184,6 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
       {points.map((pt, i) => {
         const category = categories[i];
         if (!category) return null;
-        const isTop = pt.y <= center;
 
         return (
           <g key={`point-${i}`}>
@@ -326,7 +325,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
                 fill="#333"
               >
                 원석레이더 차트의 상반부는{' '}
-                <tspan fontWeight="bold">'강점'</tspan> 영역입니다.
+                <tspan fontWeight="bold">&apos;강점&apos;</tspan> 영역입니다.
               </text>
               <text
                 x={center}
@@ -335,7 +334,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
                 fontSize="11"
                 fill="#333"
               >
-                '양점' 원형 범위와 비교해 지역의 자산 정도를
+                &apos;양점&apos; 원형 범위와 비교해 지역의 자산 정도를
               </text>
               <text
                 x={center}
@@ -357,7 +356,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
                 fill="#333"
               >
                 원석레이더 차트의 하반부는{' '}
-                <tspan fontWeight="bold">'약점'</tspan> 영역입니다.
+                <tspan fontWeight="bold">&apos;약점&apos;</tspan> 영역입니다.
               </text>
               <text
                 x={center}
@@ -366,7 +365,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
                 fontSize="11"
                 fill="#333"
               >
-                '강점' 원형 범위와 비교해 개선 정도를
+                &apos;강점&apos; 원형 범위와 비교해 개선 정도를
               </text>
               <text
                 x={center}
