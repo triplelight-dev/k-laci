@@ -203,7 +203,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
               textAnchor="middle"
               fontSize="12"
               fontWeight="600"
-              fill={['인구성장형', '안전복원형'].includes(category)
+              fill={['인구성장형', '안전회복형'].includes(category)
                 ? colorMap[category] || '#333'
                 : '#333'}
               className="category-text"

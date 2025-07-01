@@ -1,5 +1,7 @@
 'use client';
 
+import { CATEGORIES } from '../../../constants/categories';
+import { isActiveCategory } from '../../../utils/categoryUtils';
 import { RadarChartContext } from './types';
 
 interface RadarBackgroundProps {
@@ -17,6 +19,7 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
     categories,
     colorMap,
     points,
+    regionData,
   } = context;
 
   if (isJewel) return null;
@@ -111,9 +114,35 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
         const x = center + (radius + labelOffset.category) * Math.cos(pt.angle);
         const y = center + (radius + labelOffset.category) * Math.sin(pt.angle);
 
-        const textColor = ['인구성장형', '안전복원형'].includes(category)
-          ? colorMap[category] || '#999999'
-          : '#999999';
+        // 지역 데이터가 있으면 점수에 따른 색상 적용
+        let textColor = '#999999'; // 기본 색상
+        
+        if (regionData) {
+          const { growth_score, economy_score, living_score, safety_score } = regionData;
+          const isActive = isActiveCategory(
+            category,
+            growth_score || 50,
+            economy_score || 50,
+            living_score || 50,
+            safety_score || 50
+          );
+          
+          if (isActive) {
+            // 활성화된 카테고리 중에서도 낮은 점수 카테고리들은 검정색으로 표시
+            const lowScoreCategories = [
+              CATEGORIES.안전정진형,
+              CATEGORIES.생활정체형,
+              CATEGORIES.경제정속형,
+              CATEGORIES.인구정착형,
+            ];
+            
+            if (lowScoreCategories.includes(category)) {
+              textColor = '#000000'; // 검정색
+            } else {
+              textColor = colorMap[category] || '#999999'; // 키컬러
+            }
+          }
+        }
 
         return (
           <text

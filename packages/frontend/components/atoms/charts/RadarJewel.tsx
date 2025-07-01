@@ -57,7 +57,7 @@ const RadarJewel = ({ context, imageUrl }: RadarJewelProps) => {
           const pct = Math.min(100, ((vals[i] ?? 0) / 100) * 100);
           const [startColor, endColor] = fixedColorPairs[i] ?? ['#000', '#000'];
 
-          if (category === '안전복원형') {
+          if (category === '안전회복형') {
             return (
               <radialGradient
                 key={i}

@@ -11,6 +11,7 @@ const JewelRadarChart = ({
   isJewel = false,
   size = 500,
   imageUrl = '/backgrounds/radar_chart_bg.png',
+  regionData,
 }: RadarChartProps) => {
   const center = size / 2;
   const radius = size * 0.4;
@@ -33,7 +34,7 @@ const JewelRadarChart = ({
   // 차트 순서에 맞게 카테고리 배열 생성 (순서 중요!)
   const categories = [
     CATEGORIES.생활역동형,
-    CATEGORIES.안전복원형,
+    CATEGORIES.안전회복형,
     CATEGORIES.인구정착형,
     CATEGORIES.경제정속형,
     CATEGORIES.생활정체형,
@@ -45,7 +46,7 @@ const JewelRadarChart = ({
   const colorMap: Record<string, string> = {
     [CATEGORIES.생활역동형]: '#874FFF',
     [CATEGORIES.생활정체형]: '#874FFF',
-    [CATEGORIES.안전복원형]: '#24CB71',
+    [CATEGORIES.안전회복형]: '#24CB71',
     [CATEGORIES.안전정진형]: '#24CB71',
     [CATEGORIES.인구정착형]: '#FF3737',
     [CATEGORIES.인구성장형]: '#FF3737',
@@ -75,7 +76,7 @@ const JewelRadarChart = ({
   // 두색 그라디언트 쌍
   const fixedColorPairs: [string, string][] = [
     ['#ACAAE8', '#8E8AE5'], // 생활역동형
-    ['#74BF9E', '#59A37D'], // 안전복원형
+    ['#74BF9E', '#59A37D'], // 안전회복형
     ['#F56542', '#D64A2E'], // 인구정착형
     ['#F4B04D', '#D09B3F'], // 경제정속형
     ['#ACAAE8', '#8E8AE5'], // 생활정체형
@@ -97,6 +98,7 @@ const JewelRadarChart = ({
     points,
     vals,
     fixedColorPairs,
+    regionData,
   };
 
   return (
