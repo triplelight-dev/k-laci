@@ -20,7 +20,7 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
 
   // 폰트 크기 비율 계산 (기존 크기 기준)
   const fontSize = {
-    category: Math.round(size * 0.032), // 기존 16px (500px 기준)
+    category: Math.round(size * 0.028), // 기존 16px (500px 기준)에서 14px로 감소
     value: Math.round(size * 0.02), // 기존 10px (500px 기준)
     tooltip: Math.round(size * 0.024), // 툴팁용 12px (500px 기준)
     area: Math.round(size * 0.028), // 영역 툴팁용 14px (500px 기준)
@@ -28,7 +28,7 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
 
   // 라벨 위치 오프셋도 size에 비례하도록 조정
   const labelOffset = {
-    category: Math.round(size * 0.06), // 기존 30px (500px 기준)
+    category: Math.round(size * 0.07), // 35px로 조정
     value: Math.round(size * 0.008), // 기존 4px (500px 기준)
   };
 
@@ -449,16 +449,16 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
           );
         })}
 
-      {/* 🌀 원형 격자 (5개: 20,40,60,80,100) */}
+      {/* 🌀 원형 격자 (3개: 50, 100) */}
       {!isJewel &&
-        [0.2, 0.4, 0.6, 0.8, 1.0].map((rate, i) => (
+        [0.5, 1.0].map((rate, i) => (
           <circle
             key={i}
             cx={center}
             cy={center}
             r={radius * rate}
             fill="none"
-            stroke="#AAA"
+            stroke="#D9D9E8"
             strokeWidth={0.5}
             strokeDasharray={rate === 1.0 ? "none" : "2 2"}
           />
@@ -473,7 +473,7 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
             y1={center}
             x2={center + radius * Math.cos(pt.angle)}
             y2={center + radius * Math.sin(pt.angle)}
-            stroke="#AAA"
+            stroke="#D9D9E8"
             strokeWidth={0.5}
           />
         ))}
@@ -497,15 +497,9 @@ const JewelRadarChart = ({ data, isJewel = false, size = 500 }: Props) => {
           const category = categories[i];
           if (!category) return null;
           
-          let deg = (pt.angle * 180) / Math.PI + 90;
-          if (deg > 180) deg -= 180;
-          if (
-            ['경제혁신형', '인구성장형', '경제정속형', '인구정착형'].includes(
-              category,
-            )
-          ) {
-            deg += 180;
-          }
+          // 모든 라벨을 180도 기준으로 수평하게 표시
+          const deg = 0;
+          
           const x =
             center + (radius + labelOffset.category) * Math.cos(pt.angle);
           const y =
