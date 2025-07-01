@@ -9,6 +9,7 @@ const JewelRadarChart = ({
   data,
   isJewel = false,
   size = 500,
+  imageUrl = '/backgrounds/radar_chart_bg.png', // 기본 이미지 URL 설정
 }: RadarChartProps) => {
   const center = size / 2;
   const radius = size * 0.4;
@@ -138,7 +139,7 @@ const JewelRadarChart = ({
       )}
 
       <RadarBackground context={context} />
-      <RadarJewel context={context} />
+      <RadarJewel context={context} imageUrl={imageUrl} />
       <RadarHoverEffects context={context} />
     </svg>
   );

@@ -4,6 +4,7 @@ export interface RadarChartProps {
   data: RadarChartData;
   isJewel?: boolean;
   size?: number;
+  imageUrl?: string; // 이미지 URL 추가
 }
 
 export interface RadarChartContext {

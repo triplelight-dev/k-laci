@@ -4,28 +4,57 @@ import { RadarChartContext } from './types';
 
 interface RadarJewelProps {
   context: RadarChartContext;
+  imageUrl?: string;
 }
 
-const RadarJewel = ({ context }: RadarJewelProps) => {
-  const {
-    center,
-    radius,
-    isJewel,
-    categories,
-    points,
-    vals,
-    fixedColorPairs,
-  } = context;
+const RadarJewel = ({ context, imageUrl }: RadarJewelProps) => {
+  const { center, radius, categories, points, vals, fixedColorPairs } = context;
 
   const numAxes = categories.length;
 
   return (
     <>
-      {/* 그라디언트 정의 */}
       <defs>
+        {/* 이미지 패턴 정의 - 정중앙 정렬을 위해 수정 */}
+        {imageUrl && (
+          <pattern
+            id="jewelImagePattern"
+            patternUnits="userSpaceOnUse"
+            width={radius * 2}
+            height={radius * 2}
+            x={center - radius}
+            y={center - radius}
+          >
+            <image
+              href={imageUrl}
+              width={radius * 2}
+              height={radius * 2}
+              x="0"
+              y="0"
+              preserveAspectRatio="xMidYMid slice"
+            />
+          </pattern>
+        )}
+
+        {/* 보석 모양 클립패스 정의 */}
+        <clipPath id="jewelClipPath">
+          {points.map((pt, i) => {
+            const next = points[(i + 1) % numAxes];
+            if (!next) return null;
+
+            return (
+              <path
+                key={i}
+                d={`M${center},${center} L${pt.x},${pt.y} L${next.x},${next.y} Z`}
+              />
+            );
+          })}
+        </clipPath>
+
+        {/* 기존 그라디언트들 */}
         {categories.map((category, i) => {
           if (!category) return null;
-          const pct = Math.min(100, (vals[i] ?? 0) / 100 * 100);
+          const pct = Math.min(100, ((vals[i] ?? 0) / 100) * 100);
           const [startColor, endColor] = fixedColorPairs[i] ?? ['#000', '#000'];
 
           if (category === '안전복원형') {
@@ -98,28 +127,63 @@ const RadarJewel = ({ context }: RadarJewelProps) => {
         })}
       </defs>
 
-      {/* 보석 삼각형 */}
-      {points.map((pt, i) => {
-        const next = points[(i + 1) % numAxes];
-        if (!next) return null;
-        
-        return (
-          <path
-            key={i}
-            d={`M${center},${center} L${pt.x},${pt.y} L${next.x},${next.y} Z`}
-            fill={`url(#grad${i})`}
-            fillOpacity={0.7}
-            stroke="white"
-            strokeWidth={1}
-            className="jewel-triangle"
-            style={{
-              transition: 'opacity 0.3s ease',
-            }}
+      {/* 이미지가 있을 때: 이미지 패턴으로 보석 렌더링 */}
+      {imageUrl && (
+        <g clipPath="url(#jewelClipPath)">
+          <rect
+            x={center - radius}
+            y={center - radius}
+            width={radius * 2}
+            height={radius * 2}
+            fill="url(#jewelImagePattern)"
           />
-        );
-      })}
+        </g>
+      )}
+
+      {/* 이미지가 없을 때: 기존 그라디언트로 보석 렌더링 */}
+      {!imageUrl &&
+        points.map((pt, i) => {
+          const next = points[(i + 1) % numAxes];
+          if (!next) return null;
+
+          return (
+            <path
+              key={i}
+              d={`M${center},${center} L${pt.x},${pt.y} L${next.x},${next.y} Z`}
+              fill={`url(#grad${i})`}
+              fillOpacity={0.7}
+              stroke="white"
+              strokeWidth={1}
+              className="jewel-triangle"
+              style={{
+                transition: 'opacity 0.3s ease',
+              }}
+            />
+          );
+        })}
+
+      {/* 보석 테두리 (이미지가 있을 때도 표시) */}
+      {imageUrl &&
+        points.map((pt, i) => {
+          const next = points[(i + 1) % numAxes];
+          if (!next) return null;
+
+          return (
+            <path
+              key={`border-${i}`}
+              d={`M${center},${center} L${pt.x},${pt.y} L${next.x},${next.y} Z`}
+              fill="none"
+              stroke="white"
+              strokeWidth={1}
+              className="jewel-triangle"
+              style={{
+                transition: 'opacity 0.3s ease',
+              }}
+            />
+          );
+        })}
     </>
   );
 };
 
-export default RadarJewel; 
+export default RadarJewel;
