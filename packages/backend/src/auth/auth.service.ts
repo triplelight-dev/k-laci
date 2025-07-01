@@ -173,47 +173,87 @@ export class AuthService {
     name,
     email,
     password,
+    phone_number,
+    interest_region_id,
   }: SignUpDto): Promise<SignUpResponseDto> {
-    // 1. Create user in auth.users
-    const { data: authData, error: authError } =
-      await this.supabase.auth.signUp({
+    try {
+      console.log(
+        'signup',
+        name,
         email,
         password,
-      });
-
-    if (authError) {
-      throw new UnauthorizedException(authError.message);
-    }
-
-    if (!authData.user) {
-      throw new UnauthorizedException('Failed to create user');
-    }
-
-    // 2. Create user profile in public.user_profiles
-    const { error: profileError } = await this.supabase
-      .from('user_profiles')
-      .insert([
-        {
-          id: authData.user.id,
-          email: authData.user.email,
-          name,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        },
-      ]);
-
-    if (profileError) {
-      // If profile creation fails, we should clean up the auth user
-      await this.supabase.auth.admin.deleteUser(authData.user.id);
-      throw new UnauthorizedException(
-        `Failed to create user profile: ${profileError.message}`,
+        phone_number,
+        interest_region_id,
       );
-    }
+      // 이메일 중복 체크
+      const { data: existingProfile, error: profileError } = await this.supabase
+        .from('user_profiles')
+        .select('email')
+        .eq('email', email)
+        .single();
 
-    return {
-      user_id: authData.user.id,
-      email: authData.user.email,
-    };
+      if (profileError && profileError.code !== 'PGRST116') {
+        throw new UnauthorizedException('사용자 조회 중 오류가 발생했습니다.');
+      }
+
+      if (existingProfile) {
+        throw new UnauthorizedException('이미 가입된 이메일입니다.');
+      }
+
+      // 1. Create user in auth.users
+      const { data: authData, error: authError } =
+        await this.supabase.auth.signUp({
+          email,
+          password,
+        });
+
+      if (authError) {
+        throw new UnauthorizedException(authError.message);
+      }
+
+      if (!authData.user) {
+        throw new UnauthorizedException('Failed to create user');
+      }
+
+      console.log('authData', authData);
+
+      // 2. Create user profile in public.user_profiles
+      const profileData = {
+        id: authData.user.id,
+        email: authData.user.email,
+        name,
+        phone_number: phone_number || null,
+        // interest_region_id는 받기만 하고 아무것도 하지 않음
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
+
+      console.log('Inserting profile data:', profileData);
+
+      const { error: insertError } = await this.supabase
+        .from('user_profiles')
+        .insert([profileData]);
+
+      if (insertError) {
+        console.error('Profile insertion error:', insertError);
+        throw new UnauthorizedException(
+          `Failed to create user profile: ${insertError.message}`,
+        );
+      }
+
+      console.log('profileData', profileData);
+
+      return {
+        user_id: authData.user.id,
+        email: authData.user.email,
+      };
+    } catch (error) {
+      if (error instanceof UnauthorizedException) {
+        throw error;
+      }
+      console.error('Signup error:', error);
+      throw new UnauthorizedException('회원가입 중 오류가 발생했습니다.');
+    }
   }
 
   async sendVerificationCode({ email }: SendVerificationCodeDto) {

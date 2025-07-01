@@ -1,9 +1,8 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
 import { useAuthActions, useAuth as useAuthStore } from '../../store';
 import {
-  AuthService,
-  SignInRequest,
-  SignUpRequest,
+    AuthService
 } from '../services/auth.service';
 import { ApiError } from '../types/api.types';
 
@@ -12,62 +11,52 @@ export const useAuth = () => {
   const { setIsLoggedIn } = useAuthActions();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<ApiError | null>(null);
+  const queryClient = useQueryClient();
 
-  const signIn = useCallback(
-    async (credentials: SignInRequest) => {
-      setLoading(true);
-      setError(null);
+  const sendVerificationCode = useMutation({
+    mutationFn: AuthService.sendVerificationCode,
+    onSuccess: (data) => {
+      console.log('인증번호 발송 성공:', data);
+    },
+    onError: (error) => {
+      console.error('인증번호 발송 실패:', error);
+    },
+  });
 
-      try {
-        const response = await AuthService.signIn(credentials);
-        if (response.success) {
-          if (typeof window !== 'undefined') {
-            localStorage.setItem('auth-token', response.data.token);
-          }
-          setIsLoggedIn(true);
-          return response.data;
-        }
-      } catch (err: any) {
-        const apiError: ApiError = {
-          message: err.response?.data?.message || '로그인에 실패했습니다.',
-          status: err.response?.status || 500,
-        };
-        setError(apiError);
-        throw apiError;
-      } finally {
-        setLoading(false);
+  const verifyCode = useMutation({
+    mutationFn: AuthService.verifyCode,
+    onSuccess: (data) => {
+      console.log('인증번호 검증 성공:', data);
+      if (data.data.verified) {
+        queryClient.invalidateQueries({ queryKey: ['auth'] });
       }
     },
-    [setIsLoggedIn],
-  );
-
-  const signUp = useCallback(
-    async (userData: SignUpRequest) => {
-      setLoading(true);
-      setError(null);
-
-      try {
-        const response = await AuthService.signUp(userData);
-        if (response.success) {
-          if (typeof window !== 'undefined') {
-            localStorage.setItem('auth-token', response.data.token);
-          }
-          setIsLoggedIn(true);
-          return response.data;
-        }
-      } catch (err: any) {
-        const apiError: ApiError = {
-          message: err.response?.data?.message || '회원가입에 실패했습니다.',
-          status: err.response?.status || 500,
-        };
-        setError(apiError);
-        throw apiError;
-      } finally {
-        setLoading(false);
-      }
+    onError: (error) => {
+      console.error('인증번호 검증 실패:', error);
     },
-    [setIsLoggedIn],
-  );
+  });
+
+  const signIn = useMutation({
+    mutationFn: AuthService.signIn,
+    onSuccess: (data) => {
+      console.log('로그인 성공:', data);
+      queryClient.invalidateQueries({ queryKey: ['auth'] });
+    },
+    onError: (error) => {
+      console.error('로그인 실패:', error);
+    },
+  });
+
+  const signUp = useMutation({
+    mutationFn: AuthService.signUp,
+    onSuccess: (data) => {
+      console.log('회원가입 성공:', data);
+      queryClient.invalidateQueries({ queryKey: ['auth'] });
+    },
+    onError: (error) => {
+      console.error('회원가입 실패:', error);
+    },
+  });
 
   const signOut = useCallback(async () => {
     try {
@@ -84,8 +73,10 @@ export const useAuth = () => {
     user: authState,
     loading,
     error,
-    signIn,
+    sendVerificationCode,
+    verifyCode,
     signUp,
+    signIn,
     signOut,
   };
 };
