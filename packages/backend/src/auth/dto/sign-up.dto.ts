@@ -1,5 +1,20 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsOptional, IsString, MinLength } from 'class-validator';
+import { Transform } from 'class-transformer';
+import {
+    IsBoolean,
+    IsEmail,
+    IsEnum,
+    IsNumber,
+    IsOptional,
+    IsString,
+    MinLength,
+} from 'class-validator';
+
+export enum UserType {
+  GOV = 'GOV',
+  EDU = 'EDU',
+  GENERAL = 'GENERAL',
+}
 
 export class SignUpDto {
   @ApiProperty({
@@ -37,13 +52,76 @@ export class SignUpDto {
   phone_number?: string;
 
   @ApiProperty({
-    example: 'region123',
+    example: 123,
     description: 'The interest region ID of the user',
+    required: false,
+    nullable: true,
+  })
+  @IsOptional()
+  @IsNumber()
+  @Transform(({ value }) => {
+    if (value === '' || value === null || value === undefined) {
+      return null;
+    }
+    return Number(value);
+  })
+  interest_region_id?: number | null;
+
+  @ApiProperty({
+    example: 'Company Inc.',
+    description: 'The organization of the user',
     required: false,
   })
   @IsOptional()
   @IsString()
-  interest_region_id?: string;
+  organization?: string;
+
+  @ApiProperty({
+    example: 'GENERAL',
+    description: 'The user type (GOV, EDU, GENERAL)',
+    enum: UserType,
+  })
+  @IsEnum(UserType)
+  user_type: UserType;
+
+  @ApiProperty({
+    example: true,
+    description: 'Agreement to age requirement (14 years or older)',
+  })
+  @IsBoolean()
+  agree_to_age: boolean;
+
+  @ApiProperty({
+    example: true,
+    description: 'Agreement to terms of service',
+  })
+  @IsBoolean()
+  agree_to_terms: boolean;
+
+  @ApiProperty({
+    example: true,
+    description: 'Agreement to privacy policy',
+  })
+  @IsBoolean()
+  agree_to_privacy: boolean;
+
+  @ApiProperty({
+    example: false,
+    description: 'Agreement to marketing communications',
+    required: false,
+  })
+  @IsOptional()
+  @IsBoolean()
+  agree_to_marketing?: boolean;
+
+  @ApiProperty({
+    example: false,
+    description: 'Agreement to report reservation',
+    required: false,
+  })
+  @IsOptional()
+  @IsBoolean()
+  agree_to_report_reservation?: boolean;
 }
 
 export class SignUpResponseDto {

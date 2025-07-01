@@ -7,12 +7,12 @@ import PasswordInputGroup from '@/components/atoms/PasswordInputGroup';
 import InterestRegionSelect from '@/components/atoms/select/InterestRegionSelect';
 import SignupCompleteModal from '@/components/ui/SignupCompleteModal';
 import {
-  validateConfirmPassword,
-  validateName,
-  validateOrganization,
-  validatePassword,
-  validatePhoneNumber,
-  validateSignupForm,
+    validateConfirmPassword,
+    validateName,
+    validateOrganization,
+    validatePassword,
+    validatePhoneNumber,
+    validateSignupForm,
 } from '@/utils/validation';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -219,7 +219,7 @@ export default function SignUpPage() {
         password: formData.password,
         name: formData.name,
         phone_number: formData.phoneNumber,
-        interest_region_id: formData.regionId,
+        interest_region_id: formData.regionId || null,
         organization: formData.organization,
         user_type: userType,
         agree_to_age: formData.agreeToAge,

@@ -1,11 +1,20 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import {
   IsBoolean,
+  IsEnum,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   MinLength,
 } from 'class-validator';
+
+export enum UserType {
+  GOV = 'GOV',
+  EDU = 'EDU',
+  GENERAL = 'GENERAL',
+}
 
 export class CompleteSignupDto {
   @ApiProperty({
@@ -52,12 +61,27 @@ export class CompleteSignupDto {
 
   @ApiProperty({
     description: 'Interest region ID',
-    example: '11010',
+    example: 11010,
     required: false,
+    nullable: true,
   })
-  @IsString()
   @IsOptional()
-  regionId?: string;
+  @IsNumber()
+  @Transform(({ value }) => {
+    if (value === '' || value === null || value === undefined) {
+      return null;
+    }
+    return Number(value);
+  })
+  regionId?: number | null;
+
+  @ApiProperty({
+    description: 'User type (GOV, EDU, GENERAL)',
+    example: 'GENERAL',
+    enum: UserType,
+  })
+  @IsEnum(UserType)
+  userType: UserType;
 
   @ApiProperty({
     description: 'Agree to age verification (14세 이상)',
@@ -116,5 +140,5 @@ export class CompleteSignupResponseDto {
   phoneNumber?: string;
 
   @ApiProperty({ description: 'Interest region ID' })
-  regionId?: string;
+  regionId?: number | null;
 }
