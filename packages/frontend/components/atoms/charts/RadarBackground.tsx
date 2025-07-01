@@ -10,7 +10,7 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
   const {
     center,
     radius,
-    size,
+    // size,
     isJewel,
     fontSize,
     labelOffset,
