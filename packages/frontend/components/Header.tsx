@@ -65,7 +65,8 @@ const Header = () => {
           alignItems: 'center',
           width: '80%',
           margin: '0 auto',
-          padding: '1.5rem 0',
+          padding: '40px 0',
+          paddingBottom: '70px',
         }}
       >
         {/* 1. 좌측: 로고 */}
@@ -113,6 +114,7 @@ const Header = () => {
                     href={item.href}
                     className="font-poppins text-[0.9375rem] leading-[110%] tracking-[-0.45px]"
                     style={{
+                      fontSize: '18px',
                       color: isActive ? 'white' : '#BED3FF',
                       fontWeight: isActive ? 800 : 400,
                       textDecoration: 'none',
