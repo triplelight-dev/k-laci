@@ -27,7 +27,6 @@ export default function LoginSection({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#F4F4F4',
-        paddingTop: '80px',
       }}
     >
       <div style={{ width: '100%', maxWidth: '800px', margin: '0 1rem' }}>
@@ -38,11 +37,32 @@ export default function LoginSection({
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: 'white',
             borderRadius: '50px',
-            padding: '80px 100px',
+            padding: '40px 100px',
           }}
         >
+          {/* SIGN IN 뱃지 */}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginBottom: '5px',
+            }}
+          >
+            <div
+              style={{
+                padding: '4px 8px',
+                border: '1px solid #000000',
+                borderRadius: '8px',
+                backgroundColor: 'transparent',
+                fontSize: '14px',
+                color: '#000000',
+              }}
+            >
+              SIGN IN
+            </div>
+          </div>
+
           {/* 타이틀 */}
           <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
             <h1
@@ -52,7 +72,7 @@ export default function LoginSection({
                 color: '#111827',
               }}
             >
-              로그인
+              회원 로그인
             </h1>
           </div>
 
@@ -87,29 +107,51 @@ export default function LoginSection({
               marginTop: '2rem',
             }}
           >
-            <p
+            <span
               style={{
                 fontSize: '14px',
-                color: '#6B7280',
-                marginBottom: '0.5rem',
+                color: '#000000',
               }}
             >
-              계정이 없으신가요?
-            </p>
+              아직 회원이 아니신가요?{' '}
+            </span>
             <a
               href="/auth/signup"
               style={{
                 fontSize: '14px',
-                color: '#3B82F6',
-                textDecoration: 'none',
+                color: '#000000',
+                textDecoration: 'underline',
+                textDecorationColor: '#000000',
+                textDecorationThickness: '1px',
                 fontWeight: '500',
               }}
             >
-              회원가입하기
+              회원가입 바로가기
+            </a>
+          </div>
+
+          {/* 도움말 링크 */}
+          <div
+            style={{
+              textAlign: 'center',
+              marginTop: '15px',
+            }}
+          >
+            <a
+              href="#"
+              style={{
+                fontSize: '14px',
+                color: '#000000',
+                textDecoration: 'underline',
+                textDecorationColor: '#000000',
+                textDecorationThickness: '1px',
+              }}
+            >
+              도움이 필요하신가요?
             </a>
           </div>
         </div>
       </div>
     </div>
   );
-} 
+}

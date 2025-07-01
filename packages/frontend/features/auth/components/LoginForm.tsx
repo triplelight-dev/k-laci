@@ -1,7 +1,6 @@
 'use client';
 
-import CommonInput from '@/components/atoms/CommonInput';
-import PasswordInput from '@/components/atoms/PasswordInput';
+import LoginInput from '@/components/atoms/LoginInput';
 
 interface LoginFormProps {
   email: string;
@@ -23,25 +22,23 @@ export default function LoginForm({
   return (
     <form onSubmit={onSubmit} style={{ width: '100%', maxWidth: '400px' }}>
       {/* 이메일 입력 */}
-      <div style={{ marginBottom: '1.5rem' }}>
-        <CommonInput
-          id="login-email"
-          label="이메일"
+      <div style={{ marginBottom: '1rem' }}>
+        <LoginInput
           type="email"
-          placeholder="이메일을 입력해주세요"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          placeholder="가입한 이메일을 입력해 주세요"
           required
-          isRequired
         />
       </div>
 
       {/* 비밀번호 입력 */}
-      <div style={{ marginBottom: '2rem' }}>
-        <PasswordInput
+      <div style={{ marginBottom: '40px' }}>
+        <LoginInput
+          type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="비밀번호를 입력해주세요"
+          placeholder="비밀번호를 입력해 주세요"
           required
         />
       </div>
@@ -53,10 +50,10 @@ export default function LoginForm({
         style={{
           width: '100%',
           padding: '1rem',
-          backgroundColor: '#3B82F6',
+          backgroundColor: '#000000',
           color: 'white',
           border: 'none',
-          borderRadius: '12px',
+          borderRadius: '14px',
           fontSize: '16px',
           fontWeight: '600',
           cursor: isLoading ? 'not-allowed' : 'pointer',
@@ -67,4 +64,4 @@ export default function LoginForm({
       </button>
     </form>
   );
-} 
+}
