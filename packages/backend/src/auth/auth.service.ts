@@ -2,14 +2,14 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import {
-  CompleteSignupDto,
-  CompleteSignupResponseDto,
+    CompleteSignupDto,
+    CompleteSignupResponseDto,
 } from './dto/complete-signup.dto';
 import { SendVerificationEmailDto } from './dto/send-verification-email.dto';
 import { SignUpDto, SignUpResponseDto } from './dto/sign-up.dto';
 import {
-  SendVerificationCodeDto,
-  VerifyCodeDto,
+    SendVerificationCodeDto,
+    VerifyCodeDto,
 } from './dto/verification-code.dto';
 import { EmailService } from './email.service';
 import { VerificationCodeService } from './verification-code.service';
@@ -138,13 +138,14 @@ export class AuthService {
             name: completeSignupDto.name,
             organization: completeSignupDto.organization,
             phone_number: completeSignupDto.phoneNumber,
-            interest_region_id: completeSignupDto.regionId
-              ? parseInt(completeSignupDto.regionId)
-              : null,
+            interest_region_id: completeSignupDto.regionId || null,
+            user_type: completeSignupDto.userType || 'GENERAL',
+            agree_to_age: completeSignupDto.agreeToAge,
+            agree_to_terms: completeSignupDto.agreeToTerms,
+            agree_to_privacy: completeSignupDto.agreeToPrivacy,
             agree_to_marketing: completeSignupDto.agreeToMarketing || false,
             agree_to_report_reservation:
               completeSignupDto.agreeToReportReservation || false,
-            is_over_thirteen: completeSignupDto.agreeToAge, // 14세 이상 동의 여부
             // created_at, updated_at은 자동으로 설정됨
           },
         ]);
@@ -175,16 +176,35 @@ export class AuthService {
     password,
     phone_number,
     interest_region_id,
+    organization,
+    user_type,
+    agree_to_age,
+    agree_to_terms,
+    agree_to_privacy,
+    agree_to_marketing,
+    agree_to_report_reservation,
   }: SignUpDto): Promise<SignUpResponseDto> {
     try {
-      console.log(
-        'signup',
+      console.log('signup', {
         name,
         email,
         password,
         phone_number,
         interest_region_id,
-      );
+        organization,
+        user_type,
+        agree_to_age,
+        agree_to_terms,
+        agree_to_privacy,
+        agree_to_marketing,
+        agree_to_report_reservation,
+      });
+
+      // 필수 동의 항목 확인
+      if (!agree_to_age || !agree_to_terms || !agree_to_privacy) {
+        throw new UnauthorizedException('필수 동의 항목에 모두 동의해주세요.');
+      }
+
       // 이메일 중복 체크
       const { data: existingProfile, error: profileError } = await this.supabase
         .from('user_profiles')
@@ -222,8 +242,15 @@ export class AuthService {
         id: authData.user.id,
         email: authData.user.email,
         name,
+        organization: organization || null,
         phone_number: phone_number || null,
-        // interest_region_id는 받기만 하고 아무것도 하지 않음
+        interest_region_id: interest_region_id || null,
+        user_type,
+        agree_to_age,
+        agree_to_terms,
+        agree_to_privacy,
+        agree_to_marketing: agree_to_marketing || false,
+        agree_to_report_reservation: agree_to_report_reservation || false,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       };

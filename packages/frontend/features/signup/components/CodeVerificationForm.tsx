@@ -1,0 +1,165 @@
+import CommonInput from '@/components/atoms/CommonInput';
+
+interface CodeVerificationFormProps {
+  verificationCode: string;
+  setVerificationCode: (code: string) => void;
+  isVerifying: boolean;
+  isLoading: boolean;
+  countdown: number;
+  onSubmit: (e: React.FormEvent) => void;
+  onResend: () => void;
+  onBackToStep1: () => void;
+  formatTime: (seconds: number) => string;
+}
+
+export default function CodeVerificationForm({
+  verificationCode,
+  setVerificationCode,
+  isVerifying,
+  isLoading,
+  countdown,
+  onSubmit,
+  onResend,
+  onBackToStep1,
+  formatTime,
+}: CodeVerificationFormProps) {
+  return (
+    <form
+      onSubmit={onSubmit}
+      style={{
+        width: '70%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '20px',
+      }}
+    >
+      {/* 인증번호 입력 */}
+      <CommonInput
+        id="verificationCode"
+        label="인증번호"
+        value={verificationCode}
+        onChange={(e) => setVerificationCode(e.target.value)}
+        placeholder="인증번호를 입력해주세요"
+        required={true}
+        isRequired={true}
+      />
+
+      {/* 카운트다운 */}
+      {countdown > 0 && (
+        <div
+          style={{
+            fontSize: '14px',
+            color: '#6B7280',
+            textAlign: 'center',
+          }}
+        >
+          {formatTime(countdown)}
+        </div>
+      )}
+
+      {/* 인증번호 검증 버튼 */}
+      <button
+        type="submit"
+        disabled={isVerifying}
+        style={{
+          width: '100%',
+          height: '50px',
+          backgroundColor: isVerifying ? '#9CA3AF' : '#000000',
+          color: 'white',
+          borderRadius: '0.5rem',
+          fontWeight: '500',
+          cursor: isVerifying ? 'not-allowed' : 'pointer',
+          border: 'none',
+          transition: 'background-color 0.2s',
+          fontSize: '16px',
+        }}
+        onMouseEnter={(e) => {
+          if (!isVerifying) {
+            e.currentTarget.style.backgroundColor = '#1F2937';
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (!isVerifying) {
+            e.currentTarget.style.backgroundColor = '#000000';
+          }
+        }}
+      >
+        {isVerifying ? (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <div
+              style={{
+                animation: 'spin 1s linear infinite',
+                borderRadius: '50%',
+                height: '1rem',
+                width: '1rem',
+                border: '2px solid transparent',
+                borderBottomColor: 'white',
+                marginRight: '0.5rem',
+              }}
+            ></div>
+            처리 중...
+          </div>
+        ) : (
+          '인증번호 확인'
+        )}
+      </button>
+
+      {/* 재발송 버튼 */}
+      <button
+        type="button"
+        onClick={onResend}
+        disabled={isLoading || countdown > 0}
+        style={{
+          width: '100%',
+          height: '40px',
+          backgroundColor: 'transparent',
+          color: countdown > 0 ? '#9CA3AF' : '#000000',
+          borderRadius: '0.5rem',
+          fontWeight: '500',
+          cursor: countdown > 0 ? 'not-allowed' : 'pointer',
+          border: '1px solid #D1D5DB',
+          transition: 'all 0.2s',
+          fontSize: '14px',
+        }}
+        onMouseEnter={(e) => {
+          if (countdown === 0) {
+            e.currentTarget.style.backgroundColor = '#F9FAFB';
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (countdown === 0) {
+            e.currentTarget.style.backgroundColor = 'transparent';
+          }
+        }}
+      >
+        {isLoading ? '처리 중...' : '인증번호 재발송'}
+      </button>
+
+      {/* 1/2 단계로 돌아가기 */}
+      <button
+        type="button"
+        onClick={onBackToStep1}
+        style={{
+          background: 'none',
+          border: 'none',
+          padding: 0,
+          fontSize: '14px',
+          color: '#6B7280',
+          textDecoration: 'underline',
+          cursor: 'pointer',
+          fontFamily: 'inherit',
+        }}
+      >
+        다른 이메일로 인증하기
+      </button>
+    </form>
+  );
+} 

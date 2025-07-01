@@ -25,7 +25,7 @@ function ProfilePageContent() {
   const [isLoading, setIsLoading] = useState(false);
   const [showCompleteModal, setShowCompleteModal] = useState(false);
   const [userEmail, setUserEmail] = useState<string>('');
-  const [userType, setUserType] = useState<string>('');
+  const [userType, setUserType] = useState<'GOV' | 'EDU' | 'GENERAL'>('GENERAL');
   const [formData, setFormData] = useState({
     name: '',
     password: '',
@@ -112,11 +112,11 @@ function ProfilePageContent() {
             // 이메일 도메인에 따른 사용자 타입 설정
             const domain = user.email?.split('@')[1];
             if (domain?.includes('korea.kr') || domain?.includes('go.kr')) {
-              setUserType('정부/공공기관 회원');
+              setUserType('GOV');
             } else if (domain?.includes('ac.kr')) {
-              setUserType('대학교 회원');
+              setUserType('EDU');
             } else {
-              setUserType('일반 회원');
+              setUserType('GENERAL');
             }
           }
         } catch (error) {
@@ -137,6 +137,20 @@ function ProfilePageContent() {
       console.log('Token found:', token.substring(0, 20) + '...');
     }
   }, [token, router]);
+
+  // 이메일 도메인에 따른 사용자 타입 설정
+  useEffect(() => {
+    if (userEmail) {
+      const domain = userEmail.split('@')[1];
+      if (domain?.includes('korea.kr') || domain?.includes('go.kr')) {
+        setUserType('GOV');
+      } else if (domain?.includes('ac.kr')) {
+        setUserType('EDU');
+      } else {
+        setUserType('GENERAL');
+      }
+    }
+  }, [userEmail]);
 
   // 블러 이벤트 핸들러들
   const handleNameBlur = () => {
@@ -192,7 +206,8 @@ function ProfilePageContent() {
         password: formData.password,
         organization: formData.organization,
         phoneNumber: formData.phoneNumber,
-        regionId: formData.regionId,
+        regionId: formData.regionId ? Number(formData.regionId) : null,
+        userType: userType,
         agreeToAge: formData.agreeToAge,
         agreeToTerms: formData.agreeToTerms,
         agreeToPrivacy: formData.agreeToPrivacy,
@@ -317,7 +332,7 @@ function ProfilePageContent() {
             }}
           >
             {/* 이메일 표시 박스 */}
-            <EmailDisplayBox email={userEmail} userType={userType} />
+            <EmailDisplayBox email={userEmail} userType={userType as 'GOV' | 'EDU' | 'GENERAL'} />
 
             {/* 이름 입력 */}
             <CommonInput
@@ -415,16 +430,8 @@ function ProfilePageContent() {
                 </span>
               </div>
               <InterestRegionSelect
-                selectedProvinceId={formData.provinceId}
                 selectedRegionId={formData.regionId}
-                onProvinceChange={(provinceId) => {
-                  setFormData((prev) => ({
-                    ...prev,
-                    provinceId,
-                    regionId: '', // province가 변경되면 region 초기화
-                  }));
-                }}
-                onRegionChange={(regionId) => {
+                onRegionChange={(regionId: string) => {
                   setFormData((prev) => ({ ...prev, regionId }));
                 }}
               />

@@ -10,8 +10,15 @@ export interface SignUpRequest {
   email: string;
   password: string;
   name: string;
-  phone_number: string;
-  interest_region_id: string;
+  phone_number?: string;
+  interest_region_id?: number | null;
+  organization?: string;
+  user_type: 'GOV' | 'EDU' | 'GENERAL';
+  agree_to_age: boolean;
+  agree_to_terms: boolean;
+  agree_to_privacy: boolean;
+  agree_to_marketing?: boolean;
+  agree_to_report_reservation?: boolean;
 }
 
 export interface SendVerificationEmailRequest {
@@ -28,7 +35,8 @@ export interface CompleteSignupRequest {
   token: string;
   organization?: string;
   phoneNumber?: string;
-  regionId?: string;
+  regionId?: number | null;
+  userType: 'GOV' | 'EDU' | 'GENERAL';
   agreeToAge: boolean;
   agreeToTerms: boolean;
   agreeToPrivacy: boolean;
@@ -65,7 +73,8 @@ export interface VerifyCodeResponse {
 }
 
 export interface SignUpResponse {
-  message: string;
+  user_id: string;
+  email: string;
 }
 
 export interface SignInResponse {
