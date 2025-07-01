@@ -1,5 +1,6 @@
 import MobileDetector from '@/components/MobileDetector';
 import Providers from '@/components/Providers';
+import { useDevAuth } from '@/hooks/useDevAuth';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
@@ -41,11 +42,18 @@ export default function RootLayout({
         }}
       >
         <Providers>
-          <MobileDetector>
-            {children}
-          </MobileDetector>
+          <DevAuthProvider>
+            <MobileDetector>
+              {children}
+            </MobileDetector>
+          </DevAuthProvider>
         </Providers>
       </body>
     </html>
   );
+}
+
+function DevAuthProvider({ children }: { children: React.ReactNode }) {
+  useDevAuth();
+  return <>{children}</>;
 }
