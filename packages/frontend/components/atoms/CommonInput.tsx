@@ -40,7 +40,7 @@ export default function CommonInput({
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          marginBottom: '8px',
+          marginBottom: '10px',
         }}
       >
         <label

@@ -3,11 +3,11 @@ import EmailDisplayBox from '@/components/atoms/EmailDisplayBox';
 import PasswordInputGroup from '@/components/atoms/PasswordInputGroup';
 import InterestRegionSelect from '@/components/atoms/select/InterestRegionSelect';
 import {
-    validateConfirmPassword,
-    validateName,
-    validateOrganization,
-    validatePassword,
-    validatePhoneNumber
+  validateConfirmPassword,
+  validateName,
+  validateOrganization,
+  validatePassword,
+  validatePhoneNumber,
 } from '@/utils/validation';
 import { useState } from 'react';
 import { SignupFormData, UserType } from '../hooks/useSignupFlow';
@@ -95,7 +95,7 @@ export default function ProfileForm({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: '20px',
+        gap: '35px',
       }}
     >
       {/* 이메일 표시 박스 */}
@@ -106,9 +106,7 @@ export default function ProfileForm({
         id="name"
         label="이름"
         value={formData.name}
-        onChange={(e) =>
-          setFormData({ ...formData, name: e.target.value })
-        }
+        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
         placeholder="한글 또는 영어 10자 이하"
         required={true}
         maxLength={10}
@@ -159,7 +157,7 @@ export default function ProfileForm({
         onChange={(e) =>
           setFormData({ ...formData, phoneNumber: e.target.value })
         }
-        placeholder="숫자만 입력"
+        placeholder="-생략하고 입력"
         type="tel"
         required={true}
         isRequired={true}
@@ -287,7 +285,7 @@ export default function ProfileForm({
       {/* 동의 항목 박스 */}
       <div
         style={{
-          width: '100%',
+          width: '95%',
           backgroundColor: '#F1F1F1',
           borderRadius: '0.5rem',
           padding: '20px',
@@ -484,7 +482,7 @@ export default function ProfileForm({
         disabled={isProfileLoading}
         style={{
           width: '100%',
-          height: '50px',
+          height: '60px',
           backgroundColor: isProfileLoading ? '#9CA3AF' : '#000000',
           color: 'white',
           borderRadius: '0.5rem',
@@ -492,7 +490,7 @@ export default function ProfileForm({
           cursor: isProfileLoading ? 'not-allowed' : 'pointer',
           border: 'none',
           transition: 'background-color 0.2s',
-          fontSize: '16px',
+          fontSize: '20px',
         }}
         onMouseEnter={(e) => {
           if (!isProfileLoading) {
@@ -524,12 +522,12 @@ export default function ProfileForm({
                 marginRight: '0.5rem',
               }}
             ></div>
-            처리 중...
+            제출 중...
           </div>
         ) : (
-          '회원가입 완료'
+          '회원정보 제출하기'
         )}
       </button>
     </form>
   );
-} 
+}

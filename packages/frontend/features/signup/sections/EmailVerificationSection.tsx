@@ -1,3 +1,4 @@
+import StepBadge from '@/components/atoms/StepBadge';
 import EmailVerificationForm from '../components/EmailVerificationForm';
 
 interface EmailVerificationSectionProps {
@@ -51,26 +52,7 @@ export default function EmailVerificationSection({
             }}
           >
             {/* 1/2 단계 뱃지 */}
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                marginBottom: '5px',
-              }}
-            >
-              <div
-                style={{
-                  border: '1px solid black',
-                  borderRadius: '12px',
-                  padding: '6px 12px',
-                  fontSize: '16px',
-                  fontWeight: '500',
-                  color: 'black',
-                }}
-              >
-                1/2 단계
-              </div>
-            </div>
+            <StepBadge step="1/2" />
 
             {/* 타이틀 */}
             <div

@@ -1,3 +1,4 @@
+import StepBadge from '@/components/atoms/StepBadge';
 import SignupCompleteModal from '@/components/ui/SignupCompleteModal';
 import ProfileForm from '../components/ProfileForm';
 import { SignupFormData, UserType } from '../hooks/useSignupFlow';
@@ -41,10 +42,9 @@ export default function ProfileSection({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#F4F4F4',
-        paddingTop: '80px',
       }}
     >
-      <div style={{ width: '100%', maxWidth: '600px' }}>
+      <div style={{ width: '100%', maxWidth: '800px' }}>
         {/* 메인 컨테이너 */}
         <div
           style={{
@@ -54,30 +54,11 @@ export default function ProfileSection({
             justifyContent: 'center',
             backgroundColor: 'white',
             borderRadius: '50px',
-            // padding: '80px 100px',
+            padding: '80px 40px',
           }}
         >
           {/* 2/2 단계 뱃지 */}
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              marginBottom: '2rem',
-            }}
-          >
-            <div
-              style={{
-                border: '1px solid black',
-                borderRadius: '12px',
-                padding: '6px 12px',
-                fontSize: '16px',
-                fontWeight: '500',
-                color: 'black',
-              }}
-            >
-              2/2 단계
-            </div>
-          </div>
+          <StepBadge step="2/2" />
 
           {/* 타이틀 */}
           <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
