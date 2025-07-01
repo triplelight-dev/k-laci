@@ -63,15 +63,19 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
               opacity: 1 !important;
             }
             .radar-chart:hover .data-point:hover {
-              r: 6 !important;
+              r: 4 !important;
               stroke-width: 2 !important;
+              fill: #FFFFFF !important;
+            }
+            .radar-chart:hover .data-point:hover + .data-point-inner {
+              opacity: 1 !important;
             }
           `}
         </style>
       </defs>
 
       {/* 호버 효과를 위한 오버레이 레이어들 */}
-      {/* 상단 오버레이 (파란색) - 하단 영역 호버시 회색으로 변경 */}
+      {/* 상단 오버레이 - 하단 영역 호버시만 표시 */}
       <g mask="url(#hoverTopMask)">
         {points.map((pt, i) => {
           const next = points[(i + 1) % numAxes];
@@ -81,7 +85,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
             <path
               key={`top-${i}`}
               d={`M${center},${center} L${pt.x},${pt.y} L${next.x},${next.y} Z`}
-              fill={hoveredArea === 'bottom' ? '#95A6C1' : '#3352D7'}
+              fill="#D9D9E8"
               fillOpacity={hoveredArea === 'bottom' ? 1 : 0}
               stroke="none"
               className="hover-top-overlay"
@@ -93,7 +97,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
         })}
       </g>
 
-      {/* 하단 오버레이 (회색) - 상단 영역 호버시 회색으로 변경 */}
+      {/* 하단 오버레이 - 상단 영역 호버시만 표시 */}
       <g mask="url(#hoverBottomMask)">
         {points.map((pt, i) => {
           const next = points[(i + 1) % numAxes];
@@ -103,7 +107,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
             <path
               key={`bottom-${i}`}
               d={`M${center},${center} L${pt.x},${pt.y} L${next.x},${next.y} Z`}
-              fill={hoveredArea === 'top' ? '#95A6C1' : '#95A6C1'}
+              fill="#D9D9E8"
               fillOpacity={hoveredArea === 'top' ? 1 : 0}
               stroke="none"
               className="hover-bottom-overlay"
@@ -181,22 +185,22 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
         const category = categories[i];
         if (!category) return null;
         const isTop = pt.y <= center;
-        const pointColor = isTop ? '#3352D7' : '#95A6C1';
 
         return (
           <g key={`point-${i}`}>
+            {/* 기본 원 */}
             <circle
               cx={pt.x}
               cy={pt.y}
-              r={4}
-              fill="white"
-              stroke={pointColor}
+              r={2}
+              fill="#9A9EA3"
+              stroke="#9A9EA3"
               strokeWidth={1.5}
               className="data-point"
               style={{
                 opacity: 0,
                 transition:
-                  'opacity 0.3s ease, r 0.2s ease, stroke-width 0.2s ease',
+                  'opacity 0.3s ease, r 0.2s ease, stroke-width 0.2s ease, fill 0.2s ease',
                 cursor: 'pointer',
               }}
               onMouseEnter={() => {
@@ -205,8 +209,9 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
                   `circle[data-index="${i}"]`,
                 ) as SVGElement;
                 if (circle) {
-                  circle.style.r = '6';
+                  circle.style.r = '4';
                   circle.style.strokeWidth = '2';
+                  circle.style.fill = '#FFFFFF';
                 }
               }}
               onMouseLeave={() => {
@@ -215,11 +220,28 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
                   `circle[data-index="${i}"]`,
                 ) as SVGElement;
                 if (circle) {
-                  circle.style.r = '4';
+                  circle.style.r = '2';
                   circle.style.strokeWidth = '1.5';
+                  circle.style.fill = '#9A9EA3';
                 }
               }}
               data-index={i}
+            />
+            
+            {/* 호버 시 내부 검정색 원 */}
+            <circle
+              cx={pt.x}
+              cy={pt.y}
+              r={1}
+              fill="#000000"
+              className="data-point-inner"
+              style={{
+                opacity: 0,
+                transition: 'opacity 0.3s ease',
+                cursor: 'pointer',
+              }}
+              onMouseEnter={() => setHoveredPoint(i)}
+              onMouseLeave={() => setHoveredPoint(null)}
             />
 
             <text
