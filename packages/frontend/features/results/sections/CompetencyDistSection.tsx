@@ -168,19 +168,23 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index }) => {
 
   const item = category.title;
   const getBoldItem = (item: string): 'left' | 'right' | 'none' => {
-    const isRightItem = [
-      CATEGORIES.인구성장형,
-      CATEGORIES.경제혁신형,
-      CATEGORIES.생활역동형,
-      CATEGORIES.안전회복형,
-    ].includes(item);
+    const isRightItem = (
+      [
+        CATEGORIES.생활역동형,
+        CATEGORIES.안전회복형,
+        CATEGORIES.인구성장형,
+        CATEGORIES.경제혁신형,
+      ] as string[]
+    ).includes(item);
 
-    const isLeftItem = [
-      CATEGORIES.인구정착형,
-      CATEGORIES.경제정속형,
-      CATEGORIES.생활정체형,
-      CATEGORIES.안전정진형,
-    ].includes(item);
+    const isLeftItem = (
+      [
+        CATEGORIES.인구정착형,
+        CATEGORIES.경제정속형,
+        CATEGORIES.생활정체형,
+        CATEGORIES.안전정진형,
+      ] as string[]
+    ).includes(item);
 
     if (isLeftItem) {
       return 'left';

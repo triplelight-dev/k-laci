@@ -30,22 +30,20 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
   ): string | null => {
     if (!klaciCode || klaciCode.length !== 4) return null;
 
-    const upperCode = klaciCode.toUpperCase();
-
     // 카테고리별 코드 매핑
-    const categoryCodeMap: Record<string, string> = {
-      [CATEGORIES.인구성장형]: 'G',
-      [CATEGORIES.인구정착형]: 'S',
-      [CATEGORIES.경제혁신형]: 'T',
-      [CATEGORIES.경제정속형]: 'C',
-      [CATEGORIES.생활역동형]: 'V',
-      [CATEGORIES.생활정체형]: 'M',
-      [CATEGORIES.안전회복형]: 'R',
-      [CATEGORIES.안전정진형]: 'A',
+    const categoryCodeMap: Record<string, number> = {
+      [CATEGORIES.인구성장형]: 0,
+      [CATEGORIES.인구정착형]: 0,
+      [CATEGORIES.경제혁신형]: 1,
+      [CATEGORIES.경제정속형]: 1,
+      [CATEGORIES.생활역동형]: 2,
+      [CATEGORIES.생활정체형]: 2,
+      [CATEGORIES.안전회복형]: 3,
+      [CATEGORIES.안전정진형]: 3,
     };
 
-    const expectedCode = categoryCodeMap[category];
-    if (!expectedCode) return null;
+    const codeIndex = categoryCodeMap[category];
+    if (codeIndex === undefined) return null;
 
     // 해당 카테고리가 활성화된 카테고리인지 확인
     if (regionData) {
@@ -60,7 +58,8 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
       );
 
       if (isActive) {
-        return expectedCode;
+        // KLACI 코드의 해당 자리(0~3)의 원본 문자(대소문자 구분)를 반환
+        return klaciCode[codeIndex] ?? null;
       }
     }
 
@@ -214,6 +213,19 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
         const codeY = y;
         // 라벨 x좌표도 동일하게 오프셋 적용
         const labelX = x + xOffset;
+
+        // 하단 요소 카테고리(원 배경색 #D9D9E8)
+        const bottomCategories = [
+          CATEGORIES.안전정진형,
+          CATEGORIES.생활정체형,
+          CATEGORIES.경제정속형,
+          CATEGORIES.인구정착형,
+        ];
+        // 원 색상 결정
+        const finalCircleColor = (bottomCategories as string[]).includes(category)
+          ? '#D9D9E8'
+          : circleColor;
+
         return (
           <g key={i}>
             <text
@@ -234,7 +246,7 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
                   cx={codeX}
                   cy={codeY}
                   r={circleRadius}
-                  fill={circleColor}
+                  fill={finalCircleColor}
                   stroke="none"
                 />
                 <text
