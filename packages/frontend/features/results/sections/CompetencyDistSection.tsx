@@ -136,26 +136,26 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index }) => {
   } => {
     if (index === 0) {
       return {
-        leftItem: CATEGORIES.인구정착형,
-        rightItem: CATEGORIES.인구성장형,
+        leftItem: CATEGORIES.인구성장형,
+        rightItem: CATEGORIES.인구정착형,
       };
     }
     if (index === 1) {
       return {
-        leftItem: CATEGORIES.경제정속형,
-        rightItem: CATEGORIES.경제혁신형,
+        leftItem: CATEGORIES.경제혁신형,
+        rightItem: CATEGORIES.경제정속형,
       };
     }
     if (index === 2) {
       return {
-        leftItem: CATEGORIES.생활정체형,
-        rightItem: CATEGORIES.생활역동형,
+        leftItem: CATEGORIES.생활역동형,
+        rightItem: CATEGORIES.생활정체형,
       };
     }
     if (index === 3) {
       return {
-        leftItem: CATEGORIES.안전정진형,
-        rightItem: CATEGORIES.안전회복형,
+        leftItem: CATEGORIES.안전회복형,
+        rightItem: CATEGORIES.안전정진형,
       };
     }
     return {
