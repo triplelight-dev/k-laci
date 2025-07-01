@@ -83,8 +83,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
               d={`M${center},${center} L${pt.x},${pt.y} L${next.x},${next.y} Z`}
               fill={hoveredArea === 'bottom' ? '#95A6C1' : '#3352D7'}
               fillOpacity={hoveredArea === 'bottom' ? 1 : 0}
-              stroke="white"
-              strokeWidth={1}
+              stroke="none"
               className="hover-top-overlay"
               style={{
                 transition: 'opacity 0.3s ease, fill 0.3s ease',
@@ -106,8 +105,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
               d={`M${center},${center} L${pt.x},${pt.y} L${next.x},${next.y} Z`}
               fill={hoveredArea === 'top' ? '#95A6C1' : '#95A6C1'}
               fillOpacity={hoveredArea === 'top' ? 1 : 0}
-              stroke="white"
-              strokeWidth={1}
+              stroke="none"
               className="hover-bottom-overlay"
               style={{
                 transition: 'opacity 0.3s ease, fill 0.3s ease',
@@ -118,31 +116,65 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
       </g>
 
       {/* 투명한 호버 영역들 */}
-      {/* 상단 호버 영역 */}
-      <path
-        d={`M ${center - radius} ${center - radius} 
-            L ${center + radius} ${center - radius}
-            L ${center + radius} ${center}
-            L ${center - radius} ${center}
-            Z`}
-        fill="transparent"
-        onMouseEnter={() => setHoveredArea('top')}
-        onMouseLeave={() => setHoveredArea(null)}
-        style={{ cursor: 'pointer' }}
-      />
+      {/* 상단 호버 영역 - 툴팁이 표시되지 않을 때만 활성화 */}
+      {!hoveredArea && (
+        <path
+          d={`M ${center - radius} ${center - radius} 
+              L ${center + radius} ${center - radius}
+              L ${center + radius} ${center}
+              L ${center - radius} ${center}
+              Z`}
+          fill="transparent"
+          onMouseEnter={() => setHoveredArea('top')}
+          onMouseLeave={() => setHoveredArea(null)}
+          style={{ cursor: 'pointer' }}
+        />
+      )}
 
-      {/* 하단 호버 영역 */}
-      <path
-        d={`M ${center - radius} ${center} 
-            L ${center + radius} ${center}
-            L ${center + radius} ${center + radius}
-            L ${center - radius} ${center + radius}
-            Z`}
-        fill="transparent"
-        onMouseEnter={() => setHoveredArea('bottom')}
-        onMouseLeave={() => setHoveredArea(null)}
-        style={{ cursor: 'pointer' }}
-      />
+      {/* 하단 호버 영역 - 툴팁이 표시되지 않을 때만 활성화 */}
+      {!hoveredArea && (
+        <path
+          d={`M ${center - radius} ${center} 
+              L ${center + radius} ${center}
+              L ${center + radius} ${center + radius}
+              L ${center - radius} ${center + radius}
+              Z`}
+          fill="transparent"
+          onMouseEnter={() => setHoveredArea('bottom')}
+          onMouseLeave={() => setHoveredArea(null)}
+          style={{ cursor: 'pointer' }}
+        />
+      )}
+
+      {/* 툴팁이 표시될 때 활성화되는 호버 영역들 */}
+      {hoveredArea && (
+        <>
+          {/* 상단 호버 영역 (툴팁 영역 제외) */}
+          <path
+            d={`M ${center - radius} ${center - radius} 
+                L ${center + radius} ${center - radius}
+                L ${center + radius} ${center}
+                L ${center - radius} ${center}
+                Z`}
+            fill="transparent"
+            onMouseEnter={() => setHoveredArea('top')}
+            onMouseLeave={() => setHoveredArea(null)}
+            style={{ cursor: 'pointer' }}
+          />
+          {/* 하단 호버 영역 (툴팁 영역 제외) */}
+          <path
+            d={`M ${center - radius} ${center} 
+                L ${center + radius} ${center}
+                L ${center + radius} ${center + radius}
+                L ${center - radius} ${center + radius}
+                Z`}
+            fill="transparent"
+            onMouseEnter={() => setHoveredArea('bottom')}
+            onMouseLeave={() => setHoveredArea(null)}
+            style={{ cursor: 'pointer' }}
+          />
+        </>
+      )}
 
       {/* 데이터 포인트 */}
       {points.map((pt, i) => {

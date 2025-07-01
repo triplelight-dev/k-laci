@@ -138,6 +138,19 @@ const JewelRadarChart = ({
               );
             })}
           </mask>
+          
+          {/* 보석 영역 마스크 - 방사형 축선을 보석 위에서 숨기기 위해 */}
+          <mask id="jewelMask">
+            <rect width={svgSize} height={svgSize} fill="white" />
+            {/* 보석 전체를 하나의 영역으로 마스킹 */}
+            <path
+              d={points.map((pt, i) => {
+                if (i === 0) return `M${pt.x},${pt.y}`;
+                return `L${pt.x},${pt.y}`;
+              }).join(' ') + 'Z'}
+              fill="black"
+            />
+          </mask>
         </defs>
       )}
 

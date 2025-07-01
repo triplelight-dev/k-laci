@@ -152,6 +152,7 @@ const RadarJewel = ({ context, imageUrl }: RadarJewelProps) => {
               d={`M${center},${center} L${pt.x},${pt.y} L${next.x},${next.y} Z`}
               fill={`url(#grad${i})`}
               fillOpacity={0.7}
+              stroke="none"
               className="jewel-triangle"
               style={{
                 transition: 'opacity 0.3s ease',
