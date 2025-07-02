@@ -1,10 +1,10 @@
 'use client';
 
-import { useRegion } from '@/api/hooks/useRegion';
+import { DataService } from '@/api/services/data.service';
 import RankArrowButton from '@/components/atoms/buttons/RankArrowButton';
 import JewelRadarChart from '@/components/atoms/charts/RadarChart';
 import KlaciCodeCircles from '@/components/atoms/circle/KlaciCodeCircles';
-import { useDistrict, useSetSelectedRegion, useStore } from '@/store';
+import { useDistrict, useSetSelectedRegion } from '@/store';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 // 지자체 데이터 타입 정의
@@ -21,14 +21,10 @@ interface TitleSectionProps {
 const TitleSection: React.FC<TitleSectionProps> = () => {
   const { selectedRegion } = useDistrict();
   const setSelectedRegion = useSetSelectedRegion();
-  const { getRegion } = useRegion();
   const [isNavigating, setIsNavigating] = useState(false);
   const [animatedChartData, setAnimatedChartData] = useState<number[]>([
     50, 50, 50, 50, 50, 50, 50, 50,
   ]);
-
-  // regions 데이터를 직접 가져오기
-  const regions = useStore((state) => state.regions);
 
   // 이전 selectedRegion 값을 유지하기 위한 ref
   const previousRegionRef = useRef(selectedRegion);
@@ -40,48 +36,32 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
     }
   }, [selectedRegion]);
 
-  // regionId 기준으로 정렬된 regions 배열
-  const sortedRegions = useMemo(() => {
-    if (!regions || !Array.isArray(regions)) return [];
-    return [...regions].sort((a, b) => a.id - b.id);
-  }, [regions]);
-
-  // 현재 region의 이전/다음 region 찾기
-  const getAdjacentRegions = useMemo(() => {
-    if (!selectedRegion) return { prev: null, next: null };
-
-    const currentIndex = sortedRegions.findIndex(
-      (region) => region.id === selectedRegion.id,
-    );
-    if (currentIndex === -1) return { prev: null, next: null };
-
-    return {
-      prev: currentIndex > 0 ? sortedRegions[currentIndex - 1] : null,
-      next:
-        currentIndex < sortedRegions.length - 1
-          ? sortedRegions[currentIndex + 1]
-          : null,
-    };
-  }, [selectedRegion, sortedRegions]);
-
-  // 이전/다음 region으로 이동하는 함수
-  const navigateToRegion = async (region: any) => {
-    if (!region || isNavigating) return;
+  // 현재 region의 이전/다음 region으로 이동하는 함수 (total_rank 기준)
+  const navigateToAdjacentRegion = async (direction: 'prev' | 'next') => {
+    if (!selectedRegion || isNavigating) return;
 
     setIsNavigating(true);
     try {
-      const regionDetails = await getRegion(String(region.id));
-      setSelectedRegion({
-        ...regionDetails,
-        id: Number(regionDetails.id),
-        province_id: Number(regionDetails.provinceId),
-        province: {
-          id: Number(regionDetails.province.id),
-          name: regionDetails.province.name,
-        },
-      });
+      const currentRank = selectedRegion.total_rank;
+      const adjacentRegionData = await DataService.getAdjacentRegionByRank(
+        currentRank,
+        direction,
+      );
+
+      if (adjacentRegionData.data) {
+        const regionDetails = adjacentRegionData.data;
+        setSelectedRegion({
+          ...regionDetails,
+          id: Number(regionDetails.id),
+          province_id: Number(regionDetails.provinceId),
+          province: {
+            id: Number(regionDetails.province.id),
+            name: regionDetails.province.name,
+          },
+        });
+      }
     } catch (error) {
-      console.error('Failed to navigate to region:', error);
+      console.error('Failed to navigate to adjacent region:', error);
     } finally {
       setIsNavigating(false);
     }
@@ -228,7 +208,7 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
         {/* 이전 버튼 */}
         <RankArrowButton
           direction="left"
-          onClick={() => navigateToRegion(getAdjacentRegions.prev)}
+          onClick={() => navigateToAdjacentRegion('prev')}
         />
 
         {/* 순위 텍스트 */}
@@ -245,7 +225,7 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
         {/* 다음 버튼 */}
         <RankArrowButton
           direction="right"
-          onClick={() => navigateToRegion(getAdjacentRegions.next)}
+          onClick={() => navigateToAdjacentRegion('next')}
         />
       </div>
 
