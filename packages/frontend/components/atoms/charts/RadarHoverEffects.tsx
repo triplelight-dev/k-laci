@@ -109,6 +109,17 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
               opacity: 0 !important;
               transition: opacity 0.8s ease !important;
             }
+            .radar-chart:hover .data-point {
+              opacity: 1 !important;
+            }
+            .radar-chart:hover .data-point:hover {
+              r: 7 !important;
+              stroke-width: 2 !important;
+              fill: #FFFFFF !important;
+            }
+            .radar-chart:hover .data-point:hover + .data-point-inner {
+              opacity: 1 !important;
+            }
             
             @keyframes fadeIn {
               from {
@@ -256,7 +267,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
               strokeWidth={1.5}
               className="data-point"
               style={{
-                opacity: 1,
+                opacity: 0,
                 transition:
                   'opacity 0.3s ease, r 0.2s ease, stroke-width 0.2s ease, fill 0.2s ease',
                 pointerEvents: 'none', // 이벤트 비활성화
