@@ -1,7 +1,7 @@
 'use client';
 
 import IndexModal from '@/components/atoms/modal/IndexModal';
-import { useDistrict } from '@/store';
+import { useDistrict, useIsLoggedIn } from '@/store';
 import React, { useEffect, useState } from 'react';
 
 // 색상 맵 정의
@@ -39,7 +39,8 @@ const defaultWeaknessData: IndexData[] = [];
 const IndexItem: React.FC<{
   data: IndexData;
   onClick: (data: IndexData) => void;
-}> = ({ data, onClick }) => {
+  isDisabled?: boolean;
+}> = ({ data, onClick, isDisabled = false }) => {
   const categoryColor = colorMap[data.category] || '#874FFF';
 
   return (
@@ -52,17 +53,21 @@ const IndexItem: React.FC<{
         backgroundColor: '#F1F1F1',
         borderRadius: '12px',
         marginBottom: '8px',
-        cursor: 'pointer',
+        cursor: isDisabled ? 'default' : 'pointer',
         transition: 'all 0.2s ease',
         paddingTop: '12px',
         paddingBottom: '12px',
       }}
-      onClick={() => onClick(data)}
+      onClick={() => !isDisabled && onClick(data)}
       onMouseEnter={(e) => {
-        e.currentTarget.style.background = `white`;
+        if (!isDisabled) {
+          e.currentTarget.style.background = `white`;
+        }
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.background = '#F1F1F1';
+        if (!isDisabled) {
+          e.currentTarget.style.background = '#F1F1F1';
+        }
       }}
     >
       {/* 뱃지 */}
@@ -100,7 +105,8 @@ const IndexSection: React.FC<{
   data: IndexData[];
   isStrength?: boolean;
   onItemClick: (data: IndexData) => void;
-}> = ({ title, data, onItemClick }) => {
+  isDisabled?: boolean;
+}> = ({ title, data, onItemClick, isDisabled = false }) => {
   return (
     <div
       style={{
@@ -150,7 +156,12 @@ const IndexSection: React.FC<{
         }}
       >
         {data.map((item, index) => (
-          <IndexItem key={index} data={item} onClick={onItemClick} />
+          <IndexItem 
+            key={index} 
+            data={item} 
+            onClick={onItemClick} 
+            isDisabled={isDisabled}
+          />
         ))}
       </div>
     </div>
@@ -165,10 +176,15 @@ const StrengthWeaknessIndexSection: React.FC = () => {
   const [weaknessData, setWeaknessData] =
     useState<IndexData[]>(defaultWeaknessData);
 
-  // Zustand store에서 선택된 지역 정보 가져오기
+  // Zustand store에서 선택된 지역 정보와 로그인 상태 가져오기
   const { selectedRegion } = useDistrict();
+  const isLoggedIn = useIsLoggedIn();
 
   const handleItemClick = (data: IndexData) => {
+    // 로그인하지 않은 경우 모달을 열지 않음
+    if (!isLoggedIn) {
+      return;
+    }
     setSelectedData(data);
     setIsModalOpen(true);
   };
@@ -231,6 +247,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
           data={strengthData}
           isStrength={true}
           onItemClick={handleItemClick}
+          isDisabled={!isLoggedIn}
         />
 
         {/* 약점지표 */}
@@ -239,11 +256,12 @@ const StrengthWeaknessIndexSection: React.FC = () => {
           data={weaknessData}
           isStrength={true}
           onItemClick={handleItemClick}
+          isDisabled={!isLoggedIn}
         />
       </div>
 
-      {/* 모달 */}
-      {selectedData && (
+      {/* 모달 - 로그인한 경우에만 렌더링 */}
+      {isLoggedIn && selectedData && (
         <IndexModal
           isOpen={isModalOpen}
           onClose={handleCloseModal}
