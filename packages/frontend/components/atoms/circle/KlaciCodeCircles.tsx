@@ -13,7 +13,7 @@ const KlaciCodeCircles: React.FC<KlaciCodeCirclesProps> = ({
   klaciCode,
   size = 30,
   gap = 8,
-  marginBottom = 24,
+  marginBottom = 30,
   fontSize = '1rem',
   fontWeight = 600,
 }) => {
