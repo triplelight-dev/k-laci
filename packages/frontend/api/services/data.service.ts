@@ -103,4 +103,9 @@ export class DataService {
     const response = await apiClient.get(`/data/key-indexes/${indexId}`);
     return response.data;
   }
+
+  static async getAdjacentRegionByRank(currentRank: number, direction: 'prev' | 'next'): Promise<ApiResponse<RegionWithDetails>> {
+    const response = await apiClient.get(`/data/regions/adjacent/${currentRank}/${direction}`);
+    return response.data;
+  }
 } 

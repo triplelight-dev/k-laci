@@ -4,12 +4,12 @@ import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Cache } from 'cache-manager';
 import {
-    CategoryKeyIndexRank,
-    KeyIndexData,
-    Region,
-    RegionKeyIndexRank,
-    RegionsResponse,
-    RegionWithDetails,
+  CategoryKeyIndexRank,
+  KeyIndexData,
+  Region,
+  RegionKeyIndexRank,
+  RegionsResponse,
+  RegionWithDetails,
 } from './types/region.types';
 
 export const REGION_SCORE_TYPES = {
@@ -510,5 +510,62 @@ export class DataService {
     keyIndexData = data as KeyIndexData;
     await this.cacheManager.set(cacheKey, keyIndexData, 300);
     return keyIndexData;
+  }
+
+  async getAdjacentRegionByRank(
+    currentRank: number,
+    direction: 'prev' | 'next',
+  ): Promise<RegionWithDetails | null> {
+    const cacheKey = `adjacent-region:${currentRank}:${direction}`;
+    const cached = await this.cacheManager.get<RegionWithDetails>(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
+    // 전체 regions를 total_rank 순으로 가져오기
+    const { data: regions, error } = await this.supabase
+      .from('regions')
+      .select(
+        `
+        *,
+        province:provinces(id, name),
+        klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
+        `,
+      )
+      .order('total_rank', { ascending: true });
+
+    if (error || !regions) {
+      throw error;
+    }
+
+    const totalRegions = regions.length;
+    let targetRank: number;
+
+    if (direction === 'prev') {
+      // 이전 순위 (더 높은 순위, 더 작은 숫자)
+      targetRank = currentRank === 1 ? totalRegions : currentRank - 1;
+    } else {
+      // 다음 순위 (더 낮은 순위, 더 큰 숫자)
+      targetRank = currentRank === totalRegions ? 1 : currentRank + 1;
+    }
+
+    // targetRank에 해당하는 region 찾기
+    const targetRegion = regions.find(
+      (region) => region.total_rank === targetRank,
+    );
+
+    if (!targetRegion) {
+      return null;
+    }
+
+    // RegionWithDetails 형태로 변환
+    const regionWithDetails: RegionWithDetails = {
+      ...targetRegion,
+      province: targetRegion.province,
+      klaci: targetRegion.klaci,
+    };
+
+    await this.cacheManager.set(cacheKey, regionWithDetails, 300);
+    return regionWithDetails;
   }
 }
