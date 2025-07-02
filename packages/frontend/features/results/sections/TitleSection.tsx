@@ -23,7 +23,9 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
   const setSelectedRegion = useSetSelectedRegion();
   const { getRegion } = useRegion();
   const [isNavigating, setIsNavigating] = useState(false);
-  const [animatedChartData, setAnimatedChartData] = useState<number[]>([50, 50, 50, 50, 50, 50, 50, 50]);
+  const [animatedChartData, setAnimatedChartData] = useState<number[]>([
+    50, 50, 50, 50, 50, 50, 50, 50,
+  ]);
 
   // regions 데이터를 직접 가져오기
   const regions = useStore((state) => state.regions);
@@ -47,20 +49,25 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
   // 현재 region의 이전/다음 region 찾기
   const getAdjacentRegions = useMemo(() => {
     if (!selectedRegion) return { prev: null, next: null };
-    
-    const currentIndex = sortedRegions.findIndex(region => region.id === selectedRegion.id);
+
+    const currentIndex = sortedRegions.findIndex(
+      (region) => region.id === selectedRegion.id,
+    );
     if (currentIndex === -1) return { prev: null, next: null };
-    
+
     return {
       prev: currentIndex > 0 ? sortedRegions[currentIndex - 1] : null,
-      next: currentIndex < sortedRegions.length - 1 ? sortedRegions[currentIndex + 1] : null,
+      next:
+        currentIndex < sortedRegions.length - 1
+          ? sortedRegions[currentIndex + 1]
+          : null,
     };
   }, [selectedRegion, sortedRegions]);
 
   // 이전/다음 region으로 이동하는 함수
   const navigateToRegion = async (region: any) => {
     if (!region || isNavigating) return;
-    
+
     setIsNavigating(true);
     try {
       const regionDetails = await getRegion(String(region.id));
@@ -121,32 +128,32 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
     const duration = 500; // 0.8초로 늘림
     const steps = 40; // 60단계로 더 세밀하게
     const stepDuration = duration / steps;
-    
+
     let currentStep = 0;
-    
+
     const animate = () => {
       if (currentStep >= steps) {
         setAnimatedChartData(targetChartData);
         return;
       }
-      
+
       const progress = currentStep / steps;
       // 더 부드러운 ease-out 효과 (cubic-bezier)
       const easeProgress = 1 - Math.pow(1 - progress, 4);
-      
+
       const newData = animatedChartData.map((currentValue, index) => {
         const targetValue = targetChartData[index];
         if (targetValue === undefined) return currentValue;
         const diff = targetValue - currentValue;
-        return currentValue + (diff * easeProgress);
+        return currentValue + diff * easeProgress;
       });
-      
+
       setAnimatedChartData(newData);
       currentStep++;
-      
+
       setTimeout(animate, stepDuration);
     };
-    
+
     animate();
   }, [targetChartData]);
 
@@ -167,8 +174,9 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
   const districtName = getDistrictName();
 
   // KLACI 코드와 닉네임 가져오기
-  const klaciCode = currentRegion?.klaci?.code || 'KLAC';
+  const klaciCode = currentRegion?.klaci?.code || 'GCMR';
   const klaciNickname = currentRegion?.klaci?.nickname || '안전복지형';
+  const klaciType = currentRegion?.klaci?.type || '';
   const klaciSummaryArray = currentRegion?.klaci?.summary || [];
 
   console.log('klaciSummaryArray', klaciSummaryArray);
@@ -193,16 +201,20 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
           marginBottom: '50px',
         }}
       >
-        <JewelRadarChart 
-          size={470} 
-          data={animatedChartData} 
-          regionData={currentRegion ? {
-            growth_score: currentRegion.growth_score,
-            economy_score: currentRegion.economy_score,
-            living_score: currentRegion.living_score,
-            safety_score: currentRegion.safety_score,
-            klaci_code: currentRegion.klaci_code,
-          } : {}}
+        <JewelRadarChart
+          size={470}
+          data={animatedChartData}
+          regionData={
+            currentRegion
+              ? {
+                  growth_score: currentRegion.growth_score,
+                  economy_score: currentRegion.economy_score,
+                  living_score: currentRegion.living_score,
+                  safety_score: currentRegion.safety_score,
+                  klaci_code: currentRegion.klaci_code,
+                }
+              : {}
+          }
         />
       </div>
       <div
@@ -210,7 +222,7 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
           display: 'flex',
           alignItems: 'center',
           gap: '40px',
-          marginBottom: '20px',
+          marginBottom: '40px',
         }}
       >
         {/* 이전 버튼 */}
@@ -218,7 +230,7 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
           direction="left"
           onClick={() => navigateToRegion(getAdjacentRegions.prev)}
         />
-        
+
         {/* 순위 텍스트 */}
         <div
           style={{
@@ -229,7 +241,7 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
         >
           {rankText}
         </div>
-        
+
         {/* 다음 버튼 */}
         <RankArrowButton
           direction="right"
@@ -240,10 +252,10 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
       {/* 지자체 이름 */}
       <div
         style={{
-          fontSize: '3.2rem',
+          fontSize: '50px',
           color: '#000',
-          fontWeight: '600',
-          marginBottom: '50px',
+          fontWeight: '700',
+          marginBottom: '80px',
         }}
       >
         {districtName}
@@ -252,13 +264,27 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
       {/* KLACI Code 원형 컴포넌트 */}
       <KlaciCodeCircles klaciCode={klaciCode} />
 
+      {/* 타입 텍스트 */}
+      {klaciType && (
+        <div
+          style={{
+            fontSize: '36px',
+            color: '#000',
+            fontWeight: '700',
+            marginBottom: '20px',
+          }}
+        >
+          {klaciType}
+        </div>
+      )}
+
       {/* 유형 텍스트 */}
       <div
         style={{
-          fontSize: '2.2rem',
-          color: '#474E59',
-          fontWeight: 'bold',
-          marginBottom: '12px',
+          fontSize: '24px',
+          color: '#000',
+          fontWeight: '700',
+          marginBottom: '60px',
         }}
       >
         {klaciNickname}
@@ -268,7 +294,7 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
       <div
         style={{
           fontSize: '1.1rem',
-          color: '#666',
+          color: '#000',
           textAlign: 'center',
           lineHeight: '1.6',
           maxWidth: '600px',
