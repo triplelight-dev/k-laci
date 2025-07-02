@@ -4,6 +4,7 @@ export interface KeyIndex {
   name: string;
   category?: string;
   description?: string;
+  yearly_avg_score?: number;
 }
 
 export interface RegionKeyIndexRank {

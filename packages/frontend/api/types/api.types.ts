@@ -44,6 +44,7 @@ export interface KeyIndexData {
   calculation_method?: string;
   created_at?: string;
   updated_at?: string;
+  yearly_avg_score?: number;
 }
 
 // 사용자 프로필 타입

@@ -486,28 +486,50 @@ export class DataService {
     return result;
   }
 
-  async getKeyIndexData(indexId: number): Promise<KeyIndexData> {
-    const cacheKey = `key_index:${indexId}`;
+  async getKeyIndexData(indexId: number, year?: number): Promise<KeyIndexData> {
+    // year가 없으면 현재 연도 사용
+    const targetYear = year || new Date().getFullYear();
+    const cacheKey = `key_index:${indexId}:${targetYear}`;
+
     let keyIndexData = await this.cacheManager.get<KeyIndexData>(cacheKey);
     if (keyIndexData) {
       return keyIndexData;
     }
 
-    const { data, error } = await this.supabase
+    // key_indexes 테이블에서 기본 정보 조회
+    const { data: keyIndex, error: keyIndexError } = await this.supabase
       .from('key_indexes')
       .select('*')
       .eq('id', indexId)
       .single();
 
-    if (error) {
-      throw error;
+    if (keyIndexError) {
+      throw keyIndexError;
     }
 
-    if (!data) {
+    if (!keyIndex) {
       throw new Error('Key index not found');
     }
 
-    keyIndexData = data as KeyIndexData;
+    // key_index_yearly_avgs 테이블에서 연도별 평균점수 조회
+    const { data: yearlyAvg, error: yearlyAvgError } = await this.supabase
+      .from('key_index_yearly_avgs')
+      .select('avg_score')
+      .eq('key_index_id', indexId)
+      .eq('year', targetYear)
+      .single();
+
+    if (yearlyAvgError && yearlyAvgError.code !== 'PGRST116') {
+      // PGRST116는 결과가 없는 경우의 에러 코드
+      throw yearlyAvgError;
+    }
+
+    keyIndexData = {
+      ...keyIndex,
+      yearly_avg_score: yearlyAvg?.avg_score || null,
+      year: targetYear, // 연도 정보 추가
+    } as KeyIndexData;
+
     await this.cacheManager.set(cacheKey, keyIndexData, 300);
     return keyIndexData;
   }

@@ -190,6 +190,12 @@ export class DataController {
   @Public()
   @Get('key-indexes/:id')
   @ApiOperation({ summary: 'Get key index data by ID' })
+  @ApiQuery({
+    name: 'year',
+    required: false,
+    type: Number,
+    description: 'Year for yearly average score (defaults to current year)',
+  })
   @ApiResponse({
     status: 200,
     description: 'Returns the key index data with the specified ID',
@@ -198,11 +204,20 @@ export class DataController {
     status: 404,
     description: 'Key index not found',
   })
-  async getKeyIndexData(@Param('id') id: string) {
+  async getKeyIndexData(@Param('id') id: string, @Query('year') year?: string) {
     const indexId = Number(id);
     if (isNaN(indexId)) {
       throw new Error('Invalid key index ID');
     }
-    return this.dataService.getKeyIndexData(indexId);
+
+    let yearNumber: number | undefined;
+    if (year) {
+      yearNumber = Number(year);
+      if (isNaN(yearNumber)) {
+        throw new Error('Invalid year');
+      }
+    }
+
+    return this.dataService.getKeyIndexData(indexId, yearNumber);
   }
 }
