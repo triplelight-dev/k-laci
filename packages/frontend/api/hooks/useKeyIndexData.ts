@@ -7,12 +7,12 @@ export const useKeyIndexData = () => {
   const [error, setError] = useState<ApiError | null>(null);
   const [keyIndexData, setKeyIndexData] = useState<KeyIndexData | null>(null);
 
-  const getKeyIndexData = useCallback(async (indexId: number) => {
+  const getKeyIndexData = useCallback(async (indexId: number, year?: number) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await DataService.getKeyIndexData(indexId);
+      const response = await DataService.getKeyIndexData(indexId, year);
       setKeyIndexData(response.data);
       return response.data;
     } catch (err: any) {

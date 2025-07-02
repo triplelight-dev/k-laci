@@ -17,9 +17,9 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
   if (!isOpen) return null;
 
   const topPercentage = ((data.indexRank / NUM_OF_REGIONS) * 100).toFixed(1);
-  const MOCK_SOURCE = '통계청';
-  const source = MOCK_SOURCE;
-  console.log('data.category!!!!!!!', data.category);
+  const source = data.source || '통계청'; // API에서 받은 source 사용, 없으면 기본값
+  const year = data.year || new Date().getFullYear(); // API에서 받은 year 사용, 없으면 현재 연도
+  const yearlyAvgScore = data.yearlyAvgScore; // API에서 받은 연도별 평균점수
 
   // 카테고리에 따른 색상 설정
   const rankColor = colorMap[data.category] || '#FF3737'; // 기본값으로 빨간색
@@ -114,7 +114,7 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
             상위 {topPercentage}%
           </div>
 
-          {/* 통계청 */}
+          {/* 출처 */}
           <div
             style={{
               fontSize: '14px',
@@ -127,7 +127,7 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
             {source}
           </div>
 
-          {/* 참고용 로데이터 */}
+          {/* 연도 정보 */}
           <div
             style={{
               fontSize: '14px',
@@ -137,7 +137,7 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
               borderTop: '1px solid #D9D9E8',
             }}
           >
-            참고용 로데이터 (2020)
+            참고용 로데이터 ({year})
           </div>
 
           {/* 점수 정보 */}
@@ -156,17 +156,19 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
                 color: '#474E59',
               }}
             >
-              {data.fullRegionName} 000점 (update)
+              {data.fullRegionName} {data.indexRank}위
             </div>
-            <div
-              style={{
-                fontSize: '14px',
-                fontWeight: '400',
-                color: '#474E59',
-              }}
-            >
-              전국 평균 0.43234점
-            </div>
+            {yearlyAvgScore !== undefined && (
+              <div
+                style={{
+                  fontSize: '14px',
+                  fontWeight: '400',
+                  color: '#474E59',
+                }}
+              >
+                전국 평균 {yearlyAvgScore.toFixed(2)}점
+              </div>
+            )}
           </div>
         </div>
 

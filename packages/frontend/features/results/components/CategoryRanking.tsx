@@ -46,6 +46,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
       indexName: rank.name,
       indexRank: rank.rank,
       indexDescription,
+      indexScore: 0, // 기본값
     };
 
     // API에서 상세 정보 받아오기
@@ -53,6 +54,8 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
       description?: string;
       name?: string;
       source?: string;
+      yearly_avg_score?: number;
+      year?: number;
     } = {};
     try {
       keyIndexDetail = await getKeyIndexData(rank.key_index_id);
@@ -60,8 +63,20 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
       // 에러 시 기본값 유지
     }
 
-    if (keyIndexDetail && keyIndexDetail.description) {
-      indexData.indexDescription = keyIndexDetail.description;
+    if (keyIndexDetail) {
+      // API 응답에서 받은 데이터로 업데이트
+      if (keyIndexDetail.description) {
+        indexData.indexDescription = keyIndexDetail.description;
+      }
+      if (keyIndexDetail.source) {
+        indexData.source = keyIndexDetail.source;
+      }
+      if (keyIndexDetail.yearly_avg_score !== undefined) {
+        indexData.yearlyAvgScore = keyIndexDetail.yearly_avg_score;
+      }
+      if (keyIndexDetail.year) {
+        indexData.year = keyIndexDetail.year;
+      }
     }
 
     console.log('keyIndexDetail!!!!!!!', keyIndexDetail);

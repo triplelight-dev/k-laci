@@ -70,6 +70,7 @@ export interface KeyIndexData {
   calculation_method?: string;
   created_at?: string;
   updated_at?: string;
+  yearly_avg_score?: number;
 }
 
 export class DataService {
@@ -99,8 +100,9 @@ export class DataService {
     return response.data;
   }
 
-  static async getKeyIndexData(indexId: number): Promise<ApiResponse<KeyIndexData>> {
-    const response = await apiClient.get(`/data/key-indexes/${indexId}`);
+  static async getKeyIndexData(indexId: number, year?: number): Promise<ApiResponse<KeyIndexData>> {
+    const params = year ? { year } : {};
+    const response = await apiClient.get(`/data/key-indexes/${indexId}`, { params });
     return response.data;
   }
 
