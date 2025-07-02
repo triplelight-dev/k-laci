@@ -321,9 +321,9 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
           {/* 툴팁 배경 */}
           <rect
             x={center - 120}
-            y={hoveredArea === 'top' ? center - 80 : center + 20}
+            y={hoveredArea === 'top' ? center + 20 : center - 80}
             width={240}
-            height={hoveredArea === 'top' ? 60 : 60}
+            height={60}
             rx={5}
             fill="white"
             stroke="#333"
@@ -337,7 +337,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
             <>
               <text
                 x={center}
-                y={center - 60}
+                y={center + 40}
                 textAnchor="middle"
                 fontSize="11"
                 fill="#333"
@@ -347,7 +347,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
               </text>
               <text
                 x={center}
-                y={center - 45}
+                y={center + 55}
                 textAnchor="middle"
                 fontSize="11"
                 fill="#333"
@@ -356,7 +356,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
               </text>
               <text
                 x={center}
-                y={center - 30}
+                y={center + 70}
                 textAnchor="middle"
                 fontSize="11"
                 fill="#333"
@@ -368,7 +368,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
             <>
               <text
                 x={center}
-                y={center + 40}
+                y={center - 60}
                 textAnchor="middle"
                 fontSize="11"
                 fill="#333"
@@ -378,7 +378,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
               </text>
               <text
                 x={center}
-                y={center + 55}
+                y={center - 45}
                 textAnchor="middle"
                 fontSize="11"
                 fill="#333"
@@ -387,7 +387,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
               </text>
               <text
                 x={center}
-                y={center + 70}
+                y={center - 30}
                 textAnchor="middle"
                 fontSize="11"
                 fill="#333"
