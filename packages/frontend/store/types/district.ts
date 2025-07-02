@@ -76,7 +76,7 @@ export interface RegionWithDetails {
     trait?: string[] | null;
     opportunity?: string[] | null;
     strategy?: string[] | null;
-    summary?: string | null;
+    summary?: string[] | null;
   };
   key_index_ranks?: {
     top: RegionKeyIndexRank[];
