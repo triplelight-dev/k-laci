@@ -19,6 +19,8 @@ export const REGION_SCORE_TYPES = {
   safety: 'safety',
 } as const;
 
+console.log('hi');
+
 export type RegionScoreType = keyof typeof REGION_SCORE_TYPES;
 
 @Injectable()
