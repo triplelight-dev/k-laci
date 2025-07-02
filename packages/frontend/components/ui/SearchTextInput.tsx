@@ -13,35 +13,17 @@ interface SearchTextInputProps {
   onRecentSearchClick?: (value: string) => void;
 }
 
-// 지자체별 아이콘 매핑 (예시 데이터)
+// 지자체별 아이콘 매핑 - region ID를 사용하여 public/region-logos 폴더의 이미지 사용
 const getRegionIcon = (regionName: string): string => {
-  const iconMap: { [key: string]: string } = {
-    서울특별시: '/icons/seoul.svg',
-    부산광역시: '/icons/busan.svg',
-    대구광역시: '/icons/daegu.svg',
-    인천광역시: '/icons/incheon.svg',
-    광주광역시: '/icons/gwangju.svg',
-    대전광역시: '/icons/daejeon.svg',
-    울산광역시: '/icons/ulsan.svg',
-    세종특별자치시: '/icons/sejong.svg',
-    제주특별자치도: '/icons/jeju.svg',
-    서귀포시: '/icons/jeju.svg',
-    제주시: '/icons/jeju.svg',
-  };
+  // 지역명으로부터 region ID 찾기
+  const { region } = findProvinceAndRegionByName(regionName);
 
-  // 정확한 매칭 시도
-  if (iconMap[regionName]) {
-    return iconMap[regionName];
+  if (region) {
+    // region ID를 사용하여 public/region-logos 폴더의 이미지 경로 생성
+    return `/region-logos/${region.id}.png`;
   }
 
-  // 부분 매칭 시도
-  for (const [key, icon] of Object.entries(iconMap)) {
-    if (regionName.includes(key) || key.includes(regionName)) {
-      return icon;
-    }
-  }
-
-  // 기본 아이콘
+  // 기본 아이콘 (region을 찾을 수 없는 경우)
   return '/districts/sample_dist_icon.png';
 };
 
@@ -126,13 +108,13 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
   // URL 업데이트 함수
   const updateURL = (districtId: number | null) => {
     const params = new URLSearchParams(searchParams.toString());
-    
+
     if (districtId) {
       params.set('district', districtId.toString());
     } else {
       params.delete('district');
     }
-    
+
     const newURL = `${window.location.pathname}?${params.toString()}`;
     if (newURL !== window.location.pathname + window.location.search) {
       router.replace(newURL, { scroll: false });
@@ -150,7 +132,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
     if (province && region) {
       setSelectedProvince(province.id);
       setSelectedDistrict(region.id);
-      
+
       // URL 업데이트
       updateURL(region.id);
     }
