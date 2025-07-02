@@ -496,7 +496,7 @@ export class DataService {
       return keyIndexData;
     }
 
-    // key_indexes 테이블에서 기본 정보 조회
+    // key_indexes 테이블에서 기본 정보 조회 (source 포함)
     const { data: keyIndex, error: keyIndexError } = await this.supabase
       .from('key_indexes')
       .select('*')
