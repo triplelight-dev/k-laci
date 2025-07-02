@@ -14,6 +14,7 @@ export const API_ENDPOINTS = {
     PROVINCES: '/data/provinces',
     REGIONS: '/data/regions',
     REGION: (id: string) => `/data/regions/${id}`,
+    ADJACENT_REGION: (rank: number, direction: 'prev' | 'next') => `/data/regions/adjacent/${rank}/${direction}`,
     PROVINCES_WITH_REGIONS: '/data/provinces-with-regions',
     CATEGORIES: '/data/categories',
     KEY_INDEX: (id: number) => `/data/key-indexes/${id}`,
