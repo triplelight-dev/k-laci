@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { RadarChartContext } from './types';
 
 interface RadarHoverEffectsProps {
@@ -24,6 +24,55 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
   } = context;
 
   const numAxes = categories.length;
+
+  // 깜빡임 방지를 위한 useCallback 사용
+  const handlePointMouseEnter = useCallback((i: number) => {
+    setHoveredPoint(i);
+    const circle = document.querySelector(
+      `circle[data-index="${i}"]`,
+    ) as SVGElement;
+    if (circle) {
+      circle.style.r = '7';
+      circle.style.strokeWidth = '2';
+      circle.style.fill = '#FFFFFF';
+    }
+    
+    // 내부 검정색 원도 보이게 설정
+    const innerCircle = document.querySelector(
+      `circle[data-index="${i}"] + circle.data-point-inner`,
+    ) as SVGElement;
+    if (innerCircle) {
+      innerCircle.style.opacity = '1';
+    }
+  }, []);
+
+  const handlePointMouseLeave = useCallback((i: number) => {
+    setHoveredPoint(null);
+    const circle = document.querySelector(
+      `circle[data-index="${i}"]`,
+    ) as SVGElement;
+    if (circle) {
+      circle.style.r = '2';
+      circle.style.strokeWidth = '1.5';
+      circle.style.fill = '#9A9EA3';
+    }
+    
+    // 내부 검정색 원 숨기기
+    const innerCircle = document.querySelector(
+      `circle[data-index="${i}"] + circle.data-point-inner`,
+    ) as SVGElement;
+    if (innerCircle) {
+      innerCircle.style.opacity = '0';
+    }
+  }, []);
+
+  const handleAreaMouseEnter = useCallback((area: 'top' | 'bottom') => {
+    setHoveredArea(area);
+  }, []);
+
+  const handleAreaMouseLeave = useCallback(() => {
+    setHoveredArea(null);
+  }, []);
 
   if (isJewel) return null;
 
@@ -59,17 +108,6 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
             .radar-chart:hover .jewel-triangle {
               opacity: 0 !important;
               transition: opacity 0.8s ease !important;
-            }
-            .radar-chart:hover .data-point {
-              opacity: 1 !important;
-            }
-            .radar-chart:hover .data-point:hover {
-              r: 4 !important;
-              stroke-width: 2 !important;
-              fill: #FFFFFF !important;
-            }
-            .radar-chart:hover .data-point:hover + .data-point-inner {
-              opacity: 1 !important;
             }
             
             @keyframes fadeIn {
@@ -139,8 +177,8 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
               L ${center - radius} ${center}
               Z`}
           fill="transparent"
-          onMouseEnter={() => setHoveredArea('top')}
-          onMouseLeave={() => setHoveredArea(null)}
+          onMouseEnter={() => handleAreaMouseEnter('top')}
+          onMouseLeave={handleAreaMouseLeave}
           style={{ cursor: 'pointer' }}
         />
       )}
@@ -154,8 +192,8 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
               L ${center - radius} ${center + radius}
               Z`}
           fill="transparent"
-          onMouseEnter={() => setHoveredArea('bottom')}
-          onMouseLeave={() => setHoveredArea(null)}
+          onMouseEnter={() => handleAreaMouseEnter('bottom')}
+          onMouseLeave={handleAreaMouseLeave}
           style={{ cursor: 'pointer' }}
         />
       )}
@@ -171,8 +209,8 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
                 L ${center - radius} ${center}
                 Z`}
             fill="transparent"
-            onMouseEnter={() => setHoveredArea('top')}
-            onMouseLeave={() => setHoveredArea(null)}
+            onMouseEnter={() => handleAreaMouseEnter('top')}
+            onMouseLeave={handleAreaMouseLeave}
             style={{ cursor: 'pointer' }}
           />
           {/* 하단 호버 영역 (툴팁 영역 제외) */}
@@ -183,8 +221,8 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
                 L ${center - radius} ${center + radius}
                 Z`}
             fill="transparent"
-            onMouseEnter={() => setHoveredArea('bottom')}
-            onMouseLeave={() => setHoveredArea(null)}
+            onMouseEnter={() => handleAreaMouseEnter('bottom')}
+            onMouseLeave={handleAreaMouseLeave}
             style={{ cursor: 'pointer' }}
           />
         </>
@@ -197,6 +235,17 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
 
         return (
           <g key={`point-${i}`}>
+            {/* 투명한 호버 영역 - 하나의 큰 원으로 통합 */}
+            <circle
+              cx={pt.x}
+              cy={pt.y}
+              r={8}
+              fill="transparent"
+              onMouseEnter={() => handlePointMouseEnter(i)}
+              onMouseLeave={() => handlePointMouseLeave(i)}
+              style={{ cursor: 'pointer' }}
+            />
+            
             {/* 기본 원 */}
             <circle
               cx={pt.x}
@@ -207,32 +256,10 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
               strokeWidth={1.5}
               className="data-point"
               style={{
-                opacity: 0,
+                opacity: 1,
                 transition:
                   'opacity 0.3s ease, r 0.2s ease, stroke-width 0.2s ease, fill 0.2s ease',
-                cursor: 'pointer',
-              }}
-              onMouseEnter={() => {
-                setHoveredPoint(i);
-                const circle = document.querySelector(
-                  `circle[data-index="${i}"]`,
-                ) as SVGElement;
-                if (circle) {
-                  circle.style.r = '4';
-                  circle.style.strokeWidth = '2';
-                  circle.style.fill = '#FFFFFF';
-                }
-              }}
-              onMouseLeave={() => {
-                setHoveredPoint(null);
-                const circle = document.querySelector(
-                  `circle[data-index="${i}"]`,
-                ) as SVGElement;
-                if (circle) {
-                  circle.style.r = '2';
-                  circle.style.strokeWidth = '1.5';
-                  circle.style.fill = '#9A9EA3';
-                }
+                pointerEvents: 'none', // 이벤트 비활성화
               }}
               data-index={i}
             />
@@ -241,16 +268,14 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
             <circle
               cx={pt.x}
               cy={pt.y}
-              r={1}
+              r={2.5}
               fill="#000000"
               className="data-point-inner"
               style={{
                 opacity: 0,
                 transition: 'opacity 0.3s ease',
-                cursor: 'pointer',
+                pointerEvents: 'none', // 이벤트 비활성화
               }}
-              onMouseEnter={() => setHoveredPoint(i)}
-              onMouseLeave={() => setHoveredPoint(null)}
             />
 
             <text
@@ -268,6 +293,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
               style={{
                 opacity: 0,
                 transition: 'opacity 0.3s ease',
+                pointerEvents: 'none', // 이벤트 비활성화
               }}
             >
               {category}
@@ -281,31 +307,28 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
       {hoveredPoint !== null && points[hoveredPoint] && (
         <g>
           <rect
-            x={points[hoveredPoint]!.x - 40}
-            y={points[hoveredPoint]!.y - 50}
-            width={80}
-            height={40}
-            rx={5}
-            fill="rgba(0, 0, 0, 0.8)"
+            x={points[hoveredPoint]!.x - 15}
+            y={points[hoveredPoint]!.y - 35}
+            width={30}
+            height={25}
+            rx={6}
+            fill="white"
+            stroke="#333"
+            strokeWidth={1}
+            style={{
+              filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1))',
+            }}
           />
           <text
             x={points[hoveredPoint]!.x}
-            y={points[hoveredPoint]!.y - 35}
+            y={points[hoveredPoint]!.y - 22}
             textAnchor="middle"
-            fontSize={fontSize.tooltip}
-            fill="white"
+            dominantBaseline="middle"
+            fontSize={fontSize.tooltip * 1.1}
+            fill="#333"
             fontWeight="bold"
           >
-            {categories[hoveredPoint]}
-          </text>
-          <text
-            x={points[hoveredPoint]!.x}
-            y={points[hoveredPoint]!.y - 20}
-            textAnchor="middle"
-            fontSize={fontSize.tooltip}
-            fill="white"
-          >
-            {vals[hoveredPoint]}점
+            {vals[hoveredPoint]}
           </text>
         </g>
       )}
@@ -321,9 +344,9 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
           {/* 툴팁 배경 */}
           <rect
             x={center - 120}
-            y={hoveredArea === 'top' ? center - 80 : center + 20}
+            y={hoveredArea === 'top' ? center + 20 : center - 80}
             width={240}
-            height={hoveredArea === 'top' ? 60 : 60}
+            height={60}
             rx={5}
             fill="white"
             stroke="#333"
@@ -337,7 +360,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
             <>
               <text
                 x={center}
-                y={center - 60}
+                y={center + 40}
                 textAnchor="middle"
                 fontSize="11"
                 fill="#333"
@@ -347,7 +370,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
               </text>
               <text
                 x={center}
-                y={center - 45}
+                y={center + 55}
                 textAnchor="middle"
                 fontSize="11"
                 fill="#333"
@@ -356,7 +379,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
               </text>
               <text
                 x={center}
-                y={center - 30}
+                y={center + 70}
                 textAnchor="middle"
                 fontSize="11"
                 fill="#333"
@@ -368,7 +391,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
             <>
               <text
                 x={center}
-                y={center + 40}
+                y={center - 60}
                 textAnchor="middle"
                 fontSize="11"
                 fill="#333"
@@ -378,7 +401,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
               </text>
               <text
                 x={center}
-                y={center + 55}
+                y={center - 45}
                 textAnchor="middle"
                 fontSize="11"
                 fill="#333"
@@ -387,7 +410,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
               </text>
               <text
                 x={center}
-                y={center + 70}
+                y={center - 30}
                 textAnchor="middle"
                 fontSize="11"
                 fill="#333"
