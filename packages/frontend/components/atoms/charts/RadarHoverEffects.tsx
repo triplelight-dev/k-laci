@@ -71,6 +71,15 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
             .radar-chart:hover .data-point:hover + .data-point-inner {
               opacity: 1 !important;
             }
+            
+            @keyframes fadeIn {
+              from {
+                opacity: 0;
+              }
+              to {
+                opacity: 1;
+              }
+            }
           `}
         </style>
       </defs>
