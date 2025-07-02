@@ -78,11 +78,13 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
     setSelectedDistrict(districtId);
   };
 
-  // API에서 가져온 데이터로 province 옵션 생성
-  const provinceOptions = provincesWithRegions.map((province) => ({
-    value: String(province.id),
-    label: province.name,
-  }));
+  // API에서 가져온 데이터로 province 옵션 생성 (가나다순 정렬 추가)
+  const provinceOptions = provincesWithRegions
+    .sort((a, b) => a.name.localeCompare(b.name, 'ko'))
+    .map((province) => ({
+      value: String(province.id),
+      label: province.name,
+    }));
 
   // 선택된 도/시에 해당하는 지역 옵션 생성
   const districtOptions = selectedProvince

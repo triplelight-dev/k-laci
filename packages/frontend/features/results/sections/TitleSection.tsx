@@ -169,8 +169,9 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
   // KLACI 코드와 닉네임 가져오기
   const klaciCode = currentRegion?.klaci?.code || 'KLAC';
   const klaciNickname = currentRegion?.klaci?.nickname || '안전복지형';
-  const klaciSummary = currentRegion?.klaci.summary || '';
-  const klaciSummaryArray = klaciSummary.split('.');
+  const klaciSummaryArray = currentRegion?.klaci?.summary || [];
+
+  console.log('klaciSummaryArray', klaciSummaryArray);
 
   return (
     <div

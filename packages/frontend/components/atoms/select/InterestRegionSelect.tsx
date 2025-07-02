@@ -15,16 +15,18 @@ export default function InterestRegionSelect({
   const [isRegionOpen, setIsRegionOpen] = useState(false);
   const regionRef = useRef<HTMLDivElement>(null);
 
-  // 모든 region을 하나의 배열로 합치기
-  const allRegionOptions = provincesWithRegions.flatMap(
-    (province) =>
-      province.regions?.map((region) => ({
-        value: region.id,
-        label: `${province.name} ${region.name}`,
-        provinceName: province.name,
-        regionName: region.name,
-      })) || [],
-  );
+  // 모든 region을 하나의 배열로 합치기 (가나다순 정렬 추가)
+  const allRegionOptions = provincesWithRegions
+    .sort((a, b) => a.name.localeCompare(b.name, 'ko'))
+    .flatMap(
+      (province) =>
+        province.regions?.map((region) => ({
+          value: region.id,
+          label: `${province.name} ${region.name}`,
+          provinceName: province.name,
+          regionName: region.name,
+        })) || [],
+    );
 
   // 선택된 region 정보 찾기
   const selectedRegion = allRegionOptions.find(

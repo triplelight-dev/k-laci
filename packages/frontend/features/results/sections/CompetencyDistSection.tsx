@@ -128,6 +128,8 @@ interface CategoryCardProps {
 }
 
 const CategoryCard: React.FC<CategoryCardProps> = ({ category, index }) => {
+  const { selectedRegion } = useStore((state) => state.district);
+  
   const getItems = (
     index: number,
   ): {
@@ -166,35 +168,33 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index }) => {
 
   const { leftItem, rightItem } = getItems(index);
 
-  const item = category.title;
-  const getBoldItem = (item: string): 'left' | 'right' | 'none' => {
-    const isRightItem = (
-      [
-        CATEGORIES.생활역동형,
-        CATEGORIES.안전회복형,
-        CATEGORIES.인구성장형,
-        CATEGORIES.경제혁신형,
-      ] as string[]
-    ).includes(item);
+  // 지역의 실제 KLACI 코드를 파싱해서 해당 자리의 카테고리 확인
+  const getRegionCategoryForIndex = (index: number): string | null => {
+    if (!selectedRegion?.klaci_code) return null;
+    
+    try {
+      const klaciCodeResult = parseKlaciCode(selectedRegion.klaci_code);
+      return klaciCodeResult[index]?.name || null;
+    } catch (error) {
+      console.error('KLACI 코드 파싱 오류:', error);
+      return null;
+    }
+  };
 
-    const isLeftItem = (
-      [
-        CATEGORIES.인구정착형,
-        CATEGORIES.경제정속형,
-        CATEGORIES.생활정체형,
-        CATEGORIES.안전정진형,
-      ] as string[]
-    ).includes(item);
-
-    if (isLeftItem) {
+  const regionCategoryForThisIndex = getRegionCategoryForIndex(index);
+  
+  // 지역의 실제 카테고리에 따라 left 또는 right를 볼드 처리
+  const getBoldItem = (): 'left' | 'right' | 'none' => {
+    if (regionCategoryForThisIndex === leftItem) {
       return 'left';
     }
-    if (isRightItem) {
+    if (regionCategoryForThisIndex === rightItem) {
       return 'right';
     }
     return 'none';
   };
-  const isBold = getBoldItem(item);
+  
+  const isBold = getBoldItem();
 
   const isFirstIndex = index === 0;
   return (

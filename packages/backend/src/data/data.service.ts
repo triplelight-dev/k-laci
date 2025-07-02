@@ -4,12 +4,12 @@ import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Cache } from 'cache-manager';
 import {
-  CategoryKeyIndexRank,
-  KeyIndexData,
-  Region,
-  RegionKeyIndexRank,
-  RegionsResponse,
-  RegionWithDetails,
+    CategoryKeyIndexRank,
+    KeyIndexData,
+    Region,
+    RegionKeyIndexRank,
+    RegionsResponse,
+    RegionWithDetails,
 } from './types/region.types';
 
 export const REGION_SCORE_TYPES = {
@@ -324,11 +324,13 @@ export class DataService {
       regions: Region[];
     }[]
   > {
-    const cacheKey = 'provinces-with-regions';
+    // 캐시 키에 버전을 추가하여 캐시 무효화
+    const cacheKey = 'provinces-with-regions-v2';
     const cached = await this.cacheManager.get<any[]>(cacheKey);
     if (cached) {
       return cached;
     }
+
     // 모든 provinces와 regions를 한 번에 가져옴
     const { data: provinces, error: provinceError } = await this.supabase
       .from('provinces')
@@ -344,16 +346,20 @@ export class DataService {
     if (regionError || !regions) {
       throw regionError;
     }
-    // provinces별로 하위 regions를 가나다(오름차순)로 정렬하여 묶음
-    const result = (provinces as { id: number; name: string }[]).map(
-      (province) => ({
-        id: province.id,
-        name: province.name,
-        regions: (regions as Region[])
-          .filter((r) => r.province_id === province.id)
-          .sort((a, b) => a.name.localeCompare(b.name, 'ko')),
-      }),
+
+    // provinces를 가나다순으로 정렬
+    const sortedProvinces = (provinces as { id: number; name: string }[]).sort(
+      (a, b) => a.name.localeCompare(b.name, 'ko'),
     );
+
+    // provinces별로 하위 regions를 가나다(오름차순)로 정렬하여 묶음
+    const result = sortedProvinces.map((province) => ({
+      id: province.id,
+      name: province.name,
+      regions: (regions as Region[])
+        .filter((r) => r.province_id === province.id)
+        .sort((a, b) => a.name.localeCompare(b.name, 'ko')),
+    }));
     await this.cacheManager.set(cacheKey, result, 300); // 5분 TTL
     return result;
   }

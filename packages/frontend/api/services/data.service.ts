@@ -39,7 +39,7 @@ export interface RegionWithDetails extends Region {
     trait?: string[] | null;
     opportunity?: string[] | null;
     strategy?: string[] | null;
-    summary?: string | null;
+    summary?: string[] | null;
   };
   category_ranks?: RegionCategoryRank[];
 }
