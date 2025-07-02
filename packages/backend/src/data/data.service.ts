@@ -558,12 +558,152 @@ export class DataService {
       return null;
     }
 
-    // RegionWithDetails 형태로 변환
+    // RegionWithDetails 형태로 변환하고 상세 정보 추가
     const regionWithDetails: RegionWithDetails = {
       ...targetRegion,
       province: targetRegion.province,
       klaci: targetRegion.klaci,
     };
+
+    // category_ranks 조회 추가
+    try {
+      const { data: categoryRanksData, error: categoryRanksError } =
+        await this.supabase
+          .from('region_category_ranks')
+          .select(
+            `
+          id,
+          region_id,
+          category_id,
+          rank,
+          year,
+          category:categories(id, name)
+        `,
+          )
+          .eq('region_id', targetRegion.id)
+          .order('rank', { ascending: true });
+
+      if (!categoryRanksError && categoryRanksData) {
+        const categoryRanks = categoryRanksData.map((item: any) => ({
+          id: item.id,
+          region_id: item.region_id,
+          category_id: item.category_id,
+          rank: item.rank,
+          year: item.year,
+          category: item.category || {
+            id: item.category_id,
+            name: 'Unknown',
+          },
+        }));
+
+        regionWithDetails.category_ranks = categoryRanks;
+      }
+    } catch (error) {
+      console.error('Error fetching category ranks:', error);
+    }
+
+    // key_index_ranks 조회 추가
+    try {
+      const { data: keyIndexData, error: keyIndexError } = await this.supabase
+        .from('region_key_index_ranks')
+        .select(
+          `
+          id,
+          region_id,
+          key_index_id,
+          rank,
+          year,
+          key_indexes!key_index_id(
+            id,
+            code,
+            name,
+            category,
+            description
+          )
+        `,
+        )
+        .eq('region_id', targetRegion.id)
+        .order('rank', { ascending: true });
+
+      if (!keyIndexError && keyIndexData) {
+        const rawData = keyIndexData as any[];
+        const allRanks = rawData.map((item) => ({
+          id: item.id,
+          region_id: item.region_id,
+          key_index_id: item.key_index_id,
+          rank: item.rank,
+          year: item.year,
+          key_index: item.key_indexes || {
+            id: item.key_index_id,
+            code: 'Unknown',
+            name: 'Unknown',
+            category: 'Unknown',
+            description: 'Unknown',
+          },
+        }));
+
+        // 상위 10개와 하위 10개 분리
+        const topRanks = allRanks.slice(0, 10);
+        const bottomRanks = allRanks.slice(-10).reverse();
+
+        // 카테고리별로 그룹화
+        const growthCategoryRanks: CategoryKeyIndexRank[] = [];
+        const economyCategoryRanks: CategoryKeyIndexRank[] = [];
+        const livingCategoryRanks: CategoryKeyIndexRank[] = [];
+        const safetyCategoryRanks: CategoryKeyIndexRank[] = [];
+
+        allRanks.forEach((rank) => {
+          const categoryRank: CategoryKeyIndexRank = {
+            key_index_id: rank.key_index_id,
+            name: rank.key_index.name,
+            rank: rank.rank,
+          };
+
+          switch (rank.key_index.category) {
+            case '인구성장력':
+              growthCategoryRanks.push(categoryRank);
+              break;
+            case '경제활동력':
+              economyCategoryRanks.push(categoryRank);
+              break;
+            case '생활기반력':
+              livingCategoryRanks.push(categoryRank);
+              break;
+            case '안전회복력':
+              safetyCategoryRanks.push(categoryRank);
+              break;
+            default:
+              break;
+          }
+        });
+
+        // 각 카테고리별로 rank 순으로 정렬
+        growthCategoryRanks.sort((a, b) => a.rank - b.rank);
+        economyCategoryRanks.sort((a, b) => a.rank - b.rank);
+        livingCategoryRanks.sort((a, b) => a.rank - b.rank);
+        safetyCategoryRanks.sort((a, b) => a.rank - b.rank);
+
+        regionWithDetails.key_index_ranks = {
+          top: topRanks,
+          bottom: bottomRanks,
+          growth_category_ranks: growthCategoryRanks,
+          economy_category_ranks: economyCategoryRanks,
+          living_category_ranks: livingCategoryRanks,
+          safety_category_ranks: safetyCategoryRanks,
+        };
+      } else {
+        regionWithDetails.key_index_ranks = {
+          top: [],
+          bottom: [],
+          growth_category_ranks: [],
+          economy_category_ranks: [],
+          living_category_ranks: [],
+          safety_category_ranks: [],
+        };
+      }
+    } catch (error) {
+      console.error('Error fetching key index ranks:', error);
+    }
 
     await this.cacheManager.set(cacheKey, regionWithDetails, 300);
     return regionWithDetails;
