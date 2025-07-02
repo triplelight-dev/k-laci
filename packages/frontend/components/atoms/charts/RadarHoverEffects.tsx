@@ -32,9 +32,17 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
       `circle[data-index="${i}"]`,
     ) as SVGElement;
     if (circle) {
-      circle.style.r = '4';
+      circle.style.r = '7';
       circle.style.strokeWidth = '2';
       circle.style.fill = '#FFFFFF';
+    }
+    
+    // 내부 검정색 원도 보이게 설정
+    const innerCircle = document.querySelector(
+      `circle[data-index="${i}"] + circle.data-point-inner`,
+    ) as SVGElement;
+    if (innerCircle) {
+      innerCircle.style.opacity = '1';
     }
   }, []);
 
@@ -47,6 +55,14 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
       circle.style.r = '2';
       circle.style.strokeWidth = '1.5';
       circle.style.fill = '#9A9EA3';
+    }
+    
+    // 내부 검정색 원 숨기기
+    const innerCircle = document.querySelector(
+      `circle[data-index="${i}"] + circle.data-point-inner`,
+    ) as SVGElement;
+    if (innerCircle) {
+      innerCircle.style.opacity = '0';
     }
   }, []);
 
@@ -252,7 +268,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
             <circle
               cx={pt.x}
               cy={pt.y}
-              r={1}
+              r={2.5}
               fill="#000000"
               className="data-point-inner"
               style={{
