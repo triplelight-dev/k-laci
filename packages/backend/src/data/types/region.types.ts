@@ -12,7 +12,7 @@ export interface KlaciCode {
   trait?: string[] | null;
   opportunity?: string[] | null;
   strategy?: string[] | null;
-  summary?: string | null;
+  summary?: string[] | null;
 }
 
 // 새로운 Category 타입 추가
