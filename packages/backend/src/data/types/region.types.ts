@@ -90,6 +90,8 @@ export interface KeyIndexData {
   calculation_method?: string;
   created_at?: string;
   updated_at?: string;
+  yearly_avg_score?: number; // 연도별 평균점수 추가
+  year?: number; // 연도 정보 추가
 }
 
 // Supabase JOIN 결과를 위한 타입 (수정됨)
@@ -257,4 +259,8 @@ export class KeyIndexDataResponseDto {
   created_at?: string;
   @ApiProperty({ required: false })
   updated_at?: string;
+  @ApiProperty({ required: false })
+  yearly_avg_score?: number; // 연도별 평균점수 추가
+  @ApiProperty({ required: false })
+  year?: number; // 연도 정보 추가
 }

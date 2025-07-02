@@ -1,5 +1,6 @@
 'use client';
 
+import { useKeyIndexData } from '@/api/hooks/useKeyIndexData';
 import IndexModal from '@/components/atoms/modal/IndexModal';
 import { useDistrict, useIsLoggedIn } from '@/store';
 import React, { useEffect, useState } from 'react';
@@ -27,7 +28,11 @@ export interface IndexData {
   indexId: number;
   indexName: string;
   indexRank: number;
+  indexScore: number;
   indexDescription: string;
+  yearlyAvgScore?: number;
+  year?: number;
+  source?: string;
 }
 
 // 기본 데이터 (서버와 클라이언트에서 동일하게 사용)
@@ -156,10 +161,10 @@ const IndexSection: React.FC<{
         }}
       >
         {data.map((item, index) => (
-          <IndexItem 
-            key={index} 
-            data={item} 
-            onClick={onItemClick} 
+          <IndexItem
+            key={index}
+            data={item}
+            onClick={onItemClick}
             isDisabled={isDisabled}
           />
         ))}
@@ -179,13 +184,50 @@ const StrengthWeaknessIndexSection: React.FC = () => {
   // Zustand store에서 선택된 지역 정보와 로그인 상태 가져오기
   const { selectedRegion } = useDistrict();
   const isLoggedIn = useIsLoggedIn();
+  const { getKeyIndexData } = useKeyIndexData();
 
-  const handleItemClick = (data: IndexData) => {
+  const handleItemClick = async (data: IndexData) => {
     // 로그인하지 않은 경우 모달을 열지 않음
     if (!isLoggedIn) {
       return;
     }
-    setSelectedData(data);
+
+    // API에서 상세 정보 받아오기
+    let keyIndexDetail: {
+      description?: string;
+      name?: string;
+      source?: string;
+      yearly_avg_score?: number;
+      year?: number;
+    } = {};
+    
+    try {
+      keyIndexDetail = await getKeyIndexData(data.indexId);
+    } catch (e) {
+      // 에러 시 기본값 유지
+    }
+
+    // API 응답에서 받은 데이터로 업데이트
+    let updatedData = { ...data };
+    
+    if (keyIndexDetail) {
+      if (keyIndexDetail.description) {
+        updatedData.indexDescription = keyIndexDetail.description;
+      }
+      if (keyIndexDetail.source) {
+        updatedData.source = keyIndexDetail.source;
+      }
+      if (keyIndexDetail.yearly_avg_score !== undefined) {
+        updatedData.yearlyAvgScore = keyIndexDetail.yearly_avg_score;
+      }
+      if (keyIndexDetail.year) {
+        updatedData.year = keyIndexDetail.year;
+      }
+    }
+
+    console.log('StrengthWeakness keyIndexDetail!!!!!!!', keyIndexDetail);
+
+    setSelectedData(updatedData);
     setIsModalOpen(true);
   };
 
@@ -215,6 +257,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
         indexId: item.key_index.id || 0,
         indexName: item.key_index.name || '',
         indexRank: item.rank || 0,
+        indexScore: 0, // 기본값
         indexDescription: item.key_index.description || '',
       })),
     );
@@ -227,6 +270,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
         indexId: item.key_index.id || 0,
         indexName: item.key_index.name || '',
         indexRank: item.rank || 0,
+        indexScore: 0, // 기본값
         indexDescription: item.key_index.description || '',
       })),
     );
