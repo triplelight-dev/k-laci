@@ -3,11 +3,11 @@
 import { useRegion } from '@/api/hooks/useRegion';
 import ResultLayout from '@/components/layout/ResultLayout';
 import {
-    useDistrict,
-    useIsLoggedIn,
-    useSetSelectedDistrict,
-    useSetSelectedProvince,
-    useSetSelectedRegion,
+  useDistrict,
+  useIsLoggedIn,
+  useSetSelectedDistrict,
+  useSetSelectedProvince,
+  useSetSelectedRegion,
 } from '@/store';
 import { RegionWithDetails as StoreRegionWithDetails } from '@/store/types/district';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -22,6 +22,7 @@ import PreRegistrationSection from '@/features/results/sections/PreRegistrationS
 import StrengthWeaknessIndexSection from '@/features/results/sections/StrenthWeaknessIndexSection';
 import SummarySection from '@/features/results/sections/SummarySection';
 import TitleSection from '@/features/results/sections/TitleSection';
+// import LoginSuggestionSection from '@/features/results/sections/LoginSuggestionSectino';
 
 // 지자체 데이터 타입 정의
 interface DistrictData {
@@ -95,13 +96,13 @@ function ResultsPageContent() {
   // URL 업데이트 함수
   const updateURL = (regionId: number | null) => {
     const params = new URLSearchParams(searchParams.toString());
-    
+
     if (regionId) {
       params.set('regionId', regionId.toString());
     } else {
       params.delete('regionId');
     }
-    
+
     const newURL = `${window.location.pathname}?${params.toString()}`;
     if (newURL !== window.location.pathname + window.location.search) {
       router.replace(newURL, { scroll: false });
@@ -120,8 +121,11 @@ function ResultsPageContent() {
   // URL에서 regionId 읽어와서 상태 업데이트
   useEffect(() => {
     const regionId = searchParams.get('regionId');
-    
-    if (regionId && (!selectedRegion || selectedRegion.id !== Number(regionId))) {
+
+    if (
+      regionId &&
+      (!selectedRegion || selectedRegion.id !== Number(regionId))
+    ) {
       // URL에 regionId가 있고, 현재 selectedRegion과 다른 경우에만 API 호출
       const fetchRegionFromURL = async () => {
         try {
@@ -138,7 +142,7 @@ function ResultsPageContent() {
           }
         }
       };
-      
+
       fetchRegionFromURL();
     } else if (!regionId && !selectedRegion && !hasLoadedDefault) {
       // URL에 regionId가 없고 selectedRegion도 없고 아직 기본 데이터를 로드하지 않은 경우
@@ -292,6 +296,7 @@ function ResultsPageContent() {
 
       {/* 로그인한 경우에만 PreRegistrationSection 표시 */}
       {isLoggedIn && <PreRegistrationSection />}
+
 
       {isFloating && (
         <div
