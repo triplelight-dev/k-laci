@@ -114,7 +114,7 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
             상위 {topPercentage}%
           </div>
 
-          {/* 출처 */}
+          {/* 출처 - key_indexes 테이블의 source 컬럼 사용 */}
           <div
             style={{
               fontSize: '14px',

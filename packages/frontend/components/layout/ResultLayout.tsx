@@ -1,8 +1,11 @@
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
+import LoginSuggestionSection from '@/features/results/sections/LoginSuggestionSectino';
+import { useIsLoggedIn } from '@/store';
 import React from 'react';
 
 const ResultLayout = ({ children }: { children: React.ReactNode }) => {
+  const isLoggedIn = useIsLoggedIn();
   return (
     <div
       style={{
@@ -21,6 +24,8 @@ const ResultLayout = ({ children }: { children: React.ReactNode }) => {
       >
         {children}
       </div>
+      {!isLoggedIn && <LoginSuggestionSection />}
+
       <Footer />
     </div>
   );
