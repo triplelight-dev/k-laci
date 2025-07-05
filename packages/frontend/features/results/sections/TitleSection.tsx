@@ -57,6 +57,8 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
           province: {
             id: Number(regionDetails.province.id),
             name: regionDetails.province.name,
+            name_eng: regionDetails.province.name_eng,
+            full_name: regionDetails.province.full_name,
           },
         });
       }
@@ -139,7 +141,7 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
 
   // 안전한 지역명 생성 함수
   const getDistrictName = (): string => {
-    if (currentRegion?.province?.name && currentRegion?.name) {
+    if (currentRegion?.province.name && currentRegion?.name) {
       return `${currentRegion.province.name} ${currentRegion.name}`;
     }
     // currentRegion이 없거나 유효하지 않은 경우 기본값 반환
