@@ -5,11 +5,11 @@ import { RegionWithDetails as ApiRegionWithDetails } from '@/api/services/data.s
 import CommonSelect from '@/components/atoms/select/CommonSelect';
 import { useProvincesWithRegions } from '@/hooks/useProvincesWithRegions';
 import {
-    useDistrict,
-    useSetRegionLoading,
-    useSetSelectedDistrict,
-    useSetSelectedProvince,
-    useSetSelectedRegion,
+  useDistrict,
+  useSetRegionLoading,
+  useSetSelectedDistrict,
+  useSetSelectedProvince,
+  useSetSelectedRegion,
 } from '@/store';
 import { RegionWithDetails as StoreRegionWithDetails } from '@/store/types/district';
 import React, { useEffect } from 'react';
@@ -127,6 +127,11 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
         alignItems: 'center',
         backgroundColor: 'white',
         marginTop: isFloating ? 'auto' : '50px',
+        position: isFloating ? 'fixed' : 'static',
+        top: isFloating ? '40px' : 'auto',
+        left: isFloating ? '50%' : 'auto',
+        zIndex: isFloating ? 1000 : 'auto',
+        transform: isFloating ? 'translateX(-50%)' : 'none',
       }}
     >
       <div

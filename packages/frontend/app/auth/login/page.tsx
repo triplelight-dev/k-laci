@@ -1,28 +1,10 @@
-'use client';
+import type { Metadata } from 'next';
+import LoginPageClient from './LoginPageClient';
 
-import { useLogin } from '@/features/auth/hooks/useLogin';
-import LoginSection from '@/features/auth/sections/LoginSection';
+export const metadata: Metadata = {
+  title: '로그인 | 지역자산역량지수(KLACI)',
+};
 
 export default function LoginPage() {
-  const {
-    email,
-    setEmail,
-    password,
-    setPassword,
-    isLoading,
-    error,
-    handleSubmit,
-  } = useLogin();
-
-  return (
-    <LoginSection
-      email={email}
-      setEmail={setEmail}
-      password={password}
-      setPassword={setPassword}
-      isLoading={isLoading}
-      onSubmit={handleSubmit}
-      error={error}
-    />
-  );
+  return <LoginPageClient />;
 } 
