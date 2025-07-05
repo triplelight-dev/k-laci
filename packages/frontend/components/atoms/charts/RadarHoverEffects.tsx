@@ -339,7 +339,7 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
             fill="#333"
             fontWeight="bold"
           >
-            {vals[hoveredPoint]}
+            {vals[hoveredPoint]?.toFixed(1)}
           </text>
         </g>
       )}
