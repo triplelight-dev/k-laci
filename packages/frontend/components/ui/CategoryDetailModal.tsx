@@ -36,7 +36,7 @@ const CategoryDetailModal: React.FC<CategoryDetailModalProps> = ({
           <div>
             <div className="text-sm text-gray-600">점수</div>
             <div className="text-3xl font-bold" style={{ color }}>
-              {rank.value}
+              {rank.value.toFixed(1)}
             </div>
           </div>
 

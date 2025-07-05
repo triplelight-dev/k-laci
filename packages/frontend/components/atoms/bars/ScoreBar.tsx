@@ -83,7 +83,7 @@ const ScoreBar: React.FC<ScoreBarProps> = ({
             zIndex: 2,
           }}
         >
-          {score}
+          {score.toFixed(1)}
         </div>
 
         {/* 우측 점수 */}
@@ -98,7 +98,7 @@ const ScoreBar: React.FC<ScoreBarProps> = ({
             fontWeight: 600,
           }}
         >
-          {100 - score}
+          {(100 - score).toFixed(1)}
         </div>
       </div>
 

@@ -23,14 +23,14 @@ const CompetencyDistSection = () => {
     }
 
     const score = {
-      G: selectedRegion.growth_score ? selectedRegion.growth_score : 50,
-      S: selectedRegion.growth_score ? selectedRegion.growth_score : 50,
-      T: selectedRegion.economy_score ? selectedRegion.economy_score : 50,
-      C: selectedRegion.economy_score ? selectedRegion.economy_score : 50,
-      V: selectedRegion.living_score ? selectedRegion.living_score : 50,
-      M: selectedRegion.living_score ? selectedRegion.living_score : 50,
-      R: selectedRegion.safety_score ? selectedRegion.safety_score : 50,
-      A: selectedRegion.safety_score ? selectedRegion.safety_score : 50,
+      G: selectedRegion.growth_score ? selectedRegion.growth_score : 0,
+      S: selectedRegion.growth_score ? selectedRegion.growth_score : 0,
+      T: selectedRegion.economy_score ? selectedRegion.economy_score : 0,
+      C: selectedRegion.economy_score ? selectedRegion.economy_score : 0,
+      V: selectedRegion.living_score ? selectedRegion.living_score : 0,
+      M: selectedRegion.living_score ? selectedRegion.living_score : 0,
+      R: selectedRegion.safety_score ? selectedRegion.safety_score : 0,
+      A: selectedRegion.safety_score ? selectedRegion.safety_score : 0,
     };
 
     const categoryData: CategoryData[] = klaciCodeResult.map(

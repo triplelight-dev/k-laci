@@ -35,7 +35,7 @@ export const DistrictCard: React.FC<DistrictCardProps> = ({ district, onClick })
         </div>
         <div className="flex justify-between">
           <span className="text-gray-600">점수</span>
-          <span className="font-semibold text-blue-600">{district.score}</span>
+          <span className="font-semibold text-blue-600">{district.score.toFixed(1)}</span>
         </div>
       </div>
       
