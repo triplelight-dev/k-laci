@@ -57,8 +57,6 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
           province: {
             id: Number(regionDetails.province.id),
             name: regionDetails.province.name,
-            name_eng: regionDetails.province.name_eng,
-            full_name: regionDetails.province.full_name,
           },
         });
       }
