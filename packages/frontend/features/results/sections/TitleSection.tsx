@@ -159,8 +159,6 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
   const klaciType = currentRegion?.klaci?.type || '';
   const klaciSummaryArray = currentRegion?.klaci?.summary || [];
 
-  console.log('klaciSummaryArray', klaciSummaryArray);
-
   return (
     <div
       style={{

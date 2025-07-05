@@ -79,8 +79,6 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
       }
     }
 
-    console.log('keyIndexDetail!!!!!!!', keyIndexDetail);
-
     setSelectedIndexData(indexData);
     setIsModalOpen(true);
   };

@@ -23,14 +23,14 @@ const CompetencyDistSection = () => {
     }
 
     const score = {
-      G: selectedRegion.growth_score ? selectedRegion.growth_score : 0,
-      S: selectedRegion.growth_score ? selectedRegion.growth_score : 0,
-      T: selectedRegion.economy_score ? selectedRegion.economy_score : 0,
-      C: selectedRegion.economy_score ? selectedRegion.economy_score : 0,
-      V: selectedRegion.living_score ? selectedRegion.living_score : 0,
-      M: selectedRegion.living_score ? selectedRegion.living_score : 0,
-      R: selectedRegion.safety_score ? selectedRegion.safety_score : 0,
-      A: selectedRegion.safety_score ? selectedRegion.safety_score : 0,
+      G: selectedRegion.growth_score ?? 0,
+      S: selectedRegion.growth_score ?? 0, // S도 growth_score를 사용 (임시)
+      T: selectedRegion.economy_score ?? 0,
+      C: selectedRegion.economy_score ?? 0, // C도 economy_score를 사용 (임시)
+      V: selectedRegion.living_score ?? 0,
+      M: selectedRegion.living_score ?? 0, // M도 living_score를 사용 (임시)
+      R: selectedRegion.safety_score ?? 0,
+      A: selectedRegion.safety_score ?? 0, // A도 safety_score를 사용 (임시)
     };
 
     const categoryData: CategoryData[] = klaciCodeResult.map(
