@@ -129,7 +129,7 @@ interface CategoryCardProps {
 
 const CategoryCard: React.FC<CategoryCardProps> = ({ category, index }) => {
   const { selectedRegion } = useStore((state) => state.district);
-  
+
   const getItems = (
     index: number,
   ): {
@@ -171,7 +171,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index }) => {
   // 지역의 실제 KLACI 코드를 파싱해서 해당 자리의 카테고리 확인
   const getRegionCategoryForIndex = (index: number): string | null => {
     if (!selectedRegion?.klaci_code) return null;
-    
+
     try {
       const klaciCodeResult = parseKlaciCode(selectedRegion.klaci_code);
       return klaciCodeResult[index]?.name || null;
@@ -182,7 +182,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index }) => {
   };
 
   const regionCategoryForThisIndex = getRegionCategoryForIndex(index);
-  
+
   // 지역의 실제 카테고리에 따라 left 또는 right를 볼드 처리
   const getBoldItem = (): 'left' | 'right' | 'none' => {
     if (regionCategoryForThisIndex === leftItem) {
@@ -193,7 +193,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index }) => {
     }
     return 'none';
   };
-  
+
   const isBold = getBoldItem();
 
   const isFirstIndex = index === 0;
@@ -221,6 +221,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index }) => {
           score={category.score}
           color={category.color}
           isBold={isBold}
+          leftItemKeyColor={category.color}
         />
       </div>
 
