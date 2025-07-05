@@ -17,10 +17,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'KLACI - Korea Local Asset Competency Index',
+  title: '지역자산역량지수(KLACI) - Korea Local Asset Competency Index 2025',
   description: '지역 자산 역량 지수를 확인하고 지역별 경쟁력을 분석해보세요',
   openGraph: {
-    title: 'KLACI - Korea Local Asset Competency Index',
+    title: '지역자산역량지수(KLACI) - Korea Local Asset Competency Index 2025',
     description: '지역 자산 역량 지수를 확인하고 지역별 경쟁력을 분석해보세요',
     url: getSiteUrl(),
     siteName: 'KLACI',
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'KLACI - Korea Local Asset Competency Index',
+    title: '지역자산역량지수(KLACI) - Korea Local Asset Competency Index 2025',
     description: '지역 자산 역량 지수를 확인하고 지역별 경쟁력을 분석해보세요',
     images: [`${getSiteUrl()}/thumbnail/thumbnail.png`],
   },
