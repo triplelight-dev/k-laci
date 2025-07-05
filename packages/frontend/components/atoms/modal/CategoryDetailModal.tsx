@@ -112,7 +112,7 @@ const CategoryDetailModal: React.FC<CategoryDetailModalProps> = ({
               }}
             >
               <p style={{ fontSize: '1.5rem', fontWeight: '600' }}>
-                점수: {score.value}
+                점수: {score.value.toFixed(1)}
               </p>
               <p style={{ fontSize: '1.5rem', fontWeight: '600' }}>
                 순위: {score.rank}위
