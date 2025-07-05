@@ -262,22 +262,56 @@ function ResultsPageContent() {
             <TitleSection districtData={districtData} />
             <SummarySection />
 
-            {/* StrengthWeaknessIndexSection을 조건부로 렌더링 */}
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '50px',
-              }}
-            >
-              <StrengthWeaknessIndexSection />
-            </div>
+            {/* StrengthWeaknessIndexSection과 상단 컴포넌트 사이 간격 */}
+            <div style={{ height: '80px' }} />
 
-            <CompetencyDistSection />
-
-            <CategoryRankingSection />
-
-            <PreRegistrationSection />
+            {/* 로그인 상태에 따른 조건부 렌더링 */}
+            {isLoggedIn ? (
+              // 로그인된 사용자: 모든 섹션 표시
+              <>
+                <StrengthWeaknessIndexSection />
+                <CompetencyDistSection />
+                <CategoryRankingSection />
+                <div
+                  style={{
+                    width: '100vw',
+                    marginLeft: 'calc(-50vw + 50%)',
+                    marginRight: 'calc(-50vw + 50%)',
+                  }}
+                >
+                  <PreRegistrationSection />
+                </div>
+              </>
+            ) : (
+              // 비로그인 사용자: StrengthWeaknessIndexSection만 부분 표시 (fadeout 효과)
+              <>
+                <div
+                  style={{
+                    position: 'relative',
+                    overflow: 'hidden',
+                  }}
+                >
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background:
+                        'linear-gradient(to bottom, rgba(244, 244, 244, 0) 0%, rgba(244, 244, 244, 0) 30%, rgba(244, 244, 244, 0.9) 40%, rgba(244, 244, 244, 1) 100%)',
+                      zIndex: 1,
+                      pointerEvents: 'none',
+                    }}
+                  />
+                  <div style={{ position: 'relative', zIndex: 0 }}>
+                    <StrengthWeaknessIndexSection />
+                  </div>
+                </div>
+                {/* LoginSuggestionSection과의 간격 */}
+                <div style={{ height: '100px' }} />
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -310,8 +344,12 @@ function ResultsPageLoading() {
       ></div>
       <style jsx>{`
         @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
         }
       `}</style>
     </div>
@@ -324,4 +362,4 @@ export default function ResultsPageClient() {
       <ResultsPageContent />
     </Suspense>
   );
-} 
+}
