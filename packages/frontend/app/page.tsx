@@ -5,6 +5,7 @@ import IntroSection from '@/features/home/sections/IntroSection';
 import PossibilitySection from '@/features/home/sections/PossibilitySection';
 import RoadmapSection from '@/features/home/sections/RoadmapSection';
 import UniquenessSection from '@/features/home/sections/UniquenessSection';
+import VideoSection from '@/features/home/sections/VideoSection';
 
 export default function HomePage() {
   return (
@@ -12,6 +13,7 @@ export default function HomePage() {
       <IntroSection />
       <PossibilitySection />
       <UniquenessSection />
+      <VideoSection />
       <RoadmapSection />
       <StrategySection />
       <PartnerShipSection />
