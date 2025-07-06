@@ -20,6 +20,7 @@ interface ContentSectionProps {
   bottomImage: {
     src: string;
     height?: string;
+    transparentBackground?: boolean;
   };
   styling?: {
     backgroundColor?: string;
@@ -33,7 +34,7 @@ const ContentSection: React.FC<ContentSectionProps> = ({
   description,
   button,
   bottomImage,
-  styling = {}
+  styling = {},
 }) => {
   const router = useRouter();
 
@@ -58,11 +59,10 @@ const ContentSection: React.FC<ContentSectionProps> = ({
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
           gap: '40px',
-          marginBottom: '40px',
           maxWidth: '1200px',
-          margin: '0 auto 40px auto',
           minHeight: '300px',
           alignItems: 'flex-start',
+          width: '100%',
         }}
       >
         {/* 좌상단: 뱃지와 타이틀 */}
@@ -72,6 +72,7 @@ const ContentSection: React.FC<ContentSectionProps> = ({
             flexDirection: 'column',
             alignItems: 'flex-start',
             justifyContent: 'flex-start',
+            width: '100%',
           }}
         >
           <div
@@ -134,6 +135,7 @@ const ContentSection: React.FC<ContentSectionProps> = ({
             flexDirection: 'column',
             alignItems: 'flex-start',
             justifyContent: 'flex-start',
+            width: '100%',
           }}
         >
           {/* 상단 일반 텍스트 */}
@@ -143,10 +145,11 @@ const ContentSection: React.FC<ContentSectionProps> = ({
               color: styling.textColor || 'white',
               lineHeight: '1.5',
               marginBottom: '20px',
+              width: '100%',
             }}
           >
             {description.texts.map((text, index) => (
-              <div key={index} style={{ marginBottom: '12px' }}>
+              <div key={index} style={{ marginBottom: '12px', width: '100%' }}>
                 {text}
               </div>
             ))}
@@ -159,10 +162,11 @@ const ContentSection: React.FC<ContentSectionProps> = ({
               color: styling.textColor || 'white',
               marginBottom: '30px',
               fontWeight: 'bold',
+              width: '100%',
             }}
           >
             {description.boldTexts.map((text, index) => (
-              <div key={index} style={{ marginBottom: '8px' }}>
+              <div key={index} style={{ marginBottom: '8px', width: '100%' }}>
                 {text}
               </div>
             ))}
@@ -212,7 +216,7 @@ const ContentSection: React.FC<ContentSectionProps> = ({
           backgroundSize: 'contain',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
-          backgroundColor: '#14161D',
+          backgroundColor: bottomImage.transparentBackground ? 'transparent' : '#14161D',
           borderRadius: '32px',
         }}
       ></div>
@@ -220,4 +224,4 @@ const ContentSection: React.FC<ContentSectionProps> = ({
   );
 };
 
-export default ContentSection; 
+export default ContentSection;
