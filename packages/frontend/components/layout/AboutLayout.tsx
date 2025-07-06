@@ -23,8 +23,8 @@ const AboutLayout = ({ children }: { children: React.ReactNode }) => {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          width: '80%',
-          maxWidth: '1100px',
+          width: '100%',
+          // maxWidth: '1100px',
           gap: '100px',
         }}
       >

@@ -1,6 +1,5 @@
 'use client';
 
-import { DARK_MODE_COLORS } from '@/utils/colors';
 import React from 'react';
 
 interface FrameworkItem {
@@ -54,11 +53,11 @@ const FrameworkSection: React.FC = () => {
     <div
       style={{
         width: '100%',
+        maxWidth: '1000px',
         minHeight: '600px',
-        backgroundColor: DARK_MODE_COLORS.background,
         display: 'flex',
         flexDirection: 'column',
-        padding: '80px 20px',
+        padding: '120px 20px',
         alignItems: 'center',
       }}
     >
