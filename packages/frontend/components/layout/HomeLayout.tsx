@@ -1,5 +1,6 @@
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
+import HomePreRegistrationSection from '@/components/sections/HomePreRegistrationSection';
 
 import { DARK_MODE_COLORS } from '@/utils/colors';
 
@@ -30,6 +31,7 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
       >
         {children}
       </div>
+      <HomePreRegistrationSection />
       <Footer />
     </div>
   );

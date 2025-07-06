@@ -57,12 +57,12 @@ const PartnerShipSection = () => {
       style={{
         width: '100%',
         padding: '80px 0',
-        backgroundColor: '#1a1d2a',
+        backgroundColor: '#2A2F40',
         color: '#ffffff',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        borderRadius: '42px',
+        borderRadius: '52px',
         marginBottom: '200px',
       }}
     >
