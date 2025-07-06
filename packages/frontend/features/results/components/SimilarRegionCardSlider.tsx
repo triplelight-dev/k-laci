@@ -48,8 +48,8 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
         distance > 0 ? distance - totalCards : distance + totalCards;
     }
 
-    // 카드 간격 (카드 너비 + gap)
-    const cardSpacing = 420; // 350px 카드 + 70px gap
+    // 카드 간격 (카드 너비 + gap) - 260px 카드 + 90px gap으로 수정
+    const cardSpacing = 400; // 260px 카드 + 90px gap
     const translateX = adjustedDistance * cardSpacing;
 
     if (adjustedDistance === 0) {
@@ -95,7 +95,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
       style={{
         position: 'relative',
         width: '100vw',
-        height: '560px', // 500px에서 560px로 증가 (카드 높이 520px + 여유 40px)
+        height: '560px',
         marginLeft: 'calc(-50vw + 50%)',
         marginRight: 'calc(-50vw + 50%)',
         display: 'flex',

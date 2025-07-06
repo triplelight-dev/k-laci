@@ -98,7 +98,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
     <div
       style={{
         minWidth: '350px',
-        width: '350px',
+        width: '260px',
         height: '520px',
         backgroundColor: 'white',
         borderRadius: '20px',

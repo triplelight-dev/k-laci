@@ -295,7 +295,6 @@ function ResultsPageContent() {
                 <StrengthWeaknessIndexSection />
                 <CompetencyDistSection />
                 <CategoryRankingSection />
-                <SimilarRegionSection />
                 <div
                   style={{
                     width: '100vw',
@@ -305,6 +304,7 @@ function ResultsPageContent() {
                 >
                   <PreRegistrationSection />
                 </div>
+                <SimilarRegionSection />
               </>
             ) : (
               // 비로그인 사용자: StrengthWeaknessIndexSection만 부분 표시 (fadeout 효과)
