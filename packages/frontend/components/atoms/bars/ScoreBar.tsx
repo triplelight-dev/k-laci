@@ -6,6 +6,7 @@ interface ScoreBarProps {
   leftItem: string; // 좌측 항목명
   rightItem: string; // 우측 항목명
   isBold: 'left' | 'right' | 'none';
+  leftItemKeyColor: string;
 }
 
 const ScoreBar: React.FC<ScoreBarProps> = ({
@@ -14,13 +15,14 @@ const ScoreBar: React.FC<ScoreBarProps> = ({
   leftItem = '',
   rightItem = '',
   isBold = 'none',
+  leftItemKeyColor = '',
 }) => {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '30px' }}>
       {/* 좌측 항목명 */}
       <div
         style={{
-          color: isBold === 'left' ? '#000000' : '#949FB0',
+          color: isBold === 'left' ? leftItemKeyColor : '#949FB0',
           fontSize: '1rem',
           fontWeight: isBold === 'left' ? 800 : 600,
           minWidth: 'fit-content',
@@ -81,7 +83,7 @@ const ScoreBar: React.FC<ScoreBarProps> = ({
             zIndex: 2,
           }}
         >
-          {score}
+          {score.toFixed(1)}
         </div>
 
         {/* 우측 점수 */}
@@ -96,7 +98,7 @@ const ScoreBar: React.FC<ScoreBarProps> = ({
             fontWeight: 600,
           }}
         >
-          {100 - score}
+          {(100 - score).toFixed(1)}
         </div>
       </div>
 

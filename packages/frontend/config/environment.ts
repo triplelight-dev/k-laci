@@ -33,4 +33,24 @@ export const ENV_CONFIG = {
 export const getCurrentEnvConfig = () => {
   const env = process.env.NODE_ENV || 'development';
   return ENV_CONFIG[env as keyof typeof ENV_CONFIG];
+};
+
+// 사이트 URL 설정
+export const getSiteUrl = () => {
+  // 환경변수로 설정된 URL이 있으면 사용
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    return process.env.NEXT_PUBLIC_SITE_URL;
+  }
+  
+  // 환경변수가 없으면 환경에 따라 기본값 사용
+  const env = process.env.NODE_ENV || 'development';
+  
+  switch (env) {
+    case 'production':
+      return 'https://klaci.kr';
+    case 'development':
+      return 'https://dev.klaci.kr';
+    default:
+      return 'https://klaci.kr';
+  }
 }; 

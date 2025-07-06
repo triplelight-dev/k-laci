@@ -225,8 +225,6 @@ const StrengthWeaknessIndexSection: React.FC = () => {
       }
     }
 
-    console.log('StrengthWeakness keyIndexDetail!!!!!!!', keyIndexDetail);
-
     setSelectedData(updatedData);
     setIsModalOpen(true);
   };

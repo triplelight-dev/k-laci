@@ -139,7 +139,7 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
 
   // 안전한 지역명 생성 함수
   const getDistrictName = (): string => {
-    if (currentRegion?.province?.name && currentRegion?.name) {
+    if (currentRegion?.province.name && currentRegion?.name) {
       return `${currentRegion.province.name} ${currentRegion.name}`;
     }
     // currentRegion이 없거나 유효하지 않은 경우 기본값 반환
@@ -158,8 +158,6 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
   const klaciNickname = currentRegion?.klaci?.nickname || '안전복지형';
   const klaciType = currentRegion?.klaci?.type || '';
   const klaciSummaryArray = currentRegion?.klaci?.summary || [];
-
-  console.log('klaciSummaryArray', klaciSummaryArray);
 
   return (
     <div

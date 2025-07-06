@@ -3,46 +3,22 @@
 import Image from 'next/image';
 
 const FooterTopSection = () => {
-  const sitemapData = {
-    personal: {
-      title: '개인정보',
-      links: [
-        { name: '회원가입', href: '/signup' },
-        { name: '회원정보', href: '/profile' },
-        { name: '개인정보 처리방침', href: '/privacy' },
-        { name: '이용약관', href: '/terms' },
-      ],
-    },
-    paid: {
-      title: '유료상품',
-      links: [
-        { name: '웨비나', href: '/webinar' },
-        { name: '세미나', href: '/seminar' },
-        { name: '리포트', href: '/report' },
-      ],
-    },
-    contact: {
-      title: 'Contact',
-      links: [
-        { name: '프로젝트 문의', href: '/project-inquiry' },
-        { name: '기관 소개', href: '/about' },
-      ],
-    },
-  };
-
-  const LOGO_SRC = '/klaci_logo_white.png';
+  const LOGO_SRC = '/klaci_logo_white_prod.png';
   const LOGO_ALT = 'K-LACI Logo';
   const TITLE_KR = '지역자산역량지수';
   const TITLE_EN_1 = 'Korea Local Asset';
   const TITLE_EN_2 = 'Competency Index';
 
-  const handleMouseEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.currentTarget.style.color = '#ffffff';
-  };
+  // 저작권 텍스트를 배열로 정의
+  const COPYRIGHT_TEXT = [
+    '본 웹사이트에서 제공하는 모든 자료는 저작권법에 의하여 보호받는 저작물로써',
+    '사전 합의되지 않은 상업적 목적의 무단 복제 및 배포를 금합니다.'
+  ];
 
-  const handleMouseLeave = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.currentTarget.style.color = '#D1D5DB';
-  };
+  const COMPANY_NAME = '트리플라잇 주식회사';
+  const EMAIL_ADDRESS = 'klaci@triplelight.co';
+
+  const currentYear = new Date().getFullYear();
 
   return (
     <section
@@ -77,7 +53,7 @@ const FooterTopSection = () => {
               width={120}
               height={45}
               style={{
-                height: '45px',
+                height: '35px',
                 width: 'auto',
               }}
             />
@@ -86,6 +62,7 @@ const FooterTopSection = () => {
             style={{
               color: '#D1D5DB',
               fontSize: '16px',
+              textAlign: 'left',
             }}
           >
             <div style={{ fontWeight: 'bold', lineHeight: 2 }}>{TITLE_KR}</div>
@@ -94,111 +71,62 @@ const FooterTopSection = () => {
           </div>
         </div>
 
-        {/* 우측: 기존 TopSection 요소들 */}
+        {/* 우측: 저작권 및 회사 정보 */}
         <div
           style={{
             display: 'flex',
             flex: 1,
-            gap: '70px',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
           }}
         >
-          {/* 개인정보 섹션 */}
-          <div>
-            <div
-              style={{
-                fontSize: '18px',
-                fontWeight: '600',
-                marginBottom: '24px',
-                color: '#ffffff',
-              }}
-            >
-              {sitemapData.personal.title}
-            </div>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-              {sitemapData.personal.links.map((link, index) => (
-                <li key={index} style={{ marginBottom: '12px' }}>
-                  <a
-                    href={link.href}
-                    style={{
-                      color: '#D1D5DB',
-                      textDecoration: 'none',
-                      fontSize: '14px',
-                      transition: 'color 0.2s ease',
-                    }}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
+          {/* 저작권 텍스트 */}
+          <div
+            style={{
+              color: '#D1D5DB',
+              fontSize: '14px',
+              lineHeight: '1.6',
+              marginBottom: '24px',
+              textAlign: 'left',
+              maxWidth: '100%',
+            }}
+          >
+            {COPYRIGHT_TEXT.map((line, index) => (
+              <div key={index}>
+                {line}
+              </div>
+            ))}
           </div>
 
-          {/* 유료상품 섹션 */}
-          <div>
+          {/* 회사 정보 및 이메일 */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              width: '100%',
+            }}
+          >
+            {/* 회사명 */}
             <div
               style={{
-                fontSize: '18px',
-                fontWeight: '600',
-                marginBottom: '24px',
                 color: '#ffffff',
+                fontSize: '14px',
+                fontWeight: 'bold',
+                marginRight: '24px',
               }}
             >
-              {sitemapData.paid.title}
+              &copy; {currentYear} {COMPANY_NAME}
             </div>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-              {sitemapData.paid.links.map((link, index) => (
-                <li key={index} style={{ marginBottom: '12px' }}>
-                  <a
-                    href={link.href}
-                    style={{
-                      color: '#D1D5DB',
-                      textDecoration: 'none',
-                      fontSize: '14px',
-                      transition: 'color 0.2s ease',
-                    }}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
 
-          {/* Contact 섹션 */}
-          <div>
+            {/* 이메일 */}
             <div
               style={{
-                fontSize: '18px',
-                fontWeight: '600',
-                marginBottom: '24px',
-                color: '#ffffff',
+                color: '#D1D5DB',
+                fontSize: '14px',
               }}
             >
-              {sitemapData.contact.title}
+              {EMAIL_ADDRESS}
             </div>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-              {sitemapData.contact.links.map((link, index) => (
-                <li key={index} style={{ marginBottom: '12px' }}>
-                  <a
-                    href={link.href}
-                    style={{
-                      color: '#D1D5DB',
-                      textDecoration: 'none',
-                      fontSize: '14px',
-                      transition: 'color 0.2s ease',
-                    }}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
       </div>

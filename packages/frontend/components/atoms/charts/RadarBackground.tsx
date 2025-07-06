@@ -51,10 +51,10 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
         regionData;
       const isActive = isActiveCategory(
         category,
-        growth_score || 50,
-        economy_score || 50,
-        living_score || 50,
-        safety_score || 50,
+        growth_score ?? 0,
+        economy_score ?? 0,
+        living_score ?? 0,
+        safety_score ?? 0,
       );
 
       if (isActive) {
@@ -164,13 +164,15 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
         let klaciCodeValue = undefined;
         if (regionData) {
           const { growth_score, economy_score, living_score, safety_score, klaci_code } = regionData;
+          
           const isActive = isActiveCategory(
             category,
-            growth_score || 50,
-            economy_score || 50,
-            living_score || 50,
-            safety_score || 50
+            growth_score ?? 0,
+            economy_score ?? 0,
+            living_score ?? 0,
+            safety_score ?? 0
           );
+          
           // KLACI 코드 값 추출 (klaci_code만 사용)
           klaciCodeValue = klaci_code;
           if (isActive) {
@@ -192,6 +194,7 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
         }
 
         const categoryCode = getCategoryCode(category, klaciCodeValue);
+
         const circleRadius = 8; // 원 반지름 (2/3 크기)
         const circleMargin = 32; // 원과 텍스트 사이 간격(아주 조금 더 멀리)
         // 좌측에 원이 와야 하는 카테고리
@@ -272,3 +275,17 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
 };
 
 export default RadarBackground;
+
+export function getCategoryByScore(
+  growthScore: number,    // 인구성장형 점수
+  economyScore: number,   // 경제혁신형 점수
+  livingScore: number,    // 생활역동형 점수
+  safetyScore: number     // 안전회복형 점수
+): string[] {
+  return [
+    growthScore >= 50 ? CATEGORIES.인구성장형 : CATEGORIES.인구정착형,    // 인덱스 0
+    economyScore >= 50 ? CATEGORIES.경제혁신형 : CATEGORIES.경제정속형,   // 인덱스 1
+    livingScore >= 50 ? CATEGORIES.생활역동형 : CATEGORIES.생활정체형,    // 인덱스 2
+    safetyScore >= 50 ? CATEGORIES.안전회복형 : CATEGORIES.안전정진형,    // 인덱스 3
+  ];
+}

@@ -220,4 +220,41 @@ export class DataController {
 
     return this.dataService.getKeyIndexData(indexId, yearNumber);
   }
+
+  @Public()
+  @Get('regions/:id/same-code-regions')
+  @ApiOperation({
+    summary: 'Get regions with the same KLACI code as the specified region',
+  })
+  @ApiResponse({
+    status: 200,
+    description:
+      'Returns regions with the same KLACI code as the specified region (excluding the region itself)',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Region not found',
+  })
+  async getSameCodeRegionsByRegionId(@Param('id') id: string) {
+    const regionId = Number(id);
+    if (isNaN(regionId)) {
+      throw new Error('Invalid region ID');
+    }
+    return this.dataService.getSameCodeRegionsByRegionId(regionId);
+  }
+
+  @Public()
+  @Get('regions/same-code/:klaciCode')
+  @ApiOperation({ summary: 'Get regions with the same KLACI code' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns regions with the same KLACI code (case-insensitive)',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'No regions found with the specified KLACI code',
+  })
+  async getSameCodeRegions(@Param('klaciCode') klaciCode: string) {
+    return this.dataService.getSameCodeRegions(klaciCode);
+  }
 }

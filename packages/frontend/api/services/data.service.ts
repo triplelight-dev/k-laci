@@ -90,7 +90,9 @@ export class DataService {
     return response.data;
   }
 
-  static async getProvincesWithRegions(): Promise<ApiResponse<ProvinceWithRegions[]>> {
+  static async getProvincesWithRegions(): Promise<
+    ApiResponse<ProvinceWithRegions[]>
+  > {
     const response = await apiClient.get('/data/provinces-with-regions');
     return response.data;
   }
@@ -100,14 +102,42 @@ export class DataService {
     return response.data;
   }
 
-  static async getKeyIndexData(indexId: number, year?: number): Promise<ApiResponse<KeyIndexData>> {
+  static async getKeyIndexData(
+    indexId: number,
+    year?: number,
+  ): Promise<ApiResponse<KeyIndexData>> {
     const params = year ? { year } : {};
-    const response = await apiClient.get(`/data/key-indexes/${indexId}`, { params });
+    const response = await apiClient.get(`/data/key-indexes/${indexId}`, {
+      params,
+    });
     return response.data;
   }
 
-  static async getAdjacentRegionByRank(currentRank: number, direction: 'prev' | 'next'): Promise<ApiResponse<RegionWithDetails>> {
-    const response = await apiClient.get(`/data/regions/adjacent/${currentRank}/${direction}`);
+  static async getAdjacentRegionByRank(
+    currentRank: number,
+    direction: 'prev' | 'next',
+  ): Promise<ApiResponse<RegionWithDetails>> {
+    const response = await apiClient.get(
+      `/data/regions/adjacent/${currentRank}/${direction}`,
+    );
     return response.data;
   }
-} 
+
+  static async getSameCodeRegions(
+    klaciCode: string,
+  ): Promise<ApiResponse<RegionWithDetails[]>> {
+    const response = await apiClient.get(
+      `/data/regions/same-code/${klaciCode}`,
+    );
+    return response.data;
+  }
+
+  static async getSameCodeRegionsByRegionId(
+    regionId: number,
+  ): Promise<ApiResponse<RegionWithDetails[]>> {
+    const response = await apiClient.get(
+      `/data/regions/${regionId}/same-code-regions`,
+    );
+    return response.data;
+  }
+}
