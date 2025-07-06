@@ -99,34 +99,41 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
       style={{
         minWidth: '350px',
         width: '260px',
-        height: '520px',
-        backgroundColor: 'white',
-        borderRadius: '20px',
+        height: '540px',
+        backgroundColor: '#f5f5f5', // 전체 회색 배경
+        borderRadius: '36px',
         cursor: 'pointer',
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
+        position: 'relative', // 절대 위치를 위한 기준점
         ...style,
       }}
       onClick={() => onClick?.(data)}
     >
-      {/* 상단 - 흰색 배경 */}
+      {/* 상단 - 흰색 배경 (절대 위치로 카드 전체 너비 덮기) */}
       <div
         style={{
-          height: '60px',
+          position: 'absolute',
+          top: '0',
+          left: '0',
+          right: '0',
+          height: '70px', // 상단 영역 높이
           backgroundColor: 'white',
           padding: '20px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'flex-start',
           alignItems: 'flex-start',
+          zIndex: 10,
         }}
       >
         {/* 종합순위 */}
         <div
           style={{
-            fontSize: '14px',
-            color: '#666',
+            fontSize: '15px',
+            color: 'black',
+            marginTop: '10px',
             marginBottom: '8px',
           }}
         >
@@ -135,7 +142,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
         {/* 지역명 */}
         <div
           style={{
-            fontSize: '24px',
+            fontSize: '26px',
             fontWeight: 'bold',
             color: '#000',
           }}
@@ -152,6 +159,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
           display: 'flex',
           flexDirection: 'column',
           padding: '20px',
+          marginTop: '80px', // 상단 흰색 영역 높이만큼 여백
         }}
       >
         {/* 상단 - 레이더 차트 */}
@@ -187,7 +195,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
           {/* 지역 타입 */}
           <div
             style={{
-              fontSize: '14px',
+              fontSize: '24px',
               fontWeight: 'bold',
               color: '#000',
               textAlign: 'left',
@@ -200,10 +208,12 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
           {/* 닉네임 */}
           <div
             style={{
-              fontSize: '12px',
-              color: '#666',
+              fontSize: '18px',
+              color: 'black',
               textAlign: 'left',
               lineHeight: '1.2',
+              fontWeight: '600',
+              marginBottom: '10px',
             }}
           >
             {klaciNickname}
@@ -217,7 +227,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
               border: '1px solid #000',
               backgroundColor: 'transparent',
               padding: '4px 8px',
-              borderRadius: '12px',
+              borderRadius: '8px',
               fontWeight: '500',
             }}
           >

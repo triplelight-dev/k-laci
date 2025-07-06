@@ -10,7 +10,7 @@ interface KlaciCodeCirclesMiniProps {
 
 const KlaciCodeCirclesMini: React.FC<KlaciCodeCirclesMiniProps> = ({
   klaciCode,
-  size = 20, // 기본 크기를 더 작게
+  size = 24, // 기본 크기를 더 작게
   gap = 4, // 간격도 더 작게
   fontSize = '0.8rem', // 폰트 크기도 작게
   fontWeight = 600,

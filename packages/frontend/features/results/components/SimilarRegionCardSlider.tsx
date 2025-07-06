@@ -32,8 +32,8 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
     setCurrentIndex((prev) => (prev - 1 + data.length) % data.length);
   };
 
-  // 무한 루프를 위한 배열 확장
-  const extendedData = [...data, ...data, ...data]; // 3배로 확장
+  // 무한 루프를 위한 배열 확장 (더 많은 복사본으로 부드러운 전환)
+  const extendedData = [...data, ...data, ...data, ...data, ...data]; // 5배로 확장
   const dataLength = data.length;
 
   // 카드의 위치와 스타일 계산
@@ -48,12 +48,17 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
         distance > 0 ? distance - totalCards : distance + totalCards;
     }
 
-    // 카드 간격 (카드 너비 + gap) - 260px 카드 + 90px gap으로 수정
-    const cardSpacing = 400; // 260px 카드 + 90px gap
+    // 카드 간격 (카드 너비 + gap) - 간격을 늘림
+    const cardSpacing = 400; // 260px 카드 + 140px gap
     const translateX = adjustedDistance * cardSpacing;
 
+    // Fadeout 효과: 거리에 따른 투명도 계산
+    const baseOpacity = 1;
+    const fadeDistance = 3; // 3개 카드 거리까지 페이드아웃
+    const opacity = Math.max(0, baseOpacity - Math.abs(adjustedDistance) * 0.3);
+
     if (adjustedDistance === 0) {
-      // 가운데 카드 (선택된 카드)
+      // 가운데 카드 (선택된 카드) - 다른 카드와 동일한 크기와 위치
       return {
         opacity: 1,
         transform: `translateX(${translateX}px) scale(1)`,
@@ -62,27 +67,32 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
       };
     } else if (Math.abs(adjustedDistance) === 1) {
       // 바로 옆 카드들
-      const opacity = 0.7;
       return {
-        opacity,
+        opacity: Math.max(0.3, opacity),
         transform: `translateX(${translateX}px) scale(1)`,
         border: 'none',
         zIndex: 9,
       };
     } else if (Math.abs(adjustedDistance) === 2) {
       // 두 번째 옆 카드들
-      const opacity = 0.4;
       return {
-        opacity,
+        opacity: Math.max(0.1, opacity),
         transform: `translateX(${translateX}px) scale(1)`,
         border: 'none',
         zIndex: 8,
       };
+    } else if (Math.abs(adjustedDistance) === 3) {
+      // 세 번째 옆 카드들
+      return {
+        opacity: Math.max(0.05, opacity),
+        transform: `translateX(${translateX}px) scale(1)`,
+        border: 'none',
+        zIndex: 7,
+      };
     } else {
       // 멀리 있는 카드들
-      const opacity = 0.1;
       return {
-        opacity,
+        opacity: 0,
         transform: `translateX(${translateX}px) scale(1)`,
         border: 'none',
         zIndex: 1,
@@ -95,7 +105,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
       style={{
         position: 'relative',
         width: '100vw',
-        height: '560px',
+        height: '600px', // 560px에서 600px로 증가 (카드 높이 540px + 여유 60px)
         marginLeft: 'calc(-50vw + 50%)',
         marginRight: 'calc(-50vw + 50%)',
         display: 'flex',
