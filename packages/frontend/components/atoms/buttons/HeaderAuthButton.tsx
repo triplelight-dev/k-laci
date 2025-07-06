@@ -4,6 +4,7 @@ import Link from 'next/link';
 
 interface HeaderAuthButtonProps {
   variant: 'login' | 'signup' | 'logout';
+  theme?: 'light' | 'dark';
   onClick?: () => void;
   href?: string;
   children: React.ReactNode;
@@ -11,6 +12,7 @@ interface HeaderAuthButtonProps {
 
 export const HeaderAuthButton = ({
   variant,
+  theme = 'light',
   onClick,
   href,
   children,
@@ -18,7 +20,6 @@ export const HeaderAuthButton = ({
   const getButtonStyle = () => {
     const baseStyle = {
       minWidth: '80px',
-      border: '1px solid #1B1C2D',
       borderRadius: '8px',
       cursor: 'pointer',
       padding: '8px 18px',
@@ -26,22 +27,56 @@ export const HeaderAuthButton = ({
       fontWeight: '500',
     };
 
-    switch (variant) {
-      case 'login':
-        return {
-          ...baseStyle,
-          color: '#FFFFFF',
-          backgroundColor: '#1B1C2D',
-        };
-      case 'signup':
-      case 'logout':
-        return {
-          ...baseStyle,
-          color: '#1B1C2D',
-          backgroundColor: 'transparent',
-        };
-      default:
-        return baseStyle;
+    // 라이트 테마 (기존 스타일)
+    if (theme === 'light') {
+      const lightStyle = {
+        ...baseStyle,
+        border: '1px solid #1B1C2D',
+      };
+
+      switch (variant) {
+        case 'login':
+          return {
+            ...lightStyle,
+            color: '#FFFFFF',
+            backgroundColor: '#1B1C2D',
+          };
+        case 'signup':
+        case 'logout':
+          return {
+            ...lightStyle,
+            color: '#1B1C2D',
+            backgroundColor: 'transparent',
+          };
+        default:
+          return lightStyle;
+      }
+    }
+    
+    // 다크 테마 (반전된 스타일)
+    else {
+      const darkStyle = {
+        ...baseStyle,
+        border: '1px solid #FFFFFF',
+      };
+
+      switch (variant) {
+        case 'login':
+          return {
+            ...darkStyle,
+            color: '#14161D',
+            backgroundColor: '#FFFFFF',
+          };
+        case 'signup':
+        case 'logout':
+          return {
+            ...darkStyle,
+            color: '#FFFFFF',
+            backgroundColor: 'transparent',
+          };
+        default:
+          return darkStyle;
+      }
     }
   };
 

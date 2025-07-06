@@ -10,10 +10,21 @@ import { usePathname } from 'next/navigation';
 
 const Header = () => {
   const pathname = usePathname();
-  const logoSrc = '/klaci_logo_black.png';
   const isLoggedIn = useIsLoggedIn();
   const user = useUser();
   const logout = useLogout();
+
+  // 테마 분기를 위한 변수 관리
+  const isBlackTheme = pathname === '/' || pathname === '/about';
+  
+  // 테마별 설정
+  const theme = {
+    backgroundColor: isBlackTheme ? '#14161D' : '#F4F4F4',
+    textColor: isBlackTheme ? '#FFFFFF' : '#1B1C2D',
+    logo: isBlackTheme ? '/klaci_logo_white.png' : '/klaci_logo_black.png',
+    navigationActiveColor: isBlackTheme ? '#FFFFFF' : '#FFFFFF',
+    navigationInactiveColor: isBlackTheme ? '#BED3FF' : '#BED3FF',
+  };
 
   // 현재 페이지 확인 함수
   const isActivePage = (path: string) => {
@@ -55,8 +66,8 @@ const Header = () => {
     <header
       style={{
         width: '100%',
-        backgroundColor: '#F4F4F4',
-        color: '#1B1C2D',
+        backgroundColor: theme.backgroundColor,
+        color: theme.textColor,
       }}
     >
       <div
@@ -80,15 +91,16 @@ const Header = () => {
           }}
         >
           <div
-            className="font-poppins text-[2.1875rem] leading-[110%] font-bold tracking-[-1.05px] text-black"
+            className="font-poppins text-[2.1875rem] leading-[110%] font-bold tracking-[-1.05px]"
             style={{
               display: 'flex',
               gap: '35px',
+              color: theme.textColor,
             }}
           >
             <Link href="/">
               <Image
-                src={logoSrc}
+                src={theme.logo}
                 alt="K-LACI Logo"
                 width={120}
                 height={30}
@@ -118,7 +130,7 @@ const Header = () => {
                     className="font-poppins text-[0.9375rem] leading-[110%] tracking-[-0.45px]"
                     style={{
                       fontSize: '16px',
-                      color: isActive ? 'white' : '#BED3FF',
+                      color: isActive ? theme.navigationActiveColor : theme.navigationInactiveColor,
                       fontWeight: isActive ? 800 : 400,
                       textDecoration: 'none',
                     }}
@@ -147,7 +159,7 @@ const Header = () => {
                 <span
                   style={{
                     fontSize: '14px',
-                    color: '#1B1C2D',
+                    color: theme.textColor,
                     marginRight: '10px',
                   }}
                 >
@@ -155,19 +167,31 @@ const Header = () => {
                 </span>
 
                 {/* 로그아웃 버튼 */}
-                <HeaderAuthButton variant="logout" onClick={handleLogout}>
+                <HeaderAuthButton 
+                  variant="logout" 
+                  onClick={handleLogout}
+                  theme={isBlackTheme ? 'dark' : 'light'}
+                >
                   로그아웃
                 </HeaderAuthButton>
               </>
             ) : (
               <>
                 {/* Login Button */}
-                <HeaderAuthButton variant="login" href="/auth/login">
+                <HeaderAuthButton 
+                  variant="login" 
+                  href="/auth/login"
+                  theme={isBlackTheme ? 'dark' : 'light'}
+                >
                   로그인
                 </HeaderAuthButton>
 
                 {/* Signup Button */}
-                <HeaderAuthButton variant="signup" href="/auth/signup">
+                <HeaderAuthButton 
+                  variant="signup" 
+                  href="/auth/signup"
+                  theme={isBlackTheme ? 'dark' : 'light'}
+                >
                   회원가입
                 </HeaderAuthButton>
               </>
