@@ -33,7 +33,7 @@ const RadarJewelChartMini: React.FC<RadarJewelChartMiniProps> = ({
   const rotation = Math.PI / 4 - (23 * Math.PI) / 180;
 
   // 값 보정 - 보석 크기를 더 작게 만들기 위해 값을 조정
-  const vals = data.slice(0, numAxes).map(val => Math.min(val * 0.8, 100));
+  const vals = data.slice(0, numAxes);
   while (vals.length < numAxes) vals.push(0);
 
   // 축 끝점 좌표 계산
@@ -249,15 +249,10 @@ const RadarJewelChartMini: React.FC<RadarJewelChartMiniProps> = ({
 
       {/* 배경 이미지가 있을 때: 이미지 패턴으로 보석 렌더링 */}
       {imageUrl && (
-        <g clipPath="url(#jewelClipPathMini)">
-          <rect
-            x={center - radius}
-            y={center - radius}
-            width={radius * 2}
-            height={radius * 2}
-            fill="url(#jewelImagePatternMini)"
-          />
-        </g>
+        <polygon
+          points={points.map(pt => `${pt.x},${pt.y}`).join(' ')}
+          fill="url(#jewelImagePatternMini)"
+        />
       )}
 
       {/* 배경 이미지가 없을 때: 그라디언트로 보석 렌더링 */}

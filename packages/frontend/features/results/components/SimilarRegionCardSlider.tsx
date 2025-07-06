@@ -18,6 +18,13 @@ interface SimilarRegionCardSliderProps {
   onCardClick?: (item: SimilarRegionData) => void;
 }
 
+interface CardStyle {
+  opacity: number;
+  transform: string;
+  border: string;
+  zIndex: number;
+}
+
 const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
   data,
   onCardClick,
@@ -37,7 +44,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
   const dataLength = data.length;
 
   // 카드의 위치와 스타일 계산
-  const getCardStyle = (index: number) => {
+  const getCardStyle = (index: number): CardStyle => {
     const distance = index - currentIndex;
     const totalCards = dataLength;
 
@@ -54,7 +61,6 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
 
     // Fadeout 효과: 거리에 따른 투명도 계산
     const baseOpacity = 1;
-    const fadeDistance = 3; // 3개 카드 거리까지 페이드아웃
     const opacity = Math.max(0, baseOpacity - Math.abs(adjustedDistance) * 0.3);
 
     if (adjustedDistance === 0) {
@@ -167,24 +173,24 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
       >
         {extendedData.map((item, index) => {
           const adjustedIndex = index % dataLength;
-          const style = getCardStyle(adjustedIndex);
+          const cardStyle = getCardStyle(adjustedIndex);
 
           return (
             <div
               key={`${item.id}-${index}`}
               style={{
                 position: 'absolute',
-                opacity: style.opacity,
-                transform: style.transform,
-                zIndex: style.zIndex,
+                opacity: cardStyle.opacity,
+                transform: cardStyle.transform,
+                zIndex: cardStyle.zIndex,
                 transition: 'all 0.5s ease',
               }}
             >
               <SimilarRegionCard
                 data={item}
-                onClick={onCardClick}
+                onClick={onCardClick || (() => {})}
                 style={{
-                  border: style.border,
+                  border: cardStyle.border,
                 }}
               />
             </div>

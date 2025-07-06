@@ -45,40 +45,6 @@ const generateMockRadarData = (seed: number): number[] => {
   ];
 };
 
-// 랜덤 KLACI 데이터 생성 함수 (실제 데이터가 없을 때만 사용)
-const generateMockKlaciData = (seed: number) => {
-  const random = (min: number, max: number) => {
-    const x = Math.sin(seed++) * 10000;
-    return Math.floor((x - Math.floor(x)) * (max - min + 1)) + min;
-  };
-
-  const klaciCodes = [
-    'GCMR',
-    'ECMR',
-    'LAMR',
-    'SAMR',
-    'GCSR',
-    'ECSR',
-    'LASR',
-    'SASR',
-  ];
-  const klaciTypes = ['개발도약형', '성장안정형', '혁신도약형', '안정혁신형'];
-  const klaciNicknames = [
-    '믿고 보는 호수비의 도시',
-    '미래를 여는 혁신도시',
-    '안전하고 편안한 도시',
-    '성장과 안정의 도시',
-    '혁신과 도약의 도시',
-    '미래를 준비하는 도시',
-  ];
-
-  return {
-    klaciCode: klaciCodes[random(0, klaciCodes.length - 1)],
-    klaciType: klaciTypes[random(0, klaciTypes.length - 1)],
-    klaciNickname: klaciNicknames[random(0, klaciNicknames.length - 1)],
-  };
-};
-
 const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
   data,
   onClick,
@@ -88,9 +54,14 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
   const klaciCode = data.klaciCode || 'GCMR'; // 기본값 설정
   const klaciType = data.klaciType || '개발도약형'; // 기본값 설정
   const klaciNickname = data.klaciNickname || '믿고 보는 호수비의 도시'; // 기본값 설정
-  
+
+  console.log('card data', data);
+
   // 레이더 차트 데이터: 실제 데이터가 있으면 사용, 없으면 목업 데이터 생성
-  const radarData = data.radarData || generateMockRadarData(Number(data.id) || data.rank);
+  const radarData =
+    Array.isArray(data.radarData) && data.radarData.length === 8
+      ? data.radarData
+      : generateMockRadarData(Number(data.id) || data.rank);
 
   return (
     <div
