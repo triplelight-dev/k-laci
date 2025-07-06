@@ -1,7 +1,7 @@
 'use client';
 
 import RadarJewelChartMini from '@/components/atoms/charts/RadarJewelChartMini';
-import KlaciCodeCircles from '@/components/atoms/circle/KlaciCodeCircles';
+import KlaciCodeCirclesMini from '@/components/atoms/circle/KlaciCodeCirclesMini';
 import React from 'react';
 
 interface SimilarRegionData {
@@ -178,13 +178,11 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
             flexDirection: 'column',
             alignItems: 'flex-start',
             gap: '12px',
-            paddingLeft: '20px',
+            paddingLeft: '10px',
           }}
         >
           {/* KLACI Circle */}
-          <div style={{ transform: 'scale(0.5)' }}>
-            <KlaciCodeCircles klaciCode={klaciCode} />
-          </div>
+          <KlaciCodeCirclesMini klaciCode={klaciCode} />
 
           {/* 지역 타입 */}
           <div
