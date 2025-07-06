@@ -31,76 +31,92 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
         height: '420px',
         backgroundColor: 'white',
         borderRadius: '16px',
-        padding: '24px',
         cursor: 'pointer',
         transition: 'all 0.5s ease',
-        ...style,
+        overflow: 'hidden', // 둥근 모서리를 위해 필요
+        ...style, // 외부에서 전달받은 스타일을 적용
       }}
       onClick={() => onClick?.(data)}
     >
-      {/* 지역명 */}
+      {/* 상단 - 흰색 배경 */}
       <div
         style={{
-          fontSize: '20px',
-          fontWeight: '600',
-          color: '#1F2937',
-          marginBottom: '8px',
-        }}
-      >
-        {data.province} {data.name}
-      </div>
-
-      {/* 유사도 점수 */}
-      <div
-        style={{
-          fontSize: '14px',
-          color: '#6B7280',
-          marginBottom: '16px',
-        }}
-      >
-        유사도: {data.similarity}%
-      </div>
-
-      {/* 순위 */}
-      <div
-        style={{
-          fontSize: '24px',
-          fontWeight: '700',
-          color: '#000000',
-          marginBottom: '8px',
-        }}
-      >
-        {data.rank}위
-      </div>
-
-      {/* 총점 */}
-      <div
-        style={{
-          fontSize: '16px',
-          color: '#374151',
-          marginBottom: '24px',
-        }}
-      >
-        총점: {data.score.toFixed(1)}
-      </div>
-
-      {/* 추가 정보를 위한 공간 */}
-      <div
-        style={{
-          flex: 1,
+          height: '60px', // 상단 높이를 120px로 고정
+          backgroundColor: 'white',
+          padding: '24px',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'flex-end',
+          justifyContent: 'flex-start',
         }}
       >
+        {/* 종합순위 */}
+        <div
+          style={{
+            fontSize: '14px',
+            fontWeight: '600',
+            color: 'black',
+            marginBottom: '12px',
+          }}
+        >
+          종합순위 {data.rank}위
+        </div>
+
+        {/* 지역명 */}
+        <div
+          style={{
+            fontSize: '28px',
+            fontWeight: '600',
+            color: '#1F2937',
+            lineHeight: '1.2',
+          }}
+        >
+          {data.province} {data.name}
+        </div>
+      </div>
+
+      {/* 하단 - 회색 배경 */}
+      <div
+        style={{
+          height: '300px', // 하단 높이를 300px로 조정 (420 - 120)
+          backgroundColor: '#F9FAFB',
+          padding: '24px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}
+      >
+        {/* 유사도 점수 */}
+        <div
+          style={{
+            fontSize: '16px',
+            color: '#374151',
+            marginBottom: '16px',
+          }}
+        >
+          유사도: {data.similarity}%
+        </div>
+
+        {/* 총점 */}
+        <div
+          style={{
+            fontSize: '18px',
+            color: '#1F2937',
+            marginBottom: '24px',
+          }}
+        >
+          총점: {data.score.toFixed(1)}
+        </div>
+
+        {/* 하단 버튼 영역 */}
         <div
           style={{
             fontSize: '14px',
             color: '#6B7280',
             textAlign: 'center',
             padding: '12px',
-            backgroundColor: '#F9FAFB',
+            backgroundColor: 'white',
             borderRadius: '8px',
+            border: '1px solid #E5E7EB',
           }}
         >
           클릭하여 자세히 보기

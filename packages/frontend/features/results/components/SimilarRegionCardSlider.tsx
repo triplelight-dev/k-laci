@@ -63,30 +63,27 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
     } else if (Math.abs(adjustedDistance) === 1) {
       // 바로 옆 카드들
       const opacity = 0.7;
-      const scale = 0.9;
       return {
         opacity,
-        transform: `translateX(${translateX}px) scale(${scale})`,
+        transform: `translateX(${translateX}px) scale(1)`,
         border: 'none',
         zIndex: 9,
       };
     } else if (Math.abs(adjustedDistance) === 2) {
       // 두 번째 옆 카드들
       const opacity = 0.4;
-      const scale = 0.8;
       return {
         opacity,
-        transform: `translateX(${translateX}px) scale(${scale})`,
+        transform: `translateX(${translateX}px) scale(1)`,
         border: 'none',
         zIndex: 8,
       };
     } else {
       // 멀리 있는 카드들
       const opacity = 0.1;
-      const scale = 0.7;
       return {
         opacity,
-        transform: `translateX(${translateX}px) scale(${scale})`,
+        transform: `translateX(${translateX}px) scale(1)`,
         border: 'none',
         zIndex: 1,
       };
