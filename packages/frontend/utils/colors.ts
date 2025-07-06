@@ -1,5 +1,6 @@
 export const DARK_MODE_COLORS = {
-  background: '#14161D',
+  background: '#232631',
+  backgroundDarker: '#14161D',
   text: '#FFFFFF',
   logo: '/klaci_logo_white.png',
   navigationActive: '#FFFFFF',

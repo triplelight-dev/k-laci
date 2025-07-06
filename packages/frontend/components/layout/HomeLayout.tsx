@@ -24,6 +24,7 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
           alignItems: 'center',
           justifyContent: 'center',
           width: '80%',
+          gap: '100px',
         }}
       >
         {children}

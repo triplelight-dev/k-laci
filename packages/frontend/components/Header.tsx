@@ -4,6 +4,7 @@ import { AuthService } from '@/api/services/auth.service';
 import { HeaderAuthButton } from '@/components/atoms/buttons/HeaderAuthButton';
 import { ROUTES } from '@/constants/data';
 import { useIsLoggedIn, useLogout, useUser } from '@/store';
+import { DARK_MODE_COLORS } from '@/utils/colors';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -16,10 +17,12 @@ const Header = () => {
 
   // 테마 분기를 위한 변수 관리
   const isBlackTheme = pathname === '/' || pathname === '/about';
-  
+
   // 테마별 설정
   const theme = {
-    backgroundColor: isBlackTheme ? '#14161D' : '#F4F4F4',
+    backgroundColor: isBlackTheme
+      ? DARK_MODE_COLORS.background
+      : '#F4F4F4',
     textColor: isBlackTheme ? '#FFFFFF' : '#1B1C2D',
     logo: isBlackTheme ? '/klaci_logo_white.png' : '/klaci_logo_black.png',
     navigationActiveColor: isBlackTheme ? '#FFFFFF' : '#FFFFFF',
@@ -104,7 +107,12 @@ const Header = () => {
                 alt="K-LACI Logo"
                 width={120}
                 height={30}
-                style={{ height: '30px', width: 'auto', marginRight: '15px' }}
+                style={{
+                  height: '30px',
+                  width: 'auto',
+                  marginRight: '15px',
+                  cursor: 'pointer',
+                }}
               />
             </Link>
           </div>
@@ -130,7 +138,9 @@ const Header = () => {
                     className="font-poppins text-[0.9375rem] leading-[110%] tracking-[-0.45px]"
                     style={{
                       fontSize: '16px',
-                      color: isActive ? theme.navigationActiveColor : theme.navigationInactiveColor,
+                      color: isActive
+                        ? theme.navigationActiveColor
+                        : theme.navigationInactiveColor,
                       fontWeight: isActive ? 800 : 400,
                       textDecoration: 'none',
                     }}
@@ -167,8 +177,8 @@ const Header = () => {
                 </span>
 
                 {/* 로그아웃 버튼 */}
-                <HeaderAuthButton 
-                  variant="logout" 
+                <HeaderAuthButton
+                  variant="logout"
                   onClick={handleLogout}
                   theme={isBlackTheme ? 'dark' : 'light'}
                 >
@@ -178,8 +188,8 @@ const Header = () => {
             ) : (
               <>
                 {/* Login Button */}
-                <HeaderAuthButton 
-                  variant="login" 
+                <HeaderAuthButton
+                  variant="login"
                   href="/auth/login"
                   theme={isBlackTheme ? 'dark' : 'light'}
                 >
@@ -187,8 +197,8 @@ const Header = () => {
                 </HeaderAuthButton>
 
                 {/* Signup Button */}
-                <HeaderAuthButton 
-                  variant="signup" 
+                <HeaderAuthButton
+                  variant="signup"
                   href="/auth/signup"
                   theme={isBlackTheme ? 'dark' : 'light'}
                 >
