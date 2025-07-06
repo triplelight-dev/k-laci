@@ -1,4 +1,5 @@
 import AboutIntroSection from '@/features/about/sections/AboutIntroSection';
+import FrameworkSection from '@/features/home/sections/FrameworkSection';
 import PrincipleSection from '@/features/home/sections/PrincipleSection';
 
 export const dynamic = 'force-static';
@@ -8,6 +9,7 @@ export default function AboutPage() {
     <>
       <AboutIntroSection />
       <PrincipleSection />
+      <FrameworkSection />
     </>
   );
 }
