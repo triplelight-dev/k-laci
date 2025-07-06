@@ -1,5 +1,4 @@
-import { UserType } from '@/features/signup/hooks/useSignupFlow';
-
+import { UserType } from '@/utils/userTypeUtils';
 interface UserTypeBadgeProps {
   type: UserType;
   isActive: boolean;
@@ -43,4 +42,4 @@ export default function UserTypeBadge({ type, isActive }: UserTypeBadgeProps) {
       {label}
     </div>
   );
-} 
+}
