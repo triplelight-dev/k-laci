@@ -95,7 +95,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
       style={{
         position: 'relative',
         width: '100vw',
-        height: '500px',
+        height: '560px', // 500px에서 560px로 증가 (카드 높이 520px + 여유 40px)
         marginLeft: 'calc(-50vw + 50%)',
         marginRight: 'calc(-50vw + 50%)',
         display: 'flex',

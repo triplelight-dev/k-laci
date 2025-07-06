@@ -1,6 +1,7 @@
 'use client';
 
 import RadarJewelChartMini from '@/components/atoms/charts/RadarJewelChartMini';
+import KlaciCodeCircles from '@/components/atoms/circle/KlaciCodeCircles';
 import React from 'react';
 
 interface SimilarRegionData {
@@ -11,6 +12,9 @@ interface SimilarRegionData {
   rank: number;
   score: number;
   radarData?: number[]; // 레이더 차트 데이터 추가
+  klaciCode?: string; // KLACI 코드 추가
+  klaciType?: string; // 지역 타입 추가
+  klaciNickname?: string; // 닉네임 추가
   [key: string]: any; // 추가 속성들을 위한 인덱스 시그니처
 }
 
@@ -41,21 +45,61 @@ const generateMockRadarData = (seed: number): number[] => {
   ];
 };
 
+// 랜덤 KLACI 데이터 생성 함수
+const generateMockKlaciData = (seed: number) => {
+  const random = (min: number, max: number) => {
+    const x = Math.sin(seed++) * 10000;
+    return Math.floor((x - Math.floor(x)) * (max - min + 1)) + min;
+  };
+
+  const klaciCodes = [
+    'GCMR',
+    'ECMR',
+    'LAMR',
+    'SAMR',
+    'GCSR',
+    'ECSR',
+    'LASR',
+    'SASR',
+  ];
+  const klaciTypes = ['개발도약형', '성장안정형', '혁신도약형', '안정혁신형'];
+  const klaciNicknames = [
+    '믿고 보는 호수비의 도시',
+    '미래를 여는 혁신도시',
+    '안전하고 편안한 도시',
+    '성장과 안정의 도시',
+    '혁신과 도약의 도시',
+    '미래를 준비하는 도시',
+  ];
+
+  return {
+    klaciCode: klaciCodes[random(0, klaciCodes.length - 1)],
+    klaciType: klaciTypes[random(0, klaciTypes.length - 1)],
+    klaciNickname: klaciNicknames[random(0, klaciNicknames.length - 1)],
+  };
+};
+
 const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
   data,
   onClick,
   style,
 }) => {
   // 카드별로 고유한 랜덤 데이터 생성 (id를 seed로 사용)
-  const mockRadarData =
-    data.radarData || generateMockRadarData(Number(data.id) || data.rank);
+  const seed = Number(data.id) || data.rank;
+  const mockRadarData = data.radarData || generateMockRadarData(seed);
+  const mockKlaciData = generateMockKlaciData(seed);
+
+  // 실제 데이터가 있으면 사용, 없으면 목업 데이터 사용
+  const klaciCode = data.klaciCode || mockKlaciData.klaciCode;
+  const klaciType = data.klaciType || mockKlaciData.klaciType;
+  const klaciNickname = data.klaciNickname || mockKlaciData.klaciNickname;
 
   return (
     <div
       style={{
         minWidth: '350px',
         width: '350px',
-        height: '480px',
+        height: '520px',
         backgroundColor: 'white',
         borderRadius: '20px',
         cursor: 'pointer',
@@ -106,17 +150,82 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
           flex: 1,
           backgroundColor: '#f5f5f5',
           display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
+          flexDirection: 'column',
           padding: '20px',
         }}
       >
-        {/* RadarJewelChartMini 컴포넌트 */}
-        <RadarJewelChartMini
-          data={mockRadarData}
-          size={280}
-          imageUrl="/backgrounds/radar_chart_bg.png"
-        />
+        {/* 상단 - 레이더 차트 */}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginBottom: '20px',
+            padding: '5px',
+          }}
+        >
+          <RadarJewelChartMini
+            data={mockRadarData}
+            size={240}
+            imageUrl="/backgrounds/radar_chart_bg.png"
+          />
+        </div>
+
+        {/* 하단 - KLACI 정보 (좌측 정렬) */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            gap: '12px',
+            paddingLeft: '20px',
+          }}
+        >
+          {/* KLACI Circle */}
+          <div style={{ transform: 'scale(0.5)' }}>
+            <KlaciCodeCircles klaciCode={klaciCode} />
+          </div>
+
+          {/* 지역 타입 */}
+          <div
+            style={{
+              fontSize: '14px',
+              fontWeight: 'bold',
+              color: '#000',
+              textAlign: 'left',
+              lineHeight: '1.2',
+            }}
+          >
+            {klaciType}
+          </div>
+
+          {/* 닉네임 */}
+          <div
+            style={{
+              fontSize: '12px',
+              color: '#666',
+              textAlign: 'left',
+              lineHeight: '1.2',
+            }}
+          >
+            {klaciNickname}
+          </div>
+
+          {/* '순위가 비슷한' 뱃지 */}
+          <div
+            style={{
+              fontSize: '10px',
+              color: '#000',
+              border: '1px solid #000',
+              backgroundColor: 'transparent',
+              padding: '4px 8px',
+              borderRadius: '12px',
+              fontWeight: '500',
+            }}
+          >
+            순위가 비슷한
+          </div>
+        </div>
       </div>
     </div>
   );
