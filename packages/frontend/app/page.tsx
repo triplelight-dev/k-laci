@@ -1,5 +1,4 @@
 import HomeLayout from '@/components/layout/HomeLayout';
-import FrameworkSection from '@/features/home/sections/FrameworkSection';
 
 // sections
 import PartnerShipSection from '@/components/sections/PartnerShipSection';
@@ -18,7 +17,6 @@ export default function HomePage() {
       <UniquenessSection />
       <VideoSection />
       <RoadmapSection />
-      <FrameworkSection />
       <StrategySection />
       <PartnerShipSection />
     </HomeLayout>
