@@ -28,46 +28,45 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
       style={{
         minWidth: '350px',
         width: '350px',
-        height: '420px',
+        height: '480px', // 카드 전체 세로 길이 - 이 값을 수정하면 카드 높이가 변경됩니다
         backgroundColor: 'white',
-        borderRadius: '16px',
+        borderRadius: '20px',
         cursor: 'pointer',
-        transition: 'all 0.5s ease',
-        overflow: 'hidden', // 둥근 모서리를 위해 필요
-        ...style, // 외부에서 전달받은 스타일을 적용
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+        ...style,
       }}
       onClick={() => onClick?.(data)}
     >
       {/* 상단 - 흰색 배경 */}
       <div
         style={{
-          height: '60px', // 상단 높이를 120px로 고정
+          height: '120px', // 상단 고정 높이 - 이 값을 수정하면 상단 높이가 변경됩니다
           backgroundColor: 'white',
-          padding: '24px',
+          padding: '20px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'flex-start',
+          alignItems: 'flex-start',
         }}
       >
         {/* 종합순위 */}
         <div
           style={{
             fontSize: '14px',
-            fontWeight: '600',
-            color: 'black',
-            marginBottom: '12px',
+            color: '#666',
+            marginBottom: '8px',
           }}
         >
           종합순위 {data.rank}위
         </div>
-
         {/* 지역명 */}
         <div
           style={{
-            fontSize: '28px',
-            fontWeight: '600',
-            color: '#1F2937',
-            lineHeight: '1.2',
+            fontSize: '24px',
+            fontWeight: 'bold',
+            color: '#000',
           }}
         >
           {data.province} {data.name}
@@ -77,53 +76,26 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
       {/* 하단 - 회색 배경 */}
       <div
         style={{
-          height: '300px', // 하단 높이를 300px로 조정 (420 - 120)
-          backgroundColor: '#F9FAFB',
-          padding: '24px',
+          flex: 1,
+          backgroundColor: '#f5f5f5',
           display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '20px',
         }}
       >
-        {/* 유사도 점수 */}
+        {/* 하단 내용은 나중에 추가 */}
         <div
           style={{
             fontSize: '16px',
-            color: '#374151',
-            marginBottom: '16px',
+            color: '#666',
           }}
         >
-          유사도: {data.similarity}%
-        </div>
-
-        {/* 총점 */}
-        <div
-          style={{
-            fontSize: '18px',
-            color: '#1F2937',
-            marginBottom: '24px',
-          }}
-        >
-          총점: {data.score.toFixed(1)}
-        </div>
-
-        {/* 하단 버튼 영역 */}
-        <div
-          style={{
-            fontSize: '14px',
-            color: '#6B7280',
-            textAlign: 'center',
-            padding: '12px',
-            backgroundColor: 'white',
-            borderRadius: '8px',
-            border: '1px solid #E5E7EB',
-          }}
-        >
-          클릭하여 자세히 보기
+          차트 영역
         </div>
       </div>
     </div>
   );
 };
 
-export default SimilarRegionCard; 
+export default SimilarRegionCard;
