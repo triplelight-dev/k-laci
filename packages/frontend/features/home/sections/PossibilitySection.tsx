@@ -5,10 +5,11 @@ import React from 'react';
 
 const PossibilitySection: React.FC = () => {
   const sectionData = {
-    badgeText: '뱃지 텍스트',
+    badgeText: '지역주도성 강화를 위한 과학적 프레임워크',
     title: {
       lines: ['지역의 자산력에서 찾은', '보물같은 잠재력'],
-      gradientWords: ['자산력', '잠재력']
+      gradientWords: []
+      // gradientWords: ['자산력', '잠재력']
     },
     description: {
       texts: [

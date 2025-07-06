@@ -9,7 +9,8 @@ const UniquenessSection: React.FC = () => {
     badgeText: '랭킹을 넘어 전략적 포지셔닝으로',
     title: {
       lines: ['각양각색의 원석처럼', '고유한 지역성'],
-      gradientWords: ['데이터', '분석'],
+      gradientWords: [],
+      // gradientWords: ['데이터', '분석'],
     },
     description: {
       texts: [
