@@ -1,8 +1,7 @@
 import EmailInput from '@/components/atoms/EmailInput';
 import UserTypeBadge from '@/components/atoms/UserTypeBadge';
-import { getUserTypeFromEmail } from '@/utils/userTypeUtils';
+import { getUserTypeFromEmail, UserType } from '@/utils/userTypeUtils';
 import { useEffect, useState } from 'react';
-import { UserType } from '../hooks/useSignupFlow';
 
 interface EmailVerificationFormProps {
   email: string;

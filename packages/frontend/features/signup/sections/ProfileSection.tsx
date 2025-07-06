@@ -1,7 +1,8 @@
 import StepBadge from '@/components/atoms/StepBadge';
 import SignupCompleteModal from '@/components/ui/SignupCompleteModal';
+import { UserType } from '@/utils/userTypeUtils';
 import ProfileForm from '../components/ProfileForm';
-import { SignupFormData, UserType } from '../hooks/useSignupFlow';
+import { SignupFormData } from '../hooks/useSignupFlow';
 
 interface ProfileSectionProps {
   email: string;
