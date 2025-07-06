@@ -1,7 +1,7 @@
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Header from '@/components/Header';
 
-const gradientHeight = 15;
+import { DARK_MODE_COLORS } from '@/utils/colors';
 
 const HomeLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -9,16 +9,25 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
       style={{
         width: '100%',
         minHeight: '100vh',
-        background: `
-          linear-gradient(to bottom, black, #001e6c, #357ded, white ${gradientHeight}%, white 100%)
-        `,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: '100% auto',
-        backgroundColor: 'white',
+        backgroundColor: DARK_MODE_COLORS.background,
+        justifyContent: 'center',
+        alignItems: 'center',
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
       <Header />
-      {children}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '80%',
+        }}
+      >
+        {children}
+      </div>
       <Footer />
     </div>
   );
