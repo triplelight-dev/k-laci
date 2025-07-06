@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import SimilarRegionCard from './SimilarRegionCard';
 
 interface SimilarRegionData {
   id: string | number;
@@ -31,10 +32,14 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
     setCurrentIndex((prev) => (prev - 1 + data.length) % data.length);
   };
 
+  // 무한 루프를 위한 배열 확장
+  const extendedData = [...data, ...data, ...data]; // 3배로 확장
+  const dataLength = data.length;
+
   // 카드의 위치와 스타일 계산
   const getCardStyle = (index: number) => {
     const distance = index - currentIndex;
-    const totalCards = data.length;
+    const totalCards = dataLength;
 
     // 순환 거리 계산 (가장 가까운 경로)
     let adjustedDistance = distance;
@@ -43,18 +48,17 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
         distance > 0 ? distance - totalCards : distance + totalCards;
     }
 
-    // 카드 간격 (카드 너비 + gap) - gap을 늘림
-    const cardSpacing = 450; // 350px 카드 + 100px gap
+    // 카드 간격 (카드 너비 + gap)
+    const cardSpacing = 420; // 350px 카드 + 70px gap
     const translateX = adjustedDistance * cardSpacing;
 
     if (adjustedDistance === 0) {
       // 가운데 카드 (선택된 카드)
       return {
         opacity: 1,
-        transform: 'scale(1)',
-        border: '2px solid #000000',
+        transform: `translateX(${translateX}px) scale(1)`,
+        border: '1px solid #000000',
         zIndex: 10,
-        translateX: 0,
       };
     } else if (Math.abs(adjustedDistance) === 1) {
       // 바로 옆 카드들
@@ -62,10 +66,9 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
       const scale = 0.9;
       return {
         opacity,
-        transform: `scale(${scale})`,
+        transform: `translateX(${translateX}px) scale(${scale})`,
         border: 'none',
         zIndex: 9,
-        translateX,
       };
     } else if (Math.abs(adjustedDistance) === 2) {
       // 두 번째 옆 카드들
@@ -73,10 +76,9 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
       const scale = 0.8;
       return {
         opacity,
-        transform: `scale(${scale})`,
+        transform: `translateX(${translateX}px) scale(${scale})`,
         border: 'none',
         zIndex: 8,
-        translateX,
       };
     } else {
       // 멀리 있는 카드들
@@ -84,10 +86,9 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
       const scale = 0.7;
       return {
         opacity,
-        transform: `scale(${scale})`,
+        transform: `translateX(${translateX}px) scale(${scale})`,
         border: 'none',
         zIndex: 1,
-        translateX,
       };
     }
   };
@@ -97,7 +98,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
       style={{
         position: 'relative',
         width: '100vw',
-        height: '500px', // 세로 높이 증가
+        height: '500px',
         marginLeft: 'calc(-50vw + 50%)',
         marginRight: 'calc(-50vw + 50%)',
         display: 'flex',
@@ -157,98 +158,28 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
           justifyContent: 'center',
         }}
       >
-        {data.map((item, index) => {
-          const style = getCardStyle(index);
+        {extendedData.map((item, index) => {
+          const adjustedIndex = index % dataLength;
+          const style = getCardStyle(adjustedIndex);
 
           return (
             <div
-              key={item.id}
+              key={`${item.id}-${index}`}
               style={{
                 position: 'absolute',
-                minWidth: '320px',
-                width: '320px',
-                height: '420px', // 세로 높이 증가
-                backgroundColor: 'white',
-                borderRadius: '16px',
-                padding: '24px',
-                cursor: 'pointer',
-                transition: 'all 0.5s ease',
-                boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
                 opacity: style.opacity,
-                transform: `translateX(${style.translateX}px) scale(${style.transform.includes('scale') ? style.transform.match(/scale\(([^)]+)\)/)?.[1] || '1' : '1'})`,
-                border: style.border,
+                transform: style.transform,
                 zIndex: style.zIndex,
+                transition: 'all 0.5s ease',
               }}
-              onClick={() => onCardClick?.(item)}
             >
-              {/* 지역명 */}
-              <div
+              <SimilarRegionCard
+                data={item}
+                onClick={onCardClick}
                 style={{
-                  fontSize: '20px',
-                  fontWeight: '600',
-                  color: '#1F2937',
-                  marginBottom: '8px',
+                  border: style.border,
                 }}
-              >
-                {item.province} {item.name}
-              </div>
-
-              {/* 유사도 점수 */}
-              <div
-                style={{
-                  fontSize: '14px',
-                  color: '#6B7280',
-                  marginBottom: '16px',
-                }}
-              >
-                유사도: {item.similarity}%
-              </div>
-
-              {/* 순위 */}
-              <div
-                style={{
-                  fontSize: '24px',
-                  fontWeight: '700',
-                  color: '#000000',
-                  marginBottom: '8px',
-                }}
-              >
-                {item.rank}위
-              </div>
-
-              {/* 총점 */}
-              <div
-                style={{
-                  fontSize: '16px',
-                  color: '#374151',
-                  marginBottom: '24px',
-                }}
-              >
-                총점: {item.score.toFixed(1)}
-              </div>
-
-              {/* 추가 정보를 위한 공간 */}
-              <div
-                style={{
-                  flex: 1,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'flex-end',
-                }}
-              >
-                <div
-                  style={{
-                    fontSize: '14px',
-                    color: '#6B7280',
-                    textAlign: 'center',
-                    padding: '12px',
-                    backgroundColor: '#F9FAFB',
-                    borderRadius: '8px',
-                  }}
-                >
-                  클릭하여 자세히 보기
-                </div>
-              </div>
+              />
             </div>
           );
         })}
