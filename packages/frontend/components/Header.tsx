@@ -36,10 +36,10 @@ const Header = () => {
 
   // Navigation 메뉴 데이터
   const navigationItems = [
-    // {
-    //   href: ROUTES.ABOUT,
-    //   label: '소개',
-    // },
+    {
+      href: ROUTES.ABOUT,
+      label: '소개',
+    },
     // {
     //   href: ROUTES.SUMMARY,
     //   label: '주요 결과',
