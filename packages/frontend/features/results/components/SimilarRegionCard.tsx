@@ -24,7 +24,7 @@ interface SimilarRegionCardProps {
   style?: React.CSSProperties;
 }
 
-// 랜덤 목업 데이터 생성 함수
+// 랜덤 목업 데이터 생성 함수 (실제 데이터가 없을 때만 사용)
 const generateMockRadarData = (seed: number): number[] => {
   // seed를 기반으로 일관된 랜덤 데이터 생성
   const random = (min: number, max: number) => {
@@ -45,7 +45,7 @@ const generateMockRadarData = (seed: number): number[] => {
   ];
 };
 
-// 랜덤 KLACI 데이터 생성 함수
+// 랜덤 KLACI 데이터 생성 함수 (실제 데이터가 없을 때만 사용)
 const generateMockKlaciData = (seed: number) => {
   const random = (min: number, max: number) => {
     const x = Math.sin(seed++) * 10000;
@@ -84,15 +84,13 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
   onClick,
   style,
 }) => {
-  // 카드별로 고유한 랜덤 데이터 생성 (id를 seed로 사용)
-  const seed = Number(data.id) || data.rank;
-  const mockRadarData = data.radarData || generateMockRadarData(seed);
-  const mockKlaciData = generateMockKlaciData(seed);
-
   // 실제 데이터가 있으면 사용, 없으면 목업 데이터 사용
-  const klaciCode = data.klaciCode || mockKlaciData.klaciCode;
-  const klaciType = data.klaciType || mockKlaciData.klaciType;
-  const klaciNickname = data.klaciNickname || mockKlaciData.klaciNickname;
+  const klaciCode = data.klaciCode || 'GCMR'; // 기본값 설정
+  const klaciType = data.klaciType || '개발도약형'; // 기본값 설정
+  const klaciNickname = data.klaciNickname || '믿고 보는 호수비의 도시'; // 기본값 설정
+  
+  // 레이더 차트 데이터: 실제 데이터가 있으면 사용, 없으면 목업 데이터 생성
+  const radarData = data.radarData || generateMockRadarData(Number(data.id) || data.rank);
 
   return (
     <div
@@ -173,7 +171,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
           }}
         >
           <RadarJewelChartMini
-            data={mockRadarData}
+            data={radarData}
             size={240}
             imageUrl="/backgrounds/radar_chart_bg.png"
           />
