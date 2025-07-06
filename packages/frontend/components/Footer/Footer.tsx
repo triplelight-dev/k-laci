@@ -1,4 +1,3 @@
-import FooterBottomSection from './FooterBottomSection';
 import FooterTopSection from './FooterTopSection';
 
 const Footer = () => {
@@ -15,7 +14,7 @@ const Footer = () => {
     >
       <div style={{ width: '90%' }}>
         <FooterTopSection />
-        <FooterBottomSection />
+        {/* <FooterBottomSection /> */}
       </div>
     </footer>
   );
