@@ -1,4 +1,5 @@
 import HomeLayout from '@/components/layout/HomeLayout';
+import StrategySection from '@/components/sections/StrategySection';
 import IntroSection from '@/features/home/sections/IntroSection';
 import PossibilitySection from '@/features/home/sections/PossibilitySection';
 import RoadmapSection from '@/features/home/sections/RoadmapSection';
@@ -12,6 +13,7 @@ export default function HomePage() {
       <PossibilitySection />
       <UniquenessSection />
       <RoadmapSection />
+      <StrategySection />
     </HomeLayout>
   );
 }

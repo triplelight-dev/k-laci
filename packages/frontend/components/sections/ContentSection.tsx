@@ -181,7 +181,7 @@ const ContentSection: React.FC<ContentSectionProps> = ({
               border: 'none',
               borderRadius: '8px',
               padding: '14px 32px',
-              fontSize: '16px',
+              fontSize: '14px',
               cursor: 'pointer',
               transition: 'all 0.2s ease',
               display: 'flex',
