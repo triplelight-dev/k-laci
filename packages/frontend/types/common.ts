@@ -25,4 +25,11 @@ export interface CategoryKeyIndexRank {
 export interface Province {
   id: number;
   name: string;
-} 
+}
+
+export interface Principle {
+  badge: string;
+  title: string;
+  subtitle: string;
+  description: string;
+}
