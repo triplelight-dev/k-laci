@@ -35,4 +35,4 @@ const AboutLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default AboutLayout; 
+export default AboutLayout;
