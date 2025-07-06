@@ -24,7 +24,7 @@ const AboutLayout = ({ children }: { children: React.ReactNode }) => {
           alignItems: 'center',
           justifyContent: 'center',
           width: '80%',
-          maxWidth: '1000px',
+          maxWidth: '1100px',
           gap: '100px',
         }}
       >
