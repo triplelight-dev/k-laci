@@ -730,4 +730,168 @@ export class DataService {
     await this.cacheManager.set(cacheKey, regionWithDetails, 300);
     return regionWithDetails;
   }
+
+  async getSameCodeRegionsByRegionId(
+    regionId: number,
+  ): Promise<RegionWithDetails[]> {
+    const cacheKey = `same-code-regions-by-id:${regionId}`;
+    const cached = await this.cacheManager.get<RegionWithDetails[]>(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
+    // 먼저 해당 region의 KLACI 코드를 조회
+    const { data: regionData, error: regionError } = await this.supabase
+      .from('regions')
+      .select('klaci_code')
+      .eq('id', regionId)
+      .single();
+
+    if (regionError || !regionData) {
+      throw new Error(`Region with id ${regionId} not found`);
+    }
+
+    const klaciCode = regionData.klaci_code;
+    const upperKlaciCode = klaciCode.toUpperCase();
+
+    // KLACI 코드가 같은 지역들을 조회 (자기 자신 제외)
+    const { data: regions, error } = await this.supabase
+      .from('regions')
+      .select(
+        `
+        *,
+        province:provinces(id, name),
+        klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
+        `,
+      )
+      .ilike('klaci_code', upperKlaciCode)
+      .neq('id', regionId) // 자기 자신 제외
+      .order('total_rank', { ascending: true });
+
+    if (error) {
+      throw error;
+    }
+
+    const regionsWithDetails = regions as RegionWithDetails[];
+
+    // 각 지역에 대해 category_ranks 조회
+    for (const region of regionsWithDetails) {
+      try {
+        const { data: categoryRanksData, error: categoryRanksError } =
+          await this.supabase
+            .from('region_category_ranks')
+            .select(
+              `
+            id,
+            region_id,
+            category_id,
+            rank,
+            year,
+            category:categories(id, name)
+          `,
+            )
+            .eq('region_id', region.id)
+            .order('rank', { ascending: true });
+
+        if (!categoryRanksError && categoryRanksData) {
+          const categoryRanks = categoryRanksData.map((item: any) => ({
+            id: item.id,
+            region_id: item.region_id,
+            category_id: item.category_id,
+            rank: item.rank,
+            year: item.year,
+            category: item.category || {
+              id: item.category_id,
+              name: 'Unknown',
+            },
+          }));
+
+          region.category_ranks = categoryRanks;
+        }
+      } catch (error) {
+        console.error(
+          `Error fetching category ranks for region ${region.id}:`,
+          error,
+        );
+      }
+    }
+
+    await this.cacheManager.set(cacheKey, regionsWithDetails, 300);
+    return regionsWithDetails;
+  }
+
+  // 기존 메서드는 유지 (필요시 사용)
+  async getSameCodeRegions(klaciCode: string): Promise<RegionWithDetails[]> {
+    const cacheKey = `same-code-regions:${klaciCode.toUpperCase()}`;
+    const cached = await this.cacheManager.get<RegionWithDetails[]>(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
+    // KLACI 코드를 대문자로 변환하여 대소문자 상관없이 검색
+    const upperKlaciCode = klaciCode.toUpperCase();
+
+    const { data: regions, error } = await this.supabase
+      .from('regions')
+      .select(
+        `
+        *,
+        province:provinces(id, name),
+        klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
+        `,
+      )
+      .ilike('klaci_code', upperKlaciCode) // 대소문자 상관없이 검색
+      .order('total_rank', { ascending: true });
+
+    if (error) {
+      throw error;
+    }
+
+    const regionsWithDetails = regions as RegionWithDetails[];
+
+    // 각 지역에 대해 category_ranks 조회
+    for (const region of regionsWithDetails) {
+      try {
+        const { data: categoryRanksData, error: categoryRanksError } =
+          await this.supabase
+            .from('region_category_ranks')
+            .select(
+              `
+            id,
+            region_id,
+            category_id,
+            rank,
+            year,
+            category:categories(id, name)
+          `,
+            )
+            .eq('region_id', region.id)
+            .order('rank', { ascending: true });
+
+        if (!categoryRanksError && categoryRanksData) {
+          const categoryRanks = categoryRanksData.map((item: any) => ({
+            id: item.id,
+            region_id: item.region_id,
+            category_id: item.category_id,
+            rank: item.rank,
+            year: item.year,
+            category: item.category || {
+              id: item.category_id,
+              name: 'Unknown',
+            },
+          }));
+
+          region.category_ranks = categoryRanks;
+        }
+      } catch (error) {
+        console.error(
+          `Error fetching category ranks for region ${region.id}:`,
+          error,
+        );
+      }
+    }
+
+    await this.cacheManager.set(cacheKey, regionsWithDetails, 300);
+    return regionsWithDetails;
+  }
 }

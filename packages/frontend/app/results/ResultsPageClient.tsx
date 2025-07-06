@@ -3,12 +3,12 @@
 import { useRegion } from '@/api/hooks/useRegion';
 import ResultLayout from '@/components/layout/ResultLayout';
 import {
-    useDistrict,
-    useIsLoggedIn,
-    useSetSelectedDistrict,
-    useSetSelectedProvince,
-    useSetSelectedRegion,
-    useUser,
+  useDistrict,
+  useIsLoggedIn,
+  useSetSelectedDistrict,
+  useSetSelectedProvince,
+  useSetSelectedRegion,
+  useUser,
 } from '@/store';
 import { RegionWithDetails as StoreRegionWithDetails } from '@/store/types/district';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -20,6 +20,7 @@ import CompetencyDistSection from '@/features/results/sections/CompetencyDistSec
 import DistrictSearchSection from '@/features/results/sections/DistrictSearchSection';
 import DistrictSelectSection from '@/features/results/sections/DistrictSelectSection';
 import PreRegistrationSection from '@/features/results/sections/PreRegistrationSection';
+import SimilarRegionSection from '@/features/results/sections/SimilarRegionSection';
 import StrengthWeaknessIndexSection from '@/features/results/sections/StrenthWeaknessIndexSection';
 import SummarySection from '@/features/results/sections/SummarySection';
 import TitleSection from '@/features/results/sections/TitleSection';
@@ -303,6 +304,7 @@ function ResultsPageContent() {
                 >
                   <PreRegistrationSection />
                 </div>
+                <SimilarRegionSection />
               </>
             ) : (
               // 비로그인 사용자: StrengthWeaknessIndexSection만 부분 표시 (fadeout 효과)
