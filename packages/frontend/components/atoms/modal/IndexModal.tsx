@@ -158,6 +158,17 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
             >
               {data.fullRegionName} {data.indexRank}위
             </div>
+            {data.indexScore !== undefined && data.indexScore > 0 && (
+              <div
+                style={{
+                  fontSize: '14px',
+                  fontWeight: '400',
+                  color: '#474E59',
+                }}
+              >
+                점수: {data.indexScore.toFixed(2)}점
+              </div>
+            )}
             {yearlyAvgScore !== undefined && (
               <div
                 style={{

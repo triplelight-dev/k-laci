@@ -29,6 +29,8 @@ export const useKeyIndexData = () => {
     }
   }, []);
 
+  console.log('*keyIndexData', keyIndexData);
+
   return {
     keyIndexData,
     loading,
