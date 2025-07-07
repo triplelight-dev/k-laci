@@ -52,7 +52,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
             },
           };
           setSelectedRegion(storeDetails, 'system');
-          setSelectedProvince(storeDetails.province_id);
+          setSelectedProvince(selectedDistrict.province_id);
         } catch (error) {
           console.error('Failed to fetch region details:', error);
           setSelectedRegion(null);
