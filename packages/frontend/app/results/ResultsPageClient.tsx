@@ -313,7 +313,7 @@ function ResultsPageContent() {
                   style={{
                     position: 'relative',
                     overflow: 'hidden',
-                    maxHeight: '180px',
+                    maxHeight: '250px',
                   }}
                 >
                   <div
@@ -324,7 +324,7 @@ function ResultsPageContent() {
                       right: 0,
                       bottom: 0,
                       background:
-                        'linear-gradient(to bottom, rgba(244, 244, 244, 0) 0%, rgba(244, 244, 244, 0) 30%, rgba(244, 244, 244, 0.3) 60%, rgba(244, 244, 244, 0.6) 100%)',
+                        'linear-gradient(to bottom, rgba(244, 244, 244, 0) 0%, rgba(244, 244, 244, 0) 20%, rgba(244, 244, 244, 0.3) 50%, rgba(244, 244, 244, 0.6) 100%)',
                       zIndex: 1,
                       pointerEvents: 'none',
                     }}
@@ -334,7 +334,7 @@ function ResultsPageContent() {
                   </div>
                 </div>
                 {/* LoginSuggestionSection과의 간격 */}
-                <div style={{ height: '50px' }} />
+                {/* <div style={{ height: '50px' }} /> */}
               </>
             )}
           </div>
