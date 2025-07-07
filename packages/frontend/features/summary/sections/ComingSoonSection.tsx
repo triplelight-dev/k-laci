@@ -19,15 +19,9 @@ const ComingSoonSection: React.FC = () => {
 
   return (
     <section
+      className="animate-fade-in flex h-screen w-full flex-col items-center bg-gradient-to-br from-blue-50 to-indigo-100"
       style={{
-        width: '100%',
-        minHeight: '600px',
-        backgroundColor: DARK_MODE_COLORS.background,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '0px 20px',
+        background: DARK_MODE_COLORS.background,
       }}
     >
       <div
