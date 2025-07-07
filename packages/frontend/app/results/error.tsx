@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function ResultsError({
-  error,
   reset,
 }: {
   error: Error & { digest?: string };

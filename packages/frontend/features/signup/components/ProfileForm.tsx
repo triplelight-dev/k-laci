@@ -35,10 +35,10 @@ export default function ProfileForm({
   setFormData,
   isProfileLoading,
   onSubmit,
-  onReportReservationLink,
-  onTermsLink,
-  onPrivacyLink,
-  onMarketingLink,
+  // onReportReservationLink,
+  // onTermsLink,
+  // onPrivacyLink,
+  // onMarketingLink,
 }: ProfileFormProps) {
   const [errors, setErrors] = useState({
     name: '',
