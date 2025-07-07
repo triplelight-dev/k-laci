@@ -98,7 +98,7 @@ export class DataService {
       .select(
         `
         *,
-        province:provinces(id, name),
+        province:provinces(id, name, full_name, name_eng),
         klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
         `,
       )

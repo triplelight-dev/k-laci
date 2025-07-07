@@ -4,7 +4,12 @@ import { DataService } from '@/api/services/data.service';
 import RankArrowButton from '@/components/atoms/buttons/RankArrowButton';
 import JewelRadarChart from '@/components/atoms/charts/RadarChart';
 import KlaciCodeCircles from '@/components/atoms/circle/KlaciCodeCircles';
-import { useDistrict, useSetSelectedDistrict, useSetSelectedProvince, useSetSelectedRegion } from '@/store';
+import {
+  useDistrict,
+  useSetSelectedDistrict,
+  useSetSelectedProvince,
+  useSetSelectedRegion,
+} from '@/store';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 // 지자체 데이터 타입 정의
@@ -144,11 +149,12 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
 
   // 안전한 지역명 생성 함수
   const getDistrictName = (): string => {
-    if (currentRegion?.province.name && currentRegion?.name) {
+    console.log('currentRegion: ', currentRegion);
+    if (currentRegion?.province && currentRegion?.name) {
       return `${currentRegion.province.name} ${currentRegion.name}`;
     }
     // currentRegion이 없거나 유효하지 않은 경우 기본값 반환
-    return '전라북도 전주시';
+    return '';
   };
 
   // 기본값 설정
@@ -163,6 +169,12 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
   const klaciNickname = currentRegion?.klaci?.nickname || '안전복지형';
   const klaciType = currentRegion?.klaci?.type || '';
   const klaciSummaryArray = currentRegion?.klaci?.summary || [];
+
+  const handleProvinceChange = (value: string) => {
+    const provinceId = value ? Number(value) : null;
+    setSelectedProvince(provinceId);
+    setSelectedDistrict(null); // province 변경 시 지자체 선택 해제
+  };
 
   return (
     <div

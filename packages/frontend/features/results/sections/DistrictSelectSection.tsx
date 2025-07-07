@@ -79,6 +79,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
   const handleProvinceChange = (value: string) => {
     const provinceId = value ? Number(value) : null;
     setSelectedProvince(provinceId);
+    setSelectedDistrict(null);
   };
 
   const handleDistrictChange = (value: string) => {
@@ -195,7 +196,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
           options={districtOptions}
           onChange={handleDistrictChange}
           disabled={!selectedProvince || regionLoading}
-          defaultLabel={regionLoading ? '로딩 중...' : '지자체명'}
+          defaultLabel={regionLoading ? '로딩 중...' : '선택'}
         />
       </div>
     </div>

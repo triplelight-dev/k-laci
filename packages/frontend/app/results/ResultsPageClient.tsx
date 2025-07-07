@@ -53,6 +53,8 @@ const transformApiRegionToStoreRegion = (
     province: {
       id: parseInt(apiRegion.province.id),
       name: apiRegion.province.name,
+      full_name: apiRegion.province.full_name,
+      name_eng: apiRegion.province.name_eng,
     },
     klaci: apiRegion.klaci,
     category_ranks: apiRegion.category_ranks,

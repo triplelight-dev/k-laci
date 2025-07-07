@@ -3,6 +3,8 @@ import { ApiProperty } from '@nestjs/swagger';
 export interface Province {
   id: number;
   name: string;
+  full_name?: string;
+  name_eng?: string;
 }
 
 export interface KlaciCode {
@@ -126,6 +128,10 @@ export class ProvinceResponseDto {
   id: number;
   @ApiProperty()
   name: string;
+  @ApiProperty({ required: false })
+  full_name?: string;
+  @ApiProperty({ required: false })
+  name_eng?: string;
 }
 
 export class KeyIndexResponseDto {
