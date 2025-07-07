@@ -8,6 +8,7 @@ export interface RegionKeyIndexRank {
   key_index_id: number;
   rank: number;
   year: number;
+  score: number;
   key_index: {
     id: number;
     code: string;
