@@ -286,4 +286,48 @@ export class DataController {
 
     return this.dataService.getRegionKeyIndexScore(regionIdNum, keyIndexIdNum);
   }
+
+  @Public()
+  @Get('regions/:id/strength-indexes')
+  @ApiOperation({
+    summary: 'Get strength and weakness indexes for a specific region',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns strength and weakness indexes for the region',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Region not found',
+  })
+  async getRegionStrengthIndexes(@Param('id') id: string) {
+    const regionId = Number(id);
+    if (isNaN(regionId)) {
+      throw new Error('Invalid region ID');
+    }
+    return this.dataService.getRegionStrengthIndexes(regionId);
+  }
+
+  @Public()
+  @Get('regions/:id/strength-indexes-with-details')
+  @ApiOperation({
+    summary:
+      'Get strength and weakness indexes with key index details for a specific region',
+  })
+  @ApiResponse({
+    status: 200,
+    description:
+      'Returns strength and weakness indexes with complete key index details for the region',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Region not found',
+  })
+  async getRegionStrengthIndexesWithDetails(@Param('id') id: string) {
+    const regionId = Number(id);
+    if (isNaN(regionId)) {
+      throw new Error('Invalid region ID');
+    }
+    return this.dataService.getRegionStrengthIndexesWithDetails(regionId);
+  }
 }

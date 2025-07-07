@@ -19,7 +19,7 @@ const ViewResultSuggestionSection: React.FC = () => {
   };
 
   const handleMainResultsClick = () => {
-    router.push(ROUTES.RESULT);
+    router.push(ROUTES.SUMMARY);
   };
 
   return (
@@ -53,7 +53,7 @@ const ViewResultSuggestionSection: React.FC = () => {
         >
           <div
             style={{
-              fontSize: '36px',
+              fontSize: '32px',
               fontWeight: '600',
               color: 'white',
               lineHeight: '1.3',

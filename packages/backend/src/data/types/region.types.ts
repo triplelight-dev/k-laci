@@ -346,3 +346,87 @@ export class RegionKeyIndexScoreResponseDto {
   @ApiProperty({ type: KeyIndexWithDetailsDto })
   key_index: KeyIndexWithDetailsDto;
 }
+
+// Region Strength Index 타입 추가 (파일 끝에 추가)
+export interface RegionStrengthIndex {
+  id: number;
+  region_id: number;
+  type: 'strength' | 'weakness';
+  rank: number;
+  code: string;
+}
+
+export interface RegionStrengthIndexesResponse {
+  strengths: RegionStrengthIndex[];
+  weaknesses: RegionStrengthIndex[];
+}
+
+// DTO 추가 (파일 끝에 추가)
+export class RegionStrengthIndexResponseDto {
+  @ApiProperty()
+  id: number;
+
+  @ApiProperty()
+  region_id: number;
+
+  @ApiProperty({ enum: ['strength', 'weakness'] })
+  type: 'strength' | 'weakness';
+
+  @ApiProperty()
+  rank: number;
+
+  @ApiProperty()
+  code: string;
+}
+
+export class RegionStrengthIndexesResponseDto {
+  @ApiProperty({ type: [RegionStrengthIndexResponseDto] })
+  strengths: RegionStrengthIndexResponseDto[];
+
+  @ApiProperty({ type: [RegionStrengthIndexResponseDto] })
+  weaknesses: RegionStrengthIndexResponseDto[];
+}
+
+// Region Strength Index with Key Index Details 타입 추가 (파일 끝에 추가)
+export interface RegionStrengthIndexWithDetails {
+  id: number;
+  region_id: number;
+  type: 'strength' | 'weakness';
+  rank: number;
+  code: string;
+  key_index: KeyIndexData; // key_indexes 테이블의 모든 속성 포함
+}
+
+export interface RegionStrengthIndexesWithDetailsResponse {
+  strengths: RegionStrengthIndexWithDetails[];
+  weaknesses: RegionStrengthIndexWithDetails[];
+}
+
+// DTO 추가 (파일 끝에 추가)
+export class RegionStrengthIndexWithDetailsResponseDto {
+  @ApiProperty()
+  id: number;
+  
+  @ApiProperty()
+  region_id: number;
+  
+  @ApiProperty({ enum: ['strength', 'weakness'] })
+  type: 'strength' | 'weakness';
+  
+  @ApiProperty()
+  rank: number;
+  
+  @ApiProperty()
+  code: string;
+  
+  @ApiProperty({ type: KeyIndexDataResponseDto })
+  key_index: KeyIndexDataResponseDto;
+}
+
+export class RegionStrengthIndexesWithDetailsResponseDto {
+  @ApiProperty({ type: [RegionStrengthIndexWithDetailsResponseDto] })
+  strengths: RegionStrengthIndexWithDetailsResponseDto[];
+  
+  @ApiProperty({ type: [RegionStrengthIndexWithDetailsResponseDto] })
+  weaknesses: RegionStrengthIndexWithDetailsResponseDto[];
+}
