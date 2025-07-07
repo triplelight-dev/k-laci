@@ -36,6 +36,8 @@ const IndexModal: React.FC<IndexModalProps> = ({
 
   if (!isOpen) return null;
 
+  console.log('apidata', apiData);
+
   const displayData = apiData || {
     region_key_index_score: {
       score: data.indexScore,
@@ -44,7 +46,7 @@ const IndexModal: React.FC<IndexModalProps> = ({
   };
 
   const topPercentage = ((data.indexRank / NUM_OF_REGIONS) * 100).toFixed(1);
-  const source = data.source || '통계청';
+  const source = data.source || '';
   const year = data.year || new Date().getFullYear();
   const yearlyAvgScore = data.yearlyAvgScore;
 
@@ -141,7 +143,9 @@ const IndexModal: React.FC<IndexModalProps> = ({
               fontWeight: '400',
               color: '#000000',
               paddingTop: '16px',
+              paddingBottom: '16px',
               borderTop: '1px solid #D9D9E8',
+              borderBottom: '1px solid #D9D9E8',
             }}
           >
             {source}
@@ -150,13 +154,10 @@ const IndexModal: React.FC<IndexModalProps> = ({
           <div
             style={{
               fontSize: '14px',
-              fontWeight: '400',
               color: '#000000',
-              paddingTop: '16px',
-              borderTop: '1px solid #D9D9E8',
             }}
           >
-            참고용 로데이터 ({year})
+            세부지표 점수
           </div>
 
           <div
@@ -167,28 +168,19 @@ const IndexModal: React.FC<IndexModalProps> = ({
               gap: '8px',
             }}
           >
-            <div
-              style={{
-                fontSize: '14px',
-                fontWeight: '400',
-                color: '#474E59',
-              }}
-            >
-              {data.fullRegionName} {data.indexRank}위
-            </div>
             {displayData.region_key_index_score.score !== undefined &&
               displayData.region_key_index_score.score > 0 && (
                 <div
                   style={{
                     fontSize: '14px',
-                    fontWeight: '400',
+                    fontWeight: '600',
                     color: '#474E59',
                   }}
                 >
-                  점수: {displayData.region_key_index_score.score.toFixed(2)}점
+                  {displayData.region_key_index_score.score.toFixed(1)}점
                 </div>
               )}
-            {yearlyAvgScore !== undefined && (
+            {/* {yearlyAvgScore !== undefined && (
               <div
                 style={{
                   fontSize: '14px',
@@ -198,7 +190,7 @@ const IndexModal: React.FC<IndexModalProps> = ({
               >
                 전국 평균 {yearlyAvgScore.toFixed(2)}점
               </div>
-            )}
+            )} */}
           </div>
 
           {/* 로딩 상태 표시 */}
