@@ -1,5 +1,6 @@
 'use client';
 
+import { ROUTES } from '@/constants/data';
 import { useRouter } from 'next/navigation';
 
 interface LoginSuggestionSectionProps {
@@ -17,7 +18,11 @@ const LoginSuggestionSection = ({
   const router = useRouter();
 
   const handleLoginClick = () => {
-    router.push('/auth/login');
+    router.push(ROUTES.LOGIN);
+  };
+
+  const handleSignupClick = () => {
+    router.push(ROUTES.SIGNUP);
   };
 
   return (
@@ -78,30 +83,68 @@ const LoginSuggestionSection = ({
           ))}
         </div>
 
-        {/* 로그인 바로가기 버튼 */}
-        <button
-          onClick={handleLoginClick}
+        {/* 하단 두 개 버튼 */}
+        <div
           style={{
-            backgroundColor: '#ffffff',
-            color: '#000000',
-            border: 'none',
-            borderRadius: '8px',
-            padding: '16px 32px',
-            fontSize: '18px',
-            fontWeight: 'bold',
-            cursor: 'pointer',
-            transition: 'all 0.2s ease',
-            minWidth: '200px',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#f0f0f0';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = '#ffffff';
+            display: 'flex',
+            gap: '16px',
           }}
         >
-          로그인하고 더 알아보기
-        </button>
+          {/* 왼쪽 버튼: 흰색 배경 */}
+          <button
+            onClick={handleLoginClick}
+            style={{
+              backgroundColor: 'white',
+              color: 'black',
+              border: 'none',
+              borderRadius: '8px',
+              padding: '14px 24px',
+              fontSize: '14px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              justifyContent: 'center',
+              minWidth: '180px',
+            }}
+          >
+            로그인
+          </button>
+
+          {/* 오른쪽 버튼: 투명 배경 흰색 보더 */}
+          <button
+            onClick={handleSignupClick}
+            style={{
+              backgroundColor: 'transparent',
+              color: 'white',
+              border: '1px solid white',
+              borderRadius: '8px',
+              padding: '14px 24px',
+              fontSize: '14px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              justifyContent: 'center',
+              minWidth: '180px',
+            }}
+          >
+             회원가입 바로가기
+            <img
+              src="/arrow_button_icon_white.png"
+              alt="화살표 아이콘"
+              style={{
+                width: '10px',
+                height: '10px',
+                display: 'block',
+              }}
+            />
+          </button>
+        </div>
       </section>
     </div>
   );

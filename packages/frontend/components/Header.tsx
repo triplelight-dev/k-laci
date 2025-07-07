@@ -187,19 +187,19 @@ const Header = () => {
               </>
             ) : (
               <>
-                {/* Login Button */}
+                {/* Login Button - 흰색 배경 */}
                 <HeaderAuthButton
                   variant="login"
-                  href="/auth/login"
+                  href={ROUTES.LOGIN}
                   theme={isBlackTheme ? 'dark' : 'light'}
                 >
                   로그인
                 </HeaderAuthButton>
 
-                {/* Signup Button */}
+                {/* Signup Button - 투명 배경 흰 보더 + 우측 대각선 아이콘 */}
                 <HeaderAuthButton
                   variant="signup"
-                  href="/auth/signup"
+                  href={ROUTES.SIGNUP}
                   theme={isBlackTheme ? 'dark' : 'light'}
                 >
                   회원가입
