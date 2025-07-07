@@ -15,7 +15,7 @@ const Header = () => {
   const logout = useLogout();
 
   // 테마 분기를 위한 변수 관리
-  const isBlackTheme = pathname === '/' || pathname === '/about';
+  const isBlackTheme = pathname === '/' || pathname === '/about' || pathname === '/summary';
 
   // 테마별 설정
   const theme = {
@@ -39,10 +39,10 @@ const Header = () => {
       href: ROUTES.ABOUT,
       label: '소개',
     },
-    // {
-    //   href: ROUTES.SUMMARY,
-    //   label: '주요 결과',
-    // },
+    {
+      href: ROUTES.SUMMARY,
+      label: '주요 결과',
+    },
     {
       href: ROUTES.RESULT,
       label: '지자체 조회',
