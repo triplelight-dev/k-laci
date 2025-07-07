@@ -5,6 +5,7 @@ import {
   Get,
   Logger,
   Param,
+  Post,
   Put,
   UseGuards,
 } from '@nestjs/common';
@@ -85,6 +86,20 @@ export class UserController {
     @Body() updateDto: UpdateUserProfileDto,
   ): Promise<UserProfileResponse> {
     return this.userService.updateUserProfile(userId, updateDto);
+  }
+
+  @Post('report-agreement/:userId')
+  @ApiOperation({ summary: 'Agree to report reservation' })
+  @ApiParam({ name: 'userId', description: 'User ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Report agreement updated successfully',
+    type: UserProfileResponse,
+  })
+  async agreeToReportReservation(
+    @Param('userId') userId: string,
+  ): Promise<UserProfileResponse> {
+    return await this.userService.agreeToReportReservation(userId);
   }
 
   @Delete('profile')

@@ -50,4 +50,9 @@ export class UserService {
     });
     return response.data;
   }
+
+  static async agreeToReportReservation(userId: string): Promise<ApiResponse<UserProfileResponse>> {
+    const response = await apiClient.post(`/users/report-agreement/${userId}`);
+    return response.data;
+  }
 } 

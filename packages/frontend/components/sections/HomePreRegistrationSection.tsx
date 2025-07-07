@@ -186,12 +186,14 @@ const HomePreRegistrationSection = () => {
       </section>
 
       {/* 사전예약 모달 */}
-      <PreRegistrationModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        agree_to_report_reservation={agree_to_report_reservation}
-        userId={userId || undefined}
-      />
+      {userId && (
+        <PreRegistrationModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          agree_to_report_reservation={agree_to_report_reservation}
+          userId={userId}
+        />
+      )}
 
       {/* 로그인 안내 모달 */}
       <LoginGuideModal

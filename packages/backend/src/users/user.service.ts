@@ -56,6 +56,28 @@ export class UserService {
   }
 
   /**
+   * Agree to report reservation (simple utility method)
+   */
+  async agreeToReportReservation(userId: string): Promise<UserProfileResponse> {
+    const { data, error } = await this.supabaseService
+      .getClient()
+      .from('user_profiles')
+      .update({
+        agree_to_report_reservation: true,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', userId)
+      .select()
+      .single();
+
+    if (error || !data) {
+      throw new NotFoundException('User profile not found');
+    }
+
+    return this.transformUserProfile(data);
+  }
+
+  /**
    * Delete user account and profile
    */
   async deleteUser(userId: string): Promise<void> {
