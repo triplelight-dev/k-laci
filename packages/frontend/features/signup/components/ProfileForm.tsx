@@ -5,11 +5,11 @@ import CommonSelect from '@/components/atoms/select/CommonSelect';
 import { useProvincesWithRegions } from '@/hooks/useProvincesWithRegions';
 import { UserType } from '@/utils/userTypeUtils';
 import {
-    validateConfirmPassword,
-    validateName,
-    validateOrganization,
-    validatePassword,
-    validatePhoneNumber,
+  validateConfirmPassword,
+  validateName,
+  validateOrganization,
+  validatePassword,
+  validatePhoneNumber,
 } from '@/utils/validation';
 import { useState } from 'react';
 import { SignupFormData } from '../hooks/useSignupFlow';
@@ -46,7 +46,7 @@ export default function ProfileForm({
     organization: '',
     phoneNumber: '',
   });
-  
+
   const [touched, setTouched] = useState({
     name: false,
     password: false,
@@ -164,7 +164,9 @@ export default function ProfileForm({
           setFormData({ ...formData, confirmPassword: e.target.value })
         }
         passwordError={touched.password ? errors.password : ''}
-        confirmPasswordError={touched.confirmPassword ? errors.confirmPassword : ''}
+        confirmPasswordError={
+          touched.confirmPassword ? errors.confirmPassword : ''
+        }
         onPasswordBlur={handlePasswordBlur}
         onConfirmPasswordBlur={handleConfirmPasswordBlur}
       />
@@ -230,7 +232,7 @@ export default function ProfileForm({
             선택 사항
           </span>
         </div>
-        
+
         {/* 관심지역 선택 컨테이너 */}
         <div
           style={{
@@ -248,7 +250,7 @@ export default function ProfileForm({
               defaultLabel="광역명"
             />
           </div>
-          
+
           {/* 지자체 선택 */}
           <div style={{ flex: 1 }}>
             <CommonSelect
@@ -259,6 +261,72 @@ export default function ProfileForm({
               defaultLabel="지자체명"
             />
           </div>
+        </div>
+      </div>
+
+      {/* KLACI 인사이트 리포트 사전예약 신청 */}
+      <div style={{ width: '100%' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '8px',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
+            <input
+              type="checkbox"
+              id="agreeToReportReservation"
+              checked={formData.agreeToReportReservation}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  agreeToReportReservation: e.target.checked,
+                })
+              }
+              style={{
+                width: '16px',
+                height: '16px',
+                accentColor: '#000000',
+              }}
+            />
+            <label
+              htmlFor="agreeToReportReservation"
+              style={{
+                fontSize: '14px',
+                fontWeight: '700',
+                color: '#000000',
+                cursor: 'pointer',
+              }}
+            >
+              KLACI 인사이트 리포트 사전예약 신청
+            </label>
+          </div>
+          <span
+            style={{
+              fontSize: '12px',
+              color: '#9A9EA3',
+              fontWeight: '500',
+            }}
+          >
+            선택 사항
+          </span>
+        </div>
+        <div
+          style={{
+            fontSize: '12px',
+            color: '#6B7280',
+            marginLeft: '24px',
+          }}
+        >
+          사전예약자에 한해 특별 할인코드를 메일로 보내드립니다
         </div>
       </div>
 
@@ -300,7 +368,7 @@ export default function ProfileForm({
                 cursor: 'pointer',
               }}
             >
-              만 14세 이상입니다 (필수)
+              만 14세 이상입니다
             </label>
           </div>
 
@@ -342,7 +410,6 @@ export default function ProfileForm({
               >
                 서비스 이용약관
               </span>
-              에 동의합니다 (필수)
             </label>
           </div>
 
@@ -382,9 +449,8 @@ export default function ProfileForm({
                   cursor: 'pointer',
                 }}
               >
-                개인정보 처리방침
+                개인정보 수집 및 이용
               </span>
-              에 동의합니다 (필수)
             </label>
           </div>
 
@@ -424,54 +490,8 @@ export default function ProfileForm({
                   cursor: 'pointer',
                 }}
               >
-                마케팅 정보 수신
+                세미나 및 이벤트 마케팅 정보 수신(선택)
               </span>
-              에 동의합니다 (선택)
-            </label>
-          </div>
-
-          {/* 리포트 예약 동의 */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-            }}
-          >
-            <input
-              type="checkbox"
-              id="agreeToReportReservation"
-              checked={formData.agreeToReportReservation}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  agreeToReportReservation: e.target.checked,
-                })
-              }
-              style={{
-                width: '16px',
-                height: '16px',
-                accentColor: '#000000',
-              }}
-            />
-            <label
-              htmlFor="agreeToReportReservation"
-              style={{
-                fontSize: '14px',
-                color: '#374151',
-                cursor: 'pointer',
-              }}
-            >
-              <span
-                onClick={onReportReservationLink}
-                style={{
-                  textDecoration: 'underline',
-                  cursor: 'pointer',
-                }}
-              >
-                리포트 예약 서비스
-              </span>
-              에 동의합니다 (선택)
             </label>
           </div>
         </div>
