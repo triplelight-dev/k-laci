@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { LogsService } from '../logs/logs.service';
-import { SupabaseModule } from '../supabase/supabase.module';
+import { LogsService } from 'src/logs/logs.service';
+import { SupabaseModule } from 'src/supabase/supabase.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { EmailService } from './email.service';

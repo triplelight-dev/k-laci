@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { LogsService } from '../logs/logs.service';
+import { LogsService } from 'src/logs/logs.service';
 import {
   CompleteSignupDto,
   CompleteSignupResponseDto,
