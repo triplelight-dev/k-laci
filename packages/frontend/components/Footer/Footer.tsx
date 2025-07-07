@@ -14,7 +14,6 @@ const Footer = () => {
     >
       <div style={{ width: '90%' }}>
         <FooterTopSection />
-        {/* <FooterBottomSection /> */}
       </div>
     </footer>
   );
