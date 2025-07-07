@@ -19,6 +19,8 @@ interface SimilarRegionData {
   klaciType?: string;
   klaciNickname?: string;
   radarData?: number[];
+  display_type?: string;
+  selection_tags?: string[];
   [key: string]: any;
 }
 
@@ -80,6 +82,8 @@ const SimilarRegionSection: React.FC = () => {
             klaciType: region.klaci.type,
             klaciNickname: region.klaci.nickname,
             radarData: generateChartData(region),
+            display_type: region.display_type,
+            selection_tags: region.selection_tags,
           }),
         );
         setSimilarRegions(transformedData);

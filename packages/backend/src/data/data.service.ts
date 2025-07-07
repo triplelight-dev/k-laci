@@ -890,7 +890,7 @@ export class DataService {
       }
     }
 
-    // 4. 같은 체급에서 랜덤 2개 찾기
+    // 4. 같은 체급에서 모든 지역 가져오기 (보충용)
     const { data: sameWeightClassRegions, error: sameWeightClassError } =
       await this.supabase
         .from('regions')
@@ -909,18 +909,6 @@ export class DataService {
       throw sameWeightClassError;
     }
 
-    // 랜덤으로 2개 선택
-    let randomWeightClassRegions: any[] = [];
-    if (sameWeightClassRegions && sameWeightClassRegions.length > 0) {
-      // Fisher-Yates 셔플 알고리즘으로 랜덤 선택
-      const shuffled = [...sameWeightClassRegions];
-      for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-      }
-      randomWeightClassRegions = shuffled.slice(0, 2);
-    }
-
     // 각 조건별로 정확한 개수 유지하면서 중복 제거하고 태그 추가
     const usedRegionIds = new Set<number>();
     const result: RegionWithDetails[] = [];
@@ -933,6 +921,7 @@ export class DataService {
         usedRegionIds.add(region.id);
         const regionWithDetails = region as RegionWithDetails;
         regionWithDetails.selection_tags = ['SAME_CODE'];
+        regionWithDetails.display_type = '유형이 비슷한';
         result.push(regionWithDetails);
       }
     }
@@ -945,50 +934,75 @@ export class DataService {
         usedRegionIds.add(region.id);
         const regionWithDetails = region as RegionWithDetails;
         regionWithDetails.selection_tags = ['ADJACENT_RANK'];
+        regionWithDetails.display_type = '순위가 비슷한';
         result.push(regionWithDetails);
       } else {
         // 이미 추가된 지역이면 태그만 추가
         const existingRegion = result.find((r) => r.id === region.id);
         if (existingRegion && existingRegion.selection_tags) {
           existingRegion.selection_tags.push('ADJACENT_RANK');
+          // display_type은 첫 번째 태그 기준으로 유지
         }
       }
     }
 
     // 3. 강점 TOP3 일치 지역들 추가 (최대 2개)
     const strengthCount = Math.min(sameStrengthRegions?.length || 0, 2);
-    for (let i = 0; i < strengthCount && result.length < 10; i++) {
+    for (let i = 0; i < strengthCount && result.length < 8; i++) {
       const region = sameStrengthRegions[i];
       if (!usedRegionIds.has(region.id)) {
         usedRegionIds.add(region.id);
         const regionWithDetails = region as RegionWithDetails;
         regionWithDetails.selection_tags = ['SHARED_STRENGTH'];
+        regionWithDetails.display_type = '강점이 비슷한';
         result.push(regionWithDetails);
       } else {
         // 이미 추가된 지역이면 태그만 추가
         const existingRegion = result.find((r) => r.id === region.id);
         if (existingRegion && existingRegion.selection_tags) {
           existingRegion.selection_tags.push('SHARED_STRENGTH');
+          // display_type은 첫 번째 태그 기준으로 유지
         }
       }
     }
 
-    // 4. 같은 체급 랜덤 지역들 추가 (최대 2개)
-    const weightClassCount = Math.min(randomWeightClassRegions?.length || 0, 2);
-    for (let i = 0; i < weightClassCount && result.length < 12; i++) {
-      const region = randomWeightClassRegions[i];
-      if (!usedRegionIds.has(region.id)) {
-        usedRegionIds.add(region.id);
+    // 4. 같은 체급에서 보충 (8개가 될 때까지)
+    if (
+      result.length < 8 &&
+      sameWeightClassRegions &&
+      sameWeightClassRegions.length > 0
+    ) {
+      // 사용되지 않은 같은 체급 지역들 필터링
+      const unusedWeightClassRegions = sameWeightClassRegions.filter(
+        (region) => !usedRegionIds.has(region.id),
+      );
+
+      // Fisher-Yates 셔플 알고리즘으로 랜덤 선택
+      const shuffled = [...unusedWeightClassRegions];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+
+      // 8개가 될 때까지 추가
+      for (let i = 0; i < shuffled.length && result.length < 8; i++) {
+        const region = shuffled[i];
         const regionWithDetails = region as RegionWithDetails;
         regionWithDetails.selection_tags = ['SAME_WEIGHT_CLASS'];
+        regionWithDetails.display_type = '체급이 비슷한';
         result.push(regionWithDetails);
-      } else {
-        // 이미 추가된 지역이면 태그만 추가
-        const existingRegion = result.find((r) => r.id === region.id);
-        if (existingRegion && existingRegion.selection_tags) {
-          existingRegion.selection_tags.push('SAME_WEIGHT_CLASS');
-        }
       }
+    }
+
+    // 5. 8개를 넘어가면 랜덤으로 8개 선택
+    if (result.length > 8) {
+      // Fisher-Yates 셔플 알고리즘으로 랜덤 선택
+      const shuffled = [...result];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      result.splice(0, result.length, ...shuffled.slice(0, 8));
     }
 
     // 각 지역에 대해 category_ranks 조회
@@ -999,13 +1013,13 @@ export class DataService {
             .from('region_category_ranks')
             .select(
               `
-            id,
-            region_id,
-            category_id,
-            rank,
-            year,
-            category:categories(id, name)
-          `,
+          id,
+          region_id,
+          category_id,
+          rank,
+          year,
+          category:categories(id, name)
+        `,
             )
             .eq('region_id', region.id)
             .order('rank', { ascending: true });

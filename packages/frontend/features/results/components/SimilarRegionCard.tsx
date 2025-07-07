@@ -15,8 +15,11 @@ interface SimilarRegionData {
   klaciCode?: string; // KLACI 코드 추가
   klaciType?: string; // 지역 타입 추가
   klaciNickname?: string; // 닉네임 추가
+  display_type?: string; // API에서 받은 표시 타입 추가
+  selection_tags?: string[]; // 선택 조건 태그 추가
   [key: string]: any; // 추가 속성들을 위한 인덱스 시그니처
 }
+
 
 interface SimilarRegionCardProps {
   data: SimilarRegionData;
@@ -45,6 +48,35 @@ const generateMockRadarData = (seed: number): number[] => {
   ];
 };
 
+// 뱃지 텍스트를 결정하는 함수
+const getBadgeText = (data: SimilarRegionData): string => {
+  console.log('badge data', data);
+  // API에서 받은 display_type이 있으면 사용
+  if (data.display_type) {
+    return data.display_type;
+  }
+  
+  // selection_tags가 있으면 첫 번째 태그를 기반으로 결정
+  if (data.selection_tags && data.selection_tags.length > 0) {
+    const firstTag = data.selection_tags[0];
+    switch (firstTag) {
+      case 'SAME_CODE':
+        return '유형이 비슷한';
+      case 'ADJACENT_RANK':
+        return '순위가 비슷한';
+      case 'SHARED_STRENGTH':
+        return '강점이 비슷한';
+      case 'SAME_WEIGHT_CLASS':
+        return '체급이 비슷한';
+      default:
+        return '순위가 비슷한'; // 기본값
+    }
+  }
+  
+  // 기본값
+  return '순위가 비슷한';
+};
+
 const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
   data,
   onClick,
@@ -60,6 +92,10 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
     Array.isArray(data.radarData) && data.radarData.length === 8
       ? data.radarData
       : generateMockRadarData(Number(data.id) || data.rank);
+
+
+  // 뱃지 텍스트 결정
+  const badgeText = getBadgeText(data);
 
   return (
     <div
@@ -186,7 +222,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
             {klaciNickname}
           </div>
 
-          {/* '순위가 비슷한' 뱃지 */}
+          {/* 동적 뱃지 - API에서 받은 display_type 사용 */}
           <div
             style={{
               fontSize: '10px',
@@ -198,7 +234,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
               fontWeight: '500',
             }}
           >
-            순위가 비슷한
+            {badgeText}
           </div>
         </div>
       </div>
