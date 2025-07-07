@@ -19,6 +19,8 @@ interface SimilarRegionData {
   klaciType?: string;
   klaciNickname?: string;
   radarData?: number[];
+  display_type?: string;
+  selection_tags?: string[];
   [key: string]: any;
 }
 
@@ -67,7 +69,11 @@ const SimilarRegionSection: React.FC = () => {
     const fetchSimilarRegions = async () => {
       try {
         const regionId = selectedRegion?.id || 1;
+        console.log('Fetching similar regions for regionId:', regionId);
+        
         const regions = await getSameCodeRegionsByRegionId(regionId);
+        console.log('API response:', regions);
+        
         const transformedData: SimilarRegionData[] = regions.map(
           (region: any, index: number) => ({
             id: region.id,
@@ -80,10 +86,15 @@ const SimilarRegionSection: React.FC = () => {
             klaciType: region.klaci.type,
             klaciNickname: region.klaci.nickname,
             radarData: generateChartData(region),
+            display_type: region.display_type,
+            selection_tags: region.selection_tags,
           }),
         );
+        
+        console.log('Transformed data:', transformedData);
         setSimilarRegions(transformedData);
       } catch (err) {
+        console.error('Error fetching similar regions:', err);
         setSimilarRegions([]);
       }
     };
