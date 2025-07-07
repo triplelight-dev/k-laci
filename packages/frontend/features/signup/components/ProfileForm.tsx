@@ -3,15 +3,16 @@ import EmailDisplayBox from '@/components/atoms/EmailDisplayBox';
 import PasswordInputGroup from '@/components/atoms/PasswordInputGroup';
 import CommonSelect from '@/components/atoms/select/CommonSelect';
 import { useProvincesWithRegions } from '@/hooks/useProvincesWithRegions';
+import { UserType } from '@/utils/userTypeUtils';
 import {
-  validateConfirmPassword,
-  validateName,
-  validateOrganization,
-  validatePassword,
-  validatePhoneNumber,
+    validateConfirmPassword,
+    validateName,
+    validateOrganization,
+    validatePassword,
+    validatePhoneNumber,
 } from '@/utils/validation';
 import { useState } from 'react';
-import { SignupFormData, UserType } from '../hooks/useSignupFlow';
+import { SignupFormData } from '../hooks/useSignupFlow';
 
 interface ProfileFormProps {
   email: string;

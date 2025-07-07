@@ -1,8 +1,7 @@
 import { AuthService } from '@/api/services/auth.service';
+import { UserType, getUserTypeFromEmail } from '@/utils/userTypeUtils';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-
-export type UserType = 'GOV' | 'EDU' | 'GENERAL';
 
 export interface SignupFormData {
   name: string;
@@ -96,14 +95,8 @@ export const useSignupFlow = () => {
         // 인증 성공 - 2/2 단계로 전환
         setIsVerified(true);
         // 이메일 도메인에 따른 사용자 타입 설정
-        const domain = email.split('@')[1];
-        if (domain?.includes('korea.kr') || domain?.includes('go.kr')) {
-          setUserType('GOV');
-        } else if (domain?.includes('ac.kr')) {
-          setUserType('EDU');
-        } else {
-          setUserType('GENERAL');
-        }
+        const userTypeFromEmail = getUserTypeFromEmail(email);
+        setUserType(userTypeFromEmail);
       } else {
         setVerificationError('인증번호가 일치하지 않습니다.');
       }

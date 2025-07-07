@@ -1,0 +1,70 @@
+'use client';
+
+import { DARK_MODE_COLORS } from '@/utils/colors';
+import React from 'react';
+
+const AboutIntroSection: React.FC = () => {
+  const theme = DARK_MODE_COLORS;
+
+  return (
+    <div
+      style={{
+        width: '100vw',
+        height: '500px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: theme.background,
+      }}
+    >
+      <div
+        style={{
+          width: '100%',
+          maxWidth: '800px',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          position: 'relative',
+          padding: '20px 0',
+          marginTop: '200px',
+          marginBottom: '100px',
+        }}
+      >
+        {/* 메인 이미지 */}
+        <img
+          src="/about/about_intro.png"
+          alt="About Intro"
+          style={{
+            width: '100%',
+            height: 'auto',
+            maxHeight: '80%',
+            objectFit: 'contain',
+          }}
+        />
+
+        {/* 하단 아이콘 */}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <img
+            src="/klaci_jewel.png"
+            alt="KLACI Jewel"
+            style={{
+              width: '35px',
+              height: '35px',
+              objectFit: 'contain',
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AboutIntroSection;

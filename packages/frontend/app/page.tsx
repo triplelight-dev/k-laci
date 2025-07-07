@@ -1,4 +1,6 @@
 import HomeLayout from '@/components/layout/HomeLayout';
+
+// sections
 import PartnerShipSection from '@/components/sections/PartnerShipSection';
 import StrategySection from '@/components/sections/StrategySection';
 import IntroSection from '@/features/home/sections/IntroSection';
