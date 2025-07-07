@@ -23,7 +23,7 @@ apiClient.interceptors.request.use(
   (config) => {
     // 브라우저 환경에서만 localStorage 접근
     if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('auth-token');
+      const token = localStorage.getItem('access_token');
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -40,7 +40,9 @@ apiClient.interceptors.response.use(
     if (error.response?.status === 401) {
       // 브라우저 환경에서만 localStorage 접근
       if (typeof window !== 'undefined') {
-        localStorage.removeItem('auth-token');
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('user_profile');
         window.location.href = '/';
       }
     }
