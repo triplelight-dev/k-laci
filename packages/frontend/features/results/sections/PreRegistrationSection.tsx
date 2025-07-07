@@ -1,8 +1,13 @@
 'use client';
 
 import React from 'react';
+// import { useState } from 'react'; // 사용하지 않으므로 제거
+// import PreRegistrationModal from '../../../components/ui/PreRegistrationModal'; // 모달 비활성화로 제거
 
 const PreRegistrationSection: React.FC = () => {
+  // const [isModalOpen, setIsModalOpen] = useState(false); // 모달 비활성화로 제거
+  // const [agree_to_report_reservation, setAgreeToReportReservation] = useState(false); // 사용하지 않으므로 제거
+
   const title = '균형발전 전략의 시작, KLACI 인사이트 리포트';
   const descriptions = [
     '지역자산역량지수 프레임워크 해설과 활용법,',
@@ -11,69 +16,93 @@ const PreRegistrationSection: React.FC = () => {
 
   const reservationButtonText = '사전 예약 바로가기';
 
+  const handlePreRegistrationClick = () => {
+    // setIsModalOpen(true); // 모달 비활성화
+  };
+
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '100%',
-        alignItems: 'center',
-        padding: '60px 20px',
-        backgroundColor: 'white',
-        borderRadius: '12px',
-        color: 'black',
-        minHeight: '300px',
-        justifyContent: 'center',
-      }}
-    >
+    <>
       <div
         style={{
-          fontSize: '1.5rem',
-          fontWeight: 'bold',
-          textAlign: 'center',
-          marginBottom: '24px',
-          lineHeight: '1.4',
+          display: 'flex',
+          width: '100%',
+          backgroundColor: 'white',
+          borderRadius: '12px',
+          color: 'black',
+          minHeight: '400px',
+          overflow: 'hidden',
         }}
       >
-        {title}
-      </div>
-
-      {descriptions.map((description, index) => (
+        {/* 가운데 정렬된 내용 */}
         <div
-          key={index}
           style={{
-            fontSize: '1.2rem',
-            textAlign: 'center',
-            lineHeight: 1.5,
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            alignItems: 'center',
+            padding: '60px 40px',
+            justifyContent: 'center',
           }}
         >
-          {description}
-        </div>
-      ))}
+          <div
+            style={{
+              fontSize: '1.5rem',
+              fontWeight: 'bold',
+              textAlign: 'center',
+              marginBottom: '24px',
+              lineHeight: '1.4',
+            }}
+          >
+            {title}
+          </div>
 
-      <button
-        style={{
-          border: 'none',
-          padding: '16px 32px',
-          fontSize: '16px',
-          fontWeight: 'bold',
-          borderRadius: '8px',
-          cursor: 'pointer',
-          minWidth: '220px',
-          background: 'black',
-          color: 'white',
-          marginTop: '50px',
-        }}
-        // onMouseEnter={(e) => {
-        //   e.currentTarget.style.backgroundColor = '#f0f0f0';
-        // }}
-        // onMouseLeave={(e) => {
-        //   e.currentTarget.style.backgroundColor = '#ffffff';
-        // }}
-      >
-        {reservationButtonText}
-      </button>
-    </div>
+          {descriptions.map((description, index) => (
+            <div
+              key={index}
+              style={{
+                fontSize: '1.2rem',
+                textAlign: 'center',
+                lineHeight: 1.5,
+              }}
+            >
+              {description}
+            </div>
+          ))}
+
+          <button
+            onClick={handlePreRegistrationClick}
+            style={{
+              border: 'none',
+              padding: '16px 32px',
+              fontSize: '16px',
+              fontWeight: 'bold',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              minWidth: '220px',
+              background: 'black',
+              color: 'white',
+              marginTop: '50px',
+              transition: 'background-color 0.2s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#333333';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#000000';
+            }}
+          >
+            {reservationButtonText}
+          </button>
+        </div>
+      </div>
+
+      {/* 모달 비활성화 */}
+      {/* <PreRegistrationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        agree_to_report_reservation={agree_to_report_reservation}
+      /> */}
+    </>
   );
 };
 

@@ -257,4 +257,33 @@ export class DataController {
   async getSameCodeRegions(@Param('klaciCode') klaciCode: string) {
     return this.dataService.getSameCodeRegions(klaciCode);
   }
+
+  @Public()
+  @Get('regions/:regionId/key-indexes/:keyIndexId/score')
+  @ApiOperation({ summary: 'Get specific region key index score with details' })
+  @ApiResponse({
+    status: 200,
+    description:
+      'Returns region key index score with average score and key index details',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Region key index score not found',
+  })
+  async getRegionKeyIndexScore(
+    @Param('regionId') regionId: string,
+    @Param('keyIndexId') keyIndexId: string,
+  ) {
+    const regionIdNum = Number(regionId);
+    const keyIndexIdNum = Number(keyIndexId);
+
+    if (isNaN(regionIdNum)) {
+      throw new Error('Invalid region ID');
+    }
+    if (isNaN(keyIndexIdNum)) {
+      throw new Error('Invalid key index ID');
+    }
+
+    return this.dataService.getRegionKeyIndexScore(regionIdNum, keyIndexIdNum);
+  }
 }

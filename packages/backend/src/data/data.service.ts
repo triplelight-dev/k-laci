@@ -4,12 +4,13 @@ import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Cache } from 'cache-manager';
 import {
-  CategoryKeyIndexRank,
-  KeyIndexData,
-  Region,
-  RegionKeyIndexRank,
-  RegionsResponse,
-  RegionWithDetails,
+    CategoryKeyIndexRank,
+    KeyIndexData,
+    Region,
+    RegionKeyIndexRank,
+    RegionKeyIndexScoreResponse,
+    RegionsResponse,
+    RegionWithDetails,
 } from './types/region.types';
 
 export const REGION_SCORE_TYPES = {
@@ -98,7 +99,7 @@ export class DataService {
       .select(
         `
         *,
-        province:provinces(id, name),
+        province:provinces(id, name, full_name, name_eng),
         klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
         `,
       )
@@ -550,7 +551,7 @@ export class DataService {
       .select(
         `
         *,
-        province:provinces(id, name),
+        province:provinces(id, name, full_name, name_eng),
         klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
         `,
       )
@@ -893,5 +894,66 @@ export class DataService {
 
     await this.cacheManager.set(cacheKey, regionsWithDetails, 300);
     return regionsWithDetails;
+  }
+
+  async getRegionKeyIndexScore(
+    regionId: number,
+    keyIndexId: number,
+  ): Promise<RegionKeyIndexScoreResponse> {
+    const cacheKey = `region_key_index_score:${regionId}:${keyIndexId}`;
+    let result =
+      await this.cacheManager.get<RegionKeyIndexScoreResponse>(cacheKey);
+    if (result) {
+      return result;
+    }
+
+    // 1. region_key_index_scores에서 특정 지역의 해당 인덱스 점수 조회
+    const { data: scoreData, error: scoreError } = await this.supabase
+      .from('region_key_index_scores')
+      .select('*')
+      .eq('region_id', regionId)
+      .eq('key_index_id', keyIndexId)
+      .order('year', { ascending: false })
+      .limit(1)
+      .single();
+
+    if (scoreError) {
+      throw scoreError;
+    }
+
+    // 2. region_key_index_scores에서 해당 인덱스의 전체평균 계산
+    const { data: avgData, error: avgError } = await this.supabase
+      .from('region_key_index_scores')
+      .select('score')
+      .eq('key_index_id', keyIndexId);
+
+    if (avgError) {
+      throw avgError;
+    }
+
+    const avgScore =
+      avgData.length > 0
+        ? avgData.reduce((sum, item) => sum + item.score, 0) / avgData.length
+        : 0;
+
+    // 3. key_indexes에서 인덱스 정보 조회
+    const { data: keyIndexData, error: keyIndexError } = await this.supabase
+      .from('key_indexes')
+      .select('*')
+      .eq('id', keyIndexId)
+      .single();
+
+    if (keyIndexError) {
+      throw keyIndexError;
+    }
+
+    result = {
+      region_key_index_score: scoreData,
+      avg_score: avgScore,
+      key_index: keyIndexData,
+    };
+
+    await this.cacheManager.set(cacheKey, result, 300);
+    return result;
   }
 }

@@ -13,9 +13,6 @@ export const useAuth = () => {
 
   const sendVerificationCode = useMutation({
     mutationFn: AuthService.sendVerificationCode,
-    onSuccess: (data) => {
-      console.log('인증번호 발송 성공:', data);
-    },
     onError: (error) => {
       console.error('인증번호 발송 실패:', error);
     },
@@ -24,7 +21,6 @@ export const useAuth = () => {
   const verifyCode = useMutation({
     mutationFn: AuthService.verifyCode,
     onSuccess: (data) => {
-      console.log('인증번호 검증 성공:', data);
       if (data.data.verified) {
         queryClient.invalidateQueries({ queryKey: ['auth'] });
       }
@@ -36,8 +32,7 @@ export const useAuth = () => {
 
   const signIn = useMutation({
     mutationFn: AuthService.signIn,
-    onSuccess: (data) => {
-      console.log('로그인 성공:', data);
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['auth'] });
     },
     onError: (error) => {
@@ -47,8 +42,7 @@ export const useAuth = () => {
 
   const signUp = useMutation({
     mutationFn: AuthService.signUp,
-    onSuccess: (data) => {
-      console.log('회원가입 성공:', data);
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['auth'] });
     },
     onError: (error) => {

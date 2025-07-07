@@ -1,5 +1,6 @@
 'use client';
 
+import { EXTERNAL_LINKS } from '@/constants/links';
 import { useSignupFlow } from '@/features/signup/hooks/useSignupFlow';
 import CodeVerificationSection from '@/features/signup/sections/CodeVerificationSection';
 import EmailVerificationSection from '@/features/signup/sections/EmailVerificationSection';
@@ -10,8 +11,12 @@ import { Suspense, useEffect } from 'react';
 function SignUpPageContent() {
   const searchParams = useSearchParams();
   const isDevMode = searchParams.get('dev') === 'true';
-  const devUserType = searchParams.get('userType') as 'GOV' | 'EDU' | 'GENERAL' | null;
-  
+  const devUserType = searchParams.get('userType') as
+    | 'GOV'
+    | 'EDU'
+    | 'GENERAL'
+    | null;
+
   const {
     // State
     email,
@@ -30,7 +35,7 @@ function SignUpPageContent() {
     userType,
     formData,
     setFormData,
-    
+
     // Handlers
     handleEmailSubmit,
     handleCodeSubmit,
@@ -45,7 +50,7 @@ function SignUpPageContent() {
     if (isDevMode) {
       // 개발 모드일 때 기본값 설정
       setEmail('test@example.com');
-      
+
       // 특정 유저타입 테스트를 위한 설정
       if (devUserType) {
         // useSignupFlow에서 userType을 직접 설정할 수 있도록 수정 필요
@@ -53,21 +58,21 @@ function SignUpPageContent() {
     }
   }, [isDevMode, setEmail, devUserType]);
 
-  // 링크 핸들러들
+  // 링크 핸들러들 - constants의 링크 사용
   const handleReportReservationLink = () => {
-    window.open('https://dev.klaci.kr', '_blank');
+    window.open(EXTERNAL_LINKS.REPORT_RESERVATION, '_blank');
   };
 
   const handleTermsLink = () => {
-    window.open('https://dev.klaci.kr', '_blank');
+    window.open(EXTERNAL_LINKS.TERMS_OF_SERVICE, '_blank');
   };
 
   const handlePrivacyLink = () => {
-    window.open('https://dev.klaci.kr', '_blank');
+    window.open(EXTERNAL_LINKS.PRIVACY_POLICY, '_blank');
   };
 
   const handleMarketingLink = () => {
-    window.open('https://dev.klaci.kr', '_blank');
+    window.open(EXTERNAL_LINKS.MARKETING_CONSENT, '_blank');
   };
 
   // 개발 모드에서는 2/2 단계로 바로 이동
@@ -144,8 +149,12 @@ function SignUpPageLoading() {
       ></div>
       <style jsx>{`
         @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
         }
       `}</style>
     </div>
@@ -158,4 +167,4 @@ export default function SignupPageClient() {
       <SignUpPageContent />
     </Suspense>
   );
-} 
+}

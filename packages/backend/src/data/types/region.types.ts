@@ -3,6 +3,8 @@ import { ApiProperty } from '@nestjs/swagger';
 export interface Province {
   id: number;
   name: string;
+  full_name?: string;
+  name_eng?: string;
 }
 
 export interface KlaciCode {
@@ -110,6 +112,7 @@ export interface RegionKeyIndexRank {
   key_index_id: number;
   rank: number;
   year: number;
+  score?: number; // 점수 필드 추가
   key_index: KeyIndex;
 }
 
@@ -118,6 +121,7 @@ export interface CategoryKeyIndexRank {
   key_index_id: number;
   name: string;
   rank: number;
+  score?: number; // 점수 필드 추가
 }
 
 // DTOs
@@ -126,6 +130,10 @@ export class ProvinceResponseDto {
   id: number;
   @ApiProperty()
   name: string;
+  @ApiProperty({ required: false })
+  full_name?: string;
+  @ApiProperty({ required: false })
+  name_eng?: string;
 }
 
 export class KeyIndexResponseDto {
@@ -152,6 +160,8 @@ export class RegionKeyIndexRankResponseDto {
   rank: number;
   @ApiProperty()
   year: number;
+  @ApiProperty({ required: false })
+  score?: number; // 점수 필드 추가
   @ApiProperty()
   key_index: KeyIndexResponseDto;
 }
@@ -163,6 +173,8 @@ export class CategoryKeyIndexRankResponseDto {
   name: string;
   @ApiProperty()
   rank: number;
+  @ApiProperty({ required: false })
+  score?: number; // 점수 필드 추가
 }
 
 export class KeyIndexRanksResponseDto {
@@ -263,4 +275,74 @@ export class KeyIndexDataResponseDto {
   yearly_avg_score?: number; // 연도별 평균점수 추가
   @ApiProperty({ required: false })
   year?: number; // 연도 정보 추가
+}
+
+// 새로운 타입 추가 (파일 끝에 추가)
+export interface RegionKeyIndexScore {
+  id: number;
+  region_id: number;
+  key_index_id: number;
+  year: number;
+  score: number;
+}
+
+export interface KeyIndexWithDetails {
+  id: number;
+  code: string;
+  name: string;
+  category: string;
+  description: string;
+  source?: string;
+  unit?: string;
+  name_eng?: string;
+}
+
+export interface RegionKeyIndexScoreResponse {
+  region_key_index_score: RegionKeyIndexScore;
+  avg_score: number;
+  key_index: KeyIndexWithDetails;
+}
+
+// 새로운 DTO 추가 (파일 끝에 추가)
+export class RegionKeyIndexScoreDto {
+  @ApiProperty()
+  id: number;
+  @ApiProperty()
+  region_id: number;
+  @ApiProperty()
+  key_index_id: number;
+  @ApiProperty()
+  year: number;
+  @ApiProperty()
+  score: number;
+}
+
+export class KeyIndexWithDetailsDto {
+  @ApiProperty()
+  id: number;
+  @ApiProperty()
+  code: string;
+  @ApiProperty()
+  name: string;
+  @ApiProperty()
+  category: string;
+  @ApiProperty()
+  description: string;
+  @ApiProperty({ required: false })
+  source?: string;
+  @ApiProperty({ required: false })
+  unit?: string;
+  @ApiProperty({ required: false })
+  name_eng?: string;
+}
+
+export class RegionKeyIndexScoreResponseDto {
+  @ApiProperty({ type: RegionKeyIndexScoreDto })
+  region_key_index_score: RegionKeyIndexScoreDto;
+
+  @ApiProperty()
+  avg_score: number;
+
+  @ApiProperty({ type: KeyIndexWithDetailsDto })
+  key_index: KeyIndexWithDetailsDto;
 }

@@ -1,6 +1,8 @@
 export interface Province {
   id: number;
   name: string;
+  name_eng?: string;
+  full_name?: string;
 }
 
 export interface KeyIndex {
@@ -18,6 +20,7 @@ export interface RegionKeyIndexRank {
   key_index_id: number;
   rank: number;
   year: number;
+  score?: number;
   key_index: KeyIndex;
 }
 

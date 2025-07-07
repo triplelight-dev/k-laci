@@ -19,7 +19,7 @@ export interface SignupFormData {
 
 export const useSignupFlow = () => {
   const router = useRouter();
-  
+
   // 1/2 단계 상태
   const [email, setEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
@@ -29,7 +29,7 @@ export const useSignupFlow = () => {
   const [error, setError] = useState('');
   const [verificationError, setVerificationError] = useState('');
   const [countdown, setCountdown] = useState(0);
-  
+
   // 2/2 단계 상태
   const [isVerified, setIsVerified] = useState(false);
   const [isProfileLoading, setIsProfileLoading] = useState(false);
@@ -75,9 +75,20 @@ export const useSignupFlow = () => {
       setIsCodeSent(true);
       startCountdown();
     } catch (err: any) {
-      setError(
-        err.response?.data?.message || '인증번호 발송 중 오류가 발생했습니다.',
-      );
+      const errorMessage =
+        err.response?.data?.message || '인증번호 발송 중 오류가 발생했습니다.';
+
+      // "이미 가입된 이메일입니다" 에러 특별 처리
+      if (errorMessage === '이미 가입된 이메일입니다.') {
+        setError('이미 가입된 계정입니다. 홈으로 곧 이동합니다.');
+
+        // 상태 업데이트가 완료된 후 3초 대기
+        setTimeout(() => {
+          router.push('/');
+        }, 3000);
+      } else {
+        setError(errorMessage);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -90,16 +101,15 @@ export const useSignupFlow = () => {
     setVerificationError('');
 
     try {
-      const response = await AuthService.verifyCode({ email, code: verificationCode });
-      if (response.data.verified) {
-        // 인증 성공 - 2/2 단계로 전환
-        setIsVerified(true);
-        // 이메일 도메인에 따른 사용자 타입 설정
-        const userTypeFromEmail = getUserTypeFromEmail(email);
-        setUserType(userTypeFromEmail);
-      } else {
-        setVerificationError('인증번호가 일치하지 않습니다.');
-      }
+      await AuthService.verifyCode({
+        email,
+        code: verificationCode,
+      });
+      // 인증 성공 - 2/2 단계로 전환
+      setIsVerified(true);
+      // 이메일 도메인에 따른 사용자 타입 설정
+      const userTypeFromEmail = getUserTypeFromEmail(email);
+      setUserType(userTypeFromEmail);
     } catch (err: any) {
       setVerificationError(
         err.response?.data?.message || '인증번호 검증 중 오류가 발생했습니다.',
@@ -119,9 +129,21 @@ export const useSignupFlow = () => {
       await AuthService.sendVerificationCode({ email });
       startCountdown();
     } catch (err: any) {
-      setError(
-        err.response?.data?.message || '인증번호 재발송 중 오류가 발생했습니다.',
-      );
+      const errorMessage =
+        err.response?.data?.message ||
+        '인증번호 재발송 중 오류가 발생했습니다.';
+
+      // "이미 가입된 이메일입니다" 에러 특별 처리
+      if (errorMessage === '이미 가입된 이메일입니다.') {
+        setError('이미 가입된 계정입니다. 홈으로 곧 이동합니다.');
+
+        // 상태 업데이트가 완료된 후 3초 대기
+        setTimeout(() => {
+          router.push('/');
+        }, 3000);
+      } else {
+        setError(errorMessage);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -139,7 +161,9 @@ export const useSignupFlow = () => {
         password: formData.password,
         name: formData.name,
         phone_number: formData.phoneNumber,
-        interest_region_id: formData.regionId ? Number(formData.regionId) : null,
+        interest_region_id: formData.regionId
+          ? Number(formData.regionId)
+          : null,
         organization: formData.organization,
         user_type: userType,
         agree_to_age: formData.agreeToAge,
@@ -149,11 +173,8 @@ export const useSignupFlow = () => {
         agree_to_report_reservation: formData.agreeToReportReservation,
       };
 
-      console.log('Submitting signup data:', signupData);
+      await AuthService.signUp(signupData);
 
-      const response = await AuthService.signUp(signupData);
-
-      console.log('Signup response:', response);
       setShowCompleteModal(true);
     } catch (err: any) {
       console.error('Signup error:', err);
@@ -194,7 +215,7 @@ export const useSignupFlow = () => {
     userType,
     formData,
     setFormData,
-    
+
     // Handlers
     handleEmailSubmit,
     handleCodeSubmit,
@@ -203,4 +224,4 @@ export const useSignupFlow = () => {
     handleStart,
     formatTime,
   };
-}; 
+};
