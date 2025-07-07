@@ -10,7 +10,6 @@ import {
   useSetSelectedDistrict,
   useSetSelectedProvince,
   useSetSelectedRegion,
-  useUser,
 } from '@/store';
 import { RegionWithDetails as StoreRegionWithDetails } from '@/store/types/district';
 import React, { useEffect } from 'react';
@@ -27,7 +26,6 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
   const setSelectedDistrict = useSetSelectedDistrict();
   const setSelectedRegion = useSetSelectedRegion();
   const setRegionLoading = useSetRegionLoading();
-  const user = useUser();
 
   // React Query 사용
   const { data: provincesWithRegions = [], error } = useProvincesWithRegions();
