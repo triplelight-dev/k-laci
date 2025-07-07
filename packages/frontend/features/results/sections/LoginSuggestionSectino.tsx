@@ -7,12 +7,12 @@ interface LoginSuggestionSectionProps {
   descriptions?: string[];
 }
 
-const LoginSuggestionSection = ({ 
-  title = "우리 지역의 숨겨진 역량, 지금 바로 확인해보세요",
+const LoginSuggestionSection = ({
+  title = '우리 지역의 숨겨진 역량, 지금 바로 확인해보세요',
   descriptions = [
-    "지자체가 보유한 역량의 분포와 범주별 순위,",
-    "55가지 세부지표별 데이터를 무료로 확인할 수 있습니다",
-  ]
+    '지자체가 보유한 역량의 분포와 범주별 순위,',
+    '55가지 세부지표별 데이터를 무료로 확인할 수 있습니다',
+  ],
 }: LoginSuggestionSectionProps) => {
   const router = useRouter();
 
@@ -28,7 +28,7 @@ const LoginSuggestionSection = ({
         alignItems: 'center',
         backgroundColor: '#000000',
         color: '#ffffff',
-        padding: '60px 20px',
+        padding: '0px 20px',
         minHeight: '400px',
       }}
     >
