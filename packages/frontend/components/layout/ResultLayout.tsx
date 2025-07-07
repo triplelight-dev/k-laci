@@ -26,7 +26,7 @@ const ResultLayout = ({ children }: { children: React.ReactNode }) => {
       </div>
       {!isLoggedIn && <LoginSuggestionSection />}
 
-      <Footer />
+      {isLoggedIn && <Footer />}
     </div>
   );
 };
