@@ -1,7 +1,7 @@
 import AuthPersistenceProvider from '@/components/AuthPersistenceProvider';
 import MobileDetector from '@/components/MobileDetector';
 import Providers from '@/components/Providers';
-import { getSiteUrl } from '@/config/environment';
+import { getSiteUrl, isProductionDomain } from '@/config/environment';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import Script from 'next/script';
@@ -20,8 +20,7 @@ const geistMono = Geist_Mono({
 // 동적 메타데이터 함수
 export async function generateMetadata(): Promise<Metadata> {
   const siteUrl = getSiteUrl();
-  const isProduction = process.env.NODE_ENV === 'production' && 
-                      (siteUrl.includes('klaci.kr') && !siteUrl.includes('dev.klaci.kr'));
+  const isProduction = isProductionDomain();
 
   // Production 환경이 아닌 경우 기본 메타데이터만 반환
   if (!isProduction) {
@@ -106,9 +105,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const siteUrl = getSiteUrl();
-  const isProduction = process.env.NODE_ENV === 'production' && 
-                      (siteUrl.includes('klaci.kr') && !siteUrl.includes('dev.klaci.kr'));
+  const isProduction = isProductionDomain();
 
   return (
     <html lang="ko" className="w-full">
