@@ -1,14 +1,10 @@
 'use client';
 
 import { EXTERNAL_LINKS } from '@/constants/links';
-import Image from 'next/image';
 
 const FooterTopSection = () => {
-  const LOGO_SRC = '/klaci_logo_white_prod.png';
+  const LOGO_SRC = '/klaci_logo_footer_white.svg';
   const LOGO_ALT = 'K-LACI Logo';
-  const TITLE_KR = '지역자산역량지수';
-  const TITLE_EN_1 = 'Korea Local Asset';
-  const TITLE_EN_2 = 'Competency Index';
 
   // 저작권 텍스트를 배열로 정의
   const COPYRIGHT_TEXT = [
@@ -16,7 +12,7 @@ const FooterTopSection = () => {
     '본 웹사이트에 수록된 자료는 일반 정보 제공용이며 당사는 자료 이용에 따른 어떤 법적 책임도 부담하지 않습니다.',
     '자세한 내용은 ',
     '면책 고지 전문',
-    '을 확인해 주시기 바랍니다.'
+    '을 확인해 주시기 바랍니다.',
   ];
 
   const COMPANY_NAME = '트리플라잇 주식회사';
@@ -51,27 +47,14 @@ const FooterTopSection = () => {
           }}
         >
           <div style={{ marginBottom: '16px' }}>
-            <Image
+            <img
               src={LOGO_SRC}
               alt={LOGO_ALT}
-              width={120}
-              height={45}
               style={{
-                height: '35px',
+                height: '100px',
                 width: 'auto',
               }}
             />
-          </div>
-          <div
-            style={{
-              color: '#D1D5DB',
-              fontSize: '16px',
-              textAlign: 'left',
-            }}
-          >
-            <div style={{ fontWeight: 'bold', lineHeight: 2 }}>{TITLE_KR}</div>
-            <div style={{ fontWeight: 'bold' }}>{TITLE_EN_1}</div>
-            <div style={{ fontWeight: 'bold' }}>{TITLE_EN_2}</div>
           </div>
         </div>
 

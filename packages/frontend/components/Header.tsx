@@ -5,7 +5,6 @@ import { HeaderAuthButton } from '@/components/atoms/buttons/HeaderAuthButton';
 import { ROUTES } from '@/constants/data';
 import { useIsLoggedIn, useLogout, useUser } from '@/store';
 import { DARK_MODE_COLORS } from '@/utils/colors';
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -20,11 +19,11 @@ const Header = () => {
 
   // 테마별 설정
   const theme = {
-    backgroundColor: isBlackTheme
-      ? DARK_MODE_COLORS.background
-      : '#F4F4F4',
+    backgroundColor: isBlackTheme ? DARK_MODE_COLORS.background : '#F4F4F4',
     textColor: isBlackTheme ? '#FFFFFF' : '#1B1C2D',
-    logo: isBlackTheme ? '/klaci_logo_white.png' : '/klaci_logo_black.png',
+    logo: isBlackTheme
+      ? '/klaci_logo_white.png'
+      : '/klaci_logo_black.png',
     navigationActiveColor: isBlackTheme ? '#FFFFFF' : '#FFFFFF',
     navigationInactiveColor: isBlackTheme ? '#BED3FF' : '#BED3FF',
   };
@@ -102,11 +101,9 @@ const Header = () => {
             }}
           >
             <Link href="/">
-              <Image
+              <img
                 src={theme.logo}
                 alt="K-LACI Logo"
-                width={120}
-                height={30}
                 style={{
                   height: '30px',
                   width: 'auto',
