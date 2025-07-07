@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import React from 'react';
 
 const PreRegistrationSection: React.FC = () => {
@@ -15,64 +16,91 @@ const PreRegistrationSection: React.FC = () => {
     <div
       style={{
         display: 'flex',
-        flexDirection: 'column',
         width: '100%',
-        alignItems: 'center',
-        padding: '60px 20px',
         backgroundColor: 'white',
         borderRadius: '12px',
         color: 'black',
-        minHeight: '300px',
-        justifyContent: 'center',
+        minHeight: '400px',
+        overflow: 'hidden',
       }}
     >
+      {/* 좌측: 기존 내용 */}
       <div
         style={{
-          fontSize: '1.5rem',
-          fontWeight: 'bold',
-          textAlign: 'center',
-          marginBottom: '24px',
-          lineHeight: '1.4',
+          display: 'flex',
+          flexDirection: 'column',
+          width: '50%',
+          alignItems: 'center',
+          padding: '60px 40px',
+          justifyContent: 'center',
         }}
       >
-        {title}
-      </div>
-
-      {descriptions.map((description, index) => (
         <div
-          key={index}
           style={{
-            fontSize: '1.2rem',
+            fontSize: '1.5rem',
+            fontWeight: 'bold',
             textAlign: 'center',
-            lineHeight: 1.5,
+            marginBottom: '24px',
+            lineHeight: '1.4',
           }}
         >
-          {description}
+          {title}
         </div>
-      ))}
 
-      <button
+        {descriptions.map((description, index) => (
+          <div
+            key={index}
+            style={{
+              fontSize: '1.2rem',
+              textAlign: 'center',
+              lineHeight: 1.5,
+            }}
+          >
+            {description}
+          </div>
+        ))}
+
+        <button
+          style={{
+            border: 'none',
+            padding: '16px 32px',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            minWidth: '220px',
+            background: 'black',
+            color: 'white',
+            marginTop: '50px',
+          }}
+        >
+          {reservationButtonText}
+        </button>
+      </div>
+
+      {/* 우측: 이미지 */}
+      <div
         style={{
-          border: 'none',
-          padding: '16px 32px',
-          fontSize: '16px',
-          fontWeight: 'bold',
-          borderRadius: '8px',
-          cursor: 'pointer',
-          minWidth: '220px',
-          background: 'black',
-          color: 'white',
-          marginTop: '50px',
+          width: '50%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px',
         }}
-        // onMouseEnter={(e) => {
-        //   e.currentTarget.style.backgroundColor = '#f0f0f0';
-        // }}
-        // onMouseLeave={(e) => {
-        //   e.currentTarget.style.backgroundColor = '#ffffff';
-        // }}
       >
-        {reservationButtonText}
-      </button>
+        <Image
+          src="/report_banner.png"
+          alt="KLACI 인사이트 리포트"
+          width={400}
+          height={300}
+          style={{
+            width: '100%',
+            height: 'auto',
+            objectFit: 'contain',
+            maxHeight: '100%',
+          }}
+        />
+      </div>
     </div>
   );
 };

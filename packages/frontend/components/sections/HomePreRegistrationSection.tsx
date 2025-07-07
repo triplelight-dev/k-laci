@@ -25,82 +25,113 @@ const HomePreRegistrationSection = () => {
       <div
         style={{
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-start',
-          padding: '0 70px',
+          alignItems: 'center',
+          gap: '80px',
+          maxWidth: '1200px',
+          margin: '0 auto',
         }}
       >
-        {/* 메인 타이틀 */}
+        {/* 좌측: 기존 내용 */}
         <div
           style={{
-            fontSize: '34px',
-            fontWeight: '600',
-            textAlign: 'left',
-            marginBottom: '24px',
-            lineHeight: '1.4',
+            flex: '1',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
           }}
         >
-          {MAIN_TITLE.map((line, index) => (
-            <div key={index}>{line}</div>
-          ))}
-        </div>
-
-        {/* 설명 텍스트들 */}
-        <div
-          style={{
-            marginBottom: '32px',
-            textAlign: 'left',
-          }}
-        >
-          {DESCRIPTION_TEXTS.map((text, index) => (
-            <div
-              key={index}
-              style={{
-                fontSize: '16px',
-                color: '#D1D5DB',
-                lineHeight: '1.6',
-              }}
-            >
-              {text}
-            </div>
-          ))}
-        </div>
-
-        {/* 사전예약 바로가기 버튼 */}
-        <Link href="/pre-registration">
-          <button
+          {/* 메인 타이틀 */}
+          <div
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '16px 36px',
-              backgroundColor: 'transparent',
-              color: '#ffffff',
-              border: '1px solid #ffffff',
-              borderRadius: '8px',
-              fontSize: '14px',
+              fontSize: '34px',
               fontWeight: '600',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#ffffff';
-              e.currentTarget.style.color = '#000000';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'transparent';
-              e.currentTarget.style.color = '#ffffff';
+              textAlign: 'left',
+              marginBottom: '24px',
+              lineHeight: '1.4',
             }}
           >
-            사전예약 바로가기
-            <Image
-              src="/arrow_button_icon_white.png"
-              alt="화살표 아이콘"
-              width={10}
-              height={10}
-            />
-          </button>
-        </Link>
+            {MAIN_TITLE.map((line, index) => (
+              <div key={index}>{line}</div>
+            ))}
+          </div>
+
+          {/* 설명 텍스트들 */}
+          <div
+            style={{
+              marginBottom: '32px',
+              textAlign: 'left',
+            }}
+          >
+            {DESCRIPTION_TEXTS.map((text, index) => (
+              <div
+                key={index}
+                style={{
+                  fontSize: '16px',
+                  color: '#D1D5DB',
+                  lineHeight: '1.6',
+                }}
+              >
+                {text}
+              </div>
+            ))}
+          </div>
+
+          {/* 사전예약 바로가기 버튼 */}
+          <Link href="/pre-registration">
+            <button
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '16px 36px',
+                backgroundColor: 'transparent',
+                color: '#ffffff',
+                border: '1px solid #ffffff',
+                borderRadius: '8px',
+                fontSize: '14px',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#ffffff';
+                e.currentTarget.style.color = '#000000';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+                e.currentTarget.style.color = '#ffffff';
+              }}
+            >
+              사전예약 바로가기
+              <Image
+                src="/arrow_button_icon_white.png"
+                alt="화살표 아이콘"
+                width={10}
+                height={10}
+              />
+            </button>
+          </Link>
+        </div>
+
+        {/* 우측: 이미지 */}
+        <div
+          style={{
+            flex: '1.5',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <img
+            src="/report_banner.png"
+            alt="KLACI 인사이트 리포트"
+            style={{
+              maxWidth: '550px',
+              height: 'auto',
+              objectFit: 'contain',
+            }}
+          />
+        </div>
       </div>
     </section>
   );
