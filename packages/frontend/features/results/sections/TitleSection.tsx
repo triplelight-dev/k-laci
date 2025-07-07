@@ -50,15 +50,18 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
 
       if (adjacentRegionData.data) {
         const regionDetails = adjacentRegionData.data;
-        setSelectedRegion({
-          ...regionDetails,
-          id: Number(regionDetails.id),
-          province_id: Number(regionDetails.provinceId),
-          province: {
-            id: Number(regionDetails.province.id),
-            name: regionDetails.province.name,
+        setSelectedRegion(
+          {
+            ...regionDetails,
+            id: Number(regionDetails.id),
+            province_id: Number(regionDetails.provinceId),
+            province: {
+              id: Number(regionDetails.province.id),
+              name: regionDetails.province.name,
+            },
           },
-        });
+          'navigation_buttons',
+        );
       }
     } catch (error) {
       console.error('Failed to navigate to adjacent region:', error);

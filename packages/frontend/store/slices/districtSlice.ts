@@ -1,5 +1,6 @@
 import provinceData from '@/data/province_data.json';
 import regionsData from '@/data/regions_data.json';
+import { logRegionChange } from '@/utils/regionChangeLogger';
 import { StateCreator } from 'zustand';
 import {
   DistrictState,
@@ -13,8 +14,8 @@ export interface DistrictSlice {
   provinces: Province[];
   regions: Region[];
   setSelectedProvince: (provinceId: number | null) => void;
-  setSelectedDistrict: (districtId: number | null) => void;
-  setSelectedRegion: (region: RegionWithDetails | null) => void;
+  setSelectedDistrict: (districtId: number | null, source?: string) => void;
+  setSelectedRegion: (region: RegionWithDetails | null, source?: string) => void;
   setRegionLoading: (loading: boolean) => void;
   clearDistrictSelection: () => void;
   getProvinceById: (id: number) => Province | null;
@@ -46,7 +47,9 @@ export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
     }));
   },
   
-  setSelectedDistrict: (districtId: number | null) => {
+  setSelectedDistrict: (districtId: number | null, source: string = 'district_select') => {
+    const currentState = get();
+    const previousRegionId = currentState.district.selectedRegion?.id || null;
     const district = districtId ? get().getRegionById(districtId) : null;
     
     set((state) => ({
@@ -57,9 +60,25 @@ export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
         // selectedRegion은 유지 (새 데이터 로딩 중에도 기존 데이터 표시)
       },
     }));
+
+    // 지역 변경 로깅 (새로운 지역이 선택된 경우에만)
+    if (districtId && districtId !== previousRegionId) {
+      logRegionChange({
+        previousRegionId,
+        newRegionId: districtId,
+        source: source as any,
+        metadata: {
+          districtName: district?.name,
+          provinceName: district ? get().getProvinceById(district.province_id)?.name : null,
+        },
+      });
+    }
   },
 
-  setSelectedRegion: (region: RegionWithDetails | null) => {
+  setSelectedRegion: (region: RegionWithDetails | null, source: string = 'system') => {
+    const currentState = get();
+    const previousRegionId = currentState.district.selectedRegion?.id || null;
+    
     set((state) => ({
       district: {
         ...state.district,
@@ -67,6 +86,19 @@ export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
         regionLoading: false,
       },
     }));
+
+    // 지역 변경 로깅 (새로운 지역이 설정된 경우에만, 시스템 액션이 아닌 경우에만)
+    if (region && region.id !== previousRegionId && source !== 'system') {
+      logRegionChange({
+        previousRegionId,
+        newRegionId: region.id,
+        source: source as any,
+        metadata: {
+          regionName: region.name,
+          provinceName: region.province?.name,
+        },
+      });
+    }
   },
 
   setRegionLoading: (loading: boolean) => {

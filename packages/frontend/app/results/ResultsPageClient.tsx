@@ -84,9 +84,9 @@ function ResultsPageContent() {
     try {
       const apiResponse = await getRegion(String(interestRegionId));
       const storeRegion = transformApiRegionToStoreRegion(apiResponse);
-      setSelectedRegion(storeRegion);
+      setSelectedRegion(storeRegion, 'system');
       setSelectedProvince(storeRegion.province_id);
-      setSelectedDistrict(storeRegion.id);
+      setSelectedDistrict(storeRegion.id, 'system');
       setHasLoadedDefault(true);
       return true;
     } catch (error) {
@@ -102,9 +102,9 @@ function ResultsPageContent() {
       console.log('기본 데이터 로드 시작 (전라북도 전주시)');
       const apiResponse = await getRegion('1');
       const storeRegion = transformApiRegionToStoreRegion(apiResponse);
-      setSelectedRegion(storeRegion);
+      setSelectedRegion(storeRegion, 'system');
       setSelectedProvince(storeRegion.province_id);
-      setSelectedDistrict(storeRegion.id);
+      setSelectedDistrict(storeRegion.id, 'system');
       setHasLoadedDefault(true);
       console.log('기본 데이터 로드 완료:', storeRegion.name);
     } catch (error) {
@@ -150,9 +150,9 @@ function ResultsPageContent() {
         try {
           const apiResponse = await getRegion(regionId);
           const storeRegion = transformApiRegionToStoreRegion(apiResponse);
-          setSelectedRegion(storeRegion);
+          setSelectedRegion(storeRegion, 'url_change');
           setSelectedProvince(storeRegion.province_id);
-          setSelectedDistrict(storeRegion.id);
+          setSelectedDistrict(storeRegion.id, 'url_change');
         } catch (error) {
           if (!hasLoadedDefault) {
             loadDefaultData();
@@ -170,7 +170,7 @@ function ResultsPageContent() {
         loadDefaultData();
       }
     }
-  }, [searchParams, user]); // user를 의존성 배열에 추가
+  }, [searchParams, user]);
 
   // 안전한 지역명 생성 함수
   const getDistrictName = (): string => {

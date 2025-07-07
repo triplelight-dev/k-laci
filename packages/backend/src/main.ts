@@ -35,6 +35,7 @@ async function bootstrap() {
     .setDescription('The K-Laci API documentation')
     .setVersion('1.0')
     .addTag('auth', 'Authentication endpoints')
+    .addTag('logs', 'User action logging endpoints')
     .addBearerAuth()
     .build();
 

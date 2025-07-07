@@ -131,7 +131,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
     const { province, region } = findProvinceAndRegionByName(selectedRegion);
     if (province && region) {
       setSelectedProvince(province.id);
-      setSelectedDistrict(region.id);
+      setSelectedDistrict(region.id, 'search_autocomplete');
 
       // URL 업데이트
       updateURL(region.id);
