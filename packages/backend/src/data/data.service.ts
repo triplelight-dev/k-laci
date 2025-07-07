@@ -4,13 +4,15 @@ import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Cache } from 'cache-manager';
 import {
-    CategoryKeyIndexRank,
-    KeyIndexData,
-    Region,
-    RegionKeyIndexRank,
-    RegionKeyIndexScoreResponse,
-    RegionsResponse,
-    RegionWithDetails,
+  CategoryKeyIndexRank,
+  KeyIndexData,
+  Region,
+  RegionKeyIndexRank,
+  RegionKeyIndexScoreResponse,
+  RegionsResponse,
+  RegionStrengthIndexesResponse,
+  RegionStrengthIndexesWithDetailsResponse,
+  RegionWithDetails,
 } from './types/region.types';
 
 export const REGION_SCORE_TYPES = {
@@ -954,6 +956,136 @@ export class DataService {
     };
 
     await this.cacheManager.set(cacheKey, result, 300);
+    return result;
+  }
+
+  async getRegionStrengthIndexes(
+    regionId: number,
+  ): Promise<RegionStrengthIndexesResponse> {
+    const cacheKey = `region-strength-indexes:${regionId}`;
+
+    // 캐시 확인
+    const cached =
+      await this.cacheManager.get<RegionStrengthIndexesResponse>(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
+    // region_strength_indexes 테이블에서 해당 지역의 강점과 약점 조회
+    const { data, error } = await this.supabase
+      .from('region_strength_indexes')
+      .select('*')
+      .eq('region_id', regionId)
+      .order('rank', { ascending: true });
+
+    if (error) {
+      throw error;
+    }
+
+    // 강점과 약점으로 분리
+    const strengths = data.filter((item: any) => item.type === 'strength');
+    const weaknesses = data.filter((item: any) => item.type === 'weakness');
+
+    const result: RegionStrengthIndexesResponse = {
+      strengths,
+      weaknesses,
+    };
+
+    // 캐시에 저장 (5분 TTL)
+    await this.cacheManager.set(cacheKey, result, 300);
+
+    return result;
+  }
+
+  async getRegionStrengthIndexesWithDetails(
+    regionId: number,
+  ): Promise<RegionStrengthIndexesWithDetailsResponse> {
+    const cacheKey = `region-strength-indexes-with-details:${regionId}`;
+
+    // 캐시 확인
+    const cached =
+      await this.cacheManager.get<RegionStrengthIndexesWithDetailsResponse>(
+        cacheKey,
+      );
+    if (cached) {
+      return cached;
+    }
+
+    // 1. region_strength_indexes에서 해당 지역의 강점과 약점 조회
+    const { data: strengthIndexes, error: strengthError } = await this.supabase
+      .from('region_strength_indexes')
+      .select('*')
+      .eq('region_id', regionId)
+      .order('rank', { ascending: true });
+
+    if (strengthError) {
+      throw strengthError;
+    }
+
+    // 2. key_indexes에서 모든 데이터 조회 (캐싱을 위해)
+    const { data: keyIndexes, error: keyIndexError } = await this.supabase
+      .from('key_indexes')
+      .select('*');
+
+    if (keyIndexError) {
+      throw keyIndexError;
+    }
+
+    // 3. code를 기준으로 수동 조인
+    const keyIndexMap = new Map(keyIndexes.map((ki) => [ki.code, ki]));
+
+    const strengths = strengthIndexes
+      .filter((item: any) => item.type === 'strength')
+      .map((item: any) => ({
+        id: item.id,
+        region_id: item.region_id,
+        type: item.type,
+        rank: item.rank,
+        code: item.code,
+        key_index: keyIndexMap.get(item.code) || {
+          id: 0,
+          code: item.code,
+          name: 'Unknown',
+          category: 'Unknown',
+          description: 'Unknown',
+          unit: '',
+          source: '',
+          calculation_method: '',
+          created_at: '',
+          updated_at: '',
+        },
+      }));
+
+    const weaknesses = strengthIndexes
+      .filter((item: any) => item.type === 'weakness')
+      .map((item: any) => ({
+        id: item.id,
+        region_id: item.region_id,
+        type: item.type,
+        rank: item.rank,
+        code: item.code,
+        key_index: keyIndexMap.get(item.code) || {
+          id: 0,
+          code: item.code,
+          name: 'Unknown',
+          category: 'Unknown',
+          description: 'Unknown',
+          unit: '',
+          source: '',
+          calculation_method: '',
+          created_at: '',
+          updated_at: '',
+        },
+      }));
+
+    const result: RegionStrengthIndexesWithDetailsResponse = {
+      strengths,
+      weaknesses,
+    };
+
+    // 캐시에 저장 (5분 TTL)
+    await this.cacheManager.set(cacheKey, result, 300);
+
     return result;
   }
 }
