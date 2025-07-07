@@ -4,12 +4,12 @@ import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Cache } from 'cache-manager';
 import {
-  CategoryKeyIndexRank,
-  KeyIndexData,
-  Region,
-  RegionKeyIndexRank,
-  RegionsResponse,
-  RegionWithDetails,
+    CategoryKeyIndexRank,
+    KeyIndexData,
+    Region,
+    RegionKeyIndexRank,
+    RegionsResponse,
+    RegionWithDetails,
 } from './types/region.types';
 
 export const REGION_SCORE_TYPES = {
@@ -550,7 +550,7 @@ export class DataService {
       .select(
         `
         *,
-        province:provinces(id, name),
+        province:provinces(id, name, full_name, name_eng),
         klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
         `,
       )

@@ -4,6 +4,7 @@ import { DataService } from '@/api/services/data.service';
 import RankArrowButton from '@/components/atoms/buttons/RankArrowButton';
 import JewelRadarChart from '@/components/atoms/charts/RadarChart';
 import KlaciCodeCircles from '@/components/atoms/circle/KlaciCodeCircles';
+import { PROVINCE_FULL_NAMES } from '@/constants/region';
 import {
   useDistrict,
   useSetSelectedDistrict,
@@ -149,9 +150,11 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
 
   // 안전한 지역명 생성 함수
   const getDistrictName = (): string => {
-    console.log('currentRegion: ', currentRegion);
     if (currentRegion?.province && currentRegion?.name) {
-      return `${currentRegion.province.name} ${currentRegion.name}`;
+      const fullName =
+        PROVINCE_FULL_NAMES[currentRegion.province.id] ||
+        currentRegion.province.name;
+      return `${fullName} ${currentRegion.name}`;
     }
     // currentRegion이 없거나 유효하지 않은 경우 기본값 반환
     return '';
@@ -169,12 +172,6 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
   const klaciNickname = currentRegion?.klaci?.nickname || '안전복지형';
   const klaciType = currentRegion?.klaci?.type || '';
   const klaciSummaryArray = currentRegion?.klaci?.summary || [];
-
-  const handleProvinceChange = (value: string) => {
-    const provinceId = value ? Number(value) : null;
-    setSelectedProvince(provinceId);
-    setSelectedDistrict(null); // province 변경 시 지자체 선택 해제
-  };
 
   return (
     <div
