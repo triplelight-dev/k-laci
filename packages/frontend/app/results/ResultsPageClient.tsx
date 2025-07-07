@@ -3,12 +3,12 @@
 import { useRegion } from '@/api/hooks/useRegion';
 import ResultLayout from '@/components/layout/ResultLayout';
 import {
-  useDistrict,
-  useIsLoggedIn,
-  useSetSelectedDistrict,
-  useSetSelectedProvince,
-  useSetSelectedRegion,
-  useUser,
+    useDistrict,
+    useIsLoggedIn,
+    useSetSelectedDistrict,
+    useSetSelectedProvince,
+    useSetSelectedRegion,
+    useUser,
 } from '@/store';
 import { RegionWithDetails as StoreRegionWithDetails } from '@/store/types/district';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -104,14 +104,12 @@ function ResultsPageContent() {
     if (hasLoadedDefault) return;
 
     try {
-      console.log('기본 데이터 로드 시작 (전라북도 전주시)');
       const apiResponse = await getRegion('1');
       const storeRegion = transformApiRegionToStoreRegion(apiResponse);
       setSelectedRegion(storeRegion, 'system');
       setSelectedProvince(storeRegion.province_id);
       setSelectedDistrict(storeRegion.id, 'system');
       setHasLoadedDefault(true);
-      console.log('기본 데이터 로드 완료:', storeRegion.name);
     } catch (error) {
       console.error('기본 데이터 로드 실패:', error);
     }
@@ -257,11 +255,6 @@ function ResultsPageContent() {
       return () => clearTimeout(timer);
     }
   }, [showAnimation]);
-
-  // 디버깅용 useEffect 추가
-  useEffect(() => {
-    console.log('isFloating changed:', isFloating);
-  }, [isFloating]);
 
   return (
     <ResultLayout>

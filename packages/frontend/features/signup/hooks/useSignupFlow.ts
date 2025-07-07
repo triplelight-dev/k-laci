@@ -83,7 +83,6 @@ export const useSignupFlow = () => {
         
         // 상태 업데이트가 완료된 후 3초 대기
         setTimeout(() => {
-          console.log('3초 후 홈으로 이동합니다.');
           router.push('/');
         }, 3000);
       } else {
@@ -138,7 +137,6 @@ export const useSignupFlow = () => {
         
         // 상태 업데이트가 완료된 후 3초 대기
         setTimeout(() => {
-          console.log('3초 후 홈으로 이동합니다.');
           router.push('/');
         }, 3000);
       } else {
@@ -171,11 +169,8 @@ export const useSignupFlow = () => {
         agree_to_report_reservation: formData.agreeToReportReservation,
       };
 
-      console.log('Submitting signup data:', signupData);
-
       const response = await AuthService.signUp(signupData);
 
-      console.log('Signup response:', response);
       setShowCompleteModal(true);
     } catch (err: any) {
       console.error('Signup error:', err);

@@ -200,7 +200,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
       yearly_avg_score?: number;
       year?: number;
     } = {};
-    
+
     try {
       keyIndexDetail = await getKeyIndexData(data.indexId);
     } catch (e) {
@@ -209,7 +209,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
 
     // API 응답에서 받은 데이터로 업데이트
     let updatedData = { ...data };
-    
+
     if (keyIndexDetail) {
       if (keyIndexDetail.description) {
         updatedData.indexDescription = keyIndexDetail.description;
@@ -255,7 +255,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
         indexId: item.key_index.id || 0,
         indexName: item.key_index.name || '',
         indexRank: item.rank || 0,
-        indexScore: 0, // 기본값
+        indexScore: item.score || 0, // API에서 받은 실제 점수 사용
         indexDescription: item.key_index.description || '',
       })),
     );
@@ -268,7 +268,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
         indexId: item.key_index.id || 0,
         indexName: item.key_index.name || '',
         indexRank: item.rank || 0,
-        indexScore: 0, // 기본값
+        indexScore: item.score || 0, // API에서 받은 실제 점수 사용
         indexDescription: item.key_index.description || '',
       })),
     );
@@ -308,6 +308,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
           isOpen={isModalOpen}
           onClose={handleCloseModal}
           data={selectedData}
+          regionId={selectedRegion?.id || 0}
         />
       )}
     </>

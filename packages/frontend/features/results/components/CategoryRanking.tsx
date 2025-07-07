@@ -241,6 +241,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
           isOpen={isModalOpen}
           onClose={handleCloseModal}
           data={selectedIndexData}
+          regionId={selectedRegion?.id || 0}
         />
       )}
     </div>

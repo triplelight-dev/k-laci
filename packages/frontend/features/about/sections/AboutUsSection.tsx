@@ -30,7 +30,6 @@ const AboutUsSection: React.FC = () => {
 
   const handleConsultingClick = () => {
     // 컨설팅 문의 처리 로직
-    console.log('컨설팅 문의 클릭');
   };
 
   // 텍스트에서 특정 키워드를 볼드 처리하는 함수

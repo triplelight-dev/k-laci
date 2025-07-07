@@ -17,7 +17,6 @@ const HomePreRegistrationSection = () => {
 
   const handlePreRegistrationClick = () => {
     // setIsModalOpen(true);
-    console.log('사전등록 모달이 비활성화되었습니다.');
   };
 
   return (

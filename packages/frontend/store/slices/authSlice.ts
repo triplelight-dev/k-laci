@@ -47,10 +47,6 @@ export const createAuthSlice: StateCreator<AuthSlice> = (set) => ({
   },
 
   login: (user: User, access_token: string) => {
-    console.log('=== Zustand 스토어에 로그인 정보 저장 ===');
-    console.log('저장되는 유저:', user);
-    console.log('저장되는 토큰:', access_token);
-    
     set((state) => ({
       auth: {
         ...state.auth,
@@ -59,8 +55,6 @@ export const createAuthSlice: StateCreator<AuthSlice> = (set) => ({
         access_token,
       },
     }));
-    
-    console.log('=== Zustand 스토어 저장 완료 ===');
   },
 
   logout: () => {
