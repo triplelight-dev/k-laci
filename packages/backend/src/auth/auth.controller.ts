@@ -5,9 +5,10 @@ import {
   Headers,
   HttpStatus,
   Post,
-  UnauthorizedException,
+  Req
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
 import {
@@ -124,20 +125,27 @@ export class AuthController {
   }
 
   @Post('sign-out')
-  @ApiOperation({ summary: 'Sign out user' })
+  @ApiOperation({
+    summary: '로그아웃',
+    description: '사용자 로그아웃을 처리합니다.',
+  })
   @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'User signed out successfully',
+    status: 200,
+    description: '로그아웃이 성공적으로 완료되었습니다.',
   })
   @ApiResponse({
     status: 401,
-    description: 'Signout failed',
+    description: '유효하지 않은 인증 토큰입니다.',
   })
-  async signOut(@Headers('authorization') authHeader: string) {
+  async signOut(
+    @Headers('authorization') authHeader?: string,
+    @Req() request?: Request,
+  ) {
     // Authorization 헤더에서 토큰 추출
     const token = authHeader?.replace('Bearer ', '');
+
     if (!token) {
-      throw new UnauthorizedException('Authorization token is required');
+      throw new Error('토큰이 제공되지 않았습니다.');
     }
 
     return this.authService.signOut(token);

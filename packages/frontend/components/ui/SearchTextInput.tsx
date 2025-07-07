@@ -1,3 +1,4 @@
+import { useUser } from '@/store';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
@@ -74,6 +75,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
 
   // Zustand store에서 필요한 함수들 가져오기
   const { setSelectedProvince, setSelectedDistrict } = useStore();
+  const user = useUser();
 
   // 전체 지역 데이터
   const allRegions = useAllRegions();
@@ -131,7 +133,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
     const { province, region } = findProvinceAndRegionByName(selectedRegion);
     if (province && region) {
       setSelectedProvince(province.id);
-      setSelectedDistrict(region.id);
+      setSelectedDistrict(region.id, 'search_autocomplete');
 
       // URL 업데이트
       updateURL(region.id);

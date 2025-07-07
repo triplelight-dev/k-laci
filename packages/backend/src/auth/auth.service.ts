@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { LogsService } from '../logs/logs.service';
 import {
   CompleteSignupDto,
   CompleteSignupResponseDto,
@@ -27,6 +28,7 @@ export class AuthService {
     private configService: ConfigService,
     private verificationCodeService: VerificationCodeService,
     private emailService: EmailService,
+    private logsService: LogsService,
   ) {
     const supabaseUrl = this.configService.getOrThrow<string>('SUPABASE_URL');
     const supabaseKey =
@@ -52,6 +54,17 @@ export class AuthService {
       if (error) {
         throw new UnauthorizedException(error.message);
       }
+
+      // 로그아웃 로그 기록
+      await this.logsService.createLog({
+        actionType: 'LOGOUT',
+        userId: user.id,
+        sessionId: token,
+        metadata: {
+          logoutMethod: 'api',
+        },
+        timestamp: new Date().toISOString(),
+      });
 
       return { message: 'Successfully signed out' };
     } catch (error) {
@@ -294,6 +307,19 @@ export class AuthService {
 
       console.log('profileData', profileData);
 
+      // 회원가입 로그 기록
+      await this.logsService.createLog({
+        actionType: 'SIGNUP',
+        userId: authData.user.id,
+        metadata: {
+          userType: user_type,
+          organization: organization,
+          hasMarketingConsent: agree_to_marketing,
+          hasReportReservationConsent: agree_to_report_reservation,
+        },
+        timestamp: new Date().toISOString(),
+      });
+
       return {
         user_id: authData.user.id,
         email: authData.user.email,
@@ -386,7 +412,7 @@ export class AuthService {
         throw new UnauthorizedException('로그인에 실패했습니다.');
       }
 
-      // 사용자 프로필 정보 가져오기 (필요한 필드만 선택)
+      // 사용자 프로필 정보 가져오기
       const { data: profile, error: profileError } = await this.supabase
         .from('user_profiles')
         .select('name, email, organization, interest_region_id, user_type')
@@ -398,6 +424,19 @@ export class AuthService {
           '사용자 프로필 정보를 가져올 수 없습니다.',
         );
       }
+
+      // 로그인 로그 기록
+      await this.logsService.createLog({
+        actionType: 'LOGIN',
+        userId: data.user.id,
+        sessionId: data.session.access_token,
+        metadata: {
+          userType: profile.user_type,
+          organization: profile.organization,
+          loginMethod: 'email',
+        },
+        timestamp: new Date().toISOString(),
+      });
 
       // 프로필 정보를 DTO 형태로 변환
       const userProfile: UserProfileDto = {

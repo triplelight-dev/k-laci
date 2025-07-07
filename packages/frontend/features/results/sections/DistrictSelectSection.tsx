@@ -10,6 +10,7 @@ import {
   useSetSelectedDistrict,
   useSetSelectedProvince,
   useSetSelectedRegion,
+  useUser,
 } from '@/store';
 import { RegionWithDetails as StoreRegionWithDetails } from '@/store/types/district';
 import React, { useEffect } from 'react';
@@ -26,6 +27,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
   const setSelectedDistrict = useSetSelectedDistrict();
   const setSelectedRegion = useSetSelectedRegion();
   const setRegionLoading = useSetRegionLoading();
+  const user = useUser();
 
   // React Query 사용
   const { data: provincesWithRegions = [], error } = useProvincesWithRegions();
@@ -38,11 +40,10 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
     const fetchRegionDetails = async () => {
       if (selectedDistrict) {
         try {
-          setRegionLoading(true); // 로딩 시작
+          setRegionLoading(true);
           const details: ApiRegionWithDetails = await getRegion(
             String(selectedDistrict.id),
           );
-          // Convert API type to store type
           const storeDetails: StoreRegionWithDetails = {
             ...details,
             id: Number(details.id),
@@ -52,12 +53,12 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
               name: details.province.name,
             },
           };
-          setSelectedRegion(storeDetails);
+          setSelectedRegion(storeDetails, 'system');
         } catch (error) {
           console.error('Failed to fetch region details:', error);
           setSelectedRegion(null);
         } finally {
-          setRegionLoading(false); // 로딩 완료
+          setRegionLoading(false);
         }
       } else {
         setSelectedRegion(null);
@@ -75,7 +76,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
 
   const handleDistrictChange = (value: string) => {
     const districtId = value ? Number(value) : null;
-    setSelectedDistrict(districtId);
+    setSelectedDistrict(districtId, 'district_select');
   };
 
   // API에서 가져온 데이터로 province 옵션 생성 (가나다순 정렬 추가)
