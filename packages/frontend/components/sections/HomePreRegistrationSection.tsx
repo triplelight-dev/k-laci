@@ -1,10 +1,20 @@
 'use client';
 
 import Image from 'next/image';
+import { useState } from 'react';
+import { UserService } from '../../api/services/user.service';
+import { useIsLoggedIn } from '../../store';
+import LoginGuideModal from '../ui/LoginGuideModal';
+import PreRegistrationModal from '../ui/PreRegistrationModal';
 
 const HomePreRegistrationSection = () => {
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [agree_to_report_reservation, setAgreeToReportReservation] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoginGuideModalOpen, setIsLoginGuideModalOpen] = useState(false);
+  const [agree_to_report_reservation, setAgreeToReportReservation] =
+    useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const isLoggedIn = useIsLoggedIn();
 
   // 타이틀 텍스트를 배열로 정의
   const MAIN_TITLE = ['균형발전 전략의 시작,', 'KLACI 인사이트 리포트'];
@@ -15,8 +25,34 @@ const HomePreRegistrationSection = () => {
     '그리고 각 지자체의 데이터 인사이트를 한 권의 책으로 받아보세요.',
   ];
 
-  const handlePreRegistrationClick = () => {
-    // setIsModalOpen(true);
+  const handlePreRegistrationClick = async () => {
+    // 로그인하지 않은 경우 로그인 안내 모달 표시
+    if (!isLoggedIn) {
+      setIsLoginGuideModalOpen(true);
+      return;
+    }
+
+    setIsLoading(true);
+    
+    try {
+      // 유저 프로필 조회 API 호출
+      const response = await UserService.getProfile();
+      
+      if (response.success) {
+        // 리포트 사전동의 여부 확인
+        const hasAgreedToReport = response.data.agreeToReportReservation || false;
+        setAgreeToReportReservation(hasAgreedToReport);
+        setIsModalOpen(true);
+      } else {
+        console.error('프로필 조회 실패:', response.message);
+        alert('프로필 정보를 불러오는데 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('프로필 조회 중 오류 발생:', error);
+      alert('프로필 정보를 불러오는데 실패했습니다.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -86,6 +122,7 @@ const HomePreRegistrationSection = () => {
             {/* 사전예약 바로가기 버튼 */}
             <button
               onClick={handlePreRegistrationClick}
+              disabled={isLoading}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -97,25 +134,32 @@ const HomePreRegistrationSection = () => {
                 borderRadius: '8px',
                 fontSize: '14px',
                 fontWeight: '600',
-                cursor: 'pointer',
+                cursor: isLoading ? 'not-allowed' : 'pointer',
+                opacity: isLoading ? 0.6 : 1,
                 transition: 'all 0.2s ease',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#ffffff';
-                e.currentTarget.style.color = '#000000';
+                if (!isLoading) {
+                  e.currentTarget.style.backgroundColor = '#ffffff';
+                  e.currentTarget.style.color = '#000000';
+                }
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.color = '#ffffff';
+                if (!isLoading) {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.color = '#ffffff';
+                }
               }}
             >
-              사전예약 바로가기
-              <Image
-                src="/arrow_button_icon_white.png"
-                alt="화살표 아이콘"
-                width={10}
-                height={10}
-              />
+              {isLoading ? '로딩 중...' : '사전예약 바로가기'}
+              {!isLoading && (
+                <Image
+                  src="/arrow_button_icon_white.png"
+                  alt="화살표 아이콘"
+                  width={10}
+                  height={10}
+                />
+              )}
             </button>
           </div>
 
@@ -141,12 +185,18 @@ const HomePreRegistrationSection = () => {
         </div>
       </section>
 
-      {/* 모달 비활성화 */}
-      {/* <PreRegistrationModal
+      {/* 사전예약 모달 */}
+      <PreRegistrationModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         agree_to_report_reservation={agree_to_report_reservation}
-      /> */}
+      />
+
+      {/* 로그인 안내 모달 */}
+      <LoginGuideModal
+        isOpen={isLoginGuideModalOpen}
+        onClose={() => setIsLoginGuideModalOpen(false)}
+      />
     </>
   );
 };
