@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
-import PreRegistrationModal from '../../../components/ui/PreRegistrationModal';
+import React from 'react';
+// import { useState } from 'react'; // 사용하지 않으므로 제거
+// import PreRegistrationModal from '../../../components/ui/PreRegistrationModal'; // 모달 비활성화로 제거
 
 const PreRegistrationSection: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [agree_to_report_reservation, setAgreeToReportReservation] = useState(false); // 임시로 false로 설정
+  // const [isModalOpen, setIsModalOpen] = useState(false); // 모달 비활성화로 제거
+  // const [agree_to_report_reservation, setAgreeToReportReservation] = useState(false); // 사용하지 않으므로 제거
 
   const title = '균형발전 전략의 시작, KLACI 인사이트 리포트';
   const descriptions = [
@@ -16,7 +17,7 @@ const PreRegistrationSection: React.FC = () => {
   const reservationButtonText = '사전 예약 바로가기';
 
   const handlePreRegistrationClick = () => {
-    setIsModalOpen(true);
+    // setIsModalOpen(true); // 모달 비활성화
   };
 
   return (
@@ -95,12 +96,12 @@ const PreRegistrationSection: React.FC = () => {
         </div>
       </div>
 
-      {/* 모달 */}
-      <PreRegistrationModal
+      {/* 모달 비활성화 */}
+      {/* <PreRegistrationModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         agree_to_report_reservation={agree_to_report_reservation}
-      />
+      /> */}
     </>
   );
 };

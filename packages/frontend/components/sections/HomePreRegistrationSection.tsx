@@ -1,13 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
-import PreRegistrationModal from '../ui/PreRegistrationModal';
 
 const HomePreRegistrationSection = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [agree_to_report_reservation, setAgreeToReportReservation] =
-    useState(false); // 임시로 false로 설정
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [agree_to_report_reservation, setAgreeToReportReservation] = useState(false);
 
   // 타이틀 텍스트를 배열로 정의
   const MAIN_TITLE = ['균형발전 전략의 시작,', 'KLACI 인사이트 리포트'];
@@ -19,7 +16,8 @@ const HomePreRegistrationSection = () => {
   ];
 
   const handlePreRegistrationClick = () => {
-    setIsModalOpen(true);
+    // setIsModalOpen(true);
+    console.log('사전등록 모달이 비활성화되었습니다.');
   };
 
   return (
@@ -144,12 +142,12 @@ const HomePreRegistrationSection = () => {
         </div>
       </section>
 
-      {/* 모달 */}
-      <PreRegistrationModal
+      {/* 모달 비활성화 */}
+      {/* <PreRegistrationModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         agree_to_report_reservation={agree_to_report_reservation}
-      />
+      /> */}
     </>
   );
 };
