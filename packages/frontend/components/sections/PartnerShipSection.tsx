@@ -150,7 +150,7 @@ const PartnerShipSection = () => {
         }}
       >
         {/* 파트너십 문의하기 버튼 */}
-        <Link href="/partnership-inquiry">
+        <a href="mailto:klaci@triplelight.co?subject=파트너십 문의&body=안녕하세요, KLACI 파트너십에 대해 문의드립니다.%0D%0A%0D%0A[여기에 문의 내용을 작성해주세요]%0D%0A%0D%0A감사합니다.">
           <button
             style={{
               display: 'flex',
@@ -181,7 +181,7 @@ const PartnerShipSection = () => {
               height={8}
             />
           </button>
-        </Link>
+        </a>
 
         {/* 회원가입 바로가기 버튼 */}
         <Link href={ROUTES.SIGNUP}>

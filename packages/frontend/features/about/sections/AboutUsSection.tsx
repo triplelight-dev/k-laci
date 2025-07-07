@@ -28,10 +28,6 @@ const AboutUsSection: React.FC = () => {
     },
   ];
 
-  const handleConsultingClick = () => {
-    // 컨설팅 문의 처리 로직
-  };
-
   // 텍스트에서 특정 키워드를 볼드 처리하는 함수
   const renderTextWithBold = (text: string, boldKeyword: string) => {
     const parts = text.split(boldKeyword);
@@ -124,36 +120,37 @@ const AboutUsSection: React.FC = () => {
         </div>
 
         {/* 버튼 */}
-        <button
-          onClick={handleConsultingClick}
-          style={{
-            backgroundColor: 'white',
-            color: 'black',
-            border: 'none',
-            borderRadius: '8px',
-            padding: '14px 24px',
-            fontSize: '14px',
-            fontWeight: '600',
-            cursor: 'pointer',
-            transition: 'all 0.2s ease',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            justifyContent: 'center',
-            minWidth: '200px',
-          }}
-        >
-          컨설팅, 연구 및 세미나 문의
-          <img
-            src="/arrow_button_icon.png"
-            alt="화살표 아이콘"
+        <a href="mailto:klaci@triplelight.co?subject=컨설팅, 연구 및 세미나 문의&body=안녕하세요, KLACI 컨설팅, 연구 및 세미나에 대해 문의드립니다.%0D%0A%0D%0A[여기에 문의 내용을 작성해주세요]%0D%0A%0D%0A감사합니다.">
+          <button
             style={{
-              width: '10px',
-              height: '10px',
-              display: 'block',
+              backgroundColor: 'white',
+              color: 'black',
+              border: 'none',
+              borderRadius: '8px',
+              padding: '14px 24px',
+              fontSize: '14px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              justifyContent: 'center',
+              minWidth: '200px',
             }}
-          />
-        </button>
+          >
+            컨설팅, 연구 및 세미나 문의
+            <img
+              src="/arrow_button_icon.png"
+              alt="화살표 아이콘"
+              style={{
+                width: '10px',
+                height: '10px',
+                display: 'block',
+              }}
+            />
+          </button>
+        </a>
       </div>
 
       {/* 구분선 */}
@@ -214,15 +211,26 @@ const AboutUsSection: React.FC = () => {
               </div>
 
               {/* 로고 */}
-              <img
-                src={org.logo}
-                alt={`${org.title} 로고`}
+              <a
+                href="http://triplelight.co"
+                target="_blank"
+                rel="noopener noreferrer"
                 style={{
-                  height: org.logoHeight,
-                  width: 'auto',
+                  textDecoration: 'none',
                   display: 'block',
                 }}
-              />
+              >
+                <img
+                  src={org.logo}
+                  alt={`${org.title} 로고`}
+                  style={{
+                    height: org.logoHeight,
+                    width: 'auto',
+                    display: 'block',
+                    cursor: 'pointer',
+                  }}
+                />
+              </a>
             </div>
 
             {/* 기관 간 구분선 (마지막 기관이 아닌 경우) */}
