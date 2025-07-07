@@ -98,6 +98,20 @@ export interface RegionKeyIndexScoreResponse {
   key_index: KeyIndexWithDetails;
 }
 
+export interface RegionStrengthIndexWithDetails {
+  id: number;
+  region_id: number;
+  type: 'strength' | 'weakness';
+  rank: number;
+  code: string;
+  key_index: KeyIndexData;
+}
+
+export interface RegionStrengthIndexesWithDetailsResponse {
+  strengths: RegionStrengthIndexWithDetails[];
+  weaknesses: RegionStrengthIndexWithDetails[];
+}
+
 export class DataService {
   static async getProvinces(): Promise<ApiResponse<Province[]>> {
     const response = await apiClient.get('/data/provinces');
@@ -175,4 +189,15 @@ export class DataService {
     );
     return response.data;
   }
+
+  static async getRegionStrengthIndexesWithDetails(
+    regionId: number,
+  ): Promise<ApiResponse<RegionStrengthIndexesWithDetailsResponse>> {
+    const response = await apiClient.get(
+      `/data/regions/${regionId}/strength-indexes-with-details`,
+    );
+    return response.data;
+  }
 }
+
+export const dataService = DataService;

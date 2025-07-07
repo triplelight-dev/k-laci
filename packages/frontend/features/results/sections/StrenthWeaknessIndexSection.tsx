@@ -1,6 +1,6 @@
 'use client';
 
-import { useKeyIndexData } from '@/api/hooks/useKeyIndexData';
+import { useKeyIndexData, useRegionStrengthIndexes } from '@/api/hooks';
 import IndexModal from '@/components/atoms/modal/IndexModal';
 import { useDistrict, useIsLoggedIn } from '@/store';
 import React, { useEffect, useState } from 'react';
@@ -21,6 +21,31 @@ const hexToRgba = (hex: string, alpha: number = 0.2): string => {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
 
+// API 응답 타입 정의
+interface KeyIndexData {
+  id: number;
+  code: string;
+  name: string;
+  category: string;
+  description: string;
+  unit?: string;
+  source?: string;
+  calculation_method?: string;
+  created_at?: string;
+  updated_at?: string;
+  yearly_avg_score?: number;
+  year?: number;
+}
+
+interface RegionStrengthIndexWithDetails {
+  id: number;
+  region_id: number;
+  type: 'strength' | 'weakness';
+  rank: number;
+  code: string;
+  key_index: KeyIndexData;
+}
+
 // 지수 데이터 타입
 export interface IndexData {
   fullRegionName: string;
@@ -33,6 +58,8 @@ export interface IndexData {
   yearlyAvgScore?: number;
   year?: number;
   source?: string;
+  unit?: string;
+  calculation_method?: string;
 }
 
 // 기본 데이터 (서버와 클라이언트에서 동일하게 사용)
@@ -173,18 +200,49 @@ const IndexSection: React.FC<{
   );
 };
 
+// API 응답을 IndexData로 변환하는 함수
+const convertApiResponseToIndexData = (
+  apiData: RegionStrengthIndexWithDetails[] | undefined,
+  regionName: string,
+): IndexData[] => {
+  // apiData가 undefined이거나 배열이 아닌 경우 빈 배열 반환
+  if (!apiData || !Array.isArray(apiData)) {
+    return [];
+  }
+
+  return apiData.map((item) => ({
+    fullRegionName: regionName,
+    category: item.key_index.category || '',
+    indexId: item.key_index.id || 0,
+    indexName: item.key_index.name || '',
+    indexRank: item.rank || 0,
+    indexScore: 0, // 새로운 API에서는 score 정보가 없으므로 0으로 설정
+    indexDescription: item.key_index.description || '',
+    yearlyAvgScore: item.key_index.yearly_avg_score,
+    year: item.key_index.year,
+    source: item.key_index.source,
+    unit: item.key_index.unit,
+    calculation_method: item.key_index.calculation_method,
+  }));
+};
+
 const StrengthWeaknessIndexSection: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedData, setSelectedData] = useState<IndexData | null>(null);
-  const [strengthData, setStrengthData] =
-    useState<IndexData[]>(defaultStrengthData);
-  const [weaknessData, setWeaknessData] =
-    useState<IndexData[]>(defaultWeaknessData);
+  const [strengthData, setStrengthData] = useState<IndexData[]>([]);
+  const [weaknessData, setWeaknessData] = useState<IndexData[]>([]);
 
   // Zustand store에서 선택된 지역 정보와 로그인 상태 가져오기
   const { selectedRegion } = useDistrict();
   const isLoggedIn = useIsLoggedIn();
   const { getKeyIndexData } = useKeyIndexData();
+
+  // 새로운 API hook 사용
+  const {
+    data: strengthIndexesData,
+    isLoading,
+    error,
+  } = useRegionStrengthIndexes(selectedRegion?.id || null);
 
   const handleItemClick = async (data: IndexData) => {
     // 로그인하지 않은 경우 모달을 열지 않음
@@ -234,45 +292,53 @@ const StrengthWeaknessIndexSection: React.FC = () => {
     setSelectedData(null);
   };
 
-  // selectedRegion의 key_index_ranks를 바탕으로 동적으로 데이터 생성
+  // API 데이터를 바탕으로 IndexData 생성
   useEffect(() => {
-    if (
-      !selectedRegion?.key_index_ranks?.top ||
-      !selectedRegion?.key_index_ranks?.bottom
-    ) {
-      setStrengthData(defaultStrengthData);
-      setWeaknessData(defaultWeaknessData);
+    console.log('strengthIndexesData:', strengthIndexesData);
+    console.log('selectedRegion:', selectedRegion);
+
+    if (!strengthIndexesData || !selectedRegion) {
+      setStrengthData([]);
+      setWeaknessData([]);
       return;
     }
 
-    const fullRegionName = `${selectedRegion.province.name} ${selectedRegion.name} `;
+    const regionName = `${selectedRegion.province.name} ${selectedRegion.name}`;
 
-    // top 배열을 strengthData로 변환
-    setStrengthData(
-      selectedRegion.key_index_ranks.top.map((item) => ({
-        fullRegionName,
-        category: item.key_index.category || '',
-        indexId: item.key_index.id || 0,
-        indexName: item.key_index.name || '',
-        indexRank: item.rank || 0,
-        indexScore: item.score || 0, // API에서 받은 실제 점수 사용
-        indexDescription: item.key_index.description || '',
-      })),
+    // 강점 데이터 변환 (직접 접근)
+    const strengthIndexData = convertApiResponseToIndexData(
+      strengthIndexesData.strengths,
+      regionName,
     );
+    console.log('strengthIndexData:', strengthIndexData);
+    setStrengthData(strengthIndexData);
 
-    // bottom 배열을 weaknessData로 변환
-    setWeaknessData(
-      selectedRegion.key_index_ranks.bottom.map((item) => ({
-        fullRegionName,
-        category: item.key_index.category || '',
-        indexId: item.key_index.id || 0,
-        indexName: item.key_index.name || '',
-        indexRank: item.rank || 0,
-        indexScore: item.score || 0, // API에서 받은 실제 점수 사용
-        indexDescription: item.key_index.description || '',
-      })),
+    // 약점 데이터 변환 (직접 접근)
+    const weaknessIndexData = convertApiResponseToIndexData(
+      strengthIndexesData.weaknesses,
+      regionName,
     );
-  }, [selectedRegion]);
+    console.log('weaknessIndexData:', weaknessIndexData);
+    setWeaknessData(weaknessIndexData);
+  }, [strengthIndexesData, selectedRegion]);
+
+  // 로딩 상태 처리
+  if (isLoading) {
+    return (
+      <div style={{ textAlign: 'center', padding: '20px' }}>
+        강약점 지표를 불러오는 중...
+      </div>
+    );
+  }
+
+  // 에러 상태 처리
+  if (error) {
+    return (
+      <div style={{ textAlign: 'center', padding: '20px', color: 'red' }}>
+        강약점 지표를 불러오는 중 오류가 발생했습니다.
+      </div>
+    );
+  }
 
   return (
     <>
@@ -296,7 +362,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
         <IndexSection
           title="약점지표"
           data={weaknessData}
-          isStrength={true}
+          isStrength={false}
           onItemClick={handleItemClick}
           isDisabled={!isLoggedIn}
         />
