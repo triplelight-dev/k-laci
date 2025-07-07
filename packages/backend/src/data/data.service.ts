@@ -4,13 +4,14 @@ import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Cache } from 'cache-manager';
 import {
-    CategoryKeyIndexRank,
-    KeyIndexData,
-    Region,
-    RegionKeyIndexRank,
-    RegionKeyIndexScoreResponse,
-    RegionsResponse,
-    RegionWithDetails,
+  CategoryKeyIndexRank,
+  KeyIndexData,
+  KeyIndexWithDetails,
+  Region,
+  RegionKeyIndexRank,
+  RegionKeyIndexScoreResponse,
+  RegionsResponse,
+  RegionWithDetails,
 } from './types/region.types';
 
 export const REGION_SCORE_TYPES = {
@@ -512,22 +513,30 @@ export class DataService {
       throw new Error('Key index not found');
     }
 
-    // key_index_yearly_avgs 테이블에서 연도별 평균점수 조회
-    const { data: yearlyAvg, error: yearlyAvgError } = await this.supabase
-      .from('key_index_yearly_avgs')
-      .select('avg_score')
-      .eq('key_index_id', indexId)
-      .eq('year', targetYear)
-      .single();
+    // key_index_averages 테이블에서 연도별 평균점수 조회
+    let yearlyAvgScore: number | null = null;
+    try {
+      const { data: yearlyAvg, error: yearlyAvgError } = await this.supabase
+        .from('key_index_averages')
+        .select('avg_score')
+        .eq('key_index_id', indexId)
+        .eq('year', targetYear)
+        .single();
 
-    if (yearlyAvgError && yearlyAvgError.code !== 'PGRST116') {
-      // PGRST116는 결과가 없는 경우의 에러 코드
-      throw yearlyAvgError;
+      if (yearlyAvgError && yearlyAvgError.code !== 'PGRST116') {
+        // PGRST116는 결과가 없는 경우의 에러 코드
+        console.error('Error fetching key index average:', yearlyAvgError);
+      } else if (yearlyAvg) {
+        yearlyAvgScore = yearlyAvg.avg_score || null;
+      }
+    } catch (error) {
+      console.error('Error in key_index_averages query:', error);
+      // 에러가 발생해도 기본값 null을 사용하여 계속 진행
     }
 
     keyIndexData = {
       ...keyIndex,
-      yearly_avg_score: yearlyAvg?.avg_score || null,
+      yearly_avg_score: yearlyAvgScore,
       year: targetYear, // 연도 정보 추가
     } as KeyIndexData;
 
@@ -921,20 +930,27 @@ export class DataService {
       throw scoreError;
     }
 
-    // 2. region_key_index_scores에서 해당 인덱스의 전체평균 계산
-    const { data: avgData, error: avgError } = await this.supabase
-      .from('region_key_index_scores')
-      .select('score')
-      .eq('key_index_id', keyIndexId);
+    // 2. key_index_averages 테이블에서 해당 인덱스의 전체평균 조회
+    let avgScore = 0;
+    try {
+      const { data: avgData, error: avgError } = await this.supabase
+        .from('key_index_averages')
+        .select('avg_score')
+        .eq('key_index_id', keyIndexId)
+        .order('year', { ascending: false })
+        .limit(1)
+        .single();
 
-    if (avgError) {
-      throw avgError;
+      if (avgError && avgError.code !== 'PGRST116') {
+        // PGRST116는 결과가 없는 경우의 에러 코드
+        console.error('Error fetching key index average:', avgError);
+      } else if (avgData) {
+        avgScore = avgData.avg_score || 0;
+      }
+    } catch (error) {
+      console.error('Error in key_index_averages query:', error);
+      // 에러가 발생해도 기본값 0을 사용하여 계속 진행
     }
-
-    const avgScore =
-      avgData.length > 0
-        ? avgData.reduce((sum, item) => sum + item.score, 0) / avgData.length
-        : 0;
 
     // 3. key_indexes에서 인덱스 정보 조회
     const { data: keyIndexData, error: keyIndexError } = await this.supabase
@@ -950,7 +966,7 @@ export class DataService {
     result = {
       region_key_index_score: scoreData,
       avg_score: avgScore,
-      key_index: keyIndexData,
+      key_index: keyIndexData as KeyIndexWithDetails,
     };
 
     await this.cacheManager.set(cacheKey, result, 300);
