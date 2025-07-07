@@ -38,6 +38,53 @@ const IndexModal: React.FC<IndexModalProps> = ({
 
   console.log('apidata', apiData);
 
+  // apidata가 없고 로딩 중일 때는 로딩 상태를 보여줌
+  if (!apiData && loading) {
+    return (
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 9999,
+          cursor: 'pointer',
+        }}
+        onClick={onClose}
+      >
+        <div
+          style={{
+            display: 'flex',
+            width: '800px',
+            height: '450px',
+            borderRadius: '30px',
+            overflow: 'hidden',
+            backgroundColor: 'white',
+            cursor: 'default',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div
+            style={{
+              fontSize: '16px',
+              fontWeight: '400',
+              color: '#ADB5C4',
+            }}
+          >
+            데이터를 불러오는 중...
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const displayData = apiData || {
     region_key_index_score: {
       score: data.indexScore,
@@ -47,8 +94,8 @@ const IndexModal: React.FC<IndexModalProps> = ({
 
   const topPercentage = ((data.indexRank / NUM_OF_REGIONS) * 100).toFixed(1);
   const source = data.source || '';
-  const year = data.year || new Date().getFullYear();
-  const yearlyAvgScore = data.yearlyAvgScore;
+  const avgScore = apiData?.avg_score || 0;
+  const scoreGap = displayData.region_key_index_score.score - avgScore;
 
   const rankColor = colorMap[data.category] || '#FF3737';
 
@@ -172,7 +219,7 @@ const IndexModal: React.FC<IndexModalProps> = ({
               displayData.region_key_index_score.score > 0 && (
                 <div
                   style={{
-                    fontSize: '14px',
+                    fontSize: '15px',
                     fontWeight: '600',
                     color: '#474E59',
                   }}
@@ -180,17 +227,18 @@ const IndexModal: React.FC<IndexModalProps> = ({
                   {displayData.region_key_index_score.score.toFixed(1)}점
                 </div>
               )}
-            {/* {yearlyAvgScore !== undefined && (
+            {avgScore > 0 && (
               <div
                 style={{
                   fontSize: '14px',
-                  fontWeight: '400',
-                  color: '#474E59',
+                  fontWeight: '600',
+                  color: '#ADB5C4',
                 }}
               >
-                전국 평균 {yearlyAvgScore.toFixed(2)}점
+                (전국 평균 대비 {scoreGap >= 0 ? '+' : ''}
+                {scoreGap.toFixed(1)}점)
               </div>
-            )} */}
+            )}
           </div>
 
           {/* 로딩 상태 표시 */}
