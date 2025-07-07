@@ -31,7 +31,8 @@ export const ENV_CONFIG = {
 } as const;
 
 export const getCurrentEnvConfig = () => {
-  const env = process.env.NODE_ENV || 'development';
+  // NEXT_PUBLIC_ENV가 설정되어 있으면 사용, 없으면 NODE_ENV 사용
+  const env = process.env.NEXT_PUBLIC_ENV || process.env.NODE_ENV || 'development';
   return ENV_CONFIG[env as keyof typeof ENV_CONFIG];
 };
 
@@ -43,7 +44,7 @@ export const getSiteUrl = () => {
   }
   
   // 환경변수가 없으면 환경에 따라 기본값 사용
-  const env = process.env.NODE_ENV || 'development';
+  const env = process.env.NEXT_PUBLIC_ENV || process.env.NODE_ENV || 'development';
   
   switch (env) {
     case 'production':
@@ -53,4 +54,30 @@ export const getSiteUrl = () => {
     default:
       return 'https://klaci.kr';
   }
+};
+
+// Production 도메인인지 확인하는 함수 (개선된 버전)
+export const isProductionDomain = () => {
+  const siteUrl = getSiteUrl();
+  const env = process.env.NEXT_PUBLIC_ENV || process.env.NODE_ENV || 'development';
+  
+  // 환경이 production이고, URL이 klaci.kr이면서 dev.klaci.kr이 아닌 경우
+  return env === 'production' && 
+         siteUrl.includes('klaci.kr') && 
+         !siteUrl.includes('dev.klaci.kr');
+};
+
+// SEO 설정이 필요한지 확인하는 함수
+export const shouldApplySEO = () => {
+  return isProductionDomain();
+};
+
+// 현재 환경 정보를 반환하는 함수
+export const getCurrentEnvironment = () => {
+  return {
+    env: process.env.NEXT_PUBLIC_ENV || process.env.NODE_ENV || 'development',
+    siteUrl: getSiteUrl(),
+    isProduction: isProductionDomain(),
+    shouldApplySEO: shouldApplySEO(),
+  };
 }; 
