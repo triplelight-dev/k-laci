@@ -33,8 +33,8 @@ const HomePreRegistrationSection = () => {
         {/* 메인 타이틀 */}
         <div
           style={{
-            fontSize: '36px',
-            fontWeight: 'bold',
+            fontSize: '34px',
+            fontWeight: '600',
             textAlign: 'left',
             marginBottom: '24px',
             lineHeight: '1.4',
