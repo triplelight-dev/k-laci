@@ -32,7 +32,7 @@ export const useAuth = () => {
 
   const signIn = useMutation({
     mutationFn: AuthService.signIn,
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['auth'] });
     },
     onError: (error) => {
@@ -42,7 +42,7 @@ export const useAuth = () => {
 
   const signUp = useMutation({
     mutationFn: AuthService.signUp,
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['auth'] });
     },
     onError: (error) => {
