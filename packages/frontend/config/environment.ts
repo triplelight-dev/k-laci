@@ -53,4 +53,17 @@ export const getSiteUrl = () => {
     default:
       return 'https://klaci.kr';
   }
+};
+
+// Production 도메인인지 확인하는 함수
+export const isProductionDomain = () => {
+  const siteUrl = getSiteUrl();
+  return process.env.NODE_ENV === 'production' && 
+         siteUrl.includes('klaci.kr') && 
+         !siteUrl.includes('dev.klaci.kr');
+};
+
+// SEO 설정이 필요한지 확인하는 함수
+export const shouldApplySEO = () => {
+  return isProductionDomain();
 }; 
