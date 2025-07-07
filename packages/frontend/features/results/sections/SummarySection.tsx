@@ -115,7 +115,7 @@ const SummarySection: React.FC = () => {
   const summaryItems = [
     summaryData.characteristics,
     summaryData.opportunities,
-    summaryData.improvements,
+    // summaryData.improvements,
   ];
 
   return (
