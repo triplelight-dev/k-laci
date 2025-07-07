@@ -62,11 +62,6 @@ export interface IndexData {
   calculation_method?: string;
 }
 
-// 기본 데이터 (서버와 클라이언트에서 동일하게 사용)
-const defaultStrengthData: IndexData[] = [];
-
-const defaultWeaknessData: IndexData[] = [];
-
 // 지수 컴포넌트
 const IndexItem: React.FC<{
   data: IndexData;
@@ -218,11 +213,11 @@ const convertApiResponseToIndexData = (
     indexRank: item.rank || 0,
     indexScore: 0, // 새로운 API에서는 score 정보가 없으므로 0으로 설정
     indexDescription: item.key_index.description || '',
-    yearlyAvgScore: item.key_index.yearly_avg_score,
-    year: item.key_index.year,
-    source: item.key_index.source,
-    unit: item.key_index.unit,
-    calculation_method: item.key_index.calculation_method,
+    ...(item.key_index.yearly_avg_score !== undefined && { yearlyAvgScore: item.key_index.yearly_avg_score }),
+    ...(item.key_index.year !== undefined && { year: item.key_index.year }),
+    ...(item.key_index.source !== undefined && { source: item.key_index.source }),
+    ...(item.key_index.unit !== undefined && { unit: item.key_index.unit }),
+    ...(item.key_index.calculation_method !== undefined && { calculation_method: item.key_index.calculation_method }),
   }));
 };
 
