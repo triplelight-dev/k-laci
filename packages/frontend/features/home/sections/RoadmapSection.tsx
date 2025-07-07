@@ -14,7 +14,7 @@ const RoadmapSection: React.FC = () => {
     },
     description: {
       texts: [
-        'KLACI의 지자체 웹 리포트는 누구나 무료로 이용할 수 있습니다. 이용할 수 있습니다. ',
+        'KLACI의 지자체 웹 리포트는 누구나 무료로 이용할 수 있습니다.',
       ],
       boldTexts: [
         '간단한 5단계 절차를 통해 우리 지역만의 자산력과',

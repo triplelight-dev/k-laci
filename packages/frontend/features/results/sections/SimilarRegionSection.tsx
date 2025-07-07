@@ -69,7 +69,11 @@ const SimilarRegionSection: React.FC = () => {
     const fetchSimilarRegions = async () => {
       try {
         const regionId = selectedRegion?.id || 1;
+        console.log('Fetching similar regions for regionId:', regionId);
+        
         const regions = await getSameCodeRegionsByRegionId(regionId);
+        console.log('API response:', regions);
+        
         const transformedData: SimilarRegionData[] = regions.map(
           (region: any, index: number) => ({
             id: region.id,
@@ -86,8 +90,11 @@ const SimilarRegionSection: React.FC = () => {
             selection_tags: region.selection_tags,
           }),
         );
+        
+        console.log('Transformed data:', transformedData);
         setSimilarRegions(transformedData);
       } catch (err) {
+        console.error('Error fetching similar regions:', err);
         setSimilarRegions([]);
       }
     };

@@ -236,11 +236,29 @@ export class DataController {
     description: 'Region not found',
   })
   async getSameCodeRegionsByRegionId(@Param('id') id: string) {
-    const regionId = Number(id);
-    if (isNaN(regionId)) {
-      throw new Error('Invalid region ID');
+    try {
+      const regionId = Number(id);
+      if (isNaN(regionId)) {
+        throw new Error('Invalid region ID');
+      }
+      console.log(
+        'Controller: getSameCodeRegionsByRegionId called with id:',
+        id,
+        'regionId:',
+        regionId,
+      );
+      const result =
+        await this.dataService.getSameCodeRegionsByRegionId(regionId);
+      console.log(
+        'Controller: returning result with',
+        result.length,
+        'regions',
+      );
+      return result;
+    } catch (error) {
+      console.error('Controller error:', error);
+      throw error;
     }
-    return this.dataService.getSameCodeRegionsByRegionId(regionId);
   }
 
   @Public()

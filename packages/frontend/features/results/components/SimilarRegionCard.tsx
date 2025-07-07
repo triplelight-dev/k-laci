@@ -20,7 +20,6 @@ interface SimilarRegionData {
   [key: string]: any; // 추가 속성들을 위한 인덱스 시그니처
 }
 
-
 interface SimilarRegionCardProps {
   data: SimilarRegionData;
   onClick?: (item: SimilarRegionData) => void;
@@ -50,12 +49,11 @@ const generateMockRadarData = (seed: number): number[] => {
 
 // 뱃지 텍스트를 결정하는 함수
 const getBadgeText = (data: SimilarRegionData): string => {
-  console.log('badge data', data);
   // API에서 받은 display_type이 있으면 사용
   if (data.display_type) {
     return data.display_type;
   }
-  
+
   // selection_tags가 있으면 첫 번째 태그를 기반으로 결정
   if (data.selection_tags && data.selection_tags.length > 0) {
     const firstTag = data.selection_tags[0];
@@ -72,7 +70,7 @@ const getBadgeText = (data: SimilarRegionData): string => {
         return '순위가 비슷한'; // 기본값
     }
   }
-  
+
   // 기본값
   return '순위가 비슷한';
 };
@@ -92,7 +90,6 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
     Array.isArray(data.radarData) && data.radarData.length === 8
       ? data.radarData
       : generateMockRadarData(Number(data.id) || data.rank);
-
 
   // 뱃지 텍스트 결정
   const badgeText = getBadgeText(data);
