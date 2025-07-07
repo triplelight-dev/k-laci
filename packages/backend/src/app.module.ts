@@ -4,8 +4,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { DataModule } from './data/data.module';
-import { LogsModule } from './logs/logs.module';
 import { SupabaseModule } from './supabase/supabase.module';
+import { UserLoggingModule } from './user-logging/user-logging.module';
 import { UserModule } from './users/user.module';
 
 @Module({
@@ -17,7 +17,7 @@ import { UserModule } from './users/user.module';
     AuthModule,
     DataModule,
     UserModule,
-    LogsModule,
+    UserLoggingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

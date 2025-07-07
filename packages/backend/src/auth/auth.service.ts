@@ -1,7 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { LogsService } from '../logs/logs.service';
+// import { LogsService } from '../logs/logs.service';
+import { UserLoggingService } from 'src/user-logging/user-logging.service';
+
 import {
   CompleteSignupDto,
   CompleteSignupResponseDto,
@@ -28,7 +30,7 @@ export class AuthService {
     private configService: ConfigService,
     private verificationCodeService: VerificationCodeService,
     private emailService: EmailService,
-    private logsService: LogsService,
+    private logsService: UserLoggingService,
   ) {
     const supabaseUrl = this.configService.getOrThrow<string>('SUPABASE_URL');
     const supabaseKey =
