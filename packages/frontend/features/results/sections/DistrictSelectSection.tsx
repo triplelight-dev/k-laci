@@ -10,6 +10,7 @@ import {
   useSetSelectedDistrict,
   useSetSelectedProvince,
   useSetSelectedRegion,
+  useUser,
 } from '@/store';
 import { RegionWithDetails as StoreRegionWithDetails } from '@/store/types/district';
 import React, { useEffect } from 'react';
@@ -26,6 +27,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
   const setSelectedDistrict = useSetSelectedDistrict();
   const setSelectedRegion = useSetSelectedRegion();
   const setRegionLoading = useSetRegionLoading();
+  const user = useUser();
 
   // React Query 사용
   const { data: provincesWithRegions = [], error } = useProvincesWithRegions();
@@ -52,7 +54,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
               name: details.province.name,
             },
           };
-          setSelectedRegion(storeDetails);
+          setSelectedRegion(storeDetails, 'system', user?.id);
         } catch (error) {
           console.error('Failed to fetch region details:', error);
           setSelectedRegion(null);
@@ -66,7 +68,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
     };
 
     fetchRegionDetails();
-  }, [selectedDistrict, getRegion, setSelectedRegion, setRegionLoading]);
+  }, [selectedDistrict, getRegion, setSelectedRegion, setRegionLoading, user?.id]);
 
   const handleProvinceChange = (value: string) => {
     const provinceId = value ? Number(value) : null;
@@ -75,7 +77,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
 
   const handleDistrictChange = (value: string) => {
     const districtId = value ? Number(value) : null;
-    setSelectedDistrict(districtId);
+    setSelectedDistrict(districtId, 'district_select', user?.id);
   };
 
   // API에서 가져온 데이터로 province 옵션 생성 (가나다순 정렬 추가)

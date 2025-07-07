@@ -4,7 +4,7 @@ import { DataService } from '@/api/services/data.service';
 import RankArrowButton from '@/components/atoms/buttons/RankArrowButton';
 import JewelRadarChart from '@/components/atoms/charts/RadarChart';
 import KlaciCodeCircles from '@/components/atoms/circle/KlaciCodeCircles';
-import { useDistrict, useSetSelectedRegion } from '@/store';
+import { useDistrict, useSetSelectedRegion, useUser } from '@/store';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 // 지자체 데이터 타입 정의
@@ -21,6 +21,7 @@ interface TitleSectionProps {
 const TitleSection: React.FC<TitleSectionProps> = () => {
   const { selectedRegion } = useDistrict();
   const setSelectedRegion = useSetSelectedRegion();
+  const user = useUser();
   const [isNavigating, setIsNavigating] = useState(false);
   const [animatedChartData, setAnimatedChartData] = useState<number[]>([
     50, 50, 50, 50, 50, 50, 50, 50,
@@ -58,7 +59,7 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
             id: Number(regionDetails.province.id),
             name: regionDetails.province.name,
           },
-        });
+        }, 'navigation_buttons', user?.id);
       }
     } catch (error) {
       console.error('Failed to navigate to adjacent region:', error);
