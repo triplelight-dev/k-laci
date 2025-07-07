@@ -13,6 +13,7 @@ const HomePreRegistrationSection = () => {
   const [agree_to_report_reservation, setAgreeToReportReservation] =
     useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
   
   const isLoggedIn = useIsLoggedIn();
 
@@ -42,13 +43,12 @@ const HomePreRegistrationSection = () => {
         // 리포트 사전동의 여부 확인
         const hasAgreedToReport = response.data.agreeToReportReservation || false;
         setAgreeToReportReservation(hasAgreedToReport);
+        setUserId(response.data.id);
         setIsModalOpen(true);
       } else {
-        console.error('프로필 조회 실패:', response.message);
         alert('프로필 정보를 불러오는데 실패했습니다.');
       }
     } catch (error) {
-      console.error('프로필 조회 중 오류 발생:', error);
       alert('프로필 정보를 불러오는데 실패했습니다.');
     } finally {
       setIsLoading(false);
@@ -190,6 +190,7 @@ const HomePreRegistrationSection = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         agree_to_report_reservation={agree_to_report_reservation}
+        userId={userId || undefined}
       />
 
       {/* 로그인 안내 모달 */}

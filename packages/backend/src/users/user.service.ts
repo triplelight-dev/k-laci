@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { SupabaseService } from '../supabase/supabase.service';
 import {
+  UpdateUserProfileDto,
   UserProfile,
   UserProfileResponse,
-  UpdateUserProfileDto,
 } from './types/user.types';
 
 @Injectable()
@@ -17,7 +17,9 @@ export class UserService {
     const { data, error } = await this.supabaseService
       .getClient()
       .from('user_profiles')
-      .select('*')
+      .select(
+        'id, name, email, created_at, updated_at, agree_to_report_reservation',
+      )
       .eq('id', userId)
       .single();
 
@@ -88,6 +90,7 @@ export class UserService {
     response.email = profile.email;
     response.createdAt = profile.created_at;
     response.updatedAt = profile.updated_at;
+    response.agreeToReportReservation = profile.agree_to_report_reservation;
     return response;
   }
 }

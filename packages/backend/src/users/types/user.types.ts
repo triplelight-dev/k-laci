@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsBoolean, IsOptional, IsString } from 'class-validator';
 
 /**
  * User profile data from public.user_profiles table
@@ -9,6 +10,7 @@ export interface UserProfile {
   email: string;
   created_at: string;
   updated_at: string;
+  agree_to_report_reservation?: boolean;
 }
 
 /**
@@ -16,19 +18,25 @@ export interface UserProfile {
  */
 export class UserProfileResponse {
   @ApiProperty({ description: 'User ID (UUID)' })
-  id: string;
+  id!: string;
 
   @ApiProperty({ description: 'User name' })
-  name: string;
+  name!: string;
 
   @ApiProperty({ description: 'User email' })
-  email: string;
+  email!: string;
 
   @ApiProperty({ description: 'Account creation timestamp' })
-  createdAt: string;
+  createdAt!: string;
 
   @ApiProperty({ description: 'Last update timestamp' })
-  updatedAt: string;
+  updatedAt!: string;
+
+  @ApiProperty({
+    description: 'Agreement to report reservation',
+    required: false,
+  })
+  agreeToReportReservation?: boolean;
 }
 
 /**
@@ -36,8 +44,20 @@ export class UserProfileResponse {
  */
 export class UpdateUserProfileDto {
   @ApiProperty({ description: 'New user name', required: false })
+  @IsOptional()
+  @IsString()
   name?: string;
 
   @ApiProperty({ description: 'New user email', required: false })
+  @IsOptional()
+  @IsString()
   email?: string;
+
+  @ApiProperty({
+    description: 'Agreement to report reservation',
+    required: false,
+  })
+  @IsOptional()
+  @IsBoolean()
+  agree_to_report_reservation?: boolean;
 }

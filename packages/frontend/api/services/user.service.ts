@@ -22,13 +22,30 @@ export class UserService {
     return response.data;
   }
 
+  static async getProfileById(userId: string): Promise<ApiResponse<UserProfileResponse>> {
+    const response = await apiClient.get(`/users/profile/${userId}`);
+    return response.data;
+  }
+
   static async updateProfile(data: UpdateUserProfileRequest): Promise<ApiResponse<UserProfileResponse>> {
     const response = await apiClient.put('/users/profile', data);
     return response.data;
   }
 
+  static async updateProfileById(userId: string, data: UpdateUserProfileRequest): Promise<ApiResponse<UserProfileResponse>> {
+    const response = await apiClient.put(`/users/profile/${userId}`, data);
+    return response.data;
+  }
+
   static async updateReportReservation(agreeToReportReservation: boolean): Promise<ApiResponse<UserProfileResponse>> {
     const response = await apiClient.put('/users/profile', {
+      agree_to_report_reservation: agreeToReportReservation,
+    });
+    return response.data;
+  }
+
+  static async updateReportReservationById(userId: string, agreeToReportReservation: boolean): Promise<ApiResponse<UserProfileResponse>> {
+    const response = await apiClient.put(`/users/profile/${userId}`, {
       agree_to_report_reservation: agreeToReportReservation,
     });
     return response.data;
