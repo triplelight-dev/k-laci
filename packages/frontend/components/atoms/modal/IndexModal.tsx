@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
+import { useRegionKeyIndexScore } from '@/api/hooks/useRegionKeyIndexScore';
 import { NUM_OF_REGIONS } from '@/constants/data';
 import { IndexData } from '@/features/results/sections/StrenthWeaknessIndexSection';
 
@@ -11,18 +12,43 @@ interface IndexModalProps {
   isOpen: boolean;
   onClose: () => void;
   data: IndexData;
+  regionId: number;
 }
 
-const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
+const IndexModal: React.FC<IndexModalProps> = ({
+  isOpen,
+  onClose,
+  data,
+  regionId,
+}) => {
+  const {
+    data: apiData,
+    loading,
+    error,
+    getRegionKeyIndexScore,
+  } = useRegionKeyIndexScore();
+
+  useEffect(() => {
+    if (isOpen && data.indexId && regionId) {
+      getRegionKeyIndexScore(regionId, data.indexId);
+    }
+  }, [isOpen, data.indexId, regionId, getRegionKeyIndexScore]);
+
   if (!isOpen) return null;
 
-  const topPercentage = ((data.indexRank / NUM_OF_REGIONS) * 100).toFixed(1);
-  const source = data.source || '통계청'; // API에서 받은 source 사용, 없으면 기본값
-  const year = data.year || new Date().getFullYear(); // API에서 받은 year 사용, 없으면 현재 연도
-  const yearlyAvgScore = data.yearlyAvgScore; // API에서 받은 연도별 평균점수
+  const displayData = apiData || {
+    region_key_index_score: {
+      score: data.indexScore,
+      year: data.year || new Date().getFullYear(),
+    },
+  };
 
-  // 카테고리에 따른 색상 설정
-  const rankColor = colorMap[data.category] || '#FF3737'; // 기본값으로 빨간색
+  const topPercentage = ((data.indexRank / NUM_OF_REGIONS) * 100).toFixed(1);
+  const source = data.source || '통계청';
+  const year = data.year || new Date().getFullYear();
+  const yearlyAvgScore = data.yearlyAvgScore;
+
+  const rankColor = colorMap[data.category] || '#FF3737';
 
   return (
     <div
@@ -53,7 +79,6 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* 좌측 섹션 */}
         <div
           style={{
             flex: 1,
@@ -64,7 +89,6 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
             gap: '16px',
           }}
         >
-          {/* 지자체명 뱃지 */}
           <div
             style={{
               padding: '8px 16px',
@@ -80,7 +104,6 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
             {data.fullRegionName}
           </div>
 
-          {/* 강점지표 값 */}
           <div
             style={{
               fontSize: '25px',
@@ -92,7 +115,6 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
             {data.indexName}
           </div>
 
-          {/* 순위 - 카테고리별 색상 적용 */}
           <div
             style={{
               fontSize: '25px',
@@ -103,7 +125,6 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
             {data.indexRank}위
           </div>
 
-          {/* 상위 퍼센트 */}
           <div
             style={{
               fontSize: '16px',
@@ -114,7 +135,6 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
             상위 {topPercentage}%
           </div>
 
-          {/* 출처 - key_indexes 테이블의 source 컬럼 사용 */}
           <div
             style={{
               fontSize: '14px',
@@ -127,7 +147,6 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
             {source}
           </div>
 
-          {/* 연도 정보 */}
           <div
             style={{
               fontSize: '14px',
@@ -140,7 +159,6 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
             참고용 로데이터 ({year})
           </div>
 
-          {/* 점수 정보 */}
           <div
             style={{
               marginTop: '24px',
@@ -158,17 +176,18 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
             >
               {data.fullRegionName} {data.indexRank}위
             </div>
-            {data.indexScore !== undefined && data.indexScore > 0 && (
-              <div
-                style={{
-                  fontSize: '14px',
-                  fontWeight: '400',
-                  color: '#474E59',
-                }}
-              >
-                점수: {data.indexScore.toFixed(2)}점
-              </div>
-            )}
+            {displayData.region_key_index_score.score !== undefined &&
+              displayData.region_key_index_score.score > 0 && (
+                <div
+                  style={{
+                    fontSize: '14px',
+                    fontWeight: '400',
+                    color: '#474E59',
+                  }}
+                >
+                  점수: {displayData.region_key_index_score.score.toFixed(2)}점
+                </div>
+              )}
             {yearlyAvgScore !== undefined && (
               <div
                 style={{
@@ -181,9 +200,36 @@ const IndexModal: React.FC<IndexModalProps> = ({ isOpen, onClose, data }) => {
               </div>
             )}
           </div>
+
+          {/* 로딩 상태 표시 */}
+          {loading && (
+            <div
+              style={{
+                fontSize: '14px',
+                fontWeight: '400',
+                color: '#ADB5C4',
+                marginTop: '16px',
+              }}
+            >
+              데이터를 불러오는 중...
+            </div>
+          )}
+
+          {/* 에러 상태 표시 */}
+          {error && (
+            <div
+              style={{
+                fontSize: '14px',
+                fontWeight: '400',
+                color: '#FF3737',
+                marginTop: '16px',
+              }}
+            >
+              {error.message}
+            </div>
+          )}
         </div>
 
-        {/* 우측 섹션 */}
         <div
           style={{
             flex: 3,

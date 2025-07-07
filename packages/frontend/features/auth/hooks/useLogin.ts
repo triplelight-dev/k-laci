@@ -29,11 +29,6 @@ export function useLogin() {
       const response = await AuthService.signIn({ email, password });
       
       if (response.success) {
-        console.log('=== 로그인 성공 - 저장되는 유저 정보 ===');
-        console.log('전체 응답:', response);
-        console.log('유저 데이터:', response.data);
-        console.log('프로필 정보:', response.data.profile);
-        
         // Zustand 스토어에 로그인 정보 저장
         loginAction(response.data, response.data.access_token);
         
@@ -41,11 +36,6 @@ export function useLogin() {
         localStorage.setItem('access_token', response.data.access_token);
         localStorage.setItem('user_id', response.data.user_id);
         localStorage.setItem('user_profile', JSON.stringify(response.data.profile));
-        
-        console.log('=== 저장 완료 ===');
-        console.log('localStorage access_token:', localStorage.getItem('access_token'));
-        console.log('localStorage user_id:', localStorage.getItem('user_id'));
-        console.log('localStorage user_profile:', localStorage.getItem('user_profile'));
         
         // 홈페이지로 리다이렉트
         router.push('/');

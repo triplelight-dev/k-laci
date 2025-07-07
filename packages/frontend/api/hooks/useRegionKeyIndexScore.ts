@@ -1,26 +1,29 @@
 import { useCallback, useState } from 'react';
-import { DataService, KeyIndexData } from '../services/data.service';
+import { DataService, RegionKeyIndexScoreResponse } from '../services/data.service';
 import { ApiError } from '../types/api.types';
 
-export const useKeyIndexData = () => {
+export const useRegionKeyIndexScore = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<ApiError | null>(null);
-  const [keyIndexData, setKeyIndexData] = useState<KeyIndexData | null>(null);
+  const [data, setData] = useState<RegionKeyIndexScoreResponse | null>(null);
 
-  const getKeyIndexData = useCallback(
-    async (indexId: number, year?: number) => {
+  const getRegionKeyIndexScore = useCallback(
+    async (regionId: number, keyIndexId: number) => {
       setLoading(true);
       setError(null);
 
       try {
-        const response = await DataService.getKeyIndexData(indexId, year);
-        setKeyIndexData(response.data);
+        const response = await DataService.getRegionKeyIndexScore(
+          regionId,
+          keyIndexId,
+        );
+        setData(response.data);
         return response.data;
       } catch (err: any) {
         const apiError: ApiError = {
           message:
             err.response?.data?.message ||
-            '키 인덱스 데이터를 불러오는데 실패했습니다.',
+            '지역 키 인덱스 점수를 불러오는데 실패했습니다.',
           status: err.response?.status || 500,
         };
         setError(apiError);
@@ -33,9 +36,9 @@ export const useKeyIndexData = () => {
   );
 
   return {
-    keyIndexData,
+    data,
     loading,
     error,
-    getKeyIndexData,
+    getRegionKeyIndexScore,
   };
-};
+}; 

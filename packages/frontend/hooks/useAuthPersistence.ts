@@ -9,16 +9,9 @@ export const useAuthPersistence = () => {
 
   // 컴포넌트 마운트 시 로컬 스토리지에서 상태 복원
   useEffect(() => {
-    console.log('=== AuthPersistenceProvider - 상태 복원 시작 ===');
-    
     const savedToken = localStorage.getItem('access_token');
     const savedUserId = localStorage.getItem('user_id');
     const savedUserProfile = localStorage.getItem('user_profile');
-
-    console.log('localStorage에서 읽은 데이터:');
-    console.log('savedToken:', savedToken);
-    console.log('savedUserId:', savedUserId);
-    console.log('savedUserProfile:', savedUserProfile);
 
     if (savedToken && savedUserId && savedUserProfile) {
       try {
@@ -29,13 +22,9 @@ export const useAuthPersistence = () => {
           profile: userProfile,
         };
         
-        console.log('복원된 유저 정보:', user);
-        
         setUser(user);
         setAccessToken(savedToken);
         setIsLoggedIn(true);
-        
-        console.log('=== 상태 복원 완료 ===');
       } catch (error) {
         console.error('Failed to restore auth state:', error);
         // 잘못된 데이터는 정리
@@ -43,8 +32,6 @@ export const useAuthPersistence = () => {
         localStorage.removeItem('user_id');
         localStorage.removeItem('user_profile');
       }
-    } else {
-      console.log('저장된 인증 정보가 없습니다.');
     }
   }, [setUser, setAccessToken, setIsLoggedIn]);
 

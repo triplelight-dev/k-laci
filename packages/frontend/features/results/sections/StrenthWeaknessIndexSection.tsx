@@ -211,7 +211,6 @@ const StrengthWeaknessIndexSection: React.FC = () => {
     let updatedData = { ...data };
 
     if (keyIndexDetail) {
-      console.log('keyindexdetail', keyIndexDetail);
       if (keyIndexDetail.description) {
         updatedData.indexDescription = keyIndexDetail.description;
       }
@@ -309,6 +308,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
           isOpen={isModalOpen}
           onClose={handleCloseModal}
           data={selectedData}
+          regionId={selectedRegion?.id || 0}
         />
       )}
     </>

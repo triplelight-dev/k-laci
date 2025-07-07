@@ -73,6 +73,31 @@ export interface KeyIndexData {
   yearly_avg_score?: number;
 }
 
+export interface RegionKeyIndexScore {
+  id: number;
+  region_id: number;
+  key_index_id: number;
+  year: number;
+  score: number;
+}
+
+export interface KeyIndexWithDetails {
+  id: number;
+  code: string;
+  name: string;
+  category: string;
+  description: string;
+  source?: string;
+  unit?: string;
+  name_eng?: string;
+}
+
+export interface RegionKeyIndexScoreResponse {
+  region_key_index_score: RegionKeyIndexScore;
+  avg_score: number;
+  key_index: KeyIndexWithDetails;
+}
+
 export class DataService {
   static async getProvinces(): Promise<ApiResponse<Province[]>> {
     const response = await apiClient.get('/data/provinces');
@@ -137,6 +162,16 @@ export class DataService {
   ): Promise<ApiResponse<RegionWithDetails[]>> {
     const response = await apiClient.get(
       `/data/regions/${regionId}/same-code-regions`,
+    );
+    return response.data;
+  }
+
+  static async getRegionKeyIndexScore(
+    regionId: number,
+    keyIndexId: number,
+  ): Promise<ApiResponse<RegionKeyIndexScoreResponse>> {
+    const response = await apiClient.get(
+      `/data/regions/${regionId}/key-indexes/${keyIndexId}/score`,
     );
     return response.data;
   }
