@@ -32,11 +32,11 @@ const debouncedLogRegionChange = debounce(async (logData: RegionChangeLogData) =
       userId: userId,
       metadata: {
         ...logData,
-        timestamp: new Date().toISOString(),
         userAgent: navigator.userAgent,
         referrer: document.referrer,
       },
       regionId: logData.newRegionId,
+      timestamp: new Date().toISOString(),
     });
   } catch (error) {
     console.error('Failed to log region change:', error);

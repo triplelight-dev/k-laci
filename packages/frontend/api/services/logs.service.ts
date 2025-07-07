@@ -7,6 +7,7 @@ export interface CreateLogRequest {
   sessionId?: string;
   metadata?: any;
   regionId?: number | null;
+  timestamp: string;
 }
 
 export interface CreateLogResponse {
@@ -16,7 +17,7 @@ export interface CreateLogResponse {
 
 export class LogsService {
   static async createLog(data: CreateLogRequest): Promise<ApiResponse<CreateLogResponse>> {
-    const response = await apiClient.post('/logs', data);
+    const response = await apiClient.post('/user-logging', data);
     return response.data;
   }
 } 

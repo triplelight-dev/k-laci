@@ -4,7 +4,13 @@ import { DataService } from '@/api/services/data.service';
 import RankArrowButton from '@/components/atoms/buttons/RankArrowButton';
 import JewelRadarChart from '@/components/atoms/charts/RadarChart';
 import KlaciCodeCircles from '@/components/atoms/circle/KlaciCodeCircles';
-import { useDistrict, useSetSelectedRegion } from '@/store';
+import { PROVINCE_FULL_NAMES } from '@/constants/region';
+import {
+  useDistrict,
+  useSetSelectedDistrict,
+  useSetSelectedProvince,
+  useSetSelectedRegion,
+} from '@/store';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 // 지자체 데이터 타입 정의
@@ -21,6 +27,8 @@ interface TitleSectionProps {
 const TitleSection: React.FC<TitleSectionProps> = () => {
   const { selectedRegion } = useDistrict();
   const setSelectedRegion = useSetSelectedRegion();
+  const setSelectedProvince = useSetSelectedProvince();
+  const setSelectedDistrict = useSetSelectedDistrict();
   const [isNavigating, setIsNavigating] = useState(false);
   const [animatedChartData, setAnimatedChartData] = useState<number[]>([
     50, 50, 50, 50, 50, 50, 50, 50,
@@ -50,18 +58,18 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
 
       if (adjacentRegionData.data) {
         const regionDetails = adjacentRegionData.data;
-        setSelectedRegion(
-          {
-            ...regionDetails,
-            id: Number(regionDetails.id),
-            province_id: Number(regionDetails.provinceId),
-            province: {
-              id: Number(regionDetails.province.id),
-              name: regionDetails.province.name,
-            },
+        const storeRegion = {
+          ...regionDetails,
+          id: Number(regionDetails.id),
+          province_id: Number(regionDetails.provinceId),
+          province: {
+            id: Number(regionDetails.province.id),
+            name: regionDetails.province.name,
           },
-          'navigation_buttons',
-        );
+        };
+        setSelectedRegion(storeRegion, 'navigation_buttons');
+        setSelectedProvince(storeRegion.province_id);
+        setSelectedDistrict(storeRegion.id, 'navigation_buttons');
       }
     } catch (error) {
       console.error('Failed to navigate to adjacent region:', error);
@@ -142,11 +150,14 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
 
   // 안전한 지역명 생성 함수
   const getDistrictName = (): string => {
-    if (currentRegion?.province.name && currentRegion?.name) {
-      return `${currentRegion.province.name} ${currentRegion.name}`;
+    if (currentRegion?.province && currentRegion?.name) {
+      const fullName =
+        PROVINCE_FULL_NAMES[currentRegion.province.id] ||
+        currentRegion.province.name;
+      return `${fullName} ${currentRegion.name}`;
     }
     // currentRegion이 없거나 유효하지 않은 경우 기본값 반환
-    return '전라북도 전주시';
+    return '';
   };
 
   // 기본값 설정

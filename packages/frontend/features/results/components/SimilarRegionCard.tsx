@@ -55,8 +55,6 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
   const klaciType = data.klaciType || '개발도약형'; // 기본값 설정
   const klaciNickname = data.klaciNickname || '믿고 보는 호수비의 도시'; // 기본값 설정
 
-  console.log('card data', data);
-
   // 레이더 차트 데이터: 실제 데이터가 있으면 사용, 없으면 목업 데이터 생성
   const radarData =
     Array.isArray(data.radarData) && data.radarData.length === 8
