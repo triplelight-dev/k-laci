@@ -2,6 +2,7 @@ import CommonInput from '@/components/atoms/CommonInput';
 import EmailDisplayBox from '@/components/atoms/EmailDisplayBox';
 import PasswordInputGroup from '@/components/atoms/PasswordInputGroup';
 import CommonSelect from '@/components/atoms/select/CommonSelect';
+import { EXTERNAL_LINKS } from '@/constants/links';
 import { useProvincesWithRegions } from '@/hooks/useProvincesWithRegions';
 import { UserType } from '@/utils/userTypeUtils';
 import {
@@ -123,6 +124,27 @@ export default function ProfileForm({
           label: region.name,
         })) || []
     : [];
+
+  // 약관 링크 핸들러들
+  const handleTermsLink = () => {
+    window.open(
+      EXTERNAL_LINKS.TERMS_OF_SERVICE,
+      '_blank',
+      'noopener,noreferrer',
+    );
+  };
+
+  const handlePrivacyLink = () => {
+    window.open(EXTERNAL_LINKS.PRIVACY_POLICY, '_blank', 'noopener,noreferrer');
+  };
+
+  const handleMarketingLink = () => {
+    window.open(
+      EXTERNAL_LINKS.MARKETING_CONSENT,
+      '_blank',
+      'noopener,noreferrer',
+    );
+  };
 
   return (
     <form
@@ -402,7 +424,7 @@ export default function ProfileForm({
               }}
             >
               <span
-                onClick={onTermsLink}
+                onClick={handleTermsLink}
                 style={{
                   textDecoration: 'underline',
                   cursor: 'pointer',
@@ -443,7 +465,7 @@ export default function ProfileForm({
               }}
             >
               <span
-                onClick={onPrivacyLink}
+                onClick={handlePrivacyLink}
                 style={{
                   textDecoration: 'underline',
                   cursor: 'pointer',
@@ -484,7 +506,7 @@ export default function ProfileForm({
               }}
             >
               <span
-                onClick={onMarketingLink}
+                onClick={handleMarketingLink}
                 style={{
                   textDecoration: 'underline',
                   cursor: 'pointer',
@@ -514,7 +536,7 @@ export default function ProfileForm({
           opacity: isProfileLoading ? 0.6 : 1,
         }}
       >
-        {isProfileLoading ? '가입 중...' : '회원가입'}
+        {isProfileLoading ? '가입 중...' : '회원정보 제출하기'}
       </button>
     </form>
   );
