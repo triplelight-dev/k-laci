@@ -75,9 +75,20 @@ export const useSignupFlow = () => {
       setIsCodeSent(true);
       startCountdown();
     } catch (err: any) {
-      setError(
-        err.response?.data?.message || '인증번호 발송 중 오류가 발생했습니다.',
-      );
+      const errorMessage = err.response?.data?.message || '인증번호 발송 중 오류가 발생했습니다.';
+      
+      // "이미 가입된 이메일입니다" 에러 특별 처리
+      if (errorMessage === '이미 가입된 이메일입니다.') {
+        setError('이미 가입된 계정입니다. 홈으로 곧 이동합니다.');
+        
+        // 상태 업데이트가 완료된 후 3초 대기
+        setTimeout(() => {
+          console.log('3초 후 홈으로 이동합니다.');
+          router.push('/');
+        }, 3000);
+      } else {
+        setError(errorMessage);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -119,9 +130,20 @@ export const useSignupFlow = () => {
       await AuthService.sendVerificationCode({ email });
       startCountdown();
     } catch (err: any) {
-      setError(
-        err.response?.data?.message || '인증번호 재발송 중 오류가 발생했습니다.',
-      );
+      const errorMessage = err.response?.data?.message || '인증번호 재발송 중 오류가 발생했습니다.';
+      
+      // "이미 가입된 이메일입니다" 에러 특별 처리
+      if (errorMessage === '이미 가입된 이메일입니다.') {
+        setError('이미 가입된 계정입니다. 홈으로 곧 이동합니다.');
+        
+        // 상태 업데이트가 완료된 후 3초 대기
+        setTimeout(() => {
+          console.log('3초 후 홈으로 이동합니다.');
+          router.push('/');
+        }, 3000);
+      } else {
+        setError(errorMessage);
+      }
     } finally {
       setIsLoading(false);
     }
