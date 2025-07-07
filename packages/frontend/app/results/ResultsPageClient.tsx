@@ -68,12 +68,15 @@ function ResultsPageContent() {
   const setSelectedProvince = useSetSelectedProvince();
   const setSelectedRegion = useSetSelectedRegion();
   const [isFloating, setIsFloating] = useState(false);
+  const [isFloatingVisible, setIsFloatingVisible] = useState(true);
+  const lastScrollY = useRef(0);
   const [districtData, setDistrictData] = useState<DistrictData | null>(null);
   const [showAnimation, setShowAnimation] = useState(false);
   const isLoggedIn = useIsLoggedIn();
   const user = useUser();
   const hasAnimatedRef = useRef(false);
   const [hasLoadedDefault, setHasLoadedDefault] = useState(false);
+  const chartSectionRef = useRef<HTMLDivElement>(null);
 
   // Zustand store에서 선택된 지역 정보 가져오기
   const { selectedProvince, selectedDistrict, selectedRegion } = useDistrict();
@@ -204,11 +207,25 @@ function ResultsPageContent() {
   // 스크롤 이벤트 핸들러 수정
   useEffect(() => {
     const handleScroll = () => {
-      const scrollThreshold = 400; // 200에서 400으로 증가
       const scrollY = window.scrollY;
-      const newIsFloating = scrollY > scrollThreshold;
-
+      let chartBottom = 400; // fallback
+      if (chartSectionRef.current) {
+        const rect = chartSectionRef.current.getBoundingClientRect();
+        chartBottom = rect.bottom + window.scrollY;
+      }
+      // 차트(TitleSection) 아래로 스크롤했을 때만 플로팅
+      const newIsFloating = scrollY > chartBottom;
       setIsFloating(newIsFloating);
+
+      // 스크롤 방향 감지
+      if (scrollY > lastScrollY.current) {
+        // 아래로 스크롤: 숨김
+        setIsFloatingVisible(false);
+      } else {
+        // 위로 스크롤: 표시
+        setIsFloatingVisible(true);
+      }
+      lastScrollY.current = scrollY;
 
       if (newIsFloating && !hasAnimatedRef.current) {
         // floating 상태가 되었을 때만 애니메이션 실행 (한 번만)
@@ -260,7 +277,7 @@ function ResultsPageContent() {
         <DistrictSearchSection />
 
         {/* floating 상태에 따라 다른 스타일로 DistrictSelectSection 렌더링 */}
-        <DistrictSelectSection isFloating={isFloating} />
+        <DistrictSelectSection isFloating={isFloating} isVisible={isFloatingVisible} />
 
         <div
           style={{
@@ -282,7 +299,10 @@ function ResultsPageContent() {
               paddingTop: '100px',
             }}
           >
-            <TitleSection districtData={districtData} />
+            {/* 차트(TitleSection) 영역 ref 부착 */}
+            <div ref={chartSectionRef}>
+              <TitleSection districtData={districtData} />
+            </div>
             <SummarySection />
 
             {/* StrengthWeaknessIndexSection과 상단 컴포넌트 사이 간격 */}

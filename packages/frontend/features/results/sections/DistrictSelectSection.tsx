@@ -16,10 +16,12 @@ import React, { useEffect } from 'react';
 
 interface DistrictSelectSectionProps {
   isFloating?: boolean;
+  isVisible?: boolean;
 }
 
 const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
   isFloating = false,
+  isVisible = true,
 }) => {
   const { selectedProvince, selectedDistrict, regionLoading } = useDistrict();
   const setSelectedProvince = useSetSelectedProvince();
@@ -154,7 +156,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
   return (
     <div
       style={{
-        display: 'flex',
+        display: isFloating && !isVisible ? 'none' : 'flex',
         width: '500px',
         padding: '5px',
         justifyContent: 'center',
