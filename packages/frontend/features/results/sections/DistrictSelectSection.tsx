@@ -52,6 +52,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
             },
           };
           setSelectedRegion(storeDetails, 'system');
+          setSelectedProvince(storeDetails.province_id);
         } catch (error) {
           console.error('Failed to fetch region details:', error);
           setSelectedRegion(null);
@@ -65,7 +66,13 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
     };
 
     fetchRegionDetails();
-  }, [selectedDistrict, getRegion, setSelectedRegion, setRegionLoading]);
+  }, [
+    selectedDistrict,
+    getRegion,
+    setSelectedRegion,
+    setRegionLoading,
+    setSelectedProvince,
+  ]);
 
   const handleProvinceChange = (value: string) => {
     const provinceId = value ? Number(value) : null;
@@ -86,7 +93,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
     }));
 
   // 선택된 도/시에 해당하는 지역 옵션 생성
-  const districtOptions = selectedProvince
+  let districtOptions = selectedProvince
     ? provincesWithRegions
         .find((province) => province.id === selectedProvince.id)
         ?.regions.map((region) => ({
@@ -95,6 +102,35 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
           ...region,
         })) || []
     : [];
+
+  // districtOptions에 selectedDistrict가 없으면 강제로 추가 (보정)
+  if (
+    selectedDistrict &&
+    !districtOptions.some(
+      (opt) => String(opt.id) === String(selectedDistrict.id),
+    )
+  ) {
+    // DistrictOption 타입에 맞게 보정
+    districtOptions = [
+      {
+        value: String(selectedDistrict.id),
+        label: selectedDistrict.name,
+        id: String(selectedDistrict.id),
+        provinceId: String(selectedDistrict.province_id),
+        name: selectedDistrict.name,
+        district_type: selectedDistrict.district_type,
+        weight_class: selectedDistrict.weight_class,
+        klaci_code: selectedDistrict.klaci_code,
+        growth_score: selectedDistrict.growth_score,
+        economy_score: selectedDistrict.economy_score,
+        living_score: selectedDistrict.living_score,
+        safety_score: selectedDistrict.safety_score,
+        total_score: selectedDistrict.total_score,
+        total_rank: selectedDistrict.total_rank,
+      },
+      ...districtOptions,
+    ];
+  }
 
   if (error) {
     return (

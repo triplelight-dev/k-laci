@@ -7,6 +7,7 @@ export interface CreateLogRequest {
   sessionId?: string;
   metadata?: any;
   regionId?: number | null;
+  timestamp: string;
 }
 
 export interface CreateLogResponse {
