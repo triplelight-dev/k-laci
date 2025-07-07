@@ -1,4 +1,5 @@
 import AboutIntroSection from '@/features/about/sections/AboutIntroSection';
+import AboutUsSection from '@/features/about/sections/AboutUsSection';
 import ViewResultSuggestionSection from '@/features/about/sections/ViewResultSuggestionSection';
 import FrameworkSection from '@/features/home/sections/FrameworkSection';
 import PrincipleSection from '@/features/home/sections/PrincipleSection';
@@ -35,17 +36,17 @@ export default function AboutPage() {
         <FrameworkSection />
         <ViewResultSuggestionSection />
       </div>
-      {/* <div
+      <div
         style={{
           width: '100%',
-          maxWidth: '1100px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          paddingBottom: '80px',
-          backgroundColor: DARK_MODE_COLORS.backgroundDarker,
+          backgroundColor: DARK_MODE_COLORS.background,
         }}
-      ></div> */}
+      >
+        <AboutUsSection />
+      </div>
     </>
   );
 }

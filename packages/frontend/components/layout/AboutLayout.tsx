@@ -2,6 +2,7 @@ import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 
 import { DARK_MODE_COLORS } from '@/utils/colors';
+import HomePreRegistrationSection from '../sections/HomePreRegistrationSection';
 
 const AboutLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -30,6 +31,7 @@ const AboutLayout = ({ children }: { children: React.ReactNode }) => {
       >
         {children}
       </div>
+      <HomePreRegistrationSection />
       <Footer />
     </div>
   );
