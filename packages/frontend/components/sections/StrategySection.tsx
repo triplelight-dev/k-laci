@@ -25,7 +25,7 @@ const StrategySection: React.FC = () => {
       }}
       button={{
         text: '5극 3특 리스트 전체보기',
-        route: ROUTES.RESULT,
+        route: ROUTES.SUMMARY,
       }}
       image={{
         src: '/home/strategy.png',
