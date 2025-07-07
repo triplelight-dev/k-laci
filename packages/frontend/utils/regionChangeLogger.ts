@@ -1,4 +1,5 @@
 import { LogsService } from '@/api/services/logs.service';
+import { getUserIdFromToken } from './jwtUtils';
 
 // debounce 함수
 function debounce<T extends (...args: any[]) => any>(
@@ -23,9 +24,12 @@ interface RegionChangeLogData {
 // 지역 변경 로깅 함수 (debounce 적용)
 const debouncedLogRegionChange = debounce(async (logData: RegionChangeLogData) => {
   try {
+    // JWT 토큰에서 userId 추출
+    const userId = getUserIdFromToken();
+    
     await LogsService.createLog({
       actionType: 'REGION_CHANGE',
-      userId: logData.metadata?.userId || null,
+      userId: userId,
       metadata: {
         ...logData,
         timestamp: new Date().toISOString(),

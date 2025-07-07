@@ -40,11 +40,10 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
     const fetchRegionDetails = async () => {
       if (selectedDistrict) {
         try {
-          setRegionLoading(true); // 로딩 시작
+          setRegionLoading(true);
           const details: ApiRegionWithDetails = await getRegion(
             String(selectedDistrict.id),
           );
-          // Convert API type to store type
           const storeDetails: StoreRegionWithDetails = {
             ...details,
             id: Number(details.id),
@@ -54,12 +53,12 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
               name: details.province.name,
             },
           };
-          setSelectedRegion(storeDetails, 'system', user?.id);
+          setSelectedRegion(storeDetails, 'system');
         } catch (error) {
           console.error('Failed to fetch region details:', error);
           setSelectedRegion(null);
         } finally {
-          setRegionLoading(false); // 로딩 완료
+          setRegionLoading(false);
         }
       } else {
         setSelectedRegion(null);
@@ -68,7 +67,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
     };
 
     fetchRegionDetails();
-  }, [selectedDistrict, getRegion, setSelectedRegion, setRegionLoading, user?.id]);
+  }, [selectedDistrict, getRegion, setSelectedRegion, setRegionLoading]);
 
   const handleProvinceChange = (value: string) => {
     const provinceId = value ? Number(value) : null;
@@ -77,7 +76,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
 
   const handleDistrictChange = (value: string) => {
     const districtId = value ? Number(value) : null;
-    setSelectedDistrict(districtId, 'district_select', user?.id);
+    setSelectedDistrict(districtId, 'district_select');
   };
 
   // API에서 가져온 데이터로 province 옵션 생성 (가나다순 정렬 추가)

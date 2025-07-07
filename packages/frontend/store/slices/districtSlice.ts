@@ -14,8 +14,8 @@ export interface DistrictSlice {
   provinces: Province[];
   regions: Region[];
   setSelectedProvince: (provinceId: number | null) => void;
-  setSelectedDistrict: (districtId: number | null, source?: string, userId?: string) => void;
-  setSelectedRegion: (region: RegionWithDetails | null, source?: string, userId?: string) => void;
+  setSelectedDistrict: (districtId: number | null, source?: string) => void;
+  setSelectedRegion: (region: RegionWithDetails | null, source?: string) => void;
   setRegionLoading: (loading: boolean) => void;
   clearDistrictSelection: () => void;
   getProvinceById: (id: number) => Province | null;
@@ -47,7 +47,7 @@ export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
     }));
   },
   
-  setSelectedDistrict: (districtId: number | null, source: string = 'district_select', userId?: string) => {
+  setSelectedDistrict: (districtId: number | null, source: string = 'district_select') => {
     const currentState = get();
     const previousRegionId = currentState.district.selectedRegion?.id || null;
     const district = districtId ? get().getRegionById(districtId) : null;
@@ -68,7 +68,6 @@ export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
         newRegionId: districtId,
         source: source as any,
         metadata: {
-          userId,
           districtName: district?.name,
           provinceName: district ? get().getProvinceById(district.province_id)?.name : null,
         },
@@ -76,7 +75,7 @@ export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
     }
   },
 
-  setSelectedRegion: (region: RegionWithDetails | null, source: string = 'system', userId?: string) => {
+  setSelectedRegion: (region: RegionWithDetails | null, source: string = 'system') => {
     const currentState = get();
     const previousRegionId = currentState.district.selectedRegion?.id || null;
     
@@ -95,7 +94,6 @@ export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
         newRegionId: region.id,
         source: source as any,
         metadata: {
-          userId,
           regionName: region.name,
           provinceName: region.province?.name,
         },

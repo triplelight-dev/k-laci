@@ -59,7 +59,7 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
             id: Number(regionDetails.province.id),
             name: regionDetails.province.name,
           },
-        }, 'navigation_buttons', user?.id);
+        }, 'navigation_buttons');
       }
     } catch (error) {
       console.error('Failed to navigate to adjacent region:', error);
