@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { SupabaseService } from '../supabase/supabase.service';
 import {
+  UpdateUserProfileDto,
   UserProfile,
   UserProfileResponse,
-  UpdateUserProfileDto,
 } from './types/user.types';
 
 @Injectable()
@@ -17,7 +17,9 @@ export class UserService {
     const { data, error } = await this.supabaseService
       .getClient()
       .from('user_profiles')
-      .select('*')
+      .select(
+        'id, name, email, created_at, updated_at, agree_to_report_reservation',
+      )
       .eq('id', userId)
       .single();
 
@@ -40,6 +42,28 @@ export class UserService {
       .from('user_profiles')
       .update({
         ...updateDto,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', userId)
+      .select()
+      .single();
+
+    if (error || !data) {
+      throw new NotFoundException('User profile not found');
+    }
+
+    return this.transformUserProfile(data);
+  }
+
+  /**
+   * Agree to report reservation (simple utility method)
+   */
+  async agreeToReportReservation(userId: string): Promise<UserProfileResponse> {
+    const { data, error } = await this.supabaseService
+      .getClient()
+      .from('user_profiles')
+      .update({
+        agree_to_report_reservation: true,
         updated_at: new Date().toISOString(),
       })
       .eq('id', userId)
@@ -88,6 +112,7 @@ export class UserService {
     response.email = profile.email;
     response.createdAt = profile.created_at;
     response.updatedAt = profile.updated_at;
+    response.agreeToReportReservation = profile.agree_to_report_reservation;
     return response;
   }
 }
