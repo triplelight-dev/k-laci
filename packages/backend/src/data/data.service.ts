@@ -13,7 +13,7 @@ import {
   RegionsResponse,
   RegionStrengthIndexesResponse,
   RegionStrengthIndexesWithDetailsResponse,
-
+  RegionWithDetails,
 } from './types/region.types';
 
 export const REGION_SCORE_TYPES = {
