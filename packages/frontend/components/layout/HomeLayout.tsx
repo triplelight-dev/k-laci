@@ -18,19 +18,7 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
       }}
     >
       <Header />
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: '80%',
-          maxWidth: '1000px',
-          gap: '100px',
-        }}
-      >
-        {children}
-      </div>
+      {children}
       <HomePreRegistrationSection />
       <Footer />
     </div>

@@ -1,5 +1,6 @@
 'use client';
 
+import { Flex } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useState } from 'react';
 import { UserService } from '../../api/services/user.service';
@@ -14,11 +15,11 @@ const HomePreRegistrationSection = () => {
     useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
-  
+
   const isLoggedIn = useIsLoggedIn();
 
   // 타이틀 텍스트를 배열로 정의
-  const MAIN_TITLE = ['균형발전 전략의 시작,', 'KLACI 인사이트 리포트'];
+  const MAIN_TITLE = ['균형발전 전략의 시작,', 'KLACI 데이터 백서'];
 
   // 설명 텍스트를 배열로 정의
   const DESCRIPTION_TEXTS = [
@@ -34,11 +35,11 @@ const HomePreRegistrationSection = () => {
     }
 
     setIsLoading(true);
-    
+
     try {
       // 유저 프로필 조회 API 호출
       const response = await UserService.getProfile();
-      
+
       if (response.success) {
         // 리포트 사전동의 여부 확인
         const hasAgreedToReport = response.data.agreeToReportReservation || false;
@@ -63,21 +64,16 @@ const HomePreRegistrationSection = () => {
           padding: '80px 120px',
           backgroundColor: '#14161D',
           color: '#ffffff',
+          height: 'calc(100vh - 300px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '80px',
-            maxWidth: '1200px',
-            margin: '0 auto',
-          }}
-        >
+        <Flex justifyContent="space-between" alignItems="center" maxWidth="1400px" width="100%">
           {/* 좌측: 기존 내용 */}
           <div
             style={{
-              flex: '1',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'flex-start',
@@ -86,10 +82,10 @@ const HomePreRegistrationSection = () => {
             {/* 메인 타이틀 */}
             <div
               style={{
-                fontSize: '34px',
+                fontSize: '48px',
                 fontWeight: '600',
                 textAlign: 'left',
-                marginBottom: '24px',
+                marginBottom: '36px',
                 lineHeight: '1.4',
               }}
             >
@@ -101,7 +97,7 @@ const HomePreRegistrationSection = () => {
             {/* 설명 텍스트들 */}
             <div
               style={{
-                marginBottom: '32px',
+                marginBottom: '74px',
                 textAlign: 'left',
               }}
             >
@@ -109,7 +105,7 @@ const HomePreRegistrationSection = () => {
                 <div
                   key={index}
                   style={{
-                    fontSize: '16px',
+                    fontSize: '18px',
                     color: '#D1D5DB',
                     lineHeight: '1.6',
                   }}
@@ -120,47 +116,56 @@ const HomePreRegistrationSection = () => {
             </div>
 
             {/* 사전예약 바로가기 버튼 */}
-            <button
-              onClick={handlePreRegistrationClick}
-              disabled={isLoading}
+            <div
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '16px 36px',
-                backgroundColor: 'transparent',
-                color: '#ffffff',
-                border: '1px solid #ffffff',
+                background: 'linear-gradient(90deg, #F56542 0%, #F4B04D 33%, #ACAAE8 66%, #74BF9E 100%)',
+                padding: '1px',
                 borderRadius: '8px',
-                fontSize: '14px',
-                fontWeight: '600',
-                cursor: isLoading ? 'not-allowed' : 'pointer',
                 opacity: isLoading ? 0.6 : 1,
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                if (!isLoading) {
-                  e.currentTarget.style.backgroundColor = '#ffffff';
-                  e.currentTarget.style.color = '#000000';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!isLoading) {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = '#ffffff';
-                }
               }}
             >
-              {isLoading ? '로딩 중...' : '사전예약 바로가기'}
-              {!isLoading && (
-                <Image
-                  src="/arrow_button_icon_white.png"
-                  alt="화살표 아이콘"
-                  width={10}
-                  height={10}
-                />
-              )}
-            </button>
+              <button
+                onClick={handlePreRegistrationClick}
+                disabled={isLoading}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '16px 36px',
+                  backgroundColor: '#14161D',
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: '7px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: isLoading ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.2s ease',
+                  width: '100%',
+                }}
+                onMouseEnter={(e) => {
+                  if (!isLoading) {
+                    e.currentTarget.style.backgroundColor = '#ffffff';
+                    e.currentTarget.style.color = '#000000';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isLoading) {
+                    e.currentTarget.style.backgroundColor = '#14161D';
+                    e.currentTarget.style.color = '#ffffff';
+                  }
+                }}
+              >
+                {isLoading ? '로딩 중...' : '사전예약 바로가기'}
+                {!isLoading && (
+                  <Image
+                    src="/arrow_button_icon_white.png"
+                    alt="화살표 아이콘"
+                    width={10}
+                    height={10}
+                  />
+                )}
+              </button>
+            </div>
           </div>
 
           {/* 우측: 이미지 */}
@@ -168,6 +173,7 @@ const HomePreRegistrationSection = () => {
             style={{
               flex: '1.5',
               display: 'flex',
+              maxWidth: '800px',
               justifyContent: 'center',
               alignItems: 'center',
             }}
@@ -182,7 +188,7 @@ const HomePreRegistrationSection = () => {
               }}
             />
           </div>
-        </div>
+        </Flex>
       </section>
 
       {/* 사전예약 모달 */}

@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import React from 'react';
+import { ArrowRightUp } from '../atoms/assets';
 
 interface ContentSectionVerticalProps {
   badgeText: string;
@@ -45,10 +46,11 @@ const ContentSectionVertical: React.FC<ContentSectionVerticalProps> = ({
     <div
       style={{
         width: '100%',
-        minHeight: '600px',
+        minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        padding: '60px 20px',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
       {/* 메인 그리드 */}
@@ -57,8 +59,8 @@ const ContentSectionVertical: React.FC<ContentSectionVerticalProps> = ({
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
           gap: '40px',
-          maxWidth: '1200px',
-          margin: '0 auto',
+          maxWidth: '1400px',
+          // margin: '0 auto',
           minHeight: '500px',
           alignItems: 'stretch',
           width: '100%',
@@ -73,7 +75,7 @@ const ContentSectionVertical: React.FC<ContentSectionVerticalProps> = ({
             justifyContent: 'space-between',
             width: '100%',
             height: '100%',
-            gap: '10px',
+            gap: '77px',
           }}
         >
           {/* 상단: 뱃지와 타이틀 */}
@@ -91,10 +93,10 @@ const ContentSectionVertical: React.FC<ContentSectionVerticalProps> = ({
                 backgroundColor: 'transparent',
                 color: styling.textColor || 'white',
                 padding: '8px 16px',
-                borderRadius: '20px',
+                borderRadius: '9px',
                 fontSize: '14px',
                 fontWeight: '400',
-                marginBottom: '20px',
+                marginBottom: '28px',
                 border: `1px solid ${styling.textColor || 'white'}`,
               }}
             >
@@ -102,10 +104,10 @@ const ContentSectionVertical: React.FC<ContentSectionVerticalProps> = ({
             </div>
             <div
               style={{
-                fontSize: '32px',
+                fontSize: '48px',
                 fontWeight: 'bold',
                 color: styling.textColor || 'white',
-                lineHeight: '1.2',
+                lineHeight: '68px',
               }}
             >
               {title.lines.map((line, index) => (
@@ -152,11 +154,12 @@ const ContentSectionVertical: React.FC<ContentSectionVerticalProps> = ({
             {/* 상단 일반 텍스트 */}
             <div
               style={{
-                fontSize: '14px',
+                fontSize: '18px',
                 color: styling.textColor || 'white',
-                lineHeight: '1.5',
+                lineHeight: '28px',
                 marginBottom: '30px',
-                width: '100%',
+                width: '655px',
+                fontWeight: '400',
               }}
             >
               {description.texts.map((text, index) => (
@@ -169,15 +172,22 @@ const ContentSectionVertical: React.FC<ContentSectionVerticalProps> = ({
             {/* 하단 볼드 텍스트 */}
             <div
               style={{
-                fontSize: '15px',
+                fontSize: '18px',
                 color: styling.textColor || 'white',
                 marginBottom: '30px',
-                fontWeight: 'bold',
+                fontWeight: '700',
                 width: '100%',
               }}
             >
               {description.boldTexts.map((text, index) => (
-                <div key={index} style={{ marginBottom: '8px', width: '100%' }}>
+                <div
+                  key={index}
+                  style={{
+                    marginBottom: '8px',
+                    width: '100%',
+                    whiteSpace: 'pre-line',
+                  }}
+                >
                   {text}
                 </div>
               ))}
@@ -192,7 +202,7 @@ const ContentSectionVertical: React.FC<ContentSectionVerticalProps> = ({
                 border: 'none',
                 borderRadius: '8px',
                 padding: '14px 32px',
-                fontSize: '16px',
+                fontSize: '18px',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
                 display: 'flex',
@@ -201,17 +211,7 @@ const ContentSectionVertical: React.FC<ContentSectionVerticalProps> = ({
               }}
             >
               {button.text}
-              <img
-                src="/arrow_button_icon.png"
-                alt="화살표 아이콘"
-                style={{
-                  width: '10px',
-                  height: '10px',
-                  display: 'block',
-                  alignSelf: 'flex-start',
-                  marginTop: '2px',
-                }}
-              />
+              <ArrowRightUp />
             </button>
           </div>
         </div>

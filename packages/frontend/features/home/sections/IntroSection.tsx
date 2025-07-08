@@ -1,5 +1,6 @@
 'use client';
 
+import { ArrowRightUp } from '@/components/atoms/assets';
 import { DARK_MODE_COLORS } from '@/utils/colors';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -8,7 +9,6 @@ const IntroSection: React.FC = () => {
   const theme = DARK_MODE_COLORS;
   const router = useRouter();
 
-  const titleLines = ['229곳의 지자체,', '229개의 역량진단서.'];
 
   const descriptionLines = [
     '각 사람에게 고유한 개성과 강점이 있듯 대한민국 229곳의 지방자치단체 역시 저마다의 잠재력을 품고 있습니다.',
@@ -28,11 +28,13 @@ const IntroSection: React.FC = () => {
     <div
       style={{
         width: '100%',
-        minHeight: '500px',
+        height: 'calc(100vh - 100px)',
+
         backgroundImage: 'url(/backgrounds/home_intro_bg.png)',
-        backgroundSize: 'contain',
+        backgroundSize: 'calc(100% - 400px) auto',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
+
         backgroundColor: theme.background,
         display: 'flex',
         flexDirection: 'column',
@@ -45,7 +47,7 @@ const IntroSection: React.FC = () => {
       <div
         style={{
           color: 'white',
-          fontSize: '16px',
+          fontSize: '22px',
           marginBottom: '15px',
           fontWeight: '400',
         }}
@@ -57,15 +59,34 @@ const IntroSection: React.FC = () => {
       <div
         style={{
           color: 'white',
-          fontSize: '46px',
+          fontSize: '70px',
           fontWeight: 'bold',
           marginBottom: '20px',
           lineHeight: '1.4',
         }}
       >
-        {titleLines.map((line, index) => (
-          <div key={index}>{line}</div>
-        ))}
+        <div>229곳의 지자체</div>
+        <div>
+          <p
+            style={{
+              background: ' linear-gradient(92.4deg, #F56542 28.5%, #F4B04D 35%, #ACAAE8 65%, #74BF9E 85%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              display: 'inline',
+            }}
+          >229개</p>
+          <p style={{ display: 'inline' }}>의 </p>
+          <p
+            style={{
+              background: 'linear-gradient(92.4deg, #F56542 8.5%, #F4B04D 35%, #ACAAE8 65%, #74BF9E 95%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              display: 'inline',
+            }}
+          >역량진단서</p>
+        </div>
       </div>
 
       {/* 디스크립션 텍스트 */}
@@ -74,6 +95,7 @@ const IntroSection: React.FC = () => {
           color: 'white',
           fontSize: '15px',
           marginBottom: '20px',
+          fontWeight: 400
         }}
       >
         {descriptionLines.map((line, index) => (
@@ -88,7 +110,7 @@ const IntroSection: React.FC = () => {
         style={{
           color: 'white',
           fontSize: '15px',
-          fontWeight: 600,
+          fontWeight: 700,
           marginBottom: '30px',
           // lineHeight: '1.2',
           maxWidth: '600px',
@@ -110,8 +132,8 @@ const IntroSection: React.FC = () => {
           border: 'none',
           borderRadius: '8px',
           padding: '12px 24px',
-          fontSize: '16px',
-          fontWeight: '600',
+          fontSize: '18px',
+          fontWeight: '400',
           cursor: 'pointer',
           transition: 'all 0.2s ease',
           display: 'flex',
@@ -121,17 +143,9 @@ const IntroSection: React.FC = () => {
         }}
       >
         우리 지역 잠재력 확인하기
-        <img
-          src="/arrow_button_icon.png"
-          alt="화살표 아이콘"
-          style={{
-            width: '10px',
-            height: '10px',
-            display: 'block',
-          }}
-        />
+        <ArrowRightUp />
       </button>
-    </div>
+    </div >
   );
 };
 

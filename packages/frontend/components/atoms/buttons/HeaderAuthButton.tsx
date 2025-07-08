@@ -20,11 +20,12 @@ export const HeaderAuthButton = ({
   const getButtonStyle = () => {
     const baseStyle = {
       minWidth: '80px',
-      borderRadius: '8px',
+      borderRadius: '10px',
       cursor: 'pointer',
-      padding: '8px 18px',
-      fontSize: '14px',
-      fontWeight: '500',
+      padding: '15px 30px',
+      fontSize: '18px',
+      fontWeight: '400',
+      lineHeight: '18px',
     };
 
     // 라이트 테마 (기존 스타일)
@@ -52,7 +53,7 @@ export const HeaderAuthButton = ({
           return lightStyle;
       }
     }
-    
+
     // 다크 테마 (반전된 스타일)
     else {
       const darkStyle = {

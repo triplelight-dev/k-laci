@@ -12,7 +12,7 @@ const Footer = () => {
         padding: '20px 20px',
       }}
     >
-      <div style={{ width: '90%' }}>
+      <div style={{ width: '100%', maxWidth: '1400px' }}>
         <FooterTopSection />
       </div>
     </footer>

@@ -1,7 +1,7 @@
 import AuthPersistenceProvider from '@/components/AuthPersistenceProvider';
 import MobileDetector from '@/components/MobileDetector';
-import Providers from '@/components/Providers';
 import { getSiteUrl, isProductionDomain } from '@/config/environment';
+import { ChakraProvider, ReactQueryProviders } from '@/providers';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import Script from 'next/script';
@@ -64,13 +64,13 @@ export async function generateMetadata(): Promise<Metadata> {
       images: [`${siteUrl}/thumbnail/thumbnail.png`],
     },
     keywords: [
-      '지역자산역량지수', '지역자산지수', '지역역량지수', '지역자산력', '지역력', '지역경쟁력', 
-      'KLACI', '지역력지수', '지역경쟁력지수', '균형발전', '전영수 교수', '트리플라잇', 
-      '이은화 대표', '정유진 대표', '지역개발론', '지역주도성', '지역자산', '지역주체', 
-      '로컬복원', '로컬 중심의 순환경제와 특화모델', '로컬 주도 회복 시스템', '생태복원', 
-      '자치분권형 로컬리즘', '자립자강형 복원모델', '지역맞춤의 복원전략', '잠재자산', 
-      '자생력', '탈중앙화', '자원역량', '로컬 기반 지속가능성', '지역성', '분수효과', 
-      '선진국형 경제질서', '내국 기반의 역내 경제', '로컬 요소', '글로컬', '내발적', 
+      '지역자산역량지수', '지역자산지수', '지역역량지수', '지역자산력', '지역력', '지역경쟁력',
+      'KLACI', '지역력지수', '지역경쟁력지수', '균형발전', '전영수 교수', '트리플라잇',
+      '이은화 대표', '정유진 대표', '지역개발론', '지역주도성', '지역자산', '지역주체',
+      '로컬복원', '로컬 중심의 순환경제와 특화모델', '로컬 주도 회복 시스템', '생태복원',
+      '자치분권형 로컬리즘', '자립자강형 복원모델', '지역맞춤의 복원전략', '잠재자산',
+      '자생력', '탈중앙화', '자원역량', '로컬 기반 지속가능성', '지역성', '분수효과',
+      '선진국형 경제질서', '내국 기반의 역내 경제', '로컬 요소', '글로컬', '내발적',
       '민주적', '자립적', '개방적', '영리적 작동체계'
     ],
     authors: [
@@ -108,7 +108,7 @@ export default function RootLayout({
   const isProduction = isProductionDomain();
 
   return (
-    <html lang="ko" className="w-full">
+    <html lang="ko" className="w-full" suppressHydrationWarning>
       <head>
         {/* Production 환경에서만 Analytics 스크립트 로드 */}
         {isProduction && (
@@ -155,11 +155,13 @@ export default function RootLayout({
           WebkitOverflowScrolling: 'touch',
         }}
       >
-        <Providers>
-          <AuthPersistenceProvider>
-            <MobileDetector>{children}</MobileDetector>
-          </AuthPersistenceProvider>
-        </Providers>
+        <ReactQueryProviders>
+          <ChakraProvider>
+            <AuthPersistenceProvider>
+              <MobileDetector>{children}</MobileDetector>
+            </AuthPersistenceProvider>
+          </ChakraProvider>
+        </ReactQueryProviders>
       </body>
     </html>
   );
