@@ -55,7 +55,7 @@ const KlaciCodeCirclesMini: React.FC<KlaciCodeCirclesMiniProps> = ({
             fontWeight,
           }}
         >
-          {item.code}
+          {item.code.toUpperCase()}
         </div>
       ))}
     </div>
