@@ -9,6 +9,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     <div
       style={{
         width: '100%',
+        m
         minHeight: '100vh',
         background: `
           linear-gradient(to bottom, black, #001e6c, #357ded, white ${gradientHeight}%, white 100%)

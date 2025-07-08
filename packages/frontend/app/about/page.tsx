@@ -14,11 +14,11 @@ export default function AboutPage() {
       <div
         style={{
           width: '100%',
-          maxWidth: '1100px',
+          maxWidth: '1400px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          padding: '40px 20px',
+          // padding: '40px 20px',
         }}
       >
         <AboutIntroSection />

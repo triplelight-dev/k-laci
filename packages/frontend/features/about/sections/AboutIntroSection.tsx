@@ -12,56 +12,43 @@ const AboutIntroSection: React.FC = () => {
         width: '100vw',
         height: '500px',
         display: 'flex',
+        gap: '308px',
+        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: theme.background,
       }}
     >
-      <div
+
+      {/* 메인 이미지 */}
+      <img
+        src="/about/about_intro.png"
+        alt="About Intro"
         style={{
           width: '100%',
-          maxWidth: '800px',
-          height: '100%',
+          height: 'auto',
+          maxHeight: '80%',
+          objectFit: 'contain',
+        }}
+      />
+
+      {/* 하단 아이콘 */}
+      <div
+        style={{
           display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
+          justifyContent: 'center',
           alignItems: 'center',
-          position: 'relative',
-          padding: '20px 0',
-          marginTop: '200px',
-          marginBottom: '100px',
         }}
       >
-        {/* 메인 이미지 */}
         <img
-          src="/about/about_intro.png"
-          alt="About Intro"
+          src="/klaci_jewel.png"
+          alt="KLACI Jewel"
           style={{
-            width: '100%',
-            height: 'auto',
-            maxHeight: '80%',
+            width: '35px',
+            height: '35px',
             objectFit: 'contain',
           }}
         />
-
-        {/* 하단 아이콘 */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <img
-            src="/klaci_jewel.png"
-            alt="KLACI Jewel"
-            style={{
-              width: '35px',
-              height: '35px',
-              objectFit: 'contain',
-            }}
-          />
-        </div>
       </div>
     </div>
   );
