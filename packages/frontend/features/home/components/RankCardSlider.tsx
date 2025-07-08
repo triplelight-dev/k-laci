@@ -9,7 +9,7 @@ import { RankCard } from './RankCard';
 
 export default function RankCardSlider() {
 
-  const { getSameCodeRegionsByRegionId, loading, error } = useSameCodeRegions();
+  const { getSameCodeRegionsByRegionId } = useSameCodeRegions();
   const [similarRegions, setSimilarRegions] = useState<SimilarRegionData[]>([]);
 
   // API에서 동일한 KLACI 코드를 가진 지역들을 가져오기
