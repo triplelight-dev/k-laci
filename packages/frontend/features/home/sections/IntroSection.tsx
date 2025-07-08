@@ -49,7 +49,7 @@ const IntroSection: React.FC = () => {
           color: 'white',
           fontSize: '22px',
           marginBottom: '15px',
-          fontWeight: '400',
+          fontWeight: '500',
         }}
       >
         새로운 기회를 찾는 지역을 위한 새로운 해답
@@ -60,7 +60,7 @@ const IntroSection: React.FC = () => {
         style={{
           color: 'white',
           fontSize: '70px',
-          fontWeight: 'bold',
+          fontWeight: '600',
           marginBottom: '20px',
           lineHeight: '1.4',
         }}
@@ -93,7 +93,7 @@ const IntroSection: React.FC = () => {
       <div
         style={{
           color: 'white',
-          fontSize: '15px',
+          fontSize: '18px',
           marginBottom: '20px',
           fontWeight: 400
         }}
@@ -109,11 +109,10 @@ const IntroSection: React.FC = () => {
       <div
         style={{
           color: 'white',
-          fontSize: '15px',
+          fontSize: '18px',
           fontWeight: 700,
           marginBottom: '30px',
-          // lineHeight: '1.2',
-          maxWidth: '600px',
+          maxWidth: '700px',
         }}
       >
         {klaciDescriptionLines.map((line, index) => (
