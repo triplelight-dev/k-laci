@@ -1182,16 +1182,6 @@ export class DataService {
       [finalResult[i], finalResult[j]] = [finalResult[j], finalResult[i]];
     }
 
-    console.log('Final result:', finalResult.length, 'regions');
-    console.log(
-      'Final result details:',
-      finalResult.map((r) => ({
-        id: r.id,
-        name: r.name,
-        display_type: r.display_type,
-      })),
-    );
-
     // 캐시에 저장
     await this.cacheManager.set(cacheKey, finalResult, 3600000); // 1시간 캐시
 

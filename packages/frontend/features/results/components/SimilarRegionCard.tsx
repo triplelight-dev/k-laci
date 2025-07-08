@@ -96,6 +96,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
 
   return (
     <div
+      role="button"
       style={{
         minWidth: '350px',
         width: '260px',
@@ -126,6 +127,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
           justifyContent: 'flex-start',
           alignItems: 'flex-start',
           zIndex: 10,
+          pointerEvents: 'none', // 추가: 마우스 이벤트를 부모로 전달
         }}
       >
         {/* 종합순위 */}
@@ -135,6 +137,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
             color: 'black',
             marginTop: '10px',
             marginBottom: '8px',
+            pointerEvents: 'none', // 추가
           }}
         >
           종합순위 {data.rank}위
@@ -145,6 +148,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
             fontSize: '26px',
             fontWeight: 'bold',
             color: '#000',
+            pointerEvents: 'none', // 추가
           }}
         >
           {data.province} {data.name}
@@ -160,6 +164,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
           flexDirection: 'column',
           padding: '20px',
           marginTop: '80px', // 상단 흰색 영역 높이만큼 여백
+          pointerEvents: 'none', // 추가: 마우스 이벤트를 부모로 전달
         }}
       >
         {/* 상단 - 레이더 차트 */}
@@ -170,6 +175,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
             alignItems: 'center',
             marginBottom: '20px',
             padding: '5px',
+            pointerEvents: 'none', // 추가
           }}
         >
           <RadarJewelChartMini
@@ -187,6 +193,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
             alignItems: 'flex-start',
             gap: '12px',
             paddingLeft: '10px',
+            pointerEvents: 'none', // 추가
           }}
         >
           {/* KLACI Circle */}
@@ -200,6 +207,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
               color: '#000',
               textAlign: 'left',
               lineHeight: '1.2',
+              pointerEvents: 'none', // 추가
             }}
           >
             {klaciType}
@@ -214,6 +222,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
               lineHeight: '1.2',
               fontWeight: '600',
               marginBottom: '10px',
+              pointerEvents: 'none', // 추가
             }}
           >
             {klaciNickname}
@@ -229,6 +238,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
               padding: '4px 8px',
               borderRadius: '8px',
               fontWeight: '500',
+              pointerEvents: 'none', // 추가
             }}
           >
             {badgeText}
