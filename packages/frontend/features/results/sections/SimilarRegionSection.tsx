@@ -133,6 +133,21 @@ const SimilarRegionSection: React.FC = () => {
       
       // Result 페이지로 이동
       router.push(ROUTES.RESULT);
+      
+      // TitleSection의 지자체명 부분으로 스크롤 (더 아래로)
+      setTimeout(() => {
+        // chartSectionRef를 찾아서 해당 위치로 스크롤
+        const chartSection = document.querySelector('[data-chart-section]');
+        if (chartSection) {
+          const rect = chartSection.getBoundingClientRect();
+          // 보석 차트 높이 + 순위 텍스트 높이 + 여백을 고려해서 지자체명 부분으로 스크롤
+          const scrollTop = window.pageYOffset + rect.top + 450; // 450px 아래로 이동 (300px에서 증가)
+          window.scrollTo({ top: scrollTop, behavior: 'smooth' });
+        } else {
+          // fallback: 최상단으로 스크롤
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }, 100);
     } catch (error) {
       console.error('Failed to navigate to region:', error);
       // 에러 처리 (필요시 사용자에게 알림)
