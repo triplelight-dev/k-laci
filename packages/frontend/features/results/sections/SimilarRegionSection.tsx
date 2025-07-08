@@ -3,9 +3,12 @@
 import React, { useEffect, useState } from 'react';
 
 import { useSameCodeRegions } from '@/api/hooks';
+import { useRegion } from '@/api/hooks/useRegion';
 import PremiumContentTitle from '@/components/ui/PremiumContentTitle';
-import { useDistrict } from '@/store';
+import { ROUTES } from '@/constants/data';
+import { useDistrict, useSetSelectedDistrict, useSetSelectedProvince, useSetSelectedRegion } from '@/store';
 import { addWaOrGwa } from '@/utils/koreanUtils';
+import { useRouter } from 'next/navigation';
 import SimilarRegionCardSlider from '../components/SimilarRegionCardSlider';
 
 interface SimilarRegionData {
@@ -28,6 +31,13 @@ const SimilarRegionSection: React.FC = () => {
   const { selectedRegion } = useDistrict();
   const { getSameCodeRegionsByRegionId, loading, error } = useSameCodeRegions();
   const [similarRegions, setSimilarRegions] = useState<SimilarRegionData[]>([]);
+  
+  // 추가된 hooks
+  const { getRegion } = useRegion();
+  const setSelectedRegion = useSetSelectedRegion();
+  const setSelectedProvince = useSetSelectedProvince();
+  const setSelectedDistrict = useSetSelectedDistrict();
+  const router = useRouter();
 
   // 지역명 생성 함수
   const getRegionName = (): string => {
@@ -101,8 +111,47 @@ const SimilarRegionSection: React.FC = () => {
     fetchSimilarRegions();
   }, [selectedRegion?.id]);
 
-  const handleCardClick = () => {
-    // 카드 클릭 시 로직
+  const handleCardClick = async (item: SimilarRegionData) => {
+    try {
+      // API에서 해당 region의 상세 정보를 가져옴
+      const regionDetails = await getRegion(String(item.id));
+      
+      // Store에 region 정보 설정
+      const storeRegion = {
+        ...regionDetails,
+        id: Number(regionDetails.id),
+        province_id: Number(regionDetails.provinceId),
+        province: {
+          id: Number(regionDetails.province.id),
+          name: regionDetails.province.name,
+        },
+      };
+      
+      setSelectedRegion(storeRegion, 'similar_region_card');
+      setSelectedProvince(storeRegion.province_id);
+      setSelectedDistrict(storeRegion.id, 'similar_region_card');
+      
+      // Result 페이지로 이동
+      router.push(ROUTES.RESULT);
+      
+      // TitleSection의 지자체명 부분으로 스크롤 (더 아래로)
+      setTimeout(() => {
+        // chartSectionRef를 찾아서 해당 위치로 스크롤
+        const chartSection = document.querySelector('[data-chart-section]');
+        if (chartSection) {
+          const rect = chartSection.getBoundingClientRect();
+          // 보석 차트 높이 + 순위 텍스트 높이 + 여백을 고려해서 지자체명 부분으로 스크롤
+          const scrollTop = window.pageYOffset + rect.top + 450; // 450px 아래로 이동 (300px에서 증가)
+          window.scrollTo({ top: scrollTop, behavior: 'smooth' });
+        } else {
+          // fallback: 최상단으로 스크롤
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }, 100);
+    } catch (error) {
+      console.error('Failed to navigate to region:', error);
+      // 에러 처리 (필요시 사용자에게 알림)
+    }
   };
 
   // 로딩 중일 때 표시할 내용
