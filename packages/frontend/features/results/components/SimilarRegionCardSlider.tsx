@@ -184,6 +184,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
                 transform: cardStyle.transform,
                 zIndex: cardStyle.zIndex,
                 transition: 'all 0.5s ease',
+                pointerEvents: 'none',
               }}
             >
               <SimilarRegionCard
@@ -191,6 +192,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
                 onClick={onCardClick || (() => {})}
                 style={{
                   border: cardStyle.border,
+                  pointerEvents: 'auto',
                 }}
               />
             </div>

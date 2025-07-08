@@ -295,7 +295,7 @@ function ResultsPageContent() {
             }}
           >
             {/* 차트(TitleSection) 영역 ref 부착 */}
-            <div ref={chartSectionRef}>
+            <div ref={chartSectionRef} data-chart-section>
               <TitleSection districtData={districtData} />
             </div>
             <SummarySection />
