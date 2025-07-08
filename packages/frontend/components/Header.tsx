@@ -67,9 +67,13 @@ const Header = () => {
   return (
     <header
       style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         width: '100%',
         backgroundColor: theme.backgroundColor,
         color: theme.textColor,
+        height: '100px',
       }}
     >
       <div
@@ -77,10 +81,8 @@ const Header = () => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          width: '80%',
-          margin: '0 auto',
-          padding: '40px 0',
-          paddingBottom: '70px',
+          width: '100%',
+          margin: '0 160px',
         }}
       >
         {/* 1. 좌측: 로고 */}
@@ -105,7 +107,7 @@ const Header = () => {
                 src={theme.logo}
                 alt="K-LACI Logo"
                 style={{
-                  height: '30px',
+                  height: '34px',
                   width: 'auto',
                   marginRight: '15px',
                   cursor: 'pointer',
@@ -134,11 +136,11 @@ const Header = () => {
                     href={item.href}
                     className="font-poppins text-[0.9375rem] leading-[110%] tracking-[-0.45px]"
                     style={{
-                      fontSize: '16px',
+                      fontSize: '22px',
                       color: isActive
                         ? theme.navigationActiveColor
                         : theme.navigationInactiveColor,
-                      fontWeight: isActive ? 800 : 400,
+                      fontWeight: isActive ? 700 : 500,
                       textDecoration: 'none',
                     }}
                   >
