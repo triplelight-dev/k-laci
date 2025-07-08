@@ -36,8 +36,6 @@ const IndexModal: React.FC<IndexModalProps> = ({
 
   if (!isOpen) return null;
 
-  console.log('apidata', apiData);
-
   // apidata가 없고 로딩 중일 때는 로딩 상태를 보여줌
   if (!apiData && loading) {
     return (

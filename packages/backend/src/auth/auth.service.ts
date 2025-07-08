@@ -227,21 +227,6 @@ export class AuthService {
       // 이메일 정규화
       const normalizedEmail = email.toLowerCase().trim();
 
-      console.log('signup', {
-        name,
-        email: normalizedEmail,
-        password,
-        phone_number,
-        interest_region_id,
-        organization,
-        user_type,
-        agree_to_age,
-        agree_to_terms,
-        agree_to_privacy,
-        agree_to_marketing,
-        agree_to_report_reservation,
-      });
-
       // 필수 동의 항목 확인
       if (!agree_to_age || !agree_to_terms || !agree_to_privacy) {
         throw new UnauthorizedException('필수 동의 항목에 모두 동의해주세요.');
@@ -253,9 +238,6 @@ export class AuthService {
         .select('id, email, name')
         .eq('email', normalizedEmail)
         .single();
-
-      console.log('existingProfile in signup', existingProfile);
-      console.log('profileError in signup', profileError);
 
       if (profileError && profileError.code !== 'PGRST116') {
         throw new UnauthorizedException('사용자 조회 중 오류가 발생했습니다.');
@@ -280,8 +262,6 @@ export class AuthService {
         throw new UnauthorizedException('Failed to create user');
       }
 
-      console.log('authData', authData);
-
       // 2. Create user profile in public.user_profiles
       const profileData = {
         id: authData.user.id,
@@ -300,8 +280,6 @@ export class AuthService {
         updated_at: new Date().toISOString(),
       };
 
-      console.log('Inserting profile data:', profileData);
-
       const { error: insertError } = await this.supabase
         .from('user_profiles')
         .insert([profileData]);
@@ -312,8 +290,6 @@ export class AuthService {
           `Failed to create user profile: ${insertError.message}`,
         );
       }
-
-      console.log('profileData', profileData);
 
       // 회원가입 로그 기록
       await this.logsService.createLog({
@@ -343,19 +319,8 @@ export class AuthService {
 
   async sendVerificationCode({ email }: SendVerificationCodeDto) {
     try {
-      console.log('sendVerificationCode', email);
-
       // 이메일 정규화 (소문자 변환, 공백 제거)
       const normalizedEmail = email.toLowerCase().trim();
-      console.log('normalizedEmail', normalizedEmail);
-
-      // 먼저 모든 user_profiles 조회해서 디버깅
-      const { data: allProfiles, error: allProfilesError } = await this.supabase
-        .from('user_profiles')
-        .select('id, email, name');
-
-      console.log('allProfiles', allProfiles);
-      console.log('allProfilesError', allProfilesError);
 
       // 이메일 중복 체크 - user_profiles 테이블에서 확인
       const { data: existingProfile, error: profileError } = await this.supabase
@@ -363,10 +328,6 @@ export class AuthService {
         .select('id, email, name')
         .eq('email', normalizedEmail)
         .single();
-
-      console.log('existingProfile', existingProfile);
-      console.log('profileError', profileError);
-      console.log('profileError.code', profileError?.code);
 
       if (profileError && profileError.code !== 'PGRST116') {
         // PGRST116는 "결과가 없음" 에러
@@ -376,9 +337,6 @@ export class AuthService {
       if (existingProfile) {
         throw new UnauthorizedException('이미 가입된 이메일입니다.');
       }
-
-      console.log('email', normalizedEmail);
-      console.log('## gonna send verification code');
 
       // 인증번호 생성 및 발송
       await this.verificationCodeService.generateAndSendCode(normalizedEmail);

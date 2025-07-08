@@ -20,7 +20,6 @@ export class EmailService {
   async sendVerificationCode(email: string, code: string): Promise<void> {
     // 개발 환경 체크
     const isDevelopment = this.configService.get('NODE_ENV') === 'development';
-    console.log('isDevelopment', isDevelopment);
 
     // if (isDevelopment) {
     //   // 개발 환경에서는 로그로만 출력
@@ -41,8 +40,6 @@ export class EmailService {
       subject: '[KLACI] 이메일 인증번호',
       html: this.generateEmailTemplate(code),
     };
-
-    console.log('mailoptions', mailOptions);
 
     try {
       await this.transporter.sendMail(mailOptions);
