@@ -1,6 +1,6 @@
-import React from 'react';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Header from '@/components/Header';
+import React from 'react';
 
 const gradientHeight = 15;
 
@@ -9,7 +9,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     <div
       style={{
         width: '100%',
-        m
+        minWidth: '1500px',
         minHeight: '100vh',
         background: `
           linear-gradient(to bottom, black, #001e6c, #357ded, white ${gradientHeight}%, white 100%)
