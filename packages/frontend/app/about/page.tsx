@@ -18,7 +18,8 @@ export default function AboutPage() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          // padding: '40px 20px',
+          marginTop: '260px',
+          marginBottom: '160px',
         }}
       >
         <AboutIntroSection />
@@ -27,6 +28,7 @@ export default function AboutPage() {
       <div
         style={{
           width: '100%',
+          maxWidth: '1400px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',

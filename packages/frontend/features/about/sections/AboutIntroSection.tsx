@@ -10,13 +10,13 @@ const AboutIntroSection: React.FC = () => {
     <div
       style={{
         width: '100vw',
-        height: '500px',
         display: 'flex',
         gap: '308px',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: theme.background,
+
       }}
     >
 
@@ -26,9 +26,10 @@ const AboutIntroSection: React.FC = () => {
         alt="About Intro"
         style={{
           width: '100%',
-          height: 'auto',
+          height: '380px',
           maxHeight: '80%',
           objectFit: 'contain',
+          marginTop: '276 px',
         }}
       />
 
@@ -38,6 +39,7 @@ const AboutIntroSection: React.FC = () => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          marginBottom: '238px',
         }}
       >
         <img

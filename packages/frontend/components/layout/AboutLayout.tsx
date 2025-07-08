@@ -9,6 +9,7 @@ const AboutLayout = ({ children }: { children: React.ReactNode }) => {
     <div
       style={{
         width: '100%',
+        minWidth: '1500px',
         minHeight: '100vh',
         backgroundColor: DARK_MODE_COLORS.background,
         justifyContent: 'center',
@@ -18,19 +19,7 @@ const AboutLayout = ({ children }: { children: React.ReactNode }) => {
       }}
     >
       <Header />
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: '100%',
-          // maxWidth: '1100px',
-          gap: '100px',
-        }}
-      >
-        {children}
-      </div>
+      {children}
       <HomePreRegistrationSection />
       <Footer />
     </div>

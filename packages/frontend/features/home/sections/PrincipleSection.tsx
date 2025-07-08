@@ -13,84 +13,91 @@ const PrincipleBox: React.FC<PrincipleBoxProps> = ({
   showRightBorder = false,
 }) => {
   return (
-    <div
-      style={{
-        flex: 1,
-        padding: '40px 30px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        position: 'relative',
-      }}
-    >
-      {/* 뱃지 */}
+    <div style={{ display: 'flex', justifyContent: 'center', width: '100%', position: 'relative' }}>
       <div
         style={{
-          backgroundColor: 'transparent',
-          color: 'white',
-          padding: '6px 12px',
-          borderRadius: '10px',
-          fontSize: '12px',
-          fontWeight: '400',
-          marginBottom: '20px',
-          border: '1px solid white',
+          flex: 1,
+          padding: '40px 30px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          position: 'relative',
+          maxWidth: '384px',
         }}
       >
-        {principle.badge}
-      </div>
-
-      {/* 제목 */}
-      <div
-        style={{
-          fontSize: '24px',
-          fontWeight: 'bold',
-          color: 'white',
-          marginBottom: '35px',
-          lineHeight: '1.3',
-        }}
-      >
-        {principle.title}
-      </div>
-
-      {/* 서브타이틀 */}
-      <div
-        style={{
-          fontSize: '16px',
-          fontWeight: 'bold',
-          color: 'white',
-          marginBottom: '20px',
-          lineHeight: '1.4',
-        }}
-      >
-        {principle.subtitle}
-      </div>
-
-      {/* 설명 텍스트 */}
-      <div
-        style={{
-          fontSize: '14px',
-          color: 'white',
-          lineHeight: '1.6',
-          opacity: 0.9,
-        }}
-      >
-        {principle.description}
-      </div>
-
-      {/* 오른쪽 구분선 */}
-      {showRightBorder && (
+        {/* 뱃지 */}
         <div
           style={{
-            position: 'absolute',
-            right: 0,
-            top: '25%',
-            height: '60%',
-            width: '1px',
-            backgroundColor: 'rgba(255, 255, 255, 0.2)',
+            backgroundColor: 'transparent',
+            color: 'white',
+            padding: '6px 12px',
+            borderRadius: '10px',
+            fontSize: '14px',
+            fontWeight: '500',
+            marginBottom: '20px',
+            border: '1px solid white',
           }}
-        />
-      )}
-    </div>
+        >
+          {principle.badge}
+        </div>
+
+        {/* 제목 */}
+        <div
+          style={{
+            fontSize: '30px',
+            fontWeight: '600',
+            color: 'white',
+            marginBottom: '35px',
+            lineHeight: '42px',
+          }}
+        >
+          {principle.title}
+        </div>
+
+        {/* 서브타이틀 */}
+        <div
+          style={{
+            fontSize: '18px',
+            fontWeight: '700',
+            color: 'white',
+            marginBottom: '20px',
+            lineHeight: '28px',
+          }}
+        >
+          {principle.subtitle}
+        </div>
+
+        {/* 설명 텍스트 */}
+        <div
+          style={{
+            fontSize: '18px',
+            fontWeight: '400',
+            color: 'white',
+            lineHeight: '28px',
+            opacity: 0.9,
+          }}
+        >
+          {principle.description}
+        </div>
+
+
+      </div>
+      {/* 오른쪽 구분선 */}
+      {
+        showRightBorder && (
+          <div
+            style={{
+              position: 'absolute',
+              right: 0,
+              top: '25%',
+              height: '60%',
+              width: '1px',
+              backgroundColor: 'rgba(255, 255, 255, 0.2)',
+            }}
+          />
+        )
+      }
+    </div >
   );
 };
 
@@ -127,7 +134,6 @@ const PrincipleSection: React.FC = () => {
         backgroundColor: 'transparent',
         display: 'flex',
         flexDirection: 'column',
-        padding: '80px 20px',
         alignItems: 'center',
       }}
     >
@@ -140,22 +146,21 @@ const PrincipleSection: React.FC = () => {
       >
         <h2
           style={{
-            fontSize: '36px',
-            fontWeight: 'bold',
+            fontSize: '48px',
+            fontWeight: '600',
             color: 'white',
-            marginBottom: '12px',
-            lineHeight: '1.2',
+            lineHeight: '68px',
           }}
         >
           지역자산역량지수 3대원칙
         </h2>
         <p
           style={{
-            fontSize: '14px',
+            fontSize: '18px',
             color: 'white',
             opacity: 0.8,
-            letterSpacing: '2px',
             textTransform: 'uppercase',
+            lineHeight: '38px',
           }}
         >
           KOREA LOCAL ASSET COMPETENCY INDEX PRINCIPLES
@@ -165,10 +170,13 @@ const PrincipleSection: React.FC = () => {
       {/* 원칙 박스들 */}
       <div
         style={{
-          display: 'flex',
-          maxWidth: '1000px',
+          display: 'grid',
+          maxWidth: '1400px',
           width: '100%',
+          gridTemplateColumns: 'repeat(3, 1fr)',
           gap: '0',
+          justifyContent: 'space-between',
+          alignItems: 'center',
         }}
       >
         {principles.map((principle, index) => (
