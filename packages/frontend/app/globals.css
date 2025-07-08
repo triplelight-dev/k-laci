@@ -27,6 +27,11 @@ body {
   /* Prevent overscroll bounce */
   overscroll-behavior: none;
   -webkit-overflow-scrolling: touch;
+
+  /* 데스크탑 1500px 이하 1200px이상 환경에서 화면 크기 조절 */
+  @media (min-width: 1200px) and (max-width: 1500px) {
+    zoom: 0.9;
+  }
 }
 
 body {

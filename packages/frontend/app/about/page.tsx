@@ -28,7 +28,7 @@ export default function AboutPage() {
       <div
         style={{
           width: '100%',
-          maxWidth: '1400px',
+          // maxWidth: '1400px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',

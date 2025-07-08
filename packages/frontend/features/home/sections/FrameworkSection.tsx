@@ -1,5 +1,6 @@
 'use client';
 
+import { Flex } from '@chakra-ui/react';
 import React from 'react';
 
 interface FrameworkItem {
@@ -53,12 +54,13 @@ const FrameworkSection: React.FC = () => {
     <div
       style={{
         width: '100%',
-        maxWidth: '1000px',
+        maxWidth: '1400px',
         minHeight: '600px',
         display: 'flex',
         flexDirection: 'column',
         padding: '120px 20px',
         alignItems: 'center',
+        marginBottom: '230px',
       }}
     >
       {/* 섹션 타이틀 */}
@@ -70,8 +72,8 @@ const FrameworkSection: React.FC = () => {
       >
         <h2
           style={{
-            fontSize: '36px',
-            fontWeight: 'bold',
+            fontSize: '48px',
+            fontWeight: '600',
             color: 'white',
             marginBottom: '12px',
             lineHeight: '1.2',
@@ -81,16 +83,36 @@ const FrameworkSection: React.FC = () => {
         </h2>
         <p
           style={{
-            fontSize: '14px',
+            fontSize: '18px',
+            fontWeight: '600',
             color: 'white',
             opacity: 0.8,
-            letterSpacing: '2px',
             textTransform: 'uppercase',
-            marginBottom: '40px',
+
           }}
         >
           KOREA LOCAL ASSET COMPETENCY INDEX FRAMEWORK
         </p>
+
+        <Flex gap='9px' width='100%' justifyContent='center' margin='42px 0' height='fit-content'>
+          {frameworkItems.map((item) => (
+            <div
+              style={{
+                backgroundColor: 'transparent',
+                width: 'fit-content',
+                color: 'white',
+                padding: '6px 12px',
+                borderRadius: '10px',
+                fontSize: '12px',
+                fontWeight: '400',
+                marginBottom: '16px',
+                border: '1px solid white',
+              }}
+            >
+              {item.badge}
+            </div>
+          ))}
+        </Flex>
 
         {/* 추가 설명 텍스트 */}
         <p
@@ -127,7 +149,8 @@ const FrameworkSection: React.FC = () => {
             key={index}
             style={{
               display: 'flex',
-              gap: '80px',
+              // gap: '80px',
+              justifyContent: 'space-between',
               alignItems: 'flex-start',
               width: '100%',
             }}
@@ -149,8 +172,8 @@ const FrameworkSection: React.FC = () => {
                   color: 'white',
                   padding: '6px 12px',
                   borderRadius: '10px',
-                  fontSize: '12px',
-                  fontWeight: '400',
+                  fontSize: '14px',
+                  fontWeight: '500',
                   marginBottom: '16px',
                   border: '1px solid white',
                 }}
@@ -161,11 +184,11 @@ const FrameworkSection: React.FC = () => {
               {/* 타이틀 */}
               <div
                 style={{
-                  fontSize: '36px',
-                  fontWeight: 'bold',
+                  fontSize: '48px',
+                  fontWeight: '600',
                   color: 'white',
                   marginBottom: '20px',
-                  lineHeight: '1.3',
+                  lineHeight: '68px',
                 }}
               >
                 {item.title}
@@ -174,10 +197,12 @@ const FrameworkSection: React.FC = () => {
               {/* 설명 텍스트들 */}
               <div
                 style={{
-                  fontSize: '16px',
+                  fontSize: '18px',
+                  fontWeight: '400',
                   color: 'white',
-                  lineHeight: '1.6',
+                  lineHeight: '28px',
                   opacity: 0.9,
+                  maxWidth: '654px',
                 }}
               >
                 {item.description.map((text, textIndex) => (
@@ -195,7 +220,32 @@ const FrameworkSection: React.FC = () => {
             </div>
 
             {/* 우측: 이미지 (화면 꽉 채움) */}
-            <div
+
+            {index === 2 ? <div
+              style={{
+                padding: '70px 60px',
+                borderRadius: '52px',
+                background: '#191B22',
+                width: 'fit-content',
+                height: 'fit-content',
+              }}
+            ><div
+                style={{
+                  flex: 1,
+                  width: '500px',
+                  height: '500px',
+                  borderRadius: '16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundImage: `url(${item.image})`,
+                  backgroundSize: 'contain',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
+                  minWidth: '40%',
+                }}
+              />
+            </div> : <div
               style={{
                 flex: 1,
                 width: '100%',
@@ -210,11 +260,11 @@ const FrameworkSection: React.FC = () => {
                 backgroundRepeat: 'no-repeat',
                 minWidth: '40%',
               }}
-            />
+            />}
           </div>
         ))}
       </div>
-    </div>
+    </div >
   );
 };
 

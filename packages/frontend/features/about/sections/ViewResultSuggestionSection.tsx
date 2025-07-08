@@ -27,7 +27,7 @@ const ViewResultSuggestionSection: React.FC = () => {
       style={{
         width: '100%',
         backgroundColor: DARK_MODE_COLORS.background,
-        maxWidth: '1100px',
+        maxWidth: '1400px',
         borderRadius: '32px',
         display: 'flex',
         flexDirection: 'column',
@@ -53,10 +53,10 @@ const ViewResultSuggestionSection: React.FC = () => {
         >
           <div
             style={{
-              fontSize: '32px',
+              fontSize: '48px',
               fontWeight: '600',
               color: 'white',
-              lineHeight: '1.3',
+              lineHeight: '68px',
               textAlign: 'left',
             }}
           >
@@ -87,9 +87,10 @@ const ViewResultSuggestionSection: React.FC = () => {
               <div
                 key={index}
                 style={{
-                  fontSize: '14px',
+                  fontSize: '18px',
+                  fontWeight: '400',
                   color: 'white',
-                  lineHeight: '1.5',
+                  lineHeight: '28px',
                   opacity: 0.9,
                 }}
               >
