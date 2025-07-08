@@ -241,19 +241,8 @@ export class DataController {
       if (isNaN(regionId)) {
         throw new Error('Invalid region ID');
       }
-      console.log(
-        'Controller: getSameCodeRegionsByRegionId called with id:',
-        id,
-        'regionId:',
-        regionId,
-      );
       const result =
         await this.dataService.getSameCodeRegionsByRegionId(regionId);
-      console.log(
-        'Controller: returning result with',
-        result.length,
-        'regions',
-      );
       return result;
     } catch (error) {
       console.error('Controller error:', error);

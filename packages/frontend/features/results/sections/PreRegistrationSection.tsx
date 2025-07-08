@@ -1,12 +1,20 @@
 'use client';
 
-import React from 'react';
-// import { useState } from 'react'; // 사용하지 않으므로 제거
-// import PreRegistrationModal from '../../../components/ui/PreRegistrationModal'; // 모달 비활성화로 제거
+import React, { useState } from 'react';
+import { UserService } from '../../../api/services/user.service';
+import LoginGuideModal from '../../../components/ui/LoginGuideModal';
+import PreRegistrationModal from '../../../components/ui/PreRegistrationModal';
+import { useIsLoggedIn } from '../../../store';
 
 const PreRegistrationSection: React.FC = () => {
-  // const [isModalOpen, setIsModalOpen] = useState(false); // 모달 비활성화로 제거
-  // const [agree_to_report_reservation, setAgreeToReportReservation] = useState(false); // 사용하지 않으므로 제거
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoginGuideModalOpen, setIsLoginGuideModalOpen] = useState(false);
+  const [agree_to_report_reservation, setAgreeToReportReservation] =
+    useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+
+  const isLoggedIn = useIsLoggedIn();
 
   const title = '균형발전 전략의 시작, KLACI 인사이트 리포트';
   const descriptions = [
@@ -16,8 +24,34 @@ const PreRegistrationSection: React.FC = () => {
 
   const reservationButtonText = '사전 예약 바로가기';
 
-  const handlePreRegistrationClick = () => {
-    // setIsModalOpen(true); // 모달 비활성화
+  const handlePreRegistrationClick = async () => {
+    // 로그인하지 않은 경우 로그인 안내 모달 표시
+    if (!isLoggedIn) {
+      setIsLoginGuideModalOpen(true);
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      // 유저 프로필 조회 API 호출
+      const response = await UserService.getProfile();
+
+      if (response.success) {
+        // 리포트 사전동의 여부 확인
+        const hasAgreedToReport =
+          response.data.agreeToReportReservation || false;
+        setAgreeToReportReservation(hasAgreedToReport);
+        setUserId(response.data.id);
+        setIsModalOpen(true);
+      } else {
+        console.error('프로필 정보를 불러오는데 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('프로필 정보를 불러오는데 실패했습니다.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -71,37 +105,52 @@ const PreRegistrationSection: React.FC = () => {
 
           <button
             onClick={handlePreRegistrationClick}
+            disabled={isLoading}
             style={{
               border: 'none',
               padding: '16px 32px',
               fontSize: '16px',
               fontWeight: 'bold',
               borderRadius: '8px',
-              cursor: 'pointer',
+              cursor: isLoading ? 'not-allowed' : 'pointer',
               minWidth: '220px',
               background: 'black',
               color: 'white',
               marginTop: '50px',
               transition: 'background-color 0.2s ease',
+              opacity: isLoading ? 0.6 : 1,
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#333333';
+              if (!isLoading) {
+                e.currentTarget.style.backgroundColor = '#333333';
+              }
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#000000';
+              if (!isLoading) {
+                e.currentTarget.style.backgroundColor = '#000000';
+              }
             }}
           >
-            {reservationButtonText}
+            {isLoading ? '로딩 중...' : reservationButtonText}
           </button>
         </div>
       </div>
 
-      {/* 모달 비활성화 */}
-      {/* <PreRegistrationModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        agree_to_report_reservation={agree_to_report_reservation}
-      /> */}
+      {/* 사전예약 모달 */}
+      {userId && (
+        <PreRegistrationModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          agree_to_report_reservation={agree_to_report_reservation}
+          userId={userId}
+        />
+      )}
+
+      {/* 로그인 안내 모달 */}
+      <LoginGuideModal
+        isOpen={isLoginGuideModalOpen}
+        onClose={() => setIsLoginGuideModalOpen(false)}
+      />
     </>
   );
 };

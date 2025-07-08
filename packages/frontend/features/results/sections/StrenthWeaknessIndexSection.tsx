@@ -289,9 +289,6 @@ const StrengthWeaknessIndexSection: React.FC = () => {
 
   // API 데이터를 바탕으로 IndexData 생성
   useEffect(() => {
-    console.log('strengthIndexesData:', strengthIndexesData);
-    console.log('selectedRegion:', selectedRegion);
-
     if (!strengthIndexesData || !selectedRegion) {
       setStrengthData([]);
       setWeaknessData([]);
@@ -305,7 +302,6 @@ const StrengthWeaknessIndexSection: React.FC = () => {
       strengthIndexesData.strengths,
       regionName,
     );
-    console.log('strengthIndexData:', strengthIndexData);
     setStrengthData(strengthIndexData);
 
     // 약점 데이터 변환 (직접 접근)
@@ -313,7 +309,6 @@ const StrengthWeaknessIndexSection: React.FC = () => {
       strengthIndexesData.weaknesses,
       regionName,
     );
-    console.log('weaknessIndexData:', weaknessIndexData);
     setWeaknessData(weaknessIndexData);
   }, [strengthIndexesData, selectedRegion]);
 
