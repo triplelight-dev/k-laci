@@ -38,12 +38,22 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // 브라우저 환경에서만 localStorage 접근
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('user_id');
-        localStorage.removeItem('user_profile');
-        window.location.href = '/';
+      // 로그인/회원가입 관련 엔드포인트는 홈으로 리디렉션하지 않음
+      const isAuthEndpoint = error.config?.url?.includes('/auth/sign-in') || 
+                            error.config?.url?.includes('/auth/sign-up') ||
+                            error.config?.url?.includes('/auth/complete-signup') ||
+                            error.config?.url?.includes('/auth/send-verification-code') ||
+                            error.config?.url?.includes('/auth/send-verification-email') ||
+                            error.config?.url?.includes('/auth/verify-code');
+      
+      if (!isAuthEndpoint) {
+        // 브라우저 환경에서만 localStorage 접근
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('user_id');
+          localStorage.removeItem('user_profile');
+          window.location.href = '/';
+        }
       }
     }
     return Promise.reject(error);
