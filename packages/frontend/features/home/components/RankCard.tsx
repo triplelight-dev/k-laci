@@ -4,7 +4,7 @@ import RadarJewelChartMini from '@/components/atoms/charts/RadarJewelChartMini';
 import KlaciCodeCirclesMini from '@/components/atoms/circle/KlaciCodeCirclesMini';
 import React from 'react';
 
-interface SimilarRegionData {
+interface RankCardData {
   id: string | number;
   name: string;
   province: string;
@@ -18,9 +18,9 @@ interface SimilarRegionData {
   [key: string]: any; // 추가 속성들을 위한 인덱스 시그니처
 }
 
-interface SimilarRegionCardProps {
-  data: SimilarRegionData;
-  onClick?: (item: SimilarRegionData) => void;
+interface RankCardProps {
+  data: RankCardData;
+  onClick?: (item: RankCardData) => void;
   style?: React.CSSProperties;
 }
 
@@ -45,7 +45,7 @@ const generateMockRadarData = (seed: number): number[] => {
   ];
 };
 
-const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
+export const RankCard: React.FC<RankCardProps> = ({
   data,
   onClick,
   style,
@@ -98,10 +98,11 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
         {/* 종합순위 */}
         <div
           style={{
-            fontSize: '15px',
+            fontSize: '18px',
             color: 'black',
             marginTop: '10px',
             marginBottom: '8px',
+            fontWeight: '500',
           }}
         >
           종합순위 {data.rank}위
@@ -109,8 +110,8 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
         {/* 지역명 */}
         <div
           style={{
-            fontSize: '26px',
-            fontWeight: 'bold',
+            fontSize: '30px',
+            fontWeight: '600',
             color: '#000',
           }}
         >
@@ -186,25 +187,8 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
           >
             {klaciNickname}
           </div>
-
-          {/* '순위가 비슷한' 뱃지 */}
-          <div
-            style={{
-              fontSize: '10px',
-              color: '#000',
-              border: '1px solid #000',
-              backgroundColor: 'transparent',
-              padding: '4px 8px',
-              borderRadius: '8px',
-              fontWeight: '500',
-            }}
-          >
-            순위가 비슷한
-          </div>
         </div>
       </div>
     </div>
   );
 };
-
-export default SimilarRegionCard;

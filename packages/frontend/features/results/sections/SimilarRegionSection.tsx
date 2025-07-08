@@ -7,20 +7,9 @@ import PremiumContentTitle from '@/components/ui/PremiumContentTitle';
 import { useDistrict } from '@/store';
 import { addWaOrGwa } from '@/utils/koreanUtils';
 import SimilarRegionCardSlider from '../components/SimilarRegionCardSlider';
+import { SimilarRegionData } from './SimilarRegionSection.type';
 
-interface SimilarRegionData {
-  id: string | number;
-  name: string;
-  province: string;
-  similarity: number;
-  rank: number;
-  score: number;
-  klaciCode?: string;
-  klaciType?: string;
-  klaciNickname?: string;
-  radarData?: number[];
-  [key: string]: any;
-}
+
 
 const SimilarRegionSection: React.FC = () => {
   const { selectedRegion } = useDistrict();
