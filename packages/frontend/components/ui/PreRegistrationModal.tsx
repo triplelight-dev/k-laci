@@ -34,7 +34,7 @@ const PreRegistrationModal = ({
 
   const handleAutoRegistration = async () => {
     if (!userId) {
-      alert('사용자 정보를 찾을 수 없습니다.');
+      console.error('사용자 정보를 찾을 수 없습니다.');
       onClose();
       return;
     }
@@ -47,7 +47,7 @@ const PreRegistrationModal = ({
       if (response.success) {
         setIsUpdated(true);
       } else {
-        alert(`사전예약 등록에 실패했습니다: ${response.message}`);
+        console.error(`사전예약 등록에 실패했습니다: ${response.message}`);
         onClose();
       }
     } catch (error: any) {
@@ -73,7 +73,7 @@ const PreRegistrationModal = ({
           '서버에 연결할 수 없습니다. 백엔드 서버가 실행 중인지 확인해주세요.';
       }
 
-      alert(errorMessage);
+      console.error(errorMessage);
       onClose();
     } finally {
       setIsLoading(false);
