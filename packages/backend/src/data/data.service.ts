@@ -4,18 +4,18 @@ import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Cache } from 'cache-manager';
 import {
-  CategoryKeyIndexRank,
-  KeyIndexData,
-  KeyIndexWithDetails,
-  Region,
-  RegionKeyIndexRank,
-  RegionKeyIndexScoreResponse,
-  RegionsResponse,
-  RegionStrengthIndexesResponse,
-  RegionStrengthIndexesWithDetailsResponse,
-  RegionWithDetails,
-  SelectionDisplayType,
-  SelectionTag,
+    CategoryKeyIndexRank,
+    KeyIndexData,
+    KeyIndexWithDetails,
+    Region,
+    RegionKeyIndexRank,
+    RegionKeyIndexScoreResponse,
+    RegionsResponse,
+    RegionStrengthIndexesResponse,
+    RegionStrengthIndexesWithDetailsResponse,
+    RegionWithDetails,
+    SelectionDisplayType,
+    SelectionTag,
 } from './types/region.types';
 
 export const REGION_SCORE_TYPES = {
@@ -748,12 +748,9 @@ export class DataService {
   async getSameCodeRegionsByRegionId(
     regionId: number,
   ): Promise<RegionWithDetails[]> {
-    console.log('getSameCodeRegionsByRegionId called with regionId:', regionId);
-
     const cacheKey = `same-code-regions-by-id:${regionId}`;
     const cached = await this.cacheManager.get<RegionWithDetails[]>(cacheKey);
     if (cached) {
-      console.log('Returning cached result:', cached.length, 'regions');
       return cached;
     }
 
@@ -768,8 +765,6 @@ export class DataService {
       console.error('Region not found:', regionId, regionError);
       throw new Error(`Region with id ${regionId} not found`);
     }
-
-    console.log('Found region data:', regionData);
 
     const klaciCode = regionData.klaci_code;
     const upperKlaciCode = klaciCode.toUpperCase();
