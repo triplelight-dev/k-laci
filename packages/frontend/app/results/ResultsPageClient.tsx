@@ -84,38 +84,38 @@ function ResultsPageContent() {
   const { selectedProvince, selectedDistrict, selectedRegion } = useDistrict();
   const { getRegion } = useRegion();
 
-  // 유저 관심 지역 로드 함수
-  const loadUserInterestRegion = async (interestRegionId: number) => {
-    try {
-      const apiResponse = await getRegion(String(interestRegionId));
-      const storeRegion = transformApiRegionToStoreRegion(apiResponse);
-      setSelectedRegion(storeRegion, 'system');
-      setSelectedProvince(storeRegion.province_id);
-      setSelectedDistrict(storeRegion.id, 'system');
-      setHasLoadedDefault(true);
-      return true;
-    } catch (error) {
-      return false;
-    }
-  };
+  // // 유저 관심 지역 로드 함수
+  // const loadUserInterestRegion = async (interestRegionId: number) => {
+  //   try {
+  //     const apiResponse = await getRegion(String(interestRegionId));
+  //     const storeRegion = transformApiRegionToStoreRegion(apiResponse);
+  //     setSelectedRegion(storeRegion, 'system');
+  //     setSelectedProvince(storeRegion.province_id);
+  //     setSelectedDistrict(storeRegion.id, 'system');
+  //     setHasLoadedDefault(true);
+  //     return true;
+  //   } catch (error) {
+  //     return false;
+  //   }
+  // };
 
-  // 기본 데이터 로드 함수
-  const loadDefaultData = async () => {
-    if (hasLoadedDefault) return;
+  // // 기본 데이터 로드 함수
+  // const loadDefaultData = async () => {
+  //   if (hasLoadedDefault) return;
 
-    try {
-      const apiResponse = await getRegion('1');
-      const storeRegion = transformApiRegionToStoreRegion(apiResponse);
-      setSelectedRegion(storeRegion, 'system');
-      setSelectedProvince(storeRegion.province_id);
-      setSelectedDistrict(storeRegion.id, 'system');
-      setHasLoadedDefault(true);
-    } catch (error) {
-      console.error('기본 데이터 로드 실패:', error);
-      // 에러가 발생해도 hasLoadedDefault를 true로 설정하여 무한 루프 방지
-      setHasLoadedDefault(true);
-    }
-  };
+  //   try {
+  //     const apiResponse = await getRegion('1');
+  //     const storeRegion = transformApiRegionToStoreRegion(apiResponse);
+  //     setSelectedRegion(storeRegion, 'system');
+  //     setSelectedProvince(storeRegion.province_id);
+  //     setSelectedDistrict(storeRegion.id, 'system');
+  //     setHasLoadedDefault(true);
+  //   } catch (error) {
+  //     console.error('기본 데이터 로드 실패:', error);
+  //     // 에러가 발생해도 hasLoadedDefault를 true로 설정하여 무한 루프 방지
+  //     setHasLoadedDefault(true);
+  //   }
+  // };
 
   // URL 업데이트 함수
   const updateURL = (regionId: number | null) => {
