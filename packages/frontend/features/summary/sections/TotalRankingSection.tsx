@@ -43,10 +43,10 @@ const KlaciCodeVisualizer: React.FC<{ klaciCode: string }> = ({
             {item.code}
           </div>
           {/* 텍스트 */}
-          <span 
-            style={{ 
-              fontSize: '13px', 
-              color: item.color === '#D9D9E8' ? '#000' : item.color 
+          <span
+            style={{
+              fontSize: '13px',
+              color: item.color === '#D9D9E8' ? '#000' : item.color,
             }}
           >
             {item.nickname}
@@ -58,12 +58,12 @@ const KlaciCodeVisualizer: React.FC<{ klaciCode: string }> = ({
 };
 
 // 타이틀과 검색창을 별도 컴포넌트로 분리
-const SectionHeader: React.FC<{ 
-  searchTerm: string; 
+const SectionHeader: React.FC<{
+  searchTerm: string;
   onSearchChange: (value: string) => void;
   filteredCount: number;
   totalCount: number;
-}> = ({ searchTerm, onSearchChange, filteredCount, totalCount }) => {
+}> = ({ searchTerm, onSearchChange }) => {
   return (
     <div
       style={{
@@ -86,17 +86,6 @@ const SectionHeader: React.FC<{
         >
           종합순위 TOP 100
         </h2>
-        {searchTerm && (
-          <p
-            style={{
-              fontSize: '14px',
-              color: '#666',
-              margin: '4px 0 0 0',
-            }}
-          >
-            검색 결과: {filteredCount}개 / 전체 {totalCount}개
-          </p>
-        )}
       </div>
 
       {/* 우측: 검색창 */}
@@ -114,9 +103,12 @@ const RankingTable: React.FC<{ data: TotalRegionRank[] }> = ({ data }) => {
   const router = useRouter();
 
   // 지역 클릭 핸들러
-  const handleRegionClick = useCallback((regionId: number) => {
-    router.push(`/results?regionId=${regionId}`);
-  }, [router]);
+  const handleRegionClick = useCallback(
+    (regionId: number) => {
+      router.push(`/results?regionId=${regionId}`);
+    },
+    [router],
+  );
 
   return (
     <div style={{ padding: '0 40px' }}>
@@ -148,7 +140,7 @@ const RankingTable: React.FC<{ data: TotalRegionRank[] }> = ({ data }) => {
       {data.map((item, index) => {
         // 차트 데이터 생성
         const chartData = generateChartData(item.region);
-        
+
         return (
           <div
             key={index}
@@ -243,21 +235,23 @@ const RankingTable: React.FC<{ data: TotalRegionRank[] }> = ({ data }) => {
                 fontSize: '16px',
               }}
             >
-              {item.strength_indexes_details.slice(0, 3).map((strength, idx) => (
-                <span
-                  key={idx}
-                  style={{
-                    padding: '2px 6px',
-                    backgroundColor: 'transparent',
-                    border: '1px solid #333',
-                    borderRadius: '4px',
-                    fontSize: '13px',
-                    color: '#333',
-                  }}
-                >
-                  {strength.name}
-                </span>
-              ))}
+              {item.strength_indexes_details
+                .slice(0, 3)
+                .map((strength, idx) => (
+                  <span
+                    key={idx}
+                    style={{
+                      padding: '2px 6px',
+                      backgroundColor: 'transparent',
+                      border: '1px solid #333',
+                      borderRadius: '4px',
+                      fontSize: '13px',
+                      color: '#333',
+                    }}
+                  >
+                    {strength.name}
+                  </span>
+                ))}
             </div>
 
             {/* 체급 */}
@@ -308,7 +302,7 @@ const TotalRankingSection: React.FC<{ data: TotalRegionRank[] }> = ({
     debounce((value: string) => {
       setDebouncedSearchTerm(value);
     }, 300), // 300ms 딜레이
-    [debounce]
+    [debounce],
   );
 
   // 검색어 변경 핸들러
@@ -325,7 +319,8 @@ const TotalRankingSection: React.FC<{ data: TotalRegionRank[] }> = ({
 
     const searchLower = debouncedSearchTerm.toLowerCase();
     return data.filter((item) => {
-      const fullName = `${item.region.province.name} ${item.region.name}`.toLowerCase();
+      const fullName =
+        `${item.region.province.name} ${item.region.name}`.toLowerCase();
       return fullName.includes(searchLower);
     });
   }, [data, debouncedSearchTerm]);
@@ -337,7 +332,7 @@ const TotalRankingSection: React.FC<{ data: TotalRegionRank[] }> = ({
         padding: '40px 0',
       }}
     >
-      <SectionHeader 
+      <SectionHeader
         searchTerm={searchTerm}
         onSearchChange={handleSearchChange}
         filteredCount={filteredData.length}
