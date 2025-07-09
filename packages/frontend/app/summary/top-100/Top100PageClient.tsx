@@ -2,7 +2,7 @@
 
 import { useTotalRegionRanks } from '@/api/hooks/useTotalRegionRanks';
 import SummaryLayout from '@/components/layout/SummaryLayout';
-import HomePreRegistrationSection from '@/components/sections/HomePreRegistrationSection';
+// import HomePreRegistrationSection from '@/components/sections/HomePreRegistrationSection';
 import TotalRankingSection from '@/features/summary/sections/TotalRankingSection';
 
 export default function Top100PageClient() {
@@ -50,7 +50,7 @@ export default function Top100PageClient() {
     <SummaryLayout>
       <TotalRankingSection data={data?.data || []} />
 
-      <HomePreRegistrationSection />
+      {/* <HomePreRegistrationSection /> */}
     </SummaryLayout>
   );
 }

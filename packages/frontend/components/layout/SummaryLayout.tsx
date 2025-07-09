@@ -2,6 +2,8 @@ import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import React from 'react';
 
+import HomePreRegistrationSection from '@/components/sections/HomePreRegistrationSection';
+
 const SummaryLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div style={{ width: '100%' }}>
@@ -22,7 +24,7 @@ const SummaryLayout = ({ children }: { children: React.ReactNode }) => {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            width: '90%',
+            width: '93%',
             maxWidth: '1600px',
             gap: '40px',
           }}
@@ -30,6 +32,7 @@ const SummaryLayout = ({ children }: { children: React.ReactNode }) => {
           {children}
         </div>
       </div>
+      <HomePreRegistrationSection />
       <Footer />
     </div>
   );
