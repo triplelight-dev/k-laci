@@ -1,7 +1,57 @@
 'use client';
 
 import { TotalRegionRank } from '@/api/types/stats.types';
+import { parseKlaciCode } from '@/utils/klaciCodeUtils';
 import React from 'react';
+
+// KLACI 코드 시각화 컴포넌트
+const KlaciCodeVisualizer: React.FC<{ klaciCode: string }> = ({ klaciCode }) => {
+  const parsedCodes = parseKlaciCode(klaciCode);
+
+  return (
+    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+      {parsedCodes.map((item, index) => (
+        <div
+          key={index}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '4px',
+          }}
+        >
+          {/* 원 */}
+          <div
+            style={{
+              width: '16px',
+              height: '16px',
+              borderRadius: '50%',
+              backgroundColor: item.color,
+              color: 'white',
+              border: `1px solid ${item.color}`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '10px',
+              fontWeight: 600,
+            }}
+          >
+            {item.code}
+          </div>
+          {/* 텍스트 */}
+          <span
+            style={{
+              fontSize: '12px',
+              color: '#6B7280',
+              fontFamily: 'monospace',
+            }}
+          >
+            {item.code}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 // 타이틀과 검색창을 별도 컴포넌트로 분리
 const SectionHeader: React.FC = () => {
@@ -115,7 +165,7 @@ const TableHeader: React.FC = () => {
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: '60px 150px 80px 120px 120px 250px 80px 100px',
+        gridTemplateColumns: '60px 120px 80px 100px 160px 250px 60px 100px',
         gap: '16px',
         padding: '16px 20px',
         backgroundColor: '#F8F9FA',
@@ -143,7 +193,7 @@ const TableRow: React.FC<{ rank: TotalRegionRank }> = ({ rank }) => {
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: '60px 150px 80px 120px 120px 250px 80px 100px',
+        gridTemplateColumns: '60px 120px 80px 100px 160px 250px 60px 100px',
         gap: '16px',
         padding: '16px 20px',
         backgroundColor: 'white',
@@ -210,7 +260,7 @@ const TableRow: React.FC<{ rank: TotalRegionRank }> = ({ rank }) => {
         color: '#6B7280', 
         fontFamily: 'monospace'
       }}>
-        {rank.region.klaci.code}
+        <KlaciCodeVisualizer klaciCode={rank.region.klaci.code} />
       </div>
 
       {/* 강점지표 TOP 3 */}
