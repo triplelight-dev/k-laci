@@ -118,11 +118,11 @@ export default function ProfileForm({
   // 선택된 도/시에 해당하는 지역 옵션 생성
   const regionOptions = selectedProvinceId
     ? provincesWithRegions
-        .find((province) => province.id === Number(selectedProvinceId))
-        ?.regions.map((region) => ({
-          value: String(region.id),
-          label: region.name,
-        })) || []
+      .find((province) => province.id === Number(selectedProvinceId))
+      ?.regions.map((region) => ({
+        value: String(region.id),
+        label: region.name,
+      })) || []
     : [];
 
   // 약관 링크 핸들러들
@@ -164,7 +164,6 @@ export default function ProfileForm({
       {/* 이름 입력 */}
       <CommonInput
         id="name"
-        label="이름"
         value={formData.name}
         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
         placeholder="한글 또는 영어 10자 이하"
@@ -196,7 +195,6 @@ export default function ProfileForm({
       {/* 소속 입력 */}
       <CommonInput
         id="organization"
-        label="소속"
         value={formData.organization}
         onChange={(e) =>
           setFormData({ ...formData, organization: e.target.value })
@@ -212,7 +210,6 @@ export default function ProfileForm({
       {/* 휴대폰 번호 입력 */}
       <CommonInput
         id="phoneNumber"
-        label="휴대폰 번호"
         value={formData.phoneNumber}
         onChange={(e) =>
           setFormData({ ...formData, phoneNumber: e.target.value })
