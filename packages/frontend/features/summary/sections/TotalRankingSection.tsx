@@ -81,12 +81,12 @@ const SectionHeader: React.FC<{
       style={{
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         padding: '0 40px',
         marginBottom: '30px',
       }}
     >
-      {/* 좌상단: 제목 */}
+      {/* 좌상단: 제목과 안내 문구 */}
       <div>
         <h2
           style={{
@@ -94,10 +94,21 @@ const SectionHeader: React.FC<{
             fontWeight: 'bold',
             color: '#1a1a1a',
             margin: 0,
+            marginBottom: '8px',
           }}
         >
           종합순위 TOP 100
         </h2>
+        <p
+          style={{
+            fontSize: '14px',
+            color: '#666',
+            margin: 0,
+            lineHeight: '1.4',
+          }}
+        >
+          (*5극3특, 광역별, 유형별 종합순위 등 다양한 레이블로 구성된 순위가 다음주에 추가 공개됩니다.)
+        </p>
       </div>
 
       {/* 우측: 검색창 */}
