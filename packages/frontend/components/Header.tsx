@@ -30,6 +30,10 @@ const Header = () => {
 
   // 현재 페이지 확인 함수
   const isActivePage = (path: string) => {
+    // summary/* 경로는 모두 ROUTES.SUMMARY 활성화
+    if (path === ROUTES.SUMMARY) {
+      return pathname === '/summary' || pathname.startsWith('/summary/');
+    }
     return pathname === path;
   };
 
