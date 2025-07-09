@@ -3,12 +3,12 @@
 import { useRegion } from '@/api/hooks/useRegion';
 import ResultLayout from '@/components/layout/ResultLayout';
 import {
-    useDistrict,
-    useIsLoggedIn,
-    useSetSelectedDistrict,
-    useSetSelectedProvince,
-    useSetSelectedRegion,
-    useUser,
+  useDistrict,
+  useIsLoggedIn,
+  useSetSelectedDistrict,
+  useSetSelectedProvince,
+  useSetSelectedRegion,
+  useUser,
 } from '@/store';
 import { RegionWithDetails as StoreRegionWithDetails } from '@/store/types/district';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -112,6 +112,8 @@ function ResultsPageContent() {
       setHasLoadedDefault(true);
     } catch (error) {
       console.error('기본 데이터 로드 실패:', error);
+      // 에러가 발생해도 hasLoadedDefault를 true로 설정하여 무한 루프 방지
+      setHasLoadedDefault(true);
     }
   };
 
@@ -156,7 +158,10 @@ function ResultsPageContent() {
           setSelectedRegion(storeRegion, 'url_change');
           setSelectedProvince(storeRegion.province_id);
           setSelectedDistrict(storeRegion.id, 'url_change');
+          setHasLoadedDefault(true); // URL에서 로드했으므로 기본 로드 완료로 표시
         } catch (error) {
+          console.error('URL에서 region 로드 실패:', error);
+          // 에러 시에만 기본 데이터 로드 (hasLoadedDefault가 false인 경우에만)
           if (!hasLoadedDefault) {
             loadDefaultData();
           }
@@ -173,7 +178,7 @@ function ResultsPageContent() {
         loadDefaultData();
       }
     }
-  }, [searchParams, user]);
+  }, [searchParams, user, hasLoadedDefault]); // hasLoadedDefault를 의존성에 추가
 
   // 안전한 지역명 생성 함수
   const getDistrictName = (): string => {
