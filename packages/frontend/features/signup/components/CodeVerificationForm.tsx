@@ -36,7 +36,6 @@ export default function CodeVerificationForm({
       {/* 인증번호 입력 */}
       <CommonInput
         id="verificationCode"
-        label="인증번호"
         value={verificationCode}
         onChange={(e) => setVerificationCode(e.target.value)}
         placeholder="인증번호를 입력해주세요"

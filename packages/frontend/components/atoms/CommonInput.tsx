@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 interface CommonInputProps {
   id: string;
-  label: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder: string;
@@ -18,7 +17,6 @@ interface CommonInputProps {
 
 export default function CommonInput({
   id,
-  label,
   value,
   onChange,
   placeholder,
