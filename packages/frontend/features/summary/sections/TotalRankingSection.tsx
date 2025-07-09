@@ -8,6 +8,18 @@ import { parseKlaciCodeWithNickname } from '@/utils/klaciCodeUtils';
 import { useRouter } from 'next/navigation';
 import React, { useCallback, useMemo, useState } from 'react';
 
+// 컬럼 너비 설정을 위한 상수
+const COLUMN_WIDTHS = {
+  rank: '0 0 30px',
+  regionName: '0 0 100px',
+  jewel: '0 0 60px',
+  type: '0 0 80px',
+  klaciCode: '1 1 430px',
+  strengthIndexes: '1 1 350px',
+  weightClass: '0 0 60px',
+  totalScore: '0 0 60px',
+} as const;
+
 // KLACI 코드 시각화 컴포넌트
 const KlaciCodeVisualizer: React.FC<{ klaciCode: string }> = ({
   klaciCode,
@@ -126,14 +138,14 @@ const RankingTable: React.FC<{ data: TotalRegionRank[] }> = ({ data }) => {
           color: '#333',
         }}
       >
-        <div style={{ flex: '0 0 50px' }}>순위</div>
-        <div style={{ flex: '0 0 80px' }}>지자체명</div>
-        <div style={{ flex: '0 0 60px' }}>원석</div>
-        <div style={{ flex: '0 0 80px' }}>유형명</div>
-        <div style={{ flex: '1 1 400px' }}>유형코드</div>
-        <div style={{ flex: '1 1 350px' }}>강점지표 TOP 3</div>
-        <div style={{ flex: '0 0 60px' }}>체급</div>
-        <div style={{ flex: '0 0 60px' }}>종합점수</div>
+        <div style={{ flex: COLUMN_WIDTHS.rank }}>순위</div>
+        <div style={{ flex: COLUMN_WIDTHS.regionName }}>지자체명</div>
+        <div style={{ flex: COLUMN_WIDTHS.jewel }}>원석</div>
+        <div style={{ flex: COLUMN_WIDTHS.type }}>유형명</div>
+        <div style={{ flex: COLUMN_WIDTHS.klaciCode }}>유형코드</div>
+        <div style={{ flex: COLUMN_WIDTHS.strengthIndexes }}>강점지표 TOP 3</div>
+        <div style={{ flex: COLUMN_WIDTHS.weightClass }}>체급</div>
+        <div style={{ flex: COLUMN_WIDTHS.totalScore }}>종합점수</div>
       </div>
 
       {/* 테이블 데이터 */}
@@ -169,7 +181,7 @@ const RankingTable: React.FC<{ data: TotalRegionRank[] }> = ({ data }) => {
             {/* 순위 */}
             <div
               style={{
-                flex: '0 0 50px',
+                flex: COLUMN_WIDTHS.rank,
                 fontWeight: 600,
                 fontSize: '14px',
               }}
@@ -180,7 +192,7 @@ const RankingTable: React.FC<{ data: TotalRegionRank[] }> = ({ data }) => {
             {/* 지자체명 */}
             <div
               style={{
-                flex: '0 0 80px',
+                flex: COLUMN_WIDTHS.regionName,
                 fontWeight: 600,
                 fontSize: '16px',
               }}
@@ -191,7 +203,7 @@ const RankingTable: React.FC<{ data: TotalRegionRank[] }> = ({ data }) => {
             {/* 원석 - RadarJewelChartMini 사용 */}
             <div
               style={{
-                flex: '0 0 60px',
+                flex: COLUMN_WIDTHS.jewel,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -208,7 +220,7 @@ const RankingTable: React.FC<{ data: TotalRegionRank[] }> = ({ data }) => {
             {/* 유형명 */}
             <div
               style={{
-                flex: '0 0 80px',
+                flex: COLUMN_WIDTHS.type,
                 fontWeight: 600,
                 fontSize: '14px',
               }}
@@ -219,7 +231,7 @@ const RankingTable: React.FC<{ data: TotalRegionRank[] }> = ({ data }) => {
             {/* 유형코드 */}
             <div
               style={{
-                flex: '1 1 400px',
+                flex: COLUMN_WIDTHS.klaciCode,
                 fontSize: '16px',
               }}
             >
@@ -229,7 +241,7 @@ const RankingTable: React.FC<{ data: TotalRegionRank[] }> = ({ data }) => {
             {/* 강점지표 TOP 3 */}
             <div
               style={{
-                flex: '1 1 350px',
+                flex: COLUMN_WIDTHS.strengthIndexes,
                 display: 'flex',
                 gap: '4px',
                 fontSize: '16px',
@@ -257,7 +269,7 @@ const RankingTable: React.FC<{ data: TotalRegionRank[] }> = ({ data }) => {
             {/* 체급 */}
             <div
               style={{
-                flex: '0 0 60px',
+                flex: COLUMN_WIDTHS.weightClass,
                 fontSize: '14px',
               }}
             >
@@ -267,7 +279,7 @@ const RankingTable: React.FC<{ data: TotalRegionRank[] }> = ({ data }) => {
             {/* 종합점수 */}
             <div
               style={{
-                flex: '0 0 60px',
+                flex: COLUMN_WIDTHS.totalScore,
                 color: '#000',
                 fontSize: '14px',
               }}
