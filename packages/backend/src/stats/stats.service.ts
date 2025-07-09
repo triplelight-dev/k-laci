@@ -69,7 +69,10 @@ export class StatsService {
               .in('code', item.strength_indexes);
 
           if (!keyIndexesError && keyIndexesData) {
-            strengthIndexesDetails = keyIndexesData;
+            // 원래 strength_indexes 배열 순서에 맞게 재정렬
+            strengthIndexesDetails = item.strength_indexes
+              .map((code) => keyIndexesData.find((item) => item.code === code))
+              .filter(Boolean); // undefined 값 제거
           }
         }
 
