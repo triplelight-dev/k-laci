@@ -1,6 +1,6 @@
-import React from 'react';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Header from '@/components/Header';
+import React from 'react';
 
 const SummaryLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -16,7 +16,19 @@ const SummaryLayout = ({ children }: { children: React.ReactNode }) => {
           justifyContent: 'center',
         }}
       >
-        {children}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '80%',
+            maxWidth: '1200px',
+            gap: '40px',
+          }}
+        >
+          {children}
+        </div>
       </div>
       <Footer />
     </div>
