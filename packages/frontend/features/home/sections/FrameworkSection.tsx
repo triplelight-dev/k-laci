@@ -221,46 +221,47 @@ const FrameworkSection: React.FC = () => {
 
             {/* 우측: 이미지 (화면 꽉 채움) */}
 
-            {index === 2 ? <div
-              style={{
-                padding: '70px 60px',
-                borderRadius: '52px',
-                background: '#191B22',
-                width: 'fit-content',
-                height: 'fit-content',
-              }}
-            ><div
-                style={{
-                  flex: 1,
-                  width: '500px',
-                  height: '500px',
-                  borderRadius: '16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundImage: `url(${item.image})`,
-                  backgroundSize: 'contain',
-                  backgroundPosition: 'center',
-                  backgroundRepeat: 'no-repeat',
-                  minWidth: '40%',
-                }}
-              />
-            </div> : <div
-              style={{
-                flex: 1,
-                width: '100%',
-                height: '500px',
-                borderRadius: '16px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundImage: `url(${item.image})`,
-                backgroundSize: 'contain',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                minWidth: '40%',
-              }}
-            />}
+            {
+                index === 2 ? <div
+                  style={{
+                    padding: '70px 60px',
+                    borderRadius: '52px',
+                    background: '#191B22',
+                    width: 'fit-content',
+                    height: 'fit-content',
+                  }}
+                ><div
+                    style={{
+                      flex: 1,
+                      width: '500px',
+                      height: '500px',
+                      borderRadius: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundImage: `url(${item.image})`,
+                      backgroundSize: 'contain',
+                      backgroundPosition: 'center',
+                      backgroundRepeat: 'no-repeat',
+                      minWidth: '40%',
+                    }}
+                  />
+                </div> : <div
+                  style={{
+                    flex: 1,
+                    width: '100%',
+                    height: '500px',
+                    borderRadius: '16px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundImage: `url(${item.image})`,
+                    backgroundSize: 'contain',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    minWidth: '40%',
+                  }}
+                />}
           </div>
         ))}
       </div>

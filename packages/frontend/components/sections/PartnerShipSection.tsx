@@ -5,6 +5,7 @@ import { Flex } from '@chakra-ui/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRightUp } from '../atoms/assets';
+import Button from '../atoms/buttons/Button';
 
 const PartnerShipSection = () => {
   // 텍스트 데이터를 배열로 정의
@@ -157,62 +158,16 @@ const PartnerShipSection = () => {
         >
           {/* 파트너십 문의하기 버튼 */}
           <a href="mailto:klaci@triplelight.co?subject=파트너십 문의&body=안녕하세요, KLACI 파트너십에 대해 문의드립니다.%0D%0A%0D%0A[여기에 문의 내용을 작성해주세요]%0D%0A%0D%0A감사합니다.">
-            <button
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '12px 32px',
-                backgroundColor: '#ffffff',
-                color: '#000000',
-                border: 'none',
-                borderRadius: '8px',
-                fontSize: '18px',
-                fontWeight: '400',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#f3f4f6';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#ffffff';
-              }}
-            >
-              파트너십 문의하기
-              <ArrowRightUp />
-            </button>
+            <Button label='파트너십 문의하기'
+              variant='primary'
+              icon={<ArrowRightUp color='#000000' />} />
           </a>
 
           {/* 회원가입 바로가기 버튼 */}
           <Link href={ROUTES.SIGNUP}>
-            <button
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '12px 34px',
-                backgroundColor: 'transparent',
-                color: '#ffffff',
-                border: '1px solid #ffffff',
-                borderRadius: '8px',
-                fontSize: '18px',
-                fontWeight: '400',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#ffffff';
-                e.currentTarget.style.color = '#000000';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.color = '#ffffff';
-              }}
-            >
-              회원가입 바로가기
-              <ArrowRightUp color="#ffffff" />
-            </button>
+            <Button label='회원가입 바로가기'
+              variant='secondary'
+              icon={<ArrowRightUp color='#ffffff' />} />
           </Link>
         </div>
       </section>

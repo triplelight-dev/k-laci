@@ -1,6 +1,7 @@
 'use client';
 
 import { ArrowRightUp } from '@/components/atoms/assets';
+import Button from '@/components/atoms/buttons/Button';
 import { DARK_MODE_COLORS } from '@/utils/colors';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -121,28 +122,11 @@ const IntroSection: React.FC = () => {
         ))}
       </div>
 
-      {/* 버튼 */}
-      <button
+      <Button
+        label="우리 지역 잠재력 확인하기"
+        icon={<ArrowRightUp />}
         onClick={handleButtonClick}
-        style={{
-          backgroundColor: 'white',
-          color: 'black',
-          border: 'none',
-          borderRadius: '8px',
-          padding: '12px 24px',
-          fontSize: '18px',
-          fontWeight: '400',
-          cursor: 'pointer',
-          transition: 'all 0.2s ease',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '10px',
-        }}
-      >
-        우리 지역 잠재력 확인하기
-        <ArrowRightUp />
-      </button>
+      />
     </div >
   );
 };

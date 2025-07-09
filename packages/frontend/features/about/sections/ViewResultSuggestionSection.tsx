@@ -1,5 +1,7 @@
 'use client';
 
+import { ArrowRightUp } from '@/components/atoms/assets';
+import Button from '@/components/atoms/buttons/Button';
 import { ROUTES } from '@/constants/data';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -12,10 +14,6 @@ const ViewResultSuggestionSection: React.FC = () => {
     '지역명 검색 또는 유형별 조회를 통해 우리 지역의 숨겨진 강점과 새로운 기회를 직접 발견하고,',
     '이를 바탕으로 맞춤형 성장 전략을 위한 통찰을 얻을 수 있습니다.',
   ];
-
-  const handleDistrictSearchClick = () => {
-    router.push(ROUTES.RESULT);
-  };
 
   const handleMainResultsClick = () => {
     router.push(ROUTES.SUMMARY);
@@ -122,37 +120,10 @@ const ViewResultSuggestionSection: React.FC = () => {
             }}
           >
             {/* 오른쪽 버튼: 투명 배경 흰색 보더 */}
-            <button
-              onClick={handleMainResultsClick}
-              style={{
-                backgroundColor: 'transparent',
-                color: 'white',
-                border: '1px solid white',
-                borderRadius: '8px',
-                padding: '14px 24px',
-                marginRight: '220px',
-                fontSize: '18px',
-                fontWeight: '400',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                justifyContent: 'center',
-                minWidth: '180px',
-              }}
-            >
-              주요 결과 바로가기
-              <img
-                src="/arrow_button_icon_white.png"
-                alt="화살표 아이콘"
-                style={{
-                  width: '10px',
-                  height: '10px',
-                  display: 'block',
-                }}
-              />
-            </button>
+            <div style={{ marginRight: '220px' }}>
+              <Button label='주요 결과 바로가기' icon={<ArrowRightUp color='#ffffff' />} variant='secondary' onClick={handleMainResultsClick} />
+            </div>
+
           </div>
         </div>
       </div>

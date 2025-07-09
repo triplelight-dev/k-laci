@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { ArrowRightUp } from '../atoms/assets';
+import Button from '../atoms/buttons/Button';
 
 interface ContentSectionProps {
   badgeText: string;
@@ -177,25 +178,12 @@ const ContentSection: React.FC<ContentSectionProps> = ({
           </div>
 
           {/* 버튼 */}
-          <button
+          <Button
+            label={button.text}
+            icon={<ArrowRightUp />}
             onClick={handleButtonClick}
-            style={{
-              backgroundColor: 'white',
-              color: 'black',
-              border: 'none',
-              borderRadius: '8px',
-              padding: '14px 32px',
-              fontSize: '18px',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-            }}
-          >
-            {button.text}
-            <ArrowRightUp />
-          </button>
+          />
+
         </div>
       </div>
 

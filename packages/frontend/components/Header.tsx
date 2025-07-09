@@ -7,6 +7,7 @@ import { useIsLoggedIn, useLogout, useUser } from '@/store';
 import { DARK_MODE_COLORS } from '@/utils/colors';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Button from './atoms/buttons/Button';
 
 const Header = () => {
   const pathname = usePathname();
@@ -187,22 +188,23 @@ const Header = () => {
             ) : (
               <>
                 {/* Login Button - 흰색 배경 */}
-                <HeaderAuthButton
-                  variant="login"
-                  href={ROUTES.LOGIN}
-                  theme={isBlackTheme ? 'dark' : 'light'}
-                >
-                  로그인
-                </HeaderAuthButton>
+                <Link href={ROUTES.LOGIN}>
+                  <Button
+                    variant="primary"
+                    label="로그인"
+                    padding="10px 30px"
+                  />
+                </Link>
+                
 
                 {/* Signup Button - 투명 배경 흰 보더 + 우측 대각선 아이콘 */}
-                <HeaderAuthButton
-                  variant="signup"
-                  href={ROUTES.SIGNUP}
-                  theme={isBlackTheme ? 'dark' : 'light'}
-                >
-                  회원가입
-                </HeaderAuthButton>
+                <Link href={ROUTES.SIGNUP}>
+                  <Button
+                    variant="secondary"
+                    label="회원가입"
+                    padding="10px 30px"
+                  />
+                </Link>
               </>
             )}
           </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { ArrowRightUp } from '@/components/atoms/assets';
+import Button from '@/components/atoms/buttons/Button';
 import { DARK_MODE_COLORS } from '@/utils/colors';
 import { Grid } from '@chakra-ui/react';
 import React from 'react';
@@ -58,20 +59,6 @@ const AboutUsSection: React.FC = () => {
 
       justifyContent="space-between"
       alignItems="stretch"
-
-
-    // style={{
-    //   width: '100%',
-    //   backgroundColor: DARK_MODE_COLORS.background,
-    //   maxWidth: '1400px',
-    //   borderRadius: '32px',
-    //   display: 'flex',
-    //   flexDirection: 'row',
-    //   justifyContent: 'space-between',
-    //   alignItems: 'stretch',
-    //   padding: '100px 0',
-    //   marginBottom: '80px',
-    // }}
     >
       {/* 좌측 섹션 */}
       <div
@@ -141,29 +128,17 @@ const AboutUsSection: React.FC = () => {
         </div>
 
         {/* 버튼 */}
-        <a href="mailto:klaci@triplelight.co?subject=컨설팅, 연구 및 세미나 문의&body=안녕하세요, KLACI 컨설팅, 연구 및 세미나에 대해 문의드립니다.%0D%0A%0D%0A[여기에 문의 내용을 작성해주세요]%0D%0A%0D%0A감사합니다.">
-          <button
-            style={{
-              backgroundColor: 'white',
-              color: 'black',
-              border: 'none',
-              borderRadius: '8px',
-              padding: '14px 24px',
-              fontSize: '18px',
-              fontWeight: '400',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              justifyContent: 'center',
-              minWidth: '200px',
-            }}
-          >
-            컨설팅, 연구 및 세미나 문의
-            <ArrowRightUp />
-          </button>
-        </a>
+
+        <Button
+          label='컨설팅, 연구 및 세미나 문의'
+          icon={<ArrowRightUp />}
+          variant='primary'
+          onClick={() => {
+            window.open('mailto:klaci@triplelight.co?subject=컨설팅, 연구 및 세미나 문의&body=안녕하세요, KLACI 컨설팅, 연구 및 세미나에 대해 문의드립니다.%0D%0A%0D%0A[여기에 문의 내용을 작성해주세요]%0D%0A%0D%0A감사합니다.', '_blank');
+          }}
+        />
+
+
       </div>
 
       {/* 우측 섹션 */}
