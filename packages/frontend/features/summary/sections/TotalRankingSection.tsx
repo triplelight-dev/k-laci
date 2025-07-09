@@ -1,8 +1,9 @@
 'use client';
 
 import { TotalRegionRank } from '@/api/types/stats.types';
+import SearchInput from '@/components/atoms/SearchInput';
 import { parseKlaciCodeWithNickname } from '@/utils/klaciCodeUtils';
-import React from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 // KLACI 코드 시각화 컴포넌트
 const KlaciCodeVisualizer: React.FC<{ klaciCode: string }> = ({
@@ -54,7 +55,12 @@ const KlaciCodeVisualizer: React.FC<{ klaciCode: string }> = ({
 };
 
 // 타이틀과 검색창을 별도 컴포넌트로 분리
-const SectionHeader: React.FC = () => {
+const SectionHeader: React.FC<{ 
+  searchTerm: string; 
+  onSearchChange: (value: string) => void;
+  filteredCount: number;
+  totalCount: number;
+}> = ({ searchTerm, onSearchChange, filteredCount, totalCount }) => {
   return (
     <div
       style={{
@@ -77,40 +83,25 @@ const SectionHeader: React.FC = () => {
         >
           종합순위 TOP 100
         </h2>
+        {searchTerm && (
+          <p
+            style={{
+              fontSize: '14px',
+              color: '#666',
+              margin: '4px 0 0 0',
+            }}
+          >
+            검색 결과: {filteredCount}개 / 전체 {totalCount}개
+          </p>
+        )}
       </div>
 
       {/* 우측: 검색창 */}
-      <div
-        style={{
-          position: 'relative',
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        <div
-          style={{
-            position: 'absolute',
-            left: '12px',
-            color: '#999',
-            fontSize: '16px',
-          }}
-        >
-          🔍
-        </div>
-        <input
-          type="text"
-          placeholder="지역 검색"
-          style={{
-            width: '200px',
-            height: '36px',
-            padding: '8px 12px 8px 36px',
-            border: '1px solid #ddd',
-            borderRadius: '6px',
-            fontSize: '14px',
-            outline: 'none',
-          }}
-        />
-      </div>
+      <SearchInput
+        value={searchTerm}
+        onChange={onSearchChange}
+        placeholder="지역 검색"
+      />
     </div>
   );
 };
@@ -156,13 +147,14 @@ const RankingTable: React.FC<{ data: TotalRegionRank[] }> = ({ data }) => {
             marginBottom: '8px',
             alignItems: 'center',
             cursor: 'pointer',
-            transition: 'background-color 0.2s ease',
+            transition: 'border 0.2s ease',
+            border: '1px solid transparent',
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#f8f9fa';
+            e.currentTarget.style.border = '1px solid #000';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'white';
+            e.currentTarget.style.border = '1px solid transparent';
           }}
         >
           {/* 순위 */}
@@ -283,6 +275,45 @@ const RankingTable: React.FC<{ data: TotalRegionRank[] }> = ({ data }) => {
 const TotalRankingSection: React.FC<{ data: TotalRegionRank[] }> = ({
   data,
 }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+
+  // Debounce 함수
+  const debounce = useCallback((func: Function, delay: number) => {
+    let timeoutId: NodeJS.Timeout;
+    return (...args: any[]) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => func.apply(null, args), delay);
+    };
+  }, []);
+
+  // Debounced search handler
+  const debouncedSearch = useCallback(
+    debounce((value: string) => {
+      setDebouncedSearchTerm(value);
+    }, 300), // 300ms 딜레이
+    [debounce]
+  );
+
+  // 검색어 변경 핸들러
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value); // 즉시 UI 업데이트
+    debouncedSearch(value); // 디바운스된 필터링
+  };
+
+  // 검색어에 따른 필터링된 데이터
+  const filteredData = useMemo(() => {
+    if (!debouncedSearchTerm.trim()) {
+      return data;
+    }
+
+    const searchLower = debouncedSearchTerm.toLowerCase();
+    return data.filter((item) => {
+      const fullName = `${item.region.province.name} ${item.region.name}`.toLowerCase();
+      return fullName.includes(searchLower);
+    });
+  }, [data, debouncedSearchTerm]);
+
   return (
     <div
       style={{
@@ -290,8 +321,13 @@ const TotalRankingSection: React.FC<{ data: TotalRegionRank[] }> = ({
         padding: '40px 0',
       }}
     >
-      <SectionHeader />
-      <RankingTable data={data} />
+      <SectionHeader 
+        searchTerm={searchTerm}
+        onSearchChange={handleSearchChange}
+        filteredCount={filteredData.length}
+        totalCount={data.length}
+      />
+      <RankingTable data={filteredData} />
     </div>
   );
 };
