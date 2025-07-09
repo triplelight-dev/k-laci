@@ -46,7 +46,7 @@ export default function Top100PageClient() {
 
   return (
     <SummaryLayout>
-      <TotalRankingSection data={data?.data} />
+      <TotalRankingSection data={data?.data || []} />
       
       <HomePreRegistrationSection />
     </SummaryLayout>

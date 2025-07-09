@@ -40,6 +40,7 @@ export interface Region {
   name: string;
   province_id?: number;
   klaci_code_id?: number;
+  weight_class?: string; // weight_class 추가
   created_at?: string;
   updated_at?: string;
   province: Province;

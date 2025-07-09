@@ -228,7 +228,7 @@ const TableRow: React.FC<{ rank: TotalRegionRank }> = ({ rank }) => {
       <div style={{ 
         color: '#1F2937'
       }}>
-        {rank.region.weight_class}급
+        {rank.region.weight_class || 'N/A'}급
       </div>
 
       {/* 종합점수 */}
