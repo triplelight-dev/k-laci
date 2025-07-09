@@ -4,6 +4,7 @@ import { TotalRegionRank } from '@/api/types/stats.types';
 import SearchInput from '@/components/atoms/SearchInput';
 import RadarJewelChartMini from '@/components/atoms/charts/RadarJewelChartMini';
 import { parseKlaciCodeWithNickname } from '@/utils/klaciCodeUtils';
+import { useRouter } from 'next/navigation';
 import React, { useCallback, useMemo, useState } from 'react';
 
 // 차트 데이터를 동적으로 생성하는 함수 (TitleSection에서 가져온 로직)
@@ -137,6 +138,13 @@ const SectionHeader: React.FC<{
 
 // 메인 테이블 컴포넌트
 const RankingTable: React.FC<{ data: TotalRegionRank[] }> = ({ data }) => {
+  const router = useRouter();
+
+  // 지역 클릭 핸들러
+  const handleRegionClick = useCallback((regionId: number) => {
+    router.push(`/results?regionId=${regionId}`);
+  }, [router]);
+
   return (
     <div style={{ padding: '0 40px' }}>
       {/* 테이블 헤더 */}
@@ -180,15 +188,18 @@ const RankingTable: React.FC<{ data: TotalRegionRank[] }> = ({ data }) => {
               marginBottom: '8px',
               alignItems: 'center',
               cursor: 'pointer',
-              transition: 'border 0.2s ease',
+              transition: 'all 0.2s ease',
               border: '1px solid transparent',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.border = '1px solid #000';
+              e.currentTarget.style.backgroundColor = '#f8f9fa';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.border = '1px solid transparent';
+              e.currentTarget.style.backgroundColor = 'white';
             }}
+            onClick={() => handleRegionClick(item.region_id)}
           >
             {/* 순위 */}
             <div
