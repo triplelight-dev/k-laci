@@ -61,6 +61,7 @@ const HomePreRegistrationSection = () => {
       <section
         style={{
           width: '100%',
+          minHeight: '500px',
           padding: '80px 120px',
           backgroundColor: '#14161D',
           color: '#ffffff',

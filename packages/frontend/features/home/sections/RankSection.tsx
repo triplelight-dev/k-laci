@@ -9,7 +9,7 @@ import RankCardSlider from '../components/RankCardSlider';
 export default function RankSection() {
 
   return (
-    <Flex height="100vh" justifyContent='center' alignItems='center' backgroundColor='#14161D'>
+    <Flex height="100vh" justifyContent='center' alignItems='center' backgroundColor='#14161D' minHeight='1080px'>
       <Flex flexDirection='column' gap='20px' overflow='hidden' alignItems='center'>
         <Heading fontSize="30px" fontWeight="600" color="#ffffff" textAlign="center" height='fit-content'>
           종합순위 TOP 100

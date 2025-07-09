@@ -55,7 +55,7 @@ const PartnerShipSection = () => {
   };
 
   return (
-    <Flex justifyContent="center" alignItems="center" width="100%" height="100vh">
+    <Flex justifyContent="center" alignItems="center" width="100%" height="100vh" minHeight='800px'>
       <section
         style={{
           width: '100%',

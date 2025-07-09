@@ -46,7 +46,8 @@ const ContentSectionVertical: React.FC<ContentSectionVerticalProps> = ({
     <div
       style={{
         width: '100%',
-        minHeight: '100vh',
+        minHeight: '1080px',
+        height: '100vh',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

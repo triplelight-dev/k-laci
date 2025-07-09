@@ -29,7 +29,7 @@ const IntroSection: React.FC = () => {
       style={{
         width: '100%',
         height: 'calc(100vh - 100px)',
-
+        minHeight: '800px',
         backgroundImage: 'url(/backgrounds/home_intro_bg.png)',
         backgroundSize: 'calc(100% - 400px) auto',
         backgroundPosition: 'center',
