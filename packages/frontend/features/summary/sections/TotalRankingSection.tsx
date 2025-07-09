@@ -216,7 +216,7 @@ const RankingTable: React.FC<{ data: TotalRegionRank[] }> = ({ data }) => {
               fontSize: '16px',
             }}
           >
-            <KlaciCodeVisualizer klaciCode={item.region.klaci_code} />
+            <KlaciCodeVisualizer klaciCode={item.region.klaci.code} />
           </div>
 
           {/* 강점지표 TOP 3 */}
