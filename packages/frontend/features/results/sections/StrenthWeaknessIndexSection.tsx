@@ -133,7 +133,8 @@ const IndexSection: React.FC<{
   isStrength?: boolean;
   onItemClick: (data: IndexData) => void;
   isDisabled?: boolean;
-}> = ({ title, data, onItemClick, isDisabled = false }) => {
+}> = ({ title, data, onItemClick, isDisabled = false, isStrength }) => {
+  const rankRange = isStrength ? '1~10위 순' : '55~46위 순';
   return (
     <div
       style={{
@@ -169,7 +170,7 @@ const IndexSection: React.FC<{
             marginBottom: '16px',
           }}
         >
-          1~10위 순
+          {rankRange}
         </div>
       </div>
 
@@ -213,11 +214,17 @@ const convertApiResponseToIndexData = (
     indexRank: item.rank || 0,
     indexScore: 0, // 새로운 API에서는 score 정보가 없으므로 0으로 설정
     indexDescription: item.key_index.description || '',
-    ...(item.key_index.yearly_avg_score !== undefined && { yearlyAvgScore: item.key_index.yearly_avg_score }),
+    ...(item.key_index.yearly_avg_score !== undefined && {
+      yearlyAvgScore: item.key_index.yearly_avg_score,
+    }),
     ...(item.key_index.year !== undefined && { year: item.key_index.year }),
-    ...(item.key_index.source !== undefined && { source: item.key_index.source }),
+    ...(item.key_index.source !== undefined && {
+      source: item.key_index.source,
+    }),
     ...(item.key_index.unit !== undefined && { unit: item.key_index.unit }),
-    ...(item.key_index.calculation_method !== undefined && { calculation_method: item.key_index.calculation_method }),
+    ...(item.key_index.calculation_method !== undefined && {
+      calculation_method: item.key_index.calculation_method,
+    }),
   }));
 };
 
