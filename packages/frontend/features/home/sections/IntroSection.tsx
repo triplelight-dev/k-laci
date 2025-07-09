@@ -34,7 +34,6 @@ const IntroSection: React.FC = () => {
         backgroundSize: 'calc(100% - 400px) auto',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-
         backgroundColor: theme.background,
         display: 'flex',
         flexDirection: 'column',
