@@ -8,7 +8,7 @@ export default function StepBadge({ step }: StepBadgeProps) {
       style={{
         display: 'flex',
         justifyContent: 'center',
-        marginBottom: '5px',
+        marginBottom: '23px',
       }}
     >
       <div

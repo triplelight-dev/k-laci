@@ -43,16 +43,6 @@ export default function CommonInput({
           marginBottom: '10px',
         }}
       >
-        <label
-          htmlFor={id}
-          style={{
-            fontSize: '14px',
-            fontWeight: '700',
-            color: '#374151',
-          }}
-        >
-          {label}
-        </label>
         {isRequired && (
           <span
             style={{

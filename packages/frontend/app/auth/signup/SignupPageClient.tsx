@@ -164,7 +164,9 @@ function SignUpPageLoading() {
 export default function SignupPageClient() {
   return (
     <Suspense fallback={<SignUpPageLoading />}>
-      <SignUpPageContent />
+      <div style={{ height: 'fit-content', minHeight: '800px', paddingTop: '100px' }}>
+        <SignUpPageContent />
+      </div>
     </Suspense>
   );
 }

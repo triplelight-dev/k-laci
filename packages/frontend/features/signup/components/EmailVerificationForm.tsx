@@ -31,21 +31,22 @@ export default function EmailVerificationForm({
     <form
       onSubmit={onSubmit}
       style={{
-        width: '80%',
+        width: '100%',
+        maxWidth: '520px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: '20px',
+        // gap: '20px',
       }}
     >
       {/* 이메일 입력 */}
-      <div style={{ width: '100%' }}>
+      <div style={{ width: '100%', marginBottom: '100px' }}>
         <EmailInput
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        
+
         {/* 유저 타입 뱃지들 */}
         <div
           style={{
@@ -53,7 +54,7 @@ export default function EmailVerificationForm({
             width: '100%',
             gap: '8px',
             marginTop: '16px',
-            marginBottom: '50px',
+            // marginBottom: '50px',
           }}
         >
           <UserTypeBadge type="GOV" isActive={userType === 'GOV'} />
@@ -72,11 +73,11 @@ export default function EmailVerificationForm({
           backgroundColor: isLoading ? '#9CA3AF' : '#000000',
           color: 'white',
           borderRadius: '0.5rem',
-          fontWeight: '500',
+          fontSize: '18px',
+          fontWeight: '700',
           cursor: isLoading ? 'not-allowed' : 'pointer',
           border: 'none',
           transition: 'background-color 0.2s',
-          fontSize: '16px',
         }}
         onMouseEnter={(e) => {
           if (!isLoading) {

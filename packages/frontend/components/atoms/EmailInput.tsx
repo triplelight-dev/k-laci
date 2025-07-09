@@ -21,20 +21,27 @@ export default function EmailInput({
         type="email"
         value={value}
         onChange={onChange}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
+        onFocus={(e) => {
+          setIsFocused(true);
+          e.currentTarget.style.border = '1px solid #000';
+        }}
+        onBlur={(e) => {
+          setIsFocused(false);
+          e.currentTarget.style.border = '1px solid #E5E7EB';
+        }}
         style={{
           width: '100%',
-          height: '50px',
-          fontSize: '16px',
-          padding: '0 1rem',
-          border: '1px solid #000000',
-          borderRadius: '0.5rem',
+          height: '60px',
+          fontSize: '18px',
+          padding: '10px 20px',
+          borderRadius: '14px',
+          background: '#FFF',
           outline: 'none',
           color: '#111827',
           boxSizing: 'border-box',
           backgroundColor: 'white',
         }}
+
         placeholder={placeholder}
       />
       {error && (

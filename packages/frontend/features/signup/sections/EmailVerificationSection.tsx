@@ -29,7 +29,7 @@ export default function EmailVerificationSection({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#F4F4F4',
+          backgroundColor: '#f5f5f5',
         }}
       >
         <div
@@ -46,9 +46,9 @@ export default function EmailVerificationSection({
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor: 'white',
               borderRadius: '50px',
-              padding: '40px 100px',
+              padding: '60px 90px',
+              backgroundColor: '#FAFAFA',
             }}
           >
             {/* 1/2 단계 뱃지 */}
@@ -59,14 +59,14 @@ export default function EmailVerificationSection({
               style={{
                 width: '100%',
                 textAlign: 'center',
-                marginBottom: '2rem',
+                marginBottom: '66px',
               }}
             >
               <h1
                 style={{
-                  fontSize: '1.875rem',
-                  fontWeight: '700',
-                  color: '#111827',
+                  fontSize: '30px',
+                  fontWeight: '600',
+                  color: '#000000',
                 }}
               >
                 이메일로 회원가입
@@ -78,15 +78,17 @@ export default function EmailVerificationSection({
               style={{
                 width: '100%',
                 textAlign: 'center',
-                marginBottom: '30px',
+                marginBottom: '68px',
               }}
             >
               {descriptionTexts.map((text, index) => (
                 <div
                   key={index}
                   style={{
-                    lineHeight: '1.5',
-                    fontSize: '16px',
+                    fontSize: '18px',
+                    fontWeight: '400',
+                    color: '#000000',
+                    lineHeight: '28px',
                   }}
                 >
                   {text}
@@ -123,29 +125,52 @@ export default function EmailVerificationSection({
       <div
         style={{
           textAlign: 'center',
-          marginTop: '30px',
-          fontSize: '16px',
+          marginTop: '60px',
+          fontWeight: '400',
+          fontSize: '18px',
         }}
       >
-        <div
+        <span
           style={{
             color: '#000000',
             lineHeight: '2',
           }}
         >
           이미 계정이 있으신가요?{' '}
-        </div>
+        </span>
         <a
           href="/auth/login"
           style={{
+            display: 'inline-block',
             color: '#000000',
             textDecoration: 'underline',
             textDecorationColor: '#000000',
             textDecorationThickness: '1px',
-            fontWeight: '500',
+            fontSize: '18px',
+            fontWeight: '400',
           }}
         >
           로그인 바로가기
+        </a>
+      </div>
+      <div style={{
+        textAlign: 'center',
+        marginTop: '30px',
+        marginBottom: '100px',
+      }}>
+        <a href="mailto:klaci@triplelight.co">
+          <span
+            style={{
+              fontSize: '18px',
+              fontWeight: '400',
+              color: '#000000',
+              textDecoration: 'underline',
+              textDecorationColor: '#000000',
+              textDecorationThickness: '1px',
+            }}
+          >
+            도움이 필요하신가요?
+          </span>
         </a>
       </div>
     </div>

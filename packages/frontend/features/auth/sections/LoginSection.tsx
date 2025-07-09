@@ -144,7 +144,6 @@ export default function LoginSection({
               href="#"
               style={{
                 fontSize: '18px',
-                fontWeight: '400',
                 color: '#000000',
                 textDecoration: 'underline',
                 textDecorationColor: '#000000',
