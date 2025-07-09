@@ -1,7 +1,6 @@
 'use client';
 
 import { ROUTES } from '@/constants/data';
-import { DARK_MODE_COLORS } from '@/utils/colors';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
@@ -26,7 +25,10 @@ const ViewResultSuggestionSection: React.FC = () => {
     <div
       style={{
         width: '100%',
-        backgroundColor: DARK_MODE_COLORS.background,
+        backgroundImage: 'url(/backgrounds/about_gradient_el.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
         maxWidth: '1400px',
         borderRadius: '32px',
         display: 'flex',
@@ -60,7 +62,19 @@ const ViewResultSuggestionSection: React.FC = () => {
               textAlign: 'left',
             }}
           >
-            <div>우리 지역의 강점과 기회를</div>
+            <div>우리 지역의 <span style={{
+              background: ' linear-gradient(110.4deg, #F56542 0.5%, #F4B04D 35%, #ACAAE8 65%, #74BF9E 99%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              display: 'inline',
+            }}>강점</span>과 <span style={{
+              background: ' linear-gradient(100.4deg, #F56542 2.5%, #F4B04D 35%, #ACAAE8 65%, #74BF9E 99%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              display: 'inline',
+            }}>기회</span>를</div>
             <div>직접 확인해보세요</div>
           </div>
         </div>
@@ -99,45 +113,14 @@ const ViewResultSuggestionSection: React.FC = () => {
             ))}
           </div>
 
-          {/* 하단 두 개 버튼 */}
+          {/* 하단 버튼 */}
           <div
             style={{
               display: 'flex',
-              gap: '16px',
+              justifyContent: 'flex-end',
+              width: '100%',
             }}
           >
-            {/* 왼쪽 버튼: 흰색 배경 */}
-            <button
-              onClick={handleDistrictSearchClick}
-              style={{
-                backgroundColor: 'white',
-                color: 'black',
-                border: 'none',
-                borderRadius: '8px',
-                padding: '14px 24px',
-                fontSize: '14px',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                justifyContent: 'center',
-                minWidth: '180px',
-              }}
-            >
-              지자체 조회 바로가기
-              <img
-                src="/arrow_button_icon.png"
-                alt="화살표 아이콘"
-                style={{
-                  width: '10px',
-                  height: '10px',
-                  display: 'block',
-                }}
-              />
-            </button>
-
             {/* 오른쪽 버튼: 투명 배경 흰색 보더 */}
             <button
               onClick={handleMainResultsClick}
@@ -147,8 +130,9 @@ const ViewResultSuggestionSection: React.FC = () => {
                 border: '1px solid white',
                 borderRadius: '8px',
                 padding: '14px 24px',
-                fontSize: '14px',
-                fontWeight: '600',
+                marginRight: '220px',
+                fontSize: '18px',
+                fontWeight: '400',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
                 display: 'flex',

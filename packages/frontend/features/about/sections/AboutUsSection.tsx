@@ -1,6 +1,8 @@
 'use client';
 
+import { ArrowRightUp } from '@/components/atoms/assets';
 import { DARK_MODE_COLORS } from '@/utils/colors';
+import { Grid } from '@chakra-ui/react';
 import React from 'react';
 
 const AboutUsSection: React.FC = () => {
@@ -34,25 +36,42 @@ const AboutUsSection: React.FC = () => {
     return parts.map((part, index) => (
       <React.Fragment key={index}>
         {part}
-        {index < parts.length - 1 && <strong>{boldKeyword}</strong>}
+        {index < parts.length - 1 && <strong
+          style={{
+            fontWeight: '700',
+          }}
+        >{boldKeyword}</strong>}
       </React.Fragment>
     ));
   };
 
   return (
-    <div
-      style={{
-        width: '100%',
-        backgroundColor: DARK_MODE_COLORS.background,
-        maxWidth: '1100px',
-        borderRadius: '32px',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'stretch',
-        padding: '100px 40px',
-        marginBottom: '80px',
-      }}
+    <Grid
+      gridTemplateColumns="1fr 1fr"
+      // gap={10}
+      width="100%"
+      maxWidth="1400px"
+      borderRadius="32px"
+      backgroundColor={DARK_MODE_COLORS.background}
+      padding="100px 0"
+      marginBottom="80px"
+
+      justifyContent="space-between"
+      alignItems="stretch"
+
+
+    // style={{
+    //   width: '100%',
+    //   backgroundColor: DARK_MODE_COLORS.background,
+    //   maxWidth: '1400px',
+    //   borderRadius: '32px',
+    //   display: 'flex',
+    //   flexDirection: 'row',
+    //   justifyContent: 'space-between',
+    //   alignItems: 'stretch',
+    //   padding: '100px 0',
+    //   marginBottom: '80px',
+    // }}
     >
       {/* 좌측 섹션 */}
       <div
@@ -61,7 +80,8 @@ const AboutUsSection: React.FC = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
-          paddingRight: '40px',
+          paddingRight: '140px',
+          borderRight: '1px solid rgba(255, 255, 255, 0.2)',
         }}
       >
         {/* 상단 뱃지 */}
@@ -72,8 +92,8 @@ const AboutUsSection: React.FC = () => {
             color: 'white',
             padding: '6px 12px',
             borderRadius: '8px',
-            fontSize: '12px',
-            fontWeight: '600',
+            fontSize: '14px',
+            fontWeight: '500',
             marginBottom: '24px',
           }}
         >
@@ -83,8 +103,8 @@ const AboutUsSection: React.FC = () => {
         {/* 타이틀 */}
         <div
           style={{
-            fontSize: '32px',
-            fontWeight: '700',
+            fontSize: '40px',
+            fontWeight: '600',
             color: 'white',
             lineHeight: '1.3',
             textAlign: 'left',
@@ -107,9 +127,10 @@ const AboutUsSection: React.FC = () => {
             <div
               key={index}
               style={{
-                fontSize: '14px',
+                maxWidth: '650px',
+                fontSize: '18px',
                 color: 'white',
-                lineHeight: '1.6',
+                lineHeight: '28px',
                 opacity: 0.9,
                 textAlign: 'left',
               }}
@@ -128,8 +149,8 @@ const AboutUsSection: React.FC = () => {
               border: 'none',
               borderRadius: '8px',
               padding: '14px 24px',
-              fontSize: '14px',
-              fontWeight: '600',
+              fontSize: '18px',
+              fontWeight: '400',
               cursor: 'pointer',
               transition: 'all 0.2s ease',
               display: 'flex',
@@ -140,27 +161,10 @@ const AboutUsSection: React.FC = () => {
             }}
           >
             컨설팅, 연구 및 세미나 문의
-            <img
-              src="/arrow_button_icon.png"
-              alt="화살표 아이콘"
-              style={{
-                width: '10px',
-                height: '10px',
-                display: 'block',
-              }}
-            />
+            <ArrowRightUp />
           </button>
         </a>
       </div>
-
-      {/* 구분선 */}
-      <div
-        style={{
-          width: '1px',
-          backgroundColor: 'rgba(255, 255, 255, 0.2)',
-          margin: '0 40px',
-        }}
-      />
 
       {/* 우측 섹션 */}
       <div
@@ -169,7 +173,7 @@ const AboutUsSection: React.FC = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
-          paddingLeft: '40px',
+          paddingLeft: '140px',
         }}
       >
         {organizations.map((org, index) => (
@@ -185,10 +189,10 @@ const AboutUsSection: React.FC = () => {
               {/* 조직명 */}
               <div
                 style={{
-                  fontSize: '24px',
-                  fontWeight: '700',
+                  fontSize: '30px',
+                  fontWeight: '600',
                   color: 'white',
-                  lineHeight: '1.3',
+                  lineHeight: '42px',
                   textAlign: 'left',
                   marginBottom: '35px',
                 }}
@@ -199,9 +203,9 @@ const AboutUsSection: React.FC = () => {
               {/* 설명 */}
               <div
                 style={{
-                  fontSize: '14px',
+                  fontSize: '18px',
                   color: 'white',
-                  lineHeight: '1.6',
+                  lineHeight: '28px',
                   opacity: 0.9,
                   textAlign: 'left',
                   marginBottom: '45px',
@@ -247,7 +251,7 @@ const AboutUsSection: React.FC = () => {
           </React.Fragment>
         ))}
       </div>
-    </div>
+    </Grid>
   );
 };
 
