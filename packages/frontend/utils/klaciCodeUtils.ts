@@ -2,9 +2,9 @@
 export const getKlaciCodeColor = (code: string): string => {
   const codeColorMapping: Record<string, string> = {
     G: '#FF3737',  // 빨간색
-    T: '#FFA600',  // 주황색  
-    V: '#874FFF',  // 보라색
-    R: '#24CB71',  // 초록색
+    T: '#FFA602',  // 주황색  
+    V: '#9E74FC',  // 보라색
+    R: '#2DC149',  // 초록색
   };
 
   return codeColorMapping[code.toUpperCase()] || '#D9D9E8';

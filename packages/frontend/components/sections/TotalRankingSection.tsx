@@ -165,7 +165,7 @@ const TableHeader: React.FC = () => {
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: '60px 120px 80px 100px 160px 250px 60px 100px',
+        gridTemplateColumns: '0.8fr 1.5fr 0.8fr 1.2fr 1.8fr 2.5fr 0.8fr 1.2fr',
         gap: '16px',
         padding: '16px 20px',
         backgroundColor: '#F8F9FA',
@@ -193,7 +193,7 @@ const TableRow: React.FC<{ rank: TotalRegionRank }> = ({ rank }) => {
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: '60px 120px 80px 100px 160px 250px 60px 100px',
+        gridTemplateColumns: '0.8fr 1.5fr 0.8fr 1.2fr 1.8fr 2.5fr 0.8fr 1.2fr',
         gap: '16px',
         padding: '16px 20px',
         backgroundColor: 'white',

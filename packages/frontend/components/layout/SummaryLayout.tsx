@@ -22,8 +22,8 @@ const SummaryLayout = ({ children }: { children: React.ReactNode }) => {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            width: '80%',
-            maxWidth: '1200px',
+            width: '90%',
+            maxWidth: '1600px',
             gap: '40px',
           }}
         >
