@@ -6,12 +6,14 @@ interface RadarJewelChartMiniProps {
   data: number[];
   size?: number;
   imageUrl?: string;
+  hideBackground?: boolean; // 배경 숨기기 옵션 추가
 }
 
 const RadarJewelChartMini: React.FC<RadarJewelChartMiniProps> = ({
   data,
   size = 300,
   imageUrl = '/backgrounds/radar_chart_bg.png',
+  hideBackground = false, // 기본값은 false
 }) => {
   const center = size / 2;
   const radius = size * 0.35;
@@ -183,69 +185,73 @@ const RadarJewelChartMini: React.FC<RadarJewelChartMiniProps> = ({
         })}
       </defs>
 
-      {/* 배경 격자 요소들 */}
-      {/* 전체를 둘러싸는 원 (100% 라인) */}
-      <circle
-        cx={center}
-        cy={center}
-        r={radius}
-        fill="none"
-        stroke="#D9D9E8"
-        strokeWidth={0.5}
-      />
+      {/* 배경 격자 요소들 - hideBackground가 false일 때만 렌더링 */}
+      {!hideBackground && (
+        <>
+          {/* 전체를 둘러싸는 원 (100% 라인) */}
+          <circle
+            cx={center}
+            cy={center}
+            r={radius}
+            fill="none"
+            stroke="#D9D9E8"
+            strokeWidth={0.5}
+          />
 
-      {/* 중앙 점선 원 (50% 라인) */}
-      <circle
-        cx={center}
-        cy={center}
-        r={radius * 0.5}
-        fill="none"
-        stroke="#D9D9E8"
-        strokeWidth={0.5}
-        strokeDasharray="2 2"
-      />
+          {/* 중앙 점선 원 (50% 라인) */}
+          <circle
+            cx={center}
+            cy={center}
+            r={radius * 0.5}
+            fill="none"
+            stroke="#D9D9E8"
+            strokeWidth={0.5}
+            strokeDasharray="2 2"
+          />
 
-      {/* 가로 점선 */}
-      <line
-        x1={center - radius}
-        y1={center}
-        x2={center + radius}
-        y2={center}
-        stroke="#CCC"
-        strokeWidth={0.5}
-        strokeDasharray="4 4"
-      />
+          {/* 가로 점선 */}
+          <line
+            x1={center - radius}
+            y1={center}
+            x2={center + radius}
+            y2={center}
+            stroke="#CCC"
+            strokeWidth={0.5}
+            strokeDasharray="4 4"
+          />
 
-      {/* 방사형 직선 3개 - 피자 자르듯 원을 가로지르는 선들 */}
-      {/* 세로선 (12시 방향) */}
-      <line
-        x1={center}
-        y1={center - radius}
-        x2={center}
-        y2={center + radius}
-        stroke="#D9D9E8"
-        strokeWidth={0.5}
-      />
-      
-      {/* 대각선 1 (2시 방향) */}
-      <line
-        x1={center + radius * Math.cos(Math.PI / 6)}
-        y1={center + radius * Math.sin(Math.PI / 6)}
-        x2={center + radius * Math.cos(Math.PI + Math.PI / 6)}
-        y2={center + radius * Math.sin(Math.PI + Math.PI / 6)}
-        stroke="#D9D9E8"
-        strokeWidth={0.5}
-      />
-      
-      {/* 대각선 2 (10시 방향) */}
-      <line
-        x1={center + radius * Math.cos(-Math.PI / 6)}
-        y1={center + radius * Math.sin(-Math.PI / 6)}
-        x2={center + radius * Math.cos(Math.PI - Math.PI / 6)}
-        y2={center + radius * Math.sin(Math.PI - Math.PI / 6)}
-        stroke="#D9D9E8"
-        strokeWidth={0.5}
-      />
+          {/* 방사형 직선 3개 - 피자 자르듯 원을 가로지르는 선들 */}
+          {/* 세로선 (12시 방향) */}
+          <line
+            x1={center}
+            y1={center - radius}
+            x2={center}
+            y2={center + radius}
+            stroke="#D9D9E8"
+            strokeWidth={0.5}
+          />
+          
+          {/* 대각선 1 (2시 방향) */}
+          <line
+            x1={center + radius * Math.cos(Math.PI / 6)}
+            y1={center + radius * Math.sin(Math.PI / 6)}
+            x2={center + radius * Math.cos(Math.PI + Math.PI / 6)}
+            y2={center + radius * Math.sin(Math.PI + Math.PI / 6)}
+            stroke="#D9D9E8"
+            strokeWidth={0.5}
+          />
+          
+          {/* 대각선 2 (10시 방향) */}
+          <line
+            x1={center + radius * Math.cos(-Math.PI / 6)}
+            y1={center + radius * Math.sin(-Math.PI / 6)}
+            x2={center + radius * Math.cos(Math.PI - Math.PI / 6)}
+            y2={center + radius * Math.sin(Math.PI - Math.PI / 6)}
+            stroke="#D9D9E8"
+            strokeWidth={0.5}
+          />
+        </>
+      )}
 
       {/* 배경 이미지가 있을 때: 이미지 패턴으로 보석 렌더링 */}
       {imageUrl && (
