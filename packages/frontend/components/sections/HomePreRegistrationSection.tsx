@@ -18,12 +18,12 @@ const HomePreRegistrationSection = () => {
   const isLoggedIn = useIsLoggedIn();
 
   // 타이틀 텍스트를 배열로 정의
-  const MAIN_TITLE = ['균형발전 전략의 시작,', 'KLACI 인사이트 리포트'];
+  const MAIN_TITLE = ['균형발전 전략의 시작,', 'KLACI 데이터 백서'];
 
   // 설명 텍스트를 배열로 정의
   const DESCRIPTION_TEXTS = [
     '지역자산역량지수 프레임워크 해설과 활용법,',
-    '그리고 각 지자체의 데이터 인사이트를 한 권의 책으로 받아보세요.',
+    '그리고 모든 지자체의 데이터와 심층 인사이트를 한 권의 책으로 받아보세요.',
   ];
 
   const handlePreRegistrationClick = async () => {
@@ -61,7 +61,7 @@ const HomePreRegistrationSection = () => {
       <section
         style={{
           width: '100%',
-          padding: '80px 120px',
+          padding: '80px 0px',
           backgroundColor: '#14161D',
           color: '#ffffff',
         }}
@@ -71,7 +71,8 @@ const HomePreRegistrationSection = () => {
             display: 'flex',
             alignItems: 'center',
             gap: '80px',
-            maxWidth: '1200px',
+            width: '90%',
+            maxWidth: '1700px',
             margin: '0 auto',
           }}
         >

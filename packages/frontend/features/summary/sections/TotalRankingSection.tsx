@@ -10,8 +10,8 @@ import React, { useCallback, useMemo, useState } from 'react';
 
 // 컬럼 너비 설정을 위한 상수
 const COLUMN_WIDTHS = {
-  rank: '0 0 40px',
-  regionName: '0 0 100px',
+  rank: '0 0 42px',
+  regionName: '0 0 120px',
   jewel: '0 0 60px',
   type: '0 0 80px',
   klaciCode: '1 1 420px',
