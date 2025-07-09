@@ -72,7 +72,7 @@ export default function Button(props: ButtonProps) {
     {...(theme === 'dark' ? darkThemeMouseEvent : lightThemeMouseEvent)}
 
   >
-    <Flex gap='8px' alignItems='center' justifyContent='center'>
+    <Flex gap='8px' alignItems='center' justifyContent='center' cursor={'pointer'}>
       {label}
       {icon}
     </Flex>

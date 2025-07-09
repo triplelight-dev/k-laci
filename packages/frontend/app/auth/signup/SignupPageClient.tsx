@@ -7,6 +7,7 @@ import EmailVerificationSection from '@/features/signup/sections/EmailVerificati
 import ProfileSection from '@/features/signup/sections/ProfileSection';
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect } from 'react';
+import SignUpPageLoading from './SignupPageLoading';
 
 function SignUpPageContent() {
   const searchParams = useSearchParams();
@@ -124,42 +125,7 @@ function SignUpPageContent() {
   );
 }
 
-// 로딩 컴포넌트
-function SignUpPageLoading() {
-  return (
-    <div
-      style={{
-        width: '100%',
-        height: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#F4F4F4',
-      }}
-    >
-      <div
-        style={{
-          width: '16px',
-          height: '16px',
-          border: '2px solid #000000',
-          borderTop: '2px solid transparent',
-          borderRadius: '50%',
-          animation: 'spin 1s linear infinite',
-        }}
-      ></div>
-      <style jsx>{`
-        @keyframes spin {
-          0% {
-            transform: rotate(0deg);
-          }
-          100% {
-            transform: rotate(360deg);
-          }
-        }
-      `}</style>
-    </div>
-  );
-}
+
 
 export default function SignupPageClient() {
   return (

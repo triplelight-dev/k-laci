@@ -150,7 +150,7 @@ export default function ProfileForm({
     <form
       onSubmit={onSubmit}
       style={{
-        width: '70%',
+        width: '540px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -164,6 +164,7 @@ export default function ProfileForm({
       {/* 이름 입력 */}
       <CommonInput
         id="name"
+        label="이름"
         value={formData.name}
         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
         placeholder="한글 또는 영어 10자 이하"
@@ -194,6 +195,7 @@ export default function ProfileForm({
 
       {/* 소속 입력 */}
       <CommonInput
+        label="소속"
         id="organization"
         value={formData.organization}
         onChange={(e) =>
@@ -210,6 +212,7 @@ export default function ProfileForm({
       {/* 휴대폰 번호 입력 */}
       <CommonInput
         id="phoneNumber"
+        label="휴대폰 번호"
         value={formData.phoneNumber}
         onChange={(e) =>
           setFormData({ ...formData, phoneNumber: e.target.value })
@@ -234,16 +237,16 @@ export default function ProfileForm({
         >
           <label
             style={{
-              fontSize: '14px',
-              fontWeight: '700',
-              color: '#374151',
+              fontSize: '18px',
+              fontWeight: '400',
+              color: '#000',
             }}
           >
             관심 지역 설정
           </label>
           <span
             style={{
-              fontSize: '12px',
+              fontSize: '14px',
               color: '#9A9EA3',
               fontWeight: '500',
             }}
@@ -319,7 +322,7 @@ export default function ProfileForm({
             <label
               htmlFor="agreeToReportReservation"
               style={{
-                fontSize: '14px',
+                fontSize: '18px',
                 fontWeight: '700',
                 color: '#000000',
                 cursor: 'pointer',
@@ -340,9 +343,9 @@ export default function ProfileForm({
         </div>
         <div
           style={{
-            fontSize: '12px',
+            fontSize: '18px',
+            fontWeight: '400',
             color: '#6B7280',
-            marginLeft: '24px',
           }}
         >
           사전예약자에 한해 특별 할인코드를 메일로 보내드립니다
@@ -356,9 +359,12 @@ export default function ProfileForm({
             display: 'flex',
             flexDirection: 'column',
             gap: '12px',
+            padding: '30px',
+            backgroundColor: '#F1F1F1',
+            borderRadius: '17px',
           }}
         >
-          {/* 나이 동의 */}
+          {/* 모두 동의 */}
           <div
             style={{
               display: 'flex',
@@ -369,21 +375,62 @@ export default function ProfileForm({
             <input
               type="checkbox"
               id="agreeToAge"
-              checked={formData.agreeToAge}
+              checked={formData.agreeToAge && formData.agreeToTerms && formData.agreeToPrivacy && formData.agreeToMarketing}
               onChange={(e) =>
-                setFormData({ ...formData, agreeToAge: e.target.checked })
+                setFormData({
+                  ...formData,
+                  agreeToAge: e.target.checked,
+                  agreeToTerms: e.target.checked,
+                  agreeToPrivacy: e.target.checked,
+                  agreeToMarketing: e.target.checked,
+                })
               }
               style={{
-                width: '16px',
-                height: '16px',
+                width: '18px',
+                height: '18px',
                 accentColor: '#000000',
               }}
             />
             <label
               htmlFor="agreeToAge"
               style={{
-                fontSize: '14px',
-                color: '#374151',
+                fontSize: '18px',
+                fontWeight: '700',
+                color: '#000',
+                cursor: 'pointer',
+              }}
+            >
+              모두 동의하기
+            </label>
+          </div>
+          {/* 나이 동의 */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+
+            }}
+          >
+            <input
+              type="checkbox"
+              id="agreeToAge"
+              checked={formData.agreeToAge}
+              onChange={(e) =>
+                setFormData({ ...formData, agreeToAge: e.target.checked })
+              }
+              style={{
+                width: '18px',
+                height: '18px',
+                accentColor: '#000000',
+              }}
+            />
+            <label
+              htmlFor="agreeToAge"
+              style={{
+                fontSize: '18px',
+                fontWeight: '400',
+                color: '#000',
                 cursor: 'pointer',
               }}
             >
@@ -397,6 +444,7 @@ export default function ProfileForm({
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
+
             }}
           >
             <input
@@ -407,16 +455,17 @@ export default function ProfileForm({
                 setFormData({ ...formData, agreeToTerms: e.target.checked })
               }
               style={{
-                width: '16px',
-                height: '16px',
+                width: '18px',
+                height: '18px',
                 accentColor: '#000000',
               }}
             />
             <label
               htmlFor="agreeToTerms"
               style={{
-                fontSize: '14px',
-                color: '#374151',
+                fontSize: '18px',
+                fontWeight: '400',
+                color: '#000',
                 cursor: 'pointer',
               }}
             >
@@ -448,16 +497,17 @@ export default function ProfileForm({
                 setFormData({ ...formData, agreeToPrivacy: e.target.checked })
               }
               style={{
-                width: '16px',
-                height: '16px',
+                width: '18px',
+                height: '18px',
                 accentColor: '#000000',
               }}
             />
             <label
               htmlFor="agreeToPrivacy"
               style={{
-                fontSize: '14px',
-                color: '#374151',
+                fontSize: '18px',
+                fontWeight: '400',
+                color: '#000',
                 cursor: 'pointer',
               }}
             >
@@ -489,16 +539,17 @@ export default function ProfileForm({
                 setFormData({ ...formData, agreeToMarketing: e.target.checked })
               }
               style={{
-                width: '16px',
-                height: '16px',
+                width: '18px',
+                height: '18px',
                 accentColor: '#000000',
               }}
             />
             <label
               htmlFor="agreeToMarketing"
               style={{
-                fontSize: '14px',
-                color: '#374151',
+                fontSize: '18px',
+                fontWeight: '400',
+                color: '#000',
                 cursor: 'pointer',
               }}
             >
@@ -529,6 +580,7 @@ export default function ProfileForm({
           borderRadius: '0.5rem',
           fontSize: '16px',
           fontWeight: '600',
+          marginTop: '20px',
           cursor: isProfileLoading ? 'not-allowed' : 'pointer',
           opacity: isProfileLoading ? 0.6 : 1,
         }}

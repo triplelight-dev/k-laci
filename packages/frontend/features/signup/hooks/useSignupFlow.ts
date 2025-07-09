@@ -80,16 +80,15 @@ export const useSignupFlow = () => {
 
       // "이미 가입된 이메일입니다" 에러 특별 처리
       if (errorMessage === '이미 가입된 이메일입니다.') {
-        setError('이미 가입된 계정입니다. 홈으로 곧 이동합니다.');
+        setError('이미 가입된 계정입니다. 다른 이메일을 입력해주세요.');
 
-        // 상태 업데이트가 완료된 후 3초 대기
-        setTimeout(() => {
-          router.push('/');
-        }, 3000);
       } else {
         setError(errorMessage);
       }
+
     } finally {
+
+      console.log('setIsLoading(false)');
       setIsLoading(false);
     }
   };
@@ -135,12 +134,12 @@ export const useSignupFlow = () => {
 
       // "이미 가입된 이메일입니다" 에러 특별 처리
       if (errorMessage === '이미 가입된 이메일입니다.') {
-        setError('이미 가입된 계정입니다. 홈으로 곧 이동합니다.');
+        setError('이미 가입된 계정입니다. 다른 이메일을 입력해주세요.');
 
         // 상태 업데이트가 완료된 후 3초 대기
-        setTimeout(() => {
-          router.push('/');
-        }, 3000);
+        // setTimeout(() => {
+        //   router.push('/');
+        // }, 3000);
       } else {
         setError(errorMessage);
       }

@@ -102,21 +102,10 @@ export default function EmailVerificationSection({
               setEmail={setEmail}
               isLoading={isLoading}
               onSubmit={onSubmit}
+              error={error}
             />
 
-            {/* 에러 메시지 */}
-            {error && (
-              <div
-                style={{
-                  fontSize: '14px',
-                  color: '#EF4444',
-                  textAlign: 'center',
-                  marginTop: '1rem',
-                }}
-              >
-                {error}
-              </div>
-            )}
+            
           </div>
         </div>
       </div>

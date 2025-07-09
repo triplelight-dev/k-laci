@@ -63,7 +63,7 @@ export default function ProfileSection({
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor: 'white',
+              backgroundColor: '#fafafa',
               borderRadius: '50px',
               padding: '60px 40px',
             }}
@@ -115,8 +115,8 @@ export default function ProfileSection({
 
           {/* 회원가입 완료 모달 */}
           <SignupCompleteModal
-            isOpen={showCompleteModal}
-            onClose={() => {}} // 모달 닫기 기능은 필요에 따라 추가
+            isOpen={showCompleteModal }
+            onClose={() => { }} // 모달 닫기 기능은 필요에 따라 추가
             onStart={onStart}
           />
         </div>
@@ -125,29 +125,21 @@ export default function ProfileSection({
       <div
         style={{
           textAlign: 'center',
-          marginTop: '50px',
+          marginTop: '62px',
         }}
       >
-        <div
-          style={{
-            fontSize: '14px',
-            color: '#000000',
-          }}
-        >
-          이미 계정이 있으신가요?{' '}
-        </div>
         <a
-          href="/auth/login"
+          href="mailto:klaci@triplelight.co"
           style={{
-            fontSize: '14px',
-            color: '#000000',
+            fontSize: '18px',
+            fontWeight: '400',
+            color: '#000',
             textDecoration: 'underline',
             textDecorationColor: '#000000',
             textDecorationThickness: '1px',
-            fontWeight: '500',
           }}
         >
-          로그인 바로가기
+          도움이 필요하신가요?
         </a>
       </div>
     </div>

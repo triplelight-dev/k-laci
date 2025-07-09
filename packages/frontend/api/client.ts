@@ -37,15 +37,15 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      // 브라우저 환경에서만 localStorage 접근
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('user_id');
-        localStorage.removeItem('user_profile');
-        window.location.href = '/';
-      }
-    }
+    // if (error.response?.status === 401) {
+    //   // 브라우저 환경에서만 localStorage 접근
+    //   if (typeof window !== 'undefined') {
+    //     localStorage.removeItem('access_token');
+    //     localStorage.removeItem('user_id');
+    //     localStorage.removeItem('user_profile');
+    //     window.location.href = '/';
+    //   }
+    // }
     return Promise.reject(error);
   },
 );

@@ -8,6 +8,7 @@ interface EmailVerificationFormProps {
   setEmail: (email: string) => void;
   isLoading: boolean;
   onSubmit: (e: React.FormEvent) => void;
+  error: string;
 }
 
 export default function EmailVerificationForm({
@@ -15,6 +16,7 @@ export default function EmailVerificationForm({
   setEmail,
   isLoading,
   onSubmit,
+  error,
 }: EmailVerificationFormProps) {
   const [userType, setUserType] = useState<UserType>('GENERAL');
 
@@ -41,7 +43,7 @@ export default function EmailVerificationForm({
       }}
     >
       {/* 이메일 입력 */}
-      <div style={{ width: '100%', marginBottom: '100px' }}>
+      <div style={{ width: '100%', paddingBottom: '100px', position: 'relative' }}>
         <EmailInput
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -61,7 +63,28 @@ export default function EmailVerificationForm({
           <UserTypeBadge type="EDU" isActive={userType === 'EDU'} />
           <UserTypeBadge type="GENERAL" isActive={userType === 'GENERAL'} />
         </div>
+
+        {/* 에러 메시지 */}
+        {error && (
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '36px',
+              left: '0',
+              right: '0',
+              fontSize: '14px',
+              fontWeight: '500',
+              color: '#EF4444',
+              textAlign: 'center',
+            }}
+          >
+            {error}
+          </div>
+        )}
+
       </div>
+
+
 
       {/* 인증번호 발송 버튼 */}
       <button
@@ -115,6 +138,7 @@ export default function EmailVerificationForm({
           '인증메일 보내기'
         )}
       </button>
+
 
       {/* CSS 애니메이션 정의 */}
       <style jsx>{`
