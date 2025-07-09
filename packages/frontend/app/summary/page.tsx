@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
-import SummaryPageClient from './SummaryPageClient';
+import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
-  title: '소개 | 지역자산역량지수(KLACI)',
+  title: '요약 | 지역자산역량지수(KLACI)',
 };
 
 export default function SummaryPage() {
-  return <SummaryPageClient />;
+  redirect('/summary/top-100');
 }
