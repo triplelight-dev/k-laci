@@ -2,8 +2,38 @@
 
 import { TotalRegionRank } from '@/api/types/stats.types';
 import SearchInput from '@/components/atoms/SearchInput';
+import RadarJewelChartMini from '@/components/atoms/charts/RadarJewelChartMini';
 import { parseKlaciCodeWithNickname } from '@/utils/klaciCodeUtils';
+import { useRouter } from 'next/navigation';
 import React, { useCallback, useMemo, useState } from 'react';
+
+// 차트 데이터를 동적으로 생성하는 함수 (TitleSection에서 가져온 로직)
+const generateChartData = (region: any): number[] => {
+  if (!region) {
+    // 기본값 반환
+    return [50, 50, 50, 50, 50, 50, 50, 50];
+  }
+
+  const {
+    growth_score = 50,
+    economy_score = 50,
+    living_score = 50,
+    safety_score = 50,
+  } = region;
+
+  // RadarChart의 categories 순서에 맞춰 반환:
+  // ['생활역동형', '안전복원형', '인구정착형', '경제정속형', '생활정주형', '안전정진형', '인구성장형', '경제혁신형']
+  return [
+    living_score, // index 0: 생활역동형
+    safety_score, // index 1: 안전복원형
+    100 - growth_score, // index 2: 인구정착형
+    100 - economy_score, // index 3: 경제정속형
+    100 - living_score, // index 4: 생활정주형
+    100 - safety_score, // index 5: 안전정진형
+    growth_score, // index 6: 인구성장형
+    economy_score, // index 7: 경제혁신형
+  ];
+};
 
 // KLACI 코드 시각화 컴포넌트
 const KlaciCodeVisualizer: React.FC<{ klaciCode: string }> = ({
@@ -108,6 +138,13 @@ const SectionHeader: React.FC<{
 
 // 메인 테이블 컴포넌트
 const RankingTable: React.FC<{ data: TotalRegionRank[] }> = ({ data }) => {
+  const router = useRouter();
+
+  // 지역 클릭 핸들러
+  const handleRegionClick = useCallback((regionId: number) => {
+    router.push(`/results?regionId=${regionId}`);
+  }, [router]);
+
   return (
     <div style={{ padding: '0 40px' }}>
       {/* 테이블 헤더 */}
@@ -135,138 +172,144 @@ const RankingTable: React.FC<{ data: TotalRegionRank[] }> = ({ data }) => {
       </div>
 
       {/* 테이블 데이터 */}
-      {data.map((item, index) => (
-        <div
-          key={index}
-          style={{
-            display: 'flex',
-            gap: '16px',
-            padding: '16px',
-            backgroundColor: 'white',
-            borderRadius: '8px',
-            marginBottom: '8px',
-            alignItems: 'center',
-            cursor: 'pointer',
-            transition: 'border 0.2s ease',
-            border: '1px solid transparent',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.border = '1px solid #000';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.border = '1px solid transparent';
-          }}
-        >
-          {/* 순위 */}
+      {data.map((item, index) => {
+        // 차트 데이터 생성
+        const chartData = generateChartData(item.region);
+        
+        return (
           <div
+            key={index}
             style={{
-              flex: '0 0 50px',
-              fontWeight: 600,
-              fontSize: '14px',
-            }}
-          >
-            {item.total_rank}위
-          </div>
-
-          {/* 지자체명 */}
-          <div
-            style={{
-              flex: '0 0 80px',
-              fontWeight: 600,
-              fontSize: '16px',
-            }}
-          >
-            {item.region.province.name} {item.region.name}
-          </div>
-
-          {/* 원석 */}
-          <div
-            style={{
-              flex: '0 0 60px',
               display: 'flex',
+              gap: '16px',
+              padding: '16px',
+              backgroundColor: 'white',
+              borderRadius: '8px',
+              marginBottom: '8px',
               alignItems: 'center',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              border: '1px solid transparent',
             }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.border = '1px solid #000';
+              e.currentTarget.style.backgroundColor = '#f8f9fa';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.border = '1px solid transparent';
+              e.currentTarget.style.backgroundColor = 'white';
+            }}
+            onClick={() => handleRegionClick(item.region_id)}
           >
-            <img
-              src="/districts/sample_dist_icon.png"
-              alt="원석"
+            {/* 순위 */}
+            <div
               style={{
-                width: '32px',
-                height: '32px',
-                borderRadius: '50%',
+                flex: '0 0 50px',
+                fontWeight: 600,
+                fontSize: '14px',
               }}
-            />
-          </div>
+            >
+              {item.total_rank}위
+            </div>
 
-          {/* 유형명 */}
-          <div
-            style={{
-              flex: '0 0 80px',
-              fontWeight: 600,
-              fontSize: '14px',
-            }}
-          >
-            {item.region.klaci?.type || '-'}
-          </div>
+            {/* 지자체명 */}
+            <div
+              style={{
+                flex: '0 0 80px',
+                fontWeight: 600,
+                fontSize: '16px',
+              }}
+            >
+              {item.region.province.name} {item.region.name}
+            </div>
 
-          {/* 유형코드 */}
-          <div
-            style={{
-              flex: '1 1 400px',
-              fontSize: '16px',
-            }}
-          >
-            <KlaciCodeVisualizer klaciCode={item.region.klaci.code} />
-          </div>
+            {/* 원석 - RadarJewelChartMini 사용 */}
+            <div
+              style={{
+                flex: '0 0 60px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <RadarJewelChartMini
+                data={chartData}
+                size={48}
+                imageUrl="/backgrounds/radar_chart_bg.png"
+                hideBackground={true} // 배경 숨기기 옵션 추가
+              />
+            </div>
 
-          {/* 강점지표 TOP 3 */}
-          <div
-            style={{
-              flex: '1 1 350px',
-              display: 'flex',
-              gap: '4px',
-              fontSize: '16px',
-            }}
-          >
-            {item.strength_indexes_details.slice(0, 3).map((strength, idx) => (
-              <span
-                key={idx}
-                style={{
-                  padding: '2px 6px',
-                  backgroundColor: 'transparent',
-                  border: '1px solid #333',
-                  borderRadius: '4px',
-                  fontSize: '13px',
-                  color: '#333',
-                }}
-              >
-                {strength.name}
-              </span>
-            ))}
-          </div>
+            {/* 유형명 */}
+            <div
+              style={{
+                flex: '0 0 80px',
+                fontWeight: 600,
+                fontSize: '14px',
+              }}
+            >
+              {item.region.klaci?.type || '-'}
+            </div>
 
-          {/* 체급 */}
-          <div
-            style={{
-              flex: '0 0 60px',
-              fontSize: '14px',
-            }}
-          >
-            {item.region.weight_class}급
-          </div>
+            {/* 유형코드 */}
+            <div
+              style={{
+                flex: '1 1 400px',
+                fontSize: '16px',
+              }}
+            >
+              <KlaciCodeVisualizer klaciCode={item.region.klaci.code} />
+            </div>
 
-          {/* 종합점수 */}
-          <div
-            style={{
-              flex: '0 0 60px',
-              color: '#000',
-              fontSize: '14px',
-            }}
-          >
-            {item.total_score.toFixed(3)}
+            {/* 강점지표 TOP 3 */}
+            <div
+              style={{
+                flex: '1 1 350px',
+                display: 'flex',
+                gap: '4px',
+                fontSize: '16px',
+              }}
+            >
+              {item.strength_indexes_details.slice(0, 3).map((strength, idx) => (
+                <span
+                  key={idx}
+                  style={{
+                    padding: '2px 6px',
+                    backgroundColor: 'transparent',
+                    border: '1px solid #333',
+                    borderRadius: '4px',
+                    fontSize: '13px',
+                    color: '#333',
+                  }}
+                >
+                  {strength.name}
+                </span>
+              ))}
+            </div>
+
+            {/* 체급 */}
+            <div
+              style={{
+                flex: '0 0 60px',
+                fontSize: '14px',
+              }}
+            >
+              {item.region.weight_class}급
+            </div>
+
+            {/* 종합점수 */}
+            <div
+              style={{
+                flex: '0 0 60px',
+                color: '#000',
+                fontSize: '14px',
+              }}
+            >
+              {item.total_score.toFixed(3)}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };
