@@ -3,37 +3,10 @@
 import { TotalRegionRank } from '@/api/types/stats.types';
 import SearchInput from '@/components/atoms/SearchInput';
 import RadarJewelChartMini from '@/components/atoms/charts/RadarJewelChartMini';
+import { generateChartData } from '@/utils/chartUtils';
 import { parseKlaciCodeWithNickname } from '@/utils/klaciCodeUtils';
 import { useRouter } from 'next/navigation';
 import React, { useCallback, useMemo, useState } from 'react';
-
-// 차트 데이터를 동적으로 생성하는 함수 (TitleSection에서 가져온 로직)
-const generateChartData = (region: any): number[] => {
-  if (!region) {
-    // 기본값 반환
-    return [50, 50, 50, 50, 50, 50, 50, 50];
-  }
-
-  const {
-    growth_score = 50,
-    economy_score = 50,
-    living_score = 50,
-    safety_score = 50,
-  } = region;
-
-  // RadarChart의 categories 순서에 맞춰 반환:
-  // ['생활역동형', '안전복원형', '인구정착형', '경제정속형', '생활정주형', '안전정진형', '인구성장형', '경제혁신형']
-  return [
-    living_score, // index 0: 생활역동형
-    safety_score, // index 1: 안전복원형
-    100 - growth_score, // index 2: 인구정착형
-    100 - economy_score, // index 3: 경제정속형
-    100 - living_score, // index 4: 생활정주형
-    100 - safety_score, // index 5: 안전정진형
-    growth_score, // index 6: 인구성장형
-    economy_score, // index 7: 경제혁신형
-  ];
-};
 
 // KLACI 코드 시각화 컴포넌트
 const KlaciCodeVisualizer: React.FC<{ klaciCode: string }> = ({
