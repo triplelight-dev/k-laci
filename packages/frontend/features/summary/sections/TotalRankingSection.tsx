@@ -39,7 +39,12 @@ const KlaciCodeVisualizer: React.FC<{ klaciCode: string }> = ({
             {item.code}
           </div>
           {/* 텍스트 */}
-          <span style={{ fontSize: '13px', color: '#666' }}>
+          <span 
+            style={{ 
+              fontSize: '13px', 
+              color: item.color === '#D9D9E8' ? '#000' : item.color 
+            }}
+          >
             {item.nickname}
           </span>
         </div>
@@ -283,7 +288,6 @@ const TotalRankingSection: React.FC<{ data: TotalRegionRank[] }> = ({
       style={{
         width: '100%',
         padding: '40px 0',
-        border: '2px solid blue',
       }}
     >
       <SectionHeader />
