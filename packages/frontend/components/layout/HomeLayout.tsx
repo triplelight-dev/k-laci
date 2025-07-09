@@ -1,5 +1,5 @@
 import Footer from '@/components/Footer';
-import Header from '@/components/Header';
+import Header from '@/components/Header/Header';
 import HomePreRegistrationSection from '@/components/sections/HomePreRegistrationSection';
 
 import { DARK_MODE_COLORS } from '@/utils/colors';

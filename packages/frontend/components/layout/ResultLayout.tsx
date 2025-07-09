@@ -1,5 +1,5 @@
 import Footer from '@/components/Footer';
-import Header from '@/components/Header';
+import Header from '@/components/Header/Header';
 import LoginSuggestionSection from '@/features/results/sections/LoginSuggestionSectino';
 import { useIsLoggedIn } from '@/store';
 import React from 'react';

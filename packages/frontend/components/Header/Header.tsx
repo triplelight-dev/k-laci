@@ -7,7 +7,7 @@ import { useIsLoggedIn, useLogout, useUser } from '@/store';
 import { DARK_MODE_COLORS } from '@/utils/colors';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import Button from './atoms/buttons/Button';
+import Button from '../atoms/buttons/Button';
 
 const Header = () => {
   const pathname = usePathname();
@@ -25,8 +25,8 @@ const Header = () => {
     logo: isBlackTheme
       ? '/klaci_logo_white.png'
       : '/klaci_logo_black.png',
-    navigationActiveColor: isBlackTheme ? '#FFFFFF' : '#FFFFFF',
-    navigationInactiveColor: isBlackTheme ? '#BED3FF' : '#BED3FF',
+    navigationActiveColor: isBlackTheme ? '#FFFFFF' : '#000',
+    navigationInactiveColor: isBlackTheme ? '#BED3FF' : '#000',
   };
 
   // 현재 페이지 확인 함수
@@ -193,9 +193,10 @@ const Header = () => {
                     variant="primary"
                     label="로그인"
                     padding="10px 30px"
+                    theme={isBlackTheme ? 'dark' : 'light'}
                   />
                 </Link>
-                
+
 
                 {/* Signup Button - 투명 배경 흰 보더 + 우측 대각선 아이콘 */}
                 <Link href={ROUTES.SIGNUP}>
@@ -203,6 +204,7 @@ const Header = () => {
                     variant="secondary"
                     label="회원가입"
                     padding="10px 30px"
+                    theme={isBlackTheme ? 'dark' : 'light'}
                   />
                 </Link>
               </>

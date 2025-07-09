@@ -1,5 +1,6 @@
 'use client';
 
+import Button from '@/components/atoms/buttons/Button';
 import LoginInput from '@/components/atoms/LoginInput';
 
 interface LoginFormProps {
@@ -20,7 +21,7 @@ export default function LoginForm({
   onSubmit,
 }: LoginFormProps) {
   return (
-    <form onSubmit={onSubmit} style={{ width: '100%', maxWidth: '400px' }}>
+    <form onSubmit={onSubmit} style={{ width: '100%', maxWidth: '540px' }}>
       {/* 이메일 입력 */}
       <div style={{ marginBottom: '1rem' }}>
         <LoginInput
@@ -44,24 +45,29 @@ export default function LoginForm({
       </div>
 
       {/* 로그인 버튼 */}
-      <button
-        type="submit"
+      <Button
+        type='submit'
+        label={isLoading ? '로그인 중...' : '로그인'}
+        variant='primary'
+        theme='light'
         disabled={isLoading}
+
+        padding='14px 32px'
+        fontSize='18px'
+        fontWeight='700'
+        borderRadius='14px'
+        width='100%'
+
         style={{
-          width: '100%',
-          padding: '1rem',
           backgroundColor: '#000000',
           color: 'white',
           border: 'none',
-          borderRadius: '14px',
-          fontSize: '16px',
-          fontWeight: '600',
-          cursor: isLoading ? 'not-allowed' : 'pointer',
-          opacity: isLoading ? 0.6 : 1,
+          justifyContent: 'center',
         }}
-      >
-        {isLoading ? '로그인 중...' : '로그인'}
-      </button>
+
+
+      />
+      
     </form>
   );
 }
