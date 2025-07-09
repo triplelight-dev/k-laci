@@ -142,43 +142,75 @@ function ResultsPageContent() {
     }
   }, [selectedRegion]);
 
-  // URL에서 regionId 읽어와서 상태 업데이트 (수정된 로직)
+  // URL에서 regionId, 관심지역, default 순으로 상태 초기화 (우선순위 보장)
   useEffect(() => {
     const regionId = searchParams.get('regionId');
 
-    if (
-      regionId &&
-      (!selectedRegion || selectedRegion.id !== Number(regionId))
-    ) {
-      // 1. URL에 regionId가 있는 경우 (최우선)
-      const fetchRegionFromURL = async () => {
-        try {
-          const apiResponse = await getRegion(regionId);
-          const storeRegion = transformApiRegionToStoreRegion(apiResponse);
-          setSelectedRegion(storeRegion, 'url_change');
-          setSelectedProvince(storeRegion.province_id);
-          setSelectedDistrict(storeRegion.id, 'url_change');
-          setHasLoadedDefault(true); // URL에서 로드했으므로 기본 로드 완료로 표시
-        } catch (error) {
-          console.error('URL에서 region 로드 실패:', error);
-          // 에러 시에만 기본 데이터 로드 (hasLoadedDefault가 false인 경우에만)
-          if (!hasLoadedDefault) {
-            loadDefaultData();
+    if (regionId) {
+      // 1순위: URL regionId가 있으면 무조건 이것만 적용
+      if (!selectedRegion || selectedRegion.id !== Number(regionId)) {
+        const fetchRegionFromURL = async () => {
+          try {
+            const apiResponse = await getRegion(regionId);
+            const storeRegion = transformApiRegionToStoreRegion(apiResponse);
+            setSelectedRegion(storeRegion, 'url_change');
+            setSelectedProvince(storeRegion.province_id);
+            setSelectedDistrict(storeRegion.id, 'url_change');
+            setHasLoadedDefault(true); // regionId로 세팅 완료
+          } catch (error) {
+            console.error('URL에서 region 로드 실패:', error);
+            setHasLoadedDefault(true); // 에러여도 기본값 재시도 방지
           }
-        }
-      };
-      fetchRegionFromURL();
-    } else if (!regionId && !selectedRegion && !hasLoadedDefault) {
-      // 2. URL에 regionId가 없고 선택된 지역도 없는 경우
+        };
+        fetchRegionFromURL();
+      }
+    } else if (!selectedRegion && !hasLoadedDefault) {
+      // 2순위: 관심지역
       if (user?.profile?.interest_region_id) {
-        // 2-1. 유저 관심 지역이 있는 경우
-        loadUserInterestRegion(user.profile.interest_region_id);
+        const loadInterest = async () => {
+          try {
+            const apiResponse = await getRegion(
+              String(user.profile.interest_region_id),
+            );
+            const storeRegion = transformApiRegionToStoreRegion(apiResponse);
+            setSelectedRegion(storeRegion, 'system');
+            setSelectedProvince(storeRegion.province_id);
+            setSelectedDistrict(storeRegion.id, 'system');
+            setHasLoadedDefault(true);
+          } catch (error) {
+            console.error('관심지역 region 로드 실패:', error);
+            setHasLoadedDefault(true);
+          }
+        };
+        loadInterest();
       } else {
-        // 2-2. 유저 관심 지역이 없는 경우 기본값 로드
-        loadDefaultData();
+        // 3순위: default(1)
+        const loadDefault = async () => {
+          try {
+            const apiResponse = await getRegion('1');
+            const storeRegion = transformApiRegionToStoreRegion(apiResponse);
+            setSelectedRegion(storeRegion, 'system');
+            setSelectedProvince(storeRegion.province_id);
+            setSelectedDistrict(storeRegion.id, 'system');
+            setHasLoadedDefault(true);
+          } catch (error) {
+            console.error('기본 데이터 로드 실패:', error);
+            setHasLoadedDefault(true);
+          }
+        };
+        loadDefault();
       }
     }
-  }, [searchParams, user, hasLoadedDefault]); // hasLoadedDefault를 의존성에 추가
+  }, [
+    searchParams,
+    user,
+    hasLoadedDefault,
+    selectedRegion,
+    getRegion,
+    setSelectedRegion,
+    setSelectedProvince,
+    setSelectedDistrict,
+  ]);
 
   // 안전한 지역명 생성 함수
   const getDistrictName = (): string => {
@@ -277,7 +309,10 @@ function ResultsPageContent() {
         <DistrictSearchSection />
 
         {/* floating 상태에 따라 다른 스타일로 DistrictSelectSection 렌더링 */}
-        <DistrictSelectSection isFloating={isFloating} isVisible={isFloatingVisible} />
+        <DistrictSelectSection
+          isFloating={isFloating}
+          isVisible={isFloatingVisible}
+        />
 
         <div
           style={{
