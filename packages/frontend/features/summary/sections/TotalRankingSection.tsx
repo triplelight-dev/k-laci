@@ -10,12 +10,12 @@ import React, { useCallback, useMemo, useState } from 'react';
 
 // 컬럼 너비 설정을 위한 상수
 const COLUMN_WIDTHS = {
-  rank: '0 0 30px',
+  rank: '0 0 40px',
   regionName: '0 0 100px',
   jewel: '0 0 60px',
   type: '0 0 80px',
-  klaciCode: '1 1 430px',
-  strengthIndexes: '1 1 350px',
+  klaciCode: '1 1 420px',
+  strengthIndexes: '1 1 360px',
   weightClass: '0 0 60px',
   totalScore: '0 0 60px',
 } as const;
@@ -27,14 +27,14 @@ const KlaciCodeVisualizer: React.FC<{ klaciCode: string }> = ({
   const parsedCodes = parseKlaciCodeWithNickname(klaciCode);
 
   return (
-    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+    <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
       {parsedCodes.map((item, index) => (
         <div
           key={index}
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '5px',
+            gap: '3px',
           }}
         >
           {/* 원 */}
@@ -143,7 +143,9 @@ const RankingTable: React.FC<{ data: TotalRegionRank[] }> = ({ data }) => {
         <div style={{ flex: COLUMN_WIDTHS.jewel }}>원석</div>
         <div style={{ flex: COLUMN_WIDTHS.type }}>유형명</div>
         <div style={{ flex: COLUMN_WIDTHS.klaciCode }}>유형코드</div>
-        <div style={{ flex: COLUMN_WIDTHS.strengthIndexes }}>강점지표 TOP 3</div>
+        <div style={{ flex: COLUMN_WIDTHS.strengthIndexes }}>
+          강점지표 TOP 3
+        </div>
         <div style={{ flex: COLUMN_WIDTHS.weightClass }}>체급</div>
         <div style={{ flex: COLUMN_WIDTHS.totalScore }}>종합점수</div>
       </div>
