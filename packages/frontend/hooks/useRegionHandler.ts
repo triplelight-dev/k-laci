@@ -160,7 +160,7 @@ export const useRegionHandler = (options: RegionHandlerOptions = {}) => {
       );
       
       if (adjacentRegionData.data) {
-        await selectRegion(adjacentRegionData.data.id, 'navigation');
+        await selectRegion(Number(adjacentRegionData.data.id), 'navigation');
         scrollToChartSection();
       }
     } catch (error) {

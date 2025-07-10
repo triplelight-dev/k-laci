@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import provinceData from '../../data/province_data.json';
 import regionsData from '../../data/regions_data.json';
@@ -70,7 +70,6 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   // Zustand store에서 필요한 함수들 가져오기
   const { setSelectedProvince, setSelectedDistrict } = useStore();
@@ -104,22 +103,6 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
     // 최근 검색어를 먼저 표시하고, 그 다음에 지역 데이터를 가나다순으로 표시
     return [...recentMatches, ...filteredRegions];
   }, [value, recentSearches, filteredRegions]);
-
-  // URL 업데이트 함수
-  const updateURL = (districtId: number | null) => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (districtId) {
-      params.set('district', districtId.toString());
-    } else {
-      params.delete('district');
-    }
-
-    const newURL = `${window.location.pathname}?${params.toString()}`;
-    if (newURL !== window.location.pathname + window.location.search) {
-      router.replace(newURL, { scroll: false });
-    }
-  };
 
   // 지역 선택 처리 함수
   const handleRegionSelect = (selectedRegion: string) => {

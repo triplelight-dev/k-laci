@@ -119,7 +119,7 @@ export const useRegionSelector = () => {
       );
 
       if (adjacentRegionData.data) {
-        await selectRegion(adjacentRegionData.data.id, 'navigation');
+        await selectRegion(Number(adjacentRegionData.data.id), 'navigation');
       }
     } catch (error) {
       console.error('Failed to navigate to adjacent region:', error);

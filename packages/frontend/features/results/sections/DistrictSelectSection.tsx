@@ -81,14 +81,14 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
     fetchRegionDetails();
   }, [selectedDistrict, getRegion, setSelectedRegion, setRegionLoading]);
 
-  // 디버깅용 useEffect 추가
-  useEffect(() => {
-    console.log('🔍 [DEBUG] DistrictSelectSection 상태 변경:');
-    console.log('  - selectedProvince:', selectedProvince);
-    console.log('  - selectedDistrict:', selectedDistrict);
-    console.log('  - selectedRegion:', selectedRegion);
-    console.log('  - regionLoading:', regionLoading);
-  }, [selectedProvince, selectedDistrict, selectedRegion, regionLoading]);
+  // 디버깅용 useEffect 제거
+  // useEffect(() => {
+  //   console.log('🔍 [DEBUG] DistrictSelectSection 상태 변경:');
+  //   console.log('  - selectedProvince:', selectedProvince);
+  //   console.log('  - selectedDistrict:', selectedDistrict);
+  //   console.log('  - selectedRegion:', selectedRegion);
+  //   console.log('  - regionLoading:', regionLoading);
+  // }, [selectedProvince, selectedDistrict, selectedRegion, regionLoading]);
 
   const handleProvinceChange = (value: string) => {
     if (isUpdatingRef.current) return;

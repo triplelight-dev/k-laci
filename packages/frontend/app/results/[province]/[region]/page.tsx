@@ -6,12 +6,13 @@ export const metadata: Metadata = {
 };
 
 interface ResultsPageProps {
-  params: {
+  params: Promise<{
     province: string;
     region: string;
-  };
+  }>;
 }
 
-export default function ResultsPage({ params }: ResultsPageProps) {
-  return <ResultsPageClient provinceParam={params.province} regionParam={params.region} />;
+export default async function ResultsPage({ params }: ResultsPageProps) {
+  const { region } = await params;
+  return <ResultsPageClient regionId={region} />;
 } 

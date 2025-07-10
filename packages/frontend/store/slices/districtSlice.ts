@@ -36,10 +36,8 @@ export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
   regions: regionsData as Region[],
   
   setSelectedProvince: (provinceId: number | null) => {
-    console.log('🔍 [DEBUG] setSelectedProvince 호출, provinceId:', provinceId);
     
     const province = provinceId ? get().getProvinceById(provinceId) : null;
-    console.log('🔍 [DEBUG] getProvinceById 결과:', province);
     
     set((state) => ({
       district: {
@@ -49,7 +47,6 @@ export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
       },
     }));
     
-    console.log('🔍 [DEBUG] setSelectedProvince 완료');
   },
   
   setSelectedDistrict: (districtId: number | null, source: string = 'district_select') => {

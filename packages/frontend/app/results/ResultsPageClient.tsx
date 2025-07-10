@@ -37,8 +37,6 @@ interface DistrictData {
 const transformApiRegionToStoreRegion = (
   apiRegion: any,
 ): StoreRegionWithDetails => {
-  console.log('🔍 [DEBUG] transformApiRegionToStoreRegion 입력:', apiRegion);
-
   return {
     id: parseInt(apiRegion.id),
     province_id: parseInt(
@@ -146,35 +144,11 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
       // URL에서 전달된 regionId가 있으면 최우선으로 처리
       const fetchRegionFromURL = async () => {
         try {
-          console.log(
-            '🔍 [DEBUG] fetchRegionFromURL 시작, regionId:',
-            regionId,
-          );
-
           const apiResponse = await getRegion(regionId);
-          console.log('🔍 [DEBUG] API 응답:', apiResponse);
-
           const storeRegion = transformApiRegionToStoreRegion(apiResponse);
-          console.log('🔍 [DEBUG] 변환된 storeRegion:', storeRegion);
-          console.log(
-            '🔍 [DEBUG] storeRegion.province_id:',
-            storeRegion.province_id,
-          );
-          console.log('🔍 [DEBUG] storeRegion.province:', storeRegion.province);
-
           setSelectedRegion(storeRegion, 'url_change');
           setSelectedProvince(storeRegion.province_id);
           setSelectedDistrict(storeRegion.id, 'url_change');
-
-          // 추가: province가 제대로 설정되었는지 확인 (수정)
-          setTimeout(() => {
-            // ❌ useDistrict.getState() 제거
-            // const currentState = useDistrict.getState();
-            // console.log('🔍 [DEBUG] 설정 후 selectedProvince:', currentState.selectedProvince);
-            // console.log('🔍 [DEBUG] 설정 후 selectedDistrict:', currentState.selectedDistrict);
-            // console.log('🔍 [DEBUG] 설정 후 selectedRegion:', currentState.selectedRegion);
-          }, 100);
-
           setHasLoadedDefault(true);
           setIsInitialized(true);
         } catch (error) {
