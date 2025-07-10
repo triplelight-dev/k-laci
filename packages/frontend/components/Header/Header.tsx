@@ -1,7 +1,6 @@
 'use client';
 
 import { AuthService } from '@/api/services/auth.service';
-import { HeaderAuthButton } from '@/components/atoms/buttons/HeaderAuthButton';
 import { ROUTES } from '@/constants/data';
 import { useIsLoggedIn, useLogout, useUser } from '@/store';
 import { DARK_MODE_COLORS } from '@/utils/colors';
