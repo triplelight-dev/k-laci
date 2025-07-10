@@ -75,6 +75,7 @@ const Header = () => {
         backgroundColor: theme.backgroundColor,
         color: theme.textColor,
         height: '100px',
+        maxWidth: '1400px',
       }}
     >
       <div
@@ -83,7 +84,8 @@ const Header = () => {
           justifyContent: 'space-between',
           alignItems: 'center',
           width: '100%',
-          margin: '0 160px',
+
+          // margin: '0 160px',
         }}
       >
         {/* 1. 좌측: 로고 */}

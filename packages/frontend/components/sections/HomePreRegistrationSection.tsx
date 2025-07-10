@@ -23,8 +23,7 @@ const HomePreRegistrationSection = () => {
 
   // 설명 텍스트를 배열로 정의
   const DESCRIPTION_TEXTS = [
-    '지역자산역량지수 프레임워크 해설과 활용법,',
-    '그리고 각 지자체의 데이터 인사이트를 한 권의 책으로 받아보세요.',
+    '지역자산역량지수 프레임워크 해설과 활용법,', '그리고 모든 지자체의 데이터와 심층 인사이트를 한 권의 책으로 받아보세요.'
   ];
 
   const handlePreRegistrationClick = async () => {
@@ -107,7 +106,7 @@ const HomePreRegistrationSection = () => {
                   key={index}
                   style={{
                     fontSize: '18px',
-                    color: '#D1D5DB',
+                    color: '#fff',
                     lineHeight: '1.6',
                   }}
                 >
@@ -137,8 +136,8 @@ const HomePreRegistrationSection = () => {
                   color: '#ffffff',
                   border: 'none',
                   borderRadius: '7px',
-                  fontSize: '14px',
-                  fontWeight: '600',
+                  fontSize: '18px',
+                  fontWeight: '400',
                   cursor: isLoading ? 'not-allowed' : 'pointer',
                   transition: 'all 0.2s ease',
                   width: '100%',
@@ -183,7 +182,7 @@ const HomePreRegistrationSection = () => {
               src="/report_banner.png"
               alt="KLACI 인사이트 리포트"
               style={{
-                maxWidth: '550px',
+                maxWidth: '700px',
                 height: 'auto',
                 objectFit: 'contain',
               }}

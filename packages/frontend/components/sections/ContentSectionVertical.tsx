@@ -96,7 +96,7 @@ const ContentSectionVertical: React.FC<ContentSectionVerticalProps> = ({
                 padding: '8px 16px',
                 borderRadius: '9px',
                 fontSize: '14px',
-                fontWeight: '400',
+                fontWeight: '500',
                 marginBottom: '28px',
                 border: `1px solid ${styling.textColor || 'white'}`,
               }}

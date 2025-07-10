@@ -86,7 +86,7 @@ const ContentSection: React.FC<ContentSectionProps> = ({
               padding: '8px 16px',
               borderRadius: '9px',
               fontSize: '14px',
-              fontWeight: '400',
+              fontWeight: '500',
               marginBottom: '20px',
               border: `1px solid ${styling.textColor || 'white'}`,
             }}
@@ -95,7 +95,7 @@ const ContentSection: React.FC<ContentSectionProps> = ({
           </div>
           <div
             style={{
-              fontSize: '40px',
+              fontSize: '48px',
               fontWeight: '600',
               color: styling.textColor || 'white',
               lineHeight: '68px',
