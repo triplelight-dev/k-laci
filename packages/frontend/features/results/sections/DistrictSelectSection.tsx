@@ -24,7 +24,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
   isVisible = true,
 }) => {
   // ✅ 올바른 방식: 상태와 함수를 별도로 가져오기
-  const { selectedProvince, selectedDistrict, selectedRegion, regionLoading } =
+  const { selectedProvince, selectedDistrict, regionLoading } =
     useDistrict();
   const setSelectedProvince = useSetSelectedProvince();
   const setSelectedDistrict = useSetSelectedDistrict();
