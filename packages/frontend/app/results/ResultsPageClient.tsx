@@ -37,9 +37,13 @@ interface DistrictData {
 const transformApiRegionToStoreRegion = (
   apiRegion: any,
 ): StoreRegionWithDetails => {
+  console.log('🔍 [DEBUG] transformApiRegionToStoreRegion 입력:', apiRegion);
+
   return {
     id: parseInt(apiRegion.id),
-    province_id: parseInt(apiRegion.provinceId),
+    province_id: parseInt(
+      apiRegion.province?.id || apiRegion.provinceId || '0',
+    ), // ✅ 수정
     name: apiRegion.name,
     district_type: apiRegion.district_type,
     weight_class: apiRegion.weight_class,
@@ -63,7 +67,7 @@ const transformApiRegionToStoreRegion = (
 };
 
 interface ResultsPageClientProps {
-  regionId?: string;
+  regionId?: string | undefined; // ✅ optional + undefined 허용
 }
 
 // 실제 페이지 컴포넌트
@@ -90,7 +94,8 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
 
   // URL 업데이트 함수 (무한 루프 방지)
   const updateURL = (newRegionId: number | null) => {
-    if (newRegionId && isInitialized) { // 초기화 완료 후에만 URL 업데이트
+    if (newRegionId && isInitialized) {
+      // 초기화 완료 후에만 URL 업데이트
       const newURL = `/results/region/${newRegionId}`;
       if (newURL !== window.location.pathname) {
         router.replace(newURL, { scroll: false });
@@ -141,28 +146,35 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
       // URL에서 전달된 regionId가 있으면 최우선으로 처리
       const fetchRegionFromURL = async () => {
         try {
-          console.log('🔍 [DEBUG] fetchRegionFromURL 시작, regionId:', regionId);
-          
+          console.log(
+            '🔍 [DEBUG] fetchRegionFromURL 시작, regionId:',
+            regionId,
+          );
+
           const apiResponse = await getRegion(regionId);
           console.log('🔍 [DEBUG] API 응답:', apiResponse);
-          
+
           const storeRegion = transformApiRegionToStoreRegion(apiResponse);
           console.log('🔍 [DEBUG] 변환된 storeRegion:', storeRegion);
-          console.log('🔍 [DEBUG] storeRegion.province_id:', storeRegion.province_id);
+          console.log(
+            '🔍 [DEBUG] storeRegion.province_id:',
+            storeRegion.province_id,
+          );
           console.log('🔍 [DEBUG] storeRegion.province:', storeRegion.province);
-          
+
           setSelectedRegion(storeRegion, 'url_change');
           setSelectedProvince(storeRegion.province_id);
           setSelectedDistrict(storeRegion.id, 'url_change');
-          
-          // 추가: province가 제대로 설정되었는지 확인
+
+          // 추가: province가 제대로 설정되었는지 확인 (수정)
           setTimeout(() => {
-            const currentState = useDistrict.getState();
-            console.log('🔍 [DEBUG] 설정 후 selectedProvince:', currentState.selectedProvince);
-            console.log('🔍 [DEBUG] 설정 후 selectedDistrict:', currentState.selectedDistrict);
-            console.log('🔍 [DEBUG] 설정 후 selectedRegion:', currentState.selectedRegion);
+            // ❌ useDistrict.getState() 제거
+            // const currentState = useDistrict.getState();
+            // console.log('🔍 [DEBUG] 설정 후 selectedProvince:', currentState.selectedProvince);
+            // console.log('🔍 [DEBUG] 설정 후 selectedDistrict:', currentState.selectedDistrict);
+            // console.log('🔍 [DEBUG] 설정 후 selectedRegion:', currentState.selectedRegion);
           }, 100);
-          
+
           setHasLoadedDefault(true);
           setIsInitialized(true);
         } catch (error) {
@@ -188,13 +200,13 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
   useEffect(() => {
     if (selectedRegion && isInitialized) {
       updateURL(selectedRegion.id);
-      
+
       // 새로운 지역 데이터로 페이지 데이터 업데이트
       const refreshPageData = async () => {
         try {
           const apiResponse = await getRegion(String(selectedRegion.id));
           const storeRegion = transformApiRegionToStoreRegion(apiResponse);
-          
+
           // 기존 selectedRegion과 다른 경우에만 업데이트
           if (storeRegion.id !== selectedRegion.id) {
             setSelectedRegion(storeRegion, 'region_refresh');
@@ -205,7 +217,7 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
           console.error('지역 데이터 새로고침 실패:', error);
         }
       };
-      
+
       refreshPageData();
     }
   }, [selectedRegion, isInitialized]);
@@ -307,7 +319,10 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
         <DistrictSearchSection />
 
         {/* floating 상태에 따라 다른 스타일로 DistrictSelectSection 렌더링 */}
-        <DistrictSelectSection isFloating={isFloating} isVisible={isFloatingVisible} />
+        <DistrictSelectSection
+          isFloating={isFloating}
+          isVisible={isFloatingVisible}
+        />
 
         <div
           style={{
@@ -415,7 +430,9 @@ function ResultsPageLoading() {
   );
 }
 
-export default function ResultsPageClient({ regionId }: ResultsPageClientProps) {
+export default function ResultsPageClient({
+  regionId,
+}: ResultsPageClientProps) {
   return (
     <Suspense fallback={<ResultsPageLoading />}>
       <ResultsPageContent regionId={regionId} />

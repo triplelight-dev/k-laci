@@ -23,13 +23,14 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
   isFloating = false,
   isVisible = true,
 }) => {
-  const { selectedProvince, selectedDistrict, selectedRegion, regionLoading } = useDistrict();
+  // ✅ 올바른 방식: 상태와 함수를 별도로 가져오기
+  const { selectedProvince, selectedDistrict, selectedRegion, regionLoading } =
+    useDistrict();
   const setSelectedProvince = useSetSelectedProvince();
   const setSelectedDistrict = useSetSelectedDistrict();
   const setSelectedRegion = useSetSelectedRegion();
   const setRegionLoading = useSetRegionLoading();
 
-  // React Query 사용
   const { data: provincesWithRegions = [], error } = useProvincesWithRegions();
 
   // useRegion hook 사용
@@ -41,7 +42,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
   // selectedDistrict가 변경될 때 region 정보 가져오기 (수정)
   useEffect(() => {
     if (isUpdatingRef.current) return;
-    
+
     const fetchRegionDetails = async () => {
       if (selectedDistrict) {
         try {
@@ -58,14 +59,13 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
               name: details.province.name,
             },
           };
-          
+
           isUpdatingRef.current = true;
           setSelectedRegion(storeDetails, 'district_select');
-          setSelectedProvince(selectedDistrict.province_id);
-          
+
           setTimeout(() => {
             isUpdatingRef.current = false;
-          }, 0);
+          }, 100);
         } catch (error) {
           console.error('Failed to fetch region details:', error);
           setSelectedRegion(null);
@@ -79,13 +79,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
     };
 
     fetchRegionDetails();
-  }, [
-    selectedDistrict,
-    getRegion,
-    setSelectedRegion,
-    setRegionLoading,
-    setSelectedProvince,
-  ]);
+  }, [selectedDistrict, getRegion, setSelectedRegion, setRegionLoading]);
 
   // 디버깅용 useEffect 추가
   useEffect(() => {
@@ -98,16 +92,16 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
 
   const handleProvinceChange = (value: string) => {
     if (isUpdatingRef.current) return;
-    
+
     const provinceId = value ? Number(value) : null;
     setSelectedProvince(provinceId);
     setSelectedDistrict(null);
-    setRegionLoading(false); // 로딩 상태 해제 추가
+    setRegionLoading(false);
   };
 
   const handleDistrictChange = (value: string) => {
     if (isUpdatingRef.current) return;
-    
+
     const districtId = value ? Number(value) : null;
     setSelectedDistrict(districtId, 'district_select');
   };

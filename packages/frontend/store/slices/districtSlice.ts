@@ -61,7 +61,7 @@ export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
       district: {
         ...state.district,
         selectedDistrict: district,
-        regionLoading: districtId ? true : false, // districtId가 있을 때만 true
+        // ❌ regionLoading: districtId ? true : false, // 이 줄 제거
       },
     }));
 
