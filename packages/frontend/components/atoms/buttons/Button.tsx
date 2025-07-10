@@ -46,19 +46,6 @@ export default function Button(props: ButtonProps) {
     }
   };
 
-  // 아이콘 색상 계산
-  const getIconColor = () => {
-    if (isHovered) {
-      return '#000000'; // 호버 시 항상 검정색
-    } else {
-      if (theme === 'dark') {
-        return variant === 'primary' ? '#000000' : '#ffffff';
-      } else {
-        return variant === 'primary' ? '#ffffff' : '#000000';
-      }
-    }
-  };
-
   return <button
     onClick={onClick}
     onMouseEnter={() => setIsHovered(true)}
