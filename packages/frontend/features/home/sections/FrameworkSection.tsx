@@ -8,6 +8,7 @@ interface FrameworkItem {
   title: string;
   description: string[];
   image: string;
+  additionalImage?: string;
 }
 
 const FrameworkSection: React.FC = () => {
@@ -18,6 +19,7 @@ const FrameworkSection: React.FC = () => {
       description: [
         `KLACI는 기존 모델의 한계를 극복하기 위해 지역의 존립과 발전에 가장 본질적인 요소를 진단할 수 있는 새로운 분석 틀을 모색했습니다. 국내외 선행 연구 및 성공적인 지역 발전 모델에 대한 총체적인 분석을 통해, 지역의 복원과 지속가능성에 가장 높은 설명력과 영향력을 가진 네 가지 핵심 키워드로 인구, 경제, 생활, 안전을 도출했습니다. 4대 핵심범주는 각 지역이 보유한 자산역량을 성격, 유형, 지향점에 따라 진단할 수 있는 실용적인 기틀입니다.`,
       ],
+
       image: '/about/core_categories.png',
     },
     {
@@ -27,6 +29,7 @@ const FrameworkSection: React.FC = () => {
         `4가지 주요 범주를 통해 지방자치단체의 역량을 종합적으로 평가하기 위해 사용되는 구체적이고 측정 가능한 55개의 개별 항목입니다. 이 지표들은 지역의 강점과 약점, 자본과 부채를 포함한 총체적 자산을 객관적으로 분석하는 기초 자료가 됩니다. 55개 세부지표는 3년에 걸친 심층 연구를 바탕으로 포괄적인 데이터를 수집하여 다각적인 평가 그리고 여러 전문가 그룹의 철저한 검증을 거쳐 구성되었습니다.`,
       ],
       image: '/about/indexes.png',
+      additionalImage: '/about/indexes_additional.png',
     },
     {
       badge: 'ARCHETYPE',
@@ -58,9 +61,10 @@ const FrameworkSection: React.FC = () => {
         minHeight: '600px',
         display: 'flex',
         flexDirection: 'column',
-        padding: '120px 20px',
+        padding: '120px 0px',
         alignItems: 'center',
         marginBottom: '230px',
+
       }}
     >
       {/* 섹션 타이틀 */}
@@ -140,7 +144,7 @@ const FrameworkSection: React.FC = () => {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: '120px',
+          gap: '230px',
           width: '100%',
           marginTop: '100px',
         }}
@@ -150,7 +154,7 @@ const FrameworkSection: React.FC = () => {
             key={index}
             style={{
               display: 'flex',
-              // gap: '80px',
+              gap: '156px',
               justifyContent: 'space-between',
               alignItems: 'flex-start',
               width: '100%',
@@ -164,6 +168,7 @@ const FrameworkSection: React.FC = () => {
                 flexDirection: 'column',
                 alignItems: 'flex-start',
                 maxWidth: '60%',
+
               }}
             >
               {/* 뱃지 */}
@@ -204,6 +209,7 @@ const FrameworkSection: React.FC = () => {
                   lineHeight: '28px',
                   opacity: 0.9,
                   maxWidth: '654px',
+                  marginBottom: '67px',
                 }}
               >
                 {item.description.map((text, textIndex) => (
@@ -218,51 +224,53 @@ const FrameworkSection: React.FC = () => {
                   </div>
                 ))}
               </div>
+              {item.additionalImage && <img
+                src={item.additionalImage}
+                style={{
+                  width: '100%',
+                }}
+              />}
             </div>
 
             {/* 우측: 이미지 (화면 꽉 채움) */}
 
-            {
-              index === 2 ? <div
+            <div style={{ flex: 1, display: 'flex', alignItems: 'top', justifyContent: 'center' }}>
+              {index === 2 ? <div
                 style={{
-                  padding: '70px 60px',
+                  padding: '90px 60px',
                   borderRadius: '52px',
                   background: '#191B22',
-                  width: 'fit-content',
-                  height: 'fit-content',
+                  width: '100%',
+                  height: '100%',
                 }}
-              ><div
+              ><img
+                  src={item.image}
                   style={{
-                    flex: 1,
-                    width: '500px',
-                    height: '500px',
-                    borderRadius: '16px',
+                    width: '100%',
+                    height: '100%',
+                    // borderRadius: '16px',s
+                    border: 'none',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    backgroundImage: `url(${item.image})`,
-                    backgroundSize: 'contain',
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat',
-                    minWidth: '40%',
+                    //   backgroundImage: `url(${item.image})`,
+                    //   backgroundSize: 'contain',
+                    // backgroundPosition: 'center',
+                    // backgroundRepeat: 'no-repeat',
                   }}
                 />
-              </div> : <div
+              </div> : <img
+                src={item.image}
                 style={{
-                  flex: 1,
                   width: '100%',
-                  height: '500px',
                   borderRadius: '16px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  backgroundImage: `url(${item.image})`,
-                  backgroundSize: 'contain',
-                  backgroundPosition: 'center',
-                  backgroundRepeat: 'no-repeat',
-                  minWidth: '40%',
+
                 }}
               />}
+            </div>
           </div>
         ))}
       </div>

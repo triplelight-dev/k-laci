@@ -6,18 +6,22 @@ import React from 'react';
 interface PrincipleBoxProps {
   principle: Principle;
   showRightBorder?: boolean;
+  contentAlign: 'left' | 'center' | 'right';
 }
 
 const PrincipleBox: React.FC<PrincipleBoxProps> = ({
   principle,
   showRightBorder = false,
+  contentAlign,
 }) => {
+  const boxAlign = contentAlign === 'left' ? 'flex-start' : contentAlign === 'center' ? 'center' : 'flex-end';
+
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', width: '100%', position: 'relative' }}>
+    <div style={{ display: 'flex', justifyContent: boxAlign, width: '100%', position: 'relative' }}>
       <div
         style={{
           flex: 1,
-          padding: '40px 30px',
+          // padding: '40px 30px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
@@ -184,6 +188,7 @@ const PrincipleSection: React.FC = () => {
             key={index}
             principle={principle}
             showRightBorder={index < 2} // 1번째, 2번째 박스에만 오른쪽 구분선
+            contentAlign={index === 0 ? 'left' : index === 1 ? 'center' : 'right'}
           />
         ))}
       </div>
