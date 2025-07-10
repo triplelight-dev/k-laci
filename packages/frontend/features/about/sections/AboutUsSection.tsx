@@ -117,7 +117,7 @@ const AboutUsSection: React.FC = () => {
                 color: 'white',
                 lineHeight: '28px',
                 opacity: 0.9,
-                textAlign: 'left',
+                textAlign: 'justify',
               }}
             >
               {text}
@@ -180,7 +180,7 @@ const AboutUsSection: React.FC = () => {
                   color: 'white',
                   lineHeight: '28px',
                   opacity: 0.9,
-                  textAlign: 'left',
+                  textAlign: 'justify',
                   marginBottom: '45px',
                 }}
               >

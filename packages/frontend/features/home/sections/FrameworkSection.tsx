@@ -209,12 +209,14 @@ const FrameworkSection: React.FC = () => {
                   opacity: 0.9,
                   maxWidth: '654px',
                   marginBottom: '67px',
+                  textAlign: 'justify',
                 }}
               >
                 {item.description.map((text, textIndex) => (
                   <div
                     key={textIndex}
                     style={{
+                      textAlign: 'justify',
                       marginBottom:
                         textIndex < item.description.length - 1 ? '30px' : '0',
                     }}

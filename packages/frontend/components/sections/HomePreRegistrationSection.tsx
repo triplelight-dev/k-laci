@@ -70,7 +70,7 @@ const HomePreRegistrationSection = () => {
           justifyContent: 'center',
         }}
       >
-        <Flex justifyContent="space-between" alignItems="center" maxWidth="1400px" width="100%">
+        <Flex justifyContent="space-between" alignItems="start" maxWidth="1400px" width="100%">
           {/* 좌측: 기존 내용 */}
           <div
             style={{
@@ -120,7 +120,7 @@ const HomePreRegistrationSection = () => {
               style={{
                 background: 'linear-gradient(90deg, #F56542 0%, #F4B04D 33%, #ACAAE8 66%, #74BF9E 100%)',
                 padding: '1px',
-                borderRadius: '8px',
+                borderRadius: '14px',
                 opacity: isLoading ? 0.6 : 1,
               }}
             >
@@ -135,7 +135,7 @@ const HomePreRegistrationSection = () => {
                   backgroundColor: '#14161D',
                   color: '#ffffff',
                   border: 'none',
-                  borderRadius: '7px',
+                  borderRadius: '14px',
                   fontSize: '18px',
                   fontWeight: '400',
                   cursor: isLoading ? 'not-allowed' : 'pointer',
@@ -171,7 +171,6 @@ const HomePreRegistrationSection = () => {
           {/* 우측: 이미지 */}
           <div
             style={{
-              flex: '1.5',
               display: 'flex',
               maxWidth: '800px',
               justifyContent: 'center',
@@ -182,7 +181,7 @@ const HomePreRegistrationSection = () => {
               src="/report_banner.png"
               alt="KLACI 인사이트 리포트"
               style={{
-                maxWidth: '500px',
+                maxWidth: '600px',
                 height: 'auto',
                 objectFit: 'contain',
               }}

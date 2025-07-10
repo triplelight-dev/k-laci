@@ -100,6 +100,7 @@ const ViewResultSuggestionSection: React.FC = () => {
               <div
                 key={index}
                 style={{
+                  textAlign: 'justify',
                   fontSize: '18px',
                   fontWeight: '400',
                   color: 'white',

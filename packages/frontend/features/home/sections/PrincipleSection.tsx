@@ -79,28 +79,29 @@ const PrincipleBox: React.FC<PrincipleBoxProps> = ({
             color: 'white',
             lineHeight: '28px',
             opacity: 0.9,
+            textAlign: 'justify',
           }}
         >
-          {principle.description}
-        </div>
-
-
+        {principle.description}
       </div>
-      {/* 오른쪽 구분선 */}
-      {
-        showRightBorder && (
-          <div
-            style={{
-              position: 'absolute',
-              right: 0,
-              top: '25%',
-              height: '60%',
-              width: '1px',
-              backgroundColor: 'rgba(255, 255, 255, 0.2)',
-            }}
-          />
-        )
-      }
+
+
+    </div>
+      {/* 오른쪽 구분선 */ }
+  {
+    showRightBorder && (
+      <div
+        style={{
+          position: 'absolute',
+          right: 0,
+          top: '25%',
+          height: '60%',
+          width: '1px',
+          backgroundColor: 'rgba(255, 255, 255, 0.2)',
+        }}
+      />
+    )
+  }
     </div >
   );
 };

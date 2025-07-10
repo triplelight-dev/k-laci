@@ -84,8 +84,6 @@ const Header = () => {
           justifyContent: 'space-between',
           alignItems: 'center',
           width: '100%',
-
-          // margin: '0 160px',
         }}
       >
         {/* 1. 좌측: 로고 */}
@@ -110,7 +108,7 @@ const Header = () => {
                 src={theme.logo}
                 alt="K-LACI Logo"
                 style={{
-                  height: '34px',
+                  height: '26px',
                   width: 'auto',
                   marginRight: '15px',
                   cursor: 'pointer',
@@ -139,11 +137,11 @@ const Header = () => {
                     href={item.href}
                     className="font-poppins text-[0.9375rem] leading-[110%] tracking-[-0.45px]"
                     style={{
-                      fontSize: '22px',
+                      fontSize: '18px',
                       color: isActive
                         ? theme.navigationActiveColor
                         : theme.navigationInactiveColor,
-                      fontWeight: isActive ? 700 : 500,
+                      fontWeight: isActive ? 700 : 400,
                       textDecoration: 'none',
                     }}
                   >
@@ -179,13 +177,16 @@ const Header = () => {
                 </span>
 
                 {/* 로그아웃 버튼 */}
-                <HeaderAuthButton
-                  variant="logout"
+                <Button
+                  fontSize="14px"
+                  fontWeight="500"
+                  label="로그아웃"
+                  padding="10px 30px"
                   onClick={handleLogout}
                   theme={isBlackTheme ? 'dark' : 'light'}
                 >
                   로그아웃
-                </HeaderAuthButton>
+                </Button>
               </>
             ) : (
               <>
@@ -195,6 +196,8 @@ const Header = () => {
                     variant="primary"
                     label="로그인"
                     padding="10px 30px"
+                    fontSize="14px"
+                    fontWeight="500"
                     theme={isBlackTheme ? 'dark' : 'light'}
                   />
                 </Link>
@@ -206,6 +209,8 @@ const Header = () => {
                     variant="secondary"
                     label="회원가입"
                     padding="10px 30px"
+                    fontSize="14px"
+                    fontWeight="500"
                     theme={isBlackTheme ? 'dark' : 'light'}
                   />
                 </Link>
