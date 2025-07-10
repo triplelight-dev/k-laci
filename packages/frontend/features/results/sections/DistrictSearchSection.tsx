@@ -10,13 +10,8 @@ const DistrictSearchSection: React.FC = () => {
     setSearchValue(value);
   };
 
-  const title = '229개 지자체중 우리 지역 찾아보기';
+  const title = '229개 지자체 중 우리 지역 찾아보기';
 
-  const mockRecentSearches = [
-    '서울시 강남구',
-    '부산시 해운대구',
-    '인천시 연수구',
-  ];
 
   return (
     <div
@@ -24,35 +19,34 @@ const DistrictSearchSection: React.FC = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        width: '80%',
+        width: '1400px',
         gap: '30px',
         color: '#000000',
         padding: '20px',
-        paddingTop: '80px',
+        paddingTop: '94px',
         paddingBottom: '100px',
         position: 'relative',
         borderRadius: '50px',
+        margin: '47px 0',
         backgroundImage: 'url(/title_bg.png)',
-        backgroundColor: 'red',
-        backgroundSize: '150% 150%',
+        backgroundSize: '100% 100%',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
       }}
     >
       <div
         style={{
-          fontSize: '1.9rem',
+          fontSize: '30px',
           fontWeight: '600',
         }}
       >
-        {title}{' '}
+        {title}
       </div>
 
-      <div style={{ width: '100%', maxWidth: '500px' }}>
+      <div style={{ width: '100%', maxWidth: '520px' }}>
         <SearchTextInput
           value={searchValue}
           onChange={setSearchValue}
-          recentSearches={mockRecentSearches}
           onRecentSearchClick={handleRecentSearchClick}
         />
       </div>
