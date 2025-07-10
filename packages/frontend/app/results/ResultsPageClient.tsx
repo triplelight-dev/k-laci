@@ -82,21 +82,19 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
   const hasAnimatedRef = useRef(false);
   const [hasLoadedDefault, setHasLoadedDefault] = useState(false);
   const chartSectionRef = useRef<HTMLDivElement>(null);
+  const [isInitialized, setIsInitialized] = useState(false); // 초기화 상태 추가
 
   // Zustand store에서 선택된 지역 정보 가져오기
   const { selectedProvince, selectedDistrict, selectedRegion } = useDistrict();
   const { getRegion } = useRegion();
 
-  // URL 업데이트 함수 (path parameter 방식으로 변경)
+  // URL 업데이트 함수 (무한 루프 방지)
   const updateURL = (newRegionId: number | null) => {
-    if (newRegionId) {
+    if (newRegionId && isInitialized) { // 초기화 완료 후에만 URL 업데이트
       const newURL = `/results/region/${newRegionId}`;
       if (newURL !== window.location.pathname) {
         router.replace(newURL, { scroll: false });
       }
-    } else {
-      // regionId가 없으면 기본 results 페이지로 이동
-      router.replace('/results', { scroll: false });
     }
   };
 
@@ -109,6 +107,7 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
       setSelectedProvince(storeRegion.province_id);
       setSelectedDistrict(storeRegion.id, 'system');
       setHasLoadedDefault(true);
+      setIsInitialized(true);
       return true;
     } catch (error) {
       return false;
@@ -126,49 +125,90 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
       setSelectedProvince(storeRegion.province_id);
       setSelectedDistrict(storeRegion.id, 'system');
       setHasLoadedDefault(true);
+      setIsInitialized(true);
     } catch (error) {
       console.error('기본 데이터 로드 실패:', error);
       setHasLoadedDefault(true);
+      setIsInitialized(true);
     }
   };
 
-  // selectedRegion이 변경될 때 URL 업데이트
+  // 초기화 로직 (최우선순위)
   useEffect(() => {
-    if (selectedRegion) {
-      updateURL(selectedRegion.id);
-    } else {
-      updateURL(null);
-    }
-  }, [selectedRegion]);
+    if (isInitialized) return; // 이미 초기화되었으면 스킵
 
-  // regionId prop이 변경될 때 지역 데이터 로드
-  useEffect(() => {
-    if (regionId && (!selectedRegion || selectedRegion.id !== Number(regionId))) {
+    if (regionId) {
+      // URL에서 전달된 regionId가 있으면 최우선으로 처리
       const fetchRegionFromURL = async () => {
         try {
+          console.log('🔍 [DEBUG] fetchRegionFromURL 시작, regionId:', regionId);
+          
           const apiResponse = await getRegion(regionId);
+          console.log('🔍 [DEBUG] API 응답:', apiResponse);
+          
           const storeRegion = transformApiRegionToStoreRegion(apiResponse);
+          console.log('🔍 [DEBUG] 변환된 storeRegion:', storeRegion);
+          console.log('🔍 [DEBUG] storeRegion.province_id:', storeRegion.province_id);
+          console.log('🔍 [DEBUG] storeRegion.province:', storeRegion.province);
+          
           setSelectedRegion(storeRegion, 'url_change');
           setSelectedProvince(storeRegion.province_id);
           setSelectedDistrict(storeRegion.id, 'url_change');
+          
+          // 추가: province가 제대로 설정되었는지 확인
+          setTimeout(() => {
+            const currentState = useDistrict.getState();
+            console.log('🔍 [DEBUG] 설정 후 selectedProvince:', currentState.selectedProvince);
+            console.log('🔍 [DEBUG] 설정 후 selectedDistrict:', currentState.selectedDistrict);
+            console.log('🔍 [DEBUG] 설정 후 selectedRegion:', currentState.selectedRegion);
+          }, 100);
+          
           setHasLoadedDefault(true);
+          setIsInitialized(true);
         } catch (error) {
           console.error('URL에서 region 로드 실패:', error);
+          // 에러 시에만 기본 데이터 로드
           if (!hasLoadedDefault) {
             loadDefaultData();
           }
         }
       };
       fetchRegionFromURL();
-    } else if (!regionId && !selectedRegion && !hasLoadedDefault) {
-      // regionId가 없고 선택된 지역도 없는 경우
+    } else if (!selectedRegion && !hasLoadedDefault) {
+      // regionId가 없고 선택된 지역도 없는 경우에만 기본 로직 실행
       if (user?.profile?.interest_region_id) {
         loadUserInterestRegion(user.profile.interest_region_id);
       } else {
         loadDefaultData();
       }
     }
-  }, [regionId, user, hasLoadedDefault]);
+  }, [regionId, user, hasLoadedDefault, isInitialized]);
+
+  // selectedRegion이 변경될 때 URL 업데이트 및 데이터 새로고침
+  useEffect(() => {
+    if (selectedRegion && isInitialized) {
+      updateURL(selectedRegion.id);
+      
+      // 새로운 지역 데이터로 페이지 데이터 업데이트
+      const refreshPageData = async () => {
+        try {
+          const apiResponse = await getRegion(String(selectedRegion.id));
+          const storeRegion = transformApiRegionToStoreRegion(apiResponse);
+          
+          // 기존 selectedRegion과 다른 경우에만 업데이트
+          if (storeRegion.id !== selectedRegion.id) {
+            setSelectedRegion(storeRegion, 'region_refresh');
+            setSelectedProvince(storeRegion.province_id);
+            setSelectedDistrict(storeRegion.id, 'region_refresh');
+          }
+        } catch (error) {
+          console.error('지역 데이터 새로고침 실패:', error);
+        }
+      };
+      
+      refreshPageData();
+    }
+  }, [selectedRegion, isInitialized]);
 
   // 안전한 지역명 생성 함수
   const getDistrictName = (): string => {

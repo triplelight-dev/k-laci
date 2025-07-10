@@ -133,8 +133,8 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
       setSelectedProvince(province.id);
       setSelectedDistrict(region.id, 'search_autocomplete');
 
-      // URL 업데이트
-      updateURL(region.id);
+      // path parameter 방식으로 results 페이지로 이동
+      router.push(`/results/region/${region.id}`);
     }
   };
 

@@ -12,7 +12,7 @@ import {
   useSetSelectedRegion,
 } from '@/store';
 import { RegionWithDetails as StoreRegionWithDetails } from '@/store/types/district';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface DistrictSelectSectionProps {
   isFloating?: boolean;
@@ -23,7 +23,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
   isFloating = false,
   isVisible = true,
 }) => {
-  const { selectedProvince, selectedDistrict, regionLoading } = useDistrict();
+  const { selectedProvince, selectedDistrict, selectedRegion, regionLoading } = useDistrict();
   const setSelectedProvince = useSetSelectedProvince();
   const setSelectedDistrict = useSetSelectedDistrict();
   const setSelectedRegion = useSetSelectedRegion();
@@ -35,8 +35,13 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
   // useRegion hook 사용
   const { getRegion } = useRegion();
 
-  // selectedDistrict가 변경될 때 region 정보 가져오기
+  // 무한 루프 방지를 위한 ref
+  const isUpdatingRef = useRef(false);
+
+  // selectedDistrict가 변경될 때 region 정보 가져오기 (수정)
   useEffect(() => {
+    if (isUpdatingRef.current) return;
+    
     const fetchRegionDetails = async () => {
       if (selectedDistrict) {
         try {
@@ -53,15 +58,21 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
               name: details.province.name,
             },
           };
-          setSelectedRegion(storeDetails, 'system');
+          
+          isUpdatingRef.current = true;
+          setSelectedRegion(storeDetails, 'district_select');
           setSelectedProvince(selectedDistrict.province_id);
+          
+          setTimeout(() => {
+            isUpdatingRef.current = false;
+          }, 0);
         } catch (error) {
           console.error('Failed to fetch region details:', error);
           setSelectedRegion(null);
         } finally {
           setRegionLoading(false);
         }
-      } else {
+      } else if (!selectedDistrict) {
         setSelectedRegion(null);
         setRegionLoading(false);
       }
@@ -76,13 +87,27 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
     setSelectedProvince,
   ]);
 
+  // 디버깅용 useEffect 추가
+  useEffect(() => {
+    console.log('🔍 [DEBUG] DistrictSelectSection 상태 변경:');
+    console.log('  - selectedProvince:', selectedProvince);
+    console.log('  - selectedDistrict:', selectedDistrict);
+    console.log('  - selectedRegion:', selectedRegion);
+    console.log('  - regionLoading:', regionLoading);
+  }, [selectedProvince, selectedDistrict, selectedRegion, regionLoading]);
+
   const handleProvinceChange = (value: string) => {
+    if (isUpdatingRef.current) return;
+    
     const provinceId = value ? Number(value) : null;
     setSelectedProvince(provinceId);
     setSelectedDistrict(null);
+    setRegionLoading(false); // 로딩 상태 해제 추가
   };
 
   const handleDistrictChange = (value: string) => {
+    if (isUpdatingRef.current) return;
+    
     const districtId = value ? Number(value) : null;
     setSelectedDistrict(districtId, 'district_select');
   };

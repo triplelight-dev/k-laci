@@ -107,7 +107,7 @@ const SimilarRegionSection: React.FC = () => {
       setSelectedProvince(storeRegion.province_id);
       setSelectedDistrict(storeRegion.id, 'similar_region_card');
       
-      // 새로운 path parameter 방식으로 이동
+      // path parameter 방식으로 이동
       router.push(`/results/region/${item.id}`);
       
       // TitleSection의 지자체명 부분으로 스크롤 (더 아래로)

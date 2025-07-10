@@ -73,7 +73,7 @@ export const useRegionSelector = () => {
     options?: RegionNavigationOptions
   ) => {
     await selectRegion(regionId, source);
-    router.push(`/results?regionId=${regionId}`);
+    router.push(`/results/region/${regionId}`);
     
     // 스크롤 옵션이 있으면 처리
     if (options?.scrollToChart) {
