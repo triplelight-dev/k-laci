@@ -1,10 +1,19 @@
 'use client';
 
 import SearchTextInput from '@/components/ui/SearchTextInput';
-import React, { useState } from 'react';
+import { useDistrict } from '@/store';
+import React, { useEffect, useState } from 'react';
 
 const DistrictSearchSection: React.FC = () => {
   const [searchValue, setSearchValue] = useState('');
+  const { selectedRegion } = useDistrict();
+
+  // selectedRegion이 변경될 때 검색창 값 업데이트
+  useEffect(() => {
+    if (selectedRegion?.province?.name && selectedRegion?.name) {
+      setSearchValue(`${selectedRegion.province.name} ${selectedRegion.name}`);
+    }
+  }, [selectedRegion]);
 
   const handleRecentSearchClick = (value: string) => {
     setSearchValue(value);

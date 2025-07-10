@@ -125,10 +125,10 @@ const SectionHeader: React.FC<{
 const RankingTable: React.FC<{ data: TotalRegionRank[] }> = ({ data }) => {
   const router = useRouter();
 
-  // 지역 클릭 핸들러
+  // 지역 클릭 핸들러 - path parameter 방식으로 변경
   const handleRegionClick = useCallback(
     (regionId: number) => {
-      router.push(`/results?regionId=${regionId}`);
+      router.push(`/results/region/${regionId}`);
     },
     [router],
   );

@@ -6,10 +6,10 @@ import JewelRadarChart from '@/components/atoms/charts/RadarChart';
 import KlaciCodeCircles from '@/components/atoms/circle/KlaciCodeCircles';
 import { PROVINCE_FULL_NAMES } from '@/constants/region';
 import {
-  useDistrict,
-  useSetSelectedDistrict,
-  useSetSelectedProvince,
-  useSetSelectedRegion,
+    useDistrict,
+    useSetSelectedDistrict,
+    useSetSelectedProvince,
+    useSetSelectedRegion,
 } from '@/store';
 import { generateChartData } from '@/utils/chartUtils';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -87,7 +87,7 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
     return generateChartData(currentRegion);
   }, [currentRegion]);
 
-  // 애니메이션 효과를 위한 useEffect
+  // 애니메이션 효과를 위한 useEffect (원래대로 복원)
   useEffect(() => {
     const duration = 500; // 0.8초로 늘림
     const steps = 40; // 60단계로 더 세밀하게
