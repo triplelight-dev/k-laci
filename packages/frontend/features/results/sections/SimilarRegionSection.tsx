@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 import { useSameCodeRegions } from '@/api/hooks';
 import { useRegion } from '@/api/hooks/useRegion';
 import PremiumContentTitle from '@/components/ui/PremiumContentTitle';
-import { ROUTES } from '@/constants/data';
 import { useDistrict, useSetSelectedDistrict, useSetSelectedProvince, useSetSelectedRegion } from '@/store';
 import { generateChartData } from '@/utils/chartUtils';
 import { addWaOrGwa } from '@/utils/koreanUtils';
@@ -108,8 +107,8 @@ const SimilarRegionSection: React.FC = () => {
       setSelectedProvince(storeRegion.province_id);
       setSelectedDistrict(storeRegion.id, 'similar_region_card');
       
-      // Result 페이지로 이동
-      router.push(ROUTES.RESULT);
+      // 새로운 path parameter 방식으로 이동
+      router.push(`/results/region/${item.id}`);
       
       // TitleSection의 지자체명 부분으로 스크롤 (더 아래로)
       setTimeout(() => {

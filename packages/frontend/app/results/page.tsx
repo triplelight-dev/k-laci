@@ -1,10 +1,6 @@
-import type { Metadata } from 'next';
-import ResultsPageClient from './ResultsPageClient';
-
-export const metadata: Metadata = {
-  title: '지자체 조회 | 지역자산역량지수(KLACI)',
-};
+import { redirect } from 'next/navigation';
 
 export default function ResultsPage() {
-  return <ResultsPageClient />;
+  // 기본 지역(regionId: 1)으로 리다이렉트
+  redirect('/results/region/1');
 }

@@ -11,7 +11,7 @@ import {
   useUser,
 } from '@/store';
 import { RegionWithDetails as StoreRegionWithDetails } from '@/store/types/district';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Suspense, useEffect, useRef, useState } from 'react';
 
 // sections
@@ -62,9 +62,12 @@ const transformApiRegionToStoreRegion = (
   };
 };
 
+interface ResultsPageClientProps {
+  regionId?: string;
+}
+
 // 실제 페이지 컴포넌트
-function ResultsPageContent() {
-  const searchParams = useSearchParams();
+function ResultsPageContent({ regionId }: ResultsPageClientProps) {
   const router = useRouter();
   const setSelectedDistrict = useSetSelectedDistrict();
   const setSelectedProvince = useSetSelectedProvince();
@@ -83,6 +86,19 @@ function ResultsPageContent() {
   // Zustand store에서 선택된 지역 정보 가져오기
   const { selectedProvince, selectedDistrict, selectedRegion } = useDistrict();
   const { getRegion } = useRegion();
+
+  // URL 업데이트 함수 (path parameter 방식으로 변경)
+  const updateURL = (newRegionId: number | null) => {
+    if (newRegionId) {
+      const newURL = `/results/region/${newRegionId}`;
+      if (newURL !== window.location.pathname) {
+        router.replace(newURL, { scroll: false });
+      }
+    } else {
+      // regionId가 없으면 기본 results 페이지로 이동
+      router.replace('/results', { scroll: false });
+    }
+  };
 
   // 유저 관심 지역 로드 함수
   const loadUserInterestRegion = async (interestRegionId: number) => {
@@ -112,24 +128,7 @@ function ResultsPageContent() {
       setHasLoadedDefault(true);
     } catch (error) {
       console.error('기본 데이터 로드 실패:', error);
-      // 에러가 발생해도 hasLoadedDefault를 true로 설정하여 무한 루프 방지
       setHasLoadedDefault(true);
-    }
-  };
-
-  // URL 업데이트 함수
-  const updateURL = (regionId: number | null) => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (regionId) {
-      params.set('regionId', regionId.toString());
-    } else {
-      params.delete('regionId');
-    }
-
-    const newURL = `${window.location.pathname}?${params.toString()}`;
-    if (newURL !== window.location.pathname + window.location.search) {
-      router.replace(newURL, { scroll: false });
     }
   };
 
@@ -142,15 +141,9 @@ function ResultsPageContent() {
     }
   }, [selectedRegion]);
 
-  // URL에서 regionId 읽어와서 상태 업데이트 (수정된 로직)
+  // regionId prop이 변경될 때 지역 데이터 로드
   useEffect(() => {
-    const regionId = searchParams.get('regionId');
-
-    if (
-      regionId &&
-      (!selectedRegion || selectedRegion.id !== Number(regionId))
-    ) {
-      // 1. URL에 regionId가 있는 경우 (최우선)
+    if (regionId && (!selectedRegion || selectedRegion.id !== Number(regionId))) {
       const fetchRegionFromURL = async () => {
         try {
           const apiResponse = await getRegion(regionId);
@@ -158,10 +151,9 @@ function ResultsPageContent() {
           setSelectedRegion(storeRegion, 'url_change');
           setSelectedProvince(storeRegion.province_id);
           setSelectedDistrict(storeRegion.id, 'url_change');
-          setHasLoadedDefault(true); // URL에서 로드했으므로 기본 로드 완료로 표시
+          setHasLoadedDefault(true);
         } catch (error) {
           console.error('URL에서 region 로드 실패:', error);
-          // 에러 시에만 기본 데이터 로드 (hasLoadedDefault가 false인 경우에만)
           if (!hasLoadedDefault) {
             loadDefaultData();
           }
@@ -169,16 +161,14 @@ function ResultsPageContent() {
       };
       fetchRegionFromURL();
     } else if (!regionId && !selectedRegion && !hasLoadedDefault) {
-      // 2. URL에 regionId가 없고 선택된 지역도 없는 경우
+      // regionId가 없고 선택된 지역도 없는 경우
       if (user?.profile?.interest_region_id) {
-        // 2-1. 유저 관심 지역이 있는 경우
         loadUserInterestRegion(user.profile.interest_region_id);
       } else {
-        // 2-2. 유저 관심 지역이 없는 경우 기본값 로드
         loadDefaultData();
       }
     }
-  }, [searchParams, user, hasLoadedDefault]); // hasLoadedDefault를 의존성에 추가
+  }, [regionId, user, hasLoadedDefault]);
 
   // 안전한 지역명 생성 함수
   const getDistrictName = (): string => {
@@ -364,47 +354,31 @@ function ResultsPageContent() {
   );
 }
 
-// 로딩 컴포넌트
 function ResultsPageLoading() {
   return (
-    <div
-      style={{
-        width: '100%',
-        height: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#F4F4F4',
-      }}
-    >
+    <ResultLayout>
       <div
         style={{
-          width: '16px',
-          height: '16px',
-          border: '2px solid #000000',
-          borderTop: '2px solid transparent',
-          borderRadius: '50%',
-          animation: 'spin 1s linear infinite',
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          background: '#F4F4F4',
+          gap: '30px',
+          minHeight: '100vh',
         }}
-      ></div>
-      <style jsx>{`
-        @keyframes spin {
-          0% {
-            transform: rotate(0deg);
-          }
-          100% {
-            transform: rotate(360deg);
-          }
-        }
-      `}</style>
-    </div>
+      >
+        <div>로딩 중...</div>
+      </div>
+    </ResultLayout>
   );
 }
 
-export default function ResultsPageClient() {
+export default function ResultsPageClient({ regionId }: ResultsPageClientProps) {
   return (
     <Suspense fallback={<ResultsPageLoading />}>
-      <ResultsPageContent />
+      <ResultsPageContent regionId={regionId} />
     </Suspense>
   );
 }
