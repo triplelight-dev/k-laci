@@ -32,10 +32,8 @@ const DistrictSearchSection: React.FC = () => {
         paddingBottom: '100px',
         position: 'relative',
         borderRadius: '50px',
-        backgroundImage: `
-        url('/title_bg.png'),
-        linear-gradient(90deg, rgba(247, 247, 251, 0.7) 0%, rgba(233, 243, 254, 0.7) 100%)
-      `,
+        backgroundImage: 'url(/title_bg.png)',
+        backgroundColor: 'red',
         backgroundSize: '150% 150%',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',

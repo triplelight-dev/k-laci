@@ -10,6 +10,10 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         minWidth: '1500px',
         minHeight: '100vh',
         backgroundColor: '#F4F4F4',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
       <Header />
