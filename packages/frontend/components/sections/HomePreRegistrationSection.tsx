@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { UserService } from '../../api/services/user.service';
 import { useIsLoggedIn } from '../../store';
+import Button from '../atoms/buttons/Button';
 import LoginGuideModal from '../ui/LoginGuideModal';
 import PreRegistrationModal from '../ui/PreRegistrationModal';
 
@@ -124,7 +125,22 @@ const HomePreRegistrationSection = () => {
                 opacity: isLoading ? 0.6 : 1,
               }}
             >
-              <button
+              <Button
+                label={
+                  <>
+                    {isLoading ? '로딩 중...' : '사전예약 바로가기'}
+                    {!isLoading && (
+                      <Image
+                        src="/arrow_button_icon_white.png"
+                        alt="화살표 아이콘"
+                        width={10}
+                        height={10}
+                      />
+                    )}
+                  </>
+                }
+                variant='secondary'
+                theme='dark'
                 onClick={handlePreRegistrationClick}
                 disabled={isLoading}
                 style={{
@@ -142,29 +158,9 @@ const HomePreRegistrationSection = () => {
                   transition: 'all 0.2s ease',
                   width: '100%',
                 }}
-                onMouseEnter={(e) => {
-                  if (!isLoading) {
-                    e.currentTarget.style.backgroundColor = '#ffffff';
-                    e.currentTarget.style.color = '#000000';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!isLoading) {
-                    e.currentTarget.style.backgroundColor = '#14161D';
-                    e.currentTarget.style.color = '#ffffff';
-                  }
-                }}
               >
-                {isLoading ? '로딩 중...' : '사전예약 바로가기'}
-                {!isLoading && (
-                  <Image
-                    src="/arrow_button_icon_white.png"
-                    alt="화살표 아이콘"
-                    width={10}
-                    height={10}
-                  />
-                )}
-              </button>
+
+              </Button>
             </div>
           </div>
 

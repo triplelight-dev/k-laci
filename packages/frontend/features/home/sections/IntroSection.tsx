@@ -99,7 +99,7 @@ const IntroSection: React.FC = () => {
         }}
       >
         {descriptionLines.map((line, index) => (
-          <div key={index} style={{ marginBottom: '8px' }}>
+          <div key={index} style={{ lineHeight: '28px' }}>
             {line}
           </div>
         ))}
@@ -116,7 +116,7 @@ const IntroSection: React.FC = () => {
         }}
       >
         {klaciDescriptionLines.map((line, index) => (
-          <div key={index} style={{ marginBottom: '8px' }}>
+          <div key={index} style={{ lineHeight: '28px' }}>
             {line}
           </div>
         ))}

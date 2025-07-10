@@ -106,7 +106,7 @@ const ContentSectionVertical: React.FC<ContentSectionVerticalProps> = ({
             <div
               style={{
                 fontSize: '48px',
-                fontWeight: 'bold',
+                fontWeight: '600',
                 color: styling.textColor || 'white',
                 lineHeight: '68px',
               }}
@@ -156,7 +156,7 @@ const ContentSectionVertical: React.FC<ContentSectionVerticalProps> = ({
             <div
               style={{
                 fontSize: '18px',
-                color: styling.textColor || 'white',
+                color: '#D9D9E8',
                 lineHeight: '28px',
                 marginBottom: '30px',
                 width: '655px',
@@ -174,7 +174,7 @@ const ContentSectionVertical: React.FC<ContentSectionVerticalProps> = ({
             <div
               style={{
                 fontSize: '18px',
-                color: styling.textColor || 'white',
+                color: '#D9D9E8',
                 marginBottom: '30px',
                 fontWeight: '700',
                 width: '100%',
@@ -184,9 +184,10 @@ const ContentSectionVertical: React.FC<ContentSectionVerticalProps> = ({
                 <div
                   key={index}
                   style={{
-                    marginBottom: '8px',
                     width: '100%',
                     whiteSpace: 'pre-line',
+                    lineHeight: '28px',
+                    color: '#D9D9E8',
                   }}
                 >
                   {text}

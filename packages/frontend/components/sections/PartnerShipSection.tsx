@@ -106,7 +106,7 @@ const PartnerShipSection = () => {
           style={{
             fontSize: '18px',
             textAlign: 'center',
-            marginBottom: '58px',
+            marginBottom: '32px',
             color: '#D1D5DB',
             maxWidth: '1200px',
             fontWeight: '400',
