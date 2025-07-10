@@ -15,7 +15,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export default function Button(props: ButtonProps) {
-  const { width, label, icon, variant = 'primary', theme = 'dark', onClick = () => { }, padding = '12px 30px', fontSize = '18px', fontWeight = '400', borderRadius = '8px' } = props;
+  const { width, label, icon, variant = 'primary', theme = 'dark', onClick = () => { }, padding = '12px 30px', fontSize = '18px', fontWeight = '400', borderRadius = '14px' } = props;
 
   const darkThemeStyle = {
     backgroundColor: variant === 'primary' ? '#ffffff' : 'transparent',

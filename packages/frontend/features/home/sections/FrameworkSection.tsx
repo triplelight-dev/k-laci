@@ -100,7 +100,7 @@ const FrameworkSection: React.FC = () => {
 
         <Flex gap='9px' width='100%' justifyContent='center' margin='42px 0' height='fit-content'>
           {frameworkItems.map((item) => (
-            <div
+            <div key={item.badge}
               style={{
                 backgroundColor: 'transparent',
                 width: 'fit-content',

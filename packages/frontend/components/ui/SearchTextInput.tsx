@@ -228,7 +228,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
         />
       </div>
 
-      <Flex width="100%" justifyContent="flex-start" marginLeft="32px" marginBottom="27px" gap="24px">
+      <Flex width="100%" justifyContent="flex-start" marginLeft="32px" gap="24px">
         <span style={{ fontSize: '14px', fontWeight: '400', color: '#000000', display: 'flex', alignItems: 'center', lineHeight: '24px' }}>최근 검색</span>
         <Flex gap="10px">
           {recentSearches.map((search, index) => (

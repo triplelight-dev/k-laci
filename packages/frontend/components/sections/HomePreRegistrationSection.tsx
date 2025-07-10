@@ -175,14 +175,14 @@ const HomePreRegistrationSection = () => {
               display: 'flex',
               maxWidth: '800px',
               justifyContent: 'center',
-              alignItems: 'center',
+
             }}
           >
             <img
               src="/report_banner.png"
               alt="KLACI 인사이트 리포트"
               style={{
-                maxWidth: '700px',
+                maxWidth: '500px',
                 height: 'auto',
                 objectFit: 'contain',
               }}
