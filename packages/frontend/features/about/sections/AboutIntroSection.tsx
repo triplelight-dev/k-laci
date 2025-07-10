@@ -26,10 +26,9 @@ const AboutIntroSection: React.FC = () => {
         alt="About Intro"
         style={{
           width: '100%',
-          height: '380px',
+          height: '410px',
           maxHeight: '80%',
           objectFit: 'contain',
-          marginTop: '276 px',
         }}
       />
 

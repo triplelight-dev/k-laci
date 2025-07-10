@@ -18,7 +18,7 @@ export default function AboutPage() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          marginTop: '260px',
+          marginTop: '160px',
           marginBottom: '160px',
         }}
       >

@@ -117,9 +117,10 @@ const FrameworkSection: React.FC = () => {
         {/* 추가 설명 텍스트 */}
         <p
           style={{
-            fontSize: '16px',
+            fontSize: '18px',
+            fontWeight: '400',
             color: 'white',
-            lineHeight: '1.6',
+            lineHeight: '28px',
             opacity: 0.9,
             maxWidth: '800px',
             margin: '0 auto',
@@ -222,34 +223,18 @@ const FrameworkSection: React.FC = () => {
             {/* 우측: 이미지 (화면 꽉 채움) */}
 
             {
-                index === 2 ? <div
-                  style={{
-                    padding: '70px 60px',
-                    borderRadius: '52px',
-                    background: '#191B22',
-                    width: 'fit-content',
-                    height: 'fit-content',
-                  }}
-                ><div
-                    style={{
-                      flex: 1,
-                      width: '500px',
-                      height: '500px',
-                      borderRadius: '16px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundImage: `url(${item.image})`,
-                      backgroundSize: 'contain',
-                      backgroundPosition: 'center',
-                      backgroundRepeat: 'no-repeat',
-                      minWidth: '40%',
-                    }}
-                  />
-                </div> : <div
+              index === 2 ? <div
+                style={{
+                  padding: '70px 60px',
+                  borderRadius: '52px',
+                  background: '#191B22',
+                  width: 'fit-content',
+                  height: 'fit-content',
+                }}
+              ><div
                   style={{
                     flex: 1,
-                    width: '100%',
+                    width: '500px',
                     height: '500px',
                     borderRadius: '16px',
                     display: 'flex',
@@ -261,7 +246,23 @@ const FrameworkSection: React.FC = () => {
                     backgroundRepeat: 'no-repeat',
                     minWidth: '40%',
                   }}
-                />}
+                />
+              </div> : <div
+                style={{
+                  flex: 1,
+                  width: '100%',
+                  height: '500px',
+                  borderRadius: '16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundImage: `url(${item.image})`,
+                  backgroundSize: 'contain',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
+                  minWidth: '40%',
+                }}
+              />}
           </div>
         ))}
       </div>
