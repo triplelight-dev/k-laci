@@ -9,23 +9,17 @@ const ResultLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div
       style={{
+        display: 'flex',
+        flexDirection: 'column',
         width: '100%',
+        minWidth: '1500px',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
       <Header />
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        {children}
-      </div>
+      {children}
       {!isLoggedIn && <LoginSuggestionSection />}
-
       {isLoggedIn && <Footer />}
     </div>
   );
