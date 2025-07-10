@@ -167,8 +167,7 @@ const FrameworkSection: React.FC = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'flex-start',
-                maxWidth: '60%',
-
+                maxWidth: '654px',
               }}
             >
               {/* 뱃지 */}
@@ -248,15 +247,11 @@ const FrameworkSection: React.FC = () => {
                   style={{
                     width: '100%',
                     height: '100%',
-                    // borderRadius: '16px',s
                     border: 'none',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    //   backgroundImage: `url(${item.image})`,
-                    //   backgroundSize: 'contain',
-                    // backgroundPosition: 'center',
-                    // backgroundRepeat: 'no-repeat',
+
                   }}
                 />
               </div> : <img

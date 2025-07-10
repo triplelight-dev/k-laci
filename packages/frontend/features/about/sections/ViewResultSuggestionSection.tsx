@@ -11,8 +11,7 @@ const ViewResultSuggestionSection: React.FC = () => {
 
   const descriptionTexts = [
     '이제 대한민국 229개 지방자치단체의 고유한 자산역량 탐색을 시작해보세요.',
-    '지역명 검색 또는 유형별 조회를 통해 우리 지역의 숨겨진 강점과 새로운 기회를 직접 발견하고,',
-    '이를 바탕으로 맞춤형 성장 전략을 위한 통찰을 얻을 수 있습니다.',
+    '지역명 검색 또는 유형별 조회를 통해 우리 지역의 숨겨진 강점과 새로운 기회를 직접 발견하고, 이를 바탕으로 맞춤형 성장 전략을 위한 통찰을 얻을 수 있습니다.',
   ];
 
   const handleMainResultsClick = () => {
@@ -28,27 +27,29 @@ const ViewResultSuggestionSection: React.FC = () => {
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         maxWidth: '1400px',
+        height: '415px',
         borderRadius: '32px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        paddingBottom: '80px',
-        marginBottom: '80px',
+        // paddingBottom: '80px',
+        marginBottom: '197px',
       }}
     >
       <div
         style={{
           display: 'flex',
-          padding: '40px 0px',
-          gap: '60px',
+          padding: '85px 0px',
+          gap: '222px',
           width: '90%',
         }}
       >
         {/* 좌측: 큰 타이틀 */}
         <div
           style={{
-            flex: 1,
+            // flex: 1,
+            maxWidth: '654px',
           }}
         >
           <div
