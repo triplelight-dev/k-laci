@@ -136,7 +136,6 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
     }
   };
 
-  // 초기화 로직 (최우선순위)
   useEffect(() => {
     if (isInitialized) return; // 이미 초기화되었으면 스킵
 
