@@ -154,7 +154,7 @@ const ContentSection: React.FC<ContentSectionProps> = ({
             }}
           >
             {description.texts.map((text, index) => (
-              <div key={index} style={{ marginBottom: '12px', width: '100%' }}>
+              <div key={index} style={{ marginBottom: '12px', width: '100%', textAlign: 'justify' }}>
                 {text}
               </div>
             ))}
@@ -171,7 +171,7 @@ const ContentSection: React.FC<ContentSectionProps> = ({
             }}
           >
             {description.boldTexts.map((text, index) => (
-              <div key={index} style={{ marginBottom: '8px', width: '100%' }}>
+              <div key={index} style={{ marginBottom: '8px', width: '100%', textAlign: 'justify' }}>
                 {text}
               </div>
             ))}
