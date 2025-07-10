@@ -2,7 +2,6 @@
 
 import { ArrowRightUp } from '@/components/atoms/assets';
 import Button from '@/components/atoms/buttons/Button';
-import { DARK_MODE_COLORS } from '@/utils/colors';
 import { Grid } from '@chakra-ui/react';
 import React from 'react';
 
@@ -53,7 +52,6 @@ const AboutUsSection: React.FC = () => {
       width="100%"
       maxWidth="1400px"
       borderRadius="32px"
-      backgroundColor={DARK_MODE_COLORS.background}
       padding="100px 0"
       marginBottom="80px"
 

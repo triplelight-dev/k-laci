@@ -44,7 +44,8 @@ export default function AboutPage() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          backgroundColor: DARK_MODE_COLORS.background,
+          // backgroundColor: DARK_MODE_COLORS.background,
+          backgroundColor: '#232631',
         }}
       >
         <AboutUsSection />
