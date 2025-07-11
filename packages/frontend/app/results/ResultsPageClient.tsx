@@ -22,6 +22,9 @@ import PreRegistrationSection from '@/features/results/sections/PreRegistrationS
 import SimilarRegionSection from '@/features/results/sections/SimilarRegionSection';
 import SummarySection from '@/features/results/sections/SummarySection';
 import TitleSection from '@/features/results/sections/TitleSection';
+import LoginSuggestionSection from '@/features/results/sections/LoginSuggestionSectino';
+import HomePreRegistrationSection from '@/components/sections/HomePreRegistrationSection';
+import Footer from '@/components/Footer';
 
 // 지자체 데이터 타입 정의
 interface DistrictData {
@@ -80,6 +83,9 @@ function ResultsPageContent() {
 
   // Zustand store에서 선택된 지역 정보 가져오기
   const { selectedProvince, selectedDistrict, selectedRegion } = useDistrict();
+  console.log(selectedRegion);
+  console.log(selectedProvince);
+  console.log(selectedDistrict);
   const { getRegion } = useRegion();
 
   // 유저 관심 지역 로드 함수
@@ -314,6 +320,8 @@ function ResultsPageContent() {
             <SimilarRegionSection /></>}
         </div>
       </div>
+      {!isLoggedIn && <><LoginSuggestionSection /></>}
+      {isLoggedIn && <><HomePreRegistrationSection height='650px' /><Footer /></>}
     </ResultLayout>
   );
 }

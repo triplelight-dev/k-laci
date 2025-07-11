@@ -182,21 +182,7 @@ const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
           ) : (
             // 비로그인 사용자: StrengthWeaknessIndexSection만 부분 표시 (fadeout 효과)
             <>
-              <div
-                style={{
-                  position: 'absolute',
-                  width: '100%',
-                  maxHeight: '250px',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  background:
-                    'linear-gradient(to bottom, rgba(244, 244, 244, 0) 0%, rgba(244, 244, 244, 0) 20%, rgba(244, 244, 244, 0.3) 50%, rgba(244, 244, 244, 0.6) 100%)',
-                  zIndex: 1,
-                  pointerEvents: 'none',
-                }}
-              />
+
               <div style={{ position: 'relative', zIndex: 0 }}>
                 <div style={{ padding: '0 135px' }}><StrengthWeaknessIndexSection /></div>
               </div>

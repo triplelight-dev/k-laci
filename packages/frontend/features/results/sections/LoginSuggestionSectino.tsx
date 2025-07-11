@@ -50,6 +50,7 @@ const LoginSuggestionSection = ({
         width: '100%',
       }}>
       </div>
+      
       <section
         style={{
           display: 'flex',
