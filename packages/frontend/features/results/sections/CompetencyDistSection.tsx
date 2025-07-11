@@ -9,7 +9,6 @@ import { parseKlaciCode } from '@/utils/klaciCodeParser';
 import { SummarySectionHeader } from './SummarySectionHeader';
 
 const CompetencyDistSection = () => {
-  const title = '원형별 역량 분포';
   const { selectedRegion, regionLoading } = useStore((state) => state.district);
 
   // KLACI 코드 파싱 예시 (selectedRegion에 klaci_code가 있다고 가정)
