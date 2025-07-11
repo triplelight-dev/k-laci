@@ -82,26 +82,26 @@ const PrincipleBox: React.FC<PrincipleBoxProps> = ({
             textAlign: 'justify',
           }}
         >
-        {principle.description}
+          {principle.description}
+        </div>
+
+
       </div>
-
-
-    </div>
-      {/* 오른쪽 구분선 */ }
-  {
-    showRightBorder && (
-      <div
-        style={{
-          position: 'absolute',
-          right: 0,
-          top: '25%',
-          height: '60%',
-          width: '1px',
-          backgroundColor: 'rgba(255, 255, 255, 0.2)',
-        }}
-      />
-    )
-  }
+      {/* 오른쪽 구분선 */}
+      {
+        showRightBorder && (
+          <div
+            style={{
+              position: 'absolute',
+              right: 0,
+              top: '25%',
+              height: '60%',
+              width: '1px',
+              backgroundColor: 'rgba(255, 255, 255, 0.2)',
+            }}
+          />
+        )
+      }
     </div >
   );
 };
@@ -157,7 +157,7 @@ const PrincipleSection: React.FC = () => {
             lineHeight: '68px',
           }}
         >
-          지역자산역량지수 3대원칙
+          지역자산역량지수 3대 원칙
         </h2>
         <p
           style={{

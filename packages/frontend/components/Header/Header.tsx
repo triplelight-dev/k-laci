@@ -25,7 +25,7 @@ const Header = () => {
       ? '/klaci_logo_white.png'
       : '/klaci_logo_black.png',
     navigationActiveColor: isBlackTheme ? '#FFFFFF' : '#000',
-    navigationInactiveColor: isBlackTheme ? '#BED3FF' : '#000',
+    navigationInactiveColor: isBlackTheme ? '#D9D9E8' : '#1e1e1e',
   };
 
   // 현재 페이지 확인 함수

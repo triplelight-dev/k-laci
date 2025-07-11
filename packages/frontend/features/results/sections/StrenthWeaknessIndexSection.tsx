@@ -78,7 +78,7 @@ const IndexItem: React.FC<{
     <Flex>
       <div style={{ margin: '15px 19px', width: '40px' }}>
         <Text
-          color={indexRank === 1 || indexRank === 50 ? '#000' : '#9A9EA3'}
+          color={indexRank === 1 || indexRank === 55 ? '#000' : '#9A9EA3'}
           fontSize='14px'
           fontWeight='500'
           marginBottom='4px'
@@ -88,7 +88,7 @@ const IndexItem: React.FC<{
         >
           {indexRank}위
           {indexRank === 1 && <Text color='#000' fontSize='14px' fontWeight='500' >(강점)</Text>}
-          {indexRank === 50 && <Text color='#000' fontSize='14px' fontWeight='500' >(약점)</Text>}
+          {indexRank === 55 && <Text color='#000' fontSize='14px' fontWeight='500' >(약점)</Text>}
         </Text>
       </div>
       <div
@@ -160,7 +160,8 @@ const IndexSection: React.FC<{
   isDisabled?: boolean;
 }> = ({ indexType, data, onItemClick, isDisabled = false }) => {
 
-  const indexRankOffset = indexType === 'strength' ? 1 : 50;
+  const indexRankOffset = indexType === 'strength' ? 1 : 55;
+
 
   return (
     <div
@@ -182,7 +183,7 @@ const IndexSection: React.FC<{
         {data.map((item, index) => (
           <IndexItem
             key={index}
-            indexRank={index + indexRankOffset}
+            indexRank={indexType === 'strength' ? index + indexRankOffset : indexRankOffset - index}
             data={item}
             onClick={onItemClick}
             isDisabled={isDisabled}
