@@ -15,6 +15,7 @@ import SimilarRegionCard from '../components/SimilarRegionCard';
 import SimilarRegionCardSlider from '../components/SimilarRegionCardSlider';
 import { SimilarRegionData } from './SimilarRegionSection.type';
 import { SummarySectionHeader } from './SummarySectionHeader';
+import { josa } from 'es-hangul';
 
 
 
@@ -237,7 +238,7 @@ const SimilarRegionSection: React.FC = () => {
       </Flex>
 
       <Divider style={{ width: '100%', margin: '0 auto', marginBottom: '100px' }} />
-      <SummarySectionHeader title={`${selectedProvince?.name} ${selectedDistrict?.name} 비슷한 지자체`} badgeLabel="더 알아보기" />
+      <SummarySectionHeader title={`${selectedProvince?.name} ${josa(selectedDistrict?.name||'종로','와/과')} 비슷한 지자체`} badgeLabel="더 알아보기" />
 
       <SimilarRegionCardSlider
         data={similarRegions}

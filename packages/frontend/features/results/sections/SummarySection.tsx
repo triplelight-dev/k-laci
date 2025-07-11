@@ -8,22 +8,22 @@ import CompetencyDistSection from './CompetencyDistSection';
 import StrengthWeaknessIndexSection from './StrenthWeaknessIndexSection';
 import { SummarySectionHeader } from './SummarySectionHeader';
 
-// // 타입 정의
-// interface SummaryItemData {
-//   title: string;
-//   paragraphs: string[];
-// }
+// 타입 정의
+interface SummaryItemData {
+  title: string;
+  paragraphs: string[];
+}
 
-// interface SummaryData {
-//   characteristics: SummaryItemData;
-//   opportunities: SummaryItemData;
-//   improvements: SummaryItemData;
-// }
+interface SummaryData {
+  characteristics: SummaryItemData;
+  opportunities: SummaryItemData;
+  improvements: SummaryItemData;
+}
 
-// // 재사용 가능한 SummaryItem 컴포넌트
-// interface SummaryItemProps {
-//   data: SummaryItemData;
-// }
+// 재사용 가능한 SummaryItem 컴포넌트
+interface SummaryItemProps {
+  data: SummaryItemData;
+}
 
 // const SummaryItem: React.FC<SummaryItemProps> = ({ data }) => {
 //   return (
@@ -98,32 +98,33 @@ const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
     );
   }
 
+  console.log(selectedRegion.klaci);
   // // selectedRegion의 klaci 데이터를 활용하여 summaryData 구성
-  // const summaryData: SummaryData = {
-  //   characteristics: {
-  //     title: '특성',
-  //     paragraphs: selectedRegion.klaci?.trait || ['특성 정보가 없습니다.'],
-  //   },
-  //   opportunities: {
-  //     title: '기회자산',
-  //     paragraphs: selectedRegion.klaci?.opportunity || [
-  //       '기회자산 정보가 없습니다.',
-  //     ],
-  //   },
-  //   improvements: {
-  //     title: '발전방향',
-  //     paragraphs: selectedRegion.klaci?.strategy || [
-  //       '발전방향 정보가 없습니다.',
-  //     ],
-  //   },
-  // };
+  const summaryData: SummaryData = {
+    characteristics: {
+      title: '특성',
+      paragraphs: selectedRegion.klaci?.trait || ['특성 정보가 없습니다.'],
+    },
+    opportunities: {
+      title: '기회자산',
+      paragraphs: selectedRegion.klaci?.opportunity || [
+        '기회자산 정보가 없습니다.',
+      ],
+    },
+    improvements: {
+      title: '발전방향',
+      paragraphs: selectedRegion.klaci?.strategy || [
+        '발전방향 정보가 없습니다.',
+      ],
+    },
+  };
 
   // 데이터를 배열로 변환하여 매핑
-  // const summaryItems = [
-  //   summaryData.characteristics,
-  //   summaryData.opportunities,
-  //   // summaryData.improvements,
-  // ];
+  const summaryItems = [
+    summaryData.characteristics,
+    summaryData.opportunities,
+    // summaryData.improvements,
+  ];
 
   return (
     <div
@@ -159,7 +160,7 @@ const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
             padding='80px 135px'
             textAlign='justify'
             whiteSpace='pre-line'
-          >{typeOverviewDescription}</Text>
+          >{summaryItems.map((item) => item.paragraphs.join('\n\n'))}</Text>
 
           <Divider style={{ margin: '0 0 60px' }} />
 
