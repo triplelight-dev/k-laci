@@ -18,7 +18,7 @@ interface SimilarRegionData {
   display_type?: string; // API에서 받은 표시 타입 추가
   selection_tags?: string[]; // 선택 조건 태그 추가
   [key: string]: any; // 추가 속성들을 위한 인덱스 시그니처
-  
+
 }
 
 interface SimilarRegionCardProps {
@@ -252,7 +252,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
                 fontWeight: '500',
               }}
             >
-              순위가 비슷한
+              {badgeText}
             </div>
           )}
         </div>
