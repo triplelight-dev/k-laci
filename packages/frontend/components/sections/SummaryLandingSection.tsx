@@ -3,22 +3,22 @@ import { ArrowRightUp } from '../atoms/assets';
 
 const cardData = [
   [
-    { title: "종합순위\nTOP 100", desc: "전국 229개 지자체 기준\n종합점수 상위 100곳", tag: "SPECIAL", bgImage: '/images/summary/bg-1.png', link: '/summary/top-100' },
-    { title: "5극 3특\n종합순위", desc: "대경권, 동남권, 서남권, 수도권 등\n8개 행정체제별 종합순위", tag: "SPECIAL", bgImage: '/images/summary/bg-2.png', link: '/summary/2' },
-    { title: "유형별\n종합순위", desc: "강원, 경기, 경남, 경북, 광주 등\n17개 광역별 종합순위", bgImage: '/images/summary/bg-3.png', link: '/summary/3' },
-    { title: "광역별\n종합순위", desc: "개발도약형, 기초안정형, 안정생활형 등\n16개 유형별 종합순위", bgImage: '/images/summary/bg-4.png', link: '/summary/4' },
+    { title: "종합순위\nTOP 100", desc: "전국 229개 지자체 기준\n종합점수 상위 100곳", tag: "SPECIAL", bgImage: '/summary/mask1.png', link: '/summary/top-100' },
+    { title: "5극 3특\n종합순위", desc: "대경권, 동남권, 서남권, 수도권 등\n8개 행정체제별 종합순위", tag: "SPECIAL", bgImage: '/summary/mask2.png', link: '/summary/2' },
+    { title: "유형별\n종합순위", desc: "강원, 경기, 경남, 경북, 광주 등\n17개 광역별 종합순위", bgImage: '/summary/mask3.png', link: '/summary/3' },
+    { title: "광역별\n종합순위", desc: "개발도약형, 기초안정형, 안정생활형 등\n16개 유형별 종합순위", bgImage: '/summary/mask4.png', link: '/summary/4' },
   ],
   [
-    { title: "핵심범주별\nTOP 50", desc: "인구, 경제, 생활, 안전\n4대 핵심범주별 지자체 상위 50곳", bgImage: '/images/summary/bg-5.png', link: '/summary/5' },
-    { title: "시군구별\nTOP 50", desc: "시, 군, 구\n3개 행정단위별 지자체 상위 50곳", bgImage: '/images/summary/bg-6.png', link: '/summary/6' },
-    { title: "6대 광역시\nTOP 50", desc: "광주, 대구, 대전, 부산, 울산, 인천 \n6대 광역시 내 지자체 상위 50곳", bgImage: '/images/summary/bg-7.png', link: '/summary/7' },
-    { title: "6개 도\nTOP 50", desc: "경기, 경남, 경북, 전남, 충남, 충북\n6개 도 내 지자체 상위 50곳", bgImage: '/images/summary/bg-8.png', link: '/summary/8' },
+    { title: "핵심범주별\nTOP 50", desc: "인구, 경제, 생활, 안전\n4대 핵심범주별 지자체 상위 50곳", bgImage: '/summary/mask5.png', link: '/summary/5' },
+    { title: "시군구별\nTOP 50", desc: "시, 군, 구\n3개 행정단위별 지자체 상위 50곳", bgImage: '/summary/mask6.png', link: '/summary/6' },
+    { title: "6대 광역시\nTOP 50", desc: "광주, 대구, 대전, 부산, 울산, 인천 \n6대 광역시 내 지자체 상위 50곳", bgImage: '/summary/mask7.png', link: '/summary/7' },
+    { title: "6개 도\nTOP 50", desc: "경기, 경남, 경북, 전남, 충남, 충북\n6개 도 내 지자체 상위 50곳", bgImage: '/summary/mask8.png', link: '/summary/8' },
   ],
   [
-    { title: "경제자유구역\n종합순위", desc: "전국 경제자유구역\n해당 지자체 25곳 순위", bgImage: '/images/summary/bg-9.png', link: '/summary/9' },
-    { title: "성장촉진지역\n종합순위", desc: "전국 성장촉진지역\n지정 지자체 70곳 순위", bgImage: '/images/summary/bg-10.png', link: '/summary/10' },
-    { title: "국가산업단지\n종합순위", desc: "전국 국가산업단지\n소재 지자체 51곳 순위", bgImage: '/images/summary/bg-11.png', link: '/summary/11' },
-    { title: "해안도시\n종합순위", desc: "전국 해안도시\n해당 지자체 74곳 순위", bgImage: '/images/summary/bg-12.png', link: '/summary/12' },
+    { title: "경제자유구역\n종합순위", desc: "전국 경제자유구역\n해당 지자체 25곳 순위", bgImage: '/summary/mask9.png', link: '/summary/9' },
+    { title: "성장촉진지역\n종합순위", desc: "전국 성장촉진지역\n지정 지자체 70곳 순위", bgImage: '/summary/mask10.png', link: '/summary/10' },
+    { title: "국가산업단지\n종합순위", desc: "전국 국가산업단지\n소재 지자체 51곳 순위", bgImage: '/summary/mask11.png', link: '/summary/11' },
+    { title: "해안도시\n종합순위", desc: "전국 해안도시\n해당 지자체 74곳 순위", bgImage: '/summary/mask12.png', link: '/summary/12' },
   ],
 ];
 
@@ -31,6 +31,7 @@ export default function SummaryLandingSection() {
         width: '1400px',
         background: '#191B22',
         padding: '40px 0',
+        marginBottom: '184px'
       }}
     >
       {cardData.map((cards, rowIdx) => (
@@ -82,18 +83,14 @@ export function Card({ title, desc, tag: badge, bgImage, link }: { title: string
         backgroundImage: `url(${bgImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        opacity: 0.3,
-        backdropFilter: 'blur(25px)',
         cursor: 'pointer',
 
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.border = '1px solid #fff';
-        e.currentTarget.style.opacity = '0.7';
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.border = '1px solid transparent';
-        e.currentTarget.style.opacity = '0.3';
       }}
     >
       {badge && <div style={{
