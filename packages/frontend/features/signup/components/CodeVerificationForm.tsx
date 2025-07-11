@@ -25,7 +25,8 @@ export default function CodeVerificationForm({
     <form
       onSubmit={onSubmit}
       style={{
-        width: '70%',
+        width: '100%',
+        maxWidth: '540px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -149,7 +150,7 @@ export default function CodeVerificationForm({
           {isLoading ? '처리 중...' : '인증번호 재발송'}
         </button>
       </div>
-      
+
     </form>
   );
 } 

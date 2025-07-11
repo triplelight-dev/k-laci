@@ -86,21 +86,9 @@ export default function LoginSection({
             setPassword={setPassword}
             isLoading={isLoading}
             onSubmit={onSubmit}
+            error={error}
           />
 
-          {/* 에러 메시지 */}
-          {error && (
-            <div
-              style={{
-                fontSize: '14px',
-                color: '#EF4444',
-                textAlign: 'center',
-                marginTop: '1rem',
-              }}
-            >
-              {error}
-            </div>
-          )}
 
           {/* 회원가입 링크 */}
           <div

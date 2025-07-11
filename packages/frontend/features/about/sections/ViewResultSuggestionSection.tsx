@@ -117,13 +117,31 @@ const ViewResultSuggestionSection: React.FC = () => {
           <div
             style={{
               display: 'flex',
-              justifyContent: 'flex-end',
+              justifyContent: 'flex-start',
               width: '100%',
             }}
           >
+
             {/* 오른쪽 버튼: 투명 배경 흰색 보더 */}
-            <div style={{ marginRight: '220px' }}>
-              <Button label='주요 결과 바로가기' icon={<ArrowRightUp color='#ffffff' />} variant='secondary' onClick={handleMainResultsClick} />
+            <div style={{ display: 'flex', gap: '20px', justifyContent: 'flex-start' }}>
+              <Button label='지자체 조회 바로가기' variant='primary' onClick={handleMainResultsClick}
+                width='255px'
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+
+                }}
+                icon={<ArrowRightUp />}
+              />
+              <Button label='주요 결과 바로가기' icon={<ArrowRightUp color='#ffffff' />} variant='secondary' onClick={handleMainResultsClick}
+                width='255px'
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              />
             </div>
 
           </div>

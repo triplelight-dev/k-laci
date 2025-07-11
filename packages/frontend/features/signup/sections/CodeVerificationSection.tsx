@@ -61,7 +61,7 @@ export default function CodeVerificationSection({
                 color: '#000000',
               }}
             >
-              이메일 인증
+              인증코드 입력
             </h1>
 
           </div>

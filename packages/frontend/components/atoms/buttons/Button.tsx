@@ -66,14 +66,18 @@ export default function Button(props: ButtonProps) {
       ...(props.style ? props.style : {}),
     }}
   >
-    <Flex gap='8px' alignItems='center' justifyContent='center' cursor={'pointer'}>
+    <Flex gap='8px' alignItems='center' justifyContent='center' cursor={'pointer'} style={{
+      textAlign: 'center',
+    }}>
       {label}
-      <div style={{
-        transition: 'all 0.2s ease',
-        filter: isHovered ? 'brightness(0)' : 'none'
-      }}>
-        {icon}
-      </div>
+      {icon && (
+        <div style={{
+          transition: 'all 0.2s ease',
+          filter: isHovered ? 'brightness(0)' : 'none'
+        }}>
+          {icon}
+        </div>
+      )}
     </Flex>
   </button>;
 }

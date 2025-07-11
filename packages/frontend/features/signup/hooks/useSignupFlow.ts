@@ -100,15 +100,21 @@ export const useSignupFlow = () => {
     setVerificationError('');
 
     try {
-      await AuthService.verifyCode({
+      const response = await AuthService.verifyCode({
         email,
         code: verificationCode,
       });
+      console.log('response', response);
       // 인증 성공 - 2/2 단계로 전환
-      setIsVerified(true);
-      // 이메일 도메인에 따른 사용자 타입 설정
-      const userTypeFromEmail = getUserTypeFromEmail(email);
-      setUserType(userTypeFromEmail);
+      if (response.data.verified) {
+        setIsVerified(response.data.verified);
+        // 이메일 도메인에 따른 사용자 타입 설정
+        const userTypeFromEmail = getUserTypeFromEmail(email);
+        setUserType(userTypeFromEmail);
+      } else {
+        setVerificationError('인증번호가 일치하지 않습니다.');
+      }
+
     } catch (err: any) {
       setVerificationError(
         err.response?.data?.message || '인증번호 검증 중 오류가 발생했습니다.',

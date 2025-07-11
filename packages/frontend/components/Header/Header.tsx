@@ -211,6 +211,7 @@ const Header = () => {
                     fontSize="14px"
                     fontWeight="500"
                     theme={isBlackTheme ? 'dark' : 'light'}
+
                   />
                 </Link>
               </>
