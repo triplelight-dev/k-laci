@@ -109,7 +109,8 @@ export function Card({ title, desc, tag: badge, bgImage, link }: { title: string
       <div style={{ display: 'flex', flexDirection: 'column', gap: '31px' }}>
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <div style={{ fontSize: '30px', fontWeight: 600, whiteSpace: 'pre-line', color: '#E7E8EA' }}>{title}</div>
-          <ArrowRightUp color='#E7E8EA' width={14} height={14} />
+          <div style={{ paddingTop: '9px' }}><ArrowRightUp color='#E7E8EA' width={14} height={14} /></div>
+
         </div>
         <div style={{ fontSize: '16px', fontWeight: 400, color: '#D9D9E8', whiteSpace: 'pre-line' }}>{desc}</div>
 
