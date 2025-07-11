@@ -167,3 +167,32 @@ a {
 .animate-slide-up {
   animation: slide-up 0.6s ease-out;
 }
+
+/* 다크모드에서도 라이트모드 스크롤바 스타일 강제 적용 */
+@media (prefers-color-scheme: dark) {
+
+  /* Webkit 브라우저 (Chrome, Safari, Edge) */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #c1c1c1 #f1f1f1;
+  }
+}
