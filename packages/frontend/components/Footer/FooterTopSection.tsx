@@ -92,7 +92,6 @@ const FooterTopSection = () => {
                       textDecorationColor: '#D1D5DB',
                       textDecorationThickness: '1px',
                       cursor: 'pointer',
-                      fontWeight: 'bold',
                     }}
                   >
                     {line}
@@ -119,7 +118,6 @@ const FooterTopSection = () => {
               style={{
                 color: '#D1D5DB',
                 fontSize: '14px',
-                fontWeight: 'bold',
                 cursor: 'pointer',
                 textDecoration: 'underline',
               }}
@@ -133,7 +131,6 @@ const FooterTopSection = () => {
               style={{
                 color: '#D1D5DB',
                 fontSize: '14px',
-                fontWeight: 'bold',
                 cursor: 'pointer',
                 textDecoration: 'underline',
               }}
@@ -147,7 +144,6 @@ const FooterTopSection = () => {
               style={{
                 color: '#D1D5DB',
                 fontSize: '14px',
-                fontWeight: 'bold',
                 cursor: 'pointer',
                 textDecoration: 'underline',
               }}

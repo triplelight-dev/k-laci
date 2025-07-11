@@ -83,9 +83,7 @@ function ResultsPageContent() {
 
   // Zustand store에서 선택된 지역 정보 가져오기
   const { selectedProvince, selectedDistrict, selectedRegion } = useDistrict();
-  console.log(selectedRegion);
-  console.log(selectedProvince);
-  console.log(selectedDistrict);
+  
   const { getRegion } = useRegion();
 
   // 유저 관심 지역 로드 함수

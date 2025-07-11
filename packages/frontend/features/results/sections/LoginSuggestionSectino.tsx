@@ -1,6 +1,7 @@
 'use client';
 
 import { ROUTES } from '@/constants/data';
+import { useDistrict } from '@/store';
 import { useRouter } from 'next/navigation';
 
 interface LoginSuggestionSectionProps {
@@ -15,6 +16,7 @@ const LoginSuggestionSection = ({
     '55가지 세부지표별 데이터를 무료로 확인할 수 있습니다',
   ],
 }: LoginSuggestionSectionProps) => {
+  const { selectedProvince } = useDistrict();
   const router = useRouter();
 
   const handleLoginClick = () => {
@@ -24,6 +26,10 @@ const LoginSuggestionSection = ({
   const handleSignupClick = () => {
     router.push(ROUTES.SIGNUP);
   };
+
+  const selectedProvinceName = selectedProvince?.name || '지역';
+
+  const header = `${selectedProvinceName}의 숨겨진 역량,\n지금 확인해보세요`
 
   return (
     <div
@@ -50,7 +56,7 @@ const LoginSuggestionSection = ({
         width: '100%',
       }}>
       </div>
-      
+
       <section
         style={{
           display: 'flex',
@@ -70,7 +76,7 @@ const LoginSuggestionSection = ({
             color: '#ffffff',
           }}
         >
-          {title}
+          {header}
         </h2>
 
         {/* 설명 텍스트들 */}

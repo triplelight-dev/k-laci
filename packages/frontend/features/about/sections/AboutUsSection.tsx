@@ -13,7 +13,7 @@ const AboutUsSection: React.FC = () => {
 
   const organizations = [
     {
-      title: '트리플라잇주식회사',
+      title: '트리플라잇 주식회사',
       description:
         '트리플라잇은 빅데이터와 AI 기술을 활용해 사회문제를 정의하고 해결 전략을 제시하는 임팩트 전략 허브(Impact Strategy Hub)입니다. 사회·환경적 가치를 측정하고 관리하는 임팩트 측정·관리 및 임팩트 인덱스 개발에 독보적인 전문성을 보유하고 있으며, 기업, 비영리기관, 공공기관 등 다양한 파트너들과 협력하며 긍정적 사회 변화를 가속하고 있습니다. 트리플라잇은 이러한 데이터 분석 역량과 솔루션 개발 경험을 바탕으로, 각 지역의 특성을 객관적이고 과학적으로 진단할 수 있는 정교한 프레임워크를 설계하고 서비스로 구현하는 역할을 수행했습니다.',
       boldKeyword: '임팩트 전략 허브(Impact Strategy Hub)',
@@ -82,7 +82,7 @@ const AboutUsSection: React.FC = () => {
             marginBottom: '24px',
           }}
         >
-          About US
+          ABOUT US
         </div>
 
         {/* 타이틀 */}

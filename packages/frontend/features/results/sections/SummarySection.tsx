@@ -181,12 +181,9 @@ const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
             </>
           ) : (
             // 비로그인 사용자: StrengthWeaknessIndexSection만 부분 표시 (fadeout 효과)
-            <>
 
-              <div style={{ position: 'relative', zIndex: 0 }}>
-                <div style={{ padding: '0 135px' }}><StrengthWeaknessIndexSection /></div>
-              </div>
-            </>
+            <div style={{ padding: '0 135px' }}><StrengthWeaknessIndexSection /></div>
+
           )}
 
           {/* <Flex flexDirection='column' gap='60px' padding='0 135px'>
