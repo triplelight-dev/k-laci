@@ -9,7 +9,7 @@ import Button from '../atoms/buttons/Button';
 import LoginGuideModal from '../ui/LoginGuideModal';
 import PreRegistrationModal from '../ui/PreRegistrationModal';
 
-const HomePreRegistrationSection = () => {
+const HomePreRegistrationSection = (props: { height?: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoginGuideModalOpen, setIsLoginGuideModalOpen] = useState(false);
   const [agree_to_report_reservation, setAgreeToReportReservation] =
@@ -65,7 +65,7 @@ const HomePreRegistrationSection = () => {
           padding: '80px 120px',
           backgroundColor: '#14161D',
           color: '#ffffff',
-          height: 'calc(100vh - 300px)',
+          height: props.height || 'calc(100vh - 300px)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',

@@ -3,6 +3,7 @@ import Header from '@/components/Header/Header';
 import LoginSuggestionSection from '@/features/results/sections/LoginSuggestionSectino';
 import { useIsLoggedIn } from '@/store';
 import React from 'react';
+import HomePreRegistrationSection from '../sections/HomePreRegistrationSection';
 
 const ResultLayout = ({ children }: { children: React.ReactNode }) => {
   const isLoggedIn = useIsLoggedIn();
@@ -20,8 +21,8 @@ const ResultLayout = ({ children }: { children: React.ReactNode }) => {
     >
       <Header />
       {children}
-      {!isLoggedIn && <LoginSuggestionSection />}
-      {isLoggedIn && <Footer />}
+      {!isLoggedIn && <><LoginSuggestionSection /></>}
+      {isLoggedIn && <><HomePreRegistrationSection height='650px' /><Footer /></>}
     </div>
   );
 };

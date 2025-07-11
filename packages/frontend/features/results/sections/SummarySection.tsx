@@ -135,10 +135,11 @@ const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
           style={{
             display: 'flex',
             flexDirection: 'column',
-            borderRadius: '56px',
+            borderRadius: isLoggedIn ? '56px' : '56px 56px 0 0',
             backgroundColor: 'white',
             padding: '95px 0',
             justifyContent: 'center',
+            paddingBottom: isLoggedIn ? '95px' : '0',
           }}
         >
           <SummarySectionHeader
@@ -183,30 +184,22 @@ const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
             <>
               <div
                 style={{
-                  position: 'relative',
-                  overflow: 'hidden',
+                  position: 'absolute',
+                  width: '100%',
                   maxHeight: '250px',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  background:
+                    'linear-gradient(to bottom, rgba(244, 244, 244, 0) 0%, rgba(244, 244, 244, 0) 20%, rgba(244, 244, 244, 0.3) 50%, rgba(244, 244, 244, 0.6) 100%)',
+                  zIndex: 1,
+                  pointerEvents: 'none',
                 }}
-              >
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    background:
-                      'linear-gradient(to bottom, rgba(244, 244, 244, 0) 0%, rgba(244, 244, 244, 0) 20%, rgba(244, 244, 244, 0.3) 50%, rgba(244, 244, 244, 0.6) 100%)',
-                    zIndex: 1,
-                    pointerEvents: 'none',
-                  }}
-                />
-                <div style={{ position: 'relative', zIndex: 0 }}>
-                  <div style={{ padding: '0 135px' }}><StrengthWeaknessIndexSection /></div>
-                </div>
+              />
+              <div style={{ position: 'relative', zIndex: 0 }}>
+                <div style={{ padding: '0 135px' }}><StrengthWeaknessIndexSection /></div>
               </div>
-              {/* LoginSuggestionSection과의 간격 */}
-              {/* <div style={{ height: '50px' }} /> */}
             </>
           )}
 

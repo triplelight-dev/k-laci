@@ -264,7 +264,8 @@ function ResultsPageContent() {
           justifyContent: 'center',
           alignItems: 'center',
           background: '#F4F4F4',
-
+          position: 'relative',
+          overflow: 'hidden',
         }}
       >
         <DistrictSearchSection />

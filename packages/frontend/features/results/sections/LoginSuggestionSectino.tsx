@@ -28,15 +28,28 @@ const LoginSuggestionSection = ({
   return (
     <div
       style={{
+        position: 'relative',
         display: 'flex',
+        width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#000000',
+        backgroundColor: '#191B22',
         color: '#ffffff',
         paddingBottom: '80px',
         minHeight: '400px',
       }}
     >
+      <div style={{
+        position: 'absolute',
+        top: '-248px',
+        left: 0,
+        right: 0,
+        background: 'linear-gradient(180deg, rgba(245, 245, 245, 0.00) 0%, #ffffff 100%)',
+        height: 246,
+        zIndex: 1,
+        width: '100%',
+      }}>
+      </div>
       <section
         style={{
           display: 'flex',
@@ -133,7 +146,7 @@ const LoginSuggestionSection = ({
               minWidth: '180px',
             }}
           >
-             회원가입 바로가기
+            회원가입 바로가기
             <img
               src="/arrow_button_icon_white.png"
               alt="화살표 아이콘"
