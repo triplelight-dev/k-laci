@@ -4,16 +4,18 @@ import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Cache } from 'cache-manager';
 import {
-  CategoryKeyIndexRank,
-  KeyIndexData,
-  KeyIndexWithDetails,
-  Region,
-  RegionKeyIndexRank,
-  RegionKeyIndexScoreResponse,
-  RegionsResponse,
-  RegionStrengthIndexesResponse,
-  RegionStrengthIndexesWithDetailsResponse,
-  RegionWithDetails,
+    CategoryKeyIndexRank,
+    KeyIndexData,
+    KeyIndexWithDetails,
+    Region,
+    RegionKeyIndexRank,
+    RegionKeyIndexScoreResponse,
+    RegionsResponse,
+    RegionStrengthIndexesResponse,
+    RegionStrengthIndexesWithDetailsResponse,
+    RegionWithDetails,
+    SelectionDisplayType,
+    SelectionTag,
 } from './types/region.types';
 
 export const REGION_SCORE_TYPES = {
@@ -752,55 +754,395 @@ export class DataService {
       return cached;
     }
 
-    // 먼저 해당 region의 KLACI 코드를 조회
+    // 먼저 해당 region의 정보를 조회
     const { data: regionData, error: regionError } = await this.supabase
       .from('regions')
-      .select('klaci_code')
+      .select('klaci_code, total_rank, weight_class')
       .eq('id', regionId)
       .single();
 
     if (regionError || !regionData) {
+      console.error('Region not found:', regionId, regionError);
       throw new Error(`Region with id ${regionId} not found`);
     }
 
     const klaciCode = regionData.klaci_code;
     const upperKlaciCode = klaciCode.toUpperCase();
+    const currentTotalRank = regionData.total_rank;
+    const currentWeightClass = regionData.weight_class;
 
-    // KLACI 코드가 같은 지역들을 조회 (자기 자신 제외)
-    const { data: regions, error } = await this.supabase
-      .from('regions')
-      .select(
-        `
+    // 1. 종합순위 위아래 2개씩 찾기 (고정 순위)
+    let adjacentRankQuery = '';
+    if (currentTotalRank === 1) {
+      // 1위인 경우 2,3위
+      adjacentRankQuery = `total_rank.eq.2,total_rank.eq.3`;
+    } else if (currentTotalRank === 2) {
+      // 2위인 경우 1,3,4위
+      adjacentRankQuery = `total_rank.eq.1,total_rank.eq.3,total_rank.eq.4`;
+    } else {
+      // 일반적인 경우 위아래 2개씩
+      adjacentRankQuery = `total_rank.eq.${currentTotalRank - 2},total_rank.eq.${currentTotalRank - 1},total_rank.eq.${currentTotalRank + 1},total_rank.eq.${currentTotalRank + 2}`;
+    }
+
+    const { data: adjacentRankRegions, error: adjacentRankError } =
+      await this.supabase
+        .from('regions')
+        .select(
+          `
         *,
         province:provinces(id, name),
         klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
         `,
-      )
-      .ilike('klaci_code', upperKlaciCode)
-      .neq('id', regionId) // 자기 자신 제외
-      .order('total_rank', { ascending: true });
+        )
+        .or(adjacentRankQuery)
+        .neq('id', regionId)
+        .order('total_rank', { ascending: true })
+        .limit(4);
 
-    if (error) {
-      throw error;
+    if (adjacentRankError) {
+      throw adjacentRankError;
     }
 
-    const regionsWithDetails = regions as RegionWithDetails[];
+    // 2. 같은 유형에서 가까운 순위 2개 (고정 순위) - 수정된 부분
+    // 먼저 같은 유형의 모든 지역을 순위순으로 가져오기
+    const { data: allSameCodeRegions, error: allSameCodeError } =
+      await this.supabase
+        .from('regions')
+        .select('id, total_rank')
+        .ilike('klaci_code', upperKlaciCode)
+        .order('total_rank', { ascending: true });
+
+    if (allSameCodeError) {
+      throw allSameCodeError;
+    }
+
+    // 현재 지역의 같은 유형 내 순위 찾기
+    const sameCodeRankings = allSameCodeRegions || [];
+    const currentRegionIndex = sameCodeRankings.findIndex(
+      (region) => region.id === regionId,
+    );
+
+    let selectedSameTypeRegions: any[] = [];
+
+    if (currentRegionIndex !== -1 && sameCodeRankings.length > 1) {
+      // 같은 유형에서 가까운 순위 2개 선택
+      const indices = [];
+
+      if (currentRegionIndex === 0) {
+        // 첫 번째인 경우 다음 2개
+        indices.push(1, 2);
+      } else if (currentRegionIndex === sameCodeRankings.length - 1) {
+        // 마지막인 경우 이전 2개
+        indices.push(sameCodeRankings.length - 3, sameCodeRankings.length - 2);
+      } else if (currentRegionIndex === 1) {
+        // 두 번째인 경우 첫 번째와 세 번째
+        indices.push(0, 2);
+      } else {
+        // 일반적인 경우 위아래 1개씩
+        indices.push(currentRegionIndex - 1, currentRegionIndex + 1);
+      }
+
+      // 유효한 인덱스만 필터링
+      const validIndices = indices.filter(
+        (idx) => idx >= 0 && idx < sameCodeRankings.length,
+      );
+
+      if (validIndices.length > 0) {
+        const selectedRankIds = validIndices.map(
+          (idx) => sameCodeRankings[idx].id,
+        );
+
+        const { data: sameTypeRankRegions, error: sameTypeRankError } =
+          await this.supabase
+            .from('regions')
+            .select(
+              `
+            *,
+            province:provinces(id, name),
+            klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
+            `,
+            )
+            .in('id', selectedRankIds)
+            .neq('id', regionId)
+            .order('total_rank', { ascending: true })
+            .limit(2);
+
+        if (sameTypeRankError) {
+          throw sameTypeRankError;
+        }
+
+        selectedSameTypeRegions = sameTypeRankRegions || [];
+      }
+    }
+
+    // 3. 강점 TOP3 중에 하나라도 일치하는 지역들 찾기 (랜덤)
+    // 먼저 해당 지역의 강점 TOP3 조회
+    const { data: strengthIndexes, error: strengthError } = await this.supabase
+      .from('region_strength_indexes')
+      .select('code')
+      .eq('region_id', regionId)
+      .eq('type', 'strength')
+      .order('rank', { ascending: true })
+      .limit(3);
+
+    if (strengthError) {
+      throw strengthError;
+    }
+
+    let selectedStrengthRegions: any[] = [];
+    if (strengthIndexes && strengthIndexes.length > 0) {
+      // 강점 코드들을 추출
+      const strengthCodes = strengthIndexes.map((item) => item.code);
+
+      // 강점 TOP3 중 하나라도 일치하는 지역들 조회 (랜덤)
+      const { data: strengthRegions, error: strengthRegionsError } =
+        await this.supabase
+          .from('region_strength_indexes')
+          .select(
+            `
+          region_id,
+          code,
+          rank
+        `,
+          )
+          .in('code', strengthCodes)
+          .eq('type', 'strength')
+          .neq('region_id', regionId)
+          .order('rank', { ascending: true })
+          .limit(20); // 더 많은 데이터에서 랜덤 선택
+
+      if (strengthRegionsError) {
+        throw strengthRegionsError;
+      }
+
+      // 지역별로 가장 높은 순위의 강점만 선택하고, 중복 제거
+      const regionStrengthMap = new Map<
+        number,
+        { region_id: number; code: string; rank: number }
+      >();
+      strengthRegions?.forEach((item) => {
+        const existing = regionStrengthMap.get(item.region_id);
+        if (!existing || existing.rank > item.rank) {
+          regionStrengthMap.set(item.region_id, item);
+        }
+      });
+
+      // 순위 순으로 정렬하여 상위 10개 선택 후 랜덤
+      const topStrengthRegions = Array.from(regionStrengthMap.values())
+        .sort((a, b) => a.rank - b.rank)
+        .slice(0, 10);
+
+      if (topStrengthRegions.length > 0) {
+        const strengthRegionIds = topStrengthRegions.map(
+          (item) => item.region_id,
+        );
+
+        // 해당 지역들의 상세 정보 조회
+        const { data: strengthRegionsDetails, error: strengthDetailsError } =
+          await this.supabase
+            .from('regions')
+            .select(
+              `
+            *,
+            province:provinces(id, name),
+            klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
+            `,
+            )
+            .in('id', strengthRegionIds)
+            .order('id', { ascending: false }); // 랜덤 효과를 위해 id 역순 정렬
+
+        if (strengthDetailsError) {
+          throw strengthDetailsError;
+        }
+
+        // 클라이언트에서 랜덤 선택
+        const shuffledStrength = [...(strengthRegionsDetails || [])];
+        for (let i = shuffledStrength.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [shuffledStrength[i], shuffledStrength[j]] = [
+            shuffledStrength[j],
+            shuffledStrength[i],
+          ];
+        }
+        selectedStrengthRegions = shuffledStrength.slice(0, 2);
+      }
+    }
+
+    // 4. 같은 체급에서 랜덤 2개 선택
+    const { data: sameWeightClassRegions, error: sameWeightClassError } =
+      await this.supabase
+        .from('regions')
+        .select(
+          `
+      *,
+      province:provinces(id, name),
+      klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
+      `,
+        )
+        .eq('weight_class', currentWeightClass)
+        .neq('id', regionId)
+        .order('id', { ascending: false }) // 랜덤 효과를 위해 id 역순 정렬
+        .limit(10); // 더 많은 데이터에서 랜덤 선택
+
+    if (sameWeightClassError) {
+      throw sameWeightClassError;
+    }
+
+    // Fisher-Yates 셔플 알고리즘으로 랜덤 선택
+    const shuffledWeightClass = [...(sameWeightClassRegions || [])];
+    for (let i = shuffledWeightClass.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledWeightClass[i], shuffledWeightClass[j]] = [
+        shuffledWeightClass[j],
+        shuffledWeightClass[i],
+      ];
+    }
+    const selectedWeightClassRegions = shuffledWeightClass.slice(0, 2);
+
+    // 5. 같은 유형에서 추가 지역들 가져오기 (보충용, 랜덤)
+    const { data: additionalSameCodeRegions, error: additionalSameCodeError } =
+      await this.supabase
+        .from('regions')
+        .select(
+          `
+      *,
+      province:provinces(id, name),
+      klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
+      `,
+        )
+        .ilike('klaci_code', upperKlaciCode)
+        .neq('id', regionId)
+        .order('id', { ascending: false }) // 랜덤 효과를 위해 id 역순 정렬
+        .range(2, 20); // 더 많은 데이터에서 랜덤 선택
+
+    if (additionalSameCodeError) {
+      throw additionalSameCodeError;
+    }
+
+    // 각 조건별로 정확한 개수 유지하면서 중복 제거하고 태그 추가
+    const usedRegionIds = new Set<number>();
+    const result: RegionWithDetails[] = [];
+
+    // 각 조건의 데이터를 배열로 준비 (타입 명시)
+    const conditionData: Array<{
+      regions: any[];
+      tag: SelectionTag;
+      display: SelectionDisplayType;
+    }> = [
+      {
+        regions: adjacentRankRegions || [],
+        tag: 'ADJACENT_RANK' as SelectionTag,
+        display: '순위가 비슷한' as SelectionDisplayType,
+      },
+      {
+        regions: selectedSameTypeRegions || [],
+        tag: 'SAME_TYPE_RANK' as SelectionTag,
+        display: '유형이 비슷한' as SelectionDisplayType,
+      },
+      {
+        regions: selectedStrengthRegions || [],
+        tag: 'SHARED_STRENGTH' as SelectionTag,
+        display: '강점이 비슷한' as SelectionDisplayType,
+      },
+      {
+        regions: selectedWeightClassRegions || [],
+        tag: 'SAME_WEIGHT_CLASS' as SelectionTag,
+        display: '체급이 비슷한' as SelectionDisplayType,
+      },
+    ];
+
+    // 각 조건에서 1개씩 번갈아가며 추가 (라운드 로빈 방식)
+    let round = 0;
+    let hasMoreData = true;
+
+    while (result.length < 8 && hasMoreData) {
+      hasMoreData = false;
+
+      for (let i = 0; i < conditionData.length; i++) {
+        const condition = conditionData[i];
+        const regionIndex = round;
+
+        if (regionIndex < condition.regions.length && result.length < 8) {
+          const region = condition.regions[regionIndex];
+
+          if (!usedRegionIds.has(region.id)) {
+            usedRegionIds.add(region.id);
+            const regionWithDetails = region as RegionWithDetails;
+            regionWithDetails.selection_tags = [condition.tag];
+            regionWithDetails.display_type = condition.display;
+            result.push(regionWithDetails);
+            hasMoreData = true;
+          } else {
+            // 이미 추가된 지역이면 태그만 추가
+            const existingRegion = result.find((r) => r.id === region.id);
+            if (existingRegion && existingRegion.selection_tags) {
+              existingRegion.selection_tags.push(condition.tag);
+            }
+          }
+        }
+      }
+
+      round++;
+    }
+
+    // 부족한 경우 같은 유형에서 더 추가 (8개가 될 때까지)
+    if (
+      result.length < 8 &&
+      additionalSameCodeRegions &&
+      additionalSameCodeRegions.length > 0
+    ) {
+      // 사용되지 않은 같은 유형 지역들 필터링
+      const unusedSameCodeRegions = additionalSameCodeRegions.filter(
+        (region) => !usedRegionIds.has(region.id),
+      );
+
+      // 랜덤 셔플
+      const shuffledAdditional = [...unusedSameCodeRegions];
+      for (let i = shuffledAdditional.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledAdditional[i], shuffledAdditional[j]] = [
+          shuffledAdditional[j],
+          shuffledAdditional[i],
+        ];
+      }
+
+      // 8개가 될 때까지 추가
+      for (let i = 0; i < shuffledAdditional.length && result.length < 8; i++) {
+        const region = shuffledAdditional[i];
+        const regionWithDetails = region as RegionWithDetails;
+        regionWithDetails.selection_tags = ['SAME_CODE' as SelectionTag];
+        regionWithDetails.display_type =
+          '유형이 비슷한' as SelectionDisplayType;
+        result.push(regionWithDetails);
+      }
+    }
+
+    // 8개를 넘어가면 랜덤으로 8개 선택
+    if (result.length > 8) {
+      // Fisher-Yates 셔플 알고리즘으로 랜덤 선택
+      const shuffled = [...result];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      result.splice(0, result.length, ...shuffled.slice(0, 8));
+    }
 
     // 각 지역에 대해 category_ranks 조회
-    for (const region of regionsWithDetails) {
+    for (const region of result) {
       try {
         const { data: categoryRanksData, error: categoryRanksError } =
           await this.supabase
             .from('region_category_ranks')
             .select(
               `
-            id,
-            region_id,
-            category_id,
-            rank,
-            year,
-            category:categories(id, name)
-          `,
+        id,
+        region_id,
+        category_id,
+        rank,
+        year,
+        category:categories(id, name)
+      `,
             )
             .eq('region_id', region.id)
             .order('rank', { ascending: true });
@@ -828,8 +1170,17 @@ export class DataService {
       }
     }
 
-    await this.cacheManager.set(cacheKey, regionsWithDetails, 300);
-    return regionsWithDetails;
+    // 최종 결과를 랜덤하게 섞기
+    const finalResult = [...result];
+    for (let i = finalResult.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [finalResult[i], finalResult[j]] = [finalResult[j], finalResult[i]];
+    }
+
+    // 캐시에 저장
+    await this.cacheManager.set(cacheKey, finalResult, 3600000); // 1시간 캐시
+
+    return finalResult;
   }
 
   // 기존 메서드는 유지 (필요시 사용)

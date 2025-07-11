@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import ResultsPageClient from './ResultsPageClient';
 
 export default function ResultsPage() {
+
   return <ResultsPageClient />;
 }
 

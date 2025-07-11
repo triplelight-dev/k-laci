@@ -3,10 +3,10 @@ import regionsData from '@/data/regions_data.json';
 import { logRegionChange } from '@/utils/regionChangeLogger';
 import { StateCreator } from 'zustand';
 import {
-  DistrictState,
-  Province,
-  Region,
-  RegionWithDetails,
+    DistrictState,
+    Province,
+    Region,
+    RegionWithDetails,
 } from '../types/district';
 
 export interface DistrictSlice {
@@ -36,6 +36,7 @@ export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
   regions: regionsData as Region[],
   
   setSelectedProvince: (provinceId: number | null) => {
+    
     const province = provinceId ? get().getProvinceById(provinceId) : null;
     
     set((state) => ({
@@ -45,6 +46,7 @@ export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
         // province 변경시 district와 region은 유지 (null로 초기화하지 않음)
       },
     }));
+    
   },
   
   setSelectedDistrict: (districtId: number | null, source: string = 'district_select') => {
@@ -56,8 +58,7 @@ export const createDistrictSlice: StateCreator<DistrictSlice> = (set, get) => ({
       district: {
         ...state.district,
         selectedDistrict: district,
-        regionLoading: true,
-        // selectedRegion은 유지 (새 데이터 로딩 중에도 기존 데이터 표시)
+        // ❌ regionLoading: districtId ? true : false, // 이 줄 제거
       },
     }));
 

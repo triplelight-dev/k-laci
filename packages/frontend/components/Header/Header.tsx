@@ -14,7 +14,7 @@ const Header = () => {
   const user = useUser();
   const logout = useLogout();
 
-  // 테마 분기를 위한 변수 관리
+  // 테마 분기를 위한 변수 관리 - /summary 루트만 다크모드
   const isBlackTheme = pathname === '/' || pathname === '/about' || pathname === '/summary';
 
   // 테마별 설정
@@ -28,8 +28,16 @@ const Header = () => {
     navigationInactiveColor: isBlackTheme ? '#D9D9E8' : '#1e1e1e',
   };
 
-  // 현재 페이지 확인 함수
+  // 현재 페이지 확인 함수 (수정)
   const isActivePage = (path: string) => {
+    if (path === ROUTES.SUMMARY) {
+      // /summary로 시작하는 모든 경로에서 '주요 결과' 활성화
+      return pathname.startsWith('/summary');
+    }
+    if (path === ROUTES.RESULT) {
+      // /results로 시작하는 모든 경로에서 '지자체 조회' 활성화
+      return pathname.startsWith('/results');
+    }
     return pathname === path;
   };
 

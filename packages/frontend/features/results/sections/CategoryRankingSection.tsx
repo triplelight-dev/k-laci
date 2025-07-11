@@ -53,7 +53,7 @@ const CategoryRankingSection = () => {
         title: CATEGORY_NAMES.GROWTH,
         color: categoryColors[CATEGORY_NAMES.GROWTH],
         currentRank: getCategoryRank(CATEGORY_NAMES.GROWTH),
-        description: `인인구성장력은 지역의 지속가능성을 가늠하는 핵심 범주로서, 인구 수의 증감을 넘어 인구 구조의 활력, 변화의 역동성, 미래 성장 잠재력을 종합적으로 반영합니다. 지역소멸지수, 혼인 및 출산 관련 지표, 인구 이동(전입·전출), 연령 구조, 외국인 주민 현황, 경제활동인구 및 청년 인구의 규모와 이동 등이 인구성장력 범주의 주요 세부지표로, 지역이 얼마나 젊고 활기찬 인구 집단을 유치하고 유지할 수 있는지, 나아가 미래 사회의 변화에 얼마나 능동적으로 대응할 수 있는지를 보여줍니다.`,
+        description: `인구성장력은 지역의 지속가능성을 가늠하는 핵심 범주로서, 인구 수의 증감을 넘어 인구 구조의 활력, 변화의 역동성, 미래 성장 잠재력을 종합적으로 반영합니다. 지역소멸지수, 혼인 및 출산 관련 지표, 인구 이동(전입·전출), 연령 구조, 외국인 주민 현황, 경제활동인구 및 청년 인구의 규모와 이동 등이 인구성장력 범주의 주요 세부지표로, 지역이 얼마나 젊고 활기찬 인구 집단을 유치하고 유지할 수 있는지, 나아가 미래 사회의 변화에 얼마나 능동적으로 대응할 수 있는지를 보여줍니다.`,
         rank: growth_category_ranks
           .map((rank) => ({
             key_index_id: rank.key_index_id,

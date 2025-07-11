@@ -25,8 +25,21 @@ const SummaryLayout = ({ children }: { children: React.ReactNode }) => {
           justifyContent: 'center',
         }}
       >
-        {children}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '93%',
+            maxWidth: '1600px',
+            gap: '40px',
+          }}
+        >
+          {children}
+        </div>
       </div>
+      <HomePreRegistrationSection />
       <Footer />
     </div>
   );

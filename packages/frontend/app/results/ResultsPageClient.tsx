@@ -11,7 +11,7 @@ import {
   useUser,
 } from '@/store';
 import { RegionWithDetails as StoreRegionWithDetails } from '@/store/types/district';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Suspense, useEffect, useRef, useState } from 'react';
 
 // sections
@@ -39,7 +39,9 @@ const transformApiRegionToStoreRegion = (
 ): StoreRegionWithDetails => {
   return {
     id: parseInt(apiRegion.id),
-    province_id: parseInt(apiRegion.provinceId),
+    province_id: parseInt(
+      apiRegion.province?.id || apiRegion.provinceId || '0',
+    ), // ✅ 수정
     name: apiRegion.name,
     district_type: apiRegion.district_type,
     weight_class: apiRegion.weight_class,
@@ -62,9 +64,12 @@ const transformApiRegionToStoreRegion = (
   };
 };
 
+interface ResultsPageClientProps {
+  regionId?: string | undefined; // ✅ optional + undefined 허용
+}
+
 // 실제 페이지 컴포넌트
-function ResultsPageContent() {
-  const searchParams = useSearchParams();
+function ResultsPageContent({ regionId }: ResultsPageClientProps) {
   const router = useRouter();
   const setSelectedDistrict = useSetSelectedDistrict();
   const setSelectedProvince = useSetSelectedProvince();
@@ -79,11 +84,23 @@ function ResultsPageContent() {
   const hasAnimatedRef = useRef(false);
   const [hasLoadedDefault, setHasLoadedDefault] = useState(false);
   const chartSectionRef = useRef<HTMLDivElement>(null);
+  const [isInitialized, setIsInitialized] = useState(false); // 초기화 상태 추가
 
   // Zustand store에서 선택된 지역 정보 가져오기
   const { selectedProvince, selectedDistrict, selectedRegion } = useDistrict();
 
   const { getRegion } = useRegion();
+
+  // URL 업데이트 함수 (무한 루프 방지)
+  const updateURL = (newRegionId: number | null) => {
+    if (newRegionId && isInitialized) {
+      // 초기화 완료 후에만 URL 업데이트
+      const newURL = `/results/region/${newRegionId}`;
+      if (newURL !== window.location.pathname) {
+        router.replace(newURL, { scroll: false });
+      }
+    }
+  };
 
   // 유저 관심 지역 로드 함수
   const loadUserInterestRegion = async (interestRegionId: number) => {
@@ -94,6 +111,7 @@ function ResultsPageContent() {
       setSelectedProvince(storeRegion.province_id);
       setSelectedDistrict(storeRegion.id, 'system');
       setHasLoadedDefault(true);
+      setIsInitialized(true);
       return true;
     } catch (error) {
       return false;
@@ -111,45 +129,19 @@ function ResultsPageContent() {
       setSelectedProvince(storeRegion.province_id);
       setSelectedDistrict(storeRegion.id, 'system');
       setHasLoadedDefault(true);
+      setIsInitialized(true);
     } catch (error) {
       console.error('기본 데이터 로드 실패:', error);
+      setHasLoadedDefault(true);
+      setIsInitialized(true);
     }
   };
 
-  // URL 업데이트 함수
-  const updateURL = (regionId: number | null) => {
-    const params = new URLSearchParams(searchParams.toString());
+  useEffect(() => {
+    if (isInitialized) return; // 이미 초기화되었으면 스킵
 
     if (regionId) {
-      params.set('regionId', regionId.toString());
-    } else {
-      params.delete('regionId');
-    }
-
-    const newURL = `${window.location.pathname}?${params.toString()}`;
-    if (newURL !== window.location.pathname + window.location.search) {
-      router.replace(newURL, { scroll: false });
-    }
-  };
-
-  // selectedRegion이 변경될 때 URL 업데이트
-  useEffect(() => {
-    if (selectedRegion) {
-      updateURL(selectedRegion.id);
-    } else {
-      updateURL(null);
-    }
-  }, [selectedRegion]);
-
-  // URL에서 regionId 읽어와서 상태 업데이트 (수정된 로직)
-  useEffect(() => {
-    const regionId = searchParams.get('regionId');
-
-    if (
-      regionId &&
-      (!selectedRegion || selectedRegion.id !== Number(regionId))
-    ) {
-      // 1. URL에 regionId가 있는 경우 (최우선)
+      // URL에서 전달된 regionId가 있으면 최우선으로 처리
       const fetchRegionFromURL = async () => {
         try {
           const apiResponse = await getRegion(regionId);
@@ -157,24 +149,52 @@ function ResultsPageContent() {
           setSelectedRegion(storeRegion, 'url_change');
           setSelectedProvince(storeRegion.province_id);
           setSelectedDistrict(storeRegion.id, 'url_change');
+          setHasLoadedDefault(true);
+          setIsInitialized(true);
         } catch (error) {
+          console.error('URL에서 region 로드 실패:', error);
+          // 에러 시에만 기본 데이터 로드
           if (!hasLoadedDefault) {
             loadDefaultData();
           }
         }
       };
       fetchRegionFromURL();
-    } else if (!regionId && !selectedRegion && !hasLoadedDefault) {
-      // 2. URL에 regionId가 없고 선택된 지역도 없는 경우
+    } else if (!selectedRegion && !hasLoadedDefault) {
+      // regionId가 없고 선택된 지역도 없는 경우에만 기본 로직 실행
       if (user?.profile?.interest_region_id) {
-        // 2-1. 유저 관심 지역이 있는 경우
         loadUserInterestRegion(user.profile.interest_region_id);
       } else {
-        // 2-2. 유저 관심 지역이 없는 경우 기본값 로드
         loadDefaultData();
       }
     }
-  }, [searchParams, user]);
+  }, [regionId, user, hasLoadedDefault, isInitialized]);
+
+  // selectedRegion이 변경될 때 URL 업데이트 및 데이터 새로고침
+  useEffect(() => {
+    if (selectedRegion && isInitialized) {
+      updateURL(selectedRegion.id);
+
+      // 새로운 지역 데이터로 페이지 데이터 업데이트
+      const refreshPageData = async () => {
+        try {
+          const apiResponse = await getRegion(String(selectedRegion.id));
+          const storeRegion = transformApiRegionToStoreRegion(apiResponse);
+
+          // 기존 selectedRegion과 다른 경우에만 업데이트
+          if (storeRegion.id !== selectedRegion.id) {
+            setSelectedRegion(storeRegion, 'region_refresh');
+            setSelectedProvince(storeRegion.province_id);
+            setSelectedDistrict(storeRegion.id, 'region_refresh');
+          }
+        } catch (error) {
+          console.error('지역 데이터 새로고침 실패:', error);
+        }
+      };
+
+      refreshPageData();
+    }
+  }, [selectedRegion, isInitialized]);
 
   // 안전한 지역명 생성 함수
   const getDistrictName = (): string => {
@@ -274,7 +294,10 @@ function ResultsPageContent() {
         <DistrictSearchSection />
 
         {/* floating 상태에 따라 다른 스타일로 DistrictSelectSection 렌더링 */}
-        <DistrictSelectSection isFloating={isFloating} isVisible={isFloatingVisible} />
+        <DistrictSelectSection
+          isFloating={isFloating}
+          isVisible={isFloatingVisible}
+        />
 
         <div
           style={{
@@ -295,7 +318,7 @@ function ResultsPageContent() {
             }}
           >
             {/* 차트(TitleSection) 영역 ref 부착 */}
-            <div ref={chartSectionRef}>
+            <div ref={chartSectionRef} data-chart-section>
               <TitleSection districtData={districtData} />
             </div>
 
@@ -326,47 +349,33 @@ function ResultsPageContent() {
   );
 }
 
-// 로딩 컴포넌트
 function ResultsPageLoading() {
   return (
-    <div
-      style={{
-        width: '100%',
-        height: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#F4F4F4',
-      }}
-    >
+    <ResultLayout>
       <div
         style={{
-          width: '16px',
-          height: '16px',
-          border: '2px solid #000000',
-          borderTop: '2px solid transparent',
-          borderRadius: '50%',
-          animation: 'spin 1s linear infinite',
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          background: '#F4F4F4',
+          gap: '30px',
+          minHeight: '100vh',
         }}
-      ></div>
-      <style jsx>{`
-        @keyframes spin {
-          0% {
-            transform: rotate(0deg);
-          }
-          100% {
-            transform: rotate(360deg);
-          }
-        }
-      `}</style>
-    </div>
+      >
+        <div>로딩 중...</div>
+      </div>
+    </ResultLayout>
   );
 }
 
-export default function ResultsPageClient() {
+export default function ResultsPageClient({
+  regionId,
+}: ResultsPageClientProps) {
   return (
     <Suspense fallback={<ResultsPageLoading />}>
-      <ResultsPageContent />
+      <ResultsPageContent regionId={regionId} />
     </Suspense>
   );
 }

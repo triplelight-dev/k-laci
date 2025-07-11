@@ -19,6 +19,9 @@ export const API_ENDPOINTS = {
     CATEGORIES: '/data/categories',
     KEY_INDEX: (id: number) => `/data/key-indexes/${id}`,
   },
+  STATS: {
+    TOTAL_RANKS: '/stats/rank/total',
+  },
 } as const;
 
 export const AUTH_ENDPOINTS = {

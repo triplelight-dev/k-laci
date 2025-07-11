@@ -17,6 +17,7 @@ const HomePreRegistrationSection = (props: { height?: string }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
 
+
   const isLoggedIn = useIsLoggedIn();
 
   // 타이틀 텍스트를 배열로 정의
@@ -36,21 +37,24 @@ const HomePreRegistrationSection = (props: { height?: string }) => {
 
     setIsLoading(true);
 
+
     try {
       // 유저 프로필 조회 API 호출
       const response = await UserService.getProfile();
 
+
       if (response.success) {
         // 리포트 사전동의 여부 확인
-        const hasAgreedToReport = response.data.agreeToReportReservation || false;
+        const hasAgreedToReport =
+          response.data.agreeToReportReservation || false;
         setAgreeToReportReservation(hasAgreedToReport);
         setUserId(response.data.id);
         setIsModalOpen(true);
       } else {
-        alert('프로필 정보를 불러오는데 실패했습니다.');
+        console.error('프로필 정보를 불러오는데 실패했습니다.');
       }
     } catch (error) {
-      alert('프로필 정보를 불러오는데 실패했습니다.');
+      console.error('프로필 정보를 불러오는데 실패했습니다.');
     } finally {
       setIsLoading(false);
     }

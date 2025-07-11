@@ -48,6 +48,34 @@ export interface Region {
   total_rank: number;
 }
 
+// 선택 조건 태그 타입 추가
+export type SelectionTag =
+  | 'SAME_CODE' // 같은 KLACI 코드
+  | 'ADJACENT_RANK' // 종합순위 위아래
+  | 'SAME_TYPE_RANK' // 같은 유형에서 가까운 순위
+  | 'SHARED_STRENGTH' // 강점 TOP3 중 일치
+  | 'SAME_WEIGHT_CLASS'; // 같은 체급
+
+// 태그별 표시 타입 추가
+export type SelectionDisplayType =
+  | '유형이 비슷한'
+  | '순위가 비슷한'
+  | '강점이 비슷한'
+  | '체급이 비슷한';
+
+// 태그와 표시 타입 매핑
+export const SELECTION_TAG_DISPLAY_MAP: Record<
+  SelectionTag,
+  SelectionDisplayType
+> = {
+  SAME_CODE: '유형이 비슷한',
+  ADJACENT_RANK: '순위가 비슷한',
+  SAME_TYPE_RANK: '유형이 비슷한',
+  SHARED_STRENGTH: '강점이 비슷한',
+  SAME_WEIGHT_CLASS: '체급이 비슷한',
+};
+
+// RegionWithDetails에 selection_tags와 display_type 필드 추가
 export interface RegionWithDetails extends Region {
   province: Province;
   klaci: KlaciCode;
@@ -59,8 +87,9 @@ export interface RegionWithDetails extends Region {
     living_category_ranks: CategoryKeyIndexRank[];
     safety_category_ranks: CategoryKeyIndexRank[];
   };
-  // 새로운 category_ranks 필드 추가
   category_ranks?: RegionCategoryRank[];
+  selection_tags?: SelectionTag[]; // 선택 조건 태그 추가
+  display_type?: SelectionDisplayType; // 표시 타입 추가
 }
 
 export interface RegionsResponse {
@@ -406,19 +435,19 @@ export interface RegionStrengthIndexesWithDetailsResponse {
 export class RegionStrengthIndexWithDetailsResponseDto {
   @ApiProperty()
   id: number;
-  
+
   @ApiProperty()
   region_id: number;
-  
+
   @ApiProperty({ enum: ['strength', 'weakness'] })
   type: 'strength' | 'weakness';
-  
+
   @ApiProperty()
   rank: number;
-  
+
   @ApiProperty()
   code: string;
-  
+
   @ApiProperty({ type: KeyIndexDataResponseDto })
   key_index: KeyIndexDataResponseDto;
 }
@@ -426,7 +455,7 @@ export class RegionStrengthIndexWithDetailsResponseDto {
 export class RegionStrengthIndexesWithDetailsResponseDto {
   @ApiProperty({ type: [RegionStrengthIndexWithDetailsResponseDto] })
   strengths: RegionStrengthIndexWithDetailsResponseDto[];
-  
+
   @ApiProperty({ type: [RegionStrengthIndexWithDetailsResponseDto] })
   weaknesses: RegionStrengthIndexWithDetailsResponseDto[];
 }

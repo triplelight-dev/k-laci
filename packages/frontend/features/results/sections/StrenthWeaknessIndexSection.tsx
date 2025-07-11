@@ -212,11 +212,17 @@ const convertApiResponseToIndexData = (
     indexRank: item.rank || 0,
     indexScore: 0, // 새로운 API에서는 score 정보가 없으므로 0으로 설정
     indexDescription: item.key_index.description || '',
-    ...(item.key_index.yearly_avg_score !== undefined && { yearlyAvgScore: item.key_index.yearly_avg_score }),
+    ...(item.key_index.yearly_avg_score !== undefined && {
+      yearlyAvgScore: item.key_index.yearly_avg_score,
+    }),
     ...(item.key_index.year !== undefined && { year: item.key_index.year }),
-    ...(item.key_index.source !== undefined && { source: item.key_index.source }),
+    ...(item.key_index.source !== undefined && {
+      source: item.key_index.source,
+    }),
     ...(item.key_index.unit !== undefined && { unit: item.key_index.unit }),
-    ...(item.key_index.calculation_method !== undefined && { calculation_method: item.key_index.calculation_method }),
+    ...(item.key_index.calculation_method !== undefined && {
+      calculation_method: item.key_index.calculation_method,
+    }),
   }));
 };
 
@@ -288,9 +294,6 @@ const StrengthWeaknessIndexSection: React.FC = () => {
 
   // API 데이터를 바탕으로 IndexData 생성
   useEffect(() => {
-    console.log('strengthIndexesData:', strengthIndexesData);
-    console.log('selectedRegion:', selectedRegion);
-
     if (!strengthIndexesData || !selectedRegion) {
       setStrengthData([]);
       setWeaknessData([]);
@@ -304,7 +307,6 @@ const StrengthWeaknessIndexSection: React.FC = () => {
       strengthIndexesData.strengths,
       regionName,
     );
-    console.log('strengthIndexData:', strengthIndexData);
     setStrengthData(strengthIndexData);
 
     // 약점 데이터 변환 (직접 접근)
@@ -312,7 +314,6 @@ const StrengthWeaknessIndexSection: React.FC = () => {
       strengthIndexesData.weaknesses,
       regionName,
     );
-    console.log('weaknessIndexData:', weaknessIndexData);
     setWeaknessData(weaknessIndexData);
   }, [strengthIndexesData, selectedRegion]);
 

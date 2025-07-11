@@ -15,6 +15,8 @@ interface SimilarRegionData {
   klaciCode?: string; // KLACI 코드 추가
   klaciType?: string; // 지역 타입 추가
   klaciNickname?: string; // 닉네임 추가
+  display_type?: string; // API에서 받은 표시 타입 추가
+  selection_tags?: string[]; // 선택 조건 태그 추가
   [key: string]: any; // 추가 속성들을 위한 인덱스 시그니처
 }
 
@@ -47,6 +49,34 @@ const generateMockRadarData = (seed: number): number[] => {
   ];
 };
 
+// 뱃지 텍스트를 결정하는 함수
+const getBadgeText = (data: SimilarRegionData): string => {
+  // API에서 받은 display_type이 있으면 사용
+  if (data.display_type) {
+    return data.display_type;
+  }
+
+  // selection_tags가 있으면 첫 번째 태그를 기반으로 결정
+  if (data.selection_tags && data.selection_tags.length > 0) {
+    const firstTag = data.selection_tags[0];
+    switch (firstTag) {
+      case 'SAME_CODE':
+        return '유형이 비슷한';
+      case 'ADJACENT_RANK':
+        return '순위가 비슷한';
+      case 'SHARED_STRENGTH':
+        return '강점이 비슷한';
+      case 'SAME_WEIGHT_CLASS':
+        return '체급이 비슷한';
+      default:
+        return '순위가 비슷한'; // 기본값
+    }
+  }
+
+  // 기본값
+  return '순위가 비슷한';
+};
+
 const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
   data,
   onClick,
@@ -65,8 +95,12 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
       ? data.radarData
       : generateMockRadarData(Number(data.id) || data.rank);
 
+  // 뱃지 텍스트 결정
+  const badgeText = getBadgeText(data);
+
   return (
     <div
+      role="button"
       style={{
         minWidth: '350px',
         width: '260px',
@@ -98,6 +132,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
           alignItems: 'center',
           zIndex: 10,
           ...topDivStyle,
+          pointerEvents: 'none', // 추가: 마우스 이벤트를 부모로 전달
         }}
       >
         {/* 종합순위 */}
@@ -108,6 +143,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
             color: 'black',
             marginTop: '10px',
             marginBottom: '8px',
+            pointerEvents: 'none', // 추가
           }}
         >
           종합순위 {data.rank}위
@@ -118,6 +154,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
             fontSize: '30px',
             fontWeight: '600',
             color: '#000',
+            pointerEvents: 'none', // 추가
           }}
         >
           {data.province} {data.name}
@@ -133,6 +170,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
           flexDirection: 'column',
           padding: '20px',
           marginTop: '80px', // 상단 흰색 영역 높이만큼 여백
+          pointerEvents: 'none', // 추가: 마우스 이벤트를 부모로 전달
         }}
       >
         {/* 상단 - 레이더 차트 */}
@@ -144,6 +182,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
             marginTop: '5px',
             height: '260px',
             padding: '5px',
+            pointerEvents: 'none', // 추가
           }}
         >
           <RadarJewelChartMini
@@ -161,6 +200,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
             alignItems: 'center',
             gap: '12px',
             paddingLeft: '10px',
+            pointerEvents: 'none', // 추가
           }}
         >
           {/* KLACI Circle */}
@@ -174,6 +214,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
               color: '#000',
               textAlign: 'center',
               lineHeight: '1.2',
+              pointerEvents: 'none', // 추가
             }}
           >
             {klaciType}
