@@ -39,7 +39,7 @@ export default function EmailDisplayBox({
           style={{
             fontSize: '18px',
             color: '#9A9EA3',
-            fontWeight: '400',
+            fontWeight: '600',
           }}
         >
           {email}
