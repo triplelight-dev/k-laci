@@ -48,8 +48,9 @@ export default function Top100PageClient() {
 
   return (
     <SummaryLayout isBlackTheme={false}>
-      <TotalRankingSection data={data?.data || []} />
-
+      <div style={{ width: '1400px', margin: '0 auto' }}>
+        <TotalRankingSection data={data?.data || []} />
+      </div>
       {/* <HomePreRegistrationSection /> */}
     </SummaryLayout>
   );

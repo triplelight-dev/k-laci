@@ -1,16 +1,14 @@
 'use client';
 
 import SummaryLayout from '@/components/layout/SummaryLayout';
-import HomePreRegistrationSection from '@/components/sections/HomePreRegistrationSection';
-import ComingSoonSection from '@/features/summary/sections/ComingSoonSection';
+import SummaryLandingSection from '@/components/sections/SummaryLandingSection';
 
 export const dynamic = 'force-static';
 
 export default function SummaryPageClient() {
   return (
     <SummaryLayout isBlackTheme={true}>
-      <ComingSoonSection />
-      <HomePreRegistrationSection />
+      <SummaryLandingSection />
     </SummaryLayout>
   );
 }

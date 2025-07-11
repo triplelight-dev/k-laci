@@ -1,6 +1,6 @@
-export function ArrowRightUp({ color = 'black' }: { color?: string }) {
+export function ArrowRightUp({ color = 'black', width = 10, height = 10 }: { color?: string, width?: number, height?: number }) {
 
-  return <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10" fill="none">
+  return <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 10 10" fill="none">
     <path
       d="M1.14218 8.60951L0.788627 8.96306L1.50427 9.66153L1.85782 9.30798L1.14218 8.60951ZM1.5 8.95874L1.85782 9.30798L9.63599 1.5298L9.27817 1.18057L8.92035 0.831331L1.14218 8.60951L1.5 8.95874Z"
       fill={color} />
