@@ -1,7 +1,6 @@
 'use client';
 
 import { useKeyIndexData } from '@/api/hooks/useKeyIndexData';
-import { Divider } from '@/components/atoms/divider';
 import IndexModal from '@/components/atoms/modal/IndexModal';
 import { NUM_OF_REGIONS } from '@/constants/data';
 import { IndexData } from '@/features/results/sections/StrenthWeaknessIndexSection';
@@ -27,7 +26,6 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
 
   // Zustand store에서 선택된 지역 정보 가져오기
   const { selectedRegion } = useDistrict();
-
   const { getKeyIndexData } = useKeyIndexData();
 
   // Hydration 에러 방지를 위한 클라이언트 사이드 렌더링
@@ -97,7 +95,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
     return (
       <div
         className="flex w-full flex-col rounded-lg bg-white shadow-sm"
-        style={{ marginBottom: '5rem', gap: '50px' }}
+        style={{}}
       >
         <div className="flex p-6">
           <div
@@ -152,7 +150,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
   return (
     <><div
       className="flex w-full flex-col rounded-lg bg-white shadow-sm"
-      style={{ marginBottom: '5rem', gap: '50px', maxWidth: '1060px' }}
+      style={{ gap: '50px', maxWidth: '1060px' }}
     >
       {/* 상단 보더탑 */}
       {/* {!isFirstIndex && (
@@ -230,7 +228,8 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
         <CategoryRankGrid
           rank={rank}
           color={color}
-          onScoreClick={handleRankClick} />
+          onScoreClick={handleRankClick}
+          regionId={selectedRegion?.id || 0} />
       </div>
 
       {/* IndexModal 사용 */}
@@ -241,7 +240,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
           data={selectedIndexData}
           regionId={selectedRegion?.id || 0} />
       )}
-    </div><Divider style={{ margin: '100px 0 0' }} /></>
+    </div></>
   );
 };
 

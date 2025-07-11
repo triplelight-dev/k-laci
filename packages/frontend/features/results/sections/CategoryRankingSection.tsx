@@ -142,6 +142,7 @@ const CategoryRankingSection = () => {
         display: 'flex',
         justifyContent: 'center',
         marginTop: '105px',
+        width: '100%',
       }}
     >
       <section
@@ -149,6 +150,7 @@ const CategoryRankingSection = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
+          width: '100%',
         }}
       >
         {/* 타이틀 */}
@@ -162,17 +164,17 @@ const CategoryRankingSection = () => {
         <Divider style={{ margin: '80px 0 100px' }} />
 
         {/* 카테고리 그리드 */}
-        <div className="grid grid-cols-1 gap-8">
+        <div className="grid grid-cols-1" style={{ width: '100%' }}>
           {categories.map((category, index) => (
-            <CategoryRanking
+            <><div style={{ margin: '0 auto' }}><CategoryRanking
               key={index}
               categoryData={category}
-              index={index}
-            />
+              index={index} /></div >
+              <Divider style={{ margin: '80px 0 100px' }} /></>
           ))}
         </div>
-      </section>
-    </div>
+      </section >
+    </div >
   );
 };
 
