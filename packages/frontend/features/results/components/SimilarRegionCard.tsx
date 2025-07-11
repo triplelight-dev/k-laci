@@ -18,6 +18,7 @@ interface SimilarRegionData {
   display_type?: string; // API에서 받은 표시 타입 추가
   selection_tags?: string[]; // 선택 조건 태그 추가
   [key: string]: any; // 추가 속성들을 위한 인덱스 시그니처
+  
 }
 
 interface SimilarRegionCardProps {
@@ -26,6 +27,7 @@ interface SimilarRegionCardProps {
   style?: React.CSSProperties;
   topDivStyle?: React.CSSProperties;
   isHideBadge?: boolean;
+  bottomDivStyle?: React.CSSProperties;
 }
 
 // 랜덤 목업 데이터 생성 함수 (실제 데이터가 없을 때만 사용)
@@ -83,6 +85,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
   style,
   topDivStyle,
   isHideBadge,
+  bottomDivStyle,
 }) => {
   // 실제 데이터가 있으면 사용, 없으면 목업 데이터 사용
   const klaciCode = data.klaciCode || 'GCMR'; // 기본값 설정
@@ -105,7 +108,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
         minWidth: '350px',
         width: '260px',
         height: '562px',
-        backgroundColor: '#f5f5f5', // 전체 회색 배경
+        backgroundColor: '#FAFAFA', // 전체 회색 배경
         borderRadius: '40px',
         cursor: 'pointer',
         display: 'flex',
@@ -165,12 +168,13 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
       <div
         style={{
           flex: 1,
-          backgroundColor: '#f5f5f5',
+          backgroundColor: '#FAFAFA',
           display: 'flex',
           flexDirection: 'column',
           padding: '20px',
           marginTop: '80px', // 상단 흰색 영역 높이만큼 여백
           pointerEvents: 'none', // 추가: 마우스 이벤트를 부모로 전달
+          ...bottomDivStyle,
         }}
       >
         {/* 상단 - 레이더 차트 */}

@@ -324,7 +324,6 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
 
             <SummarySection isLoggedIn={isLoggedIn} />
 
-
           </div>
           {isLoggedIn && <>
             <CategoryRankingSection />

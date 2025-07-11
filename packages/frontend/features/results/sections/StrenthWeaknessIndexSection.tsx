@@ -98,8 +98,8 @@ const IndexItem: React.FC<{
           width: '284px',
           gap: '12px',
           padding: '8px 12px',
-          backgroundColor: '#F1F1F1',
-          border: '1px solid #F1F1F1',
+          backgroundColor: '#F5F5F5',
+          border: '1px solid #E7E8EA',
           borderRadius: '12px',
           marginBottom: '14px',
           cursor: isDisabled ? 'default' : 'pointer',
@@ -116,8 +116,8 @@ const IndexItem: React.FC<{
         }}
         onMouseLeave={(e) => {
           if (!isDisabled) {
-            e.currentTarget.style.background = '#F1F1F1';
-            e.currentTarget.style.border = `1px solid #F1F1F1`;
+            e.currentTarget.style.background = '#F5F5F5';
+            e.currentTarget.style.border = `1px solid #E7E8EA`;
           }
         }}
       >
@@ -347,7 +347,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
         {/* 강점지표 */}
         <IndexSection
           indexType='strength'
-          data={strengthData}
+          data={isLoggedIn ? strengthData : strengthData.slice(0, 5)}
           isStrength={true}
           onItemClick={handleItemClick}
           isDisabled={!isLoggedIn}
@@ -356,7 +356,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
         {/* 약점지표 */}
         <IndexSection
           indexType='weakness'
-          data={weaknessData}
+          data={isLoggedIn ? weaknessData : weaknessData.slice(0, 5)}
           isStrength={false}
           onItemClick={handleItemClick}
           isDisabled={!isLoggedIn}

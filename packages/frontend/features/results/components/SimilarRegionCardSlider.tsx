@@ -76,7 +76,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
       return {
         opacity: Math.max(0.3, opacity),
         transform: `translateX(${translateX}px) scale(1)`,
-        border: 'none',
+        border: '1px solid #E7E8EA',
         zIndex: 9,
       };
     } else if (Math.abs(adjustedDistance) === 2) {
@@ -84,7 +84,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
       return {
         opacity: Math.max(0.1, opacity),
         transform: `translateX(${translateX}px) scale(1)`,
-        border: 'none',
+        border: '1px solid #E7E8EA',
         zIndex: 8,
       };
     } else if (Math.abs(adjustedDistance) === 3) {
@@ -92,7 +92,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
       return {
         opacity: Math.max(0.05, opacity),
         transform: `translateX(${translateX}px) scale(1)`,
-        border: 'none',
+        border: '1px solid #E7E8EA',
         zIndex: 7,
       };
     } else {
@@ -100,7 +100,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
       return {
         opacity: 0,
         transform: `translateX(${translateX}px) scale(1)`,
-        border: 'none',
+        border: '1px solid #E7E8EA',
         zIndex: 1,
       };
     }
@@ -121,6 +121,28 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
         overflow: 'hidden',
       }}
     >
+      <div style={{
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        width: '545px',
+        height: '100%',
+        background: 'linear-gradient(-90deg, rgba(245, 245, 245, 0.00) 0%, rgba(245, 245, 245, 0.80) 100%)',
+        zIndex: 10,
+      }} />
+
+      <div style={{
+        position: 'absolute',
+        top: '0',
+        right: '0',
+        width: '545px',
+        height: '100%',
+        background: 'linear-gradient(90deg, rgba(245, 245, 245, 0.00) 0%, rgba(245, 245, 245, 0.80) 100%)',
+        zIndex: 10,
+      }} />
+
+
+
       {/* 좌측 화살표 버튼 */}
       <button
         onClick={prevSlide}
@@ -194,6 +216,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
                 style={{
                   border: cardStyle.border,
                   pointerEvents: 'auto',
+
                 }}
               />
             </div>
@@ -240,7 +263,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
           }}
         />
       </button>
-    </div>
+    </div >
   );
 };
 

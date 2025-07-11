@@ -3,15 +3,15 @@
 import React, { useEffect, useState } from 'react';
 
 import { useSameCodeRegions } from '@/api/hooks';
-import { Divider } from '@/components/atoms/divider';
 import { useRegion } from '@/api/hooks/useRegion';
+import { Divider } from '@/components/atoms/divider';
 import PremiumContentTitle from '@/components/ui/PremiumContentTitle';
 import { useDistrict, useSetSelectedDistrict, useSetSelectedProvince, useSetSelectedRegion } from '@/store';
 import { generateChartData } from '@/utils/chartUtils';
 import { addWaOrGwa } from '@/utils/koreanUtils';
 import { Flex } from '@chakra-ui/react';
-import SimilarRegionCard from '../components/SimilarRegionCard';
 import { useRouter } from 'next/navigation';
+import SimilarRegionCard from '../components/SimilarRegionCard';
 import SimilarRegionCardSlider from '../components/SimilarRegionCardSlider';
 import { SimilarRegionData } from './SimilarRegionSection.type';
 import { SummarySectionHeader } from './SummarySectionHeader';
@@ -24,7 +24,7 @@ const SimilarRegionSection: React.FC = () => {
 
   const { getSameCodeRegionsByRegionId, loading, error } = useSameCodeRegions();
   const [similarRegions, setSimilarRegions] = useState<SimilarRegionData[]>([]);
-  
+
   // 추가된 hooks
   const { getRegion } = useRegion();
   const setSelectedRegion = useSetSelectedRegion();
@@ -49,10 +49,10 @@ const SimilarRegionSection: React.FC = () => {
       try {
         const regionId = selectedRegion?.id || 1;
         console.log('Fetching similar regions for regionId:', regionId);
-        
+
         const regions = await getSameCodeRegionsByRegionId(regionId);
         console.log('API response:', regions);
-        
+
         const transformedData: SimilarRegionData[] = regions.map(
           (region: any, index: number) => ({
             id: region.id,
@@ -69,7 +69,7 @@ const SimilarRegionSection: React.FC = () => {
             selection_tags: region.selection_tags,
           }),
         );
-        
+
         console.log('Transformed data:', transformedData);
         setSimilarRegions(transformedData);
       } catch (err) {
@@ -84,7 +84,7 @@ const SimilarRegionSection: React.FC = () => {
     try {
       // API에서 해당 region의 상세 정보를 가져옴
       const regionDetails = await getRegion(String(item.id));
-      
+
       // Store에 region 정보 설정
       const storeRegion = {
         ...regionDetails,
@@ -95,14 +95,14 @@ const SimilarRegionSection: React.FC = () => {
           name: regionDetails.province.name,
         },
       };
-      
+
       setSelectedRegion(storeRegion, 'similar_region_card');
       setSelectedProvince(storeRegion.province_id);
       setSelectedDistrict(storeRegion.id, 'similar_region_card');
-      
+
       // path parameter 방식으로 이동
       router.push(`/results/region/${item.id}`);
-      
+
       // TitleSection의 지자체명 부분으로 스크롤 (더 아래로)
       setTimeout(() => {
         // chartSectionRef를 찾아서 해당 위치로 스크롤
@@ -228,6 +228,9 @@ const SimilarRegionSection: React.FC = () => {
             backgroundColor: '#F4F4F4',
             padding: '0 20px',
             height: 'fit-content',
+          }}
+          bottomDivStyle={{
+            backgroundColor: 'rgb(244, 244, 244)',
           }}
           isHideBadge={true}
         />

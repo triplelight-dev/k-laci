@@ -121,7 +121,7 @@ const IndexModal: React.FC<IndexModalProps> = ({
           position: 'relative',
           display: 'flex',
           width: '1000px',
-          height: '450px',
+          // height: '450px',
           borderRadius: '30px',
           overflow: 'hidden',
           backgroundColor: 'white',
@@ -150,34 +150,36 @@ const IndexModal: React.FC<IndexModalProps> = ({
             padding: '32px',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
           }}
         >
           <div>
             <div
               style={{
-                padding: '8px 16px',
+                padding: '4.5px 10px',
                 backgroundColor: 'white',
                 border: '1px solid #000000',
                 borderRadius: '9px',
                 fontSize: '14px',
                 fontWeight: '500',
+                lineHeight: '24px',
                 color: '#000000',
                 alignSelf: 'flex-start',
-                marginBottom: '30px',
+                marginBottom: '32px',
                 width: 'fit-content',
               }}
             >
               {data.fullRegionName}
             </div>
 
-            <Flex alignItems='start' justifyContent='center' gap='10px' flexDirection='column'>
+            <Flex alignItems='start' justifyContent='center' flexDirection='column'>
               <div
                 style={{
                   fontSize: '18px',
                   fontWeight: '600',
                   color: '#000000',
-                  marginTop: '8px',
+                  marginBottom: '7px',
                 }}
               >
                 {data.indexName}
@@ -189,6 +191,7 @@ const IndexModal: React.FC<IndexModalProps> = ({
                   fontWeight: '600',
                   lineHeight: '43px',
                   color: rankColor,
+                  marginBottom: '6px',
                 }}
               >
                 {data.indexRank}위
@@ -199,18 +202,18 @@ const IndexModal: React.FC<IndexModalProps> = ({
                   fontSize: '14px',
                   fontWeight: '500',
                   color: '#000',
+                  marginBottom: '33px',
                 }}
               >
                 상위 {topPercentage}%
               </div>
 
             </Flex>
-
           </div>
 
           <div
             style={{
-              margin: '33px 0 73px',
+              margin: '0 0 73px',
               display: 'flex',
               flexDirection: 'column',
               gap: '2px',
@@ -247,15 +250,14 @@ const IndexModal: React.FC<IndexModalProps> = ({
           <div
             style={{
               fontSize: '14px',
-              fontWeight: '400',
+              fontWeight: '500',
               color: '#9A9EA3',
-              paddingTop: '16px',
-              paddingBottom: '16px',
+
               display: 'flex',
               flexDirection: 'column',
             }}
           >
-            <span style={{ fontSize: '14px', fontWeight: '500', color: '#9A9EA3' }}>데이터 출처</span>
+            <span style={{ fontSize: '14px', fontWeight: '500', color: '#D9D9D9' }}>로데이터 출처기관</span>
             {source}
           </div>
 
@@ -291,7 +293,7 @@ const IndexModal: React.FC<IndexModalProps> = ({
         <div
           style={{
             flex: 3,
-            backgroundColor: '#F9F9FF',
+            backgroundColor: '#F5F5F5',
             padding: '32px',
             paddingLeft: '60px',
             paddingRight: '83px',
@@ -314,7 +316,7 @@ const IndexModal: React.FC<IndexModalProps> = ({
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 
