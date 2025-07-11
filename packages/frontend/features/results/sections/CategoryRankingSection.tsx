@@ -7,6 +7,7 @@ import CategoryRanking from '@/features/results/components/CategoryRanking';
 import { useDistrict } from '@/store';
 import { CategoryData } from '@/types/category';
 import { useEffect, useMemo, useState } from 'react';
+import { SummarySectionHeader } from './SummarySectionHeader';
 
 const CategoryRankingSection = () => {
   const title = '범주 및 세부지표 순위';
@@ -148,7 +149,11 @@ const CategoryRankingSection = () => {
         }}
       >
         {/* 타이틀 */}
-        <PremiumContentTitle title={title} />
+        {/* <PremiumContentTitle title={title} /> */}
+        <SummarySectionHeader
+          badgeLabel='INDEX RANKING'
+          title='범주 및 세부지표 순위'
+        />
 
         {/* 카테고리 그리드 */}
         <div className="grid grid-cols-1 gap-8">

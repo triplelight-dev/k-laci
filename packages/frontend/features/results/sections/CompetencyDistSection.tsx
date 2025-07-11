@@ -1,11 +1,12 @@
 'use client';
 
 import ScoreBar from '@/components/atoms/bars/ScoreBar';
-import PremiumContentTitle from '@/components/ui/PremiumContentTitle';
+import { Divider } from '@/components/atoms/divider';
 import { CATEGORIES } from '@/constants/categories';
 import { categoryColors } from '@/constants/colors';
 import { useStore } from '@/store';
 import { parseKlaciCode } from '@/utils/klaciCodeParser';
+import { SummarySectionHeader } from './SummarySectionHeader';
 
 const CompetencyDistSection = () => {
   const title = '원형별 역량 분포';
@@ -66,7 +67,11 @@ const CompetencyDistSection = () => {
             alignItems: 'flex-start',
           }}
         >
-          <PremiumContentTitle title={title} />
+          {/* <PremiumContentTitle title={title} /> */}
+          <SummarySectionHeader
+            badgeLabel='ARCHETYPE BAR'
+            title='역량 분포'
+          />
           <div
             style={{
               background: '#FAFAFA',
@@ -100,23 +105,23 @@ const CompetencyDistSection = () => {
         }}
       >
         {/* 타이틀 */}
-        <PremiumContentTitle title={title} />
+        {/* <PremiumContentTitle title={title} /> */}
+        <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+          <SummarySectionHeader
+            badgeLabel='ARCHETYPE BAR'
+            title='역량 분포'
+          />
+        </div>
+
+        <Divider style={{ margin: '60px 0 0px' }} />
+
 
         {/* 카테고리 카드들 */}
-        <div
-          className="space-y-6"
-          style={{
-            background: '#FAFAFA',
-            borderRadius: '42px',
-            padding: '35px 30px',
-            opacity: regionLoading ? 0.7 : 1, // 로딩 중일 때 약간 투명하게
-            transition: 'opacity 0.3s ease', // 부드러운 전환 효과
-          }}
-        >
-          {categories.map((category, index) => (
-            <CategoryCard key={index} category={category} index={index} />
-          ))}
-        </div>
+
+        {categories.map((category, index) => (
+          <CategoryCard key={index} category={category} index={index} categories={categories} />
+        ))}
+
       </section>
     </div>
   );
@@ -125,9 +130,10 @@ const CompetencyDistSection = () => {
 interface CategoryCardProps {
   category: CategoryData;
   index: number;
+  categories: CategoryData[];
 }
 
-const CategoryCard: React.FC<CategoryCardProps> = ({ category, index }) => {
+const CategoryCard: React.FC<CategoryCardProps> = ({ category, index, categories }) => {
   const { selectedRegion } = useStore((state) => state.district);
 
   const getItems = (
@@ -195,52 +201,54 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index }) => {
   };
 
   const isBold = getBoldItem();
+  const isLastIndex = index === categories.length - 1;
 
-  const isFirstIndex = index === 0;
   return (
     <div
       key={index}
       style={{
-        marginBottom: '25px',
-        borderTop: isFirstIndex ? 'none' : '1px solid #D9D9E8',
-        padding: '30px',
-        paddingTop: '35px',
-        paddingBottom: '35px',
+        // borderTop: isFirstIndex ? 'none' : '1px solid #D9D9E8',
+        // padding: '30px',
+
       }}
     >
       {/* 바 컴포넌트 */}
-      <div
-        style={{
-          marginTop: '35px',
-          marginBottom: '35px',
-        }}
-      >
-        <ScoreBar
-          leftItem={leftItem}
-          rightItem={rightItem}
-          score={category.score}
-          color={category.color}
-          isBold={isBold}
-          leftItemKeyColor={category.color}
-        />
-      </div>
 
-      {/* 하단: description */}
-      <div
-        style={{
-          fontSize: '0.875rem',
-          lineHeight: '1.5',
-          color: 'black',
-        }}
-      >
-        {Array.isArray(category.description)
-          ? category.description.map((paragraph, pIndex) => (
+      <div style={{ padding: '0 135px', marginTop: '80px' }}>
+        <div
+          style={{
+            marginBottom: '35px',
+          }}
+        >
+          <ScoreBar
+            leftItem={leftItem}
+            rightItem={rightItem}
+            score={category.score}
+            color={category.color}
+            isBold={isBold}
+            leftItemKeyColor={category.color}
+          />
+        </div>
+
+        {/* 하단: description */}
+        <div
+          style={{
+            fontSize: '0.875rem',
+            lineHeight: '1.5',
+            color: 'black',
+          }}
+        >
+          {Array.isArray(category.description)
+            ? category.description.map((paragraph, pIndex) => (
               <p key={pIndex} style={{ marginBottom: '0.75rem' }}>
                 {paragraph}
               </p>
             ))
-          : category.description}
+            : category.description}
+        </div>
+
       </div>
+      {!isLastIndex && <Divider style={{ margin: '80px 0 0' }} />}
     </div>
   );
 };

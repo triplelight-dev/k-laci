@@ -50,10 +50,11 @@ const CommonSelect: React.FC<CommonSelectProps> = ({
         display: 'flex',
         alignItems: 'center',
         borderRadius: '50px',
-        padding: '0 20px',
-        height: '50px',
+        padding: '20px 20px',
+
+        height: 'fit-content',
         minWidth: '100px',
-        backgroundColor: 'white',
+        backgroundColor: 'transparent',
         opacity: disabled ? 0.5 : 1,
         cursor: disabled ? 'not-allowed' : 'pointer',
         userSelect: 'none',
@@ -62,14 +63,15 @@ const CommonSelect: React.FC<CommonSelectProps> = ({
         if (!disabled) setIsOpen(!isOpen);
       }}
     >
-      <span style={{ 
-        flex: 1, 
-        color: '#000000', 
-        fontSize: '14px' 
+      <span style={{
+        flex: 1,
+        color: '#000000',
+        fontSize: '18px',
+        paddingRight: '51px'
       }}>
         {selectedLabel}
       </span>
-      <div style={{ 
+      <div style={{
         pointerEvents: 'none',
         transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
         transition: 'transform 0.2s ease-in-out',

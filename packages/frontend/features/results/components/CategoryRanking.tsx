@@ -1,6 +1,7 @@
 'use client';
 
 import { useKeyIndexData } from '@/api/hooks/useKeyIndexData';
+import { Divider } from '@/components/atoms/divider';
 import IndexModal from '@/components/atoms/modal/IndexModal';
 import { NUM_OF_REGIONS } from '@/constants/data';
 import { IndexData } from '@/features/results/sections/StrenthWeaknessIndexSection';
@@ -151,21 +152,21 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
   }
 
   return (
-    <div
+    <><div
       className="flex w-full flex-col rounded-lg bg-white shadow-sm"
-      style={{ marginBottom: '5rem', gap: '50px' }}
+      style={{ marginBottom: '5rem', gap: '50px', padding: '0 135px' }}
     >
       {/* 상단 보더탑 */}
-      {!isFirstIndex && (
-        <div
-          style={{
-            height: '1px',
-            backgroundColor: '#D0D9E6',
-            borderTopLeftRadius: '8px',
-            borderTopRightRadius: '8px',
-          }}
-        />
-      )}
+      {/* {!isFirstIndex && (
+      <div
+        style={{
+          height: '1px',
+          backgroundColor: '#D0D9E6',
+          borderTopLeftRadius: '8px',
+          borderTopRightRadius: '8px',
+        }}
+      />
+    )} */}
 
       {/* 메인 콘텐츠 */}
       <div className="flex p-6" style={{ gap: '2rem' }}>
@@ -231,8 +232,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
         <CategoryRankGrid
           rank={rank}
           color={color}
-          onScoreClick={handleRankClick}
-        />
+          onScoreClick={handleRankClick} />
       </div>
 
       {/* IndexModal 사용 */}
@@ -241,10 +241,9 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
           isOpen={isModalOpen}
           onClose={handleCloseModal}
           data={selectedIndexData}
-          regionId={selectedRegion?.id || 0}
-        />
+          regionId={selectedRegion?.id || 0} />
       )}
-    </div>
+    </div><Divider style={{ margin: '100px 0 0' }} /></>
   );
 };
 

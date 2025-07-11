@@ -2,7 +2,7 @@
 
 import { DataService } from '@/api/services/data.service';
 import RankArrowButton from '@/components/atoms/buttons/RankArrowButton';
-import JewelRadarChart from '@/components/atoms/charts/RadarChart';
+import { default as JewelRadarChart } from '@/components/atoms/charts/RadarChart';
 import KlaciCodeCircles from '@/components/atoms/circle/KlaciCodeCircles';
 import { PROVINCE_FULL_NAMES } from '@/constants/region';
 import {
@@ -11,6 +11,7 @@ import {
   useSetSelectedProvince,
   useSetSelectedRegion,
 } from '@/store';
+import { Flex, Grid } from '@chakra-ui/react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 // 지자체 데이터 타입 정의
@@ -181,40 +182,43 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
         width: '100%',
         alignItems: 'center',
         padding: '20px',
+        marginBottom: '120px',
       }}
     >
       <div
         style={{
           display: 'flex',
-          gap: '16px',
           width: '100%',
           justifyContent: 'center',
           padding: '20px',
           marginBottom: '50px',
         }}
       >
+
         <JewelRadarChart
           size={470}
+          isJewel={false}
           data={animatedChartData}
           regionData={
             currentRegion
               ? {
-                  growth_score: currentRegion.growth_score,
-                  economy_score: currentRegion.economy_score,
-                  living_score: currentRegion.living_score,
-                  safety_score: currentRegion.safety_score,
-                  klaci_code: currentRegion.klaci_code,
-                }
+                growth_score: currentRegion.growth_score,
+                economy_score: currentRegion.economy_score,
+                living_score: currentRegion.living_score,
+                safety_score: currentRegion.safety_score,
+                klaci_code: currentRegion.klaci_code,
+              }
               : {}
           }
         />
+
       </div>
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
           gap: '40px',
-          marginBottom: '40px',
+          marginBottom: '22px',
         }}
       >
         {/* 이전 버튼 */}
@@ -226,9 +230,9 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
         {/* 순위 텍스트 */}
         <div
           style={{
-            fontSize: '1.2rem',
+            fontSize: '18px',
             color: '#000000',
-            fontWeight: '600',
+            fontWeight: '500',
           }}
         >
           {rankText}
@@ -244,58 +248,61 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
       {/* 지자체 이름 */}
       <div
         style={{
-          fontSize: '50px',
+          fontSize: '48px',
           color: '#000',
-          fontWeight: '700',
-          marginBottom: '80px',
+          fontWeight: '600',
+          marginBottom: '60px',
         }}
       >
         {districtName}
       </div>
 
-      {/* KLACI Code 원형 컴포넌트 */}
-      <KlaciCodeCircles klaciCode={klaciCode} />
+      <Flex justifyContent='space-between' width='100%'>
+        <Grid gap='10px'>
+          <Flex alignItems='center' gap='21px' justifyContent='start'>
+            {/* 타입 텍스트 */}
+            {klaciType && (
+              <div
+                style={{
+                  fontSize: '30px',
+                  color: '#000',
+                  fontWeight: '600',
+                  lineHeight: '43px',
+                }}
+              >
+                {klaciType}
+              </div>
+            )}
+            <KlaciCodeCircles klaciCode={klaciCode} />
+          </Flex>
+          {/* 유형 텍스트 */}
+          <div
+            style={{
+              fontSize: '22px',
+              color: '#000',
+              fontWeight: '400',
+            }}
+          >
+            {klaciNickname}
+          </div>
+        </Grid>
 
-      {/* 타입 텍스트 */}
-      {klaciType && (
+        {/* 유형 설명 */}
         <div
           style={{
-            fontSize: '36px',
+            fontSize: '18px',
+            fontWeight: '400',
             color: '#000',
-            fontWeight: '700',
-            marginBottom: '20px',
+            textAlign: 'left',
+            lineHeight: '1.6',
+            width: '520px',
           }}
         >
-          {klaciType}
+          {klaciSummaryArray.map((line, idx) => (
+            <div key={idx}>{line}</div>
+          ))}
         </div>
-      )}
-
-      {/* 유형 텍스트 */}
-      <div
-        style={{
-          fontSize: '24px',
-          color: '#000',
-          fontWeight: '700',
-          marginBottom: '60px',
-        }}
-      >
-        {klaciNickname}
-      </div>
-
-      {/* 유형 설명 */}
-      <div
-        style={{
-          fontSize: '1.1rem',
-          color: '#000',
-          textAlign: 'center',
-          lineHeight: '1.6',
-          maxWidth: '600px',
-        }}
-      >
-        {klaciSummaryArray.map((line, idx) => (
-          <div key={idx}>{line}</div>
-        ))}
-      </div>
+      </Flex>
     </div>
   );
 };

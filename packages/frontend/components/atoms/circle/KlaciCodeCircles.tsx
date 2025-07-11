@@ -4,7 +4,6 @@ interface KlaciCodeCirclesProps {
   klaciCode: string;
   size?: number;
   gap?: number;
-  marginBottom?: number;
   fontSize?: string;
   fontWeight?: number;
 }
@@ -13,7 +12,6 @@ const KlaciCodeCircles: React.FC<KlaciCodeCirclesProps> = ({
   klaciCode,
   size = 30,
   gap = 8,
-  marginBottom = 30,
   fontSize = '1rem',
   fontWeight = 600,
 }) => {
@@ -36,7 +34,6 @@ const KlaciCodeCircles: React.FC<KlaciCodeCirclesProps> = ({
       style={{
         display: 'flex',
         gap: `${gap}px`,
-        marginBottom: `${marginBottom}px`,
       }}
     >
       {klaciCodes.map((item, index) => (

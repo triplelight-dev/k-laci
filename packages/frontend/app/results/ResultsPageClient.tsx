@@ -3,12 +3,12 @@
 import { useRegion } from '@/api/hooks/useRegion';
 import ResultLayout from '@/components/layout/ResultLayout';
 import {
-    useDistrict,
-    useIsLoggedIn,
-    useSetSelectedDistrict,
-    useSetSelectedProvince,
-    useSetSelectedRegion,
-    useUser,
+  useDistrict,
+  useIsLoggedIn,
+  useSetSelectedDistrict,
+  useSetSelectedProvince,
+  useSetSelectedRegion,
+  useUser,
 } from '@/store';
 import { RegionWithDetails as StoreRegionWithDetails } from '@/store/types/district';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -16,12 +16,10 @@ import { Suspense, useEffect, useRef, useState } from 'react';
 
 // sections
 import CategoryRankingSection from '@/features/results/sections/CategoryRankingSection';
-import CompetencyDistSection from '@/features/results/sections/CompetencyDistSection';
 import DistrictSearchSection from '@/features/results/sections/DistrictSearchSection';
 import DistrictSelectSection from '@/features/results/sections/DistrictSelectSection';
 import PreRegistrationSection from '@/features/results/sections/PreRegistrationSection';
 import SimilarRegionSection from '@/features/results/sections/SimilarRegionSection';
-import StrengthWeaknessIndexSection from '@/features/results/sections/StrenthWeaknessIndexSection';
 import SummarySection from '@/features/results/sections/SummarySection';
 import TitleSection from '@/features/results/sections/TitleSection';
 
@@ -266,7 +264,7 @@ function ResultsPageContent() {
           justifyContent: 'center',
           alignItems: 'center',
           background: '#F4F4F4',
-          gap: '30px',
+
         }}
       >
         <DistrictSearchSection />
@@ -288,70 +286,28 @@ function ResultsPageContent() {
             style={{
               display: 'flex',
               flexDirection: 'column',
-              width: '60%',
-              maxWidth: '800px',
-              gap: '50px',
-              paddingTop: '100px',
+              width: '100%',
+              maxWidth: '1060px',
             }}
           >
             {/* 차트(TitleSection) 영역 ref 부착 */}
             <div ref={chartSectionRef}>
               <TitleSection districtData={districtData} />
             </div>
-            <SummarySection />
 
-            {/* StrengthWeaknessIndexSection과 상단 컴포넌트 사이 간격 */}
-            <div style={{ height: '80px' }} />
+            <SummarySection isLoggedIn={isLoggedIn} />
 
-            {/* 로그인 상태에 따른 조건부 렌더링 */}
-            {isLoggedIn ? (
-              // 로그인된 사용자: 모든 섹션 표시
-              <>
-                <StrengthWeaknessIndexSection />
-                <CompetencyDistSection />
-                <CategoryRankingSection />
-                <div
-                  style={{
-                    width: '100vw',
-                    marginLeft: 'calc(-50vw + 50%)',
-                    marginRight: 'calc(-50vw + 50%)',
-                  }}
-                >
-                  <PreRegistrationSection />
-                </div>
-                <SimilarRegionSection />
-              </>
-            ) : (
-              // 비로그인 사용자: StrengthWeaknessIndexSection만 부분 표시 (fadeout 효과)
-              <>
-                <div
-                  style={{
-                    position: 'relative',
-                    overflow: 'hidden',
-                    maxHeight: '250px',
-                  }}
-                >
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      background:
-                        'linear-gradient(to bottom, rgba(244, 244, 244, 0) 0%, rgba(244, 244, 244, 0) 20%, rgba(244, 244, 244, 0.3) 50%, rgba(244, 244, 244, 0.6) 100%)',
-                      zIndex: 1,
-                      pointerEvents: 'none',
-                    }}
-                  />
-                  <div style={{ position: 'relative', zIndex: 0 }}>
-                    <StrengthWeaknessIndexSection />
-                  </div>
-                </div>
-                {/* LoginSuggestionSection과의 간격 */}
-                {/* <div style={{ height: '50px' }} /> */}
-              </>
-            )}
+            {isLoggedIn && <> <CategoryRankingSection />
+              <div
+                style={{
+                  width: '100vw',
+                  marginLeft: 'calc(-50vw + 50%)',
+                  marginRight: 'calc(-50vw + 50%)',
+                }}
+              >
+                <PreRegistrationSection />
+              </div>
+              <SimilarRegionSection /></>}
           </div>
         </div>
       </div>

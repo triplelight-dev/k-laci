@@ -1,5 +1,10 @@
+import { Divider } from '@/components/atoms/divider';
 import { useDistrict } from '@/store';
+import { Text } from '@chakra-ui/react';
 import React from 'react';
+import CompetencyDistSection from './CompetencyDistSection';
+import StrengthWeaknessIndexSection from './StrenthWeaknessIndexSection';
+import { SummarySectionHeader } from './SummarySectionHeader';
 
 // 타입 정의
 interface SummaryItemData {
@@ -76,7 +81,7 @@ const SummaryItem: React.FC<SummaryItemProps> = ({ data }) => {
   );
 };
 
-const SummarySection: React.FC = () => {
+const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
   // Zustand에서 selectedRegion 가져오기
   const { selectedRegion } = useDistrict();
 
@@ -130,20 +135,99 @@ const SummarySection: React.FC = () => {
           style={{
             display: 'flex',
             flexDirection: 'column',
-            paddingTop: '12%',
-            paddingBottom: '12%',
             borderRadius: '56px',
             backgroundColor: 'white',
-            padding: '80px',
+            padding: '95px 0',
+            justifyContent: 'center',
           }}
         >
-          {summaryItems.map((item, index) => (
-            <SummaryItem key={index} data={item} />
-          ))}
+          <SummarySectionHeader
+            badgeLabel='OVERVIEW'
+            title='유형 개요'
+          />
+
+          <Divider style={{ margin: '60px 0 0' }} />
+
+          <Text
+            fontSize='18px'
+            fontWeight='400'
+            lineHeight='24px'
+            color='#000'
+            padding='80px 135px'
+            textAlign='justify'
+            whiteSpace='pre-line'
+          >{typeOverviewDescription}</Text>
+
+          <Divider style={{ margin: '0 0 60px' }} />
+
+          <SummarySectionHeader
+            badgeLabel='KEY INDEX'
+            title='주요 세부지표'
+          />
+
+          <Divider style={{ margin: '60px 0 100px' }} />
+
+
+          {/* 로그인 상태에 따른 조건부 렌더링 */}
+          {isLoggedIn ? (
+            // 로그인된 사용자: 모든 섹션 표시
+            <>
+              <div style={{ padding: '0 135px' }}><StrengthWeaknessIndexSection /></div>
+
+              <Divider style={{ margin: '100px 0 60px' }} />
+              <CompetencyDistSection />
+
+            </>
+          ) : (
+            // 비로그인 사용자: StrengthWeaknessIndexSection만 부분 표시 (fadeout 효과)
+            <>
+              <div
+                style={{
+                  position: 'relative',
+                  overflow: 'hidden',
+                  maxHeight: '250px',
+                }}
+              >
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    background:
+                      'linear-gradient(to bottom, rgba(244, 244, 244, 0) 0%, rgba(244, 244, 244, 0) 20%, rgba(244, 244, 244, 0.3) 50%, rgba(244, 244, 244, 0.6) 100%)',
+                    zIndex: 1,
+                    pointerEvents: 'none',
+                  }}
+                />
+                <div style={{ position: 'relative', zIndex: 0 }}>
+                  <div style={{ padding: '0 135px' }}><StrengthWeaknessIndexSection /></div>
+                </div>
+              </div>
+              {/* LoginSuggestionSection과의 간격 */}
+              {/* <div style={{ height: '50px' }} /> */}
+            </>
+          )}
+
+          {/* <Flex flexDirection='column' gap='60px' padding='0 135px'>
+            {summaryItems.map((item, index) => (
+              <SummaryItem key={index} data={item} />
+            ))}
+          </Flex> */}
         </div>
-      </section>
-    </div>
+      </section >
+    </div >
   );
 };
 
 export default SummarySection;
+
+const typeOverviewDescription = `안전복지형(GCMR)은 인구가 지속해서 유입되고(G) 지역 주민의 건강 수준이나 지역 방범·치안 수준이 높아(R) 안정적인 공동체 형성을 위한 기반이 마련돼 있지만, 주거·교통·교육 등 생활기반시설이 미흡하고(M) 일자리와 부가가치를 창출하는 산업 기반이 취약해(C) 전반적으로 역동성이 낮은 유형입니다. 
+
+인구·경제·생활 환경 측면에서 급격한 변화가 없는 편으로, 오래된 주거지역을 중심으로 점진적으로 인구가 증가하며 기존의 상권과 생활기반시설을 유지해온 지역이 이 유형에 해당됩니다. 주민들의 생활은 안정적이고 안전한 편이지만, 편의시설 및 교육·문화시설이 부족하고 지역 상권이 한정돼 있어 생활 전반의 만족도는 낮을 수 있습니다. 
+
+안전복지형의 핵심 자산은 안전한 환경과 꾸준한 인구 유입입니다. 잘 갖춰진 복지·안전 인프라는 어린 자녀를 둔 가정, 여성 1인가구, 고령층에게 특히 매력적인 요소로 작용해 점진적인 인구 유입을 촉진합니다. 다만 주거, 대중교통, 교육·문화시설 등 기초적인 생활 인프라가 양적으로 부족하거나 질적으로 미흡하므로, 빈집정비사업, 도시재생사업 등 지자체 및 중앙정부의 정책자금을 투입한 개선 방안이 필요합니다. 
+
+주민들의 삶의 질 향상을 위해 주민센터, 사회복지관 등 기존 복지시설을 중심으로 문화·여가 프로그램을 확대하는 방안도 효과적일 수 있습니다. 이는 지역 내 문화예술 인력 발굴 및 고용 창출로 이어지며, 지역 주민 간 교류를 촉진해 공동체 기반의 다양한 사회참여 활동을 확산할 수 있습니다. 이처럼 점진적이고 안정적인 성장을 추구하며, 지역 주민의 삶의 질 향상에 집중해 주민들이 주도적으로 지역사회와 경제에 활력을 불어넣도록 유도하는 전략을 고려해볼 수 있습니다.  `
+

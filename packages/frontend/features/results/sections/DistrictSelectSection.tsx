@@ -98,12 +98,12 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
   // 선택된 도/시에 해당하는 지역 옵션 생성
   let districtOptions = selectedProvince
     ? provincesWithRegions
-        .find((province) => province.id === selectedProvince.id)
-        ?.regions.map((region) => ({
-          value: String(region.id),
-          label: region.name,
-          ...region,
-        })) || []
+      .find((province) => province.id === selectedProvince.id)
+      ?.regions.map((region) => ({
+        value: String(region.id),
+        label: region.name,
+        ...region,
+      })) || []
     : [];
 
   // districtOptions에 selectedDistrict가 없으면 강제로 추가 (보정)
@@ -145,7 +145,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
           justifyContent: 'center',
           borderRadius: '50px',
           alignItems: 'center',
-          backgroundColor: 'white',
+          backgroundColor: isFloating ? 'white' : 'rgba(255, 255, 255, 0.3)',
           marginTop: isFloating ? 'auto' : '50px',
         }}
       >
@@ -158,13 +158,14 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
     <div
       style={{
         display: isFloating && !isVisible ? 'none' : 'flex',
-        width: '500px',
-        padding: '5px',
+        padding: '0 65px',
+        gap: '40px',
         justifyContent: 'center',
         borderRadius: '50px',
         alignItems: 'center',
-        backgroundColor: 'white',
-        marginTop: isFloating ? 'auto' : '50px',
+        backgroundColor: isFloating ? 'white' : 'rgba(255, 255, 255, 0.3)',
+        marginTop: isFloating ? 'auto' : '91px',
+        marginBottom: isFloating ? '0px' : '70px',
         position: isFloating ? 'fixed' : 'static',
         top: isFloating ? '40px' : 'auto',
         left: isFloating ? '50%' : 'auto',
