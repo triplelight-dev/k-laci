@@ -154,7 +154,7 @@ const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
           <Text
             fontSize='18px'
             fontWeight='400'
-            lineHeight='24px'
+            lineHeight='28px'
             color='#000'
             padding='80px 135px'
             textAlign='justify'
