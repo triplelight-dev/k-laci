@@ -161,18 +161,36 @@ const CategoryRankingSection = () => {
           />
         </Flex>
 
-        <Divider style={{ margin: '80px 0 100px' }} />
+        {/* <Divider style={{ margin: '80px 0 100px' }} /> */}
 
         {/* 카테고리 그리드 */}
         <div className="grid grid-cols-1" style={{ width: '100%' }}>
           {categories.map((category, index) => (
-            <><div style={{ margin: '0 auto' }}><CategoryRanking
-              key={index}
-              categoryData={category}
-              index={index} /></div >
-              <Divider style={{ margin: '80px 0 100px' }} /></>
+            <>
+              <Divider style={{ margin: '80px 0 100px' }} />
+              <div style={{ margin: '0 auto' }}><CategoryRanking
+                key={index}
+                categoryData={category}
+                index={index} /></div >
+            </>
           ))}
         </div>
+        <div style={{
+          width: '100%',
+          maxWidth: '1060px', margin: '0 auto',
+          borderRadius: '26px',
+          marginTop: '33px',
+          fontSize: '14px',
+          fontWeight: '500',
+          lineHeight: '24px',
+          color: '#9A9EA3',
+          textAlign: 'center',
+          padding: '8px 0',
+          backgroundColor: '#EDEDED',
+        }}>
+          [유형 개요]는 16개 유형에 따른 공통 해설입니다. 세부지표는 순위가 높을수록 강점으로 해석되며, 자세한 내용은 지표별 해설을 참고하시기 바랍니다.
+        </div>
+        <Divider style={{ margin: '80px 0 ' }} />
       </section >
     </div >
   );

@@ -21,7 +21,6 @@ import CategoryRankingSection from '@/features/results/sections/CategoryRankingS
 import DistrictSearchSection from '@/features/results/sections/DistrictSearchSection';
 import DistrictSelectSection from '@/features/results/sections/DistrictSelectSection';
 import LoginSuggestionSection from '@/features/results/sections/LoginSuggestionSectino';
-import PreRegistrationSection from '@/features/results/sections/PreRegistrationSection';
 import SimilarRegionSection from '@/features/results/sections/SimilarRegionSection';
 import SummarySection from '@/features/results/sections/SummarySection';
 import TitleSection from '@/features/results/sections/TitleSection';
@@ -306,15 +305,8 @@ function ResultsPageContent() {
           </div>
           {isLoggedIn && <>
             <CategoryRankingSection />
-            <div
-              style={{
-                width: '100vw',
-                marginLeft: 'calc(-50vw + 50%)',
-                marginRight: 'calc(-50vw + 50%)',
-              }}
-            >
-              <PreRegistrationSection />
-            </div>
+            
+
             <SimilarRegionSection /></>}
         </div>
       </div>
