@@ -51,7 +51,6 @@ const CommonSelect: React.FC<CommonSelectProps> = ({
         alignItems: 'center',
         borderRadius: '50px',
         padding: '20px 20px',
-
         height: 'fit-content',
         minWidth: '100px',
         backgroundColor: 'transparent',

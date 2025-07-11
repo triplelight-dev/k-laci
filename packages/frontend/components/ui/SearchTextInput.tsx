@@ -256,7 +256,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
         >
           <div
             style={{
-              background: '#F8F9FA', // 리스트 배경색
+              background: '#FFF', // 리스트 배경색
               borderRadius: '13px', // 부모보다 작은 radius
               overflow: 'hidden',
             }}
@@ -271,14 +271,19 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
                   padding: '12px 24px',
                   cursor: 'pointer',
                   background:
-                    idx === highlightedIndex ? '#D9D9E8' : 'transparent',
+                    idx === highlightedIndex ? '#F8F8F8' : 'transparent',
+                  borderRadius: '10px',
+                  border: highlightedIndex === idx ? '1px solid #E7E8EA' : '1px solid transparent',
                   color: '#222',
-                  fontSize: '15px',
+                  fontSize: '18px',
+                  lineHeight: '28px',
+                  fontWeight: '400',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '12px',
                   transition: 'background-color 0.2s ease',
                   userSelect: 'none',
+                  height: '50px',
                 }}
               >
                 {/* 지자체 아이콘 */}

@@ -12,7 +12,6 @@ const DistrictSearchSection: React.FC = () => {
 
   const title = '229개 지자체 중 우리 지역 찾아보기';
 
-
   return (
     <div
       style={{

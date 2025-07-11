@@ -296,11 +296,13 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
             textAlign: 'left',
             lineHeight: '1.6',
             width: '520px',
+            whiteSpace: 'pre-line',
           }}
         >
-          {klaciSummaryArray.map((line, idx) => (
+          {klaciSummaryArray.join(' ')}
+          {/* {klaciSummaryArray.map((line, idx) => (
             <div key={idx}>{line}</div>
-          ))}
+          ))} */}
         </div>
       </Flex>
     </div>

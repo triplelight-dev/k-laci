@@ -7,6 +7,7 @@ import { NUM_OF_REGIONS } from '@/constants/data';
 import { IndexData } from '@/features/results/sections/StrenthWeaknessIndexSection';
 
 import { colorMap } from '@/features/results/sections/StrenthWeaknessIndexSection';
+import { Flex } from '@chakra-ui/react';
 
 interface IndexModalProps {
   isOpen: boolean;
@@ -60,7 +61,7 @@ const IndexModal: React.FC<IndexModalProps> = ({
         <div
           style={{
             display: 'flex',
-            width: '800px',
+            width: '1000px',
             height: '450px',
             borderRadius: '30px',
             overflow: 'hidden',
@@ -118,8 +119,9 @@ const IndexModal: React.FC<IndexModalProps> = ({
     >
       <div
         style={{
+          position: 'relative',
           display: 'flex',
-          width: '800px',
+          width: '1000px',
           height: '450px',
           borderRadius: '30px',
           overflow: 'hidden',
@@ -128,6 +130,20 @@ const IndexModal: React.FC<IndexModalProps> = ({
         }}
         onClick={(e) => e.stopPropagation()}
       >
+        {/* x button */}
+        <div style={{
+          position: 'absolute',
+          top: 18,
+          right: 18,
+          zIndex: 9999,
+          cursor: 'pointer',
+          padding: '10px',
+        }} onClick={onClose}>
+          <CloseIcon onClose={onClose} />
+        </div>
+
+
+
         <div
           style={{
             flex: 1,
@@ -135,93 +151,79 @@ const IndexModal: React.FC<IndexModalProps> = ({
             padding: '32px',
             display: 'flex',
             flexDirection: 'column',
-            gap: '16px',
+            justifyContent: 'space-between',
           }}
         >
-          <div
-            style={{
-              padding: '8px 16px',
-              backgroundColor: 'white',
-              border: '1px solid #000000',
-              borderRadius: '12px',
-              fontSize: '14px',
-              fontWeight: '500',
-              color: '#000000',
-              alignSelf: 'flex-start',
-            }}
-          >
-            {data.fullRegionName}
+          <div>
+            <div
+              style={{
+                padding: '8px 16px',
+                backgroundColor: 'white',
+                border: '1px solid #000000',
+                borderRadius: '9px',
+                fontSize: '14px',
+                fontWeight: '500',
+                color: '#000000',
+                alignSelf: 'flex-start',
+                marginBottom: '30px',
+                width: 'fit-content',
+              }}
+            >
+              {data.fullRegionName}
+            </div>
+
+            <Flex alignItems='start' justifyContent='center' gap='10px' flexDirection='column'>
+              <div
+                style={{
+                  fontSize: '18px',
+                  fontWeight: '600',
+                  color: '#000000',
+                  marginTop: '8px',
+                }}
+              >
+                {data.indexName}
+              </div>
+
+              <div
+                style={{
+                  fontSize: '28px',
+                  fontWeight: '600',
+                  lineHeight: '43px',
+                  color: rankColor,
+                }}
+              >
+                {data.indexRank}위
+              </div>
+
+              <div
+                style={{
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  color: '#000',
+                }}
+              >
+                상위 {topPercentage}%
+              </div>
+
+            </Flex>
+
           </div>
 
           <div
             style={{
-              fontSize: '25px',
-              fontWeight: '600',
-              color: '#000000',
-              marginTop: '8px',
-            }}
-          >
-            {data.indexName}
-          </div>
-
-          <div
-            style={{
-              fontSize: '25px',
-              fontWeight: '600',
-              color: rankColor,
-            }}
-          >
-            {data.indexRank}위
-          </div>
-
-          <div
-            style={{
-              fontSize: '16px',
-              fontWeight: '400',
-              color: '#ADB5C4',
-            }}
-          >
-            상위 {topPercentage}%
-          </div>
-
-          <div
-            style={{
-              fontSize: '14px',
-              fontWeight: '400',
-              color: '#000000',
-              paddingTop: '16px',
-              paddingBottom: '16px',
-              borderTop: '1px solid #D9D9E8',
-              borderBottom: '1px solid #D9D9E8',
-            }}
-          >
-            {source}
-          </div>
-
-          <div
-            style={{
-              fontSize: '14px',
-              color: '#000000',
-            }}
-          >
-            세부지표 점수
-          </div>
-
-          <div
-            style={{
-              marginTop: '24px',
+              margin: '33px 0 73px',
               display: 'flex',
               flexDirection: 'column',
-              gap: '8px',
+              gap: '2px',
             }}
           >
             {displayData.region_key_index_score.score !== undefined &&
               displayData.region_key_index_score.score > 0 && (
                 <div
                   style={{
-                    fontSize: '15px',
+                    fontSize: '16px',
                     fontWeight: '600',
-                    color: '#474E59',
+                    color: '#000',
                   }}
                 >
                   {displayData.region_key_index_score.score.toFixed(1)}점
@@ -231,21 +233,38 @@ const IndexModal: React.FC<IndexModalProps> = ({
               <div
                 style={{
                   fontSize: '14px',
-                  fontWeight: '600',
-                  color: '#ADB5C4',
+                  fontWeight: '500',
+                  color: '#9A9EA3',
                 }}
               >
-                (전국 평균 대비 {scoreGap >= 0 ? '+' : ''}
-                {scoreGap.toFixed(1)}점)
+                전국 평균 대비 {scoreGap >= 0 ? '+' : ''}
+                {scoreGap.toFixed(1)}점
               </div>
             )}
+
+
+          </div>
+
+          <div
+            style={{
+              fontSize: '14px',
+              fontWeight: '400',
+              color: '#9A9EA3',
+              paddingTop: '16px',
+              paddingBottom: '16px',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            <span style={{ fontSize: '14px', fontWeight: '500', color: '#9A9EA3' }}>데이터 출처</span>
+            {source}
           </div>
 
           {/* 로딩 상태 표시 */}
           {loading && (
             <div
               style={{
-                fontSize: '14px',
+                fontSize: '15px',
                 fontWeight: '400',
                 color: '#ADB5C4',
                 marginTop: '16px',
@@ -259,7 +278,7 @@ const IndexModal: React.FC<IndexModalProps> = ({
           {error && (
             <div
               style={{
-                fontSize: '14px',
+                fontSize: '15px',
                 fontWeight: '400',
                 color: '#FF3737',
                 marginTop: '16px',
@@ -275,11 +294,12 @@ const IndexModal: React.FC<IndexModalProps> = ({
             flex: 3,
             backgroundColor: '#F9F9FF',
             padding: '32px',
-            paddingLeft: '50px',
-            paddingRight: '50px',
-            paddingTop: '90px',
+            paddingLeft: '60px',
+            paddingRight: '83px',
+            paddingTop: '99px',
             display: 'flex',
             justifyContent: 'center',
+
           }}
         >
           <div
@@ -288,6 +308,7 @@ const IndexModal: React.FC<IndexModalProps> = ({
               fontWeight: '400',
               color: 'black',
               lineHeight: 1.6,
+              textAlign: 'justify',
             }}
           >
             {data.indexDescription}
@@ -299,3 +320,12 @@ const IndexModal: React.FC<IndexModalProps> = ({
 };
 
 export default IndexModal;
+
+function CloseIcon({ onClose }: { onClose: () => void }) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="39" height="39" viewBox="0 0 39 39" fill="none" onClick={onClose} style={{ cursor: 'pointer' }}>
+      <line x1="9.90238" y1="9.18917" x2="28.9943" y2="28.2811" stroke="#9A9EA3" />
+      <line x1="28.9961" y1="9.90263" x2="9.90425" y2="28.9945" stroke="#9A9EA3" />
+    </svg >
+  );
+}

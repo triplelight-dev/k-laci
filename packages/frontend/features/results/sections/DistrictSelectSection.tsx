@@ -145,8 +145,9 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
           justifyContent: 'center',
           borderRadius: '50px',
           alignItems: 'center',
-          backgroundColor: isFloating ? 'white' : 'rgba(255, 255, 255, 0.3)',
+          backgroundColor: 'rgba(255, 255, 255, 0.3)',
           marginTop: isFloating ? 'auto' : '50px',
+          backdropFilter: 'blur(2.5px)',
         }}
       >
         <div>데이터를 불러오는 중 오류가 발생했습니다.</div>
@@ -163,7 +164,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
         justifyContent: 'center',
         borderRadius: '50px',
         alignItems: 'center',
-        backgroundColor: isFloating ? 'white' : 'rgba(255, 255, 255, 0.3)',
+        backgroundColor: 'rgba(255, 255, 255, 0.3)',
         marginTop: isFloating ? 'auto' : '91px',
         marginBottom: isFloating ? '0px' : '70px',
         position: isFloating ? 'fixed' : 'static',
@@ -171,6 +172,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
         left: isFloating ? '50%' : 'auto',
         zIndex: isFloating ? 1000 : 'auto',
         transform: isFloating ? 'translateX(-50%)' : 'none',
+        backdropFilter: 'blur(2.5px)',
       }}
     >
       <div
