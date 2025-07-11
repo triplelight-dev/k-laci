@@ -81,14 +81,7 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
     fetchRegionDetails();
   }, [selectedDistrict, getRegion, setSelectedRegion, setRegionLoading]);
 
-  // 디버깅용 useEffect 제거
-  // useEffect(() => {
-  //   console.log('🔍 [DEBUG] DistrictSelectSection 상태 변경:');
-  //   console.log('  - selectedProvince:', selectedProvince);
-  //   console.log('  - selectedDistrict:', selectedDistrict);
-  //   console.log('  - selectedRegion:', selectedRegion);
-  //   console.log('  - regionLoading:', regionLoading);
-  // }, [selectedProvince, selectedDistrict, selectedRegion, regionLoading]);
+
 
   const handleProvinceChange = (value: string) => {
     if (isUpdatingRef.current) return;
@@ -190,10 +183,31 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
         top: isFloating ? '40px' : 'auto',
         left: isFloating ? '50%' : 'auto',
         zIndex: isFloating ? 1000 : 'auto',
-        transform: isFloating ? 'translateX(-50%)' : 'none',
         backdropFilter: 'blur(2.5px)',
+        // 부드러운 애니메이션 추가
+        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+        // 플로팅 상태일 때 위에서 내려오는 효과
+        transform: isFloating
+          ? 'translateX(-50%) translateY(0)'
+          : 'translateX(0) translateY(0)',
+        // 플로팅 상태로 전환될 때 약간의 지연으로 자연스러운 효과
+        animation: isFloating
+          ? 'slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+          : 'none',
       }}
     >
+      <style jsx>{`
+        @keyframes slideDown {
+          from {
+            transform: translateX(-50%) translateY(-20px);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+          }
+        }
+      `}</style>
       <div
         style={{
           display: 'flex',
