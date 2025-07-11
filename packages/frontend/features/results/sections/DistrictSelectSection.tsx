@@ -219,6 +219,11 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
           options={provinceOptions}
           onChange={handleProvinceChange}
           defaultLabel="광역명"
+          optionStyle={{
+            fontSize: '18px',
+            fontWeight: 400,
+            color: '#000',
+          }}
         />
       </div>
       <div
@@ -233,6 +238,11 @@ const DistrictSelectSection: React.FC<DistrictSelectSectionProps> = ({
           onChange={handleDistrictChange}
           disabled={!selectedProvince || regionLoading}
           defaultLabel={regionLoading ? '로딩 중...' : '선택'}
+          optionStyle={{
+            fontSize: '18px',
+            fontWeight: 400,
+            color: '#000',
+          }}
         />
       </div>
     </div>
