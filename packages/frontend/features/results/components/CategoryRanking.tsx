@@ -16,7 +16,6 @@ interface CategoryRankingProps {
 }
 
 const CategoryRanking: React.FC<CategoryRankingProps> = ({
-  index,
   categoryData,
 }) => {
   const { title, color, currentRank, description, rank } = categoryData;
