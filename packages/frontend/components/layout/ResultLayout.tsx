@@ -14,7 +14,7 @@ const ResultLayout = ({ children }: { children: React.ReactNode }) => {
         backgroundColor: '#F5F5F5',
       }}
     >
-      <Header />
+      <Header isBlackTheme={false} />
       {children}
     </div>
   );

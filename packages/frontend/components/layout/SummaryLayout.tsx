@@ -2,8 +2,9 @@ import Footer from '@/components/Footer';
 import Header from '@/components/Header/Header';
 import { DARK_MODE_COLORS } from '@/utils/colors';
 import React from 'react';
+import HomePreRegistrationSection from '../sections/HomePreRegistrationSection';
 
-const SummaryLayout = ({ children }: { children: React.ReactNode }) => {
+const SummaryLayout = ({ children, isBlackTheme }: { children: React.ReactNode, isBlackTheme: boolean }) => {
   return (
     <div style={{
       width: '100%',
@@ -12,9 +13,9 @@ const SummaryLayout = ({ children }: { children: React.ReactNode }) => {
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: DARK_MODE_COLORS.background,
+      backgroundColor: isBlackTheme ? DARK_MODE_COLORS.background : '#F4F4F4',
     }}>
-      <Header />
+      <Header isBlackTheme={isBlackTheme} />
       <div
         style={{
           width: '100%',

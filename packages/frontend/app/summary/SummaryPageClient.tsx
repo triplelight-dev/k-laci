@@ -8,7 +8,7 @@ export const dynamic = 'force-static';
 
 export default function SummaryPageClient() {
   return (
-    <SummaryLayout>
+    <SummaryLayout isBlackTheme={true}>
       <ComingSoonSection />
       <HomePreRegistrationSection />
     </SummaryLayout>

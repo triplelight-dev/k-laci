@@ -18,7 +18,7 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
         flexDirection: 'column',
       }}
     >
-      <Header />
+      <Header isBlackTheme={true} />
       {children}
       <HomePreRegistrationSection />
       <Footer />

@@ -8,14 +8,16 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Button from '../atoms/buttons/Button';
 
-const Header = () => {
+const Header = (
+  {isBlackTheme}: { isBlackTheme: boolean }
+) => {
   const pathname = usePathname();
   const isLoggedIn = useIsLoggedIn();
   const user = useUser();
   const logout = useLogout();
 
   // 테마 분기를 위한 변수 관리 - /summary 루트만 다크모드
-  const isBlackTheme = pathname === '/' || pathname === '/about' || pathname === '/summary';
+  // const isBlackTheme = pathname === '/' || pathname === '/about' || pathname === '/summary';
 
   // 테마별 설정
   const theme = {

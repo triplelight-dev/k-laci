@@ -16,7 +16,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         justifyContent: 'center',
       }}
     >
-      <Header />
+      <Header isBlackTheme={false} />
       {children}
       <Footer />
     </div>
