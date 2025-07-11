@@ -325,7 +325,9 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
                   style={{
                     fontSize: '18px',
                     fontWeight: '600',
-                    color: isHighestRank ? 'white' : 'black',
+                    color: isHighestRank
+                      ? isHovered ? 'black' : 'white'
+                      : 'black',
                     marginTop: '8px',
                   }}
                 >
@@ -337,7 +339,9 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
                     fontSize: '28px',
                     fontWeight: '600',
                     lineHeight: '43px',
-                    color: isHighestRank ? 'white' : color,
+                    color: isHighestRank
+                      ? isHovered ? color : 'white'
+                      : color,
                   }}
                 >
                   {score.rank}위
@@ -347,7 +351,9 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
                   style={{
                     fontSize: '14px',
                     fontWeight: '500',
-                    color: isHighestRank ? 'white' : '#000',
+                    color: isHighestRank
+                      ? isHovered ? 'black' : 'white'
+                      : 'black',
                   }}
                 >
                   상위 {score.topPercentage}%
@@ -369,7 +375,9 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
                       style={{
                         fontSize: '16px',
                         fontWeight: '600',
-                        color: isHighestRank ? 'white' : '#000',
+                        color: isHighestRank
+                          ? isHovered ? 'black' : 'white'
+                          : 'black',
                       }}
                     >
                       {score.score.toFixed(1)}점
@@ -380,7 +388,9 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
                     style={{
                       fontSize: '14px',
                       fontWeight: '500',
-                      color: isHighestRank ? 'white' : '#9A9EA3',
+                      color: isHighestRank
+                        ? isHovered ? '#9A9EA3' : 'white'
+                        : '#9A9EA3',
                     }}
                   >
                     전국 평균 대비 {score.scoreGap >= 0 ? '+' : ''}
