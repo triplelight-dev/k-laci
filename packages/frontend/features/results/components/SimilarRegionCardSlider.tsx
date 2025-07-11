@@ -114,6 +114,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
         height: '600px', // 560px에서 600px로 증가 (카드 높이 540px + 여유 60px)
         marginLeft: 'calc(-50vw + 50%)',
         marginRight: 'calc(-50vw + 50%)',
+        marginBottom: '258px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -125,13 +126,13 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
         onClick={prevSlide}
         style={{
           position: 'absolute',
-          left: '20px',
+          left: '160px',
           top: '50%',
           transform: 'translateY(-50%)',
           zIndex: 20,
           background: 'white',
           border: '1px solid #E5E7EB',
-          borderRadius: '50%',
+          borderRadius: '12px',
           width: '48px',
           height: '48px',
           display: 'flex',
@@ -188,7 +189,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
             >
               <SimilarRegionCard
                 data={item}
-                onClick={onCardClick || (() => {})}
+                onClick={onCardClick || (() => { })}
                 style={{
                   border: cardStyle.border,
                 }}
@@ -203,13 +204,13 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
         onClick={nextSlide}
         style={{
           position: 'absolute',
-          right: '20px',
+          right: '160px',
           top: '50%',
           transform: 'translateY(-50%)',
           zIndex: 20,
           background: 'white',
           border: '1px solid #E5E7EB',
-          borderRadius: '50%',
+          borderRadius: '12px',
           width: '48px',
           height: '48px',
           display: 'flex',

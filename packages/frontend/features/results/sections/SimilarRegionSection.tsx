@@ -3,16 +3,22 @@
 import React, { useEffect, useState } from 'react';
 
 import { useSameCodeRegions } from '@/api/hooks';
+import { Divider } from '@/components/atoms/divider';
 import PremiumContentTitle from '@/components/ui/PremiumContentTitle';
 import { useDistrict } from '@/store';
 import { addWaOrGwa } from '@/utils/koreanUtils';
+import { Flex } from '@chakra-ui/react';
+import SimilarRegionCard from '../components/SimilarRegionCard';
 import SimilarRegionCardSlider from '../components/SimilarRegionCardSlider';
 import { SimilarRegionData } from './SimilarRegionSection.type';
+import { SummarySectionHeader } from './SummarySectionHeader';
 
 
 
 const SimilarRegionSection: React.FC = () => {
-  const { selectedRegion } = useDistrict();
+  const { selectedRegion, selectedProvince, selectedDistrict } = useDistrict();
+
+
   const { getSameCodeRegionsByRegionId, loading, error } = useSameCodeRegions();
   const [similarRegions, setSimilarRegions] = useState<SimilarRegionData[]>([]);
 
@@ -94,8 +100,7 @@ const SimilarRegionSection: React.FC = () => {
           width: '100%',
           gap: '30px',
           color: '#000000',
-          padding: '20px',
-          paddingTop: '80px',
+          padding: '0 20px',
           paddingBottom: '100px',
         }}
       >
@@ -130,9 +135,7 @@ const SimilarRegionSection: React.FC = () => {
           width: '100%',
           gap: '30px',
           color: '#000000',
-          padding: '20px',
-          paddingTop: '80px',
-          paddingBottom: '100px',
+          padding: '0 20px',
         }}
       >
         <PremiumContentTitle
@@ -166,15 +169,38 @@ const SimilarRegionSection: React.FC = () => {
         width: '100%',
         gap: '30px',
         color: '#000000',
-        padding: '20px',
-        paddingTop: '80px',
+        padding: '0 20px',
         paddingBottom: '100px',
       }}
     >
-      <PremiumContentTitle
-        title={`${regionNameWithParticle} 비슷한 지자체`}
-        badgeText="더 알아보기"
-      />
+
+      {/* 자신 region 카드 */}
+      <Flex style={{ width: '100%', maxWidth: '1060px', margin: '0 auto', justifyContent: 'center' }}>
+        <SimilarRegionCard
+          data={{
+            id: selectedRegion?.id || '',
+            name: selectedRegion?.name || '',
+            province: selectedProvince?.name || '',
+            similarity: 100,
+            rank: 1,
+            score: 100,
+            klaciCode: selectedRegion?.klaci.code || '',
+            klaciType: selectedRegion?.klaci.type || '',
+            klaciNickname: selectedRegion?.klaci.nickname || '',
+            radarData: generateChartData(selectedRegion),
+          }}
+          onClick={handleCardClick}
+          topDivStyle={{
+            backgroundColor: '#F4F4F4',
+            padding: '0 20px',
+            height: 'fit-content',
+          }}
+          isHideBadge={true}
+        />
+      </Flex>
+
+      <Divider style={{ width: '100%', margin: '0 auto', marginBottom: '100px' }} />
+      <SummarySectionHeader title={`${selectedProvince?.name} ${selectedDistrict?.name} 비슷한 지자체`} badgeLabel="더 알아보기" />
 
       <SimilarRegionCardSlider
         data={similarRegions}

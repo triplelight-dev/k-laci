@@ -305,9 +305,8 @@ function ResultsPageContent() {
           </div>
           {isLoggedIn && <>
             <CategoryRankingSection />
-            
-
-            <SimilarRegionSection /></>}
+            <SimilarRegionSection />
+          </>}
         </div>
       </div>
       {!isLoggedIn && <><LoginSuggestionSection /><div style={{
