@@ -4,34 +4,28 @@ import React, { useEffect, useState } from 'react';
 
 import { useSameCodeRegions } from '@/api/hooks';
 import { useRegion } from '@/api/hooks/useRegion';
+import { Divider } from '@/components/atoms/divider';
 import PremiumContentTitle from '@/components/ui/PremiumContentTitle';
 import { useDistrict, useSetSelectedDistrict, useSetSelectedProvince, useSetSelectedRegion } from '@/store';
 import { generateChartData } from '@/utils/chartUtils';
 import { addWaOrGwa } from '@/utils/koreanUtils';
+import { Flex } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
+import SimilarRegionCard from '../components/SimilarRegionCard';
 import SimilarRegionCardSlider from '../components/SimilarRegionCardSlider';
+import { SimilarRegionData } from './SimilarRegionSection.type';
+import { SummarySectionHeader } from './SummarySectionHeader';
+import { josa } from 'es-hangul';
 
-interface SimilarRegionData {
-  id: string | number;
-  name: string;
-  province: string;
-  similarity: number;
-  rank: number;
-  score: number;
-  klaciCode?: string;
-  klaciType?: string;
-  klaciNickname?: string;
-  radarData?: number[];
-  display_type?: string;
-  selection_tags?: string[];
-  [key: string]: any;
-}
+
 
 const SimilarRegionSection: React.FC = () => {
-  const { selectedRegion } = useDistrict();
+  const { selectedRegion, selectedProvince, selectedDistrict } = useDistrict();
+
+
   const { getSameCodeRegionsByRegionId, loading, error } = useSameCodeRegions();
   const [similarRegions, setSimilarRegions] = useState<SimilarRegionData[]>([]);
-  
+
   // 추가된 hooks
   const { getRegion } = useRegion();
   const setSelectedRegion = useSetSelectedRegion();
@@ -56,10 +50,10 @@ const SimilarRegionSection: React.FC = () => {
       try {
         const regionId = selectedRegion?.id || 1;
         console.log('Fetching similar regions for regionId:', regionId);
-        
+
         const regions = await getSameCodeRegionsByRegionId(regionId);
         console.log('API response:', regions);
-        
+
         const transformedData: SimilarRegionData[] = regions.map(
           (region: any, index: number) => ({
             id: region.id,
@@ -76,7 +70,7 @@ const SimilarRegionSection: React.FC = () => {
             selection_tags: region.selection_tags,
           }),
         );
-        
+
         console.log('Transformed data:', transformedData);
         setSimilarRegions(transformedData);
       } catch (err) {
@@ -91,7 +85,7 @@ const SimilarRegionSection: React.FC = () => {
     try {
       // API에서 해당 region의 상세 정보를 가져옴
       const regionDetails = await getRegion(String(item.id));
-      
+
       // Store에 region 정보 설정
       const storeRegion = {
         ...regionDetails,
@@ -102,14 +96,14 @@ const SimilarRegionSection: React.FC = () => {
           name: regionDetails.province.name,
         },
       };
-      
+
       setSelectedRegion(storeRegion, 'similar_region_card');
       setSelectedProvince(storeRegion.province_id);
       setSelectedDistrict(storeRegion.id, 'similar_region_card');
-      
+
       // path parameter 방식으로 이동
       router.push(`/results/region/${item.id}`);
-      
+
       // TitleSection의 지자체명 부분으로 스크롤 (더 아래로)
       setTimeout(() => {
         // chartSectionRef를 찾아서 해당 위치로 스크롤
@@ -141,8 +135,7 @@ const SimilarRegionSection: React.FC = () => {
           width: '100%',
           gap: '30px',
           color: '#000000',
-          padding: '20px',
-          paddingTop: '80px',
+          padding: '0 20px',
           paddingBottom: '100px',
         }}
       >
@@ -177,9 +170,7 @@ const SimilarRegionSection: React.FC = () => {
           width: '100%',
           gap: '30px',
           color: '#000000',
-          padding: '20px',
-          paddingTop: '80px',
-          paddingBottom: '100px',
+          padding: '0 20px',
         }}
       >
         <PremiumContentTitle
@@ -213,15 +204,41 @@ const SimilarRegionSection: React.FC = () => {
         width: '100%',
         gap: '30px',
         color: '#000000',
-        padding: '20px',
-        paddingTop: '80px',
+        padding: '0 20px',
         paddingBottom: '100px',
       }}
     >
-      <PremiumContentTitle
-        title={`${regionNameWithParticle} 비슷한 지자체`}
-        badgeText="더 알아보기"
-      />
+
+      {/* 자신 region 카드 */}
+      <Flex style={{ width: '100%', maxWidth: '1060px', margin: '0 auto', justifyContent: 'center' }}>
+        <SimilarRegionCard
+          data={{
+            id: selectedRegion?.id || '',
+            name: selectedRegion?.name || '',
+            province: selectedProvince?.name || '',
+            similarity: 100,
+            rank: 1,
+            score: 100,
+            klaciCode: selectedRegion?.klaci.code || '',
+            klaciType: selectedRegion?.klaci.type || '',
+            klaciNickname: selectedRegion?.klaci.nickname || '',
+            radarData: generateChartData(selectedRegion),
+          }}
+          onClick={handleCardClick}
+          topDivStyle={{
+            backgroundColor: '#F4F4F4',
+            padding: '0 20px',
+            height: 'fit-content',
+          }}
+          bottomDivStyle={{
+            backgroundColor: 'rgb(244, 244, 244)',
+          }}
+          isHideBadge={true}
+        />
+      </Flex>
+
+      <Divider style={{ width: '100%', margin: '0 auto', marginBottom: '100px' }} />
+      <SummarySectionHeader title={`${selectedProvince?.name} ${josa(selectedDistrict?.name||'종로','와/과')} 비슷한 지자체`} badgeLabel="더 알아보기" />
 
       <SimilarRegionCardSlider
         data={similarRegions}

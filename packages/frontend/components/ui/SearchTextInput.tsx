@@ -1,3 +1,4 @@
+import { Flex } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
@@ -9,7 +10,6 @@ interface SearchTextInputProps {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
-  recentSearches?: string[];
   onRecentSearchClick?: (value: string) => void;
 }
 
@@ -63,11 +63,11 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
   value,
   onChange,
   placeholder = '제주 서귀포시',
-  recentSearches = [],
   onRecentSearchClick,
 }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const [recentSearches, setRecentSearches] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
@@ -93,7 +93,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
   const filteredSearches = useMemo(() => {
     if (!value) {
       // 입력값이 없을 때는 전체 지역 데이터만 표시 (최근 검색어 제외)
-      return filteredRegions;
+      return filteredRegions.filter((e, index, self) => self.indexOf(e) === index);
     }
 
     const recentMatches = recentSearches.filter((search) =>
@@ -101,7 +101,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
     );
 
     // 최근 검색어를 먼저 표시하고, 그 다음에 지역 데이터를 가나다순으로 표시
-    return [...recentMatches, ...filteredRegions];
+    return [...recentMatches, ...filteredRegions].filter((e, index, self) => self.indexOf(e) === index);
   }, [value, recentSearches, filteredRegions]);
 
   // 지역 선택 처리 함수
@@ -109,6 +109,10 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
     onChange(selectedRegion);
     onRecentSearchClick?.(selectedRegion);
     setShowDropdown(false);
+
+    // 최근 검색어 업데이트 max 5개
+    setRecentSearches([selectedRegion, ...recentSearches].slice(0, 4));
+
 
     // Zustand store에 반영
     const { province, region } = findProvinceAndRegionByName(selectedRegion);
@@ -157,6 +161,8 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
     setHighlightedIndex(-1);
   }, [value]);
 
+
+
   return (
     <div
       style={{
@@ -172,15 +178,15 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
           width: '100%',
           display: 'flex',
           alignItems: 'center',
-          borderRadius: '10px',
-          padding: '18px',
-          gap: '10px',
+          borderRadius: '16px',
+          padding: '18px 32px',
+          gap: '24px',
           background: 'white',
-          marginBottom: recentSearches.length > 0 ? '25px' : '0',
+          marginBottom: '27px',
         }}
       >
         <div className="mr-3 flex-shrink-0">
-          <Image src="/textinput_icon.png" alt="검색" width={15} height={15} />
+          <Image src="/textinput_icon.png" alt="검색" width={18} height={18} />
         </div>
         <input
           ref={inputRef}
@@ -195,7 +201,8 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
             width: '100%',
             height: '100%',
             backgroundColor: 'transparent',
-            fontSize: '1rem',
+            fontSize: '22px',
+            fontWeight: '400',
             border: '1px solid transparent',
             color: '#000000',
             outline: 'none',
@@ -203,6 +210,15 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
           autoComplete="off"
         />
       </div>
+
+      <Flex width="100%" justifyContent="flex-start" marginLeft="32px" gap="24px">
+        <span style={{ fontSize: '14px', fontWeight: '400', color: '#000000', display: 'flex', alignItems: 'center', lineHeight: '24px' }}>최근 검색</span>
+        <Flex gap="10px">
+          {recentSearches.map((search, index) => (
+            <span key={index} style={{ fontSize: '14px', lineHeight: '24px', fontWeight: '500', color: '#000000', padding: '3.5px 10px', borderRadius: '9px', border: '1px solid #000000' }}>{search}</span>
+          ))}
+        </Flex>
+      </Flex>
 
       {/* AutoComplete Dropdown */}
       {showDropdown && filteredSearches.length > 0 && (
@@ -223,7 +239,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
         >
           <div
             style={{
-              background: '#F8F9FA', // 리스트 배경색
+              background: '#FFF', // 리스트 배경색
               borderRadius: '13px', // 부모보다 작은 radius
               overflow: 'hidden',
             }}
@@ -238,14 +254,19 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
                   padding: '12px 24px',
                   cursor: 'pointer',
                   background:
-                    idx === highlightedIndex ? '#D9D9E8' : 'transparent',
+                    idx === highlightedIndex ? '#F8F8F8' : 'transparent',
+                  borderRadius: '10px',
+                  border: highlightedIndex === idx ? '1px solid #E7E8EA' : '1px solid transparent',
                   color: '#222',
-                  fontSize: '15px',
+                  fontSize: '18px',
+                  lineHeight: '28px',
+                  fontWeight: '400',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '12px',
                   transition: 'background-color 0.2s ease',
                   userSelect: 'none',
+                  height: '50px',
                 }}
               >
                 {/* 지자체 아이콘 */}

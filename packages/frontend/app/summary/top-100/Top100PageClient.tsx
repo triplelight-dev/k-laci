@@ -15,7 +15,7 @@ export default function Top100PageClient() {
 
   if (isLoading) {
     return (
-      <SummaryLayout>
+      <SummaryLayout isBlackTheme={false}>
         <div className="flex min-h-screen items-center justify-center">
           <div className="text-center">
             <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2"></div>
@@ -28,7 +28,7 @@ export default function Top100PageClient() {
 
   if (error) {
     return (
-      <SummaryLayout>
+      <SummaryLayout isBlackTheme={false}>
         <div className="flex min-h-screen items-center justify-center">
           <div className="text-center">
             <p className="mb-4 text-red-600">
@@ -47,9 +47,10 @@ export default function Top100PageClient() {
   }
 
   return (
-    <SummaryLayout>
-      <TotalRankingSection data={data?.data || []} />
-
+    <SummaryLayout isBlackTheme={false}>
+      <div style={{ width: '1400px', margin: '0 auto' }}>
+        <TotalRankingSection data={data?.data || []} />
+      </div>
       {/* <HomePreRegistrationSection /> */}
     </SummaryLayout>
   );

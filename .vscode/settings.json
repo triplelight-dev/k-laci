@@ -11,5 +11,10 @@
     "javascriptreact",
     "typescript",
     "typescriptreact"
-  ]
-} 
+  ],
+  "cSpell.words": [
+    "Chakra",
+    "klaci"
+  ],
+  "svg.preview.background": "transparent"
+}

@@ -1,8 +1,11 @@
 'use client';
 
 import { ROUTES } from '@/constants/data';
+import { Flex } from '@chakra-ui/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { ArrowRightUp } from '../atoms/assets';
+import Button from '../atoms/buttons/Button';
 
 const PartnerShipSection = () => {
   // 텍스트 데이터를 배열로 정의
@@ -45,7 +48,7 @@ const PartnerShipSection = () => {
       const regex = new RegExp(`(${word})`, 'g');
       result = result.replace(
         regex,
-        '<strong style="font-weight: bold;">$1</strong>',
+        '<strong style="font-weight: 700; color: #ffffff;">$1</strong>',
       );
     });
 
@@ -53,173 +56,122 @@ const PartnerShipSection = () => {
   };
 
   return (
-    <section
-      style={{
-        width: '100%',
-        padding: '80px 0',
-        backgroundColor: '#2A2F40',
-        color: '#ffffff',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        borderRadius: '52px',
-        marginBottom: '200px',
-      }}
-    >
-      {/* 로고 */}
-      <div style={{ marginBottom: '40px' }}>
-        <Image
-          src={LOGO_SRC}
-          alt={LOGO_ALT}
-          width={120}
-          height={45}
-          style={{
-            height: '45px',
-            width: 'auto',
-          }}
-        />
-      </div>
-
-      {/* 메인 타이틀 */}
-      <div
+    <Flex justifyContent="center" alignItems="center" width="100%" height="100vh" minHeight='800px'>
+      <section
         style={{
-          fontSize: '32px',
-          fontWeight: 'bold',
-          textAlign: 'center',
-          marginBottom: '32px',
-          lineHeight: '1.5',
+          width: '100%',
+          maxWidth: '1400px',
+          padding: '80px 0',
+          backgroundColor: '#2A2F40',
+          color: '#ffffff',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          borderRadius: '52px',
+          justifyContent: 'center',
+          // marginBottom: '200px',
         }}
       >
-        {MAIN_TITLE.map((line, index) => (
-          <div key={index}>{line}</div>
-        ))}
-      </div>
-
-      {/* 설명 텍스트 */}
-      <div
-        style={{
-          fontSize: '15px',
-          textAlign: 'center',
-          marginBottom: '32px',
-          color: '#D1D5DB',
-          maxWidth: '1200px',
-        }}
-      >
-        {DESCRIPTION_TEXTS.map((item, index) => (
-          <div
-            key={index}
+        {/* 로고 */}
+        <div style={{ marginBottom: '40px' }}>
+          <Image
+            src={LOGO_SRC}
+            alt={LOGO_ALT}
+            width={120}
+            height={56}
             style={{
-              //   marginBottom: '16px',
-              lineHeight: '1.6',
-            }}
-            dangerouslySetInnerHTML={{
-              __html: renderTextWithBold(item.text, item.boldWords),
+              height: '45px',
+              width: 'auto',
             }}
           />
-        ))}
-      </div>
+        </div>
 
-      {/* 볼드 텍스트들 */}
-      <div
-        style={{
-          marginBottom: '48px',
-          textAlign: 'center',
-        }}
-      >
-        {BOLD_TEXTS.map((text, index) => (
-          <div
-            key={index}
-            style={{
-              fontSize: '16px',
-              fontWeight: 'bold',
-              marginBottom: '12px',
-              color: '#ffffff',
-            }}
-          >
-            {text}
-          </div>
-        ))}
-      </div>
+        {/* 메인 타이틀 */}
+        <div
+          style={{
+            fontSize: '48px',
+            fontWeight: '600',
+            textAlign: 'center',
+            marginBottom: '58px',
+            lineHeight: '68px',
+          }}
+        >
+          {MAIN_TITLE.map((line, index) => (
+            <div key={index}>{line}</div>
+          ))}
+        </div>
 
-      {/* 버튼들 */}
-      <div
-        style={{
-          display: 'flex',
-          gap: '16px',
-          justifyContent: 'center',
-        }}
-      >
-        {/* 파트너십 문의하기 버튼 */}
-        <a href="mailto:klaci@triplelight.co?subject=파트너십 문의&body=안녕하세요, KLACI 파트너십에 대해 문의드립니다.%0D%0A%0D%0A[여기에 문의 내용을 작성해주세요]%0D%0A%0D%0A감사합니다.">
-          <button
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '12px 32px',
-              backgroundColor: '#ffffff',
-              color: '#000000',
-              border: 'none',
-              borderRadius: '8px',
-              fontSize: '14px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#f3f4f6';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#ffffff';
-            }}
-          >
-            파트너십 문의하기
-            <Image
-              src="/arrow_button_icon.png"
-              alt="화살표 아이콘"
-              width={8}
-              height={8}
+        {/* 설명 텍스트 */}
+        <div
+          style={{
+            fontSize: '18px',
+            textAlign: 'center',
+            marginBottom: '32px',
+            color: '#D1D5DB',
+            maxWidth: '1200px',
+            fontWeight: '400',
+          }}
+        >
+          {DESCRIPTION_TEXTS.map((item, index) => (
+            <div
+              key={index}
+              style={{
+                //   marginBottom: '16px',
+                lineHeight: '1.6',
+              }}
+              dangerouslySetInnerHTML={{
+                __html: renderTextWithBold(item.text, item.boldWords),
+              }}
             />
-          </button>
-        </a>
+          ))}
+        </div>
 
-        {/* 회원가입 바로가기 버튼 */}
-        <Link href={ROUTES.SIGNUP}>
-          <button
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '12px 32px',
-              backgroundColor: 'transparent',
-              color: '#ffffff',
-              border: '1px solid #ffffff',
-              borderRadius: '8px',
-              fontSize: '14px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#ffffff';
-              e.currentTarget.style.color = '#000000';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'transparent';
-              e.currentTarget.style.color = '#ffffff';
-            }}
-          >
-            회원가입 바로가기
-            <Image
-              src="/arrow_button_icon_white.png"
-              alt="화살표 아이콘"
-              width={8}
-              height={8}
-            />
-          </button>
-        </Link>
-      </div>
-    </section>
+        {/* 볼드 텍스트들 */}
+        <div
+          style={{
+            marginBottom: '48px',
+            textAlign: 'center',
+          }}
+        >
+          {BOLD_TEXTS.map((text, index) => (
+            <div
+              key={index}
+              style={{
+                fontSize: '18px',
+                fontWeight: '700',
+                marginBottom: '12px',
+                color: '#ffffff',
+              }}
+            >
+              {text}
+            </div>
+          ))}
+        </div>
+
+        {/* 버튼들 */}
+        <div
+          style={{
+            display: 'flex',
+            gap: '16px',
+            justifyContent: 'center',
+          }}
+        >
+          {/* 파트너십 문의하기 버튼 */}
+          <a href="mailto:klaci@triplelight.co?subject=파트너십 문의&body=안녕하세요, KLACI 파트너십에 대해 문의드립니다.%0D%0A%0D%0A[여기에 문의 내용을 작성해주세요]%0D%0A%0D%0A감사합니다.">
+            <Button label='파트너십 문의하기'
+              variant='primary'
+              icon={<ArrowRightUp color='#000000' />} />
+          </a>
+
+          {/* 회원가입 바로가기 버튼 */}
+          <Link href={ROUTES.SIGNUP}>
+            <Button label='회원가입 바로가기'
+              variant='secondary'
+              icon={<ArrowRightUp color='#ffffff' />} />
+          </Link>
+        </div>
+      </section>
+    </Flex>
   );
 };
 

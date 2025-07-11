@@ -2,6 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import React from 'react';
+import { ArrowRightUp } from '../atoms/assets';
+import Button from '../atoms/buttons/Button';
 
 interface ContentSectionVerticalProps {
   badgeText: string;
@@ -45,10 +47,12 @@ const ContentSectionVertical: React.FC<ContentSectionVerticalProps> = ({
     <div
       style={{
         width: '100%',
-        minHeight: '600px',
+        minHeight: '1080px',
+        height: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        padding: '60px 20px',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
       {/* 메인 그리드 */}
@@ -57,8 +61,7 @@ const ContentSectionVertical: React.FC<ContentSectionVerticalProps> = ({
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
           gap: '40px',
-          maxWidth: '1200px',
-          margin: '0 auto',
+          maxWidth: '1400px',
           minHeight: '500px',
           alignItems: 'stretch',
           width: '100%',
@@ -70,10 +73,10 @@ const ContentSectionVertical: React.FC<ContentSectionVerticalProps> = ({
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'flex-start',
-            justifyContent: 'space-between',
+            justifyContent: 'center',
             width: '100%',
             height: '100%',
-            gap: '10px',
+            gap: '77px',
           }}
         >
           {/* 상단: 뱃지와 타이틀 */}
@@ -91,10 +94,10 @@ const ContentSectionVertical: React.FC<ContentSectionVerticalProps> = ({
                 backgroundColor: 'transparent',
                 color: styling.textColor || 'white',
                 padding: '8px 16px',
-                borderRadius: '20px',
+                borderRadius: '9px',
                 fontSize: '14px',
-                fontWeight: '400',
-                marginBottom: '20px',
+                fontWeight: '500',
+                marginBottom: '28px',
                 border: `1px solid ${styling.textColor || 'white'}`,
               }}
             >
@@ -102,10 +105,10 @@ const ContentSectionVertical: React.FC<ContentSectionVerticalProps> = ({
             </div>
             <div
               style={{
-                fontSize: '32px',
-                fontWeight: 'bold',
+                fontSize: '48px',
+                fontWeight: '600',
                 color: styling.textColor || 'white',
-                lineHeight: '1.2',
+                lineHeight: '68px',
               }}
             >
               {title.lines.map((line, index) => (
@@ -152,15 +155,16 @@ const ContentSectionVertical: React.FC<ContentSectionVerticalProps> = ({
             {/* 상단 일반 텍스트 */}
             <div
               style={{
-                fontSize: '14px',
-                color: styling.textColor || 'white',
-                lineHeight: '1.5',
+                fontSize: '18px',
+                color: '#D9D9E8',
+                lineHeight: '28px',
                 marginBottom: '30px',
-                width: '100%',
+                width: '655px',
+                fontWeight: '400',
               }}
             >
               {description.texts.map((text, index) => (
-                <div key={index} style={{ marginBottom: '0px', width: '100%' }}>
+                <div key={index} style={{ marginBottom: '0px', width: '100%', textAlign: 'justify' }}>
                   {text}
                 </div>
               ))}
@@ -169,50 +173,35 @@ const ContentSectionVertical: React.FC<ContentSectionVerticalProps> = ({
             {/* 하단 볼드 텍스트 */}
             <div
               style={{
-                fontSize: '15px',
-                color: styling.textColor || 'white',
+                fontSize: '18px',
+                color: '#D9D9E8',
                 marginBottom: '30px',
-                fontWeight: 'bold',
+                fontWeight: '700',
                 width: '100%',
               }}
             >
               {description.boldTexts.map((text, index) => (
-                <div key={index} style={{ marginBottom: '8px', width: '100%' }}>
+                <div
+                  key={index}
+                  style={{
+                    width: '100%',
+                    whiteSpace: 'pre-line',
+                    lineHeight: '28px',
+                    color: '#D9D9E8',
+                  }}
+                >
                   {text}
                 </div>
               ))}
             </div>
 
             {/* 버튼 */}
-            <button
+
+            <Button
+              label={button.text}
               onClick={handleButtonClick}
-              style={{
-                backgroundColor: 'white',
-                color: 'black',
-                border: 'none',
-                borderRadius: '8px',
-                padding: '14px 32px',
-                fontSize: '16px',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-              }}
-            >
-              {button.text}
-              <img
-                src="/arrow_button_icon.png"
-                alt="화살표 아이콘"
-                style={{
-                  width: '10px',
-                  height: '10px',
-                  display: 'block',
-                  alignSelf: 'flex-start',
-                  marginTop: '2px',
-                }}
-              />
-            </button>
+              icon={<ArrowRightUp />}
+            />
           </div>
         </div>
 

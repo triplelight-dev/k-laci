@@ -23,6 +23,8 @@ export default function LoginSection({
     <div
       style={{
         width: '100%',
+        height: 'calc(100vh - 100px)',
+        minHeight: '800px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -46,7 +48,7 @@ export default function LoginSection({
             style={{
               display: 'flex',
               justifyContent: 'center',
-              marginBottom: '5px',
+              marginBottom: '17px',
             }}
           >
             <div
@@ -64,12 +66,12 @@ export default function LoginSection({
           </div>
 
           {/* 타이틀 */}
-          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+          <div style={{ textAlign: 'center', marginBottom: '61px' }}>
             <h1
               style={{
-                fontSize: '1.875rem',
-                fontWeight: '700',
-                color: '#111827',
+                fontSize: '30px',
+                fontWeight: '600',
+                color: '#000000',
               }}
             >
               회원 로그인
@@ -84,33 +86,22 @@ export default function LoginSection({
             setPassword={setPassword}
             isLoading={isLoading}
             onSubmit={onSubmit}
+            error={error}
           />
 
-          {/* 에러 메시지 */}
-          {error && (
-            <div
-              style={{
-                fontSize: '14px',
-                color: '#EF4444',
-                textAlign: 'center',
-                marginTop: '1rem',
-              }}
-            >
-              {error}
-            </div>
-          )}
 
           {/* 회원가입 링크 */}
           <div
             style={{
               textAlign: 'center',
-              marginTop: '2rem',
+              marginTop: '46px',
             }}
           >
             <span
               style={{
-                fontSize: '14px',
+                fontSize: '18px',
                 color: '#000000',
+                fontWeight: '400',
               }}
             >
               아직 회원이 아니신가요?{' '}
@@ -118,12 +109,12 @@ export default function LoginSection({
             <a
               href="/auth/signup"
               style={{
-                fontSize: '14px',
+                fontSize: '18px',
                 color: '#000000',
                 textDecoration: 'underline',
                 textDecorationColor: '#000000',
                 textDecorationThickness: '1px',
-                fontWeight: '500',
+                fontWeight: '400',
               }}
             >
               회원가입 바로가기
@@ -134,13 +125,13 @@ export default function LoginSection({
           <div
             style={{
               textAlign: 'center',
-              marginTop: '15px',
+              marginTop: '30px',
             }}
           >
             <a
               href="#"
               style={{
-                fontSize: '14px',
+                fontSize: '18px',
                 color: '#000000',
                 textDecoration: 'underline',
                 textDecorationColor: '#000000',

@@ -80,16 +80,15 @@ export const useSignupFlow = () => {
 
       // "이미 가입된 이메일입니다" 에러 특별 처리
       if (errorMessage === '이미 가입된 이메일입니다.') {
-        setError('이미 가입된 계정입니다. 홈으로 곧 이동합니다.');
+        setError('입력하신 정보로는 신규 회원가입이 불가능합니다. 다른 이메일 주소를 입력해주세요.');
 
-        // 상태 업데이트가 완료된 후 3초 대기
-        setTimeout(() => {
-          router.push('/');
-        }, 3000);
       } else {
         setError(errorMessage);
       }
+
     } finally {
+
+      console.log('setIsLoading(false)');
       setIsLoading(false);
     }
   };
@@ -101,15 +100,20 @@ export const useSignupFlow = () => {
     setVerificationError('');
 
     try {
-      await AuthService.verifyCode({
+      const response = await AuthService.verifyCode({
         email,
         code: verificationCode,
       });
       // 인증 성공 - 2/2 단계로 전환
-      setIsVerified(true);
-      // 이메일 도메인에 따른 사용자 타입 설정
-      const userTypeFromEmail = getUserTypeFromEmail(email);
-      setUserType(userTypeFromEmail);
+      if (response.data.verified) {
+        setIsVerified(response.data.verified);
+        // 이메일 도메인에 따른 사용자 타입 설정
+        const userTypeFromEmail = getUserTypeFromEmail(email);
+        setUserType(userTypeFromEmail);
+      } else {
+        setVerificationError('인증번호가 일치하지 않습니다.');
+      }
+
     } catch (err: any) {
       setVerificationError(
         err.response?.data?.message || '인증번호 검증 중 오류가 발생했습니다.',
@@ -135,12 +139,12 @@ export const useSignupFlow = () => {
 
       // "이미 가입된 이메일입니다" 에러 특별 처리
       if (errorMessage === '이미 가입된 이메일입니다.') {
-        setError('이미 가입된 계정입니다. 홈으로 곧 이동합니다.');
+        setError('입력하신 정보로는 신규 회원가입이 불가능합니다. 다른 이메일 주소를 입력해주세요.');
 
         // 상태 업데이트가 완료된 후 3초 대기
-        setTimeout(() => {
-          router.push('/');
-        }, 3000);
+        // setTimeout(() => {
+        //   router.push('/');
+        // }, 3000);
       } else {
         setError(errorMessage);
       }

@@ -92,7 +92,6 @@ const FooterTopSection = () => {
                       textDecorationColor: '#D1D5DB',
                       textDecorationThickness: '1px',
                       cursor: 'pointer',
-                      fontWeight: 'bold',
                     }}
                   >
                     {line}
@@ -119,8 +118,8 @@ const FooterTopSection = () => {
               style={{
                 color: '#D1D5DB',
                 fontSize: '14px',
-                fontWeight: 'bold',
                 cursor: 'pointer',
+                textDecoration: 'underline',
               }}
             >
               개인정보 처리방침
@@ -132,8 +131,8 @@ const FooterTopSection = () => {
               style={{
                 color: '#D1D5DB',
                 fontSize: '14px',
-                fontWeight: 'bold',
                 cursor: 'pointer',
+                textDecoration: 'underline',
               }}
             >
               서비스 이용약관
@@ -145,8 +144,8 @@ const FooterTopSection = () => {
               style={{
                 color: '#D1D5DB',
                 fontSize: '14px',
-                fontWeight: 'bold',
                 cursor: 'pointer',
+                textDecoration: 'underline',
               }}
             >
               마케팅 정보 수신
@@ -180,7 +179,7 @@ const FooterTopSection = () => {
                 fontSize: '14px',
               }}
             >
-              {EMAIL_ADDRESS}
+              <a href={`mailto:${EMAIL_ADDRESS}`}>{EMAIL_ADDRESS}</a>
             </div>
           </div>
         </div>

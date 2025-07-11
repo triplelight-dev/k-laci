@@ -36,16 +36,16 @@ export default function PasswordInputGroup({
       >
         <label
           style={{
-            fontSize: '14px',
-            fontWeight: '700',
-            color: '#374151',
+            fontSize: '18px',
+            fontWeight: '400',
+            color: '#000',
           }}
         >
           비밀번호
         </label>
         <span
           style={{
-            fontSize: '12px',
+            fontSize: '14px',
             color: '#9A9EA3',
             fontWeight: '500',
           }}
@@ -66,11 +66,11 @@ export default function PasswordInputGroup({
         }}
         style={{
           width: '100%',
-          height: '50px',
+          height: '60px',
           fontSize: '16px',
-          padding: '0 1rem',
+          padding: '10px 21px',
           border: isPasswordFocused ? '1px solid #000000' : 'none',
-          borderRadius: '0.5rem',
+          borderRadius: '17px',
           outline: 'none',
           color: '#111827',
           boxSizing: 'border-box',
@@ -95,11 +95,11 @@ export default function PasswordInputGroup({
         }}
         style={{
           width: '100%',
-          height: '50px',
+          height: '60px',
           fontSize: '16px',
-          padding: '0 1rem',
+          padding: '10px 21px',
           border: isConfirmFocused ? '1px solid #000000' : 'none',
-          borderRadius: '0.5rem',
+          borderRadius: '17px',
           outline: 'none',
           color: '#111827',
           boxSizing: 'border-box',
@@ -113,7 +113,7 @@ export default function PasswordInputGroup({
       {passwordError && (
         <p
           style={{
-            fontSize: '12px',
+            fontSize: '14px',
             color: '#DC2626',
             marginTop: '4px',
             marginBottom: '4px',
@@ -125,7 +125,7 @@ export default function PasswordInputGroup({
       {confirmPasswordError && (
         <p
           style={{
-            fontSize: '12px',
+            fontSize: '14px',
             color: '#DC2626',
             marginTop: '4px',
           }}
@@ -138,7 +138,7 @@ export default function PasswordInputGroup({
       {!passwordError && !confirmPasswordError && (
         <p
           style={{
-            fontSize: '12px',
+            fontSize: '14px',
             color: '#6B7280',
             marginTop: '4px',
           }}

@@ -27,16 +27,17 @@ export default function UserTypeBadge({ type, isActive }: UserTypeBadgeProps) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        height: '10px',
-        padding: '8px 16px',
-        borderRadius: '16px',
-        backgroundColor: isActive ? 'white' : '#F3F4F6',
-        color: isActive ? '#000000' : '#6B7280',
+        height: 'fit-content',
+        padding: '6px 10px',
+        borderRadius: '14px',
+        backgroundColor: isActive ? 'white' : '#F5F5F5',
+        color: isActive ? '#000000' : '#C3C5C8',
         fontSize: '14px',
         fontWeight: '500',
-        border: `1px solid ${isActive ? '#D1D5DB' : '#E5E7EB'}`,
+        border: `1px solid ${isActive ? '#000' : 'transparent'}`,
         cursor: 'default',
         textAlign: 'center',
+        lineHeight: '14px',
       }}
     >
       {label}

@@ -3,6 +3,7 @@
 import { useKeyIndexData, useRegionStrengthIndexes } from '@/api/hooks';
 import IndexModal from '@/components/atoms/modal/IndexModal';
 import { useDistrict, useIsLoggedIn } from '@/store';
+import { Flex, Text } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 
 // 색상 맵 정의
@@ -64,77 +65,104 @@ export interface IndexData {
 
 // 지수 컴포넌트
 const IndexItem: React.FC<{
+  indexRank: number;
   data: IndexData;
   onClick: (data: IndexData) => void;
   isDisabled?: boolean;
-}> = ({ data, onClick, isDisabled = false }) => {
+}> = ({ indexRank, data, onClick, isDisabled = false }) => {
+
   const categoryColor = colorMap[data.category] || '#874FFF';
 
+
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '12px',
-        padding: '8px 12px',
-        backgroundColor: '#F1F1F1',
-        borderRadius: '12px',
-        marginBottom: '8px',
-        cursor: isDisabled ? 'default' : 'pointer',
-        transition: 'all 0.2s ease',
-        paddingTop: '12px',
-        paddingBottom: '12px',
-      }}
-      onClick={() => !isDisabled && onClick(data)}
-      onMouseEnter={(e) => {
-        if (!isDisabled) {
-          e.currentTarget.style.background = `white`;
-        }
-      }}
-      onMouseLeave={(e) => {
-        if (!isDisabled) {
-          e.currentTarget.style.background = '#F1F1F1';
-        }
-      }}
-    >
-      {/* 뱃지 */}
+    <Flex>
+      <div style={{ margin: '15px 19px', width: '40px' }}>
+        <Text
+          color={indexRank === 1 || indexRank === 55 ? '#000' : '#9A9EA3'}
+          fontSize='14px'
+          fontWeight='500'
+          marginBottom='4px'
+          display='flex'
+          alignItems='center'
+          flexDirection='column'
+        >
+          {indexRank}위
+          {indexRank === 1 && <Text color='#000' fontSize='14px' fontWeight='500' >(강점)</Text>}
+          {indexRank === 55 && <Text color='#000' fontSize='14px' fontWeight='500' >(약점)</Text>}
+        </Text>
+      </div>
       <div
         style={{
-          padding: '4px 8px',
-          backgroundColor: hexToRgba(categoryColor, 0.2),
-          borderRadius: '6px',
-          fontSize: '14px',
-          fontWeight: '500',
-          color: categoryColor,
-          whiteSpace: 'nowrap',
+          display: 'flex',
+          alignItems: 'center',
+          width: '284px',
+          gap: '12px',
+          padding: '8px 12px',
+          backgroundColor: '#F5F5F5',
+          border: '1px solid #E7E8EA',
+          borderRadius: '12px',
+          marginBottom: '14px',
+          cursor: isDisabled ? 'default' : 'pointer',
+          transition: 'all 0.2s ease',
+          paddingTop: '12px',
+          paddingBottom: '12px',
+        }}
+        onClick={() => !isDisabled && onClick(data)}
+        onMouseEnter={(e) => {
+          if (!isDisabled) {
+            e.currentTarget.style.background = `white`;
+            e.currentTarget.style.border = `1px solid #000`;
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (!isDisabled) {
+            e.currentTarget.style.background = '#F5F5F5';
+            e.currentTarget.style.border = `1px solid #E7E8EA`;
+          }
         }}
       >
-        {data.category}
-      </div>
+        {/* 뱃지 */}
+        <div
+          style={{
+            padding: '4px 8px',
+            backgroundColor: hexToRgba(categoryColor, 0.2),
+            borderRadius: '6px',
+            fontSize: '14px',
+            fontWeight: '500',
+            color: categoryColor,
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {data.category}
+        </div>
 
-      {/* 값 */}
-      <span
-        style={{
-          color: '#000000',
-          fontSize: '16px',
-          fontWeight: '400',
-        }}
-      >
-        {data.indexName}
-      </span>
-    </div>
+        {/* 값 */}
+        <span
+          style={{
+            color: '#000000',
+            fontSize: '18px',
+            fontWeight: '400',
+          }}
+        >
+          {data.indexName}
+        </span>
+      </div>
+    </Flex >
   );
 };
 
 // 지표 섹션 컴포넌트
 const IndexSection: React.FC<{
-  title: string;
+  indexType: 'strength' | 'weakness';
   data: IndexData[];
   isStrength?: boolean;
   onItemClick: (data: IndexData) => void;
   isDisabled?: boolean;
-}> = ({ title, data, onItemClick, isDisabled = false, isStrength }) => {
-  const rankRange = isStrength ? '1~10위 순' : '55~46위 순';
+}> = ({ indexType, data, onItemClick, isDisabled = false }) => {
+
+  const indexRankOffset = indexType === 'strength' ? 1 : 55;
+
+
   return (
     <div
       style={{
@@ -143,37 +171,6 @@ const IndexSection: React.FC<{
         color: '#000000',
       }}
     >
-      <div
-        style={{
-          display: 'flex',
-          flex: 1,
-          flexDirection: 'column',
-          gap: '5px',
-        }}
-      >
-        {/* 타이틀 */}
-        <div
-          style={{
-            fontSize: '20px',
-            fontWeight: '600',
-            marginBottom: '4px',
-          }}
-        >
-          {title}
-        </div>
-
-        {/* 순위 표시 */}
-        <div
-          style={{
-            fontSize: '14px',
-            fontWeight: '400',
-            marginBottom: '16px',
-          }}
-        >
-          {rankRange}
-        </div>
-      </div>
-
       {/* 지수 목록 */}
       <div
         style={{
@@ -186,6 +183,7 @@ const IndexSection: React.FC<{
         {data.map((item, index) => (
           <IndexItem
             key={index}
+            indexRank={indexType === 'strength' ? index + indexRankOffset : indexRankOffset - index}
             data={item}
             onClick={onItemClick}
             isDisabled={isDisabled}
@@ -342,14 +340,14 @@ const StrengthWeaknessIndexSection: React.FC = () => {
       <div
         style={{
           display: 'flex',
-          gap: '50px',
           width: '100%',
+          justifyContent: 'space-between',
         }}
       >
         {/* 강점지표 */}
         <IndexSection
-          title="강점지표"
-          data={strengthData}
+          indexType='strength'
+          data={isLoggedIn ? strengthData : strengthData.slice(0, 5)}
           isStrength={true}
           onItemClick={handleItemClick}
           isDisabled={!isLoggedIn}
@@ -357,8 +355,8 @@ const StrengthWeaknessIndexSection: React.FC = () => {
 
         {/* 약점지표 */}
         <IndexSection
-          title="약점지표"
-          data={weaknessData}
+          indexType='weakness'
+          data={isLoggedIn ? weaknessData : weaknessData.slice(0, 5)}
           isStrength={false}
           onItemClick={handleItemClick}
           isDisabled={!isLoggedIn}

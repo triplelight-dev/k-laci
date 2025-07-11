@@ -2,6 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import React from 'react';
+import { ArrowRightUp } from '../atoms/assets';
+import Button from '../atoms/buttons/Button';
 
 interface ContentSectionProps {
   badgeText: string;
@@ -46,11 +48,13 @@ const ContentSection: React.FC<ContentSectionProps> = ({
     <div
       style={{
         width: '100%',
-        minHeight: '600px',
+        minHeight: '1080px',
         backgroundColor: styling.backgroundColor || 'transparent',
         display: 'flex',
         flexDirection: 'column',
-        padding: '60px 20px',
+        gap: '65px',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
       {/* 상단 2x2 그리드 */}
@@ -59,7 +63,7 @@ const ContentSection: React.FC<ContentSectionProps> = ({
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
           gap: '40px',
-          maxWidth: '1200px',
+          maxWidth: '1400px',
           minHeight: '300px',
           alignItems: 'flex-start',
           width: '100%',
@@ -80,9 +84,9 @@ const ContentSection: React.FC<ContentSectionProps> = ({
               backgroundColor: 'transparent',
               color: styling.textColor || 'white',
               padding: '8px 16px',
-              borderRadius: '20px',
+              borderRadius: '9px',
               fontSize: '14px',
-              fontWeight: '400',
+              fontWeight: '500',
               marginBottom: '20px',
               border: `1px solid ${styling.textColor || 'white'}`,
             }}
@@ -91,10 +95,10 @@ const ContentSection: React.FC<ContentSectionProps> = ({
           </div>
           <div
             style={{
-              fontSize: '32px',
-              fontWeight: 'bold',
+              fontSize: '48px',
+              fontWeight: '600',
               color: styling.textColor || 'white',
-              lineHeight: '1.2',
+              lineHeight: '68px',
             }}
           >
             {title.lines.map((line, index) => (
@@ -141,15 +145,16 @@ const ContentSection: React.FC<ContentSectionProps> = ({
           {/* 상단 일반 텍스트 */}
           <div
             style={{
-              fontSize: '14px',
-              color: styling.textColor || 'white',
+              fontSize: '18px',
+              color: '#D9D9E8',
               lineHeight: '1.5',
               marginBottom: '20px',
+              fontWeight: '400',
               width: '100%',
             }}
           >
             {description.texts.map((text, index) => (
-              <div key={index} style={{ marginBottom: '12px', width: '100%' }}>
+              <div key={index} style={{ marginBottom: '12px', width: '100%', textAlign: 'justify' }}>
                 {text}
               </div>
             ))}
@@ -158,50 +163,27 @@ const ContentSection: React.FC<ContentSectionProps> = ({
           {/* 하단 볼드 텍스트 */}
           <div
             style={{
-              fontSize: '15px',
-              color: styling.textColor || 'white',
+              fontSize: '18px',
+              color: '#D9D9E8',
               marginBottom: '30px',
-              fontWeight: 'bold',
+              fontWeight: '700',
               width: '100%',
             }}
           >
             {description.boldTexts.map((text, index) => (
-              <div key={index} style={{ marginBottom: '8px', width: '100%' }}>
+              <div key={index} style={{ width: '100%', textAlign: 'justify', lineHeight: '28px', color: '#D9D9E8' }}>
                 {text}
               </div>
             ))}
           </div>
 
           {/* 버튼 */}
-          <button
+          <Button
+            label={button.text}
+            icon={<ArrowRightUp />}
             onClick={handleButtonClick}
-            style={{
-              backgroundColor: 'white',
-              color: 'black',
-              border: 'none',
-              borderRadius: '8px',
-              padding: '14px 32px',
-              fontSize: '14px',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-            }}
-          >
-            {button.text}
-            <img
-              src="/arrow_button_icon.png"
-              alt="화살표 아이콘"
-              style={{
-                width: '10px',
-                height: '10px',
-                display: 'block',
-                alignSelf: 'flex-start',
-                marginTop: '2px',
-              }}
-            />
-          </button>
+          />
+
         </div>
       </div>
 
@@ -209,9 +191,9 @@ const ContentSection: React.FC<ContentSectionProps> = ({
       <div
         style={{
           width: '100%',
-          maxWidth: '1200px',
+          maxWidth: '1400px',
           margin: '0 auto',
-          height: bottomImage.height || '300px',
+          height: bottomImage.height || '442px',
           backgroundImage: `url(${bottomImage.src})`,
           backgroundSize: 'contain',
           backgroundPosition: 'center',

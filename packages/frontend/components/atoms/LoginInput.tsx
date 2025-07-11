@@ -22,8 +22,8 @@ export default function LoginInput({
       required={required}
       style={{
         width: '100%',
-        height: '50px',
-        fontSize: '16px',
+        height: '60px',
+        fontSize: '18px',
         fontWeight: '400',
         padding: '0 1rem',
         border: '1px solid transparent',

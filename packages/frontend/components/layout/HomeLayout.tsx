@@ -1,5 +1,5 @@
 import Footer from '@/components/Footer';
-import Header from '@/components/Header';
+import Header from '@/components/Header/Header';
 import HomePreRegistrationSection from '@/components/sections/HomePreRegistrationSection';
 
 import { DARK_MODE_COLORS } from '@/utils/colors';
@@ -9,6 +9,7 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
     <div
       style={{
         width: '100%',
+        minWidth: '1500px',
         minHeight: '100vh',
         backgroundColor: DARK_MODE_COLORS.background,
         justifyContent: 'center',
@@ -17,20 +18,8 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
         flexDirection: 'column',
       }}
     >
-      <Header />
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: '80%',
-          maxWidth: '1000px',
-          gap: '100px',
-        }}
-      >
-        {children}
-      </div>
+      <Header isBlackTheme={true} />
+      {children}
       <HomePreRegistrationSection />
       <Footer />
     </div>

@@ -1,7 +1,8 @@
 'use client';
 
+import { ArrowRightUp } from '@/components/atoms/assets';
+import Button from '@/components/atoms/buttons/Button';
 import { ROUTES } from '@/constants/data';
-import { DARK_MODE_COLORS } from '@/utils/colors';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
@@ -10,13 +11,8 @@ const ViewResultSuggestionSection: React.FC = () => {
 
   const descriptionTexts = [
     '이제 대한민국 229개 지방자치단체의 고유한 자산역량 탐색을 시작해보세요.',
-    '지역명 검색 또는 유형별 조회를 통해 우리 지역의 숨겨진 강점과 새로운 기회를 직접 발견하고,',
-    '이를 바탕으로 맞춤형 성장 전략을 위한 통찰을 얻을 수 있습니다.',
+    '지역명 검색 또는 유형별 조회를 통해 우리 지역의 숨겨진 강점과 새로운 기회를 직접 발견하고, 이를 바탕으로 맞춤형 성장 전략을 위한 통찰을 얻을 수 있습니다.',
   ];
-
-  const handleDistrictSearchClick = () => {
-    router.push(ROUTES.RESULT);
-  };
 
   const handleMainResultsClick = () => {
     router.push(ROUTES.SUMMARY);
@@ -26,41 +22,58 @@ const ViewResultSuggestionSection: React.FC = () => {
     <div
       style={{
         width: '100%',
-        backgroundColor: DARK_MODE_COLORS.background,
-        maxWidth: '1100px',
+        backgroundImage: 'url(/backgrounds/about_gradient_el.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        maxWidth: '1400px',
+        height: '415px',
         borderRadius: '32px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        paddingBottom: '80px',
-        marginBottom: '80px',
+        // paddingBottom: '80px',
+        marginBottom: '197px',
       }}
     >
       <div
         style={{
           display: 'flex',
-          padding: '40px 0px',
-          gap: '60px',
+          padding: '85px 0px',
+          gap: '222px',
           width: '90%',
         }}
       >
         {/* 좌측: 큰 타이틀 */}
         <div
           style={{
-            flex: 1,
+            // flex: 1,
+            maxWidth: '654px',
           }}
         >
           <div
             style={{
-              fontSize: '32px',
+              fontSize: '48px',
               fontWeight: '600',
               color: 'white',
-              lineHeight: '1.3',
+              lineHeight: '68px',
               textAlign: 'left',
             }}
           >
-            <div>우리 지역의 강점과 기회를</div>
+            <div>우리 지역의 <span style={{
+              background: ' linear-gradient(110.4deg, #F56542 0.5%, #F4B04D 35%, #ACAAE8 65%, #74BF9E 99%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              display: 'inline',
+            }}>강점</span>과 <span style={{
+              background: ' linear-gradient(100.4deg, #F56542 2.5%, #F4B04D 35%, #ACAAE8 65%, #74BF9E 99%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              display: 'inline',
+            }}>기회</span>를</div>
             <div>직접 확인해보세요</div>
           </div>
         </div>
@@ -87,9 +100,11 @@ const ViewResultSuggestionSection: React.FC = () => {
               <div
                 key={index}
                 style={{
-                  fontSize: '14px',
+                  textAlign: 'justify',
+                  fontSize: '18px',
+                  fontWeight: '400',
                   color: 'white',
-                  lineHeight: '1.5',
+                  lineHeight: '28px',
                   opacity: 0.9,
                 }}
               >
@@ -98,76 +113,37 @@ const ViewResultSuggestionSection: React.FC = () => {
             ))}
           </div>
 
-          {/* 하단 두 개 버튼 */}
+          {/* 하단 버튼 */}
           <div
             style={{
               display: 'flex',
-              gap: '16px',
+              justifyContent: 'flex-start',
+              width: '100%',
             }}
           >
-            {/* 왼쪽 버튼: 흰색 배경 */}
-            <button
-              onClick={handleDistrictSearchClick}
-              style={{
-                backgroundColor: 'white',
-                color: 'black',
-                border: 'none',
-                borderRadius: '8px',
-                padding: '14px 24px',
-                fontSize: '14px',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                justifyContent: 'center',
-                minWidth: '180px',
-              }}
-            >
-              지자체 조회 바로가기
-              <img
-                src="/arrow_button_icon.png"
-                alt="화살표 아이콘"
-                style={{
-                  width: '10px',
-                  height: '10px',
-                  display: 'block',
-                }}
-              />
-            </button>
 
             {/* 오른쪽 버튼: 투명 배경 흰색 보더 */}
-            <button
-              onClick={handleMainResultsClick}
-              style={{
-                backgroundColor: 'transparent',
-                color: 'white',
-                border: '1px solid white',
-                borderRadius: '8px',
-                padding: '14px 24px',
-                fontSize: '14px',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                justifyContent: 'center',
-                minWidth: '180px',
-              }}
-            >
-              주요 결과 바로가기
-              <img
-                src="/arrow_button_icon_white.png"
-                alt="화살표 아이콘"
+            <div style={{ display: 'flex', gap: '20px', justifyContent: 'flex-start' }}>
+              <Button label='지자체 조회 바로가기' variant='primary' onClick={handleMainResultsClick}
+                width='255px'
                 style={{
-                  width: '10px',
-                  height: '10px',
-                  display: 'block',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+
+                }}
+                icon={<ArrowRightUp />}
+              />
+              <Button label='주요 결과 바로가기' icon={<ArrowRightUp color='#ffffff' />} variant='secondary' onClick={handleMainResultsClick}
+                width='255px'
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               />
-            </button>
+            </div>
+
           </div>
         </div>
       </div>

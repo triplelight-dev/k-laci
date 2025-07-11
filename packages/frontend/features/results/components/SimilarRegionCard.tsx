@@ -18,12 +18,16 @@ interface SimilarRegionData {
   display_type?: string; // API에서 받은 표시 타입 추가
   selection_tags?: string[]; // 선택 조건 태그 추가
   [key: string]: any; // 추가 속성들을 위한 인덱스 시그니처
+
 }
 
 interface SimilarRegionCardProps {
   data: SimilarRegionData;
   onClick?: (item: SimilarRegionData) => void;
   style?: React.CSSProperties;
+  topDivStyle?: React.CSSProperties;
+  isHideBadge?: boolean;
+  bottomDivStyle?: React.CSSProperties;
 }
 
 // 랜덤 목업 데이터 생성 함수 (실제 데이터가 없을 때만 사용)
@@ -79,6 +83,9 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
   data,
   onClick,
   style,
+  topDivStyle,
+  isHideBadge,
+  bottomDivStyle,
 }) => {
   // 실제 데이터가 있으면 사용, 없으면 목업 데이터 사용
   const klaciCode = data.klaciCode || 'GCMR'; // 기본값 설정
@@ -100,9 +107,9 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
       style={{
         minWidth: '350px',
         width: '260px',
-        height: '540px',
-        backgroundColor: '#f5f5f5', // 전체 회색 배경
-        borderRadius: '36px',
+        height: '562px',
+        backgroundColor: '#FAFAFA', // 전체 회색 배경
+        borderRadius: '40px',
         cursor: 'pointer',
         display: 'flex',
         flexDirection: 'column',
@@ -119,21 +126,23 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
           top: '0',
           left: '0',
           right: '0',
-          height: '70px', // 상단 영역 높이
+          height: '127px', // 상단 영역 높이
           backgroundColor: 'white',
-          padding: '20px',
+          padding: '34px 40px',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'flex-start',
-          alignItems: 'flex-start',
+          justifyContent: 'center',
+          alignItems: 'center',
           zIndex: 10,
+          ...topDivStyle,
           pointerEvents: 'none', // 추가: 마우스 이벤트를 부모로 전달
         }}
       >
         {/* 종합순위 */}
         <div
           style={{
-            fontSize: '15px',
+            fontSize: '14px',
+            fontWeight: '500',
             color: 'black',
             marginTop: '10px',
             marginBottom: '8px',
@@ -145,8 +154,8 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
         {/* 지역명 */}
         <div
           style={{
-            fontSize: '26px',
-            fontWeight: 'bold',
+            fontSize: '30px',
+            fontWeight: '600',
             color: '#000',
             pointerEvents: 'none', // 추가
           }}
@@ -159,12 +168,13 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
       <div
         style={{
           flex: 1,
-          backgroundColor: '#f5f5f5',
+          backgroundColor: '#FAFAFA',
           display: 'flex',
           flexDirection: 'column',
           padding: '20px',
           marginTop: '80px', // 상단 흰색 영역 높이만큼 여백
           pointerEvents: 'none', // 추가: 마우스 이벤트를 부모로 전달
+          ...bottomDivStyle,
         }}
       >
         {/* 상단 - 레이더 차트 */}
@@ -173,7 +183,8 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            marginBottom: '20px',
+            marginTop: '5px',
+            height: '260px',
             padding: '5px',
             pointerEvents: 'none', // 추가
           }}
@@ -190,7 +201,7 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
           style={{
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'flex-start',
+            alignItems: 'center',
             gap: '12px',
             paddingLeft: '10px',
             pointerEvents: 'none', // 추가
@@ -202,10 +213,10 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
           {/* 지역 타입 */}
           <div
             style={{
-              fontSize: '24px',
-              fontWeight: 'bold',
+              fontSize: '22px',
+              fontWeight: '600',
               color: '#000',
-              textAlign: 'left',
+              textAlign: 'center',
               lineHeight: '1.2',
               pointerEvents: 'none', // 추가
             }}
@@ -218,31 +229,32 @@ const SimilarRegionCard: React.FC<SimilarRegionCardProps> = ({
             style={{
               fontSize: '18px',
               color: 'black',
-              textAlign: 'left',
+              textAlign: 'center',
               lineHeight: '1.2',
-              fontWeight: '600',
+              fontWeight: '400',
               marginBottom: '10px',
-              pointerEvents: 'none', // 추가
+              whiteSpace: 'nowrap',
             }}
           >
             {klaciNickname}
           </div>
 
-          {/* 동적 뱃지 - API에서 받은 display_type 사용 */}
-          <div
-            style={{
-              fontSize: '10px',
-              color: '#000',
-              border: '1px solid #000',
-              backgroundColor: 'transparent',
-              padding: '4px 8px',
-              borderRadius: '8px',
-              fontWeight: '500',
-              pointerEvents: 'none', // 추가
-            }}
-          >
-            {badgeText}
-          </div>
+          {/* '순위가 비슷한' 뱃지 */}
+          {!isHideBadge && (
+            <div
+              style={{
+                fontSize: '14px',
+                color: '#000',
+                border: '1px solid #000',
+                backgroundColor: 'transparent',
+                padding: '4px 8px',
+                borderRadius: '8px',
+                fontWeight: '500',
+              }}
+            >
+              {badgeText}
+            </div>
+          )}
         </div>
       </div>
     </div>

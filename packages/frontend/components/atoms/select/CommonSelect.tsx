@@ -12,6 +12,10 @@ interface CommonSelectProps {
   onChange: (value: string) => void;
   disabled?: boolean;
   defaultLabel?: string;
+  containerStyle?: React.CSSProperties;
+  labelStyle?: React.CSSProperties;
+  selectStyle?: React.CSSProperties;
+  optionStyle?: React.CSSProperties;
 }
 
 const CommonSelect: React.FC<CommonSelectProps> = ({
@@ -20,6 +24,10 @@ const CommonSelect: React.FC<CommonSelectProps> = ({
   onChange,
   disabled = false,
   defaultLabel = '선택',
+  containerStyle,
+  labelStyle,
+  selectStyle,
+  optionStyle,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -50,26 +58,29 @@ const CommonSelect: React.FC<CommonSelectProps> = ({
         display: 'flex',
         alignItems: 'center',
         borderRadius: '50px',
-        padding: '0 20px',
-        height: '50px',
+        padding: '20px 20px',
+        height: 'fit-content',
         minWidth: '100px',
-        backgroundColor: 'white',
+        backgroundColor: 'transparent',
         opacity: disabled ? 0.5 : 1,
         cursor: disabled ? 'not-allowed' : 'pointer',
         userSelect: 'none',
+        ...containerStyle,
       }}
       onClick={() => {
         if (!disabled) setIsOpen(!isOpen);
       }}
     >
-      <span style={{ 
-        flex: 1, 
-        color: '#000000', 
-        fontSize: '14px' 
+      <span style={{
+        flex: 1,
+        color: '#000000',
+        fontSize: '18px',
+        paddingRight: '51px',
+        ...labelStyle,
       }}>
         {selectedLabel}
       </span>
-      <div style={{ 
+      <div style={{
         pointerEvents: 'none',
         transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
         transition: 'transform 0.2s ease-in-out',
@@ -93,6 +104,7 @@ const CommonSelect: React.FC<CommonSelectProps> = ({
           overflow: 'hidden',
           transition: 'max-height 0.2s ease-in-out',
           visibility: isOpen ? 'visible' : 'hidden',
+          ...selectStyle,
         }}
       >
         <ul
@@ -120,6 +132,7 @@ const CommonSelect: React.FC<CommonSelectProps> = ({
                 backgroundColor: 'white',
                 cursor: 'pointer',
                 transition: 'background-color 0.15s ease-in-out',
+                ...optionStyle,
               }}
               onMouseEnter={(e) =>
                 (e.currentTarget.style.backgroundColor = '#F9FAFB')

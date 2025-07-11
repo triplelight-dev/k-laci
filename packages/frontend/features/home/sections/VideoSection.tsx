@@ -7,6 +7,7 @@ const VideoSection: React.FC = () => {
     <div
       style={{
         width: '100%',
+        minHeight: '1080px',
         backgroundColor: '#14161D',
         display: 'flex',
         justifyContent: 'center',

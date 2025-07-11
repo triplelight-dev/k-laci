@@ -1,21 +1,23 @@
 'use client';
 
 import { AuthService } from '@/api/services/auth.service';
-import { HeaderAuthButton } from '@/components/atoms/buttons/HeaderAuthButton';
 import { ROUTES } from '@/constants/data';
 import { useIsLoggedIn, useLogout, useUser } from '@/store';
 import { DARK_MODE_COLORS } from '@/utils/colors';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Button from '../atoms/buttons/Button';
 
-const Header = () => {
+const Header = (
+  {isBlackTheme}: { isBlackTheme: boolean }
+) => {
   const pathname = usePathname();
   const isLoggedIn = useIsLoggedIn();
   const user = useUser();
   const logout = useLogout();
 
   // 테마 분기를 위한 변수 관리 - /summary 루트만 다크모드
-  const isBlackTheme = pathname === '/' || pathname === '/about' || pathname === '/summary';
+  // const isBlackTheme = pathname === '/' || pathname === '/about' || pathname === '/summary';
 
   // 테마별 설정
   const theme = {
@@ -24,8 +26,8 @@ const Header = () => {
     logo: isBlackTheme
       ? '/klaci_logo_white.png'
       : '/klaci_logo_black.png',
-    navigationActiveColor: isBlackTheme ? '#FFFFFF' : '#FFFFFF',
-    navigationInactiveColor: isBlackTheme ? '#BED3FF' : '#BED3FF',
+    navigationActiveColor: isBlackTheme ? '#FFFFFF' : '#000',
+    navigationInactiveColor: isBlackTheme ? '#D9D9E8' : '#1e1e1e',
   };
 
   // 현재 페이지 확인 함수 (수정)
@@ -75,9 +77,14 @@ const Header = () => {
   return (
     <header
       style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         width: '100%',
         backgroundColor: theme.backgroundColor,
         color: theme.textColor,
+        height: '100px',
+        maxWidth: '1400px',
       }}
     >
       <div
@@ -85,10 +92,7 @@ const Header = () => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          width: '80%',
-          margin: '0 auto',
-          padding: '40px 0',
-          paddingBottom: '70px',
+          width: '100%',
         }}
       >
         {/* 1. 좌측: 로고 */}
@@ -113,7 +117,7 @@ const Header = () => {
                 src={theme.logo}
                 alt="K-LACI Logo"
                 style={{
-                  height: '30px',
+                  height: '26px',
                   width: 'auto',
                   marginRight: '15px',
                   cursor: 'pointer',
@@ -142,11 +146,11 @@ const Header = () => {
                     href={item.href}
                     className="font-poppins text-[0.9375rem] leading-[110%] tracking-[-0.45px]"
                     style={{
-                      fontSize: '16px',
+                      fontSize: '18px',
                       color: isActive
                         ? theme.navigationActiveColor
                         : theme.navigationInactiveColor,
-                      fontWeight: isActive ? 800 : 400,
+                      fontWeight: isActive ? 700 : 400,
                       textDecoration: 'none',
                     }}
                   >
@@ -182,33 +186,44 @@ const Header = () => {
                 </span>
 
                 {/* 로그아웃 버튼 */}
-                <HeaderAuthButton
-                  variant="logout"
+                <Button
+                  fontSize="14px"
+                  fontWeight="500"
+                  label="로그아웃"
+                  padding="10px 30px"
                   onClick={handleLogout}
                   theme={isBlackTheme ? 'dark' : 'light'}
                 >
                   로그아웃
-                </HeaderAuthButton>
+                </Button>
               </>
             ) : (
               <>
                 {/* Login Button - 흰색 배경 */}
-                <HeaderAuthButton
-                  variant="login"
-                  href={ROUTES.LOGIN}
-                  theme={isBlackTheme ? 'dark' : 'light'}
-                >
-                  로그인
-                </HeaderAuthButton>
+                <Link href={ROUTES.LOGIN}>
+                  <Button
+                    variant="primary"
+                    label="로그인"
+                    padding="10px 30px"
+                    fontSize="14px"
+                    fontWeight="500"
+                    theme={isBlackTheme ? 'dark' : 'light'}
+                  />
+                </Link>
+
 
                 {/* Signup Button - 투명 배경 흰 보더 + 우측 대각선 아이콘 */}
-                <HeaderAuthButton
-                  variant="signup"
-                  href={ROUTES.SIGNUP}
-                  theme={isBlackTheme ? 'dark' : 'light'}
-                >
-                  회원가입
-                </HeaderAuthButton>
+                <Link href={ROUTES.SIGNUP}>
+                  <Button
+                    variant="secondary"
+                    label="회원가입"
+                    padding="10px 30px"
+                    fontSize="14px"
+                    fontWeight="500"
+                    theme={isBlackTheme ? 'dark' : 'light'}
+
+                  />
+                </Link>
               </>
             )}
           </div>

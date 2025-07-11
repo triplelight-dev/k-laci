@@ -1,6 +1,8 @@
 'use client';
 
-import { DARK_MODE_COLORS } from '@/utils/colors';
+import { ArrowRightUp } from '@/components/atoms/assets';
+import Button from '@/components/atoms/buttons/Button';
+import { Grid } from '@chakra-ui/react';
 import React from 'react';
 
 const AboutUsSection: React.FC = () => {
@@ -11,7 +13,7 @@ const AboutUsSection: React.FC = () => {
 
   const organizations = [
     {
-      title: '트리플라잇주식회사',
+      title: '트리플라잇 주식회사',
       description:
         '트리플라잇은 빅데이터와 AI 기술을 활용해 사회문제를 정의하고 해결 전략을 제시하는 임팩트 전략 허브(Impact Strategy Hub)입니다. 사회·환경적 가치를 측정하고 관리하는 임팩트 측정·관리 및 임팩트 인덱스 개발에 독보적인 전문성을 보유하고 있으며, 기업, 비영리기관, 공공기관 등 다양한 파트너들과 협력하며 긍정적 사회 변화를 가속하고 있습니다. 트리플라잇은 이러한 데이터 분석 역량과 솔루션 개발 경험을 바탕으로, 각 지역의 특성을 객관적이고 과학적으로 진단할 수 있는 정교한 프레임워크를 설계하고 서비스로 구현하는 역할을 수행했습니다.',
       boldKeyword: '임팩트 전략 허브(Impact Strategy Hub)',
@@ -34,25 +36,27 @@ const AboutUsSection: React.FC = () => {
     return parts.map((part, index) => (
       <React.Fragment key={index}>
         {part}
-        {index < parts.length - 1 && <strong>{boldKeyword}</strong>}
+        {index < parts.length - 1 && <strong
+          style={{
+            fontWeight: '700',
+          }}
+        >{boldKeyword}</strong>}
       </React.Fragment>
     ));
   };
 
   return (
-    <div
-      style={{
-        width: '100%',
-        backgroundColor: DARK_MODE_COLORS.background,
-        maxWidth: '1100px',
-        borderRadius: '32px',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'stretch',
-        padding: '100px 40px',
-        marginBottom: '80px',
-      }}
+    <Grid
+      gridTemplateColumns="1fr 1fr"
+      // gap={10}
+      width="100%"
+      maxWidth="1400px"
+      borderRadius="32px"
+      padding="100px 0"
+      marginBottom="80px"
+
+      justifyContent="space-between"
+      alignItems="stretch"
     >
       {/* 좌측 섹션 */}
       <div
@@ -61,7 +65,8 @@ const AboutUsSection: React.FC = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
-          paddingRight: '40px',
+          paddingRight: '140px',
+          borderRight: '1px solid rgba(255, 255, 255, 0.2)',
         }}
       >
         {/* 상단 뱃지 */}
@@ -72,19 +77,19 @@ const AboutUsSection: React.FC = () => {
             color: 'white',
             padding: '6px 12px',
             borderRadius: '8px',
-            fontSize: '12px',
-            fontWeight: '600',
+            fontSize: '14px',
+            fontWeight: '500',
             marginBottom: '24px',
           }}
         >
-          About US
+          ABOUT US
         </div>
 
         {/* 타이틀 */}
         <div
           style={{
-            fontSize: '32px',
-            fontWeight: '700',
+            fontSize: '40px',
+            fontWeight: '600',
             color: 'white',
             lineHeight: '1.3',
             textAlign: 'left',
@@ -107,11 +112,12 @@ const AboutUsSection: React.FC = () => {
             <div
               key={index}
               style={{
-                fontSize: '14px',
+                maxWidth: '650px',
+                fontSize: '18px',
                 color: 'white',
-                lineHeight: '1.6',
+                lineHeight: '28px',
                 opacity: 0.9,
-                textAlign: 'left',
+                textAlign: 'justify',
               }}
             >
               {text}
@@ -120,47 +126,18 @@ const AboutUsSection: React.FC = () => {
         </div>
 
         {/* 버튼 */}
-        <a href="mailto:klaci@triplelight.co?subject=컨설팅, 연구 및 세미나 문의&body=안녕하세요, KLACI 컨설팅, 연구 및 세미나에 대해 문의드립니다.%0D%0A%0D%0A[여기에 문의 내용을 작성해주세요]%0D%0A%0D%0A감사합니다.">
-          <button
-            style={{
-              backgroundColor: 'white',
-              color: 'black',
-              border: 'none',
-              borderRadius: '8px',
-              padding: '14px 24px',
-              fontSize: '14px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              justifyContent: 'center',
-              minWidth: '200px',
-            }}
-          >
-            컨설팅, 연구 및 세미나 문의
-            <img
-              src="/arrow_button_icon.png"
-              alt="화살표 아이콘"
-              style={{
-                width: '10px',
-                height: '10px',
-                display: 'block',
-              }}
-            />
-          </button>
-        </a>
-      </div>
 
-      {/* 구분선 */}
-      <div
-        style={{
-          width: '1px',
-          backgroundColor: 'rgba(255, 255, 255, 0.2)',
-          margin: '0 40px',
-        }}
-      />
+        <Button
+          label='컨설팅, 연구 및 세미나 문의'
+          icon={<ArrowRightUp />}
+          variant='primary'
+          onClick={() => {
+            window.open('mailto:klaci@triplelight.co?subject=컨설팅, 연구 및 세미나 문의&body=안녕하세요, KLACI 컨설팅, 연구 및 세미나에 대해 문의드립니다.%0D%0A%0D%0A[여기에 문의 내용을 작성해주세요]%0D%0A%0D%0A감사합니다.', '_blank');
+          }}
+        />
+
+
+      </div>
 
       {/* 우측 섹션 */}
       <div
@@ -169,7 +146,7 @@ const AboutUsSection: React.FC = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
-          paddingLeft: '40px',
+          paddingLeft: '140px',
         }}
       >
         {organizations.map((org, index) => (
@@ -185,10 +162,10 @@ const AboutUsSection: React.FC = () => {
               {/* 조직명 */}
               <div
                 style={{
-                  fontSize: '24px',
-                  fontWeight: '700',
+                  fontSize: '30px',
+                  fontWeight: '600',
                   color: 'white',
-                  lineHeight: '1.3',
+                  lineHeight: '42px',
                   textAlign: 'left',
                   marginBottom: '35px',
                 }}
@@ -199,11 +176,11 @@ const AboutUsSection: React.FC = () => {
               {/* 설명 */}
               <div
                 style={{
-                  fontSize: '14px',
+                  fontSize: '18px',
                   color: 'white',
-                  lineHeight: '1.6',
+                  lineHeight: '28px',
                   opacity: 0.9,
-                  textAlign: 'left',
+                  textAlign: 'justify',
                   marginBottom: '45px',
                 }}
               >
@@ -247,7 +224,7 @@ const AboutUsSection: React.FC = () => {
           </React.Fragment>
         ))}
       </div>
-    </div>
+    </Grid>
   );
 };
 

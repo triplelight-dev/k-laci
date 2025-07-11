@@ -9,7 +9,7 @@ const StrategySection: React.FC = () => {
     <ContentSectionVertical
       badgeText="KLACI x 대한민국 진짜성장"
       title={{
-        lines: ['지역력 진단으로 시작하는', '5극 3특 국가균형발전 전략'],
+        lines: ['지역력 진단으로', '시작하는 5극 3특', '국가균형발전 전략'],
         gradientWords: [],
       }}
       description={{
@@ -20,7 +20,7 @@ const StrategySection: React.FC = () => {
           `기회를 발견하고 위기에 대응할 최적의 성장 경로 탐색을 돕습니다.`,
         ],
         boldTexts: [
-          '우리 지역의 성공 전략, 지금 바로 증거 기반의 진단에서부터 시작해 보세요.',
+          '우리 지역의 성공 전략,\n 지금 바로 증거 기반의 진단에서부터 시작해 보세요.',
         ],
       }}
       button={{
@@ -29,7 +29,7 @@ const StrategySection: React.FC = () => {
       }}
       image={{
         src: '/home/strategy.png',
-        height: '500px',
+        height: 'calc(100vh - 100px)',
       }}
       styling={{
         backgroundColor: '#1a1d2a',

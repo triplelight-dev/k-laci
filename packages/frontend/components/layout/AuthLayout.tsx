@@ -1,5 +1,5 @@
 import Footer from '@/components/Footer';
-import Header from '@/components/Header';
+import Header from '@/components/Header/Header';
 import React from 'react';
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
@@ -7,12 +7,17 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
     <div
       style={{
         width: '100%',
+        minWidth: '1500px',
         minHeight: '100vh',
         backgroundColor: '#F4F4F4',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
-      <Header />
-      <main className="flex-1">{children}</main>
+      <Header isBlackTheme={false} />
+      {children}
       <Footer />
     </div>
   );

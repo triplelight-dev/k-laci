@@ -15,7 +15,6 @@ interface CategoryRankingProps {
 }
 
 const CategoryRanking: React.FC<CategoryRankingProps> = ({
-  index,
   categoryData,
 }) => {
   const { title, color, currentRank, description, rank } = categoryData;
@@ -27,7 +26,6 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
 
   // Zustand store에서 선택된 지역 정보 가져오기
   const { selectedRegion } = useDistrict();
-
   const { getKeyIndexData } = useKeyIndexData();
 
   // Hydration 에러 방지를 위한 클라이언트 사이드 렌더링
@@ -88,7 +86,6 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
     setSelectedIndexData(null);
   };
 
-  const isFirstIndex = index === 0;
 
   // 상위 퍼센트 계산
   const topPercentage = ((currentRank / NUM_OF_REGIONS) * 100).toFixed(1);
@@ -98,7 +95,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
     return (
       <div
         className="flex w-full flex-col rounded-lg bg-white shadow-sm"
-        style={{ marginBottom: '5rem', gap: '50px' }}
+        style={{}}
       >
         <div className="flex p-6">
           <div
@@ -151,21 +148,21 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
   }
 
   return (
-    <div
+    <><div
       className="flex w-full flex-col rounded-lg bg-white shadow-sm"
-      style={{ marginBottom: '5rem', gap: '50px' }}
+      style={{ gap: '50px', maxWidth: '1060px' }}
     >
       {/* 상단 보더탑 */}
-      {!isFirstIndex && (
-        <div
-          style={{
-            height: '1px',
-            backgroundColor: '#D0D9E6',
-            borderTopLeftRadius: '8px',
-            borderTopRightRadius: '8px',
-          }}
-        />
-      )}
+      {/* {!isFirstIndex && (
+      <div
+        style={{
+          height: '1px',
+          backgroundColor: '#D0D9E6',
+          borderTopLeftRadius: '8px',
+          borderTopRightRadius: '8px',
+        }}
+      />
+    )} */}
 
       {/* 메인 콘텐츠 */}
       <div className="flex p-6" style={{ gap: '2rem' }}>
@@ -180,7 +177,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
           {/* 타이틀 */}
           <div
             style={{
-              fontSize: '20px',
+              fontSize: '24px',
               fontWeight: 600,
               color: 'black',
               marginBottom: '8px',
@@ -192,7 +189,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
           {/* 키컬러로 N위 */}
           <div
             style={{
-              fontSize: '35px',
+              fontSize: '36px',
               fontWeight: 600,
               color: color,
               marginBottom: '0.5rem',
@@ -204,7 +201,8 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
           {/* 상위 N% */}
           <div
             style={{
-              fontSize: '0.9rem',
+              fontSize: '18px',
+              fontWeight: 400,
               color: 'black',
             }}
           >
@@ -216,9 +214,10 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
         <div style={{ flex: 4 }}>
           <div
             style={{
-              color: 'black',
-              lineHeight: '1.5',
-              fontSize: '0.95rem',
+              lineHeight: '28px',
+              fontSize: '18px',
+              fontWeight: 400,
+              color: '#000',
             }}
           >
             {description}
@@ -232,7 +231,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
           rank={rank}
           color={color}
           onScoreClick={handleRankClick}
-        />
+          regionId={selectedRegion?.id || 0} />
       </div>
 
       {/* IndexModal 사용 */}
@@ -241,10 +240,9 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
           isOpen={isModalOpen}
           onClose={handleCloseModal}
           data={selectedIndexData}
-          regionId={selectedRegion?.id || 0}
-        />
+          regionId={selectedRegion?.id || 0} />
       )}
-    </div>
+    </div></>
   );
 };
 

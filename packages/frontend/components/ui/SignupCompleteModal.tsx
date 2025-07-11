@@ -44,20 +44,22 @@ export default function SignupCompleteModal({
           alignItems: 'center',
           gap: '40px',
           maxWidth: '600px',
-          width: '400px',
+          width: '560px',
           cursor: 'default',
         }}
         onClick={(e) => e.stopPropagation()}
       >
+        
         {/* 타이틀 */}
         <div
           style={{
-            fontSize: '24px',
-            fontWeight: 'bold',
-            color: '#111827',
+            fontSize: '30px',
+            fontWeight: '600',
+            color: '#000',
             textAlign: 'center',
           }}
         >
+          <div style={{ marginBottom: '26px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><CircleCheckIcon /></div>
           회원가입 완료
         </div>
 
@@ -74,9 +76,11 @@ export default function SignupCompleteModal({
             <div
               key={index}
               style={{
-                fontSize: '16px',
+                fontSize: '18px',
                 textAlign: 'center',
-                lineHeight: '1.5',
+                lineHeight: '24px',
+                color: '#000',
+                fontWeight: '400',
               }}
             >
               {message}
@@ -111,4 +115,9 @@ export default function SignupCompleteModal({
       </div>
     </div>
   );
+}
+
+
+function CircleCheckIcon() {
+  return <svg width="50" height="50" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="25" cy="25" r="24.5" fill="#fff"/><circle cx="25" cy="25" r="24.5" stroke="#000"/><circle cx="25" cy="25" r="24.5" stroke="#000" stroke-opacity=".2"/><circle cx="25" cy="25" r="24.5" stroke="#000" stroke-opacity=".2"/><circle cx="25" cy="25" r="24.5" stroke="#000" stroke-opacity=".2"/><circle cx="25" cy="25" r="24.5" stroke="#000" stroke-opacity=".2"/><circle cx="25" cy="25" r="24.5" stroke="#000" stroke-opacity=".2"/><circle cx="25" cy="25" r="24.5" stroke="#000" stroke-opacity=".2"/><circle cx="25" cy="25" r="24.5" stroke="#000" stroke-opacity=".2"/><path d="M22.083 33.017l-6.833-6.834 2.392-2.391 4.441 4.441L33.358 16.96l2.392 2.391-13.667 13.667z" fill="#1D1B20"/></svg>
 }

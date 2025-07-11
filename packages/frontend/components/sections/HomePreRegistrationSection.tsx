@@ -1,19 +1,22 @@
 'use client';
 
+import { Flex } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useState } from 'react';
 import { UserService } from '../../api/services/user.service';
 import { useIsLoggedIn } from '../../store';
+import Button from '../atoms/buttons/Button';
 import LoginGuideModal from '../ui/LoginGuideModal';
 import PreRegistrationModal from '../ui/PreRegistrationModal';
 
-const HomePreRegistrationSection = () => {
+const HomePreRegistrationSection = (props: { height?: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoginGuideModalOpen, setIsLoginGuideModalOpen] = useState(false);
   const [agree_to_report_reservation, setAgreeToReportReservation] =
     useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
+
 
   const isLoggedIn = useIsLoggedIn();
 
@@ -22,8 +25,7 @@ const HomePreRegistrationSection = () => {
 
   // 설명 텍스트를 배열로 정의
   const DESCRIPTION_TEXTS = [
-    '지역자산역량지수 프레임워크 해설과 활용법,',
-    '그리고 모든 지자체의 데이터와 심층 인사이트를 한 권의 책으로 받아보세요.',
+    '지역자산역량지수 프레임워크 해설과 활용법,', '그리고 모든 지자체의 데이터와 심층 인사이트를 한 권의 책으로 받아보세요.'
   ];
 
   const handlePreRegistrationClick = async () => {
@@ -35,9 +37,11 @@ const HomePreRegistrationSection = () => {
 
     setIsLoading(true);
 
+
     try {
       // 유저 프로필 조회 API 호출
       const response = await UserService.getProfile();
+
 
       if (response.success) {
         // 리포트 사전동의 여부 확인
@@ -61,25 +65,20 @@ const HomePreRegistrationSection = () => {
       <section
         style={{
           width: '100%',
-          padding: '80px 0px',
+          minHeight: '500px',
+          padding: '80px 120px',
           backgroundColor: '#14161D',
           color: '#ffffff',
+          height: props.height || 'calc(100vh - 300px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '80px',
-            width: '90%',
-            maxWidth: '1700px',
-            margin: '0 auto',
-          }}
-        >
+        <Flex justifyContent="space-between" alignItems="start" maxWidth="1400px" width="100%">
           {/* 좌측: 기존 내용 */}
           <div
             style={{
-              flex: '1',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'flex-start',
@@ -88,10 +87,10 @@ const HomePreRegistrationSection = () => {
             {/* 메인 타이틀 */}
             <div
               style={{
-                fontSize: '34px',
+                fontSize: '48px',
                 fontWeight: '600',
                 textAlign: 'left',
-                marginBottom: '24px',
+                marginBottom: '36px',
                 lineHeight: '1.4',
               }}
             >
@@ -103,7 +102,7 @@ const HomePreRegistrationSection = () => {
             {/* 설명 텍스트들 */}
             <div
               style={{
-                marginBottom: '32px',
+                marginBottom: '74px',
                 textAlign: 'left',
               }}
             >
@@ -111,8 +110,8 @@ const HomePreRegistrationSection = () => {
                 <div
                   key={index}
                   style={{
-                    fontSize: '16px',
-                    color: '#D1D5DB',
+                    fontSize: '18px',
+                    color: '#fff',
                     lineHeight: '1.6',
                   }}
                 >
@@ -122,69 +121,73 @@ const HomePreRegistrationSection = () => {
             </div>
 
             {/* 사전예약 바로가기 버튼 */}
-            <button
-              onClick={handlePreRegistrationClick}
-              disabled={isLoading}
+            <div
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '16px 36px',
-                backgroundColor: 'transparent',
-                color: '#ffffff',
-                border: '1px solid #ffffff',
-                borderRadius: '8px',
-                fontSize: '14px',
-                fontWeight: '600',
-                cursor: isLoading ? 'not-allowed' : 'pointer',
+                background: 'linear-gradient(90deg, #F56542 0%, #F4B04D 33%, #ACAAE8 66%, #74BF9E 100%)',
+                padding: '1px',
+                borderRadius: '14px',
                 opacity: isLoading ? 0.6 : 1,
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                if (!isLoading) {
-                  e.currentTarget.style.backgroundColor = '#ffffff';
-                  e.currentTarget.style.color = '#000000';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!isLoading) {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = '#ffffff';
-                }
               }}
             >
-              {isLoading ? '로딩 중...' : '사전예약 바로가기'}
-              {!isLoading && (
-                <Image
-                  src="/arrow_button_icon_white.png"
-                  alt="화살표 아이콘"
-                  width={10}
-                  height={10}
-                />
-              )}
-            </button>
+              <Button
+                label={
+                  <>
+                    {isLoading ? '로딩 중...' : '사전예약 바로가기'}
+                    {!isLoading && (
+                      <Image
+                        src="/arrow_button_icon_white.png"
+                        alt="화살표 아이콘"
+                        width={10}
+                        height={10}
+                      />
+                    )}
+                  </>
+                }
+                variant='secondary'
+                theme='dark'
+                onClick={handlePreRegistrationClick}
+                disabled={isLoading}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '16px 36px',
+                  backgroundColor: '#14161D',
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: '14px',
+                  fontSize: '18px',
+                  fontWeight: '400',
+                  cursor: isLoading ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.2s ease',
+                  width: '100%',
+                }}
+              >
+
+              </Button>
+            </div>
           </div>
 
           {/* 우측: 이미지 */}
           <div
             style={{
-              flex: '1.5',
               display: 'flex',
+              maxWidth: '800px',
               justifyContent: 'center',
-              alignItems: 'center',
+
             }}
           >
             <img
               src="/report_banner.png"
               alt="KLACI 인사이트 리포트"
               style={{
-                maxWidth: '550px',
+                maxWidth: '600px',
                 height: 'auto',
                 objectFit: 'contain',
               }}
             />
           </div>
-        </div>
+        </Flex>
       </section>
 
       {/* 사전예약 모달 */}
