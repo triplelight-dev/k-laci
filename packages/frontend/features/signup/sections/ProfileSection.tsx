@@ -75,8 +75,8 @@ export default function ProfileSection({
             <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
               <h1
                 style={{
-                  fontSize: '1.875rem',
-                  fontWeight: '700',
+                  fontSize: '30px',
+                  fontWeight: '600',
                   color: '#111827',
                 }}
               >
@@ -115,7 +115,7 @@ export default function ProfileSection({
 
           {/* 회원가입 완료 모달 */}
           <SignupCompleteModal
-            isOpen={showCompleteModal }
+            isOpen={showCompleteModal}
             onClose={() => { }} // 모달 닫기 기능은 필요에 따라 추가
             onStart={onStart}
           />

@@ -29,6 +29,8 @@ export default function EmailVerificationForm({
     }
   }, [email]);
 
+  const isEmailValid = email.length > 0 && email.includes('@');
+
   return (
     <form
       onSubmit={onSubmit}
@@ -89,28 +91,18 @@ export default function EmailVerificationForm({
       {/* 인증번호 발송 버튼 */}
       <button
         type="submit"
-        disabled={isLoading}
+        disabled={isLoading || !isEmailValid}
         style={{
           width: '100%',
           height: '50px',
-          backgroundColor: isLoading ? '#9CA3AF' : '#000000',
+          backgroundColor: isLoading || !isEmailValid ? '#E6E6E7' : '#000000',
           color: 'white',
-          borderRadius: '0.5rem',
+          borderRadius: '14px',
           fontSize: '18px',
           fontWeight: '700',
           cursor: isLoading ? 'not-allowed' : 'pointer',
           border: 'none',
           transition: 'background-color 0.2s',
-        }}
-        onMouseEnter={(e) => {
-          if (!isLoading) {
-            e.currentTarget.style.backgroundColor = '#1F2937';
-          }
-        }}
-        onMouseLeave={(e) => {
-          if (!isLoading) {
-            e.currentTarget.style.backgroundColor = '#000000';
-          }
         }}
       >
         {isLoading ? (
@@ -127,7 +119,7 @@ export default function EmailVerificationForm({
                 height: '16px',
                 border: '2px solid #ffffff',
                 borderTop: '2px solid transparent',
-                borderRadius: '50%',
+                borderRadius: '14px',
                 animation: 'spin 1s linear infinite',
                 marginRight: '8px',
               }}

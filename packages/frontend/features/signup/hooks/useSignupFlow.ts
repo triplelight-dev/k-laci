@@ -80,7 +80,7 @@ export const useSignupFlow = () => {
 
       // "이미 가입된 이메일입니다" 에러 특별 처리
       if (errorMessage === '이미 가입된 이메일입니다.') {
-        setError('이미 가입된 계정입니다. 다른 이메일을 입력해주세요.');
+        setError('입력하신 정보로는 신규 회원가입이 불가능합니다. 다른 이메일 주소를 입력해주세요.');
 
       } else {
         setError(errorMessage);
@@ -104,7 +104,6 @@ export const useSignupFlow = () => {
         email,
         code: verificationCode,
       });
-      console.log('response', response);
       // 인증 성공 - 2/2 단계로 전환
       if (response.data.verified) {
         setIsVerified(response.data.verified);
@@ -140,7 +139,7 @@ export const useSignupFlow = () => {
 
       // "이미 가입된 이메일입니다" 에러 특별 처리
       if (errorMessage === '이미 가입된 이메일입니다.') {
-        setError('이미 가입된 계정입니다. 다른 이메일을 입력해주세요.');
+        setError('입력하신 정보로는 신규 회원가입이 불가능합니다. 다른 이메일 주소를 입력해주세요.');
 
         // 상태 업데이트가 완료된 후 3초 대기
         // setTimeout(() => {

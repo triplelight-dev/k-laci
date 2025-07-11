@@ -12,7 +12,7 @@ export default function EmailDisplayBox({
       case 'GOV':
         return '정부/공공기관 회원';
       case 'EDU':
-        return '대학교 회원';
+        return '기업/비영리 회원';
       case 'GENERAL':
         return '일반 회원';
       default:
@@ -37,7 +37,7 @@ export default function EmailDisplayBox({
       >
         <div
           style={{
-            fontSize: '22px',
+            fontSize: '18px',
             color: '#9A9EA3',
             fontWeight: '400',
           }}

@@ -43,6 +43,9 @@ export default function CodeVerificationForm({
           placeholder="인증번호를 입력해주세요"
           required={true}
           isRequired={false}
+          inputStyle={{
+            borderRadius: '14px',
+          }}
         />
       </div>
 
@@ -75,7 +78,7 @@ export default function CodeVerificationForm({
             height: '50px',
             backgroundColor: isVerifying ? '#9CA3AF' : '#000000',
             color: 'white',
-            borderRadius: '0.5rem',
+            borderRadius: '14px',
             fontWeight: '500',
             cursor: isVerifying ? 'not-allowed' : 'pointer',
             border: 'none',
@@ -104,7 +107,7 @@ export default function CodeVerificationForm({
               <div
                 style={{
                   animation: 'spin 1s linear infinite',
-                  borderRadius: '50%',
+                  borderRadius: '14px',
                   height: '1rem',
                   width: '1rem',
                   border: '2px solid transparent',
@@ -126,10 +129,10 @@ export default function CodeVerificationForm({
           disabled={isLoading || countdown > 0}
           style={{
             width: '100%',
-            height: '40px',
+            height: '50px',
             backgroundColor: 'transparent',
             color: countdown > 0 ? '#9CA3AF' : '#000000',
-            borderRadius: '0.5rem',
+            borderRadius: '14px',
             fontWeight: '500',
             cursor: countdown > 0 ? 'not-allowed' : 'pointer',
             border: '1px solid #D1D5DB',

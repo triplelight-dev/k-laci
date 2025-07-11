@@ -155,7 +155,7 @@ export default function ProfileForm({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: '35px',
+        gap: '55px',
       }}
     >
       {/* 이메일 표시 박스 */}
@@ -270,6 +270,20 @@ export default function ProfileForm({
               options={provinceOptions}
               onChange={handleProvinceChange}
               defaultLabel="광역명"
+              containerStyle={{
+                borderRadius: '17px',
+                backgroundColor: '#fff',
+              }}
+              labelStyle={{
+                fontSize: '18px',
+                fontWeight: '400',
+                color: '#000',
+              }}
+              optionStyle={{
+                fontSize: '18px',
+                fontWeight: '400',
+                color: '#000',
+              }}
             />
           </div>
 
@@ -281,6 +295,20 @@ export default function ProfileForm({
               onChange={handleRegionChange}
               disabled={!selectedProvinceId}
               defaultLabel="지자체명"
+              containerStyle={{
+                borderRadius: '17px',
+                backgroundColor: '#fff',
+              }}
+              labelStyle={{
+                fontSize: '18px',
+                fontWeight: '400',
+                color: '#000',
+              }}
+              optionStyle={{
+                fontSize: '18px',
+                fontWeight: '400',
+                color: '#000',
+              }}
             />
           </div>
         </div>
@@ -573,14 +601,13 @@ export default function ProfileForm({
         disabled={isProfileLoading}
         style={{
           width: '100%',
-          height: '50px',
+          height: '60px',
           backgroundColor: '#000000',
           color: 'white',
           border: 'none',
-          borderRadius: '0.5rem',
+          borderRadius: '14px',
           fontSize: '16px',
           fontWeight: '600',
-          marginTop: '20px',
           cursor: isProfileLoading ? 'not-allowed' : 'pointer',
           opacity: isProfileLoading ? 0.6 : 1,
         }}

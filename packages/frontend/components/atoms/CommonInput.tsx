@@ -14,6 +14,7 @@ interface CommonInputProps {
   helperText?: string;
   error?: string;
   onBlur?: () => void;
+  inputStyle?: React.CSSProperties;
 }
 
 export default function CommonInput({
@@ -30,6 +31,7 @@ export default function CommonInput({
   helperText,
   error,
   onBlur,
+  inputStyle,
 }: CommonInputProps) {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -77,7 +79,7 @@ export default function CommonInput({
         }}
         style={{
           width: '100%',
-          height: '50px',
+          height: '60px',
           fontSize: '16px',
           padding: '10px 21px',
           border: isFocused ? '1px solid #000000' : 'none',

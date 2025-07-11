@@ -66,7 +66,7 @@ export default function PasswordInputGroup({
         }}
         style={{
           width: '100%',
-          height: '50px',
+          height: '60px',
           fontSize: '16px',
           padding: '10px 21px',
           border: isPasswordFocused ? '1px solid #000000' : 'none',
@@ -95,7 +95,7 @@ export default function PasswordInputGroup({
         }}
         style={{
           width: '100%',
-          height: '50px',
+          height: '60px',
           fontSize: '16px',
           padding: '10px 21px',
           border: isConfirmFocused ? '1px solid #000000' : 'none',

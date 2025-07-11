@@ -12,6 +12,10 @@ interface CommonSelectProps {
   onChange: (value: string) => void;
   disabled?: boolean;
   defaultLabel?: string;
+  containerStyle?: React.CSSProperties;
+  labelStyle?: React.CSSProperties;
+  selectStyle?: React.CSSProperties;
+  optionStyle?: React.CSSProperties;
 }
 
 const CommonSelect: React.FC<CommonSelectProps> = ({
@@ -20,6 +24,10 @@ const CommonSelect: React.FC<CommonSelectProps> = ({
   onChange,
   disabled = false,
   defaultLabel = '선택',
+  containerStyle,
+  labelStyle,
+  selectStyle,
+  optionStyle,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -57,6 +65,7 @@ const CommonSelect: React.FC<CommonSelectProps> = ({
         opacity: disabled ? 0.5 : 1,
         cursor: disabled ? 'not-allowed' : 'pointer',
         userSelect: 'none',
+        ...containerStyle,
       }}
       onClick={() => {
         if (!disabled) setIsOpen(!isOpen);
@@ -66,7 +75,8 @@ const CommonSelect: React.FC<CommonSelectProps> = ({
         flex: 1,
         color: '#000000',
         fontSize: '18px',
-        paddingRight: '51px'
+        paddingRight: '51px',
+        ...labelStyle,
       }}>
         {selectedLabel}
       </span>
@@ -94,6 +104,7 @@ const CommonSelect: React.FC<CommonSelectProps> = ({
           overflow: 'hidden',
           transition: 'max-height 0.2s ease-in-out',
           visibility: isOpen ? 'visible' : 'hidden',
+          ...selectStyle,
         }}
       >
         <ul
@@ -121,6 +132,7 @@ const CommonSelect: React.FC<CommonSelectProps> = ({
                 backgroundColor: 'white',
                 cursor: 'pointer',
                 transition: 'background-color 0.15s ease-in-out',
+                ...optionStyle,
               }}
               onMouseEnter={(e) =>
                 (e.currentTarget.style.backgroundColor = '#F9FAFB')
