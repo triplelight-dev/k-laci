@@ -177,7 +177,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
           {/* 타이틀 */}
           <div
             style={{
-              fontSize: '20px',
+              fontSize: '24px',
               fontWeight: 600,
               color: 'black',
               marginBottom: '8px',
@@ -189,7 +189,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
           {/* 키컬러로 N위 */}
           <div
             style={{
-              fontSize: '35px',
+              fontSize: '36px',
               fontWeight: 600,
               color: color,
               marginBottom: '0.5rem',
@@ -201,7 +201,8 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
           {/* 상위 N% */}
           <div
             style={{
-              fontSize: '0.9rem',
+              fontSize: '18px',
+              fontWeight: 400,
               color: 'black',
             }}
           >
@@ -213,9 +214,10 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
         <div style={{ flex: 4 }}>
           <div
             style={{
-              color: 'black',
-              lineHeight: '1.5',
-              fontSize: '0.95rem',
+              lineHeight: '28px',
+              fontSize: '18px',
+              fontWeight: 400,
+              color: '#000',
             }}
           >
             {description}

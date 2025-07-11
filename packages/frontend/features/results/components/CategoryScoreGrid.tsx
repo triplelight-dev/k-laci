@@ -113,7 +113,7 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
         width: '250px',
         height: '230px',
         position: 'relative',
-        borderRadius: '8px',
+        borderRadius: '24px',
         border: '1px solid #E5E7EB',
         backgroundColor: '#F9FAFB',
         padding: '15px',
@@ -269,7 +269,7 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
               style={{
                 position: 'relative',
                 cursor: 'pointer',
-                borderRadius: '8px',
+                borderRadius: '24px',
                 border: isHovered
                   ? '1px solid black'
                   : isHighestRank
