@@ -1,11 +1,13 @@
 'use client';
 
+import { Divider } from '@/components/atoms/divider';
 import PremiumContentTitle from '@/components/ui/PremiumContentTitle';
 import { CATEGORY_NAMES, categoryColors } from '@/constants/colors';
 import { NUM_OF_REGIONS } from '@/constants/data';
 import CategoryRanking from '@/features/results/components/CategoryRanking';
 import { useDistrict } from '@/store';
 import { CategoryData } from '@/types/category';
+import { Flex } from '@chakra-ui/react';
 import { useEffect, useMemo, useState } from 'react';
 import { SummarySectionHeader } from './SummarySectionHeader';
 
@@ -139,6 +141,7 @@ const CategoryRankingSection = () => {
       style={{
         display: 'flex',
         justifyContent: 'center',
+        marginTop: '105px',
       }}
     >
       <section
@@ -149,11 +152,14 @@ const CategoryRankingSection = () => {
         }}
       >
         {/* 타이틀 */}
-        {/* <PremiumContentTitle title={title} /> */}
-        <SummarySectionHeader
-          badgeLabel='INDEX RANKING'
-          title='범주 및 세부지표 순위'
-        />
+        <Flex style={{ width: '100%', justifyContent: 'center' }}>
+          <SummarySectionHeader
+            badgeLabel='INDEX RANKING'
+            title='범주 및 세부지표 순위'
+          />
+        </Flex>
+
+        <Divider style={{ margin: '80px 0 100px' }} />
 
         {/* 카테고리 그리드 */}
         <div className="grid grid-cols-1 gap-8">

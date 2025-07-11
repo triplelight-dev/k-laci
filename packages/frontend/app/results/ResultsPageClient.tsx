@@ -297,18 +297,20 @@ function ResultsPageContent() {
 
             <SummarySection isLoggedIn={isLoggedIn} />
 
-            {isLoggedIn && <> <CategoryRankingSection />
-              <div
-                style={{
-                  width: '100vw',
-                  marginLeft: 'calc(-50vw + 50%)',
-                  marginRight: 'calc(-50vw + 50%)',
-                }}
-              >
-                <PreRegistrationSection />
-              </div>
-              <SimilarRegionSection /></>}
+
           </div>
+          {isLoggedIn && <>
+            <CategoryRankingSection />
+            <div
+              style={{
+                width: '100vw',
+                marginLeft: 'calc(-50vw + 50%)',
+                marginRight: 'calc(-50vw + 50%)',
+              }}
+            >
+              <PreRegistrationSection />
+            </div>
+            <SimilarRegionSection /></>}
         </div>
       </div>
     </ResultLayout>

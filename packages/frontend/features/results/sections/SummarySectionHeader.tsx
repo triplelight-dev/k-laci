@@ -17,7 +17,7 @@ export function SummarySectionHeader(
         style={{
           borderRadius: '9px',
           border: '1px solid #000',
-          padding: '10px',
+          padding: '4.5px 10px',
           fontSize: '14px',
           fontWeight: '500',
           lineHeight: '24px',

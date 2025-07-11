@@ -89,7 +89,6 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
     setSelectedIndexData(null);
   };
 
-  const isFirstIndex = index === 0;
 
   // 상위 퍼센트 계산
   const topPercentage = ((currentRank / NUM_OF_REGIONS) * 100).toFixed(1);
@@ -154,7 +153,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
   return (
     <><div
       className="flex w-full flex-col rounded-lg bg-white shadow-sm"
-      style={{ marginBottom: '5rem', gap: '50px', padding: '0 135px' }}
+      style={{ marginBottom: '5rem', gap: '50px', maxWidth: '1060px' }}
     >
       {/* 상단 보더탑 */}
       {/* {!isFirstIndex && (
