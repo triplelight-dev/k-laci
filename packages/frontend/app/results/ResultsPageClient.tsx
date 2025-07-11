@@ -15,16 +15,16 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useRef, useState } from 'react';
 
 // sections
+import Footer from '@/components/Footer';
+import HomePreRegistrationSection from '@/components/sections/HomePreRegistrationSection';
 import CategoryRankingSection from '@/features/results/sections/CategoryRankingSection';
 import DistrictSearchSection from '@/features/results/sections/DistrictSearchSection';
 import DistrictSelectSection from '@/features/results/sections/DistrictSelectSection';
+import LoginSuggestionSection from '@/features/results/sections/LoginSuggestionSectino';
 import PreRegistrationSection from '@/features/results/sections/PreRegistrationSection';
 import SimilarRegionSection from '@/features/results/sections/SimilarRegionSection';
 import SummarySection from '@/features/results/sections/SummarySection';
 import TitleSection from '@/features/results/sections/TitleSection';
-import LoginSuggestionSection from '@/features/results/sections/LoginSuggestionSectino';
-import HomePreRegistrationSection from '@/components/sections/HomePreRegistrationSection';
-import Footer from '@/components/Footer';
 
 // 지자체 데이터 타입 정의
 interface DistrictData {
@@ -83,7 +83,7 @@ function ResultsPageContent() {
 
   // Zustand store에서 선택된 지역 정보 가져오기
   const { selectedProvince, selectedDistrict, selectedRegion } = useDistrict();
-  
+
   const { getRegion } = useRegion();
 
   // 유저 관심 지역 로드 함수
@@ -318,7 +318,18 @@ function ResultsPageContent() {
             <SimilarRegionSection /></>}
         </div>
       </div>
-      {!isLoggedIn && <><LoginSuggestionSection /></>}
+      {!isLoggedIn && <><LoginSuggestionSection /><div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '10px',
+        padding: '28px 0',
+        backgroundColor: '#000',
+        width: '100%',
+      }}>
+        <p style={{ fontSize: '14px', color: '#fff', fontWeight: '700' }}>© 2025 트리플라잇 주식회사</p>
+        <p style={{ fontSize: '14px', color: '#9A9EA3', fontWeight: '500' }}>klaci@triplelight.co</p>
+      </div></>}
       {isLoggedIn && <><HomePreRegistrationSection height='650px' /><Footer /></>}
     </ResultLayout>
   );

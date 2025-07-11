@@ -1,3 +1,5 @@
+'use client';
+
 import { Divider } from '@/components/atoms/divider';
 import { useDistrict } from '@/store';
 import { Text } from '@chakra-ui/react';
@@ -172,17 +174,17 @@ const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
           {/* 로그인 상태에 따른 조건부 렌더링 */}
           {isLoggedIn ? (
             // 로그인된 사용자: 모든 섹션 표시
-            <>
-              <div style={{ padding: '0 135px' }}><StrengthWeaknessIndexSection /></div>
+            <React.Fragment >
+              <div style={{ padding: '0 135px' }} suppressHydrationWarning><StrengthWeaknessIndexSection /></div>
 
               <Divider style={{ margin: '100px 0 60px' }} />
               <CompetencyDistSection />
 
-            </>
+            </React.Fragment>
           ) : (
             // 비로그인 사용자: StrengthWeaknessIndexSection만 부분 표시 (fadeout 효과)
 
-            <div style={{ padding: '0 135px' }}><StrengthWeaknessIndexSection /></div>
+            <div style={{ padding: '0 135px' }} suppressHydrationWarning><StrengthWeaknessIndexSection /></div>
 
           )}
 
