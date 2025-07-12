@@ -86,10 +86,12 @@ export function Card({ title, desc, tag: badge, bgImage, link }: { title: string
       onMouseEnter={(e) => {
         e.currentTarget.style.border = '1px solid #fff';
         e.currentTarget.style.backgroundColor = '#2B3041';
+        e.currentTarget.style.cursor = 'pointer';
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.backgroundColor = '#232631';
         e.currentTarget.style.border = '1px solid transparent';
+        e.currentTarget.style.cursor = 'pointer';
       }}
     >
       <div
@@ -103,6 +105,7 @@ export function Card({ title, desc, tag: badge, bgImage, link }: { title: string
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           filter: 'blur(25px)',
+          pointerEvents: 'none',
         }}
       />
       <div style={{
@@ -113,6 +116,7 @@ export function Card({ title, desc, tag: badge, bgImage, link }: { title: string
         height: '100%',
         opacity: 0.3,
         zIndex: 50,
+        pointerEvents: 'none',
       }}
         onMouseEnter={(e) => {
           e.currentTarget.style.opacity = '0.7';
@@ -132,9 +136,9 @@ export function Card({ title, desc, tag: badge, bgImage, link }: { title: string
         borderRadius: '8px',
         border: '1px solid #fff',
         padding: '4.5px 10px',
-        cursor: 'pointer',
+        pointerEvents: 'none',
       }}>{badge}</div>}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '31px', zIndex: 100 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '31px', zIndex: 100, pointerEvents: 'none' }}>
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <div style={{ fontSize: '30px', fontWeight: 600, whiteSpace: 'pre-line', color: '#E7E8EA' }}>{title}</div>
           <div style={{ paddingTop: '9px' }}><ArrowRightUp color='#E7E8EA' width={14} height={14} /></div>
