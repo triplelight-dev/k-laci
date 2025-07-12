@@ -14,24 +14,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2. Node.js 설정 (버전 20으로 업데이트)
+      # 2. Node.js 설정
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
           cache: 'yarn'
 
-      # 3. 백엔드 빌드
-      - name: Build backend
-        working-directory: packages/backend
+      # 3. 의존성 설치 및 백엔드 빌드
+      - name: Install dependencies and build backend
         run: |
           yarn install --frozen-lockfile
-          yarn build
+          yarn workspace @k-laci/backend build
 
       # 4. 빌드 결과물 압축
       - name: Create deployment artifact
         run: |
           cd packages/backend
+          cp ../../yarn.lock .
           tar -czf backend-build.tar.gz dist/ package.json yarn.lock
 
       # 5. SSH 키 설정
