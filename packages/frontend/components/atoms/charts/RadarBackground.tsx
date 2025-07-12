@@ -189,6 +189,7 @@ const RadarBackground = ({
       <g
         onMouseEnter={() => onStrongGuideHover && onStrongGuideHover(true)}
         onMouseLeave={() => onStrongGuideHover && onStrongGuideHover(false)}
+        style={{ cursor: 'pointer' }}
       >
         {/* 강점영역 텍스트 */}
         <text
@@ -199,11 +200,12 @@ const RadarBackground = ({
           fontWeight="600"
           fill="#BDBDBD"
           className="radar-guide-label"
+          style={{ cursor: 'pointer' }}
         >
           ↑ 강점영역
         </text>
         {/* 물음표 아이콘 */}
-        <g>
+        <g style={{ cursor: 'pointer' }}>
           <circle
             cx={guideQmarkX}
             cy={guideStrongY - 3}
@@ -211,6 +213,7 @@ const RadarBackground = ({
             fill="#F5F5F5"
             stroke="#D9D9E8"
             strokeWidth="1"
+            style={{ cursor: 'pointer' }}
           />
           <text
             x={guideQmarkX}
@@ -222,6 +225,7 @@ const RadarBackground = ({
             alignmentBaseline="middle"
             dominantBaseline="middle"
             className="radar-guide-qmark"
+            style={{ cursor: 'pointer' }}
           >
             ?
           </text>
@@ -233,12 +237,13 @@ const RadarBackground = ({
           width={60}
           height={24}
           fill="transparent"
-          cursor="pointer"
+          style={{ cursor: 'pointer' }}
         />
       </g>
       <g
         onMouseEnter={() => onWeakGuideHover && onWeakGuideHover(true)}
         onMouseLeave={() => onWeakGuideHover && onWeakGuideHover(false)}
+        style={{ cursor: 'pointer' }}
       >
         {/* 약점영역 텍스트 */}
         <text
@@ -249,11 +254,12 @@ const RadarBackground = ({
           fontWeight="600"
           fill="#BDBDBD"
           className="radar-guide-label"
+          style={{ cursor: 'pointer' }}
         >
           ↓ 약점영역
         </text>
         {/* 물음표 아이콘 */}
-        <g>
+        <g style={{ cursor: 'pointer' }}>
           <circle
             cx={guideQmarkX}
             cy={guideWeakY - 3}
@@ -261,6 +267,7 @@ const RadarBackground = ({
             fill="#F5F5F5"
             stroke="#D9D9E8"
             strokeWidth="1"
+            style={{ cursor: 'pointer' }}
           />
           <text
             x={guideQmarkX}
@@ -272,6 +279,7 @@ const RadarBackground = ({
             alignmentBaseline="middle"
             dominantBaseline="middle"
             className="radar-guide-qmark"
+            style={{ cursor: 'pointer' }}
           >
             ?
           </text>
@@ -283,7 +291,7 @@ const RadarBackground = ({
           width={60}
           height={24}
           fill="transparent"
-          cursor="pointer"
+          style={{ cursor: 'pointer' }}
         />
       </g>
 
