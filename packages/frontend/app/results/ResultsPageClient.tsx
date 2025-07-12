@@ -239,7 +239,7 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
       setIsFloating(newIsFloating);
 
       // 스크롤 방향 감지 (반대로 변경)
-      if (scrollY > lastScrollY.current) {
+      if (scrollY < lastScrollY.current) {
         // 아래로 스크롤: 표시
         setIsFloatingVisible(true);
       } else {

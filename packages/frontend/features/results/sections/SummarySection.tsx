@@ -98,7 +98,6 @@ const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
     );
   }
 
-  console.log(selectedRegion.klaci);
   // // selectedRegion의 klaci 데이터를 활용하여 summaryData 구성
   const summaryData: SummaryData = {
     characteristics: {

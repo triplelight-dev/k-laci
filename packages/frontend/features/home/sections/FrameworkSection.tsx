@@ -236,37 +236,39 @@ const FrameworkSection: React.FC = () => {
             {/* 우측: 이미지 (화면 꽉 채움) */}
 
             <div style={{ flex: 1, display: 'flex', alignItems: 'top', justifyContent: 'center' }}>
-              {index === 2 ? <div
-                style={{
-                  padding: '90px 60px',
-                  borderRadius: '52px',
-                  background: '#191B22',
-                  width: '100%',
-                  height: '100%',
-                }}
-              ><img
+              {
+                // index === 2 ? <div
+                //   style={{
+                //     padding: '90px 60px',
+                //     borderRadius: '52px',
+                //     background: '#191B22',
+                //     width: '100%',
+                //     height: '100%',
+                //   }}
+                // ><img
+                //     src={item.image}
+                //     style={{
+                //       width: '100%',
+                //       height: '100%',
+                //       border: 'none',
+                //       display: 'flex',
+                //       alignItems: 'center',
+                //       justifyContent: 'center',
+
+                //     }}
+                //   />
+                // </div> :
+                <img
                   src={item.image}
                   style={{
                     width: '100%',
-                    height: '100%',
-                    border: 'none',
+                    borderRadius: '16px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
 
                   }}
-                />
-              </div> : <img
-                src={item.image}
-                style={{
-                  width: '100%',
-                  borderRadius: '16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-
-                }}
-              />}
+                />}
             </div>
           </div>
         ))}
