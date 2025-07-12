@@ -154,7 +154,20 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
         const category = categories[i];
         if (!category) return null;
         
-        const deg = 0;
+        // 각도 계산 (라디안 → 도)
+        const angleInDegrees = (pt.angle * 180) / Math.PI;
+
+        // 접선 방향으로 회전: 위쪽(0도) 기준 +90, 아래쪽(180도) 기준 -90
+        let rotationAngle =
+          (angleInDegrees > -90 && angleInDegrees <= 90)
+            ? angleInDegrees + 90
+            : angleInDegrees - 90;
+
+        // 글자가 위로 향하는 경우(90~270도) 180도 추가 회전
+        if (rotationAngle > 90 && rotationAngle < 270) {
+          rotationAngle += 180;
+        }
+
         const x = center + (radius + labelOffset.category) * Math.cos(pt.angle);
         const y = center + (radius + labelOffset.category) * Math.sin(pt.angle);
 
@@ -241,7 +254,7 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
               fontSize={fontSize.category}
               fontWeight="bold"
               fill={textColor}
-              transform={`rotate(${deg} ${labelX} ${y})`}
+              transform={`rotate(${rotationAngle} ${labelX} ${y})`}
             >
               {category}
             </text>
