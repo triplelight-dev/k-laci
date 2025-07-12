@@ -14,11 +14,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2. Node.js 설정
+      # 2. Node.js 설정 (버전 20으로 업데이트)
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20'
           cache: 'yarn'
 
       # 3. 백엔드 빌드
