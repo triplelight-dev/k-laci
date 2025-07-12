@@ -20,8 +20,8 @@ export const INTERNAL_LINKS = {
     SIX_MAJOR_CITIES_TOP_50: '/summary/7',
     SIX_PROVINCES_TOP_50: '/summary/six-provinces-top-50',
     ECONOMIC_FREE_ZONE: '/fez-total-rank',
-    GROWTH_PROMOTION_REGION: '/summary/10',
-    NATIONAL_INDUSTRIAL_COMPLEX: '/summary/11',
-    COASTAL_CITY: '/summary/12',
+    GROWTH_PROMOTION_REGION: '/growth-boost-zone-rank',
+    NATIONAL_INDUSTRIAL_COMPLEX: '/national-industrial-zone-rank',
+    COASTAL_CITY: '/coastal-city-rank',
   },
 } as const; 
