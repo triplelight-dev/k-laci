@@ -45,7 +45,7 @@ jobs:
         run: |
           # 빌드 결과물을 EC2로 전송
           scp -o StrictHostKeyChecking=no packages/backend/backend-build.tar.gz ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/ec2-user/k-laci/
-          
+
           # EC2에서 배포 스크립트 실행
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "
             cd /home/ec2-user/k-laci && \
@@ -58,8 +58,8 @@ jobs:
             # 의존성 설치 (production 모드)
             cd packages/backend && \
             yarn install --production --frozen-lockfile && \
-            # PM2로 프로덕션 모드 실행
-            pm2 restart k-laci-backend || pm2 start yarn --name k-laci-backend -- start:prod && \
+            # PM2로 Node.js 직접 실행
+            pm2 restart k-laci-backend || pm2 start node --name k-laci-backend -- dist/main.js && \
             # 임시 파일 정리
             rm -f /home/ec2-user/k-laci/backend-build.tar.gz
-          " 
+          "
