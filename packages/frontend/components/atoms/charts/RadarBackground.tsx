@@ -23,6 +23,26 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
 
   if (isJewel) return null;
 
+  // map 바깥에서 한 번만 선언
+  const leftCircleCategories = [
+    CATEGORIES.경제혁신형,
+    CATEGORIES.인구성장형,
+    CATEGORIES.안전정진형,
+    CATEGORIES.생활정체형,
+  ];
+  const topCategories = [
+    CATEGORIES.인구성장형,
+    CATEGORIES.경제혁신형,
+    CATEGORIES.생활역동형,
+    CATEGORIES.안전회복형,
+  ];
+  const bottomCategories = [
+    CATEGORIES.안전정진형,
+    CATEGORIES.생활정체형,
+    CATEGORIES.경제정속형,
+    CATEGORIES.인구정착형,
+  ];
+
   // KLACI 코드에서 해당 카테고리의 코드를 가져오는 함수
   const getCategoryCode = (
     category: string,
@@ -153,30 +173,104 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
       {points.map((pt, i) => {
         const category = categories[i];
         if (!category) return null;
-        
-        const deg = 0;
-        const x = center + (radius + labelOffset.category) * Math.cos(pt.angle);
-        const y = center + (radius + labelOffset.category) * Math.sin(pt.angle);
+
+        // 각도 계산 (라디안 → 도)
+        const angleInDegrees = (pt.angle * 180) / Math.PI;
+
+        // 접선 방향으로 회전: 위쪽(0도) 기준 +90, 아래쪽(180도) 기준 -90
+        let rotationAngle =
+          angleInDegrees > -90 && angleInDegrees <= 90
+            ? angleInDegrees + 90
+            : angleInDegrees - 90;
+        // 글자가 위로 향하는 경우(90~270도) 180도 추가 회전
+        if (rotationAngle > 90 && rotationAngle < 270) {
+          rotationAngle += 180;
+        }
+
+        // 라벨 위치
+        const baseX =
+          center + (radius + labelOffset.category) * Math.cos(pt.angle);
+        const baseY =
+          center + (radius + labelOffset.category) * Math.sin(pt.angle);
+
+        // 카테고리별 x축 오프셋
+        let xOffset = 0;
+        if (
+          category === CATEGORIES.인구성장형 ||
+          category === CATEGORIES.안전정진형
+        ) {
+          xOffset = -16;
+        } else if (
+          category === CATEGORIES.안전회복형 ||
+          category === CATEGORIES.인구정착형
+        ) {
+          xOffset = 16;
+        }
+
+        // 라벨 위치 조정: 상단/하단/기타에 따라 y축 오프셋 적용
+        let labelX = baseX + xOffset;
+        let labelY = baseY;
+        const labelMargin = 8; // 16에서 8로 줄여서 꼭지점에 더 가깝게
+        if (bottomCategories.includes(category)) {
+          // 하단 라벨: y를 아래로
+          labelY = baseY + labelMargin;
+        } else if (topCategories.includes(category)) {
+          // 상단 라벨: y를 위로
+          labelY = baseY - labelMargin;
+        }
+
+        // circle 위치 계산 - 원은 기존 위치 유지
+        let codeX, codeY, circleTransform;
+        const circleMargin = 25; // 20에서 25로 늘려서 라벨과 원의 거리를 조금 더 늘림
+        if (bottomCategories.includes(category)) {
+          // 하단 라벨: 라벨에서 원의 중심 '반대 방향(아래)'으로 margin만큼 이동
+          const vecX = center - labelX;
+          const vecY = center - labelY;
+          const vecLen = Math.sqrt(vecX * vecX + vecY * vecY);
+          const normX = vecX / vecLen;
+          const normY = vecY / vecLen;
+          codeX = labelX - normX * circleMargin;
+          codeY = labelY - normY * circleMargin;
+          circleTransform = `rotate(${rotationAngle} ${codeX} ${codeY})`;
+        } else if (topCategories.includes(category)) {
+          // 상단 라벨: 라벨에서 원의 중심 '반대 방향(위)'으로 margin만큼 이동
+          const vecX = center - labelX;
+          const vecY = center - labelY;
+          const vecLen = Math.sqrt(vecX * vecX + vecY * vecY);
+          const normX = vecX / vecLen;
+          const normY = vecY / vecLen;
+          codeX = labelX - normX * circleMargin;
+          codeY = labelY - normY * circleMargin;
+          circleTransform = `rotate(${rotationAngle} ${codeX} ${codeY})`;
+        } else {
+          // 나머지: 접선 방향(라벨 기준 +90도)으로 margin만큼 이동
+          const tangentAngle = pt.angle + Math.PI / 2;
+          codeX = labelX + circleMargin * Math.cos(tangentAngle);
+          codeY = labelY + circleMargin * Math.sin(tangentAngle);
+          circleTransform = `rotate(${rotationAngle} ${codeX} ${codeY})`;
+        }
 
         // 지역 데이터가 있으면 점수에 따른 색상 적용
         let textColor = '#999999'; // 기본 색상
         let circleColor = '#999999'; // 원 색상
         let klaciCodeValue = undefined;
         if (regionData) {
-          const { growth_score, economy_score, living_score, safety_score, klaci_code } = regionData;
-          
+          const {
+            growth_score,
+            economy_score,
+            living_score,
+            safety_score,
+            klaci_code,
+          } = regionData;
           const isActive = isActiveCategory(
             category,
             growth_score ?? 0,
             economy_score ?? 0,
             living_score ?? 0,
-            safety_score ?? 0
+            safety_score ?? 0,
           );
-          
-          // KLACI 코드 값 추출 (klaci_code만 사용)
           klaciCodeValue = klaci_code;
           if (isActive) {
-            // 활성화된 카테고리 중에서도 낮은 점수 카테고리들은 검정색으로 표시
             const lowScoreCategories = [
               CATEGORIES.안전정진형,
               CATEGORIES.생활정체형,
@@ -184,50 +278,21 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
               CATEGORIES.인구정착형,
             ];
             if ((lowScoreCategories as string[]).includes(category)) {
-              textColor = '#000000'; // 검정색
-              circleColor = '#000000'; // 원도 검정색
+              textColor = '#000000';
+              circleColor = '#000000';
             } else {
-              textColor = colorMap[category] || '#999999'; // 키컬러
-              circleColor = colorMap[category] || '#999999'; // 원도 키컬러
+              textColor = colorMap[category] || '#999999';
+              circleColor = colorMap[category] || '#999999';
             }
           }
         }
 
         const categoryCode = getCategoryCode(category, klaciCodeValue);
 
-        const circleRadius = 8; // 원 반지름 (2/3 크기)
-        const circleMargin = 32; // 원과 텍스트 사이 간격(아주 조금 더 멀리)
-        // 좌측에 원이 와야 하는 카테고리
-        const leftCircleCategories = [
-          CATEGORIES.경제혁신형,
-          CATEGORIES.인구성장형,
-          CATEGORIES.안전정진형,
-          CATEGORIES.생활정체형,
-        ];
-        // 카테고리별 x축 오프셋
-        let xOffset = 0;
-        if (category === CATEGORIES.인구성장형 || category === CATEGORIES.안전정진형) {
-          xOffset = -16;
-        } else if (category === CATEGORIES.안전회복형 || category === CATEGORIES.인구정착형) {
-          xOffset = 16;
-        }
-        // 원의 x좌표: 좌측 카테고리는 왼쪽, 나머지는 오른쪽
-        const codeX = (leftCircleCategories as string[]).includes(category)
-          ? x - (circleRadius + circleMargin) + xOffset
-          : x + circleRadius + circleMargin + xOffset;
-        const codeY = y;
-        // 라벨 x좌표도 동일하게 오프셋 적용
-        const labelX = x + xOffset;
-
-        // 하단 요소 카테고리(원 배경색 #D9D9E8)
-        const bottomCategories = [
-          CATEGORIES.안전정진형,
-          CATEGORIES.생활정체형,
-          CATEGORIES.경제정속형,
-          CATEGORIES.인구정착형,
-        ];
-        // 원 색상 결정
-        const finalCircleColor = (bottomCategories as string[]).includes(category)
+        const circleRadius = 8;
+        const finalCircleColor = (bottomCategories as string[]).includes(
+          category,
+        )
           ? '#D9D9E8'
           : circleColor;
 
@@ -235,13 +300,14 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
           <g key={i}>
             <text
               x={labelX}
-              y={y}
+              y={labelY}
               textAnchor="middle"
               dy="0.4em"
               fontSize={fontSize.category}
-              fontWeight="bold"
+              fontWeight="600"
               fill={textColor}
-              transform={`rotate(${deg} ${labelX} ${y})`}
+              transform={`rotate(${rotationAngle} ${labelX} ${labelY})`}
+              className="radar-category-label"
             >
               {category}
             </text>
@@ -252,16 +318,18 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
                   cy={codeY}
                   r={circleRadius}
                   fill={finalCircleColor}
-                  stroke="none"
+                  transform={circleTransform}
                 />
                 <text
                   x={codeX}
                   y={codeY}
                   textAnchor="middle"
                   dy="0.4em"
-                  fontSize={fontSize.category * 0.65}
+                  fontSize="16px"
                   fontWeight="bold"
                   fill="#FFFFFF"
+                  transform={circleTransform}
+                  className="radar-circle-code-text"
                 >
                   {categoryCode}
                 </text>
@@ -277,15 +345,15 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
 export default RadarBackground;
 
 export function getCategoryByScore(
-  growthScore: number,    // 인구성장형 점수
-  economyScore: number,   // 경제혁신형 점수
-  livingScore: number,    // 생활역동형 점수
-  safetyScore: number     // 안전회복형 점수
+  growthScore: number, // 인구성장형 점수
+  economyScore: number, // 경제혁신형 점수
+  livingScore: number, // 생활역동형 점수
+  safetyScore: number, // 안전회복형 점수
 ): string[] {
   return [
-    growthScore >= 50 ? CATEGORIES.인구성장형 : CATEGORIES.인구정착형,    // 인덱스 0
-    economyScore >= 50 ? CATEGORIES.경제혁신형 : CATEGORIES.경제정속형,   // 인덱스 1
-    livingScore >= 50 ? CATEGORIES.생활역동형 : CATEGORIES.생활정체형,    // 인덱스 2
-    safetyScore >= 50 ? CATEGORIES.안전회복형 : CATEGORIES.안전정진형,    // 인덱스 3
+    growthScore >= 50 ? CATEGORIES.인구성장형 : CATEGORIES.인구정착형, // 인덱스 0
+    economyScore >= 50 ? CATEGORIES.경제혁신형 : CATEGORIES.경제정속형, // 인덱스 1
+    livingScore >= 50 ? CATEGORIES.생활역동형 : CATEGORIES.생활정체형, // 인덱스 2
+    safetyScore >= 50 ? CATEGORIES.안전회복형 : CATEGORIES.안전정진형, // 인덱스 3
   ];
 }

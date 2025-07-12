@@ -32,7 +32,7 @@ const JewelRadarChart = ({
 
   // 라벨 위치 오프셋
   const labelOffset = {
-    category: Math.round(size * 0.07),
+    category: Math.round(size * 0.03), // 0.07에서 0.03으로 줄여서 꼭지점에 더 가깝게
     value: Math.round(size * 0.008),
   };
 
