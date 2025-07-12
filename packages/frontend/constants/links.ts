@@ -18,7 +18,7 @@ export const INTERNAL_LINKS = {
     CORE_CATEGORY_TOP_50: '/summary/5',
     ADMINISTRATIVE_UNIT_TOP_50: '/summary/6',
     SIX_MAJOR_CITIES_TOP_50: '/summary/7',
-    SIX_PROVINCES_TOP_50: '/summary/8',
+    SIX_PROVINCES_TOP_50: '/summary/six-provinces-top-50',
     ECONOMIC_FREE_ZONE: '/summary/9',
     GROWTH_PROMOTION_REGION: '/summary/10',
     NATIONAL_INDUSTRIAL_COMPLEX: '/summary/11',

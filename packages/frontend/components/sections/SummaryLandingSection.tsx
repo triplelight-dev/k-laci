@@ -13,7 +13,7 @@ const cardData = [
     { title: "핵심범주별\nTOP 50", desc: "인구, 경제, 생활, 안전\n4대 핵심범주별 지자체 상위 50곳", bgImage: '/summary/Ranking-5.png', link: INTERNAL_LINKS.SUMMARY.CORE_CATEGORY_TOP_50 },
     { title: "시군구별\nTOP 50", desc: "시, 군, 구\n3개 행정단위별 지자체 상위 50곳", bgImage: '/summary/Ranking-6.png', link: INTERNAL_LINKS.SUMMARY.ADMINISTRATIVE_UNIT_TOP_50 },
     { title: "6대 광역시\nTOP 50", desc: "광주, 대구, 대전, 부산, 울산, 인천 \n6대 광역시 내 지자체 상위 50곳", bgImage: '/summary/Ranking-7.png', link: INTERNAL_LINKS.SUMMARY.SIX_MAJOR_PROVINCES_TOP_50 },
-    { title: "6개 도\nTOP 50", desc: "경기, 경남, 경북, 전남, 충남, 충북\n6개 도 내 지자체 상위 50곳", bgImage: '/summary/Ranking-8.png', link: INTERNAL_LINKS.SUMMARY.SIX_PROVINCES_TOP_50 },
+    { title: "6개 도\nTOP 50", desc: "경기, 경남, 경북, 전남, 충남, 충북\n 6개 도 내 지자체 상위 50곳", bgImage: '/summary/Ranking-8.png', link: INTERNAL_LINKS.SUMMARY.SIX_PROVINCES_TOP_50 },
   ],
   [
     { title: "경제자유구역\n종합순위", desc: "전국 경제자유구역\n해당 지자체 25곳 순위", bgImage: '/summary/Ranking-9.png', link: INTERNAL_LINKS.SUMMARY.ECONOMIC_FREE_ZONE },
