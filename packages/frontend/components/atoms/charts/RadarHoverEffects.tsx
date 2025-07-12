@@ -120,6 +120,12 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
             .radar-chart:hover .data-point:hover + .data-point-inner {
               opacity: 1 !important;
             }
+            .radar-guide-label {
+              font-size: 12px !important;
+              font-weight: 600 !important;
+              fill: #BDBDBD !important;
+              opacity: 1 !important;
+            } 
             
             /* 원 안의 텍스트 폰트 크기 고정 */
             .radar-circle-code-text {
@@ -130,7 +136,6 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
             .radar-category-label {
               font-weight: 600 !important;
             }
-            
             @keyframes fadeIn {
               from {
                 opacity: 0;

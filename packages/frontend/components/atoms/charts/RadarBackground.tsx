@@ -158,16 +158,40 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
         ))}
       </g>
 
-      {/* 가로 점선 */}
+      {/* 가로 점선 (길이 늘림) */}
       <line
-        x1={center - radius - 40}
+        x1={center - radius - 80}
         y1={center}
-        x2={center + radius + 40}
+        x2={center + radius + 80}
         y2={center}
         stroke="#CCC"
         strokeWidth={0.5}
         strokeDasharray="4 4"
       />
+
+      {/* 강점/약점 텍스트 - 점선 우측 끝 위/아래에 위치, 더 왼쪽으로 이동, 8px */}
+      <text
+        x={center + radius + 50}
+        y={center - 10}
+        textAnchor="middle"
+        fontSize="8px"
+        fontWeight="600"
+        fill="#BDBDBD"
+        className="radar-guide-label"
+      >
+        ↑ 강점영역
+      </text>
+      <text
+        x={center + radius + 50}
+        y={center + 18}
+        textAnchor="middle"
+        fontSize="8px"
+        fontWeight="600"
+        fill="#BDBDBD"
+        className="radar-guide-label"
+      >
+        ↓ 약점영역
+      </text>
 
       {/* 축 라벨 */}
       {points.map((pt, i) => {
