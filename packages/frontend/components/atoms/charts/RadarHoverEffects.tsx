@@ -5,10 +5,11 @@ import { RadarChartContext } from './types';
 
 interface RadarHoverEffectsProps {
   context: RadarChartContext;
+  showStrongTooltip?: boolean;
+  showWeakTooltip?: boolean;
 }
 
-const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
-  const [hoveredArea, setHoveredArea] = useState<'top' | 'bottom' | null>(null);
+const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: RadarHoverEffectsProps) => {
   const [hoveredPoint, setHoveredPoint] = useState<number | null>(null);
 
   const {
@@ -22,8 +23,6 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
     points,
     vals,
   } = context;
-
-  const numAxes = categories.length;
 
   // 깜빡임 방지를 위한 useCallback 사용
   const handlePointMouseEnter = useCallback((i: number) => {
@@ -66,43 +65,12 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
     }
   }, []);
 
-  const handleAreaMouseEnter = useCallback((area: 'top' | 'bottom') => {
-    setHoveredArea(area);
-  }, []);
-
-  const handleAreaMouseLeave = useCallback(() => {
-    setHoveredArea(null);
-  }, []);
-
   if (isJewel) return null;
 
   return (
     <>
-      {/* 호버 효과를 위한 마스크들 */}
+      {/* 호버 효과를 위한 스타일 */}
       <defs>
-        <mask id="hoverTopMask">
-          <rect width={size} height={size} fill="white" />
-          <rect
-            x={center - radius}
-            y={center}
-            width={radius * 2}
-            height={radius}
-            fill="black"
-          />
-        </mask>
-
-        <mask id="hoverBottomMask">
-          <rect width={size} height={size} fill="white" />
-          <rect
-            x={center - radius}
-            y={0}
-            width={radius * 2}
-            height={center}
-            fill="black"
-          />
-        </mask>
-
-        {/* 호버 효과를 위한 스타일 */}
         <style>
           {`
             .radar-chart:hover .jewel-triangle {
@@ -120,6 +88,18 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
             .radar-chart:hover .data-point:hover + .data-point-inner {
               opacity: 1 !important;
             }
+            .radar-guide-label {
+              font-size: 12px !important;
+              font-weight: 600 !important;
+              fill: #BDBDBD !important;
+              opacity: 1 !important;
+            } 
+            .radar-guide-qmark {
+              font-size: 8px !important;
+              font-weight: bold !important;
+              fill: #BDBDBD !important;
+              opacity: 1 !important;
+            }
             
             /* 원 안의 텍스트 폰트 크기 고정 */
             .radar-circle-code-text {
@@ -130,7 +110,6 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
             .radar-category-label {
               font-weight: 600 !important;
             }
-            
             @keyframes fadeIn {
               from {
                 opacity: 0;
@@ -142,112 +121,6 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
           `}
         </style>
       </defs>
-
-      {/* 호버 효과를 위한 오버레이 레이어들 */}
-      {/* 상단 오버레이 - 하단 영역 호버시만 표시 */}
-      <g mask="url(#hoverTopMask)">
-        {points.map((pt, i) => {
-          const next = points[(i + 1) % numAxes];
-          if (!next) return null;
-
-          return (
-            <path
-              key={`top-${i}`}
-              d={`M${center},${center} L${pt.x},${pt.y} L${next.x},${next.y} Z`}
-              fill="#D9D9E8"
-              fillOpacity={hoveredArea === 'bottom' ? 1 : 0}
-              stroke="none"
-              className="hover-top-overlay"
-              style={{
-                transition: 'opacity 0.8s ease, fill 0.8s ease',
-              }}
-            />
-          );
-        })}
-      </g>
-
-      {/* 하단 오버레이 - 상단 영역 호버시만 표시 */}
-      <g mask="url(#hoverBottomMask)">
-        {points.map((pt, i) => {
-          const next = points[(i + 1) % numAxes];
-          if (!next) return null;
-
-          return (
-            <path
-              key={`bottom-${i}`}
-              d={`M${center},${center} L${pt.x},${pt.y} L${next.x},${next.y} Z`}
-              fill="#D9D9E8"
-              fillOpacity={hoveredArea === 'top' ? 1 : 0}
-              stroke="none"
-              className="hover-bottom-overlay"
-              style={{
-                transition: 'opacity 0.8s ease, fill 0.8s ease',
-              }}
-            />
-          );
-        })}
-      </g>
-
-      {/* 투명한 호버 영역들 */}
-      {/* 상단 호버 영역 - 툴팁이 표시되지 않을 때만 활성화 */}
-      {!hoveredArea && (
-        <path
-          d={`M ${center - radius} ${center - radius} 
-              L ${center + radius} ${center - radius}
-              L ${center + radius} ${center}
-              L ${center - radius} ${center}
-              Z`}
-          fill="transparent"
-          onMouseEnter={() => handleAreaMouseEnter('top')}
-          onMouseLeave={handleAreaMouseLeave}
-          style={{ cursor: 'pointer' }}
-        />
-      )}
-
-      {/* 하단 호버 영역 - 툴팁이 표시되지 않을 때만 활성화 */}
-      {!hoveredArea && (
-        <path
-          d={`M ${center - radius} ${center} 
-              L ${center + radius} ${center}
-              L ${center + radius} ${center + radius}
-              L ${center - radius} ${center + radius}
-              Z`}
-          fill="transparent"
-          onMouseEnter={() => handleAreaMouseEnter('bottom')}
-          onMouseLeave={handleAreaMouseLeave}
-          style={{ cursor: 'pointer' }}
-        />
-      )}
-
-      {/* 툴팁이 표시될 때 활성화되는 호버 영역들 */}
-      {hoveredArea && (
-        <>
-          {/* 상단 호버 영역 (툴팁 영역 제외) */}
-          <path
-            d={`M ${center - radius} ${center - radius} 
-                L ${center + radius} ${center - radius}
-                L ${center + radius} ${center}
-                L ${center - radius} ${center}
-                Z`}
-            fill="transparent"
-            onMouseEnter={() => handleAreaMouseEnter('top')}
-            onMouseLeave={handleAreaMouseLeave}
-            style={{ cursor: 'pointer' }}
-          />
-          {/* 하단 호버 영역 (툴팁 영역 제외) */}
-          <path
-            d={`M ${center - radius} ${center} 
-                L ${center + radius} ${center}
-                L ${center + radius} ${center + radius}
-                L ${center - radius} ${center + radius}
-                Z`}
-            fill="transparent"
-            onMouseEnter={() => handleAreaMouseEnter('bottom')}
-            onMouseLeave={handleAreaMouseLeave}
-            style={{ cursor: 'pointer' }}
-          />
-        </>
-      )}
 
       {/* 데이터 포인트 */}
       {points.map((pt, i) => {
@@ -328,11 +201,41 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
       {hoveredPoint !== null && points[hoveredPoint] && (
         <g>
           <rect
-            x={points[hoveredPoint]!.x - 15}
-            y={points[hoveredPoint]!.y - 35}
-            width={30}
-            height={25}
-            rx={6}
+            x={points[hoveredPoint]!.x - 22}
+            y={points[hoveredPoint]!.y - 40}
+            width={44}
+            height={32}
+            rx={8}
+            fill="#000000"
+            stroke="none"
+            style={{
+              filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2))',
+            }}
+          />
+          <text
+            x={points[hoveredPoint]!.x}
+            y={points[hoveredPoint]!.y - 24}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fontSize="12"
+            fill="#FFFFFF"
+            fontWeight="bold"
+          >
+            {vals[hoveredPoint]?.toFixed(1)}
+          </text>
+        </g>
+      )}
+
+      {/* 강점/약점 영역 툴팁 - 우측 텍스트 호버에만 반응 */}
+      {showStrongTooltip && (
+        <g>
+          {/* 강점영역 툴팁 */}
+          <rect
+            x={center - 154}
+            y={center + 20}
+            width={308}
+            height={100}
+            rx={8}
             fill="white"
             stroke="#333"
             strokeWidth={1}
@@ -341,34 +244,47 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
             }}
           />
           <text
-            x={points[hoveredPoint]!.x}
-            y={points[hoveredPoint]!.y - 22}
+            x={center}
+            y={center + 45}
             textAnchor="middle"
             dominantBaseline="middle"
-            fontSize={fontSize.tooltip * 1.1}
+            fontSize="8"
             fill="#333"
-            fontWeight="bold"
           >
-            {vals[hoveredPoint]?.toFixed(1)}
+            원석레이더 차트의 상반부는{' '}
+            <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>&apos;강점&apos;</tspan> 영역입니다.
+          </text>
+          <text
+            x={center}
+            y={center + 70}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fontSize="8"
+            fill="#333"
+          >
+            &apos;약점&apos; 원형 범위와 비교해 지역의 자산 정도를
+          </text>
+          <text
+            x={center}
+            y={center + 95}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fontSize="8"
+            fill="#333"
+          >
+            파악할 수 있습니다.
           </text>
         </g>
       )}
-
-      {/* 영역 호버 툴팁 - 흰색 배경에 검정색 보더 */}
-      {hoveredArea && hoveredPoint === null && (
-        <g
-          style={{
-            opacity: 0,
-            animation: 'fadeIn 0.3s ease forwards',
-          }}
-        >
-          {/* 툴팁 배경 */}
+      {showWeakTooltip && (
+        <g>
+          {/* 약점영역 툴팁 */}
           <rect
-            x={center - 120}
-            y={hoveredArea === 'top' ? center + 20 : center - 80}
-            width={240}
-            height={60}
-            rx={5}
+            x={center - 154}
+            y={center - 120}
+            width={308}
+            height={100}
+            rx={8}
             fill="white"
             stroke="#333"
             strokeWidth={1}
@@ -376,70 +292,37 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
               filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1))',
             }}
           />
-          {/* 툴팁 텍스트 */}
-          {hoveredArea === 'top' ? (
-            <>
-              <text
-                x={center}
-                y={center + 40}
-                textAnchor="middle"
-                fontSize="11"
-                fill="#333"
-              >
-                원석레이더 차트의 상반부는{' '}
-                <tspan fontWeight="bold">&apos;강점&apos;</tspan> 영역입니다.
-              </text>
-              <text
-                x={center}
-                y={center + 55}
-                textAnchor="middle"
-                fontSize="11"
-                fill="#333"
-              >
-                &apos;양점&apos; 원형 범위와 비교해 지역의 자산 정도를
-              </text>
-              <text
-                x={center}
-                y={center + 70}
-                textAnchor="middle"
-                fontSize="11"
-                fill="#333"
-              >
-                파악할 수 있습니다.
-              </text>
-            </>
-          ) : (
-            <>
-              <text
-                x={center}
-                y={center - 60}
-                textAnchor="middle"
-                fontSize="11"
-                fill="#333"
-              >
-                원석레이더 차트의 하반부는{' '}
-                <tspan fontWeight="bold">&apos;약점&apos;</tspan> 영역입니다.
-              </text>
-              <text
-                x={center}
-                y={center - 45}
-                textAnchor="middle"
-                fontSize="11"
-                fill="#333"
-              >
-                &apos;강점&apos; 원형 범위와 비교해 개선 정도를
-              </text>
-              <text
-                x={center}
-                y={center - 30}
-                textAnchor="middle"
-                fontSize="11"
-                fill="#333"
-              >
-                파악할 수 있습니다.
-              </text>
-            </>
-          )}
+          <text
+            x={center}
+            y={center - 95}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fontSize="8"
+            fill="#333"
+          >
+            원석레이더 차트의 하반부는{' '}
+            <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>&apos;약점&apos;</tspan> 영역입니다.
+          </text>
+          <text
+            x={center}
+            y={center - 70}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fontSize="8"
+            fill="#333"
+          >
+            &apos;강점&apos; 원형 범위와 비교해 개선 정도를
+          </text>
+          <text
+            x={center}
+            y={center - 45}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fontSize="8"
+            fill="#333"
+          >
+            파악할 수 있습니다.
+          </text>
         </g>
       )}
     </>

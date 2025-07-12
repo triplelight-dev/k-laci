@@ -1,14 +1,21 @@
 'use client';
 
+import { useState } from 'react';
 import { CATEGORIES } from '../../../constants/categories';
 import { isActiveCategory } from '../../../utils/categoryUtils';
 import { RadarChartContext } from './types';
 
 interface RadarBackgroundProps {
   context: RadarChartContext;
+  onStrongGuideHover?: (show: boolean) => void;
+  onWeakGuideHover?: (show: boolean) => void;
 }
 
-const RadarBackground = ({ context }: RadarBackgroundProps) => {
+const RadarBackground = ({
+  context,
+  onStrongGuideHover,
+  onWeakGuideHover,
+}: RadarBackgroundProps) => {
   const {
     center,
     radius,
@@ -86,6 +93,15 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
     return null;
   };
 
+  // 강점/약점 텍스트 + 물음표 아이콘
+  const guideLabelX = center + radius + 20; // 기존보다 20px 더 왼쪽
+  const guideQmarkX = guideLabelX + 65; // 원은 텍스트 기준 오른쪽 32px (필요시 조정)
+  const guideStrongY = center - 10;
+  const guideWeakY = center + 18;
+
+  const [showStrongTooltip, setShowStrongTooltip] = useState(false);
+  const [showWeakTooltip, setShowWeakTooltip] = useState(false);
+
   return (
     <>
       {/* 위쪽 반원 배경 (0도 ~ 180도) */}
@@ -158,16 +174,126 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
         ))}
       </g>
 
-      {/* 가로 점선 */}
+      {/* 가로 점선 (길이 더 늘림) */}
       <line
-        x1={center - radius - 40}
+        x1={center - radius - 120}
         y1={center}
-        x2={center + radius + 40}
+        x2={center + radius + 120}
         y2={center}
         stroke="#CCC"
         strokeWidth={0.5}
         strokeDasharray="4 4"
       />
+
+      {/* 강점/약점 텍스트 + 물음표 아이콘 */}
+      <g
+        onMouseEnter={() => onStrongGuideHover && onStrongGuideHover(true)}
+        onMouseLeave={() => onStrongGuideHover && onStrongGuideHover(false)}
+        style={{ cursor: 'pointer' }}
+      >
+        {/* 강점영역 텍스트 */}
+        <text
+          x={guideLabelX}
+          y={guideStrongY}
+          textAnchor="start"
+          fontSize="8px"
+          fontWeight="600"
+          fill="#BDBDBD"
+          className="radar-guide-label"
+          style={{ cursor: 'pointer' }}
+        >
+          ↑ 강점영역
+        </text>
+        {/* 물음표 아이콘 */}
+        <g style={{ cursor: 'pointer' }}>
+          <circle
+            cx={guideQmarkX}
+            cy={guideStrongY - 3}
+            r={7}
+            fill="#F5F5F5"
+            stroke="#D9D9E8"
+            strokeWidth="1"
+            style={{ cursor: 'pointer' }}
+          />
+          <text
+            x={guideQmarkX}
+            y={guideStrongY - 3}
+            textAnchor="middle"
+            fontSize="8px"
+            fontWeight="bold"
+            fill="#BDBDBD"
+            alignmentBaseline="middle"
+            dominantBaseline="middle"
+            className="radar-guide-qmark"
+            style={{ cursor: 'pointer' }}
+          >
+            ?
+          </text>
+        </g>
+        {/* 호버 영역(투명) */}
+        <rect
+          x={guideLabelX - 5}
+          y={guideStrongY - 12}
+          width={60}
+          height={24}
+          fill="transparent"
+          style={{ cursor: 'pointer' }}
+        />
+      </g>
+      <g
+        onMouseEnter={() => onWeakGuideHover && onWeakGuideHover(true)}
+        onMouseLeave={() => onWeakGuideHover && onWeakGuideHover(false)}
+        style={{ cursor: 'pointer' }}
+      >
+        {/* 약점영역 텍스트 */}
+        <text
+          x={guideLabelX}
+          y={guideWeakY}
+          textAnchor="start"
+          fontSize="8px"
+          fontWeight="600"
+          fill="#BDBDBD"
+          className="radar-guide-label"
+          style={{ cursor: 'pointer' }}
+        >
+          ↓ 약점영역
+        </text>
+        {/* 물음표 아이콘 */}
+        <g style={{ cursor: 'pointer' }}>
+          <circle
+            cx={guideQmarkX}
+            cy={guideWeakY - 3}
+            r={7}
+            fill="#F5F5F5"
+            stroke="#D9D9E8"
+            strokeWidth="1"
+            style={{ cursor: 'pointer' }}
+          />
+          <text
+            x={guideQmarkX}
+            y={guideWeakY - 3}
+            textAnchor="middle"
+            fontSize="8px"
+            fontWeight="bold"
+            fill="#BDBDBD"
+            alignmentBaseline="middle"
+            dominantBaseline="middle"
+            className="radar-guide-qmark"
+            style={{ cursor: 'pointer' }}
+          >
+            ?
+          </text>
+        </g>
+        {/* 호버 영역(투명) */}
+        <rect
+          x={guideLabelX - 5}
+          y={guideWeakY - 12}
+          width={60}
+          height={24}
+          fill="transparent"
+          style={{ cursor: 'pointer' }}
+        />
+      </g>
 
       {/* 축 라벨 */}
       {points.map((pt, i) => {
@@ -211,10 +337,10 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
         let labelX = baseX + xOffset;
         let labelY = baseY;
         const labelMargin = 8; // 16에서 8로 줄여서 꼭지점에 더 가깝게
-        if (bottomCategories.includes(category)) {
+        if (bottomCategories.includes(category as any)) {
           // 하단 라벨: y를 아래로
           labelY = baseY + labelMargin;
-        } else if (topCategories.includes(category)) {
+        } else if (topCategories.includes(category as any)) {
           // 상단 라벨: y를 위로
           labelY = baseY - labelMargin;
         }
@@ -222,7 +348,7 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
         // circle 위치 계산 - 원은 기존 위치 유지
         let codeX, codeY, circleTransform;
         const circleMargin = 25; // 20에서 25로 늘려서 라벨과 원의 거리를 조금 더 늘림
-        if (bottomCategories.includes(category)) {
+        if (bottomCategories.includes(category as any)) {
           // 하단 라벨: 라벨에서 원의 중심 '반대 방향(아래)'으로 margin만큼 이동
           const vecX = center - labelX;
           const vecY = center - labelY;
@@ -232,7 +358,7 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
           codeX = labelX - normX * circleMargin;
           codeY = labelY - normY * circleMargin;
           circleTransform = `rotate(${rotationAngle} ${codeX} ${codeY})`;
-        } else if (topCategories.includes(category)) {
+        } else if (topCategories.includes(category as any)) {
           // 상단 라벨: 라벨에서 원의 중심 '반대 방향(위)'으로 margin만큼 이동
           const vecX = center - labelX;
           const vecY = center - labelY;
