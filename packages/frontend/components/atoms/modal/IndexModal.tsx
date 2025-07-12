@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useMemo } from 'react';
 
 import { useRegionKeyIndexScore } from '@/api/hooks/useRegionKeyIndexScore';
 import { NUM_OF_REGIONS } from '@/constants/data';
 import { IndexData } from '@/features/results/sections/StrenthWeaknessIndexSection';
 
 import { colorMap } from '@/features/results/sections/StrenthWeaknessIndexSection';
+import { useDistrict } from '@/store';
 import { Flex } from '@chakra-ui/react';
 
 interface IndexModalProps {
@@ -22,21 +23,25 @@ const IndexModal: React.FC<IndexModalProps> = ({
   data,
   regionId,
 }) => {
+  const { selectedRegion } = useDistrict();
+
+  const rank = useMemo(() => {
+    if (!selectedRegion?.key_index_ranks) {
+      return 0;
+    }
+
+    return selectedRegion.key_index_ranks.top.find(
+      (rank) => rank.key_index_id === data.indexId,
+    )?.rank;
+
+  }, [selectedRegion, data.indexId]);
+
   const {
     data: apiData,
     loading,
     error,
     getRegionKeyIndexScore,
   } = useRegionKeyIndexScore();
-
-  useEffect(() => {
-    if (isOpen && data.indexId && regionId) {
-      getRegionKeyIndexScore(regionId, data.indexId);
-    }
-  }, [isOpen, data.indexId, regionId, getRegionKeyIndexScore]);
-
-  if (!isOpen) return null;
-
 
   // apidata가 없고 로딩 중일 때는 로딩 상태를 보여줌
   if (!apiData && loading) {
@@ -95,8 +100,9 @@ const IndexModal: React.FC<IndexModalProps> = ({
   const topPercentage = ((data.indexRank / NUM_OF_REGIONS) * 100).toFixed(1);
   const source = data.source || '';
   const avgScore = apiData?.avg_score || 0;
-  const scoreGap = displayData.region_key_index_score.score - avgScore;
+  console.log('apiData', apiData);
 
+  const scoreGap = displayData.region_key_index_score.score - avgScore;
   const rankColor = colorMap[data.category] || '#FF3737';
 
   return (
@@ -194,7 +200,7 @@ const IndexModal: React.FC<IndexModalProps> = ({
                   marginBottom: '6px',
                 }}
               >
-                {data.indexRank}위
+                {rank}위
               </div>
 
               <div

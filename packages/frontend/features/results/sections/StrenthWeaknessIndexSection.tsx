@@ -204,6 +204,8 @@ const convertApiResponseToIndexData = (
     return [];
   }
 
+  console.log('apiData@@', apiData);
+
   return apiData.map((item) => ({
     fullRegionName: regionName,
     category: item.key_index.category || '',
@@ -264,6 +266,8 @@ const StrengthWeaknessIndexSection: React.FC = () => {
     } catch (e) {
       // 에러 시 기본값 유지
     }
+
+    console.log('keyIndexDetail', keyIndexDetail);
 
     // API 응답에서 받은 데이터로 업데이트
     let updatedData = { ...data };
