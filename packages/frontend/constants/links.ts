@@ -19,7 +19,7 @@ export const INTERNAL_LINKS = {
     ADMINISTRATIVE_UNIT_TOP_50: '/summary/6',
     SIX_MAJOR_CITIES_TOP_50: '/summary/7',
     SIX_PROVINCES_TOP_50: '/summary/six-provinces-top-50',
-    ECONOMIC_FREE_ZONE: '/summary/9',
+    ECONOMIC_FREE_ZONE: '/fez-total-rank',
     GROWTH_PROMOTION_REGION: '/summary/10',
     NATIONAL_INDUSTRIAL_COMPLEX: '/summary/11',
     COASTAL_CITY: '/summary/12',
