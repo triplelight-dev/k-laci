@@ -337,10 +337,10 @@ const RadarBackground = ({
         let labelX = baseX + xOffset;
         let labelY = baseY;
         const labelMargin = 8; // 16에서 8로 줄여서 꼭지점에 더 가깝게
-        if (bottomCategories.includes(category)) {
+        if (bottomCategories.includes(category as any)) {
           // 하단 라벨: y를 아래로
           labelY = baseY + labelMargin;
-        } else if (topCategories.includes(category)) {
+        } else if (topCategories.includes(category as any)) {
           // 상단 라벨: y를 위로
           labelY = baseY - labelMargin;
         }
@@ -348,7 +348,7 @@ const RadarBackground = ({
         // circle 위치 계산 - 원은 기존 위치 유지
         let codeX, codeY, circleTransform;
         const circleMargin = 25; // 20에서 25로 늘려서 라벨과 원의 거리를 조금 더 늘림
-        if (bottomCategories.includes(category)) {
+        if (bottomCategories.includes(category as any)) {
           // 하단 라벨: 라벨에서 원의 중심 '반대 방향(아래)'으로 margin만큼 이동
           const vecX = center - labelX;
           const vecY = center - labelY;
@@ -358,7 +358,7 @@ const RadarBackground = ({
           codeX = labelX - normX * circleMargin;
           codeY = labelY - normY * circleMargin;
           circleTransform = `rotate(${rotationAngle} ${codeX} ${codeY})`;
-        } else if (topCategories.includes(category)) {
+        } else if (topCategories.includes(category as any)) {
           // 상단 라벨: 라벨에서 원의 중심 '반대 방향(위)'으로 margin만큼 이동
           const vecX = center - labelX;
           const vecY = center - labelY;
