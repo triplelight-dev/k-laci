@@ -1,14 +1,21 @@
 'use client';
 
+import { useState } from 'react';
 import { CATEGORIES } from '../../../constants/categories';
 import { isActiveCategory } from '../../../utils/categoryUtils';
 import { RadarChartContext } from './types';
 
 interface RadarBackgroundProps {
   context: RadarChartContext;
+  onStrongGuideHover?: (show: boolean) => void;
+  onWeakGuideHover?: (show: boolean) => void;
 }
 
-const RadarBackground = ({ context }: RadarBackgroundProps) => {
+const RadarBackground = ({
+  context,
+  onStrongGuideHover,
+  onWeakGuideHover,
+}: RadarBackgroundProps) => {
   const {
     center,
     radius,
@@ -91,6 +98,9 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
   const guideQmarkX = guideLabelX + 65; // 원은 텍스트 기준 오른쪽 32px (필요시 조정)
   const guideStrongY = center - 10;
   const guideWeakY = center + 18;
+
+  const [showStrongTooltip, setShowStrongTooltip] = useState(false);
+  const [showWeakTooltip, setShowWeakTooltip] = useState(false);
 
   return (
     <>
@@ -176,73 +186,105 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
       />
 
       {/* 강점/약점 텍스트 + 물음표 아이콘 */}
-      <text
-        x={guideLabelX}
-        y={guideStrongY}
-        textAnchor="start"
-        fontSize="8px"
-        fontWeight="600"
-        fill="#BDBDBD"
-        className="radar-guide-label"
+      <g
+        onMouseEnter={() => onStrongGuideHover && onStrongGuideHover(true)}
+        onMouseLeave={() => onStrongGuideHover && onStrongGuideHover(false)}
       >
-        ↑ 강점영역
-      </text>
-      <g>
-        <circle
-          cx={guideQmarkX}
-          cy={guideStrongY - 3}
-          r={7}
-          fill="#F5F5F5"
-          stroke="#D9D9E8"
-          strokeWidth="1"
-        />
+        {/* 강점영역 텍스트 */}
         <text
-          x={guideQmarkX}
-          y={guideStrongY - 3}
-          textAnchor="middle"
+          x={guideLabelX}
+          y={guideStrongY}
+          textAnchor="start"
           fontSize="8px"
-          fontWeight="bold"
+          fontWeight="600"
           fill="#BDBDBD"
-          alignmentBaseline="middle"
-          dominantBaseline="middle"
-          className="radar-guide-qmark"
+          className="radar-guide-label"
         >
-          ?
+          ↑ 강점영역
         </text>
+        {/* 물음표 아이콘 */}
+        <g>
+          <circle
+            cx={guideQmarkX}
+            cy={guideStrongY - 3}
+            r={7}
+            fill="#F5F5F5"
+            stroke="#D9D9E8"
+            strokeWidth="1"
+          />
+          <text
+            x={guideQmarkX}
+            y={guideStrongY - 3}
+            textAnchor="middle"
+            fontSize="8px"
+            fontWeight="bold"
+            fill="#BDBDBD"
+            alignmentBaseline="middle"
+            dominantBaseline="middle"
+            className="radar-guide-qmark"
+          >
+            ?
+          </text>
+        </g>
+        {/* 호버 영역(투명) */}
+        <rect
+          x={guideLabelX - 5}
+          y={guideStrongY - 12}
+          width={60}
+          height={24}
+          fill="transparent"
+          cursor="pointer"
+        />
       </g>
-      <text
-        x={guideLabelX}
-        y={guideWeakY}
-        textAnchor="start"
-        fontSize="8px"
-        fontWeight="600"
-        fill="#BDBDBD"
-        className="radar-guide-label"
+      <g
+        onMouseEnter={() => onWeakGuideHover && onWeakGuideHover(true)}
+        onMouseLeave={() => onWeakGuideHover && onWeakGuideHover(false)}
       >
-        ↓ 약점영역
-      </text>
-      <g>
-        <circle
-          cx={guideQmarkX}
-          cy={guideWeakY -3}
-          r={7}
-          fill="#F5F5F5"
-          stroke="#D9D9E8"
-          strokeWidth="1"
-        />
+        {/* 약점영역 텍스트 */}
         <text
-          x={guideQmarkX}
-          y={guideWeakY - 3}
-          textAnchor="middle"
+          x={guideLabelX}
+          y={guideWeakY}
+          textAnchor="start"
           fontSize="8px"
-          fontWeight="bold"
+          fontWeight="600"
           fill="#BDBDBD"
-          alignmentBaseline="middle"
-          dominantBaseline="middle"
-          className="radar-guide-qmark"
+          className="radar-guide-label"
         >
-          ?
+          ↓ 약점영역
         </text>
+        {/* 물음표 아이콘 */}
+        <g>
+          <circle
+            cx={guideQmarkX}
+            cy={guideWeakY - 3}
+            r={7}
+            fill="#F5F5F5"
+            stroke="#D9D9E8"
+            strokeWidth="1"
+          />
+          <text
+            x={guideQmarkX}
+            y={guideWeakY - 3}
+            textAnchor="middle"
+            fontSize="8px"
+            fontWeight="bold"
+            fill="#BDBDBD"
+            alignmentBaseline="middle"
+            dominantBaseline="middle"
+            className="radar-guide-qmark"
+          >
+            ?
+          </text>
+        </g>
+        {/* 호버 영역(투명) */}
+        <rect
+          x={guideLabelX - 5}
+          y={guideWeakY - 12}
+          width={60}
+          height={24}
+          fill="transparent"
+          cursor="pointer"
+        />
       </g>
 
       {/* 축 라벨 */}
