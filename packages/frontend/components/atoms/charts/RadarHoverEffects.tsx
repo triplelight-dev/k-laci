@@ -126,6 +126,12 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
               fill: #BDBDBD !important;
               opacity: 1 !important;
             } 
+            .radar-guide-qmark {
+              font-size: 8px !important;
+              font-weight: bold !important;
+              fill: #BDBDBD !important;
+              opacity: 1 !important;
+            }
             
             /* 원 안의 텍스트 폰트 크기 고정 */
             .radar-circle-code-text {

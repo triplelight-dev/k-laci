@@ -86,6 +86,12 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
     return null;
   };
 
+  // 강점/약점 텍스트 + 물음표 아이콘
+  const guideLabelX = center + radius + 20; // 기존보다 20px 더 왼쪽
+  const guideQmarkX = guideLabelX + 65; // 원은 텍스트 기준 오른쪽 32px (필요시 조정)
+  const guideStrongY = center - 10;
+  const guideWeakY = center + 18;
+
   return (
     <>
       {/* 위쪽 반원 배경 (0도 ~ 180도) */}
@@ -158,22 +164,22 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
         ))}
       </g>
 
-      {/* 가로 점선 (길이 늘림) */}
+      {/* 가로 점선 (길이 더 늘림) */}
       <line
-        x1={center - radius - 80}
+        x1={center - radius - 120}
         y1={center}
-        x2={center + radius + 80}
+        x2={center + radius + 120}
         y2={center}
         stroke="#CCC"
         strokeWidth={0.5}
         strokeDasharray="4 4"
       />
 
-      {/* 강점/약점 텍스트 - 점선 우측 끝 위/아래에 위치, 더 왼쪽으로 이동, 8px */}
+      {/* 강점/약점 텍스트 + 물음표 아이콘 */}
       <text
-        x={center + radius + 50}
-        y={center - 10}
-        textAnchor="middle"
+        x={guideLabelX}
+        y={guideStrongY}
+        textAnchor="start"
         fontSize="8px"
         fontWeight="600"
         fill="#BDBDBD"
@@ -181,10 +187,33 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
       >
         ↑ 강점영역
       </text>
+      <g>
+        <circle
+          cx={guideQmarkX}
+          cy={guideStrongY - 3}
+          r={7}
+          fill="#F5F5F5"
+          stroke="#D9D9E8"
+          strokeWidth="1"
+        />
+        <text
+          x={guideQmarkX}
+          y={guideStrongY - 3}
+          textAnchor="middle"
+          fontSize="8px"
+          fontWeight="bold"
+          fill="#BDBDBD"
+          alignmentBaseline="middle"
+          dominantBaseline="middle"
+          className="radar-guide-qmark"
+        >
+          ?
+        </text>
+      </g>
       <text
-        x={center + radius + 50}
-        y={center + 18}
-        textAnchor="middle"
+        x={guideLabelX}
+        y={guideWeakY}
+        textAnchor="start"
         fontSize="8px"
         fontWeight="600"
         fill="#BDBDBD"
@@ -192,6 +221,29 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
       >
         ↓ 약점영역
       </text>
+      <g>
+        <circle
+          cx={guideQmarkX}
+          cy={guideWeakY -3}
+          r={7}
+          fill="#F5F5F5"
+          stroke="#D9D9E8"
+          strokeWidth="1"
+        />
+        <text
+          x={guideQmarkX}
+          y={guideWeakY - 3}
+          textAnchor="middle"
+          fontSize="8px"
+          fontWeight="bold"
+          fill="#BDBDBD"
+          alignmentBaseline="middle"
+          dominantBaseline="middle"
+          className="radar-guide-qmark"
+        >
+          ?
+        </text>
+      </g>
 
       {/* 축 라벨 */}
       {points.map((pt, i) => {
