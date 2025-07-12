@@ -232,11 +232,11 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
         <g>
           {/* 강점영역 툴팁 */}
           <rect
-            x={center - 120}
-            y={center + 40}
-            width={240}
-            height={60}
-            rx={5}
+            x={center - 154}
+            y={center + 20}
+            width={308}
+            height={100}
+            rx={8}
             fill="white"
             stroke="#333"
             strokeWidth={1}
@@ -246,28 +246,31 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
           />
           <text
             x={center}
-            y={center + 55}
+            y={center + 45}
             textAnchor="middle"
-            fontSize="11"
+            dominantBaseline="middle"
+            fontSize="8"
             fill="#333"
           >
             원석레이더 차트의 상반부는{' '}
-            <tspan fontWeight="bold">&apos;강점&apos;</tspan> 영역입니다.
+            <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>&apos;강점&apos;</tspan> 영역입니다.
           </text>
           <text
             x={center}
             y={center + 70}
             textAnchor="middle"
-            fontSize="11"
+            dominantBaseline="middle"
+            fontSize="8"
             fill="#333"
           >
             &apos;약점&apos; 원형 범위와 비교해 지역의 자산 정도를
           </text>
           <text
             x={center}
-            y={center + 85}
+            y={center + 95}
             textAnchor="middle"
-            fontSize="11"
+            dominantBaseline="middle"
+            fontSize="8"
             fill="#333"
           >
             파악할 수 있습니다.
@@ -278,11 +281,11 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
         <g>
           {/* 약점영역 툴팁 */}
           <rect
-            x={center - 120}
-            y={center - 100}
-            width={240}
-            height={60}
-            rx={5}
+            x={center - 154}
+            y={center - 120}
+            width={308}
+            height={100}
+            rx={8}
             fill="white"
             stroke="#333"
             strokeWidth={1}
@@ -292,19 +295,21 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
           />
           <text
             x={center}
-            y={center - 75}
+            y={center - 95}
             textAnchor="middle"
-            fontSize="11"
+            dominantBaseline="middle"
+            fontSize="8"
             fill="#333"
           >
             원석레이더 차트의 하반부는{' '}
-            <tspan fontWeight="bold">&apos;약점&apos;</tspan> 영역입니다.
+            <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>&apos;약점&apos;</tspan> 영역입니다.
           </text>
           <text
             x={center}
-            y={center - 60}
+            y={center - 70}
             textAnchor="middle"
-            fontSize="11"
+            dominantBaseline="middle"
+            fontSize="8"
             fill="#333"
           >
             &apos;강점&apos; 원형 범위와 비교해 개선 정도를
@@ -313,7 +318,8 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
             x={center}
             y={center - 45}
             textAnchor="middle"
-            fontSize="11"
+            dominantBaseline="middle"
+            fontSize="8"
             fill="#333"
           >
             파악할 수 있습니다.
