@@ -173,13 +173,13 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
       {points.map((pt, i) => {
         const category = categories[i];
         if (!category) return null;
-        
+
         // 각도 계산 (라디안 → 도)
         const angleInDegrees = (pt.angle * 180) / Math.PI;
 
         // 접선 방향으로 회전: 위쪽(0도) 기준 +90, 아래쪽(180도) 기준 -90
         let rotationAngle =
-          (angleInDegrees > -90 && angleInDegrees <= 90)
+          angleInDegrees > -90 && angleInDegrees <= 90
             ? angleInDegrees + 90
             : angleInDegrees - 90;
         // 글자가 위로 향하는 경우(90~270도) 180도 추가 회전
@@ -202,7 +202,7 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
         // 라벨 위치 조정: 상단/하단/기타에 따라 y축 오프셋 적용
         let labelX = baseX + xOffset;
         let labelY = baseY;
-        const labelMargin = 16;
+        const labelMargin = 8; // 16에서 8로 줄여서 꼭지점에 더 가깝게
         if (bottomCategories.includes(category)) {
           // 하단 라벨: y를 아래로
           labelY = baseY + labelMargin;
@@ -211,9 +211,9 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
           labelY = baseY - labelMargin;
         }
 
-        // circle 위치 계산
+        // circle 위치 계산 - 원은 기존 위치 유지
         let codeX, codeY, circleTransform;
-        const circleMargin = 20;
+        const circleMargin = 25; // 20에서 25로 늘려서 라벨과 원의 거리를 조금 더 늘림
         if (bottomCategories.includes(category)) {
           // 하단 라벨: 라벨에서 원의 중심 '반대 방향(아래)'으로 margin만큼 이동
           const vecX = center - labelX;
@@ -247,13 +247,19 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
         let circleColor = '#999999'; // 원 색상
         let klaciCodeValue = undefined;
         if (regionData) {
-          const { growth_score, economy_score, living_score, safety_score, klaci_code } = regionData;
+          const {
+            growth_score,
+            economy_score,
+            living_score,
+            safety_score,
+            klaci_code,
+          } = regionData;
           const isActive = isActiveCategory(
             category,
             growth_score ?? 0,
             economy_score ?? 0,
             living_score ?? 0,
-            safety_score ?? 0
+            safety_score ?? 0,
           );
           klaciCodeValue = klaci_code;
           if (isActive) {
@@ -276,7 +282,9 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
         const categoryCode = getCategoryCode(category, klaciCodeValue);
 
         const circleRadius = 8;
-        const finalCircleColor = (bottomCategories as string[]).includes(category)
+        const finalCircleColor = (bottomCategories as string[]).includes(
+          category,
+        )
           ? '#D9D9E8'
           : circleColor;
 
@@ -308,7 +316,7 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
                   y={codeY}
                   textAnchor="middle"
                   dy="0.4em"
-                  fontSize={fontSize.category * 0.65}
+                  fontSize={fontSize.category * 0.52} // 0.65에서 0.52로 줄여서 80% 크기로 조정
                   fontWeight="bold"
                   fill="#FFFFFF"
                   transform={circleTransform}
@@ -327,15 +335,15 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
 export default RadarBackground;
 
 export function getCategoryByScore(
-  growthScore: number,    // 인구성장형 점수
-  economyScore: number,   // 경제혁신형 점수
-  livingScore: number,    // 생활역동형 점수
-  safetyScore: number     // 안전회복형 점수
+  growthScore: number, // 인구성장형 점수
+  economyScore: number, // 경제혁신형 점수
+  livingScore: number, // 생활역동형 점수
+  safetyScore: number, // 안전회복형 점수
 ): string[] {
   return [
-    growthScore >= 50 ? CATEGORIES.인구성장형 : CATEGORIES.인구정착형,    // 인덱스 0
-    economyScore >= 50 ? CATEGORIES.경제혁신형 : CATEGORIES.경제정속형,   // 인덱스 1
-    livingScore >= 50 ? CATEGORIES.생활역동형 : CATEGORIES.생활정체형,    // 인덱스 2
-    safetyScore >= 50 ? CATEGORIES.안전회복형 : CATEGORIES.안전정진형,    // 인덱스 3
+    growthScore >= 50 ? CATEGORIES.인구성장형 : CATEGORIES.인구정착형, // 인덱스 0
+    economyScore >= 50 ? CATEGORIES.경제혁신형 : CATEGORIES.경제정속형, // 인덱스 1
+    livingScore >= 50 ? CATEGORIES.생활역동형 : CATEGORIES.생활정체형, // 인덱스 2
+    safetyScore >= 50 ? CATEGORIES.안전회복형 : CATEGORIES.안전정진형, // 인덱스 3
   ];
 }
