@@ -304,9 +304,10 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
               textAnchor="middle"
               dy="0.4em"
               fontSize={fontSize.category}
-              fontWeight="bold"
+              fontWeight="600"
               fill={textColor}
               transform={`rotate(${rotationAngle} ${labelX} ${labelY})`}
+              className="radar-category-label"
             >
               {category}
             </text>
