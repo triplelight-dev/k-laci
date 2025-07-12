@@ -97,7 +97,7 @@ const SectionHeader: React.FC<{
             marginBottom: '8px',
           }}
         >
-          종합순위 TOP 100
+          6대 광역시 TOP 50
         </h2>
       </div>
 
@@ -297,9 +297,9 @@ const RankingTable: React.FC<{ data: TotalRegionRank[] }> = ({ data }) => {
 };
 
 // 메인 컴포넌트
-const TotalRankingSection: React.FC<{ data: TotalRegionRank[] }> = ({
-  data,
-}) => {
+const SixMajorProvincesRankingSection: React.FC<{
+  data: TotalRegionRank[];
+}> = ({ data }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
 
@@ -358,4 +358,4 @@ const TotalRankingSection: React.FC<{ data: TotalRegionRank[] }> = ({
   );
 };
 
-export default TotalRankingSection;
+export default SixMajorProvincesRankingSection;
