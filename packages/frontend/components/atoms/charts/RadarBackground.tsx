@@ -188,14 +188,22 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
         }
 
         // 라벨 위치
-        const baseX = center + (radius + labelOffset.category) * Math.cos(pt.angle);
-        const baseY = center + (radius + labelOffset.category) * Math.sin(pt.angle);
+        const baseX =
+          center + (radius + labelOffset.category) * Math.cos(pt.angle);
+        const baseY =
+          center + (radius + labelOffset.category) * Math.sin(pt.angle);
 
         // 카테고리별 x축 오프셋
         let xOffset = 0;
-        if (category === CATEGORIES.인구성장형 || category === CATEGORIES.안전정진형) {
+        if (
+          category === CATEGORIES.인구성장형 ||
+          category === CATEGORIES.안전정진형
+        ) {
           xOffset = -16;
-        } else if (category === CATEGORIES.안전회복형 || category === CATEGORIES.인구정착형) {
+        } else if (
+          category === CATEGORIES.안전회복형 ||
+          category === CATEGORIES.인구정착형
+        ) {
           xOffset = 16;
         }
 
@@ -237,8 +245,8 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
         } else {
           // 나머지: 접선 방향(라벨 기준 +90도)으로 margin만큼 이동
           const tangentAngle = pt.angle + Math.PI / 2;
-          codeX = labelX + (circleMargin * Math.cos(tangentAngle));
-          codeY = labelY + (circleMargin * Math.sin(tangentAngle));
+          codeX = labelX + circleMargin * Math.cos(tangentAngle);
+          codeY = labelY + circleMargin * Math.sin(tangentAngle);
           circleTransform = `rotate(${rotationAngle} ${codeX} ${codeY})`;
         }
 
@@ -316,10 +324,11 @@ const RadarBackground = ({ context }: RadarBackgroundProps) => {
                   y={codeY}
                   textAnchor="middle"
                   dy="0.4em"
-                  fontSize={fontSize.category * 0.52} // 0.65에서 0.52로 줄여서 80% 크기로 조정
+                  fontSize="16px"
                   fontWeight="bold"
                   fill="#FFFFFF"
                   transform={circleTransform}
+                  className="radar-circle-code-text"
                 >
                   {categoryCode}
                 </text>

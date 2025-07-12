@@ -121,6 +121,11 @@ const RadarHoverEffects = ({ context }: RadarHoverEffectsProps) => {
               opacity: 1 !important;
             }
             
+            /* 원 안의 텍스트 폰트 크기 고정 */
+            .radar-circle-code-text {
+              font-size: 11px !important;
+            }
+            
             @keyframes fadeIn {
               from {
                 opacity: 0;
