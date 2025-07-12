@@ -201,25 +201,24 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
       {hoveredPoint !== null && points[hoveredPoint] && (
         <g>
           <rect
-            x={points[hoveredPoint]!.x - 15}
-            y={points[hoveredPoint]!.y - 35}
-            width={30}
-            height={25}
-            rx={6}
-            fill="white"
-            stroke="#333"
-            strokeWidth={1}
+            x={points[hoveredPoint]!.x - 22}
+            y={points[hoveredPoint]!.y - 40}
+            width={44}
+            height={32}
+            rx={8}
+            fill="#000000"
+            stroke="none"
             style={{
-              filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1))',
+              filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2))',
             }}
           />
           <text
             x={points[hoveredPoint]!.x}
-            y={points[hoveredPoint]!.y - 22}
+            y={points[hoveredPoint]!.y - 24}
             textAnchor="middle"
             dominantBaseline="middle"
-            fontSize={fontSize.tooltip * 1.1}
-            fill="#333"
+            fontSize="12"
+            fill="#FFFFFF"
             fontWeight="bold"
           >
             {vals[hoveredPoint]?.toFixed(1)}
