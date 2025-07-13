@@ -13,7 +13,7 @@ export default function GrowthBoostZoneRankPageClient() {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
 
   const { data, isLoading, error } = useGrowthBoostZoneRanks({
-    limit: 100,
+    limit: 1000,
     year: currentYear,
   });
 

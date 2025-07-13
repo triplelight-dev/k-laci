@@ -13,7 +13,7 @@ export default function CoastalCityRankPageClient() {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
 
   const { data, isLoading, error } = useCostalCityRanks({
-    limit: 100,
+    limit: 1000,
     year: currentYear,
   });
 

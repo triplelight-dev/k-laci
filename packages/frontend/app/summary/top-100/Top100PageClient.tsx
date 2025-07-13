@@ -13,7 +13,7 @@ export default function Top100PageClient() {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
 
   const { data, isLoading, error } = useTotalRegionRanks({
-    limit: 100,
+    limit: 1000,
     year: currentYear,
   });
 

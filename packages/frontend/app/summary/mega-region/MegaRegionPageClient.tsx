@@ -42,7 +42,7 @@ export default function MegaRegionPageClient() {
 
   // 전체 데이터를 한 번에 받아옴 (type 파라미터 제거)
   const { data, isLoading, error } = useMegaRegionRanks({
-    limit: 100,
+    limit: 1000,
     year: currentYear,
     // type 파라미터 제거하여 전체 데이터 받기
   });

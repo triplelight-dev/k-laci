@@ -13,7 +13,7 @@ export default function FezTotalRankPageClient() {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
 
   const { data, isLoading, error } = useFreeEconomyZoneRanks({
-    limit: 100,
+    limit: 1000,
     year: currentYear,
   });
 
