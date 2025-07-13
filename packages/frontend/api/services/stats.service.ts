@@ -1,6 +1,7 @@
 import { apiClient } from '../client';
 import { API_ENDPOINTS } from '../constants/endpoints';
 import {
+  GetKlaciCodeRanksParams,
   GetMegaRegionRanksParams,
   GetRankingParams,
   GetRankingResponse,
@@ -15,7 +16,7 @@ export class StatsService {
    */
   private static async getRanking(
     endpoint: string,
-    params: GetRankingParams | GetMegaRegionRanksParams = {}
+    params: GetRankingParams | GetMegaRegionRanksParams | GetKlaciCodeRanksParams = {}
   ): Promise<GetRankingResponse> {
     const { limit, year } = params;
     const type = 'type' in params ? params.type : undefined;
@@ -116,4 +117,16 @@ export class StatsService {
   ): Promise<GetRankingResponse> {
     return this.getRanking(API_ENDPOINTS.STATS.MEGA_REGION, params);
   }
-} 
+
+  /**
+   * KLACI 코드 순위 조회
+   */
+  static async getKlaciCodeRanks(
+    params: GetKlaciCodeRanksParams = {}
+  ): Promise<GetRankingResponse> {
+    return this.getRanking(API_ENDPOINTS.STATS.KLACI_CODE, params);
+  }
+}
+
+// 기존 호환성을 위한 인스턴스 export
+export const statsService = new StatsService(); 

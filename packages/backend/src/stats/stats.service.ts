@@ -1,23 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { SupabaseService } from '../supabase/supabase.service';
 
 @Injectable()
 export class StatsService {
-  private supabase: SupabaseClient;
-
-  constructor(private configService: ConfigService) {
-    const supabaseUrl = this.configService.getOrThrow<string>('SUPABASE_URL');
-    const supabaseKey =
-      this.configService.getOrThrow<string>('SUPABASE_ANON_KEY');
-    this.supabase = createClient(supabaseUrl, supabaseKey);
-  }
+  constructor(private readonly supabaseService: SupabaseService) {}
 
   async getTotalRegionRanks(limit: number = 100, year?: number) {
     const currentYear = new Date().getFullYear();
     const targetYear = year || currentYear;
 
-    const { data, error } = await this.supabase
+    const { data, error } = await this.supabaseService
+      .getClient()
       .from('region_total_rank')
       .select(
         `
@@ -52,7 +45,8 @@ export class StatsService {
         if (item.strength_indexes && item.strength_indexes.length > 0) {
           // strength_indexes 배열의 각 코드에 대해 key_indexes 정보 조회
           const { data: keyIndexesData, error: keyIndexesError } =
-            await this.supabase
+            await this.supabaseService
+              .getClient()
               .from('key_indexes')
               .select(
                 `
@@ -92,7 +86,8 @@ export class StatsService {
     const currentYear = new Date().getFullYear();
     const targetYear = year || currentYear;
 
-    const { data, error } = await this.supabase
+    const { data, error } = await this.supabaseService
+      .getClient()
       .from('rank_major_provinces')
       .select(
         `
@@ -128,7 +123,8 @@ export class StatsService {
         let strengthIndexesDetails = [];
         if (item.strength_indexes && item.strength_indexes.length > 0) {
           const { data: keyIndexesData, error: keyIndexesError } =
-            await this.supabase
+            await this.supabaseService
+              .getClient()
               .from('key_indexes')
               .select(
                 `
@@ -167,7 +163,8 @@ export class StatsService {
     const currentYear = new Date().getFullYear();
     const targetYear = year || currentYear;
 
-    const { data, error } = await this.supabase
+    const { data, error } = await this.supabaseService
+      .getClient()
       .from('rank_selected_provinces')
       .select(
         `
@@ -203,7 +200,8 @@ export class StatsService {
         let strengthIndexesDetails = [];
         if (item.strength_indexes && item.strength_indexes.length > 0) {
           const { data: keyIndexesData, error: keyIndexesError } =
-            await this.supabase
+            await this.supabaseService
+              .getClient()
               .from('key_indexes')
               .select(
                 `
@@ -242,7 +240,8 @@ export class StatsService {
     const currentYear = new Date().getFullYear();
     const targetYear = year || currentYear;
 
-    const { data, error } = await this.supabase
+    const { data, error } = await this.supabaseService
+      .getClient()
       .from('rank_free_economy_zone')
       .select(
         `
@@ -278,7 +277,8 @@ export class StatsService {
         let strengthIndexesDetails = [];
         if (item.strength_indexes && item.strength_indexes.length > 0) {
           const { data: keyIndexesData, error: keyIndexesError } =
-            await this.supabase
+            await this.supabaseService
+              .getClient()
               .from('key_indexes')
               .select(
                 `
@@ -317,7 +317,8 @@ export class StatsService {
     const currentYear = new Date().getFullYear();
     const targetYear = year || currentYear;
 
-    const { data, error } = await this.supabase
+    const { data, error } = await this.supabaseService
+      .getClient()
       .from('rank_growth_boost_zone')
       .select(
         `
@@ -353,7 +354,8 @@ export class StatsService {
         let strengthIndexesDetails = [];
         if (item.strength_indexes && item.strength_indexes.length > 0) {
           const { data: keyIndexesData, error: keyIndexesError } =
-            await this.supabase
+            await this.supabaseService
+              .getClient()
               .from('key_indexes')
               .select(
                 `
@@ -392,7 +394,8 @@ export class StatsService {
     const currentYear = new Date().getFullYear();
     const targetYear = year || currentYear;
 
-    const { data, error } = await this.supabase
+    const { data, error } = await this.supabaseService
+      .getClient()
       .from('rank_national_industrial_zone')
       .select(
         `
@@ -428,7 +431,8 @@ export class StatsService {
         let strengthIndexesDetails = [];
         if (item.strength_indexes && item.strength_indexes.length > 0) {
           const { data: keyIndexesData, error: keyIndexesError } =
-            await this.supabase
+            await this.supabaseService
+              .getClient()
               .from('key_indexes')
               .select(
                 `
@@ -467,7 +471,8 @@ export class StatsService {
     const currentYear = new Date().getFullYear();
     const targetYear = year || currentYear;
 
-    const { data, error } = await this.supabase
+    const { data, error } = await this.supabaseService
+      .getClient()
       .from('rank_costal_city')
       .select(
         `
@@ -501,7 +506,8 @@ export class StatsService {
         let strengthIndexesDetails = [];
         if (item.strength_indexes && item.strength_indexes.length > 0) {
           const { data: keyIndexesData, error: keyIndexesError } =
-            await this.supabase
+            await this.supabaseService
+              .getClient()
               .from('key_indexes')
               .select(
                 `
@@ -540,7 +546,8 @@ export class StatsService {
     const currentYear = new Date().getFullYear();
     const targetYear = year || currentYear;
 
-    let query = this.supabase
+    let query = this.supabaseService
+      .getClient()
       .from('rank_mega_region')
       .select(
         `
@@ -582,7 +589,8 @@ export class StatsService {
         let strengthIndexesDetails = [];
         if (item.strength_indexes && item.strength_indexes.length > 0) {
           const { data: keyIndexesData, error: keyIndexesError } =
-            await this.supabase
+            await this.supabaseService
+              .getClient()
               .from('key_indexes')
               .select(
                 `
@@ -615,5 +623,139 @@ export class StatsService {
     );
 
     return enrichedData;
+  }
+
+  async getKlaciCodeRanks(limit: number = 100, year?: number, type?: string) {
+    const currentYear = new Date().getFullYear();
+    const targetYear = year || currentYear;
+
+    // 1. 먼저 rank_klaci_type 테이블에서 기본 데이터 조회
+    let query = this.supabaseService
+      .getClient()
+      .from('rank_klaci_type')
+      .select('*')
+      .eq('year', targetYear);
+
+    // type 필터링 추가 (선택적)
+    if (type) {
+      query = query.eq('type', type);
+    }
+
+    const { data: rankData, error: rankError } = await query
+      .order('rank', { ascending: true })
+      .limit(limit);
+
+    if (rankError) {
+      throw new Error(`Failed to fetch KLACI code ranks: ${rankError.message}`);
+    }
+
+    if (!rankData || rankData.length === 0) {
+      return [];
+    }
+
+    // 2. 각 랭킹 항목에 대해 매칭되는 region 정보 조회
+    const enrichedData = await Promise.all(
+      rankData.map(async (item) => {
+        let regionData = null;
+
+        // region_id가 있으면 직접 조회
+        if (item.region_id) {
+          const { data: directRegion, error: directError } =
+            await this.supabaseService
+              .getClient()
+              .from('regions')
+              .select(
+                `
+              *,
+              province:provinces (
+                *
+              ),
+              klaci:klaci_codes (
+                *
+              )
+            `,
+              )
+              .eq('id', item.region_id)
+              .single();
+
+          if (!directError && directRegion) {
+            regionData = directRegion;
+          }
+        }
+
+        // region_id로 찾지 못했거나 없으면 klaci_code로 매칭 시도
+        if (!regionData && item.type) {
+          const { data: matchedRegions, error: matchError } =
+            await this.supabaseService
+              .getClient()
+              .from('regions')
+              .select(
+                `
+              *,
+              province:provinces (
+                *
+              ),
+              klaci:klaci_codes (
+                *
+              )
+            `,
+              )
+              .ilike('klaci_code', item.type); // 대소문자 무시 매칭
+
+          if (!matchError && matchedRegions && matchedRegions.length > 0) {
+            // 첫 번째 매칭되는 region 사용 (필요시 추가 로직으로 최적 매칭 선택)
+            regionData = matchedRegions[0];
+          }
+        }
+
+        if (!regionData) {
+          console.error(
+            `No region found for KLACI code type: ${item.type}, region_id: ${item.region_id}`,
+          );
+          return null;
+        }
+
+        // strength_indexes 상세 정보 조회
+        let strengthIndexesDetails = [];
+        if (item.strength_indexes && item.strength_indexes.length > 0) {
+          const { data: keyIndexesData, error: keyIndexesError } =
+            await this.supabaseService
+              .getClient()
+              .from('key_indexes')
+              .select(
+                `
+              id,
+              code,
+              name,
+              category,
+              description,
+              source,
+              unit,
+              name_eng
+            `,
+              )
+              .in('code', item.strength_indexes);
+
+          if (!keyIndexesError && keyIndexesData) {
+            strengthIndexesDetails = item.strength_indexes
+              .map((code) =>
+                keyIndexesData.find((keyItem) => keyItem.code === code),
+              )
+              .filter(Boolean);
+          }
+        }
+
+        const { strength_indexes, rank, ...rest } = item;
+        return {
+          ...rest,
+          total_rank: rank,
+          region: regionData,
+          strength_indexes_details: strengthIndexesDetails,
+        };
+      }),
+    );
+
+    // null 값 제거 (region을 찾지 못한 경우)
+    return enrichedData.filter(Boolean);
   }
 }

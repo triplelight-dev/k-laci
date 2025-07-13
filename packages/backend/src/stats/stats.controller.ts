@@ -1,6 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Public } from '../auth/decorators/public.decorator';
+import { GetKlaciCodeRanksDto } from './dto/get-klaci-code-ranks.dto';
 import { GetMegaRegionRanksDto } from './dto/get-mega-region-ranks.dto';
 import { GetTotalRegionRanksDto } from './dto/get-total-region-ranks.dto';
 import { TotalRegionRankDto } from './dto/total-region-rank-response.dto';
@@ -204,6 +205,34 @@ export class StatsController {
   })
   async getMegaRegionRanks(@Query() query: GetMegaRegionRanksDto) {
     return this.statsService.getMegaRegionRanks(
+      query.limit,
+      query.year,
+      query.type,
+    );
+  }
+
+  @Public()
+  @Get('klaci-code')
+  @ApiOperation({
+    summary: 'Get top N KLACI code ranks for a specific year and type',
+    description:
+      'Retrieve the top N KLACI code regions ranked by total score for a specific year and optional type filter. Available types: GTVR, GTMR, GTMA, GCVR, GCVA, GCMR, GCMA, STVR, SCVR, SCVA, SCMR, SCMA',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully retrieved top N KLACI code ranks',
+    type: [TotalRegionRankDto],
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request - Invalid parameters',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error',
+  })
+  async getKlaciCodeRanks(@Query() query: GetKlaciCodeRanksDto) {
+    return this.statsService.getKlaciCodeRanks(
       query.limit,
       query.year,
       query.type,
