@@ -1,6 +1,6 @@
 'use client';
 
-import { useTotalRegionRanks } from '@/api/hooks/useTotalRegionRanks';
+import { useFreeEconomyZoneRanks } from '@/api/hooks/useRankingData';
 import { DataStateWrapper } from '@/components/common';
 import SummaryLayout from '@/components/layout/SummaryLayout';
 import FezTotalRankSection from '@/features/summary/sections/FezTotalRankSection';
@@ -8,7 +8,7 @@ import FezTotalRankSection from '@/features/summary/sections/FezTotalRankSection
 export default function FezTotalRankPageClient() {
   const currentYear = new Date().getFullYear();
 
-  const { data, isLoading, error } = useTotalRegionRanks({
+  const { data, isLoading, error } = useFreeEconomyZoneRanks({
     limit: 50,
     year: currentYear,
   });
