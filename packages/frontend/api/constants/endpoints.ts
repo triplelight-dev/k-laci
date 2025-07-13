@@ -28,7 +28,7 @@ export const API_ENDPOINTS = {
     COSTAL_CITY: '/stats/rank/costal-city',
     MEGA_REGION: '/stats/rank/mega-region',
     KLACI_CODE: '/stats/rank/klaci-code',
-    PROVINCE_RANK: '/stats/province',
+    PROVINCE_RANK: '/stats/rank/province',
   },
 } as const;
 

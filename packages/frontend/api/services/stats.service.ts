@@ -3,13 +3,13 @@ import { API_ENDPOINTS } from '../constants/endpoints';
 import {
   GetKlaciCodeRanksParams,
   GetMegaRegionRanksParams,
+  GetProvinceRanksParams,
   GetRankingParams,
   GetRankingResponse,
   // 기존 호환성을 위한 import
   GetTotalRegionRanksParams,
   GetTotalRegionRanksResponse
 } from '../types/stats.types';
-import { GetProvinceRanksDto } from './dto/get-province-ranks.dto';
 
 export class StatsService {
   /**
@@ -17,7 +17,7 @@ export class StatsService {
    */
   private static async getRanking(
     endpoint: string,
-    params: GetRankingParams | GetMegaRegionRanksParams | GetKlaciCodeRanksParams = {}
+    params: GetRankingParams | GetMegaRegionRanksParams | GetKlaciCodeRanksParams | GetProvinceRanksParams = {}
   ): Promise<GetRankingResponse> {
     const { limit, year } = params;
     const type = 'type' in params ? params.type : undefined;
@@ -128,14 +128,13 @@ export class StatsService {
     return this.getRanking(API_ENDPOINTS.STATS.KLACI_CODE, params);
   }
 
-  async getProvinceRanks(params: GetProvinceRanksDto) {
-    const response = await apiClient.get<any[]>(
-      API_ENDPOINTS.STATS.PROVINCE_RANK,
-      {
-        params,
-      },
-    );
-    return response.data;
+  /**
+   * 도 순위 조회
+   */
+  static async getProvinceRanks(
+    params: GetProvinceRanksParams = {}
+  ): Promise<GetRankingResponse> {
+    return this.getRanking(API_ENDPOINTS.STATS.PROVINCE_RANK, params);
   }
 }
 

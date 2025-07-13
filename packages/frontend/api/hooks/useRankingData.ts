@@ -3,10 +3,11 @@ import { StatsService } from '../services/stats.service';
 import {
   GetKlaciCodeRanksParams,
   GetMegaRegionRanksParams,
+  GetProvinceRanksParams,
   GetRankingParams
 } from '../types/stats.types';
 
-// 기존 방식과 동일하게 직접 정의
+// 기존 useProvinceRanks Hook을 유지하고 다른 파일은 삭제
 export const useMajorProvincesRanks = (params: GetRankingParams = {}) => {
   return useQuery({
     queryKey: ['majorProvincesRanks', params],
@@ -68,12 +69,21 @@ export const useMegaRegionRanks = (params: GetMegaRegionRanksParams = {}) => {
     staleTime: 5 * 60 * 1000, // 5분
     gcTime: 10 * 60 * 1000, // 10분
   });
-}; 
+};
 
 export const useKlaciCodeRanks = (params: GetKlaciCodeRanksParams = {}) => {
   return useQuery({
     queryKey: ['klaciCodeRanks', params],
     queryFn: () => StatsService.getKlaciCodeRanks(params),
+    staleTime: 5 * 60 * 1000, // 5분
+    gcTime: 10 * 60 * 1000, // 10분
+  });
+};
+
+export const useProvinceRanks = (params: GetProvinceRanksParams = {}) => {
+  return useQuery({
+    queryKey: ['provinceRanks', params],
+    queryFn: () => StatsService.getProvinceRanks(params),
     staleTime: 5 * 60 * 1000, // 5분
     gcTime: 10 * 60 * 1000, // 10분
   });
