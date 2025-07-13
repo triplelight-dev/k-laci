@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { StatsService } from '../services/stats.service';
-import { GetMegaRegionRanksParams, GetRankingParams } from '../types/stats.types';
+import { statsService } from '../services/stats.service';
+import { GetKlaciCodeRanksParams } from '../types/stats.types';
 
 // 기존 방식과 동일하게 직접 정의
 export const useMajorProvincesRanks = (params: GetRankingParams = {}) => {
@@ -61,6 +61,15 @@ export const useMegaRegionRanks = (params: GetMegaRegionRanksParams = {}) => {
   return useQuery({
     queryKey: ['megaRegionRanks', params],
     queryFn: () => StatsService.getMegaRegionRanks(params),
+    staleTime: 5 * 60 * 1000, // 5분
+    gcTime: 10 * 60 * 1000, // 10분
+  });
+}; 
+
+export const useKlaciCodeRanks = (params: GetKlaciCodeRanksParams) => {
+  return useQuery({
+    queryKey: ['klaciCodeRanks', params],
+    queryFn: () => statsService.getKlaciCodeRanks(params),
     staleTime: 5 * 60 * 1000, // 5분
     gcTime: 10 * 60 * 1000, // 10분
   });

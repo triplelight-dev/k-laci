@@ -56,7 +56,7 @@ export interface RegionRank {
   total_score: number;
   year: number;
   region: Region;
-  type?: MegaRegionType; // 메가 지역 타입 추가
+  type?: MegaRegionType | KlaciCodeType; // KLACI 코드 타입도 지원하도록 확장
 }
 
 // 기존 호환성을 위한 별칭
@@ -93,7 +93,29 @@ export const MEGA_REGION_TYPES = [
 
 export type MegaRegionType = typeof MEGA_REGION_TYPES[number];
 
+// KLACI 코드 타입 정의 (백엔드와 동일)
+export const KLACI_CODE_TYPES = [
+  'GTVR',
+  'GTMR',
+  'GTMA',
+  'GCVR',
+  'GCVA',
+  'GCMR',
+  'GCMA',
+  'STVR',
+  'SCVR',
+  'SCVA',
+  'SCMR',
+  'SCMA',
+] as const;
+
+export type KlaciCodeType = typeof KLACI_CODE_TYPES[number];
+
 // MegaRegion용 확장된 파라미터 타입
 export interface GetMegaRegionRanksParams extends GetRankingParams {
   type?: MegaRegionType;
+}
+
+export interface GetKlaciCodeRanksParams extends GetRankingParams {
+  type?: KlaciCodeType;
 } 
