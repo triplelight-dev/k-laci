@@ -1,7 +1,7 @@
 'use client';
 
-import { useKeyIndexData } from '@/api/hooks/useKeyIndexData';
-import { useRegionKeyIndexScore } from '@/api/hooks/useRegionKeyIndexScore';
+import { useKeyIndexDataQuery } from '@/api/hooks/useKeyIndexData';
+import { useRegionKeyIndexScoreQuery } from '@/api/hooks/useRegionKeyIndexScore';
 import IndexModal from '@/components/atoms/modal/IndexModal';
 import { NUM_OF_REGIONS } from '@/constants/data';
 import { IndexData } from '@/features/results/sections/StrenthWeaknessIndexSection';
@@ -9,7 +9,7 @@ import { useDistrict } from '@/store';
 import { CategoryRank } from '@/types/category';
 import { Flex } from '@chakra-ui/react';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 // 스켈레톤 애니메이션 스타일
 const skeletonStyles = `
@@ -45,122 +45,84 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
   categoryTitle,
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [updatedAllRank, setUpdatedAllRank] = useState<UpdatedRank[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [selectedIndexData, setSelectedIndexData] = useState<IndexData | null>(
-    null,
-  );
+  const [selectedIndexData, setSelectedIndexData] = useState<IndexData | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedKeyIndexId, setSelectedKeyIndexId] = useState<number | null>(null);
 
-  const { getRegionKeyIndexScore } = useRegionKeyIndexScore();
-  const { getKeyIndexData } = useKeyIndexData();
   const { selectedRegion } = useDistrict();
 
-  useEffect(() => {
-    const fetchRankData = async () => {
-      if (!rank || rank.length === 0) {
-        setUpdatedAllRank([]);
-        setIsLoading(false);
-        return;
-      }
+  // 모든 key_index_id에 대해 병렬로 데이터를 가져오는 쿼리들
+  const keyIndexQueries = useMemo(() => {
+    if (!rank || rank.length === 0) return [];
+    
+    return rank.map((item) => ({
+      regionId: regionId,
+      keyIndexId: item.key_index_id,
+      enabled: !!regionId && !!item.key_index_id,
+    }));
+  }, [rank, regionId]);
 
-      setIsLoading(true);
-      try {
-        const promises = rank.map(async (score) => {
-          if (!score.key_index_id || !regionId) {
-            return {
-              ...score,
-              score: 0,
-              topPercentage: ((score.rank / NUM_OF_REGIONS) * 100).toFixed(1),
-              scoreGap: 0,
-              avgScore: 0,
-              regionId: regionId,
-            };
-          }
+  // 모든 쿼리 결과를 병렬로 가져오기
+  const regionKeyIndexQueries = keyIndexQueries.map(({ regionId, keyIndexId, enabled }) =>
+    useRegionKeyIndexScoreQuery(regionId, keyIndexId, enabled)
+  );
 
-          const data = await getRegionKeyIndexScore(
-            regionId,
-            score.key_index_id,
-          );
-          return {
-            ...score,
-            score: data.region_key_index_score.score,
-            topPercentage: ((score.rank / NUM_OF_REGIONS) * 100).toFixed(1),
-            scoreGap: data.region_key_index_score.score - data.avg_score,
-            avgScore: data.avg_score,
-            regionId: regionId,
-          };
-        });
+  // 모달용 키 인덱스 데이터 (선택된 항목에 대해서만)
+  const keyIndexDataQuery = useKeyIndexDataQuery(
+    selectedKeyIndexId,
+    undefined,
+    !!selectedKeyIndexId
+  );
 
-        const updatedRank = await Promise.all(promises);
-        setUpdatedAllRank(updatedRank);
-      } catch (error) {
-        console.error('Failed to fetch rank data:', error);
-        // 에러 발생 시 기본 데이터로 설정
-        const fallbackRank = rank.map((score) => ({
-          ...score,
-          score: 0,
-          topPercentage: ((score.rank / NUM_OF_REGIONS) * 100).toFixed(1),
-          scoreGap: 0,
-          avgScore: 0,
-          regionId: regionId,
-        }));
-        setUpdatedAllRank(fallbackRank);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  // 업데이트된 랭크 데이터 계산
+  const updatedAllRank = useMemo(() => {
+    if (!rank || rank.length === 0) return [];
 
-    fetchRankData();
-  }, [rank, regionId, getRegionKeyIndexScore]);
+    return rank.map((item, index) => {
+      const query = regionKeyIndexQueries[index];
+      const data = query?.data;
+      
+      return {
+        ...item,
+        score: data?.region_key_index_score?.score || 0,
+        topPercentage: ((item.rank / NUM_OF_REGIONS) * 100).toFixed(1),
+        scoreGap: data ? (data.region_key_index_score.score - data.avg_score) : 0,
+        avgScore: data?.avg_score || 0,
+        regionId: regionId,
+      };
+    });
+  }, [rank, regionKeyIndexQueries, regionId]);
 
-  const handleRankClick = async (rank: CategoryRank) => {
+  // 로딩 상태 계산
+  const isLoading = useMemo(() => {
+    return regionKeyIndexQueries.some(query => query.isLoading);
+  }, [regionKeyIndexQueries]);
+
+  const handleRankClick = async (clickedRank: CategoryRank) => {
     if (!selectedRegion) return;
 
-    const indexDescription = rank.description || '설명이 없습니다.';
+    // 키 인덱스 ID 설정하여 모달용 데이터 로드 시작
+    setSelectedKeyIndexId(clickedRank.key_index_id);
+
+    const indexDescription = clickedRank.description || '설명이 없습니다.';
     let indexData: IndexData = {
       fullRegionName: `${selectedRegion.province.name} ${selectedRegion.name}`,
       category: categoryTitle,
-      indexId: rank.key_index_id,
-      indexName: rank.name,
-      indexRank: rank.rank,
+      indexId: clickedRank.key_index_id,
+      indexName: clickedRank.name,
+      indexRank: clickedRank.rank,
       indexDescription,
-      indexScore: 0, // 기본값
+      indexScore: 0,
     };
 
-    // API에서 상세 정보 받아오기
-    let keyIndexDetail: {
-      description?: string;
-      name?: string;
-      source?: string;
-      yearly_avg_score?: number;
-      year?: number;
-    } = {};
-    try {
-      keyIndexDetail = await getKeyIndexData(rank.key_index_id);
-    } catch (e) {
-      // 에러 시 기본값 유지
+    // 기존 쿼리된 데이터가 있다면 사용
+    const existingQuery = regionKeyIndexQueries.find(
+      (query, index) => rank[index]?.key_index_id === clickedRank.key_index_id
+    );
+
+    if (existingQuery?.data) {
+      indexData.indexScore = existingQuery.data.region_key_index_score.score;
     }
-
-    console.log('keyIndexDetail', keyIndexDetail);
-
-    if (keyIndexDetail) {
-      // API 응답에서 받은 데이터로 업데이트
-      if (keyIndexDetail.description) {
-        indexData.indexDescription = keyIndexDetail.description;
-      }
-      if (keyIndexDetail.source) {
-        indexData.source = keyIndexDetail.source;
-      }
-      if (keyIndexDetail.yearly_avg_score !== undefined) {
-        indexData.yearlyAvgScore = keyIndexDetail.yearly_avg_score;
-      }
-      if (keyIndexDetail.year) {
-        indexData.year = keyIndexDetail.year;
-      }
-    }
-
-    indexData.indexRank = rank.rank;
 
     setSelectedIndexData(indexData);
     setIsModalOpen(true);
@@ -169,9 +131,10 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedIndexData(null);
+    setSelectedKeyIndexId(null); // 모달 닫을 때 키 인덱스 ID 초기화
   };
 
-  // 스켈레톤 컴포넌트
+  // 스켈레톤 컴포넌트 (기존과 동일)
   const SkeletonCard = () => (
     <div
       style={{
@@ -189,7 +152,6 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
         animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       }}
     >
-      {/* 우상단 스켈레톤 아이콘 */}
       <div
         style={{
           position: 'absolute',
@@ -201,9 +163,7 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
           borderRadius: '2px',
         }}
       />
-
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        {/* 제목 스켈레톤 */}
         <div
           style={{
             width: '60%',
@@ -212,8 +172,6 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
             borderRadius: '4px',
           }}
         />
-
-        {/* 순위 스켈레톤 */}
         <div
           style={{
             width: '40%',
@@ -222,8 +180,6 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
             borderRadius: '4px',
           }}
         />
-
-        {/* 퍼센트 스켈레톤 */}
         <div
           style={{
             width: '70%',
@@ -233,9 +189,7 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
           }}
         />
       </div>
-
       <div style={{ marginTop: '33px' }}>
-        {/* 점수 스켈레톤 */}
         <div
           style={{
             width: '50%',
@@ -245,7 +199,6 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
             marginBottom: '2px',
           }}
         />
-        {/* 평균 대비 스켈레톤 */}
         <div
           style={{
             width: '80%',
@@ -353,15 +306,10 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
                 width: '250px',
                 height: '230px',
               }}
-              onMouseEnter={() => {
-                setHoveredIndex(index);
-              }}
-              onMouseLeave={() => {
-                setHoveredIndex(null);
-              }}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
               onClick={() => handleRankClick(score)}
             >
-              {/* 우상단 아이콘 */}
               <div
                 style={{
                   position: 'absolute',
@@ -480,13 +428,26 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
         })}
       </div>
 
-      {/* IndexModal 추가 */}
+      {/* IndexModal 수정 - 캐싱된 데이터 사용 */}
       {selectedIndexData && (
         <IndexModal
           isOpen={isModalOpen}
           onClose={handleCloseModal}
-          data={selectedIndexData}
+          data={{
+            ...selectedIndexData,
+            // 키 인덱스 데이터 쿼리에서 받은 데이터로 업데이트
+            indexDescription: keyIndexDataQuery.data?.description || selectedIndexData.indexDescription,
+            source: keyIndexDataQuery.data?.source || selectedIndexData.source,
+            year: keyIndexDataQuery.data?.year || selectedIndexData.year,
+            // undefined인 경우 프로퍼티 자체를 제외
+            ...(keyIndexDataQuery.data?.yearly_avg_score !== undefined && {
+              yearlyAvgScore: keyIndexDataQuery.data.yearly_avg_score,
+            }),
+          }}
           regionId={selectedRegion?.id || 0}
+          apiData={regionKeyIndexQueries.find(
+            (query, index) => rank[index]?.key_index_id === selectedIndexData.indexId
+          )?.data || undefined}
         />
       )}
     </>

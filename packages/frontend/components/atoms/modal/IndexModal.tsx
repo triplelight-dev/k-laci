@@ -1,20 +1,18 @@
 'use client';
 
-import React, { useMemo } from 'react';
-
-import { useRegionKeyIndexScore } from '@/api/hooks/useRegionKeyIndexScore';
+import { RegionKeyIndexScoreResponse } from '@/api/services/data.service';
 import { NUM_OF_REGIONS } from '@/constants/data';
-import { IndexData } from '@/features/results/sections/StrenthWeaknessIndexSection';
-
-import { colorMap } from '@/features/results/sections/StrenthWeaknessIndexSection';
+import { colorMap, IndexData } from '@/features/results/sections/StrenthWeaknessIndexSection';
 import { useDistrict } from '@/store';
 import { Flex } from '@chakra-ui/react';
+import React, { useMemo } from 'react';
 
 interface IndexModalProps {
   isOpen: boolean;
   onClose: () => void;
   data: IndexData;
   regionId: number;
+  apiData?: RegionKeyIndexScoreResponse | undefined; // undefined 명시적으로 허용
 }
 
 const IndexModal: React.FC<IndexModalProps> = ({
@@ -22,6 +20,7 @@ const IndexModal: React.FC<IndexModalProps> = ({
   onClose,
   data,
   regionId,
+  apiData, // 추가된 prop
 }) => {
   const { selectedRegion } = useDistrict();
 
@@ -36,74 +35,23 @@ const IndexModal: React.FC<IndexModalProps> = ({
     )?.rank;
   }, [selectedRegion, data.indexId]);
 
-  const {
-    data: apiData,
-    loading,
-    error,
-    getRegionKeyIndexScore,
-  } = useRegionKeyIndexScore();
-
-  // apidata가 없고 로딩 중일 때는 로딩 상태를 보여줌
-  if (!apiData && loading) {
-    return (
-      <div
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 9999,
-          cursor: 'pointer',
-        }}
-        onClick={onClose}
-      >
-        <div
-          style={{
-            display: 'flex',
-            width: '1000px',
-            height: '450px',
-            borderRadius: '30px',
-            overflow: 'hidden',
-            backgroundColor: 'white',
-            cursor: 'default',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div
-            style={{
-              fontSize: '16px',
-              fontWeight: '400',
-              color: '#ADB5C4',
-            }}
-          >
-            데이터를 불러오는 중...
-          </div>
-        </div>
-      </div>
-    );
-  }
-
+  // API 데이터가 이미 전달되었으므로 추가 호출 불필요
   const displayData = apiData || {
     region_key_index_score: {
       score: data.indexScore,
       year: data.year || new Date().getFullYear(),
     },
+    avg_score: 0,
   };
 
   const topPercentage = ((data.indexRank / NUM_OF_REGIONS) * 100).toFixed(1);
   const source = data.source || '';
-  const avgScore = apiData?.avg_score || 0;
-  console.log('apiData', apiData);
+  const avgScore = displayData.avg_score || 0;
 
   const scoreGap = displayData.region_key_index_score.score - avgScore;
   const rankColor = colorMap[data.category] || '#FF3737';
+
+  if (!isOpen) return null;
 
   return (
     <div
@@ -127,7 +75,6 @@ const IndexModal: React.FC<IndexModalProps> = ({
           position: 'relative',
           display: 'flex',
           width: '1000px',
-          // height: '450px',
           borderRadius: '30px',
           overflow: 'hidden',
           backgroundColor: 'white',
@@ -260,7 +207,6 @@ const IndexModal: React.FC<IndexModalProps> = ({
               fontSize: '14px',
               fontWeight: '500',
               color: '#9A9EA3',
-
               display: 'flex',
               flexDirection: 'column',
             }}
@@ -272,34 +218,6 @@ const IndexModal: React.FC<IndexModalProps> = ({
             </span>
             {source}
           </div>
-
-          {/* 로딩 상태 표시 */}
-          {loading && (
-            <div
-              style={{
-                fontSize: '15px',
-                fontWeight: '400',
-                color: '#ADB5C4',
-                marginTop: '16px',
-              }}
-            >
-              데이터를 불러오는 중...
-            </div>
-          )}
-
-          {/* 에러 상태 표시 */}
-          {error && (
-            <div
-              style={{
-                fontSize: '15px',
-                fontWeight: '400',
-                color: '#FF3737',
-                marginTop: '16px',
-              }}
-            >
-              {error.message}
-            </div>
-          )}
         </div>
 
         <div
