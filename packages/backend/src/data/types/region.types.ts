@@ -330,6 +330,7 @@ export interface RegionKeyIndexScoreResponse {
   region_key_index_score: RegionKeyIndexScore;
   avg_score: number;
   key_index: KeyIndexWithDetails;
+  rank?: number; // rank 정보 추가
 }
 
 // 새로운 DTO 추가 (파일 끝에 추가)
@@ -374,6 +375,9 @@ export class RegionKeyIndexScoreResponseDto {
 
   @ApiProperty({ type: KeyIndexWithDetailsDto })
   key_index: KeyIndexWithDetailsDto;
+
+  @ApiProperty({ required: false })
+  rank?: number; // rank 정보 추가
 }
 
 // Region Strength Index 타입 추가 (파일 끝에 추가)

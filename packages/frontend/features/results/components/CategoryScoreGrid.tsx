@@ -1,7 +1,11 @@
 'use client';
 
+import { useKeyIndexData } from '@/api/hooks/useKeyIndexData';
 import { useRegionKeyIndexScore } from '@/api/hooks/useRegionKeyIndexScore';
+import IndexModal from '@/components/atoms/modal/IndexModal';
 import { NUM_OF_REGIONS } from '@/constants/data';
+import { IndexData } from '@/features/results/sections/StrenthWeaknessIndexSection';
+import { useDistrict } from '@/store';
 import { CategoryRank } from '@/types/category';
 import { Flex } from '@chakra-ui/react';
 import Image from 'next/image';
@@ -22,8 +26,8 @@ const skeletonStyles = `
 interface CategoryRankGridProps {
   rank: CategoryRank[];
   color: string;
-  onScoreClick: (score: CategoryRank) => void;
   regionId: number;
+  categoryTitle: string;
 }
 
 interface UpdatedRank extends CategoryRank {
@@ -37,15 +41,20 @@ interface UpdatedRank extends CategoryRank {
 const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
   rank,
   color,
-  onScoreClick,
   regionId,
+  categoryTitle,
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [updatedAllRank, setUpdatedAllRank] = useState<UpdatedRank[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedIndexData, setSelectedIndexData] = useState<IndexData | null>(
+    null,
+  );
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { getRegionKeyIndexScore } = useRegionKeyIndexScore();
-
+  const { getKeyIndexData } = useKeyIndexData();
+  const { selectedRegion } = useDistrict();
 
   useEffect(() => {
     const fetchRankData = async () => {
@@ -65,18 +74,21 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
               topPercentage: ((score.rank / NUM_OF_REGIONS) * 100).toFixed(1),
               scoreGap: 0,
               avgScore: 0,
-              regionId: regionId
+              regionId: regionId,
             };
           }
 
-          const data = await getRegionKeyIndexScore(regionId, score.key_index_id);
+          const data = await getRegionKeyIndexScore(
+            regionId,
+            score.key_index_id,
+          );
           return {
             ...score,
             score: data.region_key_index_score.score,
             topPercentage: ((score.rank / NUM_OF_REGIONS) * 100).toFixed(1),
             scoreGap: data.region_key_index_score.score - data.avg_score,
             avgScore: data.avg_score,
-            regionId: regionId
+            regionId: regionId,
           };
         });
 
@@ -85,13 +97,13 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
       } catch (error) {
         console.error('Failed to fetch rank data:', error);
         // 에러 발생 시 기본 데이터로 설정
-        const fallbackRank = rank.map(score => ({
+        const fallbackRank = rank.map((score) => ({
           ...score,
           score: 0,
           topPercentage: ((score.rank / NUM_OF_REGIONS) * 100).toFixed(1),
           scoreGap: 0,
           avgScore: 0,
-          regionId: regionId
+          regionId: regionId,
         }));
         setUpdatedAllRank(fallbackRank);
       } finally {
@@ -102,9 +114,62 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
     fetchRankData();
   }, [rank, regionId, getRegionKeyIndexScore]);
 
+  const handleRankClick = async (rank: CategoryRank) => {
+    if (!selectedRegion) return;
 
+    const indexDescription = rank.description || '설명이 없습니다.';
+    let indexData: IndexData = {
+      fullRegionName: `${selectedRegion.province.name} ${selectedRegion.name}`,
+      category: categoryTitle,
+      indexId: rank.key_index_id,
+      indexName: rank.name,
+      indexRank: rank.rank,
+      indexDescription,
+      indexScore: 0, // 기본값
+    };
 
+    // API에서 상세 정보 받아오기
+    let keyIndexDetail: {
+      description?: string;
+      name?: string;
+      source?: string;
+      yearly_avg_score?: number;
+      year?: number;
+    } = {};
+    try {
+      keyIndexDetail = await getKeyIndexData(rank.key_index_id);
+    } catch (e) {
+      // 에러 시 기본값 유지
+    }
 
+    console.log('keyIndexDetail', keyIndexDetail);
+
+    if (keyIndexDetail) {
+      // API 응답에서 받은 데이터로 업데이트
+      if (keyIndexDetail.description) {
+        indexData.indexDescription = keyIndexDetail.description;
+      }
+      if (keyIndexDetail.source) {
+        indexData.source = keyIndexDetail.source;
+      }
+      if (keyIndexDetail.yearly_avg_score !== undefined) {
+        indexData.yearlyAvgScore = keyIndexDetail.yearly_avg_score;
+      }
+      if (keyIndexDetail.year) {
+        indexData.year = keyIndexDetail.year;
+      }
+    }
+
+    indexData.indexRank = rank.rank;
+
+    setSelectedIndexData(indexData);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedIndexData(null);
+  };
 
   // 스켈레톤 컴포넌트
   const SkeletonCard = () => (
@@ -262,7 +327,6 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
           const isHighestRank = score.rank === highestRank;
           const isHovered = hoveredIndex === index;
 
-
           return (
             <div
               key={`${score.name}-${index}`}
@@ -295,7 +359,7 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
               onMouseLeave={() => {
                 setHoveredIndex(null);
               }}
-              onClick={() => onScoreClick(score)}
+              onClick={() => handleRankClick(score)}
             >
               {/* 우상단 아이콘 */}
               <div
@@ -320,13 +384,20 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
                 />
               </div>
 
-              <Flex alignItems='start' justifyContent='center' gap='10px' flexDirection='column'>
+              <Flex
+                alignItems="start"
+                justifyContent="center"
+                gap="10px"
+                flexDirection="column"
+              >
                 <div
                   style={{
                     fontSize: '18px',
                     fontWeight: '600',
                     color: isHighestRank
-                      ? isHovered ? 'black' : 'white'
+                      ? isHovered
+                        ? 'black'
+                        : 'white'
                       : 'black',
                     marginTop: '8px',
                   }}
@@ -340,7 +411,9 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
                     fontWeight: '600',
                     lineHeight: '43px',
                     color: isHighestRank
-                      ? isHovered ? color : 'white'
+                      ? isHovered
+                        ? color
+                        : 'white'
                       : color,
                   }}
                 >
@@ -352,13 +425,14 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
                     fontSize: '14px',
                     fontWeight: '500',
                     color: isHighestRank
-                      ? isHovered ? 'black' : 'white'
+                      ? isHovered
+                        ? 'black'
+                        : 'white'
                       : 'black',
                   }}
                 >
                   상위 {score.topPercentage}%
                 </div>
-
               </Flex>
 
               <div
@@ -369,27 +443,30 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
                   gap: '2px',
                 }}
               >
-                {score.score !== undefined &&
-                  score.score > 0 && (
-                    <div
-                      style={{
-                        fontSize: '16px',
-                        fontWeight: '600',
-                        color: isHighestRank
-                          ? isHovered ? 'black' : 'white'
-                          : 'black',
-                      }}
-                    >
-                      {score.score.toFixed(1)}점
-                    </div>
-                  )}
+                {score.score !== undefined && score.score > 0 && (
+                  <div
+                    style={{
+                      fontSize: '16px',
+                      fontWeight: '600',
+                      color: isHighestRank
+                        ? isHovered
+                          ? 'black'
+                          : 'white'
+                        : 'black',
+                    }}
+                  >
+                    {score.score.toFixed(1)}점
+                  </div>
+                )}
                 {score.avgScore > 0 && (
                   <div
                     style={{
                       fontSize: '14px',
                       fontWeight: '500',
                       color: isHighestRank
-                        ? isHovered ? '#9A9EA3' : 'white'
+                        ? isHovered
+                          ? '#9A9EA3'
+                          : 'white'
                         : '#9A9EA3',
                     }}
                   >
@@ -402,6 +479,16 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
           );
         })}
       </div>
+
+      {/* IndexModal 추가 */}
+      {selectedIndexData && (
+        <IndexModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          data={selectedIndexData}
+          regionId={selectedRegion?.id || 0}
+        />
+      )}
     </>
   );
 };
