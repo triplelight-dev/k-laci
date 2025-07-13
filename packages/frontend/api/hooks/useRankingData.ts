@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { StatsService } from '../services/stats.service';
 import {
+  GetCategoryRanksParams,
   GetKlaciCodeRanksParams,
   GetMegaRegionRanksParams,
   GetProvinceRanksParams,
@@ -90,10 +91,10 @@ export const useProvinceRanks = (params: GetProvinceRanksParams = {}) => {
 };
 
 export interface GetCategoryRanksParams extends GetRankingParams {
-  type?: string;
+  // categoryId 제거 - 전체 데이터를 받아서 클라이언트 사이드에서 type으로 필터링
 }
 
-export const useCategoryRanks = (params: GetCategoryRanksParams) => {
+export const useCategoryRanks = (params: GetCategoryRanksParams = {}) => {
   return useQuery({
     queryKey: ['categoryRanks', params],
     queryFn: () => StatsService.getCategoryRanks(params),

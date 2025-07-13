@@ -17,10 +17,11 @@ export class StatsService {
    */
   private static async getRanking(
     endpoint: string,
-    params: GetRankingParams | GetMegaRegionRanksParams | GetKlaciCodeRanksParams | GetProvinceRanksParams = {}
+    params: GetRankingParams | GetMegaRegionRanksParams | GetKlaciCodeRanksParams | GetProvinceRanksParams | GetCategoryRanksParams = {}
   ): Promise<GetRankingResponse> {
     const { limit, year } = params;
     const type = 'type' in params ? params.type : undefined;
+    const categoryId = 'categoryId' in params ? params.categoryId : undefined;
     
     const queryParams = new URLSearchParams();
     if (limit !== undefined) {
@@ -31,6 +32,9 @@ export class StatsService {
     }
     if (type !== undefined) {
       queryParams.append('type', type);
+    }
+    if (categoryId !== undefined) {
+      queryParams.append('categoryId', categoryId.toString());
     }
 
     const url = `${endpoint}${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
@@ -141,7 +145,7 @@ export class StatsService {
    * 카테고리 순위 조회
    */
   static async getCategoryRanks(
-    params: GetCategoryRanksParams,
+    params: GetCategoryRanksParams = {}
   ): Promise<GetRankingResponse> {
     return this.getRanking(API_ENDPOINTS.STATS.CATEGORY_RANK, params);
   }

@@ -7,30 +7,45 @@ import RankingTable from '@/components/ui/RankingTable';
 import { useRouter } from 'next/navigation';
 import { useCallback, useMemo, useState } from 'react';
 
-// 카테고리 타입들 (임시로 정의, 실제 데이터에 맞게 수정 필요)
+// 4개 핵심 범주 타입들
 const CATEGORY_TYPES = [
-  { id: 1, name: '인구', description: '인구 관련 지표' },
-  { id: 2, name: '경제', description: '경제 관련 지표' },
-  { id: 3, name: '생활', description: '생활 관련 지표' },
-  { id: 4, name: '안전', description: '안전 관련 지표' },
-  { id: 5, name: '환경', description: '환경 관련 지표' },
-  { id: 6, name: '문화', description: '문화 관련 지표' },
-  { id: 7, name: '교통', description: '교통 관련 지표' },
-  { id: 8, name: '교육', description: '교육 관련 지표' },
+  { 
+    id: 1, 
+    name: '인구성장력', 
+    type: '인구성장력',
+    description: '인구 구조의 활력, 변화의 역동성, 미래 성장 잠재력을 종합적으로 반영해 지역의 지속가능성을 가늠하는 범주' 
+  },
+  { 
+    id: 2, 
+    name: '경제활동력', 
+    type: '경제활동형',
+    description: '지역경제의 현재 상황과 미래 성장 잠재력을 종합적으로 평가하는 범주' 
+  },
+  { 
+    id: 3, 
+    name: '생활기반력', 
+    type: '생활기반형',
+    description: '지역 주민의 일상생활과 삶의 질에 직접적인 영향을 미치는 물리적·사회적 환경을 종합적으로 평가하는 범주' 
+  },
+  { 
+    id: 4, 
+    name: '안전회복력', 
+    type: '안전회복형',
+    description: '지역사회가 제공하는 안전 수준 및 위기 상황 등으로부터 회복하고 적응할 수 있는 역량을 나타내는 범주' 
+  },
 ];
 
 export default function CategoryRankPageClient() {
   const currentYear = new Date().getFullYear();
   const router = useRouter();
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number>(1); // 기본값: 인구
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number>(1); // 기본값: 인구성장력
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
 
-  // 전체 데이터를 한 번에 받아옴
+  // 전체 데이터를 한 번에 받아옴 (파라미터 없이)
   const { data, isLoading, error } = useCategoryRanks({
-    limit: 1000,
+    limit: 1000, // 충분히 큰 값으로 설정하여 전체 데이터 받기
     year: currentYear,
-    // categoryId 파라미터 제거하여 전체 데이터 받기
   });
 
   // Debounce 함수
@@ -56,18 +71,27 @@ export default function CategoryRankPageClient() {
     debouncedSearch(value);
   };
 
-  // 클라이언트 사이드에서 selectedCategoryId에 따라 필터링
+  // 클라이언트 사이드에서 type 및 검색어에 따라 필터링
   const filteredData = useMemo(() => {
     if (!data?.data || !Array.isArray(data.data)) return [];
     
-    // 1. 선택된 카테고리로 필터링
+    // 현재 선택된 카테고리의 type 찾기
+    const currentCategory = CATEGORY_TYPES.find(c => c.id === selectedCategoryId);
+    const targetType = currentCategory?.type;
+    
+    if (!targetType) return [];
+    
+    // 1. 선택된 type으로 필터링
     let categoryFiltered = data.data.filter(item => {
-      // 실제 데이터 구조에 맞게 수정 필요
-      // 예: item.category_id === selectedCategoryId
-      return true; // 임시로 모든 데이터 표시
+      return item.type === targetType;
     });
     
-    // 2. 검색어가 있으면 지자체명으로 필터링
+    // 2. 각 카테고리별로 상위 50개만 선택 (순위 기준 오름차순)
+    categoryFiltered = categoryFiltered
+      .sort((a, b) => (a.total_rank || 0) - (b.total_rank || 0))
+      .slice(0, 50);
+    
+    // 3. 검색어가 있으면 지자체명으로 필터링
     if (debouncedSearchTerm.trim()) {
       const searchLower = debouncedSearchTerm.toLowerCase();
       
@@ -142,7 +166,7 @@ export default function CategoryRankPageClient() {
               margin: 0,
             }}
           >
-            카테고리별 종합순위
+            핵심범주별 TOP 50
           </h2>
 
           {/* 우측: 검색창 */}
@@ -153,46 +177,8 @@ export default function CategoryRankPageClient() {
           />
         </div>
 
-        {/* 카테고리 선택 버튼들 */}
+        {/* 카테고리 선택 버튼들 (4개 타입을 한 줄에 배치) */}
         <div style={{ padding: '0 40px' }}>
-          {/* 첫 번째 줄: 4개 버튼 */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(4, 1fr)',
-              gap: '16px',
-              marginBottom: '16px',
-              width: '100%',
-            }}
-          >
-            {CATEGORY_TYPES.slice(0, 4).map((category) => (
-              <button
-                key={category.id}
-                onClick={() => handleCategoryChange(category.id)}
-                style={{
-                  padding: '14px 20px',
-                  backgroundColor:
-                    selectedCategoryId === category.id ? '#ffffff' : '#F1F1F1',
-                  color: '#000000',
-                  border:
-                    selectedCategoryId === category.id
-                      ? '1px solid #000000'
-                      : 'none',
-                  borderRadius: '6px',
-                  fontSize: '16px',
-                  fontWeight:
-                    selectedCategoryId === category.id ? 'bold' : 'normal',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                {category.name}
-              </button>
-            ))}
-          </div>
-
-          {/* 두 번째 줄: 4개 버튼 */}
           <div
             style={{
               display: 'grid',
@@ -202,7 +188,7 @@ export default function CategoryRankPageClient() {
               width: '100%',
             }}
           >
-            {CATEGORY_TYPES.slice(4, 8).map((category) => (
+            {CATEGORY_TYPES.map((category) => (
               <button
                 key={category.id}
                 onClick={() => handleCategoryChange(category.id)}
@@ -232,8 +218,8 @@ export default function CategoryRankPageClient() {
 
         {/* 테이블 상단 타이틀 */}
         <SectionHeader
-          title={`${currentCategory?.name} 카테고리 순위`}
-          subtitle={currentCategory?.description}
+          title={currentCategory?.name || ''}
+          subtitle={currentCategory?.description || ''}
           searchTerm=""
           onSearchChange={() => {}}
           showSearch={false}
@@ -258,12 +244,12 @@ export default function CategoryRankPageClient() {
               <p style={{ fontSize: '18px', marginBottom: '8px' }}>
                 {debouncedSearchTerm.trim()
                   ? '검색 결과가 없습니다.'
-                  : `${currentCategory?.name} 카테고리에 해당하는 데이터가 없습니다.`}
+                  : `${currentCategory?.name} 데이터가 없습니다.`}
               </p>
               <p style={{ fontSize: '14px' }}>
                 {debouncedSearchTerm.trim()
                   ? '다른 검색어를 시도해보세요.'
-                  : '다른 카테고리를 선택해보세요.'}
+                  : '다른 범주를 선택해보세요.'}
               </p>
             </div>
           )}

@@ -129,5 +129,5 @@ export interface GetProvinceRanksParams extends GetRankingParams {
 }
 
 export interface GetCategoryRanksParams extends GetRankingParams {
-  categoryId?: number;
+  // categoryId 제거 - 전체 데이터를 받아서 클라이언트 사이드에서 type으로 필터링
 } 
