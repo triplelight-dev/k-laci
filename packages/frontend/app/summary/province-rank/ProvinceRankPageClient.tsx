@@ -54,25 +54,53 @@ export default function ProvinceRankPageClient() {
     debouncedSearch(value); // 디바운스된 필터링
   };
 
-  // 클라이언트 사이드에서 selectedProvinceId에 따라 필터링 + 검색어 필터링
+  // 클라이언트 사이드에서 selectedProvinceId에 따라 필터링
   const filteredData = useMemo(() => {
-    if (!data?.data) return [];
+    if (!data?.data || !Array.isArray(data.data)) return [];
     
-    // 선택된 도에 따라 필터링 (null 체크 추가)
-    let provinceFiltered = data.data.filter(item => 
-      item?.region?.province?.id === selectedProvinceId
-    );
+    // 현재 선택된 province의 name 가져오기
+    const currentProvince = PROVINCES.find(p => p.id === selectedProvinceId);
+    if (!currentProvince) return [];
     
-    // 검색어가 있으면 추가 필터링 (null 체크 추가)
+    console.log('=== FILTERING DEBUG ===', {
+      totalItems: data.data.length,
+      selectedProvinceId,
+      currentProvinceName: currentProvince.name,
+      firstItemType: data.data[0]?.type,
+      allTypes: [...new Set(data.data.map(item => item.type))].slice(0, 10), // 중복 제거하고 처음 10개만
+    });
+    
+    // type 필드를 사용해서 필터링
+    let provinceFiltered = data.data.filter(item => {
+      if (!item || !item.type) {
+        console.log('Skipping item with missing type:', item);
+        return false;
+      }
+      
+      // type과 현재 선택된 province name 비교
+      const matches = item.type === currentProvince.name;
+      if (matches) {
+        console.log('Found match:', { itemType: item.type, provinceName: currentProvince.name });
+      }
+      
+      return matches;
+    });
+    
+    console.log('After province filtering:', provinceFiltered.length);
+    
+    // 검색어가 있으면 추가 필터링
     if (debouncedSearchTerm.trim()) {
       const searchLower = debouncedSearchTerm.toLowerCase();
       provinceFiltered = provinceFiltered.filter((item) => {
-        if (!item?.region?.province?.name || !item?.region?.name) return false;
-        const fullName = `${item.region.province.name} ${item.region.name}`.toLowerCase();
-        return fullName.includes(searchLower);
+        // item.type이나 다른 필드에서 검색
+        const typeMatch = item.type?.toLowerCase().includes(searchLower);
+        const idMatch = item.id?.toString().includes(searchLower);
+        
+        return typeMatch || idMatch;
       });
     }
     
+    console.log('Final filtered data:', provinceFiltered.length);
     return provinceFiltered;
   }, [data?.data, selectedProvinceId, debouncedSearchTerm]);
 
@@ -100,6 +128,7 @@ export default function ProvinceRankPageClient() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // 클라이언트 사이드에서 selectedProvinceId에 따라 필터링 + 검색어 필터링
   console.log('### ProvinceRank DEBUG ###', { 
     allData: data?.data, 
     filteredData, 
@@ -108,7 +137,16 @@ export default function ProvinceRankPageClient() {
     selectedProvinceId,
     searchTerm,
     debouncedSearchTerm,
-    currentProvince
+    currentProvince,
+    // 실제 데이터 구조 확인
+    firstDataItem: data?.data?.[0],
+    firstDataItemRegion: data?.data?.[0]?.region,
+    firstDataItemProvinceId: data?.data?.[0]?.region?.province_id,
+    firstDataItemProvinceJoin: data?.data?.[0]?.region?.province,
+    // 비교 정보
+    selectedProvinceIdType: typeof selectedProvinceId,
+    firstProvinceIdDirectType: typeof data?.data?.[0]?.region?.province_id,
+    firstProvinceIdJoinType: typeof data?.data?.[0]?.region?.province?.id,
   });
 
   return (

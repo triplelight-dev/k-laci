@@ -767,71 +767,47 @@ export class StatsService {
     const currentYear = new Date().getFullYear();
     const targetYear = year || currentYear;
 
-    // 1. 먼저 rank_province 테이블에서 기본 데이터 조회
-    const query = this.supabaseService
+    // 직접 조인 방식으로 변경
+    const { data, error } = await this.supabaseService
       .getClient()
       .from('rank_province')
-      .select('*')
-      .eq('year', targetYear);
-
-    const { data: rankData, error: rankError } = await query
+      .select(
+        `
+        id,
+        rank,
+        region_id,
+        strength_indexes,
+        total_score,
+        year,
+        type,
+        region:regions (
+          *,
+          province:provinces (
+            *
+          ),
+          klaci:klaci_codes (
+            *
+          )
+        )
+      `,
+      )
+      .eq('year', targetYear)
       .order('rank', { ascending: true })
       .limit(limit);
 
-    if (rankError) {
-      throw new Error(`Failed to fetch province ranks: ${rankError.message}`);
+    if (error) {
+      throw new Error(`Failed to fetch province ranks: ${error.message}`);
     }
 
-    if (!rankData || rankData.length === 0) {
+    if (!data || data.length === 0) {
       return [];
     }
 
-    // 2. 각 랭킹 항목에 대해 매칭되는 region 정보 조회
+    // strength_indexes 처리
     const enrichedData = await Promise.all(
-      rankData.map(async (item) => {
-        let regionData = null;
-
-        // region_id가 있으면 직접 조회
-        if (item.region_id) {
-          const { data: directRegion, error: directError } =
-            await this.supabaseService
-              .getClient()
-              .from('regions')
-              .select(
-                `
-              *,
-              province:provinces (
-                id,
-                name,
-                full_name,
-                name_eng,
-                created_at,
-                updated_at
-              ),
-              klaci:klaci_codes (
-                id,
-                code,
-                nickname,
-                type,
-                trait,
-                opportunity,
-                strategy,
-                summary,
-                created_at,
-                updated_at
-              )
-            `,
-              )
-              .eq('id', item.region_id)
-              .single();
-
-          if (!directError && directRegion) {
-            regionData = directRegion;
-          }
-        }
-
-        // 3. strength_indexes 파싱 및 매칭
+      data.map(async (item) => {
         let strengthIndexesDetails = [];
+
         if (item.strength_indexes && Array.isArray(item.strength_indexes)) {
           const { data: keyIndexes, error: keyIndexError } =
             await this.supabaseService
@@ -839,15 +815,15 @@ export class StatsService {
               .from('key_indexes')
               .select(
                 `
-              id,
-              code,
-              name,
-              category,
-              description,
-              source,
-              unit,
-              name_eng
-            `,
+                id,
+                code,
+                name,
+                category,
+                description,
+                source,
+                unit,
+                name_eng
+              `,
               )
               .in('code', item.strength_indexes);
 
@@ -861,15 +837,14 @@ export class StatsService {
           ...rest,
           total_rank: rank,
           strength_indexes_details: strengthIndexesDetails,
-          region: regionData,
         };
       }),
     );
 
-    // 4. provinceId 필터링 (옵셔널)
+    // provinceId 필터링
     if (provinceId) {
       return enrichedData.filter(
-        (item) => item.region && item.region.province_id === provinceId,
+        (item) => (item.region as any)?.province_id === provinceId,
       );
     }
 
