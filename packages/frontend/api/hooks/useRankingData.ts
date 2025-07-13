@@ -9,12 +9,6 @@ export const useMajorProvincesRanks = (params: GetRankingParams = {}) => {
     queryFn: () => StatsService.getMajorProvincesRanks(params),
     staleTime: 5 * 60 * 1000, // 5분
     gcTime: 10 * 60 * 1000, // 10분
-    onError: (error) => {
-      console.error('Major Provinces API Error:', error);
-    },
-    onSuccess: (data) => {
-      console.log('Major Provinces API Success:', data);
-    },
   });
 };
 

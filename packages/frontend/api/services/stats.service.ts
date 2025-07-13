@@ -34,7 +34,11 @@ export class StatsService {
     
     console.log('API Response:', response.data); // 디버깅용 로그
     
-    return response.data;
+    // 백엔드에서 {success: true, data: [...], ...} 형태로 반환하므로
+    // response.data.data를 추출해서 GetRankingResponse 형태로 반환
+    return {
+      data: response.data.data || [] // 실제 배열 데이터만 추출
+    };
   }
 
   /**
@@ -93,7 +97,7 @@ export class StatsService {
   }
 
   /**
-   * 연안도시 순위 조회
+   * 해안도시 순위 조회
    */
   static async getCostalCityRanks(
     params: GetRankingParams = {}

@@ -2,7 +2,6 @@
 
 import { useFreeEconomyZoneRanks } from '@/api/hooks/useRankingData';
 import { DataStateWrapper } from '@/components/common';
-import SummaryLayout from '@/components/layout/SummaryLayout';
 import FezTotalRankSection from '@/features/summary/sections/FezTotalRankSection';
 
 export default function FezTotalRankPageClient() {
@@ -13,13 +12,13 @@ export default function FezTotalRankPageClient() {
     year: currentYear,
   });
 
+  console.log('### FEZ DEBUG ###', { data, isLoading, error });
+
   return (
-    <DataStateWrapper isLoading={isLoading} error={error}>
-      <SummaryLayout isBlackTheme={false}>
-        <div style={{ width: '1400px', margin: '0 auto' }}>
-          <FezTotalRankSection data={data?.data || []} />
-        </div>
-      </SummaryLayout>
+    <DataStateWrapper isLoading={isLoading} error={error} isBlackTheme={false}>
+      <div style={{ width: '1400px', margin: '0 auto' }}>
+        <FezTotalRankSection data={data?.data || []} />
+      </div>
     </DataStateWrapper>
   );
 } 

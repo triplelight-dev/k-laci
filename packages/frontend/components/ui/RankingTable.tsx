@@ -72,6 +72,17 @@ interface RankingTableProps {
 }
 
 const RankingTable: React.FC<RankingTableProps> = ({ data, onRegionClick }) => {
+  // 데이터가 배열이 아니거나 없는 경우 안전 처리
+  const safeData = Array.isArray(data) ? data : [];
+
+  if (safeData.length === 0) {
+    return (
+      <div style={{ padding: '0 40px', textAlign: 'center', marginTop: '40px' }}>
+        <p style={{ color: '#666', fontSize: '16px' }}>표시할 데이터가 없습니다.</p>
+      </div>
+    );
+  }
+
   return (
     <div style={{ padding: '0 40px' }}>
       {/* 테이블 헤더 */}
@@ -100,7 +111,7 @@ const RankingTable: React.FC<RankingTableProps> = ({ data, onRegionClick }) => {
       </div>
 
       {/* 테이블 데이터 */}
-      {data.map((item, index) => {
+      {safeData.map((item, index) => {
         // 차트 데이터 생성
         const chartData = generateChartData(item.region);
 

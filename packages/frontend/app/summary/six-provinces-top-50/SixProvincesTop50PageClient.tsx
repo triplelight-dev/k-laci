@@ -2,7 +2,6 @@
 
 import { useSelectedProvincesRanks } from '@/api/hooks/useRankingData';
 import { DataStateWrapper } from '@/components/common';
-import SummaryLayout from '@/components/layout/SummaryLayout';
 import SixProvincesRankingSection from '@/features/summary/sections/SixProvincesRankingSection';
 
 export default function SixProvincesTop50PageClient() {
@@ -13,13 +12,13 @@ export default function SixProvincesTop50PageClient() {
     year: currentYear,
   });
 
+  console.log('### SixProvinces DEBUG ###', { data, isLoading, error });
+
   return (
-    <DataStateWrapper isLoading={isLoading} error={error}>
-      <SummaryLayout isBlackTheme={false}>
-        <div style={{ width: '1400px', margin: '0 auto' }}>
-          <SixProvincesRankingSection data={data?.data || []} />
-        </div>
-      </SummaryLayout>
+    <DataStateWrapper isLoading={isLoading} error={error} isBlackTheme={false}>
+      <div style={{ width: '1400px', margin: '0 auto' }}>
+        <SixProvincesRankingSection data={data?.data || []} />
+      </div>
     </DataStateWrapper>
   );
 } 

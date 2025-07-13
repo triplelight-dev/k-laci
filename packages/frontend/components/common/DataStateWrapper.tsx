@@ -1,6 +1,6 @@
 import SummaryLayout from '@/components/layout/SummaryLayout';
-import ErrorMessage from './ErrorMessage';
-import LoadingSpinner from './LoadingSpinner';
+import React from 'react';
+import { ErrorMessage, LoadingSpinner } from './index';
 
 interface DataStateWrapperProps {
   isLoading: boolean;
@@ -18,11 +18,12 @@ export default function DataStateWrapper({
   error,
   children,
   layout = 'summary',
-  loadingMessage,
-  errorMessage,
+  loadingMessage = '데이터를 불러오는 중...',
+  errorMessage = '데이터를 불러오는 중 오류가 발생했습니다.',
   onRetry,
   isBlackTheme = false
 }: DataStateWrapperProps) {
+
   const renderContent = (content: React.ReactNode) => {
     if (layout === 'summary') {
       return (
@@ -41,13 +42,17 @@ export default function DataStateWrapper({
   }
 
   if (error) {
+    // onRetry가 있을 때만 전달, undefined일 때는 props에 포함하지 않음
+    const errorProps = {
+      message: errorMessage,
+      showRetryButton: !!onRetry,
+      ...(onRetry && { onRetry }) // onRetry가 있을 때만 props에 추가
+    };
+
     return renderContent(
-      <ErrorMessage 
-        message={errorMessage} 
-        onRetry={onRetry}
-      />
+      <ErrorMessage {...errorProps} />
     );
   }
 
-  return <>{children}</>;
+  return renderContent(children);
 } 
