@@ -61,7 +61,7 @@ export type SelectionDisplayType =
   | '유형이 비슷한'
   | '순위가 비슷한'
   | '강점이 비슷한'
-  | '체급이 비슷한';
+  | '인구가 비슷한';
 
 // 태그와 표시 타입 매핑
 export const SELECTION_TAG_DISPLAY_MAP: Record<
@@ -72,7 +72,7 @@ export const SELECTION_TAG_DISPLAY_MAP: Record<
   ADJACENT_RANK: '순위가 비슷한',
   SAME_TYPE_RANK: '유형이 비슷한',
   SHARED_STRENGTH: '강점이 비슷한',
-  SAME_WEIGHT_CLASS: '체급이 비슷한',
+  SAME_WEIGHT_CLASS: '인구가 비슷한',
 };
 
 // RegionWithDetails에 selection_tags와 display_type 필드 추가
