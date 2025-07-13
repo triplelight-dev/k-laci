@@ -56,6 +56,7 @@ export interface RegionRank {
   total_score: number;
   year: number;
   region: Region;
+  type?: MegaRegionType; // 메가 지역 타입 추가
 }
 
 // 기존 호환성을 위한 별칭

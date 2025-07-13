@@ -35,24 +35,20 @@ export default function MegaRegionPageClient() {
     if (!data?.data) return [];
     
     // 선택된 타입에 따라 필터링
-    return data.data.filter(item => {
-      // item의 region 정보에서 메가 지역 타입을 확인
-      // 이 부분은 실제 데이터 구조에 따라 조정이 필요할 수 있습니다
-      return item.type === selectedType;
-    });
+    return data.data.filter(item => item.type === selectedType);
   }, [data?.data, selectedType]);
 
-  // 이전/다음 타입 계산
+  // 이전/다음 타입 계산 - 안전한 배열 접근
   const getPreviousType = (): MegaRegionType => {
     const currentIndex = ORDERED_MEGA_REGION_TYPES.indexOf(selectedType);
     const previousIndex = currentIndex === 0 ? ORDERED_MEGA_REGION_TYPES.length - 1 : currentIndex - 1;
-    return ORDERED_MEGA_REGION_TYPES[previousIndex];
+    return ORDERED_MEGA_REGION_TYPES[previousIndex]!; // 타입 단언으로 undefined 방지
   };
 
   const getNextType = (): MegaRegionType => {
     const currentIndex = ORDERED_MEGA_REGION_TYPES.indexOf(selectedType);
     const nextIndex = currentIndex === ORDERED_MEGA_REGION_TYPES.length - 1 ? 0 : currentIndex + 1;
-    return ORDERED_MEGA_REGION_TYPES[nextIndex];
+    return ORDERED_MEGA_REGION_TYPES[nextIndex]!; // 타입 단언으로 undefined 방지
   };
 
   // 타입 변경 및 스크롤 상단 이동
