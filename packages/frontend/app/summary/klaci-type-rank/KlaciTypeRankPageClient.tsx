@@ -46,6 +46,26 @@ const KLACI_TYPE_NAMES: Record<KlaciCodeType, string> = {
   'SCMA': '개발도약형',
 };
 
+// KLACI 코드와 닉네임 매핑
+const KLACI_NICKNAMES: Record<KlaciCodeType, string> = {
+  'GTVR': '미래를 선도하는 균형 성장의 혁신 도시',
+  'GTVA': '젊은 활력과 혁신으로 도약하는 전진 도시',
+  'GTMR': '첨단 산업과 성장 동력이 구축된 안정 도시',
+  'GTMA': '경제적 역동과 실험이 일어나는 발전 도시',
+  'GCVR': '새로운 활력을 모색하는 살기 좋은 정주 도시',
+  'GCVA': '지속가능성과 성장 동력을 더해가는 정진 도시',
+  'GCMR': '미래 전략으로 한계를 도약하는 거점 도시',
+  'GCMA': '고유 가치를 기반으로 경쟁력을 키우는 재건 도시',
+  'STVR': '성장 저력과 삶의 품격이 공존하는 성숙 도시',
+  'STVA': '산업 발전 속 삶의 균형을 찾아가는 전환 도시',
+  'STMR': '혁신과 안전을 품은 평온한 성장 도시',
+  'STMA': '기술 혁신과 잠재 에너지를 지닌 변화 도시',
+  'SCVR': '일상 속 안전과 삶의 풍요가 정착된 안정 도시',
+  'SCVA': '지역 자산과 잠재력으로 기회를 엿보는 생활 도시',
+  'SCMR': '산업 다각화로 불균형을 해소하는 개진 도시',
+  'SCMA': '회복된 신뢰로 미래 기반을 재건하는 점진 도시',
+};
+
 export default function KlaciTypeRankPageClient() {
   const currentYear = new Date().getFullYear();
   // 기본값을 'GTVR'으로 설정
@@ -106,7 +126,7 @@ export default function KlaciTypeRankPageClient() {
             margin: 0,
             marginBottom: '32px',
           }}>
-            KLACI 유형별 종합순위
+            유형별 종합순위
           </h2>
           
           {/* 첫 번째 줄: 6개 버튼 */}
@@ -208,14 +228,28 @@ export default function KlaciTypeRankPageClient() {
           padding: '0 40px',
           marginBottom: '30px',
         }}>
-          <h2 style={{
-            fontSize: '28px',
-            fontWeight: 'bold',
-            color: '#1a1a1a',
-            margin: 0,
+          {/* 좌측: 제목과 안내 문구 */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '16px',
           }}>
-            {KLACI_TYPE_NAMES[selectedType]} ({selectedType})
-          </h2>
+            <h2 style={{
+              fontSize: '28px',
+              fontWeight: 'bold',
+              color: '#1a1a1a',
+              margin: 0,
+            }}>
+              {KLACI_TYPE_NAMES[selectedType]} ({selectedType})
+            </h2>
+            <span style={{
+              fontSize: '15px',
+              color: '#000',
+              fontWeight: 'normal',
+            }}>
+              {KLACI_NICKNAMES[selectedType]}
+            </span>
+          </div>
         </div>
         
         {/* 랭킹 테이블 */}
