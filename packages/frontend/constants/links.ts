@@ -13,9 +13,9 @@ export const INTERNAL_LINKS = {
     TOP_100: '/summary/top-100',
     SIX_MAJOR_PROVINCES_TOP_50: '/summary/six-major-provinces-top-50',
     FIVE_POLE_THREE_SPECIAL: '/summary/2',
-    CATEGORY_RANKING: '/summary/3',
-    REGIONAL_RANKING: '/summary/province-rank', // 여기를 /summary/province-rank로 변경
-    CORE_CATEGORY_TOP_50: '/summary/5',
+    CATEGORY_RANKING: '/summary/category-rank', // 여기를 /summary/category-rank로 변경
+    REGIONAL_RANKING: '/summary/province-rank',
+    CORE_CATEGORY_TOP_50: '/summary/category-rank',
     ADMINISTRATIVE_UNIT_TOP_50: '/summary/6',
     SIX_PROVINCES_TOP_50: '/summary/six-provinces-top-50',
     ECONOMIC_FREE_ZONE: '/summary/fez-total-rank',

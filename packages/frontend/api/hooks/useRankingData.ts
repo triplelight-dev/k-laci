@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { StatsService } from '../services/stats.service';
 import {
+  GetCategoryRanksParams,
   GetKlaciCodeRanksParams,
   GetMegaRegionRanksParams,
   GetProvinceRanksParams,
-  GetRankingParams
+  GetRankingParams,
 } from '../types/stats.types';
 
 // 기존 useProvinceRanks Hook을 유지하고 다른 파일은 삭제
@@ -44,7 +45,9 @@ export const useGrowthBoostZoneRanks = (params: GetRankingParams = {}) => {
   });
 };
 
-export const useNationalIndustrialZoneRanks = (params: GetRankingParams = {}) => {
+export const useNationalIndustrialZoneRanks = (
+  params: GetRankingParams = {},
+) => {
   return useQuery({
     queryKey: ['nationalIndustrialZoneRanks', params],
     queryFn: () => StatsService.getNationalIndustrialZoneRanks(params),
@@ -87,4 +90,13 @@ export const useProvinceRanks = (params: GetProvinceRanksParams = {}) => {
     staleTime: 5 * 60 * 1000, // 5분
     gcTime: 10 * 60 * 1000, // 10분
   });
-}; 
+};
+
+export const useCategoryRanks = (params: GetCategoryRanksParams = {}) => {
+  return useQuery({
+    queryKey: ['categoryRanks', params],
+    queryFn: () => StatsService.getCategoryRanks(params),
+    staleTime: 5 * 60 * 1000, // 5분
+    refetchOnWindowFocus: false,
+  });
+};

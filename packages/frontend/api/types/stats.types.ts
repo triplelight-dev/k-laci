@@ -126,4 +126,8 @@ export interface GetKlaciCodeRanksParams extends GetRankingParams {
 
 export interface GetProvinceRanksParams extends GetRankingParams {
   // province rank API에 특별한 파라미터가 있다면 여기에 추가
+}
+
+export interface GetCategoryRanksParams extends GetRankingParams {
+  // categoryId 제거 - 전체 데이터를 받아서 클라이언트 사이드에서 type으로 필터링
 } 

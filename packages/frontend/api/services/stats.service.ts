@@ -1,6 +1,7 @@
 import { apiClient } from '../client';
 import { API_ENDPOINTS } from '../constants/endpoints';
 import {
+  GetCategoryRanksParams,
   GetKlaciCodeRanksParams,
   GetMegaRegionRanksParams,
   GetProvinceRanksParams,
@@ -8,7 +9,7 @@ import {
   GetRankingResponse,
   // 기존 호환성을 위한 import
   GetTotalRegionRanksParams,
-  GetTotalRegionRanksResponse
+  GetTotalRegionRanksResponse,
 } from '../types/stats.types';
 
 export class StatsService {
@@ -17,11 +18,17 @@ export class StatsService {
    */
   private static async getRanking(
     endpoint: string,
-    params: GetRankingParams | GetMegaRegionRanksParams | GetKlaciCodeRanksParams | GetProvinceRanksParams = {}
+    params:
+      | GetRankingParams
+      | GetMegaRegionRanksParams
+      | GetKlaciCodeRanksParams
+      | GetProvinceRanksParams
+      | GetCategoryRanksParams = {},
   ): Promise<GetRankingResponse> {
     const { limit, year } = params;
     const type = 'type' in params ? params.type : undefined;
-    
+    const categoryId = 'categoryId' in params ? params.categoryId : undefined;
+
     const queryParams = new URLSearchParams();
     if (limit !== undefined) {
       queryParams.append('limit', limit.toString());
@@ -32,17 +39,20 @@ export class StatsService {
     if (type !== undefined) {
       queryParams.append('type', type);
     }
+    if (categoryId !== undefined && categoryId !== null) {
+      queryParams.append('categoryId', categoryId.toString());
+    }
 
     const url = `${endpoint}${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
-    
+
     console.log('API Call URL:', url);
-    
+
     const response = await apiClient.get(url);
-    
+
     console.log('API Response:', response.data);
-    
+
     return {
-      data: response.data.data || []
+      data: response.data.data || [],
     };
   }
 
@@ -50,7 +60,7 @@ export class StatsService {
    * 전체 지역 순위 조회
    */
   static async getTotalRegionRanks(
-    params: GetTotalRegionRanksParams = {}
+    params: GetTotalRegionRanksParams = {},
   ): Promise<GetTotalRegionRanksResponse> {
     return this.getRanking(API_ENDPOINTS.STATS.TOTAL_RANKS, params);
   }
@@ -59,7 +69,7 @@ export class StatsService {
    * 주요 도시 순위 조회
    */
   static async getMajorProvincesRanks(
-    params: GetRankingParams = {}
+    params: GetRankingParams = {},
   ): Promise<GetRankingResponse> {
     console.log('getMajorProvincesRanks called with:', params);
     return this.getRanking(API_ENDPOINTS.STATS.MAJOR_PROVINCES, params);
@@ -69,7 +79,7 @@ export class StatsService {
    * 선택된 도시 순위 조회
    */
   static async getSelectedProvincesRanks(
-    params: GetRankingParams = {}
+    params: GetRankingParams = {},
   ): Promise<GetRankingResponse> {
     return this.getRanking(API_ENDPOINTS.STATS.SELECTED_PROVINCES, params);
   }
@@ -78,7 +88,7 @@ export class StatsService {
    * 경제자유구역 순위 조회
    */
   static async getFreeEconomyZoneRanks(
-    params: GetRankingParams = {}
+    params: GetRankingParams = {},
   ): Promise<GetRankingResponse> {
     return this.getRanking(API_ENDPOINTS.STATS.FREE_ECONOMY_ZONE, params);
   }
@@ -87,7 +97,7 @@ export class StatsService {
    * 성장촉진지역 순위 조회
    */
   static async getGrowthBoostZoneRanks(
-    params: GetRankingParams = {}
+    params: GetRankingParams = {},
   ): Promise<GetRankingResponse> {
     return this.getRanking(API_ENDPOINTS.STATS.GROWTH_BOOST_ZONE, params);
   }
@@ -96,16 +106,19 @@ export class StatsService {
    * 국가산업단지 순위 조회
    */
   static async getNationalIndustrialZoneRanks(
-    params: GetRankingParams = {}
+    params: GetRankingParams = {},
   ): Promise<GetRankingResponse> {
-    return this.getRanking(API_ENDPOINTS.STATS.NATIONAL_INDUSTRIAL_ZONE, params);
+    return this.getRanking(
+      API_ENDPOINTS.STATS.NATIONAL_INDUSTRIAL_ZONE,
+      params,
+    );
   }
 
   /**
    * 해안도시 순위 조회
    */
   static async getCostalCityRanks(
-    params: GetRankingParams = {}
+    params: GetRankingParams = {},
   ): Promise<GetRankingResponse> {
     return this.getRanking(API_ENDPOINTS.STATS.COSTAL_CITY, params);
   }
@@ -114,7 +127,7 @@ export class StatsService {
    * 메가 지역 순위 조회
    */
   static async getMegaRegionRanks(
-    params: GetMegaRegionRanksParams = {}
+    params: GetMegaRegionRanksParams = {},
   ): Promise<GetRankingResponse> {
     return this.getRanking(API_ENDPOINTS.STATS.MEGA_REGION, params);
   }
@@ -123,7 +136,7 @@ export class StatsService {
    * KLACI 코드 순위 조회
    */
   static async getKlaciCodeRanks(
-    params: GetKlaciCodeRanksParams = {}
+    params: GetKlaciCodeRanksParams = {},
   ): Promise<GetRankingResponse> {
     return this.getRanking(API_ENDPOINTS.STATS.KLACI_CODE, params);
   }
@@ -132,11 +145,20 @@ export class StatsService {
    * 도 순위 조회
    */
   static async getProvinceRanks(
-    params: GetProvinceRanksParams = {}
+    params: GetProvinceRanksParams = {},
   ): Promise<GetRankingResponse> {
     return this.getRanking(API_ENDPOINTS.STATS.PROVINCE_RANK, params);
+  }
+
+  /**
+   * 카테고리 순위 조회
+   */
+  static async getCategoryRanks(
+    params: GetCategoryRanksParams = {},
+  ): Promise<GetRankingResponse> {
+    return this.getRanking(API_ENDPOINTS.STATS.CATEGORY_RANK, params);
   }
 }
 
 // 기존 호환성을 위한 인스턴스 export
-export const statsService = new StatsService(); 
+export const statsService = new StatsService();
