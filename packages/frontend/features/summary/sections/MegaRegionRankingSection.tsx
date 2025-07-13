@@ -18,7 +18,7 @@ export default function MegaRegionRankingSection({
   };
 
   return (
-    <div style={{ marginBottom: '80px' }}>
+    <div style={{ marginBottom: '40px' }}>
       {/* 랭킹 테이블 */}
       {data.length > 0 ? (
         <RankingTable 

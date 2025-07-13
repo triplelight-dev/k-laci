@@ -42,6 +42,25 @@ export default function MegaRegionPageClient() {
     });
   }, [data?.data, selectedType]);
 
+  // 이전/다음 타입 계산
+  const getPreviousType = (): MegaRegionType => {
+    const currentIndex = ORDERED_MEGA_REGION_TYPES.indexOf(selectedType);
+    const previousIndex = currentIndex === 0 ? ORDERED_MEGA_REGION_TYPES.length - 1 : currentIndex - 1;
+    return ORDERED_MEGA_REGION_TYPES[previousIndex];
+  };
+
+  const getNextType = (): MegaRegionType => {
+    const currentIndex = ORDERED_MEGA_REGION_TYPES.indexOf(selectedType);
+    const nextIndex = currentIndex === ORDERED_MEGA_REGION_TYPES.length - 1 ? 0 : currentIndex + 1;
+    return ORDERED_MEGA_REGION_TYPES[nextIndex];
+  };
+
+  // 타입 변경 및 스크롤 상단 이동
+  const handleTypeChange = (newType: MegaRegionType) => {
+    setSelectedType(newType);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   console.log('### MegaRegion DEBUG ###', { 
     allData: data?.data, 
     filteredData, 
@@ -78,7 +97,7 @@ export default function MegaRegionPageClient() {
             {ORDERED_MEGA_REGION_TYPES.slice(0, 6).map((type) => (
               <button
                 key={type}
-                onClick={() => setSelectedType(type)}
+                onClick={() => handleTypeChange(type)}
                 style={{
                   padding: '14px 20px',
                   backgroundColor: selectedType === type ? '#ffffff' : '#F1F1F1',
@@ -108,7 +127,7 @@ export default function MegaRegionPageClient() {
             {ORDERED_MEGA_REGION_TYPES.slice(6, 8).map((type) => (
               <button
                 key={type}
-                onClick={() => setSelectedType(type)}
+                onClick={() => handleTypeChange(type)}
                 style={{
                   padding: '14px 20px',
                   backgroundColor: selectedType === type ? '#ffffff' : '#F1F1F1',
@@ -151,6 +170,77 @@ export default function MegaRegionPageClient() {
           data={filteredData} 
           selectedType={selectedType}
         />
+        
+        {/* 하단 네비게이션 버튼 */}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '0 40px',
+          marginBottom: '80px',
+        }}>
+          {/* 좌측 버튼 (이전) */}
+          <button
+            onClick={() => handleTypeChange(getPreviousType())}
+            style={{
+              padding: '12px 24px',
+              backgroundColor: '#F1F1F1',
+              color: '#000000',
+              border: 'none',
+              borderRadius: '8px',
+              fontSize: '16px',
+              fontWeight: 'normal',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              minWidth: '200px',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#ffffff';
+              e.currentTarget.style.border = '1px solid #000000';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#F1F1F1';
+              e.currentTarget.style.border = 'none';
+            }}
+          >
+            ← {getPreviousType()}
+          </button>
+          
+          {/* 우측 버튼 (다음) */}
+          <button
+            onClick={() => handleTypeChange(getNextType())}
+            style={{
+              padding: '12px 24px',
+              backgroundColor: '#F1F1F1',
+              color: '#000000',
+              border: 'none',
+              borderRadius: '8px',
+              fontSize: '16px',
+              fontWeight: 'normal',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              minWidth: '200px',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#ffffff';
+              e.currentTarget.style.border = '1px solid #000000';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#F1F1F1';
+              e.currentTarget.style.border = 'none';
+            }}
+          >
+            {getNextType()} →
+          </button>
+        </div>
       </div>
     </DataStateWrapper>
   );
