@@ -18,6 +18,18 @@ const ORDERED_MEGA_REGION_TYPES: MegaRegionType[] = [
   '제주특별자치도',
 ];
 
+// 타입별 타이틀 매핑
+const TYPE_TITLES: Record<MegaRegionType, string> = {
+  '대경권': '대경권: 경상북도 · 대구광역시',
+  '동남권': '동남권: 경상남도 · 부산광역시 · 울산광역시',
+  '수도권': '수도권: 경기도 · 서울특별시 · 인천광역시',
+  '서남권': '서남권: 광주광역시 · 전라남도',
+  '중부권': '중부권: 대전광역시 · 세종특별자치시 · 충청남도 · 충청북도',
+  '강원특별자치도': '강원특별자치도',
+  '전북특별자치도': '전북특별자치도',
+  '제주특별자치도': '제주특별자치도',
+};
+
 export default function MegaRegionPageClient() {
   const currentYear = new Date().getFullYear();
   // 기본값을 '대경권'으로 설정
@@ -55,6 +67,11 @@ export default function MegaRegionPageClient() {
   const handleTypeChange = (newType: MegaRegionType) => {
     setSelectedType(newType);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // 현재 선택된 타입의 타이틀 가져오기
+  const getCurrentTitle = (): string => {
+    return TYPE_TITLES[selectedType];
   };
 
   console.log('### MegaRegion DEBUG ###', { 
@@ -157,7 +174,7 @@ export default function MegaRegionPageClient() {
             color: '#1a1a1a',
             margin: 0,
           }}>
-            {selectedType}
+            {getCurrentTitle()}
           </h2>
         </div>
         
