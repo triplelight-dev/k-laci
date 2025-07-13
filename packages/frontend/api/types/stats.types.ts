@@ -93,9 +93,10 @@ export const MEGA_REGION_TYPES = [
 
 export type MegaRegionType = typeof MEGA_REGION_TYPES[number];
 
-// KLACI 코드 타입 정의 (백엔드와 동일)
+// KLACI 코드 타입 정의 (백엔드와 동일) - 16개로 확장
 export const KLACI_CODE_TYPES = [
   'GTVR',
+  'GTVA',
   'GTMR',
   'GTMA',
   'GCVR',
@@ -103,6 +104,9 @@ export const KLACI_CODE_TYPES = [
   'GCMR',
   'GCMA',
   'STVR',
+  'STVA',
+  'STMR',
+  'STMA',
   'SCVR',
   'SCVA',
   'SCMR',

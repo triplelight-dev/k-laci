@@ -2,9 +2,10 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsIn, IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
 
-// KLACI 코드 타입 정의
+// KLACI 코드 타입 정의 - 16개로 확장
 export const KLACI_CODE_TYPES = [
   'GTVR',
+  'GTVA',
   'GTMR',
   'GTMA',
   'GCVR',
@@ -12,6 +13,9 @@ export const KLACI_CODE_TYPES = [
   'GCMR',
   'GCMA',
   'STVR',
+  'STVA',
+  'STMR',
+  'STMA',
   'SCVR',
   'SCVA',
   'SCMR',
