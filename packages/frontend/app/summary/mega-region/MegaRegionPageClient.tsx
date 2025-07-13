@@ -21,7 +21,7 @@ const ORDERED_MEGA_REGION_TYPES: MegaRegionType[] = [
 export default function MegaRegionPageClient() {
   const currentYear = new Date().getFullYear();
   // 기본값을 '대경권'으로 설정
-  const [selectedType, setSelectedType] = useState<MegaRegionType | null>('대경권');
+  const [selectedType, setSelectedType] = useState<MegaRegionType>('대경권');
 
   // 전체 데이터를 한 번에 받아옴 (type 파라미터 제거)
   const { data, isLoading, error } = useMegaRegionRanks({
@@ -33,9 +33,6 @@ export default function MegaRegionPageClient() {
   // 클라이언트 사이드에서 selectedType에 따라 필터링
   const filteredData = useMemo(() => {
     if (!data?.data) return [];
-    
-    // null이면 전체 데이터 반환
-    if (selectedType === null) return data.data;
     
     // 선택된 타입에 따라 필터링
     return data.data.filter(item => {
@@ -56,11 +53,80 @@ export default function MegaRegionPageClient() {
   return (
     <DataStateWrapper isLoading={isLoading} error={error} isBlackTheme={false}>
       <div style={{ width: '1400px', margin: '0 auto' }}>
-        {/* 타입 선택 그리드 */}
-        <MegaRegionTypeSelector 
-          selectedType={selectedType}
-          onTypeSelect={setSelectedType}
-        />
+        {/* 타이틀과 타입 선택 */}
+        <div style={{ padding: '40px 40px 0 40px' }}>
+          {/* 좌상단 타이틀 */}
+          <h2 style={{
+            fontSize: '28px',
+            fontWeight: 'bold',
+            color: '#1a1a1a',
+            margin: 0,
+            marginBottom: '32px',
+          }}>
+            5극 3특 종합순위
+          </h2>
+          
+          {/* 타입 선택 버튼들 - 그리드 레이아웃 */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(6, 1fr)',
+            gap: '16px',
+            marginBottom: '16px',
+            width: '100%',
+          }}>
+            {/* 첫 줄: 6개 버튼 */}
+            {ORDERED_MEGA_REGION_TYPES.slice(0, 6).map((type) => (
+              <button
+                key={type}
+                onClick={() => setSelectedType(type)}
+                style={{
+                  padding: '14px 20px',
+                  backgroundColor: selectedType === type ? '#ffffff' : '#F1F1F1',
+                  color: '#000000',
+                  border: selectedType === type ? '1px solid #000000' : 'none',
+                  borderRadius: '6px',
+                  fontSize: '16px',
+                  fontWeight: selectedType === type ? 600 : 'normal',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {type}
+              </button>
+            ))}
+          </div>
+          
+          {/* 둘째 줄: 2개 버튼 (좌측 정렬) */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(6, 1fr)',
+            gap: '16px',
+            marginBottom: '40px',
+            width: '100%',
+          }}>
+            {ORDERED_MEGA_REGION_TYPES.slice(6, 8).map((type) => (
+              <button
+                key={type}
+                onClick={() => setSelectedType(type)}
+                style={{
+                  padding: '14px 20px',
+                  backgroundColor: selectedType === type ? '#ffffff' : '#F1F1F1',
+                  color: '#000000',
+                  border: selectedType === type ? '1px solid #000000' : 'none',
+                  borderRadius: '6px',
+                  fontSize: '16px',
+                  fontWeight: selectedType === type ? 600 : 'normal',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {type}
+              </button>
+            ))}
+          </div>
+        </div>
         
         {/* 랭킹 테이블 */}
         <MegaRegionRankingSection 
@@ -69,102 +135,5 @@ export default function MegaRegionPageClient() {
         />
       </div>
     </DataStateWrapper>
-  );
-}
-
-// 타입 선택 그리드 컴포넌트
-interface MegaRegionTypeSelectorProps {
-  selectedType: MegaRegionType | null;
-  onTypeSelect: (type: MegaRegionType | null) => void;
-}
-
-function MegaRegionTypeSelector({ selectedType, onTypeSelect }: MegaRegionTypeSelectorProps) {
-  return (
-    <div style={{ marginBottom: '40px' }}>
-      <h2 style={{ 
-        fontSize: '24px', 
-        fontWeight: 'bold', 
-        marginBottom: '20px',
-        textAlign: 'center'
-      }}>
-        지역권역 선택
-      </h2>
-      
-      {/* 전체 버튼 */}
-      <div style={{ marginBottom: '16px', textAlign: 'center' }}>
-        <button
-          onClick={() => onTypeSelect(null)}
-          style={{
-            padding: '12px 24px',
-            backgroundColor: selectedType === null ? '#2563eb' : '#f3f4f6',
-            color: selectedType === null ? 'white' : '#374151',
-            border: 'none',
-            borderRadius: '8px',
-            fontSize: '16px',
-            fontWeight: '600',
-            cursor: 'pointer',
-            transition: 'all 0.2s',
-          }}
-          onMouseEnter={(e) => {
-            if (selectedType !== null) {
-              e.currentTarget.style.backgroundColor = '#e5e7eb';
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (selectedType !== null) {
-              e.currentTarget.style.backgroundColor = '#f3f4f6';
-            }
-          }}
-        >
-          전체 지역
-        </button>
-      </div>
-
-      {/* 8개 지역 그리드 - 사용자 요청 순서로 표시 */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: '12px',
-        maxWidth: '800px',
-        margin: '0 auto',
-      }}>
-        {ORDERED_MEGA_REGION_TYPES.map((type) => (
-          <button
-            key={type}
-            onClick={() => onTypeSelect(type)}
-            style={{
-              padding: '16px 12px',
-              backgroundColor: selectedType === type ? '#2563eb' : '#f9fafb',
-              color: selectedType === type ? 'white' : '#374151',
-              border: selectedType === type ? '2px solid #2563eb' : '2px solid #e5e7eb',
-              borderRadius: '12px',
-              fontSize: '14px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-              minHeight: '60px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              textAlign: 'center',
-            }}
-            onMouseEnter={(e) => {
-              if (selectedType !== type) {
-                e.currentTarget.style.backgroundColor = '#f3f4f6';
-                e.currentTarget.style.borderColor = '#d1d5db';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (selectedType !== type) {
-                e.currentTarget.style.backgroundColor = '#f9fafb';
-                e.currentTarget.style.borderColor = '#e5e7eb';
-              }
-            }}
-          >
-            {type}
-          </button>
-        ))}
-      </div>
-    </div>
   );
 } 
