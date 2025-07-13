@@ -1,6 +1,6 @@
 'use client';
 
-import { useKeyIndexData, useRegionStrengthIndexes } from '@/api/hooks';
+import { useKeyIndexData, useRegionKeyIndexScore, useRegionStrengthIndexes } from '@/api/hooks';
 import IndexModal from '@/components/atoms/modal/IndexModal';
 import { useDistrict, useIsLoggedIn } from '@/store';
 import { Flex, Text } from '@chakra-ui/react';
@@ -238,6 +238,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
   const { selectedRegion } = useDistrict();
   const isLoggedIn = useIsLoggedIn();
   const { getKeyIndexData } = useKeyIndexData();
+  const { getRegionKeyIndexScore } = useRegionKeyIndexScore();
 
   // 새로운 API hook 사용
   const {
@@ -252,38 +253,68 @@ const StrengthWeaknessIndexSection: React.FC = () => {
       return;
     }
 
-    // API에서 상세 정보 받아오기
-    let keyIndexDetail: {
-      description?: string;
-      name?: string;
-      source?: string;
-      yearly_avg_score?: number;
-      year?: number;
-    } = {};
-
-    try {
-      keyIndexDetail = await getKeyIndexData(data.indexId);
-    } catch (e) {
-      // 에러 시 기본값 유지
+    if (!selectedRegion) {
+      return;
     }
 
-    console.log('keyIndexDetail', keyIndexDetail);
-
-    // API 응답에서 받은 데이터로 업데이트
+    // 1. getRegionKeyIndexScore로 rank 정보를 포함한 데이터 받아오기
     let updatedData = { ...data };
-
-    if (keyIndexDetail) {
-      if (keyIndexDetail.description) {
-        updatedData.indexDescription = keyIndexDetail.description;
+    
+    try {
+      const regionKeyIndexScore = await getRegionKeyIndexScore(selectedRegion.id, data.indexId);
+      
+      // rank 정보 업데이트 (더 정확한 region_key_index_ranks 테이블의 값 사용)
+      if (regionKeyIndexScore.rank !== undefined) {
+        updatedData.indexRank = regionKeyIndexScore.rank;
       }
-      if (keyIndexDetail.source) {
-        updatedData.source = keyIndexDetail.source;
+      
+      // score 정보 업데이트
+      if (regionKeyIndexScore.region_key_index_score?.score !== undefined) {
+        updatedData.indexScore = regionKeyIndexScore.region_key_index_score.score;
       }
-      if (keyIndexDetail.yearly_avg_score !== undefined) {
-        updatedData.yearlyAvgScore = keyIndexDetail.yearly_avg_score;
+      
+      // key_index 정보 업데이트
+      if (regionKeyIndexScore.key_index) {
+        if (regionKeyIndexScore.key_index.description) {
+          updatedData.indexDescription = regionKeyIndexScore.key_index.description;
+        }
+        if (regionKeyIndexScore.key_index.source) {
+          updatedData.source = regionKeyIndexScore.key_index.source;
+        }
+        if (regionKeyIndexScore.key_index.yearly_avg_score !== undefined) {
+          updatedData.yearlyAvgScore = regionKeyIndexScore.key_index.yearly_avg_score;
+        }
+        if (regionKeyIndexScore.key_index.year) {
+          updatedData.year = regionKeyIndexScore.key_index.year;
+        }
+        if (regionKeyIndexScore.key_index.unit) {
+          updatedData.unit = regionKeyIndexScore.key_index.unit;
+        }
+        if (regionKeyIndexScore.key_index.calculation_method) {
+          updatedData.calculation_method = regionKeyIndexScore.key_index.calculation_method;
+        }
       }
-      if (keyIndexDetail.year) {
-        updatedData.year = keyIndexDetail.year;
+    } catch (error) {
+      console.error('Error fetching region key index score:', error);
+      
+      // 에러 발생 시 fallback으로 기존 getKeyIndexData 사용
+      try {
+        const keyIndexDetail = await getKeyIndexData(data.indexId);
+        
+        if (keyIndexDetail.description) {
+          updatedData.indexDescription = keyIndexDetail.description;
+        }
+        if (keyIndexDetail.source) {
+          updatedData.source = keyIndexDetail.source;
+        }
+        if (keyIndexDetail.yearly_avg_score !== undefined) {
+          updatedData.yearlyAvgScore = keyIndexDetail.yearly_avg_score;
+        }
+        if (keyIndexDetail.year) {
+          updatedData.year = keyIndexDetail.year;
+        }
+      } catch (fallbackError) {
+        console.error('Fallback getKeyIndexData also failed:', fallbackError);
       }
     }
 
