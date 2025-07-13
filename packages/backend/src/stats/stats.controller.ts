@@ -33,4 +33,28 @@ export class StatsController {
   async getTotalRegionRanks(@Query() query: GetTotalRegionRanksDto) {
     return this.statsService.getTotalRegionRanks(query.limit, query.year);
   }
+
+  @Public()
+  @Get('major-provinces')
+  @ApiOperation({
+    summary: 'Get top N major provinces ranks for a specific year',
+    description:
+      'Retrieve the top N major provinces ranked by total score for a specific year. Returns comprehensive data including region details, province information, and KLACI codes.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully retrieved top N major provinces ranks',
+    type: [TotalRegionRankDto],
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request - Invalid parameters',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error',
+  })
+  async getMajorProvincesRanks(@Query() query: GetTotalRegionRanksDto) {
+    return this.statsService.getMajorProvincesRanks(query.limit, query.year);
+  }
 }
