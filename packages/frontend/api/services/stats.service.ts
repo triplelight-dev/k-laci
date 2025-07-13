@@ -28,7 +28,12 @@ export class StatsService {
 
     const url = `${endpoint}${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
     
+    console.log('API Call URL:', url); // 디버깅용 로그
+    
     const response = await apiClient.get(url);
+    
+    console.log('API Response:', response.data); // 디버깅용 로그
+    
     return response.data;
   }
 
@@ -47,6 +52,7 @@ export class StatsService {
   static async getMajorProvincesRanks(
     params: GetRankingParams = {}
   ): Promise<GetRankingResponse> {
+    console.log('getMajorProvincesRanks called with:', params); // 디버깅용 로그
     return this.getRanking(API_ENDPOINTS.STATS.MAJOR_PROVINCES, params);
   }
 
