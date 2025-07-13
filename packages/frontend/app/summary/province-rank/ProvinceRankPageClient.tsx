@@ -20,8 +20,7 @@ const PROVINCES: Province[] = provinceData as Province[];
 
 export default function ProvinceRankPageClient() {
   const currentYear = new Date().getFullYear();
-  // 기본값을 서울특별시(id: 9)로 설정
-  const [selectedProvinceId, setSelectedProvinceId] = useState<number>(9);
+  const [selectedProvinceId, setSelectedProvinceId] = useState<number>(1); // 9 → 1로 변경 (강원)
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
 
@@ -57,72 +56,27 @@ export default function ProvinceRankPageClient() {
   // 클라이언트 사이드에서 selectedProvinceId에 따라 필터링
   const filteredData = useMemo(() => {
     if (!data?.data || !Array.isArray(data.data)) return [];
-
-    console.log('=== FILTERING DEBUG ===', {
-      totalItems: data.data.length,
-      selectedProvinceId,
-      firstItem: data.data[0],
-      hasRegion: !!data.data[0]?.region,
-      regionName: data.data[0]?.region?.name,
-      provinceName: data.data[0]?.region?.province?.name,
-      provinceId: data.data[0]?.region?.province?.id,
-    });
-
+    
     // 1. 선택된 province로 필터링
-    let provinceFiltered = data.data.filter((item) => {
+    let provinceFiltered = data.data.filter(item => {
       if (!item || !item.region || !item.region.province) {
-        console.log('Skipping item with missing region/province:', item);
         return false;
       }
-
-      // region.province.id로 필터링
-      const matches =
-        Number(item.region.province.id) === Number(selectedProvinceId);
-      if (matches) {
-        console.log('Found match:', {
-          regionName: item.region.name,
-          provinceName: item.region.province.name,
-          provinceId: item.region.province.id,
-          selectedProvinceId,
-        });
-      }
-
-      return matches;
+      return Number(item.region.province.id) === Number(selectedProvinceId);
     });
-
+    
     // 2. 검색어가 있으면 지자체명으로 필터링
     if (debouncedSearchTerm.trim()) {
       const searchLower = debouncedSearchTerm.toLowerCase();
-
+      
       provinceFiltered = provinceFiltered.filter((item) => {
-        if (!item?.region?.name) return false;
-
-        // 지자체명으로 like 검색
-        const regionName = item.region.name.toLowerCase();
-        const provinceName = item.region.province?.name?.toLowerCase() || '';
-
-        // 지자체명 또는 "도/시 + 지자체명" 형태로 검색
-        const fullName = `${provinceName} ${regionName}`.toLowerCase();
-
-        const matches =
-          regionName.includes(searchLower) ||
-          provinceName.includes(searchLower) ||
-          fullName.includes(searchLower);
-
-        if (matches) {
-          console.log('Search match:', {
-            searchTerm: debouncedSearchTerm,
-            regionName: item.region.name,
-            provinceName: item.region.province?.name,
-            fullName: `${item.region.province?.name} ${item.region.name}`,
-          });
+        if (!item || !item.region || !item.region.name) {
+          return false;
         }
-
-        return matches;
+        return item.region.name.toLowerCase().includes(searchLower);
       });
     }
-
-    console.log('Final filtered data:', provinceFiltered.length);
+    
     return provinceFiltered;
   }, [data?.data, selectedProvinceId, debouncedSearchTerm]);
 
@@ -156,27 +110,6 @@ export default function ProvinceRankPageClient() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // 클라이언트 사이드에서 selectedProvinceId에 따라 필터링 + 검색어 필터링
-  console.log('### ProvinceRank DEBUG ###', {
-    allData: data?.data,
-    filteredData,
-    isLoading,
-    error,
-    selectedProvinceId,
-    searchTerm,
-    debouncedSearchTerm,
-    currentProvince,
-    // 실제 데이터 구조 확인
-    firstDataItem: data?.data?.[0],
-    firstDataItemRegion: data?.data?.[0]?.region,
-    firstDataItemProvinceId: data?.data?.[0]?.region?.province_id,
-    firstDataItemProvinceJoin: data?.data?.[0]?.region?.province,
-    // 비교 정보
-    selectedProvinceIdType: typeof selectedProvinceId,
-    firstProvinceIdDirectType: typeof data?.data?.[0]?.region?.province_id,
-    firstProvinceIdJoinType: typeof data?.data?.[0]?.region?.province?.id,
-  });
-
   return (
     <DataStateWrapper isLoading={isLoading} error={error} isBlackTheme={false}>
       <div style={{ width: '1400px', margin: '0 auto' }}>
@@ -199,7 +132,7 @@ export default function ProvinceRankPageClient() {
               margin: 0,
             }}
           >
-            광역시·도별 순위
+            광역별 종합순위
           </h2>
 
           {/* 우측: 검색창 */}
