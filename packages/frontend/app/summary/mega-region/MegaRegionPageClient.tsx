@@ -86,7 +86,7 @@ export default function MegaRegionPageClient() {
                   border: selectedType === type ? '1px solid #000000' : 'none',
                   borderRadius: '6px',
                   fontSize: '16px',
-                  fontWeight: selectedType === type ? 600 : 'normal',
+                  fontWeight: selectedType === type ? 'bold' : 'normal',
                   cursor: 'pointer',
                   transition: 'all 0.2s',
                   whiteSpace: 'nowrap',
@@ -116,7 +116,7 @@ export default function MegaRegionPageClient() {
                   border: selectedType === type ? '1px solid #000000' : 'none',
                   borderRadius: '6px',
                   fontSize: '16px',
-                  fontWeight: selectedType === type ? 600 : 'normal',
+                  fontWeight: selectedType === type ? 'bold' : 'normal',
                   cursor: 'pointer',
                   transition: 'all 0.2s',
                   whiteSpace: 'nowrap',
@@ -126,6 +126,24 @@ export default function MegaRegionPageClient() {
               </button>
             ))}
           </div>
+        </div>
+        
+        {/* 테이블 상단 타이틀 */}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start',
+          padding: '0 40px',
+          marginBottom: '30px',
+        }}>
+          <h2 style={{
+            fontSize: '28px',
+            fontWeight: 'bold',
+            color: '#1a1a1a',
+            margin: 0,
+          }}>
+            {selectedType}
+          </h2>
         </div>
         
         {/* 랭킹 테이블 */}
