@@ -6,9 +6,10 @@ import { DataStateWrapper } from '@/components/common';
 import KlaciTypeRankingSection from '@/features/summary/sections/KlaciTypeRankingSection';
 import { useMemo, useState } from 'react';
 
-// KLACI 코드 타입들 (정의된 12개)
+// KLACI 코드 타입들 (정의된 16개)
 const ORDERED_KLACI_CODE_TYPES: KlaciCodeType[] = [
   'GTVR',
+  'GTVA',
   'GTMR',
   'GTMA',
   'GCVR',
@@ -16,6 +17,9 @@ const ORDERED_KLACI_CODE_TYPES: KlaciCodeType[] = [
   'GCMR',
   'GCMA',
   'STVR',
+  'STVA',
+  'STMR',
+  'STMA',
   'SCVR',
   'SCVA',
   'SCMR',
@@ -25,6 +29,7 @@ const ORDERED_KLACI_CODE_TYPES: KlaciCodeType[] = [
 // KLACI 코드와 타입명 매핑
 const KLACI_TYPE_NAMES: Record<KlaciCodeType, string> = {
   'GTVR': '만능성장형',
+  'GTVA': '성장가속형',
   'GTMR': '안정혁신형',
   'GTMA': '경제집중형',
   'GCVR': '균형생활형',
@@ -32,6 +37,9 @@ const KLACI_TYPE_NAMES: Record<KlaciCodeType, string> = {
   'GCMR': '안전복지형',
   'GCMA': '점진도약형',
   'STVR': '전통안정형',
+  'STVA': '혁신전환형',
+  'STMR': '안정성장형',
+  'STMA': '기술집중형',
   'SCVR': '안정생활형',
   'SCVA': '생활도약형',
   'SCMR': '기초안정형',
@@ -45,7 +53,7 @@ export default function KlaciTypeRankPageClient() {
 
   // 전체 데이터를 한 번에 받아옴 (type 파라미터 제거, limit 증가)
   const { data, isLoading, error } = useKlaciCodeRanks({
-    limit: 1000, // 100에서 1000으로 증가하여 모든 타입의 데이터를 충분히 가져옴
+    limit: 1000, // 16개 타입의 모든 데이터를 충분히 가져옴
     year: currentYear,
     // type 파라미터 제거하여 전체 데이터 받기
   });
@@ -101,7 +109,7 @@ export default function KlaciTypeRankPageClient() {
             KLACI 유형별 종합순위
           </h2>
           
-          {/* 타입 선택 버튼들 - 그리드 레이아웃 */}
+          {/* 첫 번째 줄: 6개 버튼 */}
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(6, 1fr)',
@@ -109,7 +117,6 @@ export default function KlaciTypeRankPageClient() {
             marginBottom: '16px',
             width: '100%',
           }}>
-            {/* 첫 줄: 6개 버튼 */}
             {ORDERED_KLACI_CODE_TYPES.slice(0, 6).map((type) => (
               <button
                 key={type}
@@ -132,15 +139,45 @@ export default function KlaciTypeRankPageClient() {
             ))}
           </div>
           
-          {/* 둘째 줄: 6개 버튼 */}
+          {/* 두 번째 줄: 6개 버튼 */}
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(6, 1fr)',
             gap: '16px',
-            marginBottom: '40px',
+            marginBottom: '16px',
             width: '100%',
           }}>
             {ORDERED_KLACI_CODE_TYPES.slice(6, 12).map((type) => (
+              <button
+                key={type}
+                onClick={() => handleTypeChange(type)}
+                style={{
+                  padding: '14px 20px',
+                  backgroundColor: selectedType === type ? '#ffffff' : '#F1F1F1',
+                  color: '#000000',
+                  border: selectedType === type ? '1px solid #000000' : 'none',
+                  borderRadius: '6px',
+                  fontSize: '16px',
+                  fontWeight: selectedType === type ? 'bold' : 'normal',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {KLACI_TYPE_NAMES[type]} ({type})
+              </button>
+            ))}
+          </div>
+          
+          {/* 세 번째 줄: 4개 버튼 (좌측부터 채움) */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(6, 1fr)', // 6개 컬럼으로 설정하되 4개만 사용
+            gap: '16px',
+            marginBottom: '40px',
+            width: '100%',
+          }}>
+            {ORDERED_KLACI_CODE_TYPES.slice(12, 16).map((type) => (
               <button
                 key={type}
                 onClick={() => handleTypeChange(type)}
