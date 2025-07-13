@@ -58,29 +58,32 @@ export default function ProvinceRankPageClient() {
   const filteredData = useMemo(() => {
     if (!data?.data || !Array.isArray(data.data)) return [];
     
-    // 현재 선택된 province의 name 가져오기
-    const currentProvince = PROVINCES.find(p => p.id === selectedProvinceId);
-    if (!currentProvince) return [];
-    
     console.log('=== FILTERING DEBUG ===', {
       totalItems: data.data.length,
       selectedProvinceId,
-      currentProvinceName: currentProvince.name,
-      firstItemType: data.data[0]?.type,
-      allTypes: [...new Set(data.data.map(item => item.type))].slice(0, 10), // 중복 제거하고 처음 10개만
+      firstItem: data.data[0],
+      hasRegion: !!data.data[0]?.region,
+      regionName: data.data[0]?.region?.name,
+      provinceName: data.data[0]?.region?.province?.name,
+      provinceId: data.data[0]?.region?.province?.id,
     });
     
-    // type 필드를 사용해서 필터링
+    // 1. 선택된 province로 필터링
     let provinceFiltered = data.data.filter(item => {
-      if (!item || !item.type) {
-        console.log('Skipping item with missing type:', item);
+      if (!item || !item.region || !item.region.province) {
+        console.log('Skipping item with missing region/province:', item);
         return false;
       }
       
-      // type과 현재 선택된 province name 비교
-      const matches = item.type === currentProvince.name;
+      // region.province.id로 필터링
+      const matches = Number(item.region.province.id) === Number(selectedProvinceId);
       if (matches) {
-        console.log('Found match:', { itemType: item.type, provinceName: currentProvince.name });
+        console.log('Found match:', { 
+          regionName: item.region.name, 
+          provinceName: item.region.province.name,
+          provinceId: item.region.province.id,
+          selectedProvinceId 
+        });
       }
       
       return matches;
@@ -88,15 +91,34 @@ export default function ProvinceRankPageClient() {
     
     console.log('After province filtering:', provinceFiltered.length);
     
-    // 검색어가 있으면 추가 필터링
+    // 2. 검색어가 있으면 지자체명으로 필터링
     if (debouncedSearchTerm.trim()) {
       const searchLower = debouncedSearchTerm.toLowerCase();
+      
       provinceFiltered = provinceFiltered.filter((item) => {
-        // item.type이나 다른 필드에서 검색
-        const typeMatch = item.type?.toLowerCase().includes(searchLower);
-        const idMatch = item.id?.toString().includes(searchLower);
+        if (!item?.region?.name) return false;
         
-        return typeMatch || idMatch;
+        // 지자체명으로 like 검색
+        const regionName = item.region.name.toLowerCase();
+        const provinceName = item.region.province?.name?.toLowerCase() || '';
+        
+        // 지자체명 또는 "도/시 + 지자체명" 형태로 검색
+        const fullName = `${provinceName} ${regionName}`.toLowerCase();
+        
+        const matches = regionName.includes(searchLower) || 
+                       provinceName.includes(searchLower) ||
+                       fullName.includes(searchLower);
+        
+        if (matches) {
+          console.log('Search match:', { 
+            searchTerm: debouncedSearchTerm,
+            regionName: item.region.name,
+            provinceName: item.region.province?.name,
+            fullName: `${item.region.province?.name} ${item.region.name}`
+          });
+        }
+        
+        return matches;
       });
     }
     
