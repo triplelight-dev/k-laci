@@ -1047,7 +1047,7 @@ export class DataService {
       {
         regions: selectedWeightClassRegions || [],
         tag: 'SAME_WEIGHT_CLASS' as SelectionTag,
-        display: '체급이 비슷한' as SelectionDisplayType,
+        display: '인구가 비슷한' as SelectionDisplayType,
       },
     ];
 

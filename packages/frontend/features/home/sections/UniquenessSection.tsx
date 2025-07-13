@@ -23,7 +23,7 @@ const UniquenessSection: React.FC = () => {
     },
     button: {
       text: '주요 결과 보러가기',
-      route: ROUTES.RESULT,
+      route: ROUTES.SUMMARY,
     },
     bottomImage: {
       src: '/home/uniqueness.png',

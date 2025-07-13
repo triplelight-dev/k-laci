@@ -3,10 +3,16 @@
 import { ArrowRightUp } from '@/components/atoms/assets';
 import Button from '@/components/atoms/buttons/Button';
 import { Flex, Heading, Text } from '@chakra-ui/react';
+import { useRouter } from 'next/navigation';
 import RankCardSlider from '../components/RankCardSlider';
 
 
 export default function RankSection() {
+  const router = useRouter();
+
+  const handleViewAllClick = () => {
+    router.push('/summary/top-100');
+  };
 
   return (
     <Flex height="100vh" justifyContent='center' alignItems='center' backgroundColor='#14161D' minHeight='1080px'>
@@ -19,7 +25,11 @@ export default function RankSection() {
         </Text>
         <RankCardSlider />
         <div style={{ marginTop: '40px' }}>
-          <Button label='종합순위 TOP 100 전체보기' icon={<ArrowRightUp />} />
+          <Button 
+            label='종합순위 TOP 100 전체보기' 
+            icon={<ArrowRightUp />} 
+            onClick={handleViewAllClick}
+          />
         </div>
       </Flex>
     </Flex>

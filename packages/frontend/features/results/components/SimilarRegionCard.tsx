@@ -69,7 +69,7 @@ const getBadgeText = (data: SimilarRegionData): string => {
       case 'SHARED_STRENGTH':
         return '강점이 비슷한';
       case 'SAME_WEIGHT_CLASS':
-        return '체급이 비슷한';
+        return '인구가 비슷한';
       default:
         return '순위가 비슷한'; // 기본값
     }
