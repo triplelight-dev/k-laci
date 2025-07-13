@@ -1,6 +1,6 @@
 'use client';
 
-import { useTotalRegionRanks } from '@/api/hooks/useTotalRegionRanks';
+import { useSelectedProvincesRanks } from '@/api/hooks/useRankingData';
 import { DataStateWrapper } from '@/components/common';
 import SummaryLayout from '@/components/layout/SummaryLayout';
 import SixProvincesRankingSection from '@/features/summary/sections/SixProvincesRankingSection';
@@ -8,7 +8,7 @@ import SixProvincesRankingSection from '@/features/summary/sections/SixProvinces
 export default function SixProvincesTop50PageClient() {
   const currentYear = new Date().getFullYear();
 
-  const { data, isLoading, error } = useTotalRegionRanks({
+  const { data, isLoading, error } = useSelectedProvincesRanks({
     limit: 50,
     year: currentYear,
   });
