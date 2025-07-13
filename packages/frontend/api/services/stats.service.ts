@@ -9,6 +9,7 @@ import {
   GetTotalRegionRanksParams,
   GetTotalRegionRanksResponse
 } from '../types/stats.types';
+import { GetProvinceRanksDto } from './dto/get-province-ranks.dto';
 
 export class StatsService {
   /**
@@ -125,6 +126,16 @@ export class StatsService {
     params: GetKlaciCodeRanksParams = {}
   ): Promise<GetRankingResponse> {
     return this.getRanking(API_ENDPOINTS.STATS.KLACI_CODE, params);
+  }
+
+  async getProvinceRanks(params: GetProvinceRanksDto) {
+    const response = await apiClient.get<any[]>(
+      API_ENDPOINTS.STATS.PROVINCE_RANK,
+      {
+        params,
+      },
+    );
+    return response.data;
   }
 }
 

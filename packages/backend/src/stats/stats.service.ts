@@ -758,4 +758,121 @@ export class StatsService {
     // null 값 제거 (region을 찾지 못한 경우)
     return enrichedData.filter(Boolean);
   }
+
+  async getProvinceRanks(
+    limit: number = 1000,
+    year?: number,
+    provinceId?: number,
+  ) {
+    const currentYear = new Date().getFullYear();
+    const targetYear = year || currentYear;
+
+    // 1. 먼저 rank_province 테이블에서 기본 데이터 조회
+    const query = this.supabaseService
+      .getClient()
+      .from('rank_province')
+      .select('*')
+      .eq('year', targetYear);
+
+    const { data: rankData, error: rankError } = await query
+      .order('rank', { ascending: true })
+      .limit(limit);
+
+    if (rankError) {
+      throw new Error(`Failed to fetch province ranks: ${rankError.message}`);
+    }
+
+    if (!rankData || rankData.length === 0) {
+      return [];
+    }
+
+    // 2. 각 랭킹 항목에 대해 매칭되는 region 정보 조회
+    const enrichedData = await Promise.all(
+      rankData.map(async (item) => {
+        let regionData = null;
+
+        // region_id가 있으면 직접 조회
+        if (item.region_id) {
+          const { data: directRegion, error: directError } =
+            await this.supabaseService
+              .getClient()
+              .from('regions')
+              .select(
+                `
+              *,
+              province:provinces (
+                id,
+                name,
+                full_name,
+                name_eng,
+                created_at,
+                updated_at
+              ),
+              klaci:klaci_codes (
+                id,
+                code,
+                nickname,
+                type,
+                trait,
+                opportunity,
+                strategy,
+                summary,
+                created_at,
+                updated_at
+              )
+            `,
+              )
+              .eq('id', item.region_id)
+              .single();
+
+          if (!directError && directRegion) {
+            regionData = directRegion;
+          }
+        }
+
+        // 3. strength_indexes 파싱 및 매칭
+        let strengthIndexesDetails = [];
+        if (item.strength_indexes && Array.isArray(item.strength_indexes)) {
+          const { data: keyIndexes, error: keyIndexError } =
+            await this.supabaseService
+              .getClient()
+              .from('key_indexes')
+              .select(
+                `
+              id,
+              code,
+              name,
+              category,
+              description,
+              source,
+              unit,
+              name_eng
+            `,
+              )
+              .in('code', item.strength_indexes);
+
+          if (!keyIndexError && keyIndexes) {
+            strengthIndexesDetails = keyIndexes;
+          }
+        }
+
+        const { strength_indexes, rank, ...rest } = item;
+        return {
+          ...rest,
+          total_rank: rank,
+          strength_indexes_details: strengthIndexesDetails,
+          region: regionData,
+        };
+      }),
+    );
+
+    // 4. provinceId 필터링 (옵셔널)
+    if (provinceId) {
+      return enrichedData.filter(
+        (item) => item.region && item.region.province_id === provinceId,
+      );
+    }
+
+    return enrichedData;
+  }
 }

@@ -3,6 +3,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Public } from '../auth/decorators/public.decorator';
 import { GetKlaciCodeRanksDto } from './dto/get-klaci-code-ranks.dto';
 import { GetMegaRegionRanksDto } from './dto/get-mega-region-ranks.dto';
+import { GetProvinceRanksDto } from './dto/get-province-ranks.dto';
 import { GetTotalRegionRanksDto } from './dto/get-total-region-ranks.dto';
 import { TotalRegionRankDto } from './dto/total-region-rank-response.dto';
 import { StatsService } from './stats.service';
@@ -236,6 +237,34 @@ export class StatsController {
       query.limit,
       query.year,
       query.type,
+    );
+  }
+
+  @Public()
+  @Get('province')
+  @ApiOperation({
+    summary: 'Get top N province ranks for a specific year',
+    description:
+      'Retrieve the top N province regions ranked by total score for a specific year. Optionally filter by province ID.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully retrieved top N province ranks',
+    type: [TotalRegionRankDto],
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request - Invalid parameters',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error',
+  })
+  async getProvinceRanks(@Query() query: GetProvinceRanksDto) {
+    return this.statsService.getProvinceRanks(
+      query.limit,
+      query.year,
+      query.provinceId,
     );
   }
 }
