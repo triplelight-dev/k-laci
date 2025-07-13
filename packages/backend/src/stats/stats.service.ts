@@ -940,4 +940,80 @@ export class StatsService {
 
     return enrichedData;
   }
+
+  async getDistrictTypeRanks() {
+    // 직접 조인 방식으로 구현
+    const { data, error } = await this.supabaseService
+      .getClient()
+      .from('rank_district_type')
+      .select(
+        `
+        id,
+        type,
+        rank,
+        region_id,
+        strength_indexes,
+        total_score,
+        year,
+        region:regions (
+          *,
+          province:provinces (
+            *
+          ),
+          klaci:klaci_codes (
+            *
+          )
+        )
+      `,
+      )
+      .order('rank', { ascending: true });
+
+    if (error) {
+      throw new Error(`Failed to fetch district type ranks: ${error.message}`);
+    }
+
+    if (!data || data.length === 0) {
+      return [];
+    }
+
+    // strength_indexes 처리
+    const enrichedData = await Promise.all(
+      data.map(async (item) => {
+        let strengthIndexesDetails = [];
+
+        if (item.strength_indexes && Array.isArray(item.strength_indexes)) {
+          const { data: keyIndexes, error: keyIndexError } =
+            await this.supabaseService
+              .getClient()
+              .from('key_indexes')
+              .select(
+                `
+                id,
+                code,
+                name,
+                category,
+                description,
+                source,
+                unit,
+                name_eng
+              `,
+              )
+              .in('code', item.strength_indexes);
+
+          if (!keyIndexError && keyIndexes) {
+            strengthIndexesDetails = keyIndexes;
+          }
+        }
+
+        const { strength_indexes, rank, ...rest } = item;
+        return {
+          ...rest,
+          total_rank: rank,
+          strength_indexes_details: strengthIndexesDetails,
+        };
+      }),
+    );
+
+    return enrichedData;
+  }
 }

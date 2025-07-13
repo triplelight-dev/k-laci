@@ -30,6 +30,7 @@ export const API_ENDPOINTS = {
     KLACI_CODE: '/stats/rank/klaci-code',
     PROVINCE_RANK: '/stats/rank/province',
     CATEGORY_RANK: '/stats/rank/category',
+    DISTRICT_TYPE_RANK: '/stats/rank/district-type',
   },
 } as const;
 

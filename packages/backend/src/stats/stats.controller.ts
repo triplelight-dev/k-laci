@@ -2,6 +2,7 @@ import { Controller, Get, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Public } from '../auth/decorators/public.decorator';
 import { GetCategoryRanksDto } from './dto/get-category-ranks.dto';
+import { GetDistrictTypeRanksDto } from './dto/get-district-type-ranks.dto';
 import { GetKlaciCodeRanksDto } from './dto/get-klaci-code-ranks.dto';
 import { GetMegaRegionRanksDto } from './dto/get-mega-region-ranks.dto';
 import { GetProvinceRanksDto } from './dto/get-province-ranks.dto';
@@ -295,5 +296,29 @@ export class StatsController {
       query.year,
       query.categoryId,
     );
+  }
+
+  @Public()
+  @Get('district-type')
+  @ApiOperation({
+    summary: 'Get all district type ranks',
+    description:
+      'Retrieve all district type regions with their ranks. Returns all data without pagination.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully retrieved all district type ranks',
+    type: [TotalRegionRankDto],
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request - Invalid parameters',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error',
+  })
+  async getDistrictTypeRanks(@Query() query: GetDistrictTypeRanksDto) {
+    return this.statsService.getDistrictTypeRanks();
   }
 }
