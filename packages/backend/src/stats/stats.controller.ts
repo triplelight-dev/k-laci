@@ -1,6 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Public } from '../auth/decorators/public.decorator';
+import { GetMegaRegionRanksDto } from './dto/get-mega-region-ranks.dto';
 import { GetTotalRegionRanksDto } from './dto/get-total-region-ranks.dto';
 import { TotalRegionRankDto } from './dto/total-region-rank-response.dto';
 import { StatsService } from './stats.service';
@@ -179,5 +180,33 @@ export class StatsController {
   })
   async getCostalCityRanks(@Query() query: GetTotalRegionRanksDto) {
     return this.statsService.getCostalCityRanks(query.limit, query.year);
+  }
+
+  @Public()
+  @Get('mega-region')
+  @ApiOperation({
+    summary: 'Get top N mega region ranks for a specific year and type',
+    description:
+      'Retrieve the top N mega regions ranked by total score for a specific year and optional type filter. Available types: 동남권, 전북특별자치도, 중부권, 대경권, 제주특별자치도, 서남권, 강원특별자치도, 수도권',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully retrieved top N mega region ranks',
+    type: [TotalRegionRankDto],
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request - Invalid parameters',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error',
+  })
+  async getMegaRegionRanks(@Query() query: GetMegaRegionRanksDto) {
+    return this.statsService.getMegaRegionRanks(
+      query.limit,
+      query.year,
+      query.type,
+    );
   }
 }

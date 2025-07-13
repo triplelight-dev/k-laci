@@ -535,4 +535,85 @@ export class StatsService {
 
     return enrichedData;
   }
+
+  async getMegaRegionRanks(limit: number = 100, year?: number, type?: string) {
+    const currentYear = new Date().getFullYear();
+    const targetYear = year || currentYear;
+
+    let query = this.supabase
+      .from('rank_mega_region')
+      .select(
+        `
+        id,
+        type,
+        rank,
+        region_id,
+        strength_indexes,
+        total_score,
+        year,
+        region:regions (
+          *,
+          province:provinces (
+            *
+          ),
+          klaci:klaci_codes (
+            *
+          )
+        )
+      `,
+      )
+      .eq('year', targetYear);
+
+    // type 필터링 추가 (선택적)
+    if (type) {
+      query = query.eq('type', type);
+    }
+
+    const { data, error } = await query
+      .order('rank', { ascending: true })
+      .limit(limit);
+
+    if (error) {
+      throw new Error(`Failed to fetch mega region ranks: ${error.message}`);
+    }
+
+    const enrichedData = await Promise.all(
+      data.map(async (item) => {
+        let strengthIndexesDetails = [];
+        if (item.strength_indexes && item.strength_indexes.length > 0) {
+          const { data: keyIndexesData, error: keyIndexesError } =
+            await this.supabase
+              .from('key_indexes')
+              .select(
+                `
+              id,
+              code,
+              name,
+              category,
+              description,
+              source,
+              unit,
+              name_eng
+            `,
+              )
+              .in('code', item.strength_indexes);
+
+          if (!keyIndexesError && keyIndexesData) {
+            strengthIndexesDetails = item.strength_indexes
+              .map((code) => keyIndexesData.find((item) => item.code === code))
+              .filter(Boolean);
+          }
+        }
+
+        const { strength_indexes, rank, ...rest } = item;
+        return {
+          ...rest,
+          total_rank: rank,
+          strength_indexes_details: strengthIndexesDetails,
+        };
+      }),
+    );
+
+    return enrichedData;
+  }
 }
