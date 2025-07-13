@@ -57,7 +57,7 @@ export default function ProvinceRankPageClient() {
   // 클라이언트 사이드에서 selectedProvinceId에 따라 필터링
   const filteredData = useMemo(() => {
     if (!data?.data || !Array.isArray(data.data)) return [];
-    
+
     console.log('=== FILTERING DEBUG ===', {
       totalItems: data.data.length,
       selectedProvinceId,
@@ -67,78 +67,84 @@ export default function ProvinceRankPageClient() {
       provinceName: data.data[0]?.region?.province?.name,
       provinceId: data.data[0]?.region?.province?.id,
     });
-    
+
     // 1. 선택된 province로 필터링
-    let provinceFiltered = data.data.filter(item => {
+    let provinceFiltered = data.data.filter((item) => {
       if (!item || !item.region || !item.region.province) {
         console.log('Skipping item with missing region/province:', item);
         return false;
       }
-      
+
       // region.province.id로 필터링
-      const matches = Number(item.region.province.id) === Number(selectedProvinceId);
+      const matches =
+        Number(item.region.province.id) === Number(selectedProvinceId);
       if (matches) {
-        console.log('Found match:', { 
-          regionName: item.region.name, 
+        console.log('Found match:', {
+          regionName: item.region.name,
           provinceName: item.region.province.name,
           provinceId: item.region.province.id,
-          selectedProvinceId 
+          selectedProvinceId,
         });
       }
-      
+
       return matches;
     });
-    
-    console.log('After province filtering:', provinceFiltered.length);
-    
+
     // 2. 검색어가 있으면 지자체명으로 필터링
     if (debouncedSearchTerm.trim()) {
       const searchLower = debouncedSearchTerm.toLowerCase();
-      
+
       provinceFiltered = provinceFiltered.filter((item) => {
         if (!item?.region?.name) return false;
-        
+
         // 지자체명으로 like 검색
         const regionName = item.region.name.toLowerCase();
         const provinceName = item.region.province?.name?.toLowerCase() || '';
-        
+
         // 지자체명 또는 "도/시 + 지자체명" 형태로 검색
         const fullName = `${provinceName} ${regionName}`.toLowerCase();
-        
-        const matches = regionName.includes(searchLower) || 
-                       provinceName.includes(searchLower) ||
-                       fullName.includes(searchLower);
-        
+
+        const matches =
+          regionName.includes(searchLower) ||
+          provinceName.includes(searchLower) ||
+          fullName.includes(searchLower);
+
         if (matches) {
-          console.log('Search match:', { 
+          console.log('Search match:', {
             searchTerm: debouncedSearchTerm,
             regionName: item.region.name,
             provinceName: item.region.province?.name,
-            fullName: `${item.region.province?.name} ${item.region.name}`
+            fullName: `${item.region.province?.name} ${item.region.name}`,
           });
         }
-        
+
         return matches;
       });
     }
-    
+
     console.log('Final filtered data:', provinceFiltered.length);
     return provinceFiltered;
   }, [data?.data, selectedProvinceId, debouncedSearchTerm]);
 
   // 현재 선택된 도 정보 가져오기
-  const currentProvince = PROVINCES.find(p => p.id === selectedProvinceId);
+  const currentProvince = PROVINCES.find((p) => p.id === selectedProvinceId);
 
   // 이전/다음 도 계산
   const getPreviousProvinceId = (): number => {
-    const currentIndex = PROVINCES.findIndex(p => p.id === selectedProvinceId);
-    const previousIndex = currentIndex === 0 ? PROVINCES.length - 1 : currentIndex - 1;
+    const currentIndex = PROVINCES.findIndex(
+      (p) => p.id === selectedProvinceId,
+    );
+    const previousIndex =
+      currentIndex === 0 ? PROVINCES.length - 1 : currentIndex - 1;
     return PROVINCES[previousIndex]!.id;
   };
 
   const getNextProvinceId = (): number => {
-    const currentIndex = PROVINCES.findIndex(p => p.id === selectedProvinceId);
-    const nextIndex = currentIndex === PROVINCES.length - 1 ? 0 : currentIndex + 1;
+    const currentIndex = PROVINCES.findIndex(
+      (p) => p.id === selectedProvinceId,
+    );
+    const nextIndex =
+      currentIndex === PROVINCES.length - 1 ? 0 : currentIndex + 1;
     return PROVINCES[nextIndex]!.id;
   };
 
@@ -151,11 +157,11 @@ export default function ProvinceRankPageClient() {
   };
 
   // 클라이언트 사이드에서 selectedProvinceId에 따라 필터링 + 검색어 필터링
-  console.log('### ProvinceRank DEBUG ###', { 
-    allData: data?.data, 
-    filteredData, 
-    isLoading, 
-    error, 
+  console.log('### ProvinceRank DEBUG ###', {
+    allData: data?.data,
+    filteredData,
+    isLoading,
+    error,
     selectedProvinceId,
     searchTerm,
     debouncedSearchTerm,
@@ -175,20 +181,24 @@ export default function ProvinceRankPageClient() {
     <DataStateWrapper isLoading={isLoading} error={error} isBlackTheme={false}>
       <div style={{ width: '1400px', margin: '0 auto' }}>
         {/* 상단 타이틀과 검색창 */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-start',
-          padding: '40px 40px 0 40px',
-          marginBottom: '32px',
-        }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
+            padding: '40px 40px 0 40px',
+            marginBottom: '32px',
+          }}
+        >
           {/* 좌측: 타이틀 */}
-          <h2 style={{
-            fontSize: '28px',
-            fontWeight: 'bold',
-            color: '#1a1a1a',
-            margin: 0,
-          }}>
+          <h2
+            style={{
+              fontSize: '28px',
+              fontWeight: 'bold',
+              color: '#1a1a1a',
+              margin: 0,
+            }}
+          >
             광역시·도별 순위
           </h2>
 
@@ -203,25 +213,32 @@ export default function ProvinceRankPageClient() {
         {/* 도/광역시 선택 버튼들 */}
         <div style={{ padding: '0 40px' }}>
           {/* 첫 번째 줄: 12개 버튼 */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(12, 1fr)',
-            gap: '16px',
-            marginBottom: '16px',
-            width: '100%',
-          }}>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(12, 1fr)',
+              gap: '16px',
+              marginBottom: '16px',
+              width: '100%',
+            }}
+          >
             {PROVINCES.slice(0, 12).map((province) => (
               <button
                 key={province.id}
                 onClick={() => handleProvinceChange(province.id)}
                 style={{
                   padding: '14px 20px',
-                  backgroundColor: selectedProvinceId === province.id ? '#ffffff' : '#F1F1F1',
+                  backgroundColor:
+                    selectedProvinceId === province.id ? '#ffffff' : '#F1F1F1',
                   color: '#000000',
-                  border: selectedProvinceId === province.id ? '1px solid #000000' : 'none',
+                  border:
+                    selectedProvinceId === province.id
+                      ? '1px solid #000000'
+                      : 'none',
                   borderRadius: '6px',
                   fontSize: '16px',
-                  fontWeight: selectedProvinceId === province.id ? 'bold' : 'normal',
+                  fontWeight:
+                    selectedProvinceId === province.id ? 'bold' : 'normal',
                   cursor: 'pointer',
                   transition: 'all 0.2s',
                   whiteSpace: 'nowrap',
@@ -231,27 +248,34 @@ export default function ProvinceRankPageClient() {
               </button>
             ))}
           </div>
-          
+
           {/* 두 번째 줄: 5개 버튼 (좌측부터 채움) */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(12, 1fr)', // 12개 컬럼으로 설정하되 5개만 사용
-            gap: '16px',
-            marginBottom: '40px',
-            width: '100%',
-          }}>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(12, 1fr)', // 12개 컬럼으로 설정하되 5개만 사용
+              gap: '16px',
+              marginBottom: '40px',
+              width: '100%',
+            }}
+          >
             {PROVINCES.slice(12, 17).map((province) => (
               <button
                 key={province.id}
                 onClick={() => handleProvinceChange(province.id)}
                 style={{
                   padding: '14px 20px',
-                  backgroundColor: selectedProvinceId === province.id ? '#ffffff' : '#F1F1F1',
+                  backgroundColor:
+                    selectedProvinceId === province.id ? '#ffffff' : '#F1F1F1',
                   color: '#000000',
-                  border: selectedProvinceId === province.id ? '1px solid #000000' : 'none',
+                  border:
+                    selectedProvinceId === province.id
+                      ? '1px solid #000000'
+                      : 'none',
                   borderRadius: '6px',
                   fontSize: '16px',
-                  fontWeight: selectedProvinceId === province.id ? 'bold' : 'normal',
+                  fontWeight:
+                    selectedProvinceId === province.id ? 'bold' : 'normal',
                   cursor: 'pointer',
                   transition: 'all 0.2s',
                   whiteSpace: 'nowrap',
@@ -262,7 +286,7 @@ export default function ProvinceRankPageClient() {
             ))}
           </div>
         </div>
-        
+
         {/* 테이블 상단 타이틀 */}
         <SectionHeader
           title={currentProvince?.full_name || ''}
@@ -272,21 +296,23 @@ export default function ProvinceRankPageClient() {
           showSearch={false}
           hasTopMargin={false}
         />
-        
+
         {/* 랭킹 테이블 */}
-        <ProvinceRankingSection 
-          data={filteredData} 
+        <ProvinceRankingSection
+          data={filteredData}
           selectedProvinceId={selectedProvinceId}
         />
-        
+
         {/* 하단 네비게이션 버튼 */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: '0 40px',
-          marginBottom: '80px',
-        }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '0 40px',
+            marginBottom: '80px',
+          }}
+        >
           {/* 좌측 버튼 (이전) */}
           <button
             onClick={() => handleProvinceChange(getPreviousProvinceId())}
@@ -315,9 +341,9 @@ export default function ProvinceRankPageClient() {
               e.currentTarget.style.border = 'none';
             }}
           >
-            ← {PROVINCES.find(p => p.id === getPreviousProvinceId())?.name}
+            ← {PROVINCES.find((p) => p.id === getPreviousProvinceId())?.name}
           </button>
-          
+
           {/* 우측 버튼 (다음) */}
           <button
             onClick={() => handleProvinceChange(getNextProvinceId())}
@@ -346,10 +372,10 @@ export default function ProvinceRankPageClient() {
               e.currentTarget.style.border = 'none';
             }}
           >
-            {PROVINCES.find(p => p.id === getNextProvinceId())?.name} →
+            {PROVINCES.find((p) => p.id === getNextProvinceId())?.name} →
           </button>
         </div>
       </div>
     </DataStateWrapper>
   );
-} 
+}

@@ -709,9 +709,7 @@ export class StatsService {
         }
 
         if (!regionData) {
-          console.error(
-            `No region found for KLACI code type: ${item.type}, region_id: ${item.region_id}`,
-          );
+          // 에러 로깅 제거 - 프로덕션에서는 silent fail
           return null;
         }
 
