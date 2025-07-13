@@ -13,19 +13,19 @@ const DISTRICT_TYPES = [
     id: 1, 
     name: '시', 
     type: '시',
-    description: '시 단위 지자체 상위 50곳의 종합순위를 확인하세요' 
+    description: '전국 78개 시 단위 지자체 중 상위 50곳' 
   },
   { 
     id: 2, 
     name: '군', 
     type: '군',
-    description: '군 단위 지자체 상위 50곳의 종합순위를 확인하세요' 
+    description: '전국 82개 군 단위 지자체 중 상위 50곳' 
   },
   { 
     id: 3, 
     name: '구', 
     type: '구',
-    description: '구 단위 지자체 상위 50곳의 종합순위를 확인하세요' 
+    description: '전국 69개 구 단위 지자체 중 상위 50곳' 
   },
 ];
 
@@ -208,7 +208,7 @@ export default function DistrictRankPageClient() {
 
         {/* 테이블 상단 타이틀 */}
         <SectionHeader
-          title={`${currentDistrict?.name} 순위`}
+          title={currentDistrict?.name || ''}
           subtitle={currentDistrict?.description || ''}
           searchTerm=""
           onSearchChange={() => {}}
