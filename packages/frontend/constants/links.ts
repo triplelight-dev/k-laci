@@ -23,5 +23,6 @@ export const INTERNAL_LINKS = {
     GROWTH_PROMOTION_REGION: '/summary/growth-boost-zone-rank',
     NATIONAL_INDUSTRIAL_COMPLEX: '/summary/national-industrial-zone-rank',
     COASTAL_CITY: '/summary/coastal-city-rank',
+    MEGA_REGION: '/summary/mega-region', // 추가
   },
 } as const; 
