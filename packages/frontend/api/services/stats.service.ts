@@ -126,4 +126,7 @@ export class StatsService {
   ): Promise<GetRankingResponse> {
     return this.getRanking(API_ENDPOINTS.STATS.KLACI_CODE, params);
   }
-} 
+}
+
+// 기존 호환성을 위한 인스턴스 export
+export const statsService = new StatsService(); 

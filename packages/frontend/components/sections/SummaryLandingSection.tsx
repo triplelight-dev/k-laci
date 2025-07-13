@@ -6,7 +6,7 @@ const cardData = [
   [
     { title: "종합순위\nTOP 100", desc: "전국 229개 지자체 기준\n종합점수 상위 100곳", tag: "SPECIAL", bgImage: '/summary/Ranking-1.png', link: INTERNAL_LINKS.SUMMARY.TOP_100 },
     { title: "5극 3특\n종합순위", desc: "대경권, 동남권, 서남권, 수도권 등\n8개 행정체제별 종합순위", tag: "SPECIAL", bgImage: '/summary/Ranking-2.png', link: INTERNAL_LINKS.SUMMARY.MEGA_REGION },
-    { title: "유형별\n종합순위", desc: "강원, 경기, 경남, 경북, 광주 등\n17개 광역별 종합순위", bgImage: '/summary/Ranking-3.png', link: INTERNAL_LINKS.SUMMARY.SIX_MAJOR_PROVINCES_TOP_50 },
+    { title: "유형별\n종합순위", desc: "GTVR, GTMR, GTMA, GCVR 등\n12개 KLACI 유형별 종합순위", bgImage: '/summary/Ranking-3.png', link: INTERNAL_LINKS.SUMMARY.KLACI_TYPE_RANK },
     { title: "광역별\n종합순위", desc: "개발도약형, 기초안정형, 안정생활형 등\n16개 유형별 종합순위", bgImage: '/summary/Ranking-4.png', link: INTERNAL_LINKS.SUMMARY.REGIONAL_RANKING },
   ],
   [
