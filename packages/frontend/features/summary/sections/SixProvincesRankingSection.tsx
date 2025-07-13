@@ -24,18 +24,32 @@ const SectionHeader: React.FC<{
       }}
     >
       {/* 좌상단: 제목과 안내 문구 */}
-      <div>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '16px',
+        }}
+      >
         <h2
           style={{
             fontSize: '28px',
             fontWeight: 'bold',
             color: '#1a1a1a',
             margin: 0,
-            marginBottom: '8px',
           }}
         >
-          종합순위 TOP 100
+          6개 도 TOP 50
         </h2>
+        <span
+          style={{
+            fontSize: '15px',
+            color: '#000',
+            fontWeight: 'normal',
+          }}
+        >
+          경기 · 경남 · 경북 · 전남 · 충남 · 충북 내 119개 지자체 중 상위 50곳
+        </span>
       </div>
 
       {/* 우측: 검색창 */}
@@ -49,9 +63,9 @@ const SectionHeader: React.FC<{
 };
 
 // 메인 컴포넌트
-const TotalRankingSection: React.FC<{ data: TotalRegionRank[] }> = ({
-  data,
-}) => {
+const SixProvincesRankingSection: React.FC<{
+  data: TotalRegionRank[];
+}> = ({ data }) => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
@@ -119,4 +133,4 @@ const TotalRankingSection: React.FC<{ data: TotalRegionRank[] }> = ({
   );
 };
 
-export default TotalRankingSection;
+export default SixProvincesRankingSection; 

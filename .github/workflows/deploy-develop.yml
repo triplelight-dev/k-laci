@@ -6,7 +6,7 @@ on:
       - develop
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -14,52 +14,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2. Node.js 설정
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-          cache: 'yarn'
-
-      # 3. 의존성 설치 및 백엔드 빌드
-      - name: Install dependencies and build backend
-        run: |
-          yarn install --frozen-lockfile
-          yarn workspace @k-laci/backend build
-
-      # 4. 빌드 결과물 압축
-      - name: Create deployment artifact
-        run: |
-          cd packages/backend
-          cp ../../yarn.lock .
-          tar -czf backend-build.tar.gz dist/ package.json yarn.lock
-
-      # 5. SSH 키 설정
+      # 2. SSH 키 설정
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
 
-      # 6. 빌드 결과물을 EC2로 전송 및 배포
+      # 3. EC2 서버에 배포 스크립트 실행
       - name: Deploy to EC2
         run: |
-          # 빌드 결과물을 EC2로 전송
-          scp -o StrictHostKeyChecking=no packages/backend/backend-build.tar.gz ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/ec2-user/k-laci/
-
-          # EC2에서 배포 스크립트 실행
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "
             cd /home/ec2-user/k-laci && \
-            # 기존 dist 폴더 백업 (롤백용)
-            if [ -d packages/backend/dist ]; then
-              mv packages/backend/dist packages/backend/dist.backup.\$(date +%Y%m%d_%H%M%S)
-            fi && \
-            # 새로운 빌드 결과물 압축 해제
-            tar -xzf backend-build.tar.gz -C packages/backend && \
-            # 의존성 설치 (production 모드)
+            git pull origin develop && \
             cd packages/backend && \
-            yarn install --production --frozen-lockfile && \
-            # PM2로 Node.js 직접 실행
-            pm2 restart k-laci-backend || pm2 start node --name k-laci-backend -- dist/main.js && \
-            # 임시 파일 정리
-            rm -f /home/ec2-user/k-laci/backend-build.tar.gz
+            NODE_OPTIONS='--max-old-space-size=512' yarn install --frozen-lockfile --network-timeout 100000 && \
+            pm2 restart k-laci-backend || pm2 start yarn --name k-laci-backend -- start:dev
           "

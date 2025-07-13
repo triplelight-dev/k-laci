@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { CATEGORIES } from '../../../constants/categories';
 import { isActiveCategory } from '../../../utils/categoryUtils';
 import { RadarChartContext } from './types';
@@ -98,9 +97,6 @@ const RadarBackground = ({
   const guideQmarkX = guideLabelX + 65; // 원은 텍스트 기준 오른쪽 32px (필요시 조정)
   const guideStrongY = center - 10;
   const guideWeakY = center + 18;
-
-  const [showStrongTooltip, setShowStrongTooltip] = useState(false);
-  const [showWeakTooltip, setShowWeakTooltip] = useState(false);
 
   return (
     <>

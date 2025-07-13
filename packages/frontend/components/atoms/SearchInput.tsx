@@ -46,6 +46,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
           borderRadius: '12px',
           fontSize: '14px',
           outline: 'none',
+          backgroundColor: 'white',
         }}
       />
     </div>

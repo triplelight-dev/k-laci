@@ -87,4 +87,452 @@ export class StatsService {
 
     return enrichedData;
   }
+
+  async getMajorProvincesRanks(limit: number = 100, year?: number) {
+    const currentYear = new Date().getFullYear();
+    const targetYear = year || currentYear;
+
+    const { data, error } = await this.supabase
+      .from('rank_major_provinces')
+      .select(
+        `
+        id,
+        rank,
+        region_id,
+        strength_indexes,
+        total_score,
+        year,
+        region:regions (
+          *,
+          province:provinces (
+            *
+          ),
+          klaci:klaci_codes (
+            *
+          )
+        )
+      `,
+      )
+      .eq('year', targetYear)
+      .order('rank', { ascending: true })
+      .limit(limit);
+
+    if (error) {
+      throw new Error(
+        `Failed to fetch major provinces ranks: ${error.message}`,
+      );
+    }
+
+    const enrichedData = await Promise.all(
+      data.map(async (item) => {
+        let strengthIndexesDetails = [];
+        if (item.strength_indexes && item.strength_indexes.length > 0) {
+          const { data: keyIndexesData, error: keyIndexesError } =
+            await this.supabase
+              .from('key_indexes')
+              .select(
+                `
+              id,
+              code,
+              name,
+              category,
+              description,
+              source,
+              unit,
+              name_eng
+            `,
+              )
+              .in('code', item.strength_indexes);
+
+          if (!keyIndexesError && keyIndexesData) {
+            strengthIndexesDetails = item.strength_indexes
+              .map((code) => keyIndexesData.find((item) => item.code === code))
+              .filter(Boolean);
+          }
+        }
+
+        const { strength_indexes, rank, ...rest } = item;
+        return {
+          ...rest,
+          total_rank: rank,
+          strength_indexes_details: strengthIndexesDetails,
+        };
+      }),
+    );
+
+    return enrichedData;
+  }
+
+  async getSelectedProvincesRanks(limit: number = 100, year?: number) {
+    const currentYear = new Date().getFullYear();
+    const targetYear = year || currentYear;
+
+    const { data, error } = await this.supabase
+      .from('rank_selected_provinces')
+      .select(
+        `
+        id,
+        rank,
+        region_id,
+        strength_indexes,
+        total_score,
+        year,
+        region:regions (
+          *,
+          province:provinces (
+            *
+          ),
+          klaci:klaci_codes (
+            *
+          )
+        )
+      `,
+      )
+      .eq('year', targetYear)
+      .order('rank', { ascending: true })
+      .limit(limit);
+
+    if (error) {
+      throw new Error(
+        `Failed to fetch selected provinces ranks: ${error.message}`,
+      );
+    }
+
+    const enrichedData = await Promise.all(
+      data.map(async (item) => {
+        let strengthIndexesDetails = [];
+        if (item.strength_indexes && item.strength_indexes.length > 0) {
+          const { data: keyIndexesData, error: keyIndexesError } =
+            await this.supabase
+              .from('key_indexes')
+              .select(
+                `
+              id,
+              code,
+              name,
+              category,
+              description,
+              source,
+              unit,
+              name_eng
+            `,
+              )
+              .in('code', item.strength_indexes);
+
+          if (!keyIndexesError && keyIndexesData) {
+            strengthIndexesDetails = item.strength_indexes
+              .map((code) => keyIndexesData.find((item) => item.code === code))
+              .filter(Boolean);
+          }
+        }
+
+        const { strength_indexes, rank, ...rest } = item;
+        return {
+          ...rest,
+          total_rank: rank,
+          strength_indexes_details: strengthIndexesDetails,
+        };
+      }),
+    );
+
+    return enrichedData;
+  }
+
+  async getFreeEconomyZoneRanks(limit: number = 100, year?: number) {
+    const currentYear = new Date().getFullYear();
+    const targetYear = year || currentYear;
+
+    const { data, error } = await this.supabase
+      .from('rank_free_economy_zone')
+      .select(
+        `
+        id,
+        rank,
+        region_id,
+        strength_indexes,
+        total_score,
+        year,
+        region:regions (
+          *,
+          province:provinces (
+            *
+          ),
+          klaci:klaci_codes (
+            *
+          )
+        )
+      `,
+      )
+      .eq('year', targetYear)
+      .order('rank', { ascending: true })
+      .limit(limit);
+
+    if (error) {
+      throw new Error(
+        `Failed to fetch free economy zone ranks: ${error.message}`,
+      );
+    }
+
+    const enrichedData = await Promise.all(
+      data.map(async (item) => {
+        let strengthIndexesDetails = [];
+        if (item.strength_indexes && item.strength_indexes.length > 0) {
+          const { data: keyIndexesData, error: keyIndexesError } =
+            await this.supabase
+              .from('key_indexes')
+              .select(
+                `
+              id,
+              code,
+              name,
+              category,
+              description,
+              source,
+              unit,
+              name_eng
+            `,
+              )
+              .in('code', item.strength_indexes);
+
+          if (!keyIndexesError && keyIndexesData) {
+            strengthIndexesDetails = item.strength_indexes
+              .map((code) => keyIndexesData.find((item) => item.code === code))
+              .filter(Boolean);
+          }
+        }
+
+        const { strength_indexes, rank, ...rest } = item;
+        return {
+          ...rest,
+          total_rank: rank,
+          strength_indexes_details: strengthIndexesDetails,
+        };
+      }),
+    );
+
+    return enrichedData;
+  }
+
+  async getGrowthBoostZoneRanks(limit: number = 100, year?: number) {
+    const currentYear = new Date().getFullYear();
+    const targetYear = year || currentYear;
+
+    const { data, error } = await this.supabase
+      .from('rank_growth_boost_zone')
+      .select(
+        `
+        id,
+        rank,
+        region_id,
+        strength_indexes,
+        total_score,
+        year,
+        region:regions (
+          *,
+          province:provinces (
+            *
+          ),
+          klaci:klaci_codes (
+            *
+          )
+        )
+      `,
+      )
+      .eq('year', targetYear)
+      .order('rank', { ascending: true })
+      .limit(limit);
+
+    if (error) {
+      throw new Error(
+        `Failed to fetch growth boost zone ranks: ${error.message}`,
+      );
+    }
+
+    const enrichedData = await Promise.all(
+      data.map(async (item) => {
+        let strengthIndexesDetails = [];
+        if (item.strength_indexes && item.strength_indexes.length > 0) {
+          const { data: keyIndexesData, error: keyIndexesError } =
+            await this.supabase
+              .from('key_indexes')
+              .select(
+                `
+              id,
+              code,
+              name,
+              category,
+              description,
+              source,
+              unit,
+              name_eng
+            `,
+              )
+              .in('code', item.strength_indexes);
+
+          if (!keyIndexesError && keyIndexesData) {
+            strengthIndexesDetails = item.strength_indexes
+              .map((code) => keyIndexesData.find((item) => item.code === code))
+              .filter(Boolean);
+          }
+        }
+
+        const { strength_indexes, rank, ...rest } = item;
+        return {
+          ...rest,
+          total_rank: rank,
+          strength_indexes_details: strengthIndexesDetails,
+        };
+      }),
+    );
+
+    return enrichedData;
+  }
+
+  async getNationalIndustrialZoneRanks(limit: number = 100, year?: number) {
+    const currentYear = new Date().getFullYear();
+    const targetYear = year || currentYear;
+
+    const { data, error } = await this.supabase
+      .from('rank_national_industrial_zone')
+      .select(
+        `
+        id,
+        rank,
+        region_id,
+        strength_indexes,
+        total_score,
+        year,
+        region:regions (
+          *,
+          province:provinces (
+            *
+          ),
+          klaci:klaci_codes (
+            *
+          )
+        )
+      `,
+      )
+      .eq('year', targetYear)
+      .order('rank', { ascending: true })
+      .limit(limit);
+
+    if (error) {
+      throw new Error(
+        `Failed to fetch national industrial zone ranks: ${error.message}`,
+      );
+    }
+
+    const enrichedData = await Promise.all(
+      data.map(async (item) => {
+        let strengthIndexesDetails = [];
+        if (item.strength_indexes && item.strength_indexes.length > 0) {
+          const { data: keyIndexesData, error: keyIndexesError } =
+            await this.supabase
+              .from('key_indexes')
+              .select(
+                `
+              id,
+              code,
+              name,
+              category,
+              description,
+              source,
+              unit,
+              name_eng
+            `,
+              )
+              .in('code', item.strength_indexes);
+
+          if (!keyIndexesError && keyIndexesData) {
+            strengthIndexesDetails = item.strength_indexes
+              .map((code) => keyIndexesData.find((item) => item.code === code))
+              .filter(Boolean);
+          }
+        }
+
+        const { strength_indexes, rank, ...rest } = item;
+        return {
+          ...rest,
+          total_rank: rank,
+          strength_indexes_details: strengthIndexesDetails,
+        };
+      }),
+    );
+
+    return enrichedData;
+  }
+
+  async getCostalCityRanks(limit: number = 100, year?: number) {
+    const currentYear = new Date().getFullYear();
+    const targetYear = year || currentYear;
+
+    const { data, error } = await this.supabase
+      .from('rank_costal_city')
+      .select(
+        `
+        id,
+        rank,
+        region_id,
+        strength_indexes,
+        total_score,
+        year,
+        region:regions (
+          *,
+          province:provinces (
+            *
+          ),
+          klaci:klaci_codes (
+            *
+          )
+        )
+      `,
+      )
+      .eq('year', targetYear)
+      .order('rank', { ascending: true })
+      .limit(limit);
+
+    if (error) {
+      throw new Error(`Failed to fetch costal city ranks: ${error.message}`);
+    }
+
+    const enrichedData = await Promise.all(
+      data.map(async (item) => {
+        let strengthIndexesDetails = [];
+        if (item.strength_indexes && item.strength_indexes.length > 0) {
+          const { data: keyIndexesData, error: keyIndexesError } =
+            await this.supabase
+              .from('key_indexes')
+              .select(
+                `
+              id,
+              code,
+              name,
+              category,
+              description,
+              source,
+              unit,
+              name_eng
+            `,
+              )
+              .in('code', item.strength_indexes);
+
+          if (!keyIndexesError && keyIndexesData) {
+            strengthIndexesDetails = item.strength_indexes
+              .map((code) => keyIndexesData.find((item) => item.code === code))
+              .filter(Boolean);
+          }
+        }
+
+        const { strength_indexes, rank, ...rest } = item;
+        return {
+          ...rest,
+          total_rank: rank,
+          strength_indexes_details: strengthIndexesDetails,
+        };
+      }),
+    );
+
+    return enrichedData;
+  }
 }

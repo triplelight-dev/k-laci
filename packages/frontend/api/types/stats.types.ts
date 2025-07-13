@@ -47,8 +47,8 @@ export interface Region {
   klaci: KlaciCode;
 }
 
-// Total Region Rank 타입
-export interface TotalRegionRank {
+// 통일된 Region Rank 타입 (모든 ranking API에서 사용)
+export interface RegionRank {
   id: number;
   total_rank: number;
   region_id: number;
@@ -58,13 +58,22 @@ export interface TotalRegionRank {
   region: Region;
 }
 
-// API 요청 파라미터 타입
-export interface GetTotalRegionRanksParams {
+// 기존 호환성을 위한 별칭
+export type TotalRegionRank = RegionRank;
+
+// API 요청 파라미터 타입 (모든 ranking API에서 공통 사용)
+export interface GetRankingParams {
   limit?: number;
   year?: number;
 }
 
-// API 응답 타입
-export interface GetTotalRegionRanksResponse {
-  data: TotalRegionRank[];
-} 
+// 기존 호환성을 위한 별칭
+export type GetTotalRegionRanksParams = GetRankingParams;
+
+// API 응답 타입 (모든 ranking API에서 공통 사용)
+export interface GetRankingResponse {
+  data: RegionRank[];
+}
+
+// 기존 호환성을 위한 별칭
+export type GetTotalRegionRanksResponse = GetRankingResponse; 
