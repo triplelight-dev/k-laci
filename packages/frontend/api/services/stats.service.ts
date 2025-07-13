@@ -1,6 +1,7 @@
 import { apiClient } from '../client';
 import { API_ENDPOINTS } from '../constants/endpoints';
 import {
+  GetMegaRegionRanksParams,
   GetRankingParams,
   GetRankingResponse,
   // 기존 호환성을 위한 import
@@ -14,9 +15,10 @@ export class StatsService {
    */
   private static async getRanking(
     endpoint: string,
-    params: GetRankingParams = {}
+    params: GetRankingParams | GetMegaRegionRanksParams = {}
   ): Promise<GetRankingResponse> {
     const { limit, year } = params;
+    const type = 'type' in params ? params.type : undefined;
     
     const queryParams = new URLSearchParams();
     if (limit !== undefined) {
@@ -25,19 +27,20 @@ export class StatsService {
     if (year !== undefined) {
       queryParams.append('year', year.toString());
     }
+    if (type !== undefined) {
+      queryParams.append('type', type);
+    }
 
     const url = `${endpoint}${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
     
-    console.log('API Call URL:', url); // 디버깅용 로그
+    console.log('API Call URL:', url);
     
     const response = await apiClient.get(url);
     
-    console.log('API Response:', response.data); // 디버깅용 로그
+    console.log('API Response:', response.data);
     
-    // 백엔드에서 {success: true, data: [...], ...} 형태로 반환하므로
-    // response.data.data를 추출해서 GetRankingResponse 형태로 반환
     return {
-      data: response.data.data || [] // 실제 배열 데이터만 추출
+      data: response.data.data || []
     };
   }
 
@@ -56,7 +59,7 @@ export class StatsService {
   static async getMajorProvincesRanks(
     params: GetRankingParams = {}
   ): Promise<GetRankingResponse> {
-    console.log('getMajorProvincesRanks called with:', params); // 디버깅용 로그
+    console.log('getMajorProvincesRanks called with:', params);
     return this.getRanking(API_ENDPOINTS.STATS.MAJOR_PROVINCES, params);
   }
 
@@ -103,5 +106,14 @@ export class StatsService {
     params: GetRankingParams = {}
   ): Promise<GetRankingResponse> {
     return this.getRanking(API_ENDPOINTS.STATS.COSTAL_CITY, params);
+  }
+
+  /**
+   * 메가 지역 순위 조회
+   */
+  static async getMegaRegionRanks(
+    params: GetMegaRegionRanksParams = {}
+  ): Promise<GetRankingResponse> {
+    return this.getRanking(API_ENDPOINTS.STATS.MEGA_REGION, params);
   }
 } 

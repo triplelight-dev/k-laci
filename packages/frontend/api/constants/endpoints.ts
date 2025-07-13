@@ -16,7 +16,6 @@ export const API_ENDPOINTS = {
     REGION: (id: string) => `/data/regions/${id}`,
     ADJACENT_REGION: (rank: number, direction: 'prev' | 'next') => `/data/regions/adjacent/${rank}/${direction}`,
     PROVINCES_WITH_REGIONS: '/data/provinces-with-regions',
-    CATEGORIES: '/data/categories',
     KEY_INDEX: (id: number) => `/data/key-indexes/${id}`,
   },
   STATS: {
@@ -27,6 +26,7 @@ export const API_ENDPOINTS = {
     GROWTH_BOOST_ZONE: '/stats/rank/growth-boost-zone',
     NATIONAL_INDUSTRIAL_ZONE: '/stats/rank/national-industrial-zone',
     COSTAL_CITY: '/stats/rank/costal-city',
+    MEGA_REGION: '/stats/rank/mega-region',
   },
 } as const;
 

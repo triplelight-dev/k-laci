@@ -76,4 +76,23 @@ export interface GetRankingResponse {
 }
 
 // 기존 호환성을 위한 별칭
-export type GetTotalRegionRanksResponse = GetRankingResponse; 
+export type GetTotalRegionRanksResponse = GetRankingResponse;
+
+// 메가 지역 타입 정의 (백엔드와 동일)
+export const MEGA_REGION_TYPES = [
+  '동남권',
+  '전북특별자치도',
+  '중부권',
+  '대경권',
+  '제주특별자치도',
+  '서남권',
+  '강원특별자치도',
+  '수도권',
+] as const;
+
+export type MegaRegionType = typeof MEGA_REGION_TYPES[number];
+
+// MegaRegion용 확장된 파라미터 타입
+export interface GetMegaRegionRanksParams extends GetRankingParams {
+  type?: MegaRegionType;
+} 
