@@ -26,6 +26,7 @@ const IndexModal: React.FC<IndexModalProps> = ({
   const { selectedRegion } = useDistrict();
 
   const rank = useMemo(() => {
+    if (data.indexRank) return data.indexRank;
     if (!selectedRegion?.key_index_ranks) {
       return 0;
     }
@@ -33,7 +34,6 @@ const IndexModal: React.FC<IndexModalProps> = ({
     return selectedRegion.key_index_ranks.top.find(
       (rank) => rank.key_index_id === data.indexId,
     )?.rank;
-
   }, [selectedRegion, data.indexId]);
 
   const {
@@ -136,18 +136,19 @@ const IndexModal: React.FC<IndexModalProps> = ({
         onClick={(e) => e.stopPropagation()}
       >
         {/* x button */}
-        <div style={{
-          position: 'absolute',
-          top: 18,
-          right: 18,
-          zIndex: 9999,
-          cursor: 'pointer',
-          padding: '10px',
-        }} onClick={onClose}>
+        <div
+          style={{
+            position: 'absolute',
+            top: 18,
+            right: 18,
+            zIndex: 9999,
+            cursor: 'pointer',
+            padding: '10px',
+          }}
+          onClick={onClose}
+        >
           <CloseIcon onClose={onClose} />
         </div>
-
-
 
         <div
           style={{
@@ -179,7 +180,11 @@ const IndexModal: React.FC<IndexModalProps> = ({
               {data.fullRegionName}
             </div>
 
-            <Flex alignItems='start' justifyContent='center' flexDirection='column'>
+            <Flex
+              alignItems="start"
+              justifyContent="center"
+              flexDirection="column"
+            >
               <div
                 style={{
                   fontSize: '18px',
@@ -213,7 +218,6 @@ const IndexModal: React.FC<IndexModalProps> = ({
               >
                 상위 {topPercentage}%
               </div>
-
             </Flex>
           </div>
 
@@ -249,8 +253,6 @@ const IndexModal: React.FC<IndexModalProps> = ({
                 {scoreGap.toFixed(1)}점
               </div>
             )}
-
-
           </div>
 
           <div
@@ -263,7 +265,11 @@ const IndexModal: React.FC<IndexModalProps> = ({
               flexDirection: 'column',
             }}
           >
-            <span style={{ fontSize: '14px', fontWeight: '500', color: '#D9D9D9' }}>로데이터 출처기관</span>
+            <span
+              style={{ fontSize: '14px', fontWeight: '500', color: '#D9D9D9' }}
+            >
+              로데이터 출처기관
+            </span>
             {source}
           </div>
 
@@ -306,7 +312,6 @@ const IndexModal: React.FC<IndexModalProps> = ({
             paddingTop: '99px',
             display: 'flex',
             justifyContent: 'center',
-
           }}
         >
           <div
@@ -322,7 +327,7 @@ const IndexModal: React.FC<IndexModalProps> = ({
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 
@@ -330,9 +335,29 @@ export default IndexModal;
 
 function CloseIcon({ onClose }: { onClose: () => void }) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="39" height="39" viewBox="0 0 39 39" fill="none" onClick={onClose} style={{ cursor: 'pointer' }}>
-      <line x1="9.90238" y1="9.18917" x2="28.9943" y2="28.2811" stroke="#9A9EA3" />
-      <line x1="28.9961" y1="9.90263" x2="9.90425" y2="28.9945" stroke="#9A9EA3" />
-    </svg >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="39"
+      height="39"
+      viewBox="0 0 39 39"
+      fill="none"
+      onClick={onClose}
+      style={{ cursor: 'pointer' }}
+    >
+      <line
+        x1="9.90238"
+        y1="9.18917"
+        x2="28.9943"
+        y2="28.2811"
+        stroke="#9A9EA3"
+      />
+      <line
+        x1="28.9961"
+        y1="9.90263"
+        x2="9.90425"
+        y2="28.9945"
+        stroke="#9A9EA3"
+      />
+    </svg>
   );
 }

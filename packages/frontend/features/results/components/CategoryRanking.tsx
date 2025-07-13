@@ -61,6 +61,8 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
       // 에러 시 기본값 유지
     }
 
+    console.log('keyIndexDetail', keyIndexDetail);
+
     if (keyIndexDetail) {
       // API 응답에서 받은 데이터로 업데이트
       if (keyIndexDetail.description) {
@@ -74,6 +76,9 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
       }
       if (keyIndexDetail.year) {
         indexData.year = keyIndexDetail.year;
+      }
+      if (currentRank) {
+        indexData.indexRank = currentRank;
       }
     }
 
