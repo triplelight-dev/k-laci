@@ -22,14 +22,30 @@ const ORDERED_KLACI_CODE_TYPES: KlaciCodeType[] = [
   'SCMA',
 ];
 
+// KLACI 코드와 타입명 매핑
+const KLACI_TYPE_NAMES: Record<KlaciCodeType, string> = {
+  'GTVR': '만능성장형',
+  'GTMR': '안정혁신형',
+  'GTMA': '경제집중형',
+  'GCVR': '균형생활형',
+  'GCVA': '활력생활형',
+  'GCMR': '안전복지형',
+  'GCMA': '점진도약형',
+  'STVR': '전통안정형',
+  'SCVR': '안정생활형',
+  'SCVA': '생활도약형',
+  'SCMR': '기초안정형',
+  'SCMA': '개발도약형',
+};
+
 export default function KlaciTypeRankPageClient() {
   const currentYear = new Date().getFullYear();
   // 기본값을 'GTVR'으로 설정
   const [selectedType, setSelectedType] = useState<KlaciCodeType>('GTVR');
 
-  // 전체 데이터를 한 번에 받아옴 (type 파라미터 제거)
+  // 전체 데이터를 한 번에 받아옴 (type 파라미터 제거, limit 증가)
   const { data, isLoading, error } = useKlaciCodeRanks({
-    limit: 100,
+    limit: 1000, // 100에서 1000으로 증가하여 모든 타입의 데이터를 충분히 가져옴
     year: currentYear,
     // type 파라미터 제거하여 전체 데이터 받기
   });
@@ -111,7 +127,7 @@ export default function KlaciTypeRankPageClient() {
                   whiteSpace: 'nowrap',
                 }}
               >
-                {type}
+                {KLACI_TYPE_NAMES[type]} ({type})
               </button>
             ))}
           </div>
@@ -141,7 +157,7 @@ export default function KlaciTypeRankPageClient() {
                   whiteSpace: 'nowrap',
                 }}
               >
-                {type}
+                {KLACI_TYPE_NAMES[type]} ({type})
               </button>
             ))}
           </div>
@@ -161,7 +177,7 @@ export default function KlaciTypeRankPageClient() {
             color: '#1a1a1a',
             margin: 0,
           }}>
-            {selectedType}
+            {KLACI_TYPE_NAMES[selectedType]} ({selectedType})
           </h2>
         </div>
         
@@ -207,7 +223,7 @@ export default function KlaciTypeRankPageClient() {
               e.currentTarget.style.border = 'none';
             }}
           >
-            ← {getPreviousType()}
+            ← {KLACI_TYPE_NAMES[getPreviousType()]} ({getPreviousType()})
           </button>
           
           {/* 우측 버튼 (다음) */}
@@ -238,7 +254,7 @@ export default function KlaciTypeRankPageClient() {
               e.currentTarget.style.border = 'none';
             }}
           >
-            {getNextType()} →
+            {KLACI_TYPE_NAMES[getNextType()]} ({getNextType()}) →
           </button>
         </div>
       </div>
