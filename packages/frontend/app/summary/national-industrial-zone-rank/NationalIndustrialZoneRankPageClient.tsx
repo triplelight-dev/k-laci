@@ -13,7 +13,7 @@ export default function NationalIndustrialZoneRankPageClient() {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
 
   const { data, isLoading, error } = useNationalIndustrialZoneRanks({
-    limit: 100,
+    limit: 1000,
     year: currentYear,
   });
 
