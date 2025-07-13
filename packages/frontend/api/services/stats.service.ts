@@ -158,6 +158,13 @@ export class StatsService {
   ): Promise<GetRankingResponse> {
     return this.getRanking(API_ENDPOINTS.STATS.CATEGORY_RANK, params);
   }
+
+  /**
+   * 지자체 타입 순위 조회
+   */
+  static async getDistrictTypeRanks(): Promise<GetRankingResponse> {
+    return this.getRanking(API_ENDPOINTS.STATS.DISTRICT_TYPE_RANK, {});
+  }
 }
 
 // 기존 호환성을 위한 인스턴스 export

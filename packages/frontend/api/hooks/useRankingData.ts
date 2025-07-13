@@ -100,3 +100,12 @@ export const useCategoryRanks = (params: GetCategoryRanksParams = {}) => {
     refetchOnWindowFocus: false,
   });
 };
+
+export const useDistrictTypeRanks = () => {
+  return useQuery({
+    queryKey: ['districtTypeRanks'],
+    queryFn: () => StatsService.getDistrictTypeRanks(),
+    staleTime: 5 * 60 * 1000, // 5분
+    refetchOnWindowFocus: false,
+  });
+};
