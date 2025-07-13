@@ -249,11 +249,10 @@ export default function DistrictRankPageClient() {
         <div
           style={{
             display: 'flex',
-            justifyContent: 'center',
+            justifyContent: 'space-between',
             alignItems: 'center',
             padding: '0 40px',
-            marginBottom: '40px',
-            gap: '16px',
+            marginBottom: '80px',
           }}
         >
           <button
@@ -263,19 +262,28 @@ export default function DistrictRankPageClient() {
               backgroundColor: '#F1F1F1',
               color: '#000000',
               border: 'none',
-              borderRadius: '6px',
+              borderRadius: '8px',
               fontSize: '16px',
               fontWeight: 'normal',
               cursor: 'pointer',
               transition: 'all 0.2s',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              minWidth: '200px',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#ffffff';
+              e.currentTarget.style.border = '1px solid #000000';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#F1F1F1';
+              e.currentTarget.style.border = 'none';
             }}
           >
-            이전
+            ← {DISTRICT_TYPES.find(d => d.id === getPreviousDistrictId())?.name}
           </button>
-          
-          <span style={{ fontSize: '16px', color: '#6b7280' }}>
-            {DISTRICT_TYPES.findIndex(d => d.id === selectedDistrictId) + 1} / {DISTRICT_TYPES.length}
-          </span>
           
           <button
             onClick={() => handleDistrictChange(getNextDistrictId())}
@@ -284,14 +292,27 @@ export default function DistrictRankPageClient() {
               backgroundColor: '#F1F1F1',
               color: '#000000',
               border: 'none',
-              borderRadius: '6px',
+              borderRadius: '8px',
               fontSize: '16px',
               fontWeight: 'normal',
               cursor: 'pointer',
               transition: 'all 0.2s',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              minWidth: '200px',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#ffffff';
+              e.currentTarget.style.border = '1px solid #000000';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#F1F1F1';
+              e.currentTarget.style.border = 'none';
             }}
           >
-            다음
+            {DISTRICT_TYPES.find(d => d.id === getNextDistrictId())?.name} →
           </button>
         </div>
       </div>
