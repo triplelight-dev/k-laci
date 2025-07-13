@@ -87,4 +87,17 @@ export const useProvinceRanks = (params: GetProvinceRanksParams = {}) => {
     staleTime: 5 * 60 * 1000, // 5분
     gcTime: 10 * 60 * 1000, // 10분
   });
+};
+
+export interface GetCategoryRanksParams extends GetRankingParams {
+  type?: string;
+}
+
+export const useCategoryRanks = (params: GetCategoryRanksParams) => {
+  return useQuery({
+    queryKey: ['categoryRanks', params],
+    queryFn: () => StatsService.getCategoryRanks(params),
+    staleTime: 5 * 60 * 1000, // 5분
+    refetchOnWindowFocus: false,
+  });
 }; 

@@ -29,6 +29,7 @@ export const API_ENDPOINTS = {
     MEGA_REGION: '/stats/rank/mega-region',
     KLACI_CODE: '/stats/rank/klaci-code',
     PROVINCE_RANK: '/stats/rank/province',
+    CATEGORY_RANK: '/stats/rank/category',
   },
 } as const;
 

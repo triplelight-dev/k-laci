@@ -136,6 +136,15 @@ export class StatsService {
   ): Promise<GetRankingResponse> {
     return this.getRanking(API_ENDPOINTS.STATS.PROVINCE_RANK, params);
   }
+
+  /**
+   * 카테고리 순위 조회
+   */
+  static async getCategoryRanks(
+    params: GetCategoryRanksParams,
+  ): Promise<GetRankingResponse> {
+    return this.getRanking(API_ENDPOINTS.STATS.CATEGORY_RANK, params);
+  }
 }
 
 // 기존 호환성을 위한 인스턴스 export

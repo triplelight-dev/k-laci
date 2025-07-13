@@ -1,6 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Public } from '../auth/decorators/public.decorator';
+import { GetCategoryRanksDto } from './dto/get-category-ranks.dto';
 import { GetKlaciCodeRanksDto } from './dto/get-klaci-code-ranks.dto';
 import { GetMegaRegionRanksDto } from './dto/get-mega-region-ranks.dto';
 import { GetProvinceRanksDto } from './dto/get-province-ranks.dto';
@@ -265,6 +266,34 @@ export class StatsController {
       query.limit,
       query.year,
       query.provinceId,
+    );
+  }
+
+  @Public()
+  @Get('category')
+  @ApiOperation({
+    summary: 'Get top N category ranks for a specific year',
+    description:
+      'Retrieve the top N category regions ranked by total score for a specific year. Optionally filter by category ID.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully retrieved top N category ranks',
+    type: [TotalRegionRankDto],
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request - Invalid parameters',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error',
+  })
+  async getCategoryRanks(@Query() query: GetCategoryRanksDto) {
+    return this.statsService.getCategoryRanks(
+      query.limit,
+      query.year,
+      query.categoryId,
     );
   }
 }
