@@ -12,7 +12,7 @@ interface IndexModalProps {
   onClose: () => void;
   data: IndexData;
   regionId: number;
-  apiData?: RegionKeyIndexScoreResponse; // 캐싱된 데이터
+  apiData?: RegionKeyIndexScoreResponse | undefined; // undefined 명시적으로 허용
 }
 
 const IndexModal: React.FC<IndexModalProps> = ({

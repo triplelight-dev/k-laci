@@ -56,9 +56,9 @@ export interface IndexData {
   indexRank: number;
   indexScore: number;
   indexDescription: string;
-  yearlyAvgScore?: number;
-  year?: number;
-  source?: string;
+  yearlyAvgScore?: number | undefined; // undefined 명시적으로 허용
+  year?: number | undefined; // undefined 명시적으로 허용
+  source?: string | undefined; // undefined 명시적으로 허용
   unit?: string;
   calculation_method?: string;
 }

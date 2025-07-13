@@ -62,6 +62,14 @@ export interface KeyIndexWithDetails {
   year?: number; // 추가
 }
 
+export interface RegionKeyIndexScore {
+  id: number;
+  region_id: number;
+  key_index_id: number;
+  year: number;
+  score: number;
+}
+
 export interface RegionKeyIndexScoreResponse {
   region_key_index_score: RegionKeyIndexScore;
   avg_score: number;

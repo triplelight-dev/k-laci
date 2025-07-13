@@ -439,7 +439,10 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
             indexDescription: keyIndexDataQuery.data?.description || selectedIndexData.indexDescription,
             source: keyIndexDataQuery.data?.source || selectedIndexData.source,
             year: keyIndexDataQuery.data?.year || selectedIndexData.year,
-            yearlyAvgScore: keyIndexDataQuery.data?.yearly_avg_score || selectedIndexData.yearlyAvgScore,
+            // undefined인 경우 프로퍼티 자체를 제외
+            ...(keyIndexDataQuery.data?.yearly_avg_score !== undefined && {
+              yearlyAvgScore: keyIndexDataQuery.data.yearly_avg_score,
+            }),
           }}
           regionId={selectedRegion?.id || 0}
           apiData={regionKeyIndexQueries.find(
