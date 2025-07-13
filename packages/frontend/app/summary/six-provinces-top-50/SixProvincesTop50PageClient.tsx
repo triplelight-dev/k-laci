@@ -70,7 +70,7 @@ export default function SixProvincesTop50PageClient() {
       <div style={{ width: '1400px', margin: '0 auto' }}>
         <SectionHeader
           title="6대 도 TOP 50"
-          subtitle="강원 · 경기 · 경남 · 경북 · 전남 · 전북 · 충남 · 충북 내 50개 지자체 중 상위 50곳"
+          subtitle="경기 · 경남 · 경북 · 전남 · 충남 · 충북 내 119개 지자체 중 상위 50곳"
           searchTerm={searchTerm}
           onSearchChange={handleSearchChange}
           searchPlaceholder="지역 검색"

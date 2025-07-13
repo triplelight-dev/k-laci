@@ -709,9 +709,7 @@ export class StatsService {
         }
 
         if (!regionData) {
-          console.error(
-            `No region found for KLACI code type: ${item.type}, region_id: ${item.region_id}`,
-          );
+          // 에러 로깅 제거 - 프로덕션에서는 silent fail
           return null;
         }
 
@@ -757,5 +755,97 @@ export class StatsService {
 
     // null 값 제거 (region을 찾지 못한 경우)
     return enrichedData.filter(Boolean);
+  }
+
+  async getProvinceRanks(
+    limit: number = 1000,
+    year?: number,
+    provinceId?: number,
+  ) {
+    const currentYear = new Date().getFullYear();
+    const targetYear = year || currentYear;
+
+    // 직접 조인 방식으로 변경
+    const { data, error } = await this.supabaseService
+      .getClient()
+      .from('rank_province')
+      .select(
+        `
+        id,
+        rank,
+        region_id,
+        strength_indexes,
+        total_score,
+        year,
+        type,
+        region:regions (
+          *,
+          province:provinces (
+            *
+          ),
+          klaci:klaci_codes (
+            *
+          )
+        )
+      `,
+      )
+      .eq('year', targetYear)
+      .order('rank', { ascending: true })
+      .limit(limit);
+
+    if (error) {
+      throw new Error(`Failed to fetch province ranks: ${error.message}`);
+    }
+
+    if (!data || data.length === 0) {
+      return [];
+    }
+
+    // strength_indexes 처리
+    const enrichedData = await Promise.all(
+      data.map(async (item) => {
+        let strengthIndexesDetails = [];
+
+        if (item.strength_indexes && Array.isArray(item.strength_indexes)) {
+          const { data: keyIndexes, error: keyIndexError } =
+            await this.supabaseService
+              .getClient()
+              .from('key_indexes')
+              .select(
+                `
+                id,
+                code,
+                name,
+                category,
+                description,
+                source,
+                unit,
+                name_eng
+              `,
+              )
+              .in('code', item.strength_indexes);
+
+          if (!keyIndexError && keyIndexes) {
+            strengthIndexesDetails = keyIndexes;
+          }
+        }
+
+        const { strength_indexes, rank, ...rest } = item;
+        return {
+          ...rest,
+          total_rank: rank,
+          strength_indexes_details: strengthIndexesDetails,
+        };
+      }),
+    );
+
+    // provinceId 필터링
+    if (provinceId) {
+      return enrichedData.filter(
+        (item) => (item.region as any)?.province_id === provinceId,
+      );
+    }
+
+    return enrichedData;
   }
 }

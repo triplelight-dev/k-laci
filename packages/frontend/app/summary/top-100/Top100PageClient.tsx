@@ -63,14 +63,13 @@ export default function Top100PageClient() {
     [router],
   );
 
-  console.log('### Top100 DEBUG ###', { data, isLoading, error });
-
   return (
     <DataStateWrapper isLoading={isLoading} error={error} isBlackTheme={false}>
       <div style={{ width: '1400px', margin: '0 auto' }}>
         {/* 테이블 타이틀에 검색창 포함 + 상단 여백 */}
         <SectionHeader
           title="종합순위 TOP 100"
+          subtitle="전국 229개 지자체 중 종합점수 기준 상위 100곳"
           searchTerm={searchTerm}
           onSearchChange={handleSearchChange}
           searchPlaceholder="지역 검색"

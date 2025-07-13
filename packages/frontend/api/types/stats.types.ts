@@ -122,4 +122,8 @@ export interface GetMegaRegionRanksParams extends GetRankingParams {
 
 export interface GetKlaciCodeRanksParams extends GetRankingParams {
   type?: KlaciCodeType;
+}
+
+export interface GetProvinceRanksParams extends GetRankingParams {
+  // province rank API에 특별한 파라미터가 있다면 여기에 추가
 } 
