@@ -22,14 +22,14 @@ const ORDERED_MEGA_REGION_TYPES: MegaRegionType[] = [
 
 // 타입별 타이틀 매핑
 const TYPE_TITLES: Record<MegaRegionType, string> = {
-  '대경권': '대경권: 경상북도 · 대구광역시',
-  '동남권': '동남권: 경상남도 · 부산광역시 · 울산광역시',
-  '수도권': '수도권: 경기도 · 서울특별시 · 인천광역시',
-  '서남권': '서남권: 광주광역시 · 전라남도',
-  '중부권': '중부권: 대전광역시 · 세종특별자치시 · 충청남도 · 충청북도',
-  '강원특별자치도': '강원특별자치도',
-  '전북특별자치도': '전북특별자치도',
-  '제주특별자치도': '제주특별자치도',
+  대경권: '대경권: 경상북도 · 대구광역시',
+  동남권: '동남권: 경상남도 · 부산광역시 · 울산광역시',
+  수도권: '수도권: 경기도 · 서울특별시 · 인천광역시',
+  서남권: '서남권: 광주광역시 · 전라남도',
+  중부권: '중부권: 대전광역시 · 세종특별자치시 · 충청남도 · 충청북도',
+  강원특별자치도: '강원특별자치도',
+  전북특별자치도: '전북특별자치도',
+  제주특별자치도: '제주특별자치도',
 };
 
 export default function MegaRegionPageClient() {
@@ -73,32 +73,39 @@ export default function MegaRegionPageClient() {
   // 클라이언트 사이드에서 selectedType에 따라 필터링 + 검색어 필터링
   const filteredData = useMemo(() => {
     if (!data?.data) return [];
-    
+
     // 선택된 타입에 따라 필터링
-    let typeFiltered = data.data.filter(item => item.type === selectedType);
-    
+    let typeFiltered = data.data.filter((item) => item.type === selectedType);
+
     // 검색어가 있으면 추가 필터링
     if (debouncedSearchTerm.trim()) {
       const searchLower = debouncedSearchTerm.toLowerCase();
       typeFiltered = typeFiltered.filter((item) => {
-        const fullName = `${item.region.province.name} ${item.region.name}`.toLowerCase();
+        const fullName =
+          `${item.region.province.name} ${item.region.name}`.toLowerCase();
         return fullName.includes(searchLower);
       });
     }
-    
+
     return typeFiltered;
   }, [data?.data, selectedType, debouncedSearchTerm]);
 
   // 이전/다음 타입 계산 - 안전한 배열 접근
   const getPreviousType = (): MegaRegionType => {
     const currentIndex = ORDERED_MEGA_REGION_TYPES.indexOf(selectedType);
-    const previousIndex = currentIndex === 0 ? ORDERED_MEGA_REGION_TYPES.length - 1 : currentIndex - 1;
+    const previousIndex =
+      currentIndex === 0
+        ? ORDERED_MEGA_REGION_TYPES.length - 1
+        : currentIndex - 1;
     return ORDERED_MEGA_REGION_TYPES[previousIndex]!;
   };
 
   const getNextType = (): MegaRegionType => {
     const currentIndex = ORDERED_MEGA_REGION_TYPES.indexOf(selectedType);
-    const nextIndex = currentIndex === ORDERED_MEGA_REGION_TYPES.length - 1 ? 0 : currentIndex + 1;
+    const nextIndex =
+      currentIndex === ORDERED_MEGA_REGION_TYPES.length - 1
+        ? 0
+        : currentIndex + 1;
     return ORDERED_MEGA_REGION_TYPES[nextIndex]!;
   };
 
@@ -122,35 +129,39 @@ export default function MegaRegionPageClient() {
     return TYPE_TITLES[selectedType];
   };
 
-  console.log('### MegaRegion DEBUG ###', { 
-    allData: data?.data, 
-    filteredData, 
-    isLoading, 
-    error, 
+  console.log('### MegaRegion DEBUG ###', {
+    allData: data?.data,
+    filteredData,
+    isLoading,
+    error,
     selectedType,
     searchTerm,
-    debouncedSearchTerm
+    debouncedSearchTerm,
   });
 
   return (
     <DataStateWrapper isLoading={isLoading} error={error} isBlackTheme={false}>
       <div style={{ width: '1400px', margin: '0 auto' }}>
         {/* 상단 타이틀과 검색창 */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-start',
-          padding: '40px 40px 0 40px',
-          marginBottom: '32px',
-        }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
+            padding: '40px 40px 0 40px',
+            marginBottom: '32px',
+          }}
+        >
           {/* 좌측: 타이틀 */}
-          <h2 style={{
-            fontSize: '28px',
-            fontWeight: 'bold',
-            color: '#1a1a1a',
-            margin: 0,
-          }}>
-            메가리전 종합순위
+          <h2
+            style={{
+              fontSize: '28px',
+              fontWeight: 'bold',
+              color: '#1a1a1a',
+              margin: 0,
+            }}
+          >
+            5극 3특 종합순위
           </h2>
 
           {/* 우측: 검색창 */}
@@ -163,20 +174,23 @@ export default function MegaRegionPageClient() {
 
         {/* 타입 선택 버튼들 */}
         <div style={{ padding: '0 40px' }}>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: '16px',
-            marginBottom: '16px',
-            width: '100%',
-          }}>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(4, 1fr)',
+              gap: '16px',
+              marginBottom: '16px',
+              width: '100%',
+            }}
+          >
             {ORDERED_MEGA_REGION_TYPES.slice(0, 4).map((type) => (
               <button
                 key={type}
                 onClick={() => handleTypeChange(type)}
                 style={{
                   padding: '14px 20px',
-                  backgroundColor: selectedType === type ? '#ffffff' : '#F1F1F1',
+                  backgroundColor:
+                    selectedType === type ? '#ffffff' : '#F1F1F1',
                   color: '#000000',
                   border: selectedType === type ? '1px solid #000000' : 'none',
                   borderRadius: '6px',
@@ -191,21 +205,24 @@ export default function MegaRegionPageClient() {
               </button>
             ))}
           </div>
-          
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: '16px',
-            marginBottom: '40px',
-            width: '100%',
-          }}>
+
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(4, 1fr)',
+              gap: '16px',
+              marginBottom: '40px',
+              width: '100%',
+            }}
+          >
             {ORDERED_MEGA_REGION_TYPES.slice(4, 8).map((type) => (
               <button
                 key={type}
                 onClick={() => handleTypeChange(type)}
                 style={{
                   padding: '14px 20px',
-                  backgroundColor: selectedType === type ? '#ffffff' : '#F1F1F1',
+                  backgroundColor:
+                    selectedType === type ? '#ffffff' : '#F1F1F1',
                   color: '#000000',
                   border: selectedType === type ? '1px solid #000000' : 'none',
                   borderRadius: '6px',
@@ -221,46 +238,55 @@ export default function MegaRegionPageClient() {
             ))}
           </div>
         </div>
-        
-        {/* 테이블 상단 타이틀 (검색창 없음) */}
+
+        {/* 테이블 상단 타이틀 (검색창 없음, 상단 여백 없음) */}
         <SectionHeader
           title={getCurrentTitle()}
           searchTerm=""
           onSearchChange={() => {}}
           showSearch={false}
+          hasTopMargin={false}
         />
-        
+
         {/* 랭킹 테이블 */}
         <div style={{ marginBottom: '40px' }}>
           {filteredData.length > 0 ? (
-            <RankingTable 
-              data={filteredData} 
+            <RankingTable
+              data={filteredData}
               onRegionClick={handleRegionClick}
             />
           ) : (
-            <div style={{
-              textAlign: 'center',
-              padding: '60px 0',
-              color: '#6b7280'
-            }}>
+            <div
+              style={{
+                textAlign: 'center',
+                padding: '60px 0',
+                color: '#6b7280',
+              }}
+            >
               <p style={{ fontSize: '18px', marginBottom: '8px' }}>
-                {debouncedSearchTerm.trim() ? '검색 결과가 없습니다.' : `${selectedType}에 해당하는 데이터가 없습니다.`}
+                {debouncedSearchTerm.trim()
+                  ? '검색 결과가 없습니다.'
+                  : `${selectedType}에 해당하는 데이터가 없습니다.`}
               </p>
               <p style={{ fontSize: '14px' }}>
-                {debouncedSearchTerm.trim() ? '다른 검색어를 시도해보세요.' : '다른 지역을 선택해보세요.'}
+                {debouncedSearchTerm.trim()
+                  ? '다른 검색어를 시도해보세요.'
+                  : '다른 지역을 선택해보세요.'}
               </p>
             </div>
           )}
         </div>
-        
+
         {/* 하단 네비게이션 버튼 */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: '0 40px',
-          marginBottom: '80px',
-        }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '0 40px',
+            marginBottom: '80px',
+          }}
+        >
           <button
             onClick={() => handleTypeChange(getPreviousType())}
             style={{
@@ -290,7 +316,7 @@ export default function MegaRegionPageClient() {
           >
             ← {getPreviousType()}
           </button>
-          
+
           <button
             onClick={() => handleTypeChange(getNextType())}
             style={{
@@ -324,4 +350,4 @@ export default function MegaRegionPageClient() {
       </div>
     </DataStateWrapper>
   );
-} 
+}

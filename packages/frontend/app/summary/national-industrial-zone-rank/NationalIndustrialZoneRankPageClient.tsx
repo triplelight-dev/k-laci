@@ -70,7 +70,7 @@ export default function NationalIndustrialZoneRankPageClient() {
       <div style={{ width: '1400px', margin: '0 auto' }}>
         <SectionHeader
           title="국가산업단지 종합순위"
-          subtitle="국가산업단지로 지정된 지역의 종합순위"
+          subtitle="전국 국가산업단지 소재 지자체 51곳"
           searchTerm={searchTerm}
           onSearchChange={handleSearchChange}
           searchPlaceholder="지역 검색"

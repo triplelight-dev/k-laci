@@ -68,13 +68,14 @@ export default function Top100PageClient() {
   return (
     <DataStateWrapper isLoading={isLoading} error={error} isBlackTheme={false}>
       <div style={{ width: '1400px', margin: '0 auto' }}>
-        {/* 테이블 타이틀에 검색창 포함 */}
+        {/* 테이블 타이틀에 검색창 포함 + 상단 여백 */}
         <SectionHeader
           title="종합순위 TOP 100"
           searchTerm={searchTerm}
           onSearchChange={handleSearchChange}
           searchPlaceholder="지역 검색"
           showSearch={true}
+          hasTopMargin={true}
         />
         
         <div style={{ marginBottom: '40px' }}>

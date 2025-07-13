@@ -70,7 +70,7 @@ export default function FezTotalRankPageClient() {
       <div style={{ width: '1400px', margin: '0 auto' }}>
         <SectionHeader
           title="경제자유구역 종합순위"
-          subtitle="경제자유구역으로 지정된 지역의 종합순위"
+          subtitle="전국 경제자유구역 프로젝트 소재 지자체 26곳"
           searchTerm={searchTerm}
           onSearchChange={handleSearchChange}
           searchPlaceholder="지역 검색"

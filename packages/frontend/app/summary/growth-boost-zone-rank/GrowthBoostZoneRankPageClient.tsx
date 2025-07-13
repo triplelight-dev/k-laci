@@ -70,7 +70,7 @@ export default function GrowthBoostZoneRankPageClient() {
       <div style={{ width: '1400px', margin: '0 auto' }}>
         <SectionHeader
           title="성장촉진지역 종합순위"
-          subtitle="성장촉진지역으로 지정된 지역의 종합순위"
+          subtitle="전국 성장촉진지역 지정 지자체 70곳"
           searchTerm={searchTerm}
           onSearchChange={handleSearchChange}
           searchPlaceholder="지역 검색"

@@ -276,13 +276,14 @@ export default function KlaciTypeRankPageClient() {
           </div>
         </div>
         
-        {/* 테이블 상단 타이틀 (검색창 없음) */}
+        {/* 테이블 상단 타이틀 (검색창 없음, 상단 여백 없음) */}
         <SectionHeader
           title={`${KLACI_TYPE_NAMES[selectedType]} (${selectedType})`}
           subtitle={KLACI_NICKNAMES[selectedType]}
           searchTerm=""
           onSearchChange={() => {}}
           showSearch={false}
+          hasTopMargin={false}
         />
         
         {/* 랭킹 테이블 */}

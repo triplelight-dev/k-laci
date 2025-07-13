@@ -70,10 +70,11 @@ export default function CoastalCityRankPageClient() {
       <div style={{ width: '1400px', margin: '0 auto' }}>
         <SectionHeader
           title="해안도시 종합순위"
-          subtitle="해안에 인접한 시·군·구 지역의 종합순위"
+          subtitle="전국 해안도시 해당 지자체 74곳"
           searchTerm={searchTerm}
           onSearchChange={handleSearchChange}
           searchPlaceholder="지역 검색"
+          hasTopMargin={true}
         />
         
         <div style={{ marginBottom: '40px' }}>
