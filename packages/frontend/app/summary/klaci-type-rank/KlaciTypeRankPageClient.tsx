@@ -3,7 +3,7 @@
 import { useKlaciCodeRanks } from '@/api/hooks/useRankingData';
 import { KlaciCodeType } from '@/api/types/stats.types';
 import SearchInput from '@/components/atoms/SearchInput';
-import { DataStateWrapper } from '@/components/common';
+import { DataStateWrapper, SectionHeader } from '@/components/common';
 import KlaciTypeRankingSection from '@/features/summary/sections/KlaciTypeRankingSection';
 import { useCallback, useMemo, useState } from 'react';
 
@@ -157,7 +157,7 @@ export default function KlaciTypeRankPageClient() {
   return (
     <DataStateWrapper isLoading={isLoading} error={error} isBlackTheme={false}>
       <div style={{ width: '1400px', margin: '0 auto' }}>
-        {/* 타이틀과 검색창 */}
+        {/* 상단 타이틀과 검색창 */}
         <div style={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -276,37 +276,14 @@ export default function KlaciTypeRankPageClient() {
           </div>
         </div>
         
-        {/* 테이블 상단 타이틀 */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-start',
-          padding: '0 40px',
-          marginBottom: '30px',
-        }}>
-          {/* 좌측: 제목과 안내 문구 */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '16px',
-          }}>
-            <h2 style={{
-              fontSize: '28px',
-              fontWeight: 'bold',
-              color: '#1a1a1a',
-              margin: 0,
-            }}>
-              {KLACI_TYPE_NAMES[selectedType]} ({selectedType})
-            </h2>
-            <span style={{
-              fontSize: '15px',
-              color: '#000',
-              fontWeight: 'normal',
-            }}>
-              {KLACI_NICKNAMES[selectedType]}
-            </span>
-          </div>
-        </div>
+        {/* 테이블 상단 타이틀 (검색창 없음) */}
+        <SectionHeader
+          title={`${KLACI_TYPE_NAMES[selectedType]} (${selectedType})`}
+          subtitle={KLACI_NICKNAMES[selectedType]}
+          searchTerm=""
+          onSearchChange={() => {}}
+          showSearch={false}
+        />
         
         {/* 랭킹 테이블 */}
         <KlaciTypeRankingSection 
