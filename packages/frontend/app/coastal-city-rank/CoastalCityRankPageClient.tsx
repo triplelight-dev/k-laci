@@ -1,13 +1,13 @@
 'use client';
 
-import { useTotalRegionRanks } from '@/api/hooks/useTotalRegionRanks';
+import { useCostalCityRanks } from '@/api/hooks/useRankingData';
 import SummaryLayout from '@/components/layout/SummaryLayout';
 import CoastalCityRankSection from '@/features/summary/sections/CoastalCityRankSection';
 
 export default function CoastalCityRankPageClient() {
   const currentYear = new Date().getFullYear();
 
-  const { data, isLoading, error } = useTotalRegionRanks({
+  const { data, isLoading, error } = useCostalCityRanks({
     limit: 100,
     year: currentYear,
   });

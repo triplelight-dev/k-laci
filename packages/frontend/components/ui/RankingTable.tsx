@@ -137,7 +137,7 @@ const RankingTable: React.FC<RankingTableProps> = ({ data, onRegionClick }) => {
                 fontSize: '16px',
               }}
             >
-              {index + 1}위
+              {item.total_rank}위
             </div>
 
             {/* 지자체명 */}

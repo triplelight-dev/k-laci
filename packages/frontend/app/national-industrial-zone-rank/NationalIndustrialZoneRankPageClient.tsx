@@ -1,13 +1,13 @@
 'use client';
 
-import { useTotalRegionRanks } from '@/api/hooks/useTotalRegionRanks';
+import { useNationalIndustrialZoneRanks } from '@/api/hooks/useRankingData';
 import SummaryLayout from '@/components/layout/SummaryLayout';
 import NationalIndustrialZoneRankSection from '@/features/summary/sections/NationalIndustrialZoneRankSection';
 
 export default function NationalIndustrialZoneRankPageClient() {
   const currentYear = new Date().getFullYear();
 
-  const { data, isLoading, error } = useTotalRegionRanks({
+  const { data, isLoading, error } = useNationalIndustrialZoneRanks({
     limit: 100,
     year: currentYear,
   });

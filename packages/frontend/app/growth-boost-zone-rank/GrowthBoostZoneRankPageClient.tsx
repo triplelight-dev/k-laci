@@ -1,13 +1,13 @@
 'use client';
 
-import { useTotalRegionRanks } from '@/api/hooks/useTotalRegionRanks';
+import { useGrowthBoostZoneRanks } from '@/api/hooks/useRankingData';
 import SummaryLayout from '@/components/layout/SummaryLayout';
 import GrowthBoostZoneRankSection from '@/features/summary/sections/GrowthBoostZoneRankSection';
 
 export default function GrowthBoostZoneRankPageClient() {
   const currentYear = new Date().getFullYear();
 
-  const { data, isLoading, error } = useTotalRegionRanks({
+  const { data, isLoading, error } = useGrowthBoostZoneRanks({
     limit: 100,
     year: currentYear,
   });
