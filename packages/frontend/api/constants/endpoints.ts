@@ -21,6 +21,12 @@ export const API_ENDPOINTS = {
   },
   STATS: {
     TOTAL_RANKS: '/stats/rank/total',
+    MAJOR_PROVINCES: '/stats/rank/major-provinces',
+    SELECTED_PROVINCES: '/stats/rank/selected-provinces',
+    FREE_ECONOMY_ZONE: '/stats/rank/free-economy-zone',
+    GROWTH_BOOST_ZONE: '/stats/rank/growth-boost-zone',
+    NATIONAL_INDUSTRIAL_ZONE: '/stats/rank/national-industrial-zone',
+    COSTAL_CITY: '/stats/rank/costal-city',
   },
 } as const;
 
