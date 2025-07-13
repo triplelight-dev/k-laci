@@ -2,7 +2,7 @@ const FooterBottomSection = () => {
   const currentYear = new Date().getFullYear();
 
   const mockTexts = [
-    '본 웹사이트에서 제공하는 모든 자료는 저작권법에 의하여 보호받는 저작물로써',
+    '본 웹사이트에서 제공하는 모든 자료는 저작권법에 의하여 보호받는 저작물로서',
     '사전 합의되지 않은 상업적 목적의 무단 복제 및 배포를 금합니다.',
   ];
 
