@@ -1,21 +1,12 @@
 'use client';
 
+import RegionCard from '@/components/ui/RegionCard';
+import { RegionCardData } from '@/types/region';
 import React, { useState } from 'react';
-import SimilarRegionCard from './SimilarRegionCard';
-
-interface SimilarRegionData {
-  id: string | number;
-  name: string;
-  province: string;
-  similarity: number; // 유사도 점수 (0-100)
-  rank: number;
-  score: number;
-  [key: string]: any; // 추가 속성들을 위한 인덱스 시그니처
-}
 
 interface SimilarRegionCardSliderProps {
-  data: SimilarRegionData[];
-  onCardClick?: (item: SimilarRegionData) => void;
+  data: RegionCardData[];
+  onCardClick?: (item: RegionCardData) => void;
 }
 
 interface CardStyle {
@@ -111,7 +102,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
       style={{
         position: 'relative',
         width: '100vw',
-        height: '600px', // 560px에서 600px로 증가 (카드 높이 540px + 여유 60px)
+        height: '600px',
         marginLeft: 'calc(-50vw + 50%)',
         marginRight: 'calc(-50vw + 50%)',
         marginBottom: '258px',
@@ -140,8 +131,6 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
         background: 'linear-gradient(90deg, rgba(245, 245, 245, 0.00) 0%, rgba(245, 245, 245, 0.80) 100%)',
         zIndex: 10,
       }} />
-
-
 
       {/* 좌측 화살표 버튼 */}
       <button
@@ -210,13 +199,12 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
                 pointerEvents: 'none',
               }}
             >
-              <SimilarRegionCard
+              <RegionCard
                 data={item}
                 onClick={onCardClick || (() => { })}
                 style={{
                   border: cardStyle.border,
                   pointerEvents: 'auto',
-
                 }}
               />
             </div>
@@ -263,7 +251,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
           }}
         />
       </button>
-    </div >
+    </div>
   );
 };
 

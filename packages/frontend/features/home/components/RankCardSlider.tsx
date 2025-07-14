@@ -2,20 +2,22 @@
 
 import { useTopRegionsForCard } from '@/api/hooks';
 import { TopRegionCard } from '@/api/types/stats.types';
+import RegionCard from '@/components/ui/RegionCard';
+import { RegionCardData } from '@/types/region';
 import { Flex } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
-import { SimilarRegionData } from '../../results/sections/SimilarRegionSection.type';
 import EmptyRankCard from './EmptyRankCard';
-import { RankCard } from './RankCard';
 
-// TopRegionCard를 SimilarRegionData로 변환하는 함수
-const transformTopRegionToSimilarRegion = (topRegion: TopRegionCard): SimilarRegionData => ({
+// TopRegionCard를 RegionCardData로 변환하는 함수
+const transformTopRegionToRegionCard = (topRegion: TopRegionCard): RegionCardData => ({
   id: topRegion.regionId,
   name: topRegion.regionName,
   province: topRegion.provinceName,
   similarity: 100,
   rank: topRegion.rank,
   score: topRegion.totalScore,
+  // Home 페이지용이므로 추가 필드는 비움
+  display_type: '상위 랭킹', // Home 페이지용 뱃지
 });
 
 export default function RankCardSlider() {
@@ -27,7 +29,7 @@ export default function RankCardSlider() {
   const [translateX, setTranslateX] = useState(0);
 
   // 안전한 데이터 추출
-  let similarRegions: SimilarRegionData[] = [];
+  let regionCards: RegionCardData[] = [];
 
   if (topRegionsResponse) {
     let rawData: any[] = [];
@@ -41,12 +43,12 @@ export default function RankCardSlider() {
     }
 
     if (Array.isArray(rawData)) {
-      similarRegions = rawData.map(transformTopRegionToSimilarRegion);
+      regionCards = rawData.map(transformTopRegionToRegionCard);
     }
   }
 
   // EmptyRankCard를 마지막에 추가
-  const allItems = [...similarRegions, { id: 'empty', isEmpty: true }];
+  const allItems = [...regionCards, { id: 'empty', isEmpty: true }];
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -90,7 +92,7 @@ export default function RankCardSlider() {
     );
   }
 
-  if (similarRegions.length === 0) {
+  if (regionCards.length === 0) {
     return (
       <Flex position='relative' height='fit-content'>
         <Flex gap="20px" paddingRight='350px' height='fit-content'>
@@ -128,7 +130,7 @@ export default function RankCardSlider() {
             {item.isEmpty ? (
               <EmptyRankCard />
             ) : (
-              <RankCard data={item as SimilarRegionData} />
+              <RegionCard data={item as RegionCardData} />
             )}
           </div>
         ))}

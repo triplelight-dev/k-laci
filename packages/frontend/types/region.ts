@@ -14,3 +14,28 @@ export interface RegionNavigationOptions {
   scrollToChart?: boolean;
   scrollOffset?: number;
 } 
+
+export interface RegionCardData {
+  id: string | number;
+  name: string;
+  province: string;
+  similarity: number; // 유사도 점수 (0-100)
+  rank: number;
+  score: number;
+  radarData?: number[]; // 레이더 차트 데이터
+  klaciCode?: string; // KLACI 코드
+  klaciType?: string; // 지역 타입
+  klaciNickname?: string; // 닉네임
+  display_type?: string; // API에서 받은 표시 타입
+  selection_tags?: string[]; // 선택 조건 태그
+  [key: string]: any; // 추가 속성들을 위한 인덱스 시그니처
+}
+
+export interface RegionCardProps {
+  data: RegionCardData;
+  onClick?: (item: RegionCardData) => void;
+  style?: React.CSSProperties;
+  topDivStyle?: React.CSSProperties;
+  isHideBadge?: boolean;
+  bottomDivStyle?: React.CSSProperties;
+} 
