@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { SupabaseService } from '../supabase/supabase.service';
+import { TopRegionCardDto } from './dto/top-region-card-response.dto';
 
 @Injectable()
 export class StatsService {
@@ -1015,5 +1016,87 @@ export class StatsService {
     );
 
     return enrichedData;
+  }
+
+  async getTopRegionsForCard(limit: number = 10) {
+    // 직접 조인 방식으로 구현
+    interface ProvinceData {
+      name: string;
+    }
+
+    interface KlaciCodeData {
+      code: string;
+      type: string;
+      nickname: string;
+      nickname_multiline?: string[];
+    }
+
+    interface RegionResponse {
+      id: number;
+      name: string;
+      growth_score: number;
+      economy_score: number;
+      living_score: number;
+      safety_score: number;
+      total_score: number;
+      total_rank: number;
+      klaci_codes: KlaciCodeData; // 배열이 아닌 단일 객체
+      province: ProvinceData; // 배열이 아닌 단일 객체
+    }
+
+    const { data } = await this.supabaseService
+      .getClient()
+      .from('regions')
+      .select(
+        `
+        id,
+        name,
+        growth_score,
+        economy_score,
+        living_score,
+        safety_score,
+        total_score,
+        total_rank,
+        klaci_code,
+        province:provinces (
+          name
+        ),
+        klaci_codes:klaci_codes (
+          code,
+          type,
+          nickname,
+          nickname_multiline
+        )
+      `,
+      )
+      .order('total_rank', { ascending: true })
+      .limit(limit);
+
+    // 타입 단언을 사용하여 실제 런타임 구조에 맞게 변환
+    const typedData = data as unknown as RegionResponse[];
+
+    const formattedData: TopRegionCardDto[] = typedData.map(
+      (item: RegionResponse) => {
+        return {
+          regionId: item.id,
+          regionName: item.name,
+          provinceName: item.province.name,
+          rank: item.total_rank,
+          totalScore: item.total_score,
+          klaciCode: item.klaci_codes?.code || '',
+          klaciType: item.klaci_codes?.type || '',
+          klaciNickname: item.klaci_codes?.nickname || '',
+          klaciNicknameMultiline: item.klaci_codes?.nickname_multiline || [],
+          categoryScore: {
+            growth_score: item.growth_score,
+            economy_score: item.economy_score,
+            living_score: item.living_score,
+            safety_score: item.safety_score,
+          },
+        };
+      },
+    );
+
+    return formattedData;
   }
 }

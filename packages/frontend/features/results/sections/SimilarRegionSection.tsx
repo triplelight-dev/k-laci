@@ -6,25 +6,22 @@ import { useSameCodeRegions } from '@/api/hooks';
 import { useRegion } from '@/api/hooks/useRegion';
 import { Divider } from '@/components/atoms/divider';
 import PremiumContentTitle from '@/components/ui/PremiumContentTitle';
+import RegionCard from '@/components/ui/RegionCard';
 import { useDistrict, useSetSelectedDistrict, useSetSelectedProvince, useSetSelectedRegion } from '@/store';
+import { RegionCardData } from '@/types/region';
 import { generateChartData } from '@/utils/chartUtils';
 import { addWaOrGwa } from '@/utils/koreanUtils';
 import { Flex } from '@chakra-ui/react';
 import { josa } from 'es-hangul';
 import { useRouter } from 'next/navigation';
-import SimilarRegionCard from '../components/SimilarRegionCard';
 import SimilarRegionCardSlider from '../components/SimilarRegionCardSlider';
-import { SimilarRegionData } from './SimilarRegionSection.type';
 import { SummarySectionHeader } from './SummarySectionHeader';
-
-
 
 const SimilarRegionSection: React.FC = () => {
   const { selectedRegion, selectedProvince, selectedDistrict } = useDistrict();
 
-
   const { getSameCodeRegionsByRegionId, loading, error } = useSameCodeRegions();
-  const [similarRegions, setSimilarRegions] = useState<SimilarRegionData[]>([]);
+  const [similarRegions, setSimilarRegions] = useState<RegionCardData[]>([]);
 
   // 추가된 hooks
   const { getRegion } = useRegion();
@@ -49,12 +46,9 @@ const SimilarRegionSection: React.FC = () => {
     const fetchSimilarRegions = async () => {
       try {
         const regionId = selectedRegion?.id || 1;
-        console.log('Fetching similar regions for regionId:', regionId);
-
         const regions = await getSameCodeRegionsByRegionId(regionId);
-        console.log('API response:', regions);
 
-        const transformedData: SimilarRegionData[] = regions.map(
+        const transformedData: RegionCardData[] = regions.map(
           (region: any, index: number) => ({
             id: region.id,
             name: region.name,
@@ -65,6 +59,7 @@ const SimilarRegionSection: React.FC = () => {
             klaciCode: region.klaci.code,
             klaciType: region.klaci.type,
             klaciNickname: region.klaci.nickname,
+            klaciNicknameMultiline: region.klaci.nickname_multiline || [],
             radarData: generateChartData(region), // 유틸 함수 사용
             display_type: region.display_type,
             selection_tags: region.selection_tags,
@@ -81,7 +76,7 @@ const SimilarRegionSection: React.FC = () => {
     fetchSimilarRegions();
   }, [selectedRegion?.id]);
 
-  const handleCardClick = async (item: SimilarRegionData) => {
+  const handleCardClick = async (item: RegionCardData) => {
     try {
       // API에서 해당 region의 상세 정보를 가져옴
       const regionDetails = await getRegion(String(item.id));
@@ -211,7 +206,7 @@ const SimilarRegionSection: React.FC = () => {
 
       {/* 자신 region 카드 */}
       <Flex style={{ width: '100%', maxWidth: '1060px', margin: '0 auto', justifyContent: 'center' }}>
-        <SimilarRegionCard
+        <RegionCard
           data={{
             id: selectedRegion?.id || 0,
             name: selectedRegion?.name || '',
@@ -222,6 +217,7 @@ const SimilarRegionSection: React.FC = () => {
             klaciCode: selectedRegion?.klaci.code || '',
             klaciType: selectedRegion?.klaci.type || '',
             klaciNickname: selectedRegion?.klaci.nickname || '',
+            klaciNicknameMultiline: selectedRegion?.klaci.nickname_multiline || [],
             radarData: generateChartData(selectedRegion),
           }}
           onClick={handleCardClick}

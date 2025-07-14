@@ -15,6 +15,7 @@ export interface KlaciCode {
   opportunity?: string[] | null;
   strategy?: string[] | null;
   summary?: string[] | null;
+  nickname_multiline?: string[] | null;
 }
 
 // 새로운 Category 타입 추가

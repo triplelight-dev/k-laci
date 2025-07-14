@@ -8,5 +8,6 @@ export * from './useRegion';
 export * from './useRegionKeyIndexScore';
 export * from './useRegionStrengthIndexes';
 export * from './useSameCodeRegions';
+export { useTopRegionsForCard } from './useTopRegionsForCard';
 export * from './useTotalRegionRanks';
 

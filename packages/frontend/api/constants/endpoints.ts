@@ -20,6 +20,7 @@ export const API_ENDPOINTS = {
   },
   STATS: {
     TOTAL_RANKS: '/stats/rank/total',
+    TOP_REGIONS_FOR_CARD: '/stats/rank/top-regions',
     MAJOR_PROVINCES: '/stats/rank/major-provinces',
     SELECTED_PROVINCES: '/stats/rank/selected-provinces',
     FREE_ECONOMY_ZONE: '/stats/rank/free-economy-zone',

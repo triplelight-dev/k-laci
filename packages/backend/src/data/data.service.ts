@@ -56,7 +56,7 @@ export class DataService {
         `
         *,
         province:provinces(id, name),
-        klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
+        klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary, nickname_multiline)
         `,
         { count: 'exact' },
       )
@@ -105,7 +105,7 @@ export class DataService {
         `
         *,
         province:provinces(id, name, full_name, name_eng),
-        klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
+        klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary, nickname_multiline)
         `,
       )
       .eq('id', id)
@@ -565,7 +565,7 @@ export class DataService {
         `
         *,
         province:provinces(id, name, full_name, name_eng),
-        klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
+        klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary, nickname_multiline)
         `,
       )
       .order('total_rank', { ascending: true });
@@ -791,7 +791,7 @@ export class DataService {
           `
         *,
         province:provinces(id, name),
-        klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
+        klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary, nickname_multiline)
         `,
         )
         .or(adjacentRankQuery)
@@ -859,7 +859,7 @@ export class DataService {
               `
             *,
             province:provinces(id, name),
-            klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
+            klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary, nickname_multiline)
             `,
             )
             .in('id', selectedRankIds)
@@ -945,7 +945,7 @@ export class DataService {
               `
             *,
             province:provinces(id, name),
-            klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
+            klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary, nickname_multiline)
             `,
             )
             .in('id', strengthRegionIds)
@@ -976,7 +976,7 @@ export class DataService {
           `
       *,
       province:provinces(id, name),
-      klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
+      klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary, nickname_multiline)
       `,
         )
         .eq('weight_class', currentWeightClass)
@@ -1007,7 +1007,7 @@ export class DataService {
           `
       *,
       province:provinces(id, name),
-      klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
+      klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary, nickname_multiline)
       `,
         )
         .ilike('klaci_code', upperKlaciCode)
@@ -1200,7 +1200,7 @@ export class DataService {
         `
         *,
         province:provinces(id, name),
-        klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
+        klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary, nickname_multiline)
         `,
       )
       .ilike('klaci_code', upperKlaciCode) // 대소문자 상관없이 검색

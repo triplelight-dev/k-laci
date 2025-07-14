@@ -18,6 +18,7 @@ export interface KlaciCode {
   opportunity: string;
   strategy: string;
   summary: string;
+  nickname_multiline?: string[];
   created_at?: string;
   updated_at?: string;
 }
@@ -130,4 +131,33 @@ export interface GetProvinceRanksParams extends GetRankingParams {
 
 export interface GetCategoryRanksParams extends GetRankingParams {
   // categoryId 제거 - 전체 데이터를 받아서 클라이언트 사이드에서 type으로 필터링
+}
+
+// Top Region Card 타입
+export interface CategoryScore {
+  growth_score: number;
+  economy_score: number;
+  living_score: number;
+  safety_score: number;
+}
+
+export interface TopRegionCard {
+  regionId: number;
+  regionName: string;
+  provinceName: string;
+  rank: number;
+  totalScore: number;
+  klaciCode: string;
+  klaciType: string;
+  klaciNickname: string;
+  klaciNicknameMultiline?: string[];
+  categoryScore: CategoryScore;
+}
+
+export interface GetTopRegionsForCardParams {
+  limit?: number;
+}
+
+export interface GetTopRegionsForCardResponse {
+  data: TopRegionCard[];
 } 

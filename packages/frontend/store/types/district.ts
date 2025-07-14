@@ -81,6 +81,7 @@ export interface RegionWithDetails {
     opportunity?: string[] | null;
     strategy?: string[] | null;
     summary?: string[] | null;
+    nickname_multiline?: string[] | null;
   };
   key_index_ranks?: {
     top: RegionKeyIndexRank[];
