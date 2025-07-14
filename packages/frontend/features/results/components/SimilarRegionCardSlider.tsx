@@ -23,7 +23,6 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-  const [lastScrollTime, setLastScrollTime] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const nextSlide = useCallback(() => {
@@ -33,25 +32,6 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
   const prevSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev - 1 + data.length) % data.length);
   }, [data.length]);
-
-  // 스크롤 이벤트 핸들러 (throttle 적용)
-  const handleWheel = useCallback(
-    (e: WheelEvent) => {
-      e.preventDefault();
-      const now = Date.now();
-
-      // 300ms throttle 적용
-      if (now - lastScrollTime < 300) return;
-      setLastScrollTime(now);
-
-      if (e.deltaY > 0) {
-        nextSlide();
-      } else if (e.deltaY < 0) {
-        prevSlide();
-      }
-    },
-    [nextSlide, prevSlide, lastScrollTime],
-  );
 
   // 마우스 드래그 이벤트 핸들러
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
@@ -117,22 +97,15 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
     [nextSlide, prevSlide],
   );
 
-  // 이벤트 리스너 등록
+  // 이벤트 리스너 등록 (휠 이벤트 제거)
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    // 휠 이벤트 (passive: false로 preventDefault 사용 가능)
-    container.addEventListener('wheel', handleWheel, { passive: false });
-
-    // 키보드 이벤트
+    // 키보드 이벤트만 등록
     window.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      container.removeEventListener('wheel', handleWheel);
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [handleWheel, handleKeyDown]);
+  }, [handleKeyDown]);
 
   // 무한 루프를 위한 배열 확장 (더 많은 복사본으로 부드러운 전환)
   const extendedData = [...data, ...data, ...data, ...data, ...data]; // 5배로 확장
