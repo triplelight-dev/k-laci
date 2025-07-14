@@ -40,6 +40,7 @@ export interface RegionWithDetails extends Region {
     opportunity?: string[] | null;
     strategy?: string[] | null;
     summary?: string[] | null;
+    nickname_multiline?: string[] | null;
   };
   category_ranks?: RegionCategoryRank[];
 }

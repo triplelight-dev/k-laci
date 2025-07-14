@@ -1,7 +1,6 @@
 'use client';
 
 import { useTopRegionsForCard } from '@/api/hooks';
-import { TopRegionCard } from '@/api/types/stats.types';
 import RegionCard from '@/components/ui/RegionCard';
 import { RegionCardData } from '@/types/region';
 import { generateChartData } from '@/utils/chartUtils';
@@ -13,30 +12,6 @@ import React, {
   useState,
 } from 'react';
 import EmptyRankCard from './EmptyRankCard';
-
-// TopRegionCard를 RegionCardData로 변환하는 함수
-const transformTopRegionToRegionCard = (
-  topRegion: TopRegionCard,
-): RegionCardData => ({
-  id: topRegion.regionId,
-  name: topRegion.regionName,
-  province: topRegion.provinceName,
-  similarity: 100,
-  rank: topRegion.rank,
-  score: topRegion.totalScore,
-  display_type: '상위 랭킹',
-});
-// const transformTopRegionToRegionCard = (
-//   topRegion: TopRegionCard,
-// ): RegionCardData => ({
-//   id: topRegion.regionId,
-//   name: topRegion.regionName,
-//   province: topRegion.provinceName,
-//   similarity: 100,
-//   rank: topRegion.rank,
-//   score: topRegion.totalScore,
-//   display_type: '상위 랭킹',
-// });
 
 interface CardStyle {
   opacity: number;
@@ -74,6 +49,7 @@ export default function RankCardSlider() {
         klaciCode: item.klaciCode,
         klaciType: item.klaciType,
         klaciNickname: item.klaciNickname,
+        klaciNicknameMultiline: item.klaciNicknameMultiline || [],
         radarData: generateChartData({
           growth_score: item.categoryScore.growth_score,
           economy_score: item.categoryScore.economy_score,
@@ -183,7 +159,7 @@ export default function RankCardSlider() {
 
     // 카드 간격 (카드 너비 + gap)
     const cardSpacing = 400; // 260px 카드 + 140px gap
-    
+
     // index 0이 좌측에 오도록 offset 조정
     const leftOffset = -currentIndex * cardSpacing;
     const translateX = distance * cardSpacing + leftOffset;

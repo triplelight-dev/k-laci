@@ -63,9 +63,15 @@ const RegionCard: React.FC<RegionCardProps> = ({
   bottomDivStyle,
 }) => {
   // 실제 데이터가 있으면 사용, 없으면 목업 데이터 사용
-  const klaciCode = data.klaciCode || 'GCMR'; // 기본값 설정
-  const klaciType = data.klaciType || '개발도약형'; // 기본값 설정
-  const klaciNickname = data.klaciNickname || '믿고 보는 호수비의 도시'; // 기본값 설정
+  const klaciCode = data.klaciCode || ''; // 기본값 설정
+  const klaciType = data.klaciType || ''; // 기본값 설정
+  const klaciNickname = data.klaciNickname || ''; // 기본값 설정
+  const klaciNicknameMultiline = data.klaciNicknameMultiline || []; // 기본값 설정
+
+  const nickname =
+    klaciNicknameMultiline.length > 0
+      ? klaciNicknameMultiline
+      : [klaciNickname];
 
   // 레이더 차트 데이터: 실제 데이터가 있으면 사용, 없으면 목업 데이터 생성
   const radarData =
@@ -82,7 +88,7 @@ const RegionCard: React.FC<RegionCardProps> = ({
       style={{
         minWidth: '350px',
         width: '260px',
-        height: '562px',
+        height: '582px',
         backgroundColor: '#FAFAFA', // 전체 회색 배경
         borderRadius: '40px',
         cursor: 'pointer',
@@ -194,6 +200,7 @@ const RegionCard: React.FC<RegionCardProps> = ({
               textAlign: 'center',
               lineHeight: '1.2',
               pointerEvents: 'none',
+              marginTop: '5px',
             }}
           >
             {klaciType}
@@ -205,13 +212,18 @@ const RegionCard: React.FC<RegionCardProps> = ({
               fontSize: '18px',
               color: 'black',
               textAlign: 'center',
-              lineHeight: '1.2',
+              lineHeight: '1.3',
               fontWeight: '400',
+              letterSpacing: '0.02em',
+              marginTop: '5px',
               marginBottom: '10px',
-              whiteSpace: 'nowrap',
             }}
           >
-            {klaciNickname}
+            {nickname.map((line, index) => (
+              <div key={index} style={{ whiteSpace: 'nowrap' }}>
+                {line}
+              </div>
+            ))}
           </div>
 
           {/* 뱃지 */}
@@ -236,4 +248,4 @@ const RegionCard: React.FC<RegionCardProps> = ({
   );
 };
 
-export default RegionCard; 
+export default RegionCard;

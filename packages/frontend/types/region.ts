@@ -26,6 +26,7 @@ export interface RegionCardData {
   klaciCode?: string; // KLACI 코드
   klaciType?: string; // 지역 타입
   klaciNickname?: string; // 닉네임
+  klaciNicknameMultiline?: string[]; // 닉네임 멀티라인
   display_type?: string; // API에서 받은 표시 타입
   selection_tags?: string[]; // 선택 조건 태그
   [key: string]: any; // 추가 속성들을 위한 인덱스 시그니처

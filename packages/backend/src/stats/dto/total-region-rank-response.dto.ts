@@ -7,16 +7,32 @@ export class ProvinceDto {
   @ApiProperty({ description: 'Province name', example: '서울특별시' })
   name: string;
 
-  @ApiProperty({ description: 'Province full name', example: '서울특별시', required: false })
+  @ApiProperty({
+    description: 'Province full name',
+    example: '서울특별시',
+    required: false,
+  })
   full_name?: string;
 
-  @ApiProperty({ description: 'Province English name', example: 'Seoul', required: false })
+  @ApiProperty({
+    description: 'Province English name',
+    example: 'Seoul',
+    required: false,
+  })
   name_eng?: string;
 
-  @ApiProperty({ description: 'Created at timestamp', example: '2024-01-01T00:00:00Z', required: false })
+  @ApiProperty({
+    description: 'Created at timestamp',
+    example: '2024-01-01T00:00:00Z',
+    required: false,
+  })
   created_at?: string;
 
-  @ApiProperty({ description: 'Updated at timestamp', example: '2024-01-01T00:00:00Z', required: false })
+  @ApiProperty({
+    description: 'Updated at timestamp',
+    example: '2024-01-01T00:00:00Z',
+    required: false,
+  })
   updated_at?: string;
 }
 
@@ -45,10 +61,25 @@ export class KlaciCodeDto {
   @ApiProperty({ description: 'KLACI summary', example: '요약' })
   summary: string;
 
-  @ApiProperty({ description: 'Created at timestamp', example: '2024-01-01T00:00:00Z', required: false })
+  @ApiProperty({
+    description: 'KLACI multiline nickname',
+    example: ['혁신', '도시'],
+    required: false,
+  })
+  nickname_multiline?: string;
+
+  @ApiProperty({
+    description: 'Created at timestamp',
+    example: '2024-01-01T00:00:00Z',
+    required: false,
+  })
   created_at?: string;
 
-  @ApiProperty({ description: 'Updated at timestamp', example: '2024-01-01T00:00:00Z', required: false })
+  @ApiProperty({
+    description: 'Updated at timestamp',
+    example: '2024-01-01T00:00:00Z',
+    required: false,
+  })
   updated_at?: string;
 }
 
@@ -65,16 +96,32 @@ export class KeyIndexDto {
   @ApiProperty({ description: 'Key index category', example: '혁신' })
   category: string;
 
-  @ApiProperty({ description: 'Key index description', example: '혁신 관련 지표', required: false })
+  @ApiProperty({
+    description: 'Key index description',
+    example: '혁신 관련 지표',
+    required: false,
+  })
   description?: string;
 
-  @ApiProperty({ description: 'Key index source', example: '통계청', required: false })
+  @ApiProperty({
+    description: 'Key index source',
+    example: '통계청',
+    required: false,
+  })
   source?: string;
 
-  @ApiProperty({ description: 'Key index unit', example: '점수', required: false })
+  @ApiProperty({
+    description: 'Key index unit',
+    example: '점수',
+    required: false,
+  })
   unit?: string;
 
-  @ApiProperty({ description: 'Key index English name', example: 'Innovation Index', required: false })
+  @ApiProperty({
+    description: 'Key index English name',
+    example: 'Innovation Index',
+    required: false,
+  })
   name_eng?: string;
 }
 
@@ -91,10 +138,18 @@ export class RegionDto {
   @ApiProperty({ description: 'KLACI code ID', example: 1, required: false })
   klaci_code_id?: number;
 
-  @ApiProperty({ description: 'Created at timestamp', example: '2024-01-01T00:00:00Z', required: false })
+  @ApiProperty({
+    description: 'Created at timestamp',
+    example: '2024-01-01T00:00:00Z',
+    required: false,
+  })
   created_at?: string;
 
-  @ApiProperty({ description: 'Updated at timestamp', example: '2024-01-01T00:00:00Z', required: false })
+  @ApiProperty({
+    description: 'Updated at timestamp',
+    example: '2024-01-01T00:00:00Z',
+    required: false,
+  })
   updated_at?: string;
 
   @ApiProperty({ description: 'Province information', type: ProvinceDto })
@@ -114,7 +169,10 @@ export class TotalRegionRankDto {
   @ApiProperty({ description: 'Region ID', example: 1 })
   region_id: number;
 
-  @ApiProperty({ description: 'Strength indexes detailed information', type: [KeyIndexDto] })
+  @ApiProperty({
+    description: 'Strength indexes detailed information',
+    type: [KeyIndexDto],
+  })
   strength_indexes_details: KeyIndexDto[];
 
   @ApiProperty({ description: 'Total score', example: 85.5 })

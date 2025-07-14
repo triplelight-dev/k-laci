@@ -20,6 +20,8 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
   data,
   onCardClick,
 }) => {
+  console.log('## SIMILAR REGION DATA data', data);
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });

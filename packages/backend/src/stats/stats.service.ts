@@ -1028,6 +1028,7 @@ export class StatsService {
       code: string;
       type: string;
       nickname: string;
+      nickname_multiline?: string[];
     }
 
     interface RegionResponse {
@@ -1063,7 +1064,8 @@ export class StatsService {
         klaci_codes:klaci_codes (
           code,
           type,
-          nickname
+          nickname,
+          nickname_multiline
         )
       `,
       )
@@ -1073,19 +1075,18 @@ export class StatsService {
     // 타입 단언을 사용하여 실제 런타임 구조에 맞게 변환
     const typedData = data as unknown as RegionResponse[];
 
-    console.log('data', typedData);
-
     const formattedData: TopRegionCardDto[] = typedData.map(
       (item: RegionResponse) => {
         return {
           regionId: item.id,
           regionName: item.name,
-          provinceName: item.province.name, // [0] 제거
+          provinceName: item.province.name,
           rank: item.total_rank,
           totalScore: item.total_score,
-          klaciCode: item.klaci_codes?.code || '', // [0] 제거
-          klaciType: item.klaci_codes?.type || '', // [0] 제거
-          klaciNickname: item.klaci_codes?.nickname || '', // [0] 제거
+          klaciCode: item.klaci_codes?.code || '',
+          klaciType: item.klaci_codes?.type || '',
+          klaciNickname: item.klaci_codes?.nickname || '',
+          klaciNicknameMultiline: item.klaci_codes?.nickname_multiline || [],
           categoryScore: {
             growth_score: item.growth_score,
             economy_score: item.economy_score,

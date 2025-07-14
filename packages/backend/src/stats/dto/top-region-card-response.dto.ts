@@ -39,6 +39,13 @@ export class TopRegionCardDto {
   @ApiProperty({ description: 'KLACI nickname', example: '혁신도시' })
   klaciNickname: string;
 
+  @ApiProperty({
+    description: 'KLACI multiline nickname',
+    example: ['혁신', '도시'],
+    required: false,
+  })
+  klaciNicknameMultiline?: string[];
+
   @ApiProperty({ description: 'Category scores', type: CategoryScoreDto })
   categoryScore: CategoryScoreDto;
 }

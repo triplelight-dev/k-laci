@@ -18,6 +18,7 @@ export interface KlaciCode {
   opportunity: string;
   strategy: string;
   summary: string;
+  nickname_multiline?: string[];
   created_at?: string;
   updated_at?: string;
 }
@@ -149,6 +150,7 @@ export interface TopRegionCard {
   klaciCode: string;
   klaciType: string;
   klaciNickname: string;
+  klaciNicknameMultiline?: string[];
   categoryScore: CategoryScore;
 }
 

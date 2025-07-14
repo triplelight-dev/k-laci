@@ -46,10 +46,7 @@ const SimilarRegionSection: React.FC = () => {
     const fetchSimilarRegions = async () => {
       try {
         const regionId = selectedRegion?.id || 1;
-        console.log('Fetching similar regions for regionId:', regionId);
-
         const regions = await getSameCodeRegionsByRegionId(regionId);
-        console.log('API response:', regions);
 
         const transformedData: RegionCardData[] = regions.map(
           (region: any, index: number) => ({
@@ -62,6 +59,7 @@ const SimilarRegionSection: React.FC = () => {
             klaciCode: region.klaci.code,
             klaciType: region.klaci.type,
             klaciNickname: region.klaci.nickname,
+            klaciNicknameMultiline: region.klaci.nickname_multiline || [],
             radarData: generateChartData(region), // 유틸 함수 사용
             display_type: region.display_type,
             selection_tags: region.selection_tags,
@@ -219,6 +217,7 @@ const SimilarRegionSection: React.FC = () => {
             klaciCode: selectedRegion?.klaci.code || '',
             klaciType: selectedRegion?.klaci.type || '',
             klaciNickname: selectedRegion?.klaci.nickname || '',
+            klaciNicknameMultiline: selectedRegion?.klaci.nickname_multiline || [],
             radarData: generateChartData(selectedRegion),
           }}
           onClick={handleCardClick}
