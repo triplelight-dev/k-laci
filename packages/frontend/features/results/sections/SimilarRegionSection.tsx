@@ -77,46 +77,8 @@ const SimilarRegionSection: React.FC = () => {
   }, [selectedRegion?.id]);
 
   const handleCardClick = async (item: RegionCardData) => {
-    try {
-      // API에서 해당 region의 상세 정보를 가져옴
-      const regionDetails = await getRegion(String(item.id));
-
-      // Store에 region 정보 설정
-      const storeRegion = {
-        ...regionDetails,
-        id: Number(regionDetails.id),
-        province_id: Number(regionDetails.provinceId),
-        province: {
-          id: Number(regionDetails.province.id),
-          name: regionDetails.province.name,
-        },
-      };
-
-      setSelectedRegion(storeRegion, 'similar_region_card');
-      setSelectedProvince(storeRegion.province_id);
-      setSelectedDistrict(storeRegion.id, 'similar_region_card');
-
-      // path parameter 방식으로 이동
-      router.push(`/results/region/${item.id}`);
-
-      // TitleSection의 지자체명 부분으로 스크롤 (더 아래로)
-      setTimeout(() => {
-        // chartSectionRef를 찾아서 해당 위치로 스크롤
-        const chartSection = document.querySelector('[data-chart-section]');
-        if (chartSection) {
-          const rect = chartSection.getBoundingClientRect();
-          // 보석 차트 높이 + 순위 텍스트 높이 + 여백을 고려해서 지자체명 부분으로 스크롤
-          const scrollTop = window.pageYOffset + rect.top + 450; // 450px 아래로 이동 (300px에서 증가)
-          window.scrollTo({ top: scrollTop, behavior: 'smooth' });
-        } else {
-          // fallback: 최상단으로 스크롤
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-      }, 100);
-    } catch (error) {
-      console.error('Failed to navigate to region:', error);
-      // 에러 처리 (필요시 사용자에게 알림)
-    }
+    // 새 창에서 해당 지역의 results 페이지 열기
+    window.open(`/results/region/${item.id}`, '_blank');
   };
 
   // 로딩 중일 때 표시할 내용

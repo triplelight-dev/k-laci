@@ -91,7 +91,7 @@ const LoginGuideModal = ({ isOpen, onClose }: LoginGuideModalProps) => {
             e.currentTarget.style.backgroundColor = '#000000';
           }}
         >
-          로그인하고 KLACI 리포트 사전하기
+          로그인 바로가기
         </button>
       </div>
     </div>

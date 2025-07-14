@@ -1,4 +1,3 @@
-import { Flex } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
@@ -211,14 +210,14 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
         />
       </div>
 
-      <Flex width="100%" justifyContent="flex-start" marginLeft="32px" gap="24px">
+      {/* <Flex width="100%" justifyContent="flex-start" marginLeft="32px" gap="24px">
         <span style={{ fontSize: '14px', fontWeight: '400', color: '#000000', display: 'flex', alignItems: 'center', lineHeight: '24px' }}>최근 검색</span>
         <Flex gap="10px">
           {recentSearches.map((search, index) => (
             <span key={index} style={{ fontSize: '14px', lineHeight: '24px', fontWeight: '500', color: '#000000', padding: '3.5px 10px', borderRadius: '9px', border: '1px solid #000000' }}>{search}</span>
           ))}
         </Flex>
-      </Flex>
+      </Flex> */}
 
       {/* AutoComplete Dropdown */}
       {showDropdown && filteredSearches.length > 0 && (

@@ -37,8 +37,8 @@ export function useLogin() {
         localStorage.setItem('user_id', response.data.user_id);
         localStorage.setItem('user_profile', JSON.stringify(response.data.profile));
         
-        // 홈페이지로 리다이렉트
-        router.push('/');
+        // 결과 페이지로 리다이렉트
+        router.push('/results');
       } else {
         setError(response.message || '로그인에 실패했습니다.');
       }

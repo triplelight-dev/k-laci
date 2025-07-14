@@ -1,6 +1,7 @@
 'use client';
 
 import { ROUTES } from '@/constants/data';
+import { EXTERNAL_LINKS } from '@/constants/links';
 import { Flex } from '@chakra-ui/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -157,7 +158,7 @@ const PartnerShipSection = () => {
           }}
         >
           {/* 파트너십 문의하기 버튼 */}
-          <a href="mailto:klaci@triplelight.co?subject=파트너십 문의&body=안녕하세요, KLACI 파트너십에 대해 문의드립니다.%0D%0A%0D%0A[여기에 문의 내용을 작성해주세요]%0D%0A%0D%0A감사합니다.">
+          <a href={EXTERNAL_LINKS.TRIPLELIGHT_HOMEPAGE} target="_blank" rel="noopener noreferrer">
             <Button label='파트너십 문의하기'
               variant='primary'
               icon={<ArrowRightUp color='#000000' />} />
