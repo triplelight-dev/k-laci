@@ -159,7 +159,7 @@ export default function RankCardSlider() {
 
   // RegionCard 클릭 핸들러 추가
   const handleRegionCardClick = (regionData: RegionCardData) => {
-    router.push(`/results/region/${regionData.id}`);
+    window.open(`/results/region/${regionData.id}`, '_blank');
   };
 
   // 카드의 위치와 스타일 계산
