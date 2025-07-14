@@ -1,4 +1,6 @@
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
+/* 기존 CDN도 유지하되 최신 버전으로 업데이트 */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,7 +13,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  /* 로컬 폰트를 우선으로 하고 CDN을 백업으로 */
+  --font-sans: var(--font-pretendard), "Pretendard Variable", Pretendard;
   --font-mono: var(--font-geist-mono);
 }
 
@@ -37,7 +40,8 @@ body {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: "Pretendard Variable", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  /* 로컬 폰트 우선, CDN 백업, 시스템 폰트 fallback */
+  font-family: var(--font-pretendard), "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   /* Additional overscroll prevention for body */
   overscroll-behavior-y: none;
   position: relative;

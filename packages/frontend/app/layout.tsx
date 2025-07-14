@@ -4,8 +4,32 @@ import { getSiteUrl, isProductionDomain } from '@/config/environment';
 import { ChakraProvider, ReactQueryProviders } from '@/providers';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 import Script from 'next/script';
 import './globals.css';
+
+// Pretendard Variable 가변 폰트 (상대 경로로 수정)
+const pretendard = localFont({
+  src: '../public/fonts/PretendardVariable.woff2', // app에서 public으로 가는 상대 경로
+  display: 'swap',
+  weight: '45 920',
+  variable: '--font-pretendard',
+  fallback: [
+    'system-ui',
+    '-apple-system', 
+    'BlinkMacSystemFont',
+    'Segoe UI',
+    'Roboto',
+    'Helvetica Neue',
+    'Apple SD Gothic Neo',
+    'Noto Sans KR',
+    'Malgun Gothic',
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Segoe UI Symbol',
+    'sans-serif'
+  ],
+});
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -108,7 +132,7 @@ export default function RootLayout({
   const isProduction = isProductionDomain();
 
   return (
-    <html lang="ko" className="w-full" suppressHydrationWarning>
+    <html lang="ko" className={`w-full ${pretendard.variable}`} suppressHydrationWarning>
       <head>
         {/* Production 환경에서만 Analytics 스크립트 로드 */}
         {isProduction && (
@@ -149,7 +173,7 @@ export default function RootLayout({
         )}
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-screen w-full bg-white antialiased`}
+        className={`${pretendard.className} ${geistSans.variable} ${geistMono.variable} min-h-screen w-full bg-white antialiased`}
         style={{
           overscrollBehavior: 'none',
           WebkitOverflowScrolling: 'touch',
