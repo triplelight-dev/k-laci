@@ -190,7 +190,7 @@ export class StatsService {
     console.log('API Response:', response.data);
 
     return {
-      data: response.data || [],
+      data: response.data.data || [],
     };
   }
 }

@@ -4,11 +4,14 @@ import { useTopRegionsForCard } from '@/api/hooks';
 import { TopRegionCard } from '@/api/types/stats.types';
 import RegionCard from '@/components/ui/RegionCard';
 import { RegionCardData } from '@/types/region';
+import { generateChartData } from '@/utils/chartUtils';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import EmptyRankCard from './EmptyRankCard';
 
 // TopRegionCard를 RegionCardData로 변환하는 함수
-const transformTopRegionToRegionCard = (topRegion: TopRegionCard): RegionCardData => ({
+const transformTopRegionToRegionCard = (
+  topRegion: TopRegionCard,
+): RegionCardData => ({
   id: topRegion.regionId,
   name: topRegion.regionName,
   province: topRegion.provinceName,
@@ -17,6 +20,17 @@ const transformTopRegionToRegionCard = (topRegion: TopRegionCard): RegionCardDat
   score: topRegion.totalScore,
   display_type: '상위 랭킹',
 });
+// const transformTopRegionToRegionCard = (
+//   topRegion: TopRegionCard,
+// ): RegionCardData => ({
+//   id: topRegion.regionId,
+//   name: topRegion.regionName,
+//   province: topRegion.provinceName,
+//   similarity: 100,
+//   rank: topRegion.rank,
+//   score: topRegion.totalScore,
+//   display_type: '상위 랭킹',
+// });
 
 interface CardStyle {
   opacity: number;
@@ -26,8 +40,12 @@ interface CardStyle {
 }
 
 export default function RankCardSlider() {
-  const { data: topRegionsResponse, isLoading, error } = useTopRegionsForCard({ limit: 10 });
-  
+  const {
+    data: topRegionsResponse,
+    isLoading,
+    error,
+  } = useTopRegionsForCard({ limit: 10 });
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
@@ -36,21 +54,49 @@ export default function RankCardSlider() {
   // 안전한 데이터 추출
   let regionCards: RegionCardData[] = [];
 
-  if (topRegionsResponse) {
-    let rawData: any[] = [];
+  console.log('## topRegionsResponse', topRegionsResponse);
 
-    if (Array.isArray(topRegionsResponse)) {
-      rawData = topRegionsResponse;
-    } else if (Array.isArray(topRegionsResponse.data)) {
-      rawData = topRegionsResponse.data;
-    } else if (topRegionsResponse.data && Array.isArray(topRegionsResponse.data.data)) {
-      rawData = topRegionsResponse.data.data;
-    }
+  // new
+  if (
+    topRegionsResponse &&
+    topRegionsResponse.data &&
+    Array.isArray(topRegionsResponse.data)
+  ) {
+    const data: RegionCardData[] = topRegionsResponse.data.map((item) => ({
+      id: item.regionId,
+      name: item.regionName,
+      province: item.provinceName,
+      similarity: 100,
+      rank: item.rank,
+      score: item.totalScore,
+      display_type: '상위 랭킹',
+      klaciCode: item.klaciCode,
+      klaciType: item.klaciType,
+      klaciNickname: item.klaciNickname,
+      radarData: generateChartData({
+        growth_score: item.categoryScore.growth_score,
+        economy_score: item.categoryScore.economy_score,
+        living_score: item.categoryScore.living_score,
+        safety_score: item.categoryScore.safety_score,
+      }),
+    }));
+    regionCards = data;
 
-    if (Array.isArray(rawData)) {
-      regionCards = rawData.map(transformTopRegionToRegionCard);
-    }
+    // id: string | number;
+    // name: string;
+    // province: string;
+    // similarity: number; // 유사도 점수 (0-100)
+    // rank: number;
+    // score: number;
+    // radarData?: number[]; // 레이더 차트 데이터
+    // klaciCode?: string; // KLACI 코드
+    // klaciType?: string; // 지역 타입
+    // klaciNickname?: string; // 닉네임
+    // display_type?: string; // API에서 받은 표시 타입
+    // selection_tags?: string[]; // 선택 조건 태그
+    // [key: string]: any; // 추가 속성들을 위한 인덱스 시그니처
   }
+
 
   // EmptyRankCard를 마지막에 추가
   const allItems = [...regionCards, { id: 'empty', isEmpty: true }];
@@ -200,7 +246,15 @@ export default function RankCardSlider() {
 
   if (isLoading) {
     return (
-      <div style={{ width: '100%', height: '600px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div
+        style={{
+          width: '100%',
+          height: '600px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
         Loading...
       </div>
     );
@@ -209,7 +263,15 @@ export default function RankCardSlider() {
   if (error) {
     console.error('Failed to fetch top regions:', error);
     return (
-      <div style={{ width: '100%', height: '600px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div
+        style={{
+          width: '100%',
+          height: '600px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
         Error loading regions
       </div>
     );
@@ -217,7 +279,15 @@ export default function RankCardSlider() {
 
   if (regionCards.length === 0) {
     return (
-      <div style={{ width: '100%', height: '600px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div
+        style={{
+          width: '100%',
+          height: '600px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
         No regions found
       </div>
     );
@@ -318,6 +388,7 @@ export default function RankCardSlider() {
                       border: cardStyle.border,
                       pointerEvents: 'auto',
                     }}
+                    isHideBadge={true}
                   />
                 )}
               </div>
@@ -328,4 +399,3 @@ export default function RankCardSlider() {
     </div>
   );
 }
-
