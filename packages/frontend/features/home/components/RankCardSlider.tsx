@@ -239,7 +239,7 @@ export default function RankCardSlider() {
           left: '50%',
           top: '0',
           transform: 'translateX(-50%)',
-          width: '100vw',
+          width: '100%',
           height: '100%',
           display: 'flex',
           alignItems: 'center',
