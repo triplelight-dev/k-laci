@@ -2,6 +2,7 @@
 
 import { ArrowRightUp } from '@/components/atoms/assets';
 import Button from '@/components/atoms/buttons/Button';
+import { EXTERNAL_LINKS } from '@/constants/links';
 import { Grid } from '@chakra-ui/react';
 import React from 'react';
 
@@ -19,7 +20,7 @@ const AboutUsSection: React.FC = () => {
       boldKeyword: '임팩트 전략 허브(Impact Strategy Hub)',
       logo: '/triplelight_logo_gray.png',
       logoHeight: '32px',
-      link: 'http://triplelight.co',
+      link: EXTERNAL_LINKS.TRIPLELIGHT_HOMEPAGE,
     },
     {
       title: '한양대학교 로컬리즘연구회',
@@ -134,7 +135,7 @@ const AboutUsSection: React.FC = () => {
           icon={<ArrowRightUp />}
           variant='primary'
           onClick={() => {
-            window.open('mailto:klaci@triplelight.co?subject=컨설팅, 연구 및 세미나 문의&body=안녕하세요, KLACI 컨설팅, 연구 및 세미나에 대해 문의드립니다.%0D%0A%0D%0A[여기에 문의 내용을 작성해주세요]%0D%0A%0D%0A감사합니다.', '_blank');
+            window.open(EXTERNAL_LINKS.TRIPLELIGHT_HOMEPAGE, '_blank');
           }}
         />
 
