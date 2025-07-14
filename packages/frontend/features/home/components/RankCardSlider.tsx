@@ -4,6 +4,7 @@ import { useTopRegionsForCard } from '@/api/hooks';
 import RegionCard from '@/components/ui/RegionCard';
 import { RegionCardData } from '@/types/region';
 import { generateChartData } from '@/utils/chartUtils';
+import { useRouter } from 'next/navigation';
 import React, {
   useCallback,
   useEffect,
@@ -21,6 +22,7 @@ interface CardStyle {
 }
 
 export default function RankCardSlider() {
+  const router = useRouter();
   const {
     data: topRegionsResponse,
     isLoading,
@@ -152,6 +154,11 @@ export default function RankCardSlider() {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [handleKeyDown]);
+
+  // RegionCard 클릭 핸들러 추가
+  const handleRegionCardClick = (regionData: RegionCardData) => {
+    router.push(`/results/region/${regionData.id}`);
+  };
 
   // 카드의 위치와 스타일 계산
   const getCardStyle = (index: number): CardStyle => {
@@ -288,12 +295,13 @@ export default function RankCardSlider() {
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
       >
+        {/* 좌측 그라데이션 - 항상 어둡게 */}
         <div
           style={{
             position: 'absolute',
             top: '0',
             left: '0',
-            width: '400px', // 그라데이션 범위 확대
+            width: '400px',
             height: '100%',
             background:
               'linear-gradient(90deg, rgba(20, 22, 29, 0.80) 0%, rgba(20, 22, 29, 0.00) 100%)',
@@ -302,15 +310,16 @@ export default function RankCardSlider() {
           }}
         />
 
+        {/* 우측 그라데이션 - 좌측과 동일하게 */}
         <div
           style={{
             position: 'absolute',
             top: '0',
             right: '0',
-            width: '400px', // 그라데이션 범위 확대
+            width: '400px',
             height: '100%',
             background:
-              'linear-gradient(-90deg, rgba(20, 22, 29, 0.80) 0%, rgba(20, 22, 29, 0.00) 100%)',
+              'linear-gradient(270deg, rgba(20, 22, 29, 0.80) 0%, rgba(20, 22, 29, 0.00) 100%)',
             zIndex: 10,
             pointerEvents: 'none',
           }}
@@ -343,10 +352,13 @@ export default function RankCardSlider() {
                 }}
               >
                 {item.isEmpty ? (
-                  <EmptyRankCard />
+                  <div style={{ pointerEvents: 'auto' }}>
+                    <EmptyRankCard />
+                  </div>
                 ) : (
                   <RegionCard
                     data={item as RegionCardData}
+                    onClick={handleRegionCardClick}  // 추가
                     style={{
                       border: cardStyle.border,
                       pointerEvents: 'auto',
