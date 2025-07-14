@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { SupabaseService } from '../supabase/supabase.service';
-import { TopRegionCardDto } from './dto/top-region-card-response.dto';
 
 @Injectable()
 export class StatsService {
@@ -1018,5 +1017,46 @@ export class StatsService {
     return enrichedData;
   }
 
-  async getTopRegionsForCard(limit: number = 10): Promise<TopRegionCardDto[]> {}
+  async getTopRegionsForCard(limit: number = 10) {
+    // 직접 조인 방식으로 구현
+    const { data, error } = await this.supabaseService
+      .getClient()
+      .from('regions')
+      .select(
+        `
+        id,
+        name,
+        growth_score,
+        economy_score,
+        living_score,
+        safety_score,
+        total_score,
+        total_rank,
+        klaci_code
+      `,
+      );
+    // .order('total_rank', { ascending: true });
+
+    console.log('data', data);
+
+    const MOCK_RESPONSE = [
+      {
+        regionId: 1,
+        regionName: '서울특별시',
+        provinceName: '서울특별시',
+        rank: 1,
+        totalScore: 100,
+        klaciCode: 'GTMA',
+        klaciType: '혁신',
+        klaciNickname: '혁신도시',
+        categoryScore: {
+          growthScore: 100,
+          economyScore: 100,
+          livingScore: 100,
+          safetyScore: 100,
+        },
+      },
+    ];
+    return MOCK_RESPONSE;
+  }
 }

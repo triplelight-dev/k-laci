@@ -61,9 +61,7 @@ export class StatsController {
     status: 500,
     description: 'Internal server error',
   })
-  async getTopRegionsForCard(
-    @Query() query: GetTopRegionsDto,
-  ): Promise<TopRegionCardDto[]> {
+  async getTopRegionsForCard(@Query() query: GetTopRegionsDto) {
     return await this.statsService.getTopRegionsForCard(query.limit || 10);
   }
 
