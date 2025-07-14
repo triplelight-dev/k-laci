@@ -15,6 +15,10 @@ const ViewResultSuggestionSection: React.FC = () => {
   ];
 
   const handleMainResultsClick = () => {
+    router.push(ROUTES.RESULT);
+  };
+
+  const handleSummaryClick = () => {
     router.push(ROUTES.SUMMARY);
   };
 
@@ -61,19 +65,35 @@ const ViewResultSuggestionSection: React.FC = () => {
               textAlign: 'left',
             }}
           >
-            <div>우리 지역의 <span style={{
-              background: ' linear-gradient(110.4deg, #F56542 0.5%, #F4B04D 35%, #ACAAE8 65%, #74BF9E 99%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              display: 'inline',
-            }}>강점</span>과 <span style={{
-              background: ' linear-gradient(100.4deg, #F56542 2.5%, #F4B04D 35%, #ACAAE8 65%, #74BF9E 99%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              display: 'inline',
-            }}>기회</span>를</div>
+            <div>
+              우리 지역의{' '}
+              <span
+                style={{
+                  background:
+                    ' linear-gradient(110.4deg, #F56542 0.5%, #F4B04D 35%, #ACAAE8 65%, #74BF9E 99%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  display: 'inline',
+                }}
+              >
+                강점
+              </span>
+              과{' '}
+              <span
+                style={{
+                  background:
+                    ' linear-gradient(100.4deg, #F56542 2.5%, #F4B04D 35%, #ACAAE8 65%, #74BF9E 99%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  display: 'inline',
+                }}
+              >
+                기회
+              </span>
+              를
+            </div>
             <div>직접 확인해보세요</div>
           </div>
         </div>
@@ -121,21 +141,32 @@ const ViewResultSuggestionSection: React.FC = () => {
               width: '100%',
             }}
           >
-
             {/* 오른쪽 버튼: 투명 배경 흰색 보더 */}
-            <div style={{ display: 'flex', gap: '20px', justifyContent: 'flex-start' }}>
-              <Button label='지자체 조회 바로가기' variant='primary' onClick={handleMainResultsClick}
-                width='255px'
+            <div
+              style={{
+                display: 'flex',
+                gap: '20px',
+                justifyContent: 'flex-start',
+              }}
+            >
+              <Button
+                label="지자체 조회 바로가기"
+                variant="primary"
+                onClick={handleMainResultsClick}
+                width="255px"
                 style={{
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-
                 }}
                 icon={<ArrowRightUp />}
               />
-              <Button label='주요 결과 바로가기' icon={<ArrowRightUp color='#ffffff' />} variant='secondary' onClick={handleMainResultsClick}
-                width='255px'
+              <Button
+                label="주요 결과 바로가기"
+                icon={<ArrowRightUp color="#ffffff" />}
+                variant="secondary"
+                onClick={handleSummaryClick}
+                width="255px"
                 style={{
                   display: 'flex',
                   justifyContent: 'center',
@@ -143,7 +174,6 @@ const ViewResultSuggestionSection: React.FC = () => {
                 }}
               />
             </div>
-
           </div>
         </div>
       </div>

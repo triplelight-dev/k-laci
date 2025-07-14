@@ -1,6 +1,6 @@
 'use client';
 
-import { ROUTES } from '@/constants/data';
+import { INTERNAL_LINKS } from '@/constants/links';
 import React from 'react';
 import ContentSectionVertical from './ContentSectionVertical';
 
@@ -25,7 +25,7 @@ const StrategySection: React.FC = () => {
       }}
       button={{
         text: '5극 3특 리스트 전체보기',
-        route: ROUTES.SUMMARY,
+        route: INTERNAL_LINKS.SUMMARY.MEGA_REGION,
       }}
       image={{
         src: '/home/strategy.png',

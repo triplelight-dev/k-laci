@@ -19,6 +19,7 @@ const AboutUsSection: React.FC = () => {
       boldKeyword: '임팩트 전략 허브(Impact Strategy Hub)',
       logo: '/triplelight_logo_gray.png',
       logoHeight: '32px',
+      link: 'http://triplelight.co',
     },
     {
       title: '한양대학교 로컬리즘연구회',
@@ -27,6 +28,7 @@ const AboutUsSection: React.FC = () => {
       boldKeyword: '인구소멸과 로컬리즘',
       logo: '/hyu_logo.png',
       logoHeight: '80px',
+      link: null,
     },
   ];
 
@@ -188,15 +190,28 @@ const AboutUsSection: React.FC = () => {
               </div>
 
               {/* 로고 */}
-              <a
-                href="http://triplelight.co"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  textDecoration: 'none',
-                  display: 'block',
-                }}
-              >
+              {org.link ? (
+                <a
+                  href={org.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    textDecoration: 'none',
+                    display: 'block',
+                  }}
+                >
+                  <img
+                    src={org.logo}
+                    alt={`${org.title} 로고`}
+                    style={{
+                      height: org.logoHeight,
+                      width: 'auto',
+                      display: 'block',
+                      cursor: 'pointer',
+                    }}
+                  />
+                </a>
+              ) : (
                 <img
                   src={org.logo}
                   alt={`${org.title} 로고`}
@@ -204,10 +219,9 @@ const AboutUsSection: React.FC = () => {
                     height: org.logoHeight,
                     width: 'auto',
                     display: 'block',
-                    cursor: 'pointer',
                   }}
                 />
-              </a>
+              )}
             </div>
 
             {/* 기관 간 구분선 (마지막 기관이 아닌 경우) */}
