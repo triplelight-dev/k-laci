@@ -2,7 +2,7 @@
 
 import RegionCard from '@/components/ui/RegionCard';
 import { RegionCardData } from '@/types/region';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 interface SimilarRegionCardSliderProps {
   data: RegionCardData[];
@@ -21,14 +21,118 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
   onCardClick,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [lastScrollTime, setLastScrollTime] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const nextSlide = () => {
+  const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % data.length);
-  };
+  }, [data.length]);
 
-  const prevSlide = () => {
+  const prevSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev - 1 + data.length) % data.length);
-  };
+  }, [data.length]);
+
+  // 스크롤 이벤트 핸들러 (throttle 적용)
+  const handleWheel = useCallback(
+    (e: WheelEvent) => {
+      e.preventDefault();
+      const now = Date.now();
+
+      // 300ms throttle 적용
+      if (now - lastScrollTime < 300) return;
+      setLastScrollTime(now);
+
+      if (e.deltaY > 0) {
+        nextSlide();
+      } else if (e.deltaY < 0) {
+        prevSlide();
+      }
+    },
+    [nextSlide, prevSlide, lastScrollTime],
+  );
+
+  // 마우스 드래그 이벤트 핸들러
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    setIsDragging(true);
+    setDragStart({ x: e.clientX, y: e.clientY });
+  }, []);
+
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (!isDragging) return;
+
+      const deltaX = e.clientX - dragStart.x;
+      const threshold = 50; // 드래그 임계값
+
+      if (Math.abs(deltaX) > threshold) {
+        if (deltaX > 0) {
+          prevSlide();
+        } else {
+          nextSlide();
+        }
+        setIsDragging(false);
+      }
+    },
+    [isDragging, dragStart, nextSlide, prevSlide],
+  );
+
+  const handleMouseUp = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  // 터치 이벤트 핸들러
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    setDragStart({ x: touch.clientX, y: touch.clientY });
+  }, []);
+
+  const handleTouchMove = useCallback(
+    (e: React.TouchEvent) => {
+      const touch = e.touches[0];
+      const deltaX = touch.clientX - dragStart.x;
+      const threshold = 50;
+
+      if (Math.abs(deltaX) > threshold) {
+        if (deltaX > 0) {
+          prevSlide();
+        } else {
+          nextSlide();
+        }
+      }
+    },
+    [dragStart, nextSlide, prevSlide],
+  );
+
+  // 키보드 이벤트 핸들러
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        prevSlide();
+      } else if (e.key === 'ArrowRight') {
+        nextSlide();
+      }
+    },
+    [nextSlide, prevSlide],
+  );
+
+  // 이벤트 리스너 등록
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    // 휠 이벤트 (passive: false로 preventDefault 사용 가능)
+    container.addEventListener('wheel', handleWheel, { passive: false });
+
+    // 키보드 이벤트
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      container.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleWheel, handleKeyDown]);
 
   // 무한 루프를 위한 배열 확장 (더 많은 복사본으로 부드러운 전환)
   const extendedData = [...data, ...data, ...data, ...data, ...data]; // 5배로 확장
@@ -99,6 +203,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
 
   return (
     <div
+      ref={containerRef}
       style={{
         position: 'relative',
         width: '100vw',
@@ -110,27 +215,42 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
         alignItems: 'center',
         justifyContent: 'center',
         overflow: 'hidden',
+        cursor: isDragging ? 'grabbing' : 'grab',
       }}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
     >
-      <div style={{
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        width: '545px',
-        height: '100%',
-        background: 'linear-gradient(-90deg, rgba(245, 245, 245, 0.00) 0%, rgba(245, 245, 245, 0.80) 100%)',
-        zIndex: 10,
-      }} />
+      <div
+        style={{
+          position: 'absolute',
+          top: '0',
+          left: '0',
+          width: '545px',
+          height: '100%',
+          background:
+            'linear-gradient(-90deg, rgba(245, 245, 245, 0.00) 0%, rgba(245, 245, 245, 0.80) 100%)',
+          zIndex: 10,
+          pointerEvents: 'none',
+        }}
+      />
 
-      <div style={{
-        position: 'absolute',
-        top: '0',
-        right: '0',
-        width: '545px',
-        height: '100%',
-        background: 'linear-gradient(90deg, rgba(245, 245, 245, 0.00) 0%, rgba(245, 245, 245, 0.80) 100%)',
-        zIndex: 10,
-      }} />
+      <div
+        style={{
+          position: 'absolute',
+          top: '0',
+          right: '0',
+          width: '545px',
+          height: '100%',
+          background:
+            'linear-gradient(90deg, rgba(245, 245, 245, 0.00) 0%, rgba(245, 245, 245, 0.80) 100%)',
+          zIndex: 10,
+          pointerEvents: 'none',
+        }}
+      />
 
       {/* 좌측 화살표 버튼 */}
       <button
@@ -196,12 +316,12 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
                 transform: cardStyle.transform,
                 zIndex: cardStyle.zIndex,
                 transition: 'all 0.5s ease',
-                pointerEvents: 'none',
+                pointerEvents: cardStyle.zIndex >= 8 ? 'auto' : 'none', // 보이는 카드만 클릭 가능
               }}
             >
               <RegionCard
                 data={item}
-                onClick={onCardClick || (() => { })}
+                onClick={onCardClick || (() => {})}
                 style={{
                   border: cardStyle.border,
                   pointerEvents: 'auto',

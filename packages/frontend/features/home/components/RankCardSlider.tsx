@@ -16,17 +16,39 @@ const transformTopRegionToRegionCard = (topRegion: TopRegionCard): RegionCardDat
   similarity: 100,
   rank: topRegion.rank,
   score: topRegion.totalScore,
-  // Home 페이지용이므로 추가 필드는 비움
-  display_type: '상위 랭킹', // Home 페이지용 뱃지
+  display_type: '상위 랭킹',
 });
 
 export default function RankCardSlider() {
   const { data: topRegionsResponse, isLoading, error } = useTopRegionsForCard({ limit: 10 });
+  
+  // 네이티브 스크롤 방식 (results의 DistrictSlider와 동일)
   const sliderRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
-  const [currentX, setCurrentX] = useState(0);
-  const [translateX, setTranslateX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    if (sliderRef.current) {
+      setStartX(e.pageX - sliderRef.current.offsetLeft);
+      setScrollLeft(sliderRef.current.scrollLeft);
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    if (sliderRef.current) {
+      const x = e.pageX - sliderRef.current.offsetLeft;
+      const walk = (x - startX) * 2; // 스크롤 감도 조정
+      sliderRef.current.scrollLeft = scrollLeft - walk;
+    }
+  };
 
   // 안전한 데이터 추출
   let regionCards: RegionCardData[] = [];
@@ -49,27 +71,6 @@ export default function RankCardSlider() {
 
   // EmptyRankCard를 마지막에 추가
   const allItems = [...regionCards, { id: 'empty', isEmpty: true }];
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true);
-    setStartX(e.pageX);
-    setCurrentX(e.pageX);
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-    // 여기서 원래 위치로 돌아가는 문제가 있었음
-    setTranslateX(0);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return;
-    e.preventDefault();
-    
-    setCurrentX(e.pageX);
-    const diff = e.pageX - startX;
-    setTranslateX(diff);
-  };
 
   if (isLoading) {
     return (
@@ -104,20 +105,29 @@ export default function RankCardSlider() {
 
   return (
     <Flex position='relative' height='fit-content'>
-      {/* 드래그 가능한 스크롤 컨테이너 */}
-      <Flex 
+      {/* 네이티브 스크롤 컨테이너 */}
+      <div
         ref={sliderRef}
-        gap="20px" 
-        paddingRight='350px' 
-        height='fit-content'
-        cursor={isDragging ? 'grabbing' : 'grab'}
-        userSelect='none'
+        style={{
+          display: 'flex',
+          gap: '20px',
+          paddingRight: '350px',
+          overflow: 'auto',
+          scrollbarWidth: 'none', // Firefox
+          msOverflowStyle: 'none', // IE
+          WebkitOverflowScrolling: 'touch', // iOS smooth scroll
+          cursor: isDragging ? 'grabbing' : 'grab',
+          userSelect: 'none',
+        }}
+        css={{
+          '&::-webkit-scrollbar': {
+            display: 'none', // Chrome, Safari
+          }
+        }}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
         onMouseMove={handleMouseMove}
-        transform={`translateX(${translateX}px)`}
-        transition={isDragging ? 'none' : 'transform 0.3s ease'}
       >
         {allItems.map((item, index) => (
           <div 
@@ -134,9 +144,9 @@ export default function RankCardSlider() {
             )}
           </div>
         ))}
-      </Flex>
+      </div>
 
-      {/* 기존 그라데이션 오버레이 */}
+      {/* 그라데이션 오버레이 */}
       <Flex 
         position='absolute'
         top='0'
