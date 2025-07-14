@@ -4,7 +4,6 @@ import { useTopRegionsForCard } from '@/api/hooks';
 import { TopRegionCard } from '@/api/types/stats.types';
 import RegionCard from '@/components/ui/RegionCard';
 import { RegionCardData } from '@/types/region';
-import { Flex } from '@chakra-ui/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import EmptyRankCard from './EmptyRankCard';
 
@@ -201,127 +200,130 @@ export default function RankCardSlider() {
 
   if (isLoading) {
     return (
-      <Flex position='relative' height='fit-content'>
-        <Flex gap="20px" paddingRight='350px' height='fit-content'>
-          Loading...
-        </Flex>
-      </Flex>
+      <div style={{ width: '100%', height: '600px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        Loading...
+      </div>
     );
   }
 
   if (error) {
     console.error('Failed to fetch top regions:', error);
     return (
-      <Flex position='relative' height='fit-content'>
-        <Flex gap="20px" paddingRight='350px' height='fit-content'>
-          <div>Error loading regions</div>
-        </Flex>
-      </Flex>
+      <div style={{ width: '100%', height: '600px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        Error loading regions
+      </div>
     );
   }
 
   if (regionCards.length === 0) {
     return (
-      <Flex position='relative' height='fit-content'>
-        <Flex gap="20px" paddingRight='350px' height='fit-content'>
-          <div>No regions found</div>
-        </Flex>
-      </Flex>
+      <div style={{ width: '100%', height: '600px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        No regions found
+      </div>
     );
   }
 
   return (
     <div
-      ref={containerRef}
       style={{
-        position: 'absolute',
-        left: '0',
-        right: '0',
-        width: '100vw',
+        position: 'relative',
+        width: '100%',
         height: '600px',
-        marginBottom: '258px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
         overflow: 'hidden',
-        cursor: isDragging ? 'grabbing' : 'grab',
-        zIndex: 5,
       }}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
     >
       <div
+        ref={containerRef}
         style={{
           position: 'absolute',
+          left: '50%',
           top: '0',
-          left: '0',
-          width: '545px',
-          height: '100%',
-          background:
-            'linear-gradient(-90deg, rgba(20, 22, 29, 0.00) 0%, rgba(20, 22, 29, 0.80) 100%)',
-          zIndex: 10,
-          pointerEvents: 'none',
-        }}
-      />
-
-      <div
-        style={{
-          position: 'absolute',
-          top: '0',
-          right: '0',
-          width: '545px',
-          height: '100%',
-          background:
-            'linear-gradient(90deg, rgba(20, 22, 29, 0.00) 0%, rgba(20, 22, 29, 0.80) 100%)',
-          zIndex: 10,
-          pointerEvents: 'none',
-        }}
-      />
-
-      {/* 카드 컨테이너 */}
-      <div
-        style={{
-          position: 'relative',
-          width: '100%',
+          transform: 'translateX(-50%)',
+          width: '100vw',
           height: '100%',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          overflow: 'hidden',
+          cursor: isDragging ? 'grabbing' : 'grab',
+          zIndex: 5,
         }}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
       >
-        {allItems.map((item, index) => {
-          const cardStyle = getCardStyle(index);
+        <div
+          style={{
+            position: 'absolute',
+            top: '0',
+            left: '0',
+            width: '545px',
+            height: '100%',
+            background:
+              'linear-gradient(-90deg, rgba(20, 22, 29, 0.00) 0%, rgba(20, 22, 29, 0.80) 100%)',
+            zIndex: 10,
+            pointerEvents: 'none',
+          }}
+        />
 
-          return (
-            <div
-              key={`${item.id}-${index}`}
-              style={{
-                position: 'absolute',
-                opacity: cardStyle.opacity,
-                transform: cardStyle.transform,
-                zIndex: cardStyle.zIndex,
-                transition: 'all 0.5s ease',
-                pointerEvents: cardStyle.zIndex >= 8 ? 'auto' : 'none', // 보이는 카드만 클릭 가능
-              }}
-            >
-              {item.isEmpty ? (
-                <EmptyRankCard />
-              ) : (
-                <RegionCard
-                  data={item as RegionCardData}
-                  style={{
-                    border: cardStyle.border,
-                    pointerEvents: 'auto',
-                  }}
-                />
-              )}
-            </div>
-          );
-        })}
+        <div
+          style={{
+            position: 'absolute',
+            top: '0',
+            right: '0',
+            width: '545px',
+            height: '100%',
+            background:
+              'linear-gradient(90deg, rgba(20, 22, 29, 0.00) 0%, rgba(20, 22, 29, 0.80) 100%)',
+            zIndex: 10,
+            pointerEvents: 'none',
+          }}
+        />
+
+        {/* 카드 컨테이너 */}
+        <div
+          style={{
+            position: 'relative',
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          {allItems.map((item, index) => {
+            const cardStyle = getCardStyle(index);
+
+            return (
+              <div
+                key={`${item.id}-${index}`}
+                style={{
+                  position: 'absolute',
+                  opacity: cardStyle.opacity,
+                  transform: cardStyle.transform,
+                  zIndex: cardStyle.zIndex,
+                  transition: 'all 0.5s ease',
+                  pointerEvents: cardStyle.zIndex >= 8 ? 'auto' : 'none', // 보이는 카드만 클릭 가능
+                }}
+              >
+                {item.isEmpty ? (
+                  <EmptyRankCard />
+                ) : (
+                  <RegionCard
+                    data={item as RegionCardData}
+                    style={{
+                      border: cardStyle.border,
+                      pointerEvents: 'auto',
+                    }}
+                  />
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
