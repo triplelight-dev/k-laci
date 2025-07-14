@@ -113,12 +113,14 @@ export default function RankCardSlider() {
   // 터치 이벤트 핸들러
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     const touch = e.touches[0];
+    if (!touch) return;
     setDragStart({ x: touch.clientX, y: touch.clientY });
   }, []);
 
   const handleTouchMove = useCallback(
     (e: React.TouchEvent) => {
       const touch = e.touches[0];
+      if (!touch) return;
       const deltaX = touch.clientX - dragStart.x;
       const threshold = 50;
 

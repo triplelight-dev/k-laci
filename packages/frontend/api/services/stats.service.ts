@@ -218,10 +218,10 @@ export interface TopRegionCard {
   categoryScore: CategoryScore;
 }
 
-export interface GetTopRegionsForCardParams {
-  limit?: number;
-}
+// export interface GetTopRegionsForCardParams {
+//   limit?: number;
+// }
 
-export interface GetTopRegionsForCardResponse {
-  data: TopRegionCard[];
-}
+// export interface GetTopRegionsForCardResponse {
+//   data: TopRegionCard[];
+// }
