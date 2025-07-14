@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { SupabaseService } from '../supabase/supabase.service';
+import { TopRegionCardDto } from './dto/top-region-card-response.dto';
 
 @Injectable()
 export class StatsService {
@@ -1016,4 +1017,6 @@ export class StatsService {
 
     return enrichedData;
   }
+
+  async getTopRegionsForCard(limit: number = 10): Promise<TopRegionCardDto[]> {}
 }

@@ -6,7 +6,9 @@ import { GetDistrictTypeRanksDto } from './dto/get-district-type-ranks.dto';
 import { GetKlaciCodeRanksDto } from './dto/get-klaci-code-ranks.dto';
 import { GetMegaRegionRanksDto } from './dto/get-mega-region-ranks.dto';
 import { GetProvinceRanksDto } from './dto/get-province-ranks.dto';
+import { GetTopRegionsDto } from './dto/get-top-regions.dto';
 import { GetTotalRegionRanksDto } from './dto/get-total-region-ranks.dto';
+import { TopRegionCardDto } from './dto/top-region-card-response.dto';
 import { TotalRegionRankDto } from './dto/total-region-rank-response.dto';
 import { StatsService } from './stats.service';
 
@@ -38,6 +40,34 @@ export class StatsController {
   async getTotalRegionRanks(@Query() query: GetTotalRegionRanksDto) {
     return this.statsService.getTotalRegionRanks(query.limit, query.year);
   }
+
+  @Public()
+  @Get('top-regions')
+  @ApiOperation({
+    summary: 'Get top N regions for card display',
+    description:
+      'Retrieve the top N regions ranked by total score optimized for card display. Returns simplified data structure perfect for ranking cards.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully retrieved top N regions for cards',
+    type: [TopRegionCardDto],
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request - Invalid parameters',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error',
+  })
+  async getTopRegionsForCard(
+    @Query() query: GetTopRegionsDto,
+  ): Promise<TopRegionCardDto[]> {
+    return await this.statsService.getTopRegionsForCard(query.limit || 10);
+  }
+
+  // ... existing code ...
 
   @Public()
   @Get('major-provinces')
