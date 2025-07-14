@@ -183,16 +183,15 @@ export default function RankCardSlider() {
 
     // 카드 간격 (카드 너비 + gap)
     const cardSpacing = 400; // 260px 카드 + 140px gap
-    const translateX = distance * cardSpacing;
-
-    // Fadeout 효과: 거리에 따른 투명도 계산
-    const baseOpacity = 1;
-    const opacity = Math.max(0, baseOpacity - Math.abs(distance) * 0.3);
+    
+    // index 0이 좌측에 오도록 offset 조정
+    const leftOffset = -currentIndex * cardSpacing;
+    const translateX = distance * cardSpacing + leftOffset;
 
     if (distance === 0) {
       // 가운데 카드 (선택된 카드)
       return {
-        opacity: 1,
+        opacity: 1, // 모든 카드 밝게
         transform: `translateX(${translateX}px) scale(1)`,
         border: '1px solid #000000',
         zIndex: 10,
@@ -200,7 +199,7 @@ export default function RankCardSlider() {
     } else if (Math.abs(distance) === 1) {
       // 바로 옆 카드들
       return {
-        opacity: Math.max(0.3, opacity),
+        opacity: 1, // 모든 카드 밝게
         transform: `translateX(${translateX}px) scale(1)`,
         border: '1px solid #E7E8EA',
         zIndex: 9,
@@ -208,7 +207,7 @@ export default function RankCardSlider() {
     } else if (Math.abs(distance) === 2) {
       // 두 번째 옆 카드들
       return {
-        opacity: Math.max(0.1, opacity),
+        opacity: 1, // 모든 카드 밝게
         transform: `translateX(${translateX}px) scale(1)`,
         border: '1px solid #E7E8EA',
         zIndex: 8,
@@ -216,7 +215,7 @@ export default function RankCardSlider() {
     } else if (Math.abs(distance) === 3) {
       // 세 번째 옆 카드들
       return {
-        opacity: Math.max(0.05, opacity),
+        opacity: 1, // 모든 카드 밝게
         transform: `translateX(${translateX}px) scale(1)`,
         border: '1px solid #E7E8EA',
         zIndex: 7,
@@ -224,7 +223,7 @@ export default function RankCardSlider() {
     } else {
       // 멀리 있는 카드들
       return {
-        opacity: 0,
+        opacity: 1, // 모든 카드 밝게
         transform: `translateX(${translateX}px) scale(1)`,
         border: '1px solid #E7E8EA',
         zIndex: 1,
@@ -294,14 +293,14 @@ export default function RankCardSlider() {
         ref={containerRef}
         style={{
           position: 'absolute',
-          left: '50%',
+          left: '50px', // 좌측 여백
           top: '0',
-          transform: 'translateX(-50%)',
+          transform: 'translateX(0)',
           width: '100%',
           height: '100%',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
+          justifyContent: 'flex-start',
           overflow: 'hidden',
           cursor: isDragging ? 'grabbing' : 'grab',
           zIndex: 5,
@@ -318,10 +317,10 @@ export default function RankCardSlider() {
             position: 'absolute',
             top: '0',
             left: '0',
-            width: '545px',
+            width: '400px', // 그라데이션 범위 확대
             height: '100%',
             background:
-              'linear-gradient(-90deg, rgba(20, 22, 29, 0.00) 0%, rgba(20, 22, 29, 0.80) 100%)',
+              'linear-gradient(90deg, rgba(20, 22, 29, 0.80) 0%, rgba(20, 22, 29, 0.00) 100%)',
             zIndex: 10,
             pointerEvents: 'none',
           }}
@@ -332,10 +331,10 @@ export default function RankCardSlider() {
             position: 'absolute',
             top: '0',
             right: '0',
-            width: '545px',
+            width: '400px', // 그라데이션 범위 확대
             height: '100%',
             background:
-              'linear-gradient(90deg, rgba(20, 22, 29, 0.00) 0%, rgba(20, 22, 29, 0.80) 100%)',
+              'linear-gradient(-90deg, rgba(20, 22, 29, 0.80) 0%, rgba(20, 22, 29, 0.00) 100%)',
             zIndex: 10,
             pointerEvents: 'none',
           }}
@@ -349,7 +348,7 @@ export default function RankCardSlider() {
             height: '100%',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
           }}
         >
           {allItems.map((item, index) => {

@@ -116,11 +116,11 @@ const RegionCard: React.FC<RegionCardProps> = ({
         {/* 종합순위 */}
         <div
           style={{
-            fontSize: '14px',
+            fontSize: '17px',
             fontWeight: '500',
             color: 'black',
             marginTop: '10px',
-            marginBottom: '8px',
+            marginBottom: '4px',
             pointerEvents: 'none',
           }}
         >
@@ -129,8 +129,8 @@ const RegionCard: React.FC<RegionCardProps> = ({
         {/* 지역명 */}
         <div
           style={{
-            fontSize: '30px',
-            fontWeight: '600',
+            fontSize: '32px',
+            fontWeight: '700',
             color: '#000',
             pointerEvents: 'none',
           }}
