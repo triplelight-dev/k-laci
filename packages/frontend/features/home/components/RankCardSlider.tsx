@@ -5,7 +5,7 @@ import { TopRegionCard } from '@/api/types/stats.types';
 import RegionCard from '@/components/ui/RegionCard';
 import { RegionCardData } from '@/types/region';
 import { Flex } from '@chakra-ui/react';
-import { useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import EmptyRankCard from './EmptyRankCard';
 
 // TopRegionCard를 RegionCardData로 변환하는 함수
@@ -19,36 +19,21 @@ const transformTopRegionToRegionCard = (topRegion: TopRegionCard): RegionCardDat
   display_type: '상위 랭킹',
 });
 
+interface CardStyle {
+  opacity: number;
+  transform: string;
+  border: string;
+  zIndex: number;
+}
+
 export default function RankCardSlider() {
   const { data: topRegionsResponse, isLoading, error } = useTopRegionsForCard({ limit: 10 });
   
-  // 네이티브 스크롤 방식 (results의 DistrictSlider와 동일)
-  const sliderRef = useRef<HTMLDivElement>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true);
-    if (sliderRef.current) {
-      setStartX(e.pageX - sliderRef.current.offsetLeft);
-      setScrollLeft(sliderRef.current.scrollLeft);
-    }
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return;
-    e.preventDefault();
-    if (sliderRef.current) {
-      const x = e.pageX - sliderRef.current.offsetLeft;
-      const walk = (x - startX) * 2; // 스크롤 감도 조정
-      sliderRef.current.scrollLeft = scrollLeft - walk;
-    }
-  };
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [lastScrollTime, setLastScrollTime] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // 안전한 데이터 추출
   let regionCards: RegionCardData[] = [];
@@ -71,6 +56,175 @@ export default function RankCardSlider() {
 
   // EmptyRankCard를 마지막에 추가
   const allItems = [...regionCards, { id: 'empty', isEmpty: true }];
+
+  const nextSlide = useCallback(() => {
+    setCurrentIndex((prev) => {
+      const next = prev + 1;
+      return next >= allItems.length ? allItems.length - 1 : next;
+    });
+  }, [allItems.length]);
+
+  const prevSlide = useCallback(() => {
+    setCurrentIndex((prev) => {
+      const next = prev - 1;
+      return next < 0 ? 0 : next;
+    });
+  }, []);
+
+  // 스크롤 이벤트 핸들러 (throttle 적용)
+  const handleWheel = useCallback(
+    (e: WheelEvent) => {
+      e.preventDefault();
+      const now = Date.now();
+
+      // 300ms throttle 적용
+      if (now - lastScrollTime < 300) return;
+      setLastScrollTime(now);
+
+      if (e.deltaY > 0) {
+        nextSlide();
+      } else if (e.deltaY < 0) {
+        prevSlide();
+      }
+    },
+    [nextSlide, prevSlide, lastScrollTime],
+  );
+
+  // 마우스 드래그 이벤트 핸들러
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    setIsDragging(true);
+    setDragStart({ x: e.clientX, y: e.clientY });
+  }, []);
+
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (!isDragging) return;
+
+      const deltaX = e.clientX - dragStart.x;
+      const threshold = 50; // 드래그 임계값
+
+      if (Math.abs(deltaX) > threshold) {
+        if (deltaX > 0) {
+          prevSlide();
+        } else {
+          nextSlide();
+        }
+        setIsDragging(false);
+      }
+    },
+    [isDragging, dragStart, nextSlide, prevSlide],
+  );
+
+  const handleMouseUp = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  // 터치 이벤트 핸들러
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    setDragStart({ x: touch.clientX, y: touch.clientY });
+  }, []);
+
+  const handleTouchMove = useCallback(
+    (e: React.TouchEvent) => {
+      const touch = e.touches[0];
+      const deltaX = touch.clientX - dragStart.x;
+      const threshold = 50;
+
+      if (Math.abs(deltaX) > threshold) {
+        if (deltaX > 0) {
+          prevSlide();
+        } else {
+          nextSlide();
+        }
+      }
+    },
+    [dragStart, nextSlide, prevSlide],
+  );
+
+  // 키보드 이벤트 핸들러
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        prevSlide();
+      } else if (e.key === 'ArrowRight') {
+        nextSlide();
+      }
+    },
+    [nextSlide, prevSlide],
+  );
+
+  // 이벤트 리스너 등록
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    // 휠 이벤트 (passive: false로 preventDefault 사용 가능)
+    container.addEventListener('wheel', handleWheel, { passive: false });
+
+    // 키보드 이벤트
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      container.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleWheel, handleKeyDown]);
+
+  // 카드의 위치와 스타일 계산
+  const getCardStyle = (index: number): CardStyle => {
+    const distance = index - currentIndex;
+
+    // 카드 간격 (카드 너비 + gap)
+    const cardSpacing = 400; // 260px 카드 + 140px gap
+    const translateX = distance * cardSpacing;
+
+    // Fadeout 효과: 거리에 따른 투명도 계산
+    const baseOpacity = 1;
+    const opacity = Math.max(0, baseOpacity - Math.abs(distance) * 0.3);
+
+    if (distance === 0) {
+      // 가운데 카드 (선택된 카드)
+      return {
+        opacity: 1,
+        transform: `translateX(${translateX}px) scale(1)`,
+        border: '1px solid #000000',
+        zIndex: 10,
+      };
+    } else if (Math.abs(distance) === 1) {
+      // 바로 옆 카드들
+      return {
+        opacity: Math.max(0.3, opacity),
+        transform: `translateX(${translateX}px) scale(1)`,
+        border: '1px solid #E7E8EA',
+        zIndex: 9,
+      };
+    } else if (Math.abs(distance) === 2) {
+      // 두 번째 옆 카드들
+      return {
+        opacity: Math.max(0.1, opacity),
+        transform: `translateX(${translateX}px) scale(1)`,
+        border: '1px solid #E7E8EA',
+        zIndex: 8,
+      };
+    } else if (Math.abs(distance) === 3) {
+      // 세 번째 옆 카드들
+      return {
+        opacity: Math.max(0.05, opacity),
+        transform: `translateX(${translateX}px) scale(1)`,
+        border: '1px solid #E7E8EA',
+        zIndex: 7,
+      };
+    } else {
+      // 멀리 있는 카드들
+      return {
+        opacity: 0,
+        transform: `translateX(${translateX}px) scale(1)`,
+        border: '1px solid #E7E8EA',
+        zIndex: 1,
+      };
+    }
+  };
 
   if (isLoading) {
     return (
@@ -104,59 +258,98 @@ export default function RankCardSlider() {
   }
 
   return (
-    <Flex position='relative' height='fit-content'>
-      {/* 네이티브 스크롤 컨테이너 */}
+    <div
+      ref={containerRef}
+      style={{
+        position: 'relative',
+        width: '100vw',
+        height: '600px',
+        marginLeft: 'calc(-50vw + 50%)',
+        marginRight: 'calc(-50vw + 50%)',
+        marginBottom: '258px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden',
+        cursor: isDragging ? 'grabbing' : 'grab',
+      }}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+    >
       <div
-        ref={sliderRef}
         style={{
-          display: 'flex',
-          gap: '20px',
-          paddingRight: '350px',
-          overflow: 'auto',
-          scrollbarWidth: 'none', // Firefox
-          msOverflowStyle: 'none', // IE
-          WebkitOverflowScrolling: 'touch', // iOS smooth scroll
-          cursor: isDragging ? 'grabbing' : 'grab',
-          userSelect: 'none',
+          position: 'absolute',
+          top: '0',
+          left: '0',
+          width: '545px',
+          height: '100%',
+          background:
+            'linear-gradient(-90deg, rgba(20, 22, 29, 0.00) 0%, rgba(20, 22, 29, 0.80) 100%)',
+          zIndex: 10,
+          pointerEvents: 'none',
         }}
-        css={{
-          '&::-webkit-scrollbar': {
-            display: 'none', // Chrome, Safari
-          }
-        }}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-        onMouseMove={handleMouseMove}
-      >
-        {allItems.map((item, index) => (
-          <div 
-            key={`${item.id}-${index}`}
-            style={{ 
-              flexShrink: 0,
-              minWidth: '260px',
-            }}
-          >
-            {item.isEmpty ? (
-              <EmptyRankCard />
-            ) : (
-              <RegionCard data={item as RegionCardData} />
-            )}
-          </div>
-        ))}
-      </div>
-
-      {/* 그라데이션 오버레이 */}
-      <Flex 
-        position='absolute'
-        top='0'
-        right='0'
-        width='350px'
-        height='100%'
-        background='linear-gradient(270deg, rgba(30, 30, 30, 0.00) 0%, rgba(30, 30, 30) 100%)'
-        pointerEvents='none'
       />
-    </Flex>
+
+      <div
+        style={{
+          position: 'absolute',
+          top: '0',
+          right: '0',
+          width: '545px',
+          height: '100%',
+          background:
+            'linear-gradient(90deg, rgba(20, 22, 29, 0.00) 0%, rgba(20, 22, 29, 0.80) 100%)',
+          zIndex: 10,
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* 카드 컨테이너 */}
+      <div
+        style={{
+          position: 'relative',
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        {allItems.map((item, index) => {
+          const cardStyle = getCardStyle(index);
+
+          return (
+            <div
+              key={`${item.id}-${index}`}
+              style={{
+                position: 'absolute',
+                opacity: cardStyle.opacity,
+                transform: cardStyle.transform,
+                zIndex: cardStyle.zIndex,
+                transition: 'all 0.5s ease',
+                pointerEvents: cardStyle.zIndex >= 8 ? 'auto' : 'none', // 보이는 카드만 클릭 가능
+              }}
+            >
+              {item.isEmpty ? (
+                <EmptyRankCard />
+              ) : (
+                <RegionCard
+                  data={item as RegionCardData}
+                  style={{
+                    border: cardStyle.border,
+                    pointerEvents: 'auto',
+                  }}
+                />
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
