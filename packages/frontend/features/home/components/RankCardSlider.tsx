@@ -5,7 +5,13 @@ import { TopRegionCard } from '@/api/types/stats.types';
 import RegionCard from '@/components/ui/RegionCard';
 import { RegionCardData } from '@/types/region';
 import { generateChartData } from '@/utils/chartUtils';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import EmptyRankCard from './EmptyRankCard';
 
 // TopRegionCard를 RegionCardData로 변환하는 함수
@@ -51,52 +57,34 @@ export default function RankCardSlider() {
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // 안전한 데이터 추출
-  let regionCards: RegionCardData[] = [];
-
-  console.log('## topRegionsResponse', topRegionsResponse);
-
-  // new
-  if (
-    topRegionsResponse &&
-    topRegionsResponse.data &&
-    Array.isArray(topRegionsResponse.data)
-  ) {
-    const data: RegionCardData[] = topRegionsResponse.data.map((item) => ({
-      id: item.regionId,
-      name: item.regionName,
-      province: item.provinceName,
-      similarity: 100,
-      rank: item.rank,
-      score: item.totalScore,
-      display_type: '상위 랭킹',
-      klaciCode: item.klaciCode,
-      klaciType: item.klaciType,
-      klaciNickname: item.klaciNickname,
-      radarData: generateChartData({
-        growth_score: item.categoryScore.growth_score,
-        economy_score: item.categoryScore.economy_score,
-        living_score: item.categoryScore.living_score,
-        safety_score: item.categoryScore.safety_score,
-      }),
-    }));
-    regionCards = data;
-
-    // id: string | number;
-    // name: string;
-    // province: string;
-    // similarity: number; // 유사도 점수 (0-100)
-    // rank: number;
-    // score: number;
-    // radarData?: number[]; // 레이더 차트 데이터
-    // klaciCode?: string; // KLACI 코드
-    // klaciType?: string; // 지역 타입
-    // klaciNickname?: string; // 닉네임
-    // display_type?: string; // API에서 받은 표시 타입
-    // selection_tags?: string[]; // 선택 조건 태그
-    // [key: string]: any; // 추가 속성들을 위한 인덱스 시그니처
-  }
-
+  const regionCards: RegionCardData[] = useMemo(() => {
+    if (
+      topRegionsResponse &&
+      topRegionsResponse.data &&
+      Array.isArray(topRegionsResponse.data)
+    ) {
+      const data: RegionCardData[] = topRegionsResponse.data.map((item) => ({
+        id: item.regionId,
+        name: item.regionName,
+        province: item.provinceName,
+        similarity: 100,
+        rank: item.rank,
+        score: item.totalScore,
+        display_type: '상위 랭킹',
+        klaciCode: item.klaciCode,
+        klaciType: item.klaciType,
+        klaciNickname: item.klaciNickname,
+        radarData: generateChartData({
+          growth_score: item.categoryScore.growth_score,
+          economy_score: item.categoryScore.economy_score,
+          living_score: item.categoryScore.living_score,
+          safety_score: item.categoryScore.safety_score,
+        }),
+      }));
+      return data;
+    }
+    return [];
+  }, [topRegionsResponse]);
 
   // EmptyRankCard를 마지막에 추가
   const allItems = [...regionCards, { id: 'empty', isEmpty: true }];
