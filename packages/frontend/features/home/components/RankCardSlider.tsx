@@ -32,7 +32,6 @@ export default function RankCardSlider() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-  const [lastScrollTime, setLastScrollTime] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // 안전한 데이터 추출
@@ -70,25 +69,6 @@ export default function RankCardSlider() {
       return next < 0 ? 0 : next;
     });
   }, []);
-
-  // 스크롤 이벤트 핸들러 (throttle 적용)
-  const handleWheel = useCallback(
-    (e: WheelEvent) => {
-      e.preventDefault();
-      const now = Date.now();
-
-      // 300ms throttle 적용
-      if (now - lastScrollTime < 300) return;
-      setLastScrollTime(now);
-
-      if (e.deltaY > 0) {
-        nextSlide();
-      } else if (e.deltaY < 0) {
-        prevSlide();
-      }
-    },
-    [nextSlide, prevSlide, lastScrollTime],
-  );
 
   // 마우스 드래그 이벤트 핸들러
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
@@ -154,22 +134,15 @@ export default function RankCardSlider() {
     [nextSlide, prevSlide],
   );
 
-  // 이벤트 리스너 등록
+  // 이벤트 리스너 등록 (휠 이벤트 제거)
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    // 휠 이벤트 (passive: false로 preventDefault 사용 가능)
-    container.addEventListener('wheel', handleWheel, { passive: false });
-
-    // 키보드 이벤트
+    // 키보드 이벤트만 등록
     window.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      container.removeEventListener('wheel', handleWheel);
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [handleWheel, handleKeyDown]);
+  }, [handleKeyDown]);
 
   // 카드의 위치와 스타일 계산
   const getCardStyle = (index: number): CardStyle => {
@@ -261,17 +234,18 @@ export default function RankCardSlider() {
     <div
       ref={containerRef}
       style={{
-        position: 'relative',
+        position: 'absolute',
+        left: '0',
+        right: '0',
         width: '100vw',
         height: '600px',
-        marginLeft: 'calc(-50vw + 50%)',
-        marginRight: 'calc(-50vw + 50%)',
         marginBottom: '258px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         overflow: 'hidden',
         cursor: isDragging ? 'grabbing' : 'grab',
+        zIndex: 5,
       }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
