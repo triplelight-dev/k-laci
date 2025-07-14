@@ -10,12 +10,12 @@ import { useDistrict, useSetSelectedDistrict, useSetSelectedProvince, useSetSele
 import { generateChartData } from '@/utils/chartUtils';
 import { addWaOrGwa } from '@/utils/koreanUtils';
 import { Flex } from '@chakra-ui/react';
+import { josa } from 'es-hangul';
 import { useRouter } from 'next/navigation';
 import SimilarRegionCard from '../components/SimilarRegionCard';
 import SimilarRegionCardSlider from '../components/SimilarRegionCardSlider';
 import { SimilarRegionData } from './SimilarRegionSection.type';
 import { SummarySectionHeader } from './SummarySectionHeader';
-import { josa } from 'es-hangul';
 
 
 
@@ -213,12 +213,12 @@ const SimilarRegionSection: React.FC = () => {
       <Flex style={{ width: '100%', maxWidth: '1060px', margin: '0 auto', justifyContent: 'center' }}>
         <SimilarRegionCard
           data={{
-            id: selectedRegion?.id || '',
+            id: selectedRegion?.id || 0,
             name: selectedRegion?.name || '',
-            province: selectedProvince?.name || '',
-            similarity: 100,
-            rank: 1,
-            score: 100,
+            province: selectedRegion?.province?.name || '',
+            similarity: 100, // 자기 자신이므로 100 유지
+            rank: selectedRegion?.total_rank || 1,
+            score: selectedRegion?.total_score || 0,
             klaciCode: selectedRegion?.klaci.code || '',
             klaciType: selectedRegion?.klaci.type || '',
             klaciNickname: selectedRegion?.klaci.nickname || '',
