@@ -26,7 +26,7 @@ const KlaciCodeCirclesMini: React.FC<KlaciCodeCirclesMiniProps> = ({
   // klaci_code 문자열을 개별 문자로 분리
   const klaciCodes = klaciCode.split('').map((code) => ({
     code, // 원본 코드 그대로 표시 (소문자면 소문자로)
-    color: codeColorMapping[code.toUpperCase()] || '#666666', // 색상 매칭은 대문자로 변환
+    color: codeColorMapping[code.toUpperCase()] || '#D9D9E8', // 색상 매칭은 대문자로 변환
   }));
 
   return (
