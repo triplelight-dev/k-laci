@@ -7,6 +7,8 @@ import {
   GetProvinceRanksParams,
   GetRankingParams,
   GetRankingResponse,
+  GetTopRegionsForCardParams,
+  GetTopRegionsForCardResponse,
   // 기존 호환성을 위한 import
   GetTotalRegionRanksParams,
   GetTotalRegionRanksResponse,
@@ -165,7 +167,61 @@ export class StatsService {
   static async getDistrictTypeRanks(): Promise<GetRankingResponse> {
     return this.getRanking(API_ENDPOINTS.STATS.DISTRICT_TYPE_RANK, {});
   }
+
+  /**
+   * 상위 지역 카드용 데이터 조회
+   */
+  static async getTopRegionsForCard(
+    params: GetTopRegionsForCardParams = {},
+  ): Promise<GetTopRegionsForCardResponse> {
+    const { limit } = params;
+    const queryParams = new URLSearchParams();
+    
+    if (limit !== undefined) {
+      queryParams.append('limit', limit.toString());
+    }
+
+    const url = `${API_ENDPOINTS.STATS.TOP_REGIONS_FOR_CARD}${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
+
+    console.log('API Call URL:', url);
+
+    const response = await apiClient.get(url);
+
+    console.log('API Response:', response.data);
+
+    return {
+      data: response.data || [],
+    };
+  }
 }
 
 // 기존 호환성을 위한 인스턴스 export
 export const statsService = new StatsService();
+
+// Top Region Card 타입
+export interface CategoryScore {
+  growth_score: number;
+  economy_score: number;
+  living_score: number;
+  safety_score: number;
+}
+
+export interface TopRegionCard {
+  regionId: number;
+  regionName: string;
+  provinceName: string;
+  rank: number;
+  totalScore: number;
+  klaciCode: string;
+  klaciType: string;
+  klaciNickname: string;
+  categoryScore: CategoryScore;
+}
+
+export interface GetTopRegionsForCardParams {
+  limit?: number;
+}
+
+export interface GetTopRegionsForCardResponse {
+  data: TopRegionCard[];
+}
