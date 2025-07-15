@@ -9,11 +9,7 @@ interface RadarHoverEffectsProps {
   showWeakTooltip?: boolean;
 }
 
-const RadarHoverEffects = ({
-  context,
-  showStrongTooltip,
-  showWeakTooltip,
-}: RadarHoverEffectsProps) => {
+const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: RadarHoverEffectsProps) => {
   const [hoveredPoint, setHoveredPoint] = useState<number | null>(null);
 
   const {
@@ -28,6 +24,8 @@ const RadarHoverEffects = ({
     vals,
   } = context;
 
+  const centerY = center - 200; // 200으로 유지
+
   // 깜빡임 방지를 위한 useCallback 사용
   const handlePointMouseEnter = useCallback((i: number) => {
     setHoveredPoint(i);
@@ -39,7 +37,7 @@ const RadarHoverEffects = ({
       circle.style.strokeWidth = '2';
       circle.style.fill = '#FFFFFF';
     }
-
+    
     // 내부 검정색 원도 보이게 설정
     const innerCircle = document.querySelector(
       `circle[data-index="${i}"] + circle.data-point-inner`,
@@ -59,7 +57,7 @@ const RadarHoverEffects = ({
       circle.style.strokeWidth = '1.5';
       circle.style.fill = '#9A9EA3';
     }
-
+    
     // 내부 검정색 원 숨기기
     const innerCircle = document.querySelector(
       `circle[data-index="${i}"] + circle.data-point-inner`,
@@ -143,7 +141,7 @@ const RadarHoverEffects = ({
               onMouseLeave={() => handlePointMouseLeave(i)}
               style={{ cursor: 'pointer' }}
             />
-
+            
             {/* 기본 원 */}
             <circle
               cx={pt.x}
@@ -161,7 +159,7 @@ const RadarHoverEffects = ({
               }}
               data-index={i}
             />
-
+            
             {/* 호버 시 내부 검정색 원 */}
             <circle
               cx={pt.x}
@@ -233,11 +231,11 @@ const RadarHoverEffects = ({
       {/* 강점/약점 영역 툴팁 - 우측 텍스트 호버에만 반응 */}
       {showStrongTooltip && (
         <g>
-          {/* 강점영역 툴팁 */}
+          {/* 강점영역 툴팁 - 물음표 아이콘 우측에 위치 */}
           <rect
-            x={center - 154}
-            y={center + 20}
-            width={308}
+            x={center + radius + 85} // 105에서 85로 20px 왼쪽 이동
+            y={centerY - 60} // 강점 텍스트 위쪽
+            width={388} // 308에서 388로 증가 (80px 증가)
             height={100}
             rx={8}
             fill="white"
@@ -248,22 +246,19 @@ const RadarHoverEffects = ({
             }}
           />
           <text
-            x={center}
-            y={center + 45}
+            x={center + radius + 279} // 툴팁 중앙 (85 + 194)
+            y={centerY - 35}
             textAnchor="middle"
             dominantBaseline="middle"
             fontSize="8"
             fill="#333"
           >
             원석레이더 차트의 상반부는{' '}
-            <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>
-              &apos;강점&apos;
-            </tspan>{' '}
-            영역입니다.
+            <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>&apos;강점&apos;</tspan> 영역입니다.
           </text>
           <text
-            x={center}
-            y={center + 70}
+            x={center + radius + 279}
+            y={centerY - 10}
             textAnchor="middle"
             dominantBaseline="middle"
             fontSize="8"
@@ -272,8 +267,8 @@ const RadarHoverEffects = ({
             &apos;약점&apos; 원형 범위와 비교해 지역의 자산 정도를
           </text>
           <text
-            x={center}
-            y={center + 95}
+            x={center + radius + 279}
+            y={centerY + 15}
             textAnchor="middle"
             dominantBaseline="middle"
             fontSize="8"
@@ -285,11 +280,11 @@ const RadarHoverEffects = ({
       )}
       {showWeakTooltip && (
         <g>
-          {/* 약점영역 툴팁 */}
+          {/* 약점영역 툴팁 - 물음표 아이콘 우측에 위치 */}
           <rect
-            x={center - 154}
-            y={center - 120}
-            width={308}
+            x={center + radius + 105} // 물음표 아이콘 우측 (20 + 65 + 20)
+            y={centerY - 32} // 약점 텍스트 위쪽
+            width={388} // 308에서 388로 증가 (80px 증가)
             height={100}
             rx={8}
             fill="white"
@@ -300,22 +295,19 @@ const RadarHoverEffects = ({
             }}
           />
           <text
-            x={center}
-            y={center - 95}
+            x={center + radius + 299} // 툴팁 중앙 (105 + 194)
+            y={centerY - 7}
             textAnchor="middle"
             dominantBaseline="middle"
             fontSize="8"
             fill="#333"
           >
             원석레이더 차트의 하반부는{' '}
-            <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>
-              &apos;약점&apos;
-            </tspan>{' '}
-            영역입니다.
+            <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>&apos;약점&apos;</tspan> 영역입니다.
           </text>
           <text
-            x={center}
-            y={center - 70}
+            x={center + radius + 299}
+            y={centerY + 18}
             textAnchor="middle"
             dominantBaseline="middle"
             fontSize="8"
@@ -324,8 +316,8 @@ const RadarHoverEffects = ({
             &apos;강점&apos; 원형 범위와 비교해 개선 정도를
           </text>
           <text
-            x={center}
-            y={center - 45}
+            x={center + radius + 299}
+            y={centerY + 43}
             textAnchor="middle"
             dominantBaseline="middle"
             fontSize="8"

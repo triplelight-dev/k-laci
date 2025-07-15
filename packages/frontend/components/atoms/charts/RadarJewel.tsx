@@ -14,7 +14,7 @@ const RadarJewel = ({ context, imageUrl }: RadarJewelProps) => {
   
   // 배경과 동일한 중심점 사용
   const jewelCenterX = center; // x축 중심 (svgCenterX)
-  const jewelCenterY = center - 200; // 150에서 200으로 변경
+  const jewelCenterY = center - 200; // 200으로 유지
 
   return (
     <>

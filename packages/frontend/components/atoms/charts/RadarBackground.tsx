@@ -96,7 +96,7 @@ const RadarBackground = ({
   const guideLabelX = center + radius + 20; // 기존보다 20px 더 왼쪽
   const guideQmarkX = guideLabelX + 65; // 원은 텍스트 기준 오른쪽 32px (필요시 조정)
   // 실제 y축 중심 계산
-  const centerY = center - 200; // 150에서 200으로 변경
+  const centerY = center - 200; // 200으로 유지
   const guideStrongY = centerY - 10;
   const guideWeakY = centerY + 18;
 

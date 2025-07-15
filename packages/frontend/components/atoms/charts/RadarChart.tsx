@@ -23,7 +23,7 @@ const JewelRadarChart = ({
   const svgSize = size + padding * 2;
   
   // 좌우만 확장
-  const horizontalExtension = 200; // 150에서 200으로 증가 (좌우로 각각 200px씩)
+  const horizontalExtension = 200; // 200으로 유지
   const svgWidth = svgSize + horizontalExtension * 2;
   const svgHeight = svgSize;
   
