@@ -73,23 +73,24 @@ const IndexItem: React.FC<{
 
   const categoryColor = colorMap[data.category] || '#874FFF';
 
-
   return (
     <Flex>
       <div style={{ margin: '15px 19px', width: '40px' }}>
-        <Text
-          color={indexRank === 1 || indexRank === 55 ? '#000' : '#9A9EA3'}
-          fontSize='14px'
-          fontWeight='500'
-          marginBottom='4px'
-          display='flex'
-          alignItems='center'
-          flexDirection='column'
+        <div
+          style={{
+            color: indexRank === 1 || indexRank === 55 ? '#000' : '#9A9EA3',
+            fontSize: '14px',
+            fontWeight: '500',
+            marginBottom: '4px',
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'column',
+          }}
         >
           {indexRank}위
           {indexRank === 1 && <Text color='#000' fontSize='14px' fontWeight='500' >(강점)</Text>}
           {indexRank === 55 && <Text color='#000' fontSize='14px' fontWeight='500' >(약점)</Text>}
-        </Text>
+        </div>
       </div>
       <div
         style={{

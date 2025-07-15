@@ -14,6 +14,7 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
 
   const {
     center,
+    actualCenterY, // centerY 대신 actualCenterY 사용
     radius,
     size,
     isJewel,
@@ -22,7 +23,11 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
     colorMap,
     points,
     vals,
+    tooltip,
   } = context;
+
+  // context에서 받은 툴팁 위치 값들 사용
+  const { boxX: tooltipBoxX, textX: tooltipTextX, boxY: tooltipBoxY } = tooltip;
 
   // 깜빡임 방지를 위한 useCallback 사용
   const handlePointMouseEnter = useCallback((i: number) => {
@@ -89,21 +94,16 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
               opacity: 1 !important;
             }
             .radar-guide-label {
-              font-size: 12px !important;
               font-weight: 600 !important;
-              fill: #BDBDBD !important;
               opacity: 1 !important;
             } 
             .radar-guide-qmark {
-              font-size: 8px !important;
               font-weight: bold !important;
-              fill: #BDBDBD !important;
               opacity: 1 !important;
             }
             
             /* 원 안의 텍스트 폰트 크기 고정 */
             .radar-circle-code-text {
-              font-size: 11px !important;
             }
             
             /* 라벨 텍스트 폰트 웨이트 고정 */
@@ -167,161 +167,153 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
               className="data-point-inner"
               style={{
                 opacity: 0,
-                transition: 'opacity 0.3s ease',
-                pointerEvents: 'none', // 이벤트 비활성화
+                transition: 'opacity 0.2s ease',
+                pointerEvents: 'none',
               }}
             />
 
-            <text
-              x={pt.x}
-              y={pt.y - 15}
-              textAnchor="middle"
-              fontSize="12"
-              fontWeight="600"
-              fill={
-                ['인구성장형', '안전회복형'].includes(category)
-                  ? colorMap[category] || '#333'
-                  : '#333'
-              }
-              className="category-text"
-              style={{
-                opacity: 0,
-                transition: 'opacity 0.3s ease',
-                pointerEvents: 'none', // 이벤트 비활성화
-              }}
-            >
-              {category}
-            </text>
+            {/* 툴팁 내용 - 간단한 형태로 복원 */}
+            {hoveredPoint === i && (
+              <g>
+                {/* 툴팁 배경 */}
+                <rect
+                  x={pt.x + 10}
+                  y={pt.y - 30}
+                  width={50}
+                  height={40}
+                  rx={8}
+                  fill="rgba(0, 0, 0, 0.8)"
+                  stroke="none"
+                />
+                
+                {/* 툴팁 텍스트 - 점수만 표시 */}
+                <text
+                  x={pt.x + 35}
+                  y={pt.y - 10}
+                  fill="white"
+                  fontSize={fontSize.tooltip}
+                  fontWeight="500"
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                >
+                  {vals[i]?.toFixed(1)}
+                </text>
+              </g>
+            )}
           </g>
         );
       })}
 
-      {/* 툴팁들 */}
-      {/* 데이터 포인트 툴팁 */}
-      {hoveredPoint !== null && points[hoveredPoint] && (
+      {/* 강점/약점 영역 툴팁 - actualCenterY 기준으로 수정 */}
+      {showStrongTooltip && (
         <g>
           <rect
-            x={points[hoveredPoint]!.x - 22}
-            y={points[hoveredPoint]!.y - 40}
-            width={44}
-            height={32}
-            rx={8}
-            fill="#000000"
+            x={tooltipBoxX + 15}
+            y={tooltipBoxY}
+            width={320}
+            height={100}
+            fill="transparent"
             stroke="none"
             style={{
-              filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2))',
+              filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1))',
             }}
           />
           <text
-            x={points[hoveredPoint]!.x}
-            y={points[hoveredPoint]!.y - 24}
-            textAnchor="middle"
+            x={tooltipTextX + 15}
+            y={actualCenterY - 25} // 점선 위 첫 번째 줄 (2px 더 위로)
+            textAnchor="start"
             dominantBaseline="middle"
-            fontSize="12"
-            fill="#FFFFFF"
-            fontWeight="bold"
+            style={{ fontSize: `${fontSize.area}px`, fontWeight: '400' }}
+            fill="#333"
           >
-            {vals[hoveredPoint]?.toFixed(1)}
+            차트 상반부는 <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>강점영역</tspan>입니다.
+          </text>
+          <text
+            x={tooltipTextX + 15}
+            y={actualCenterY - 9} // 점선 위 두 번째 줄 (1px 더 위로)
+            textAnchor="start"
+            dominantBaseline="middle"
+            style={{ fontSize: `${fontSize.area}px`, fontWeight: '400' }}
+            fill="#333"
+          >
+            영역 내 면적과 역량 분포에
+          </text>
+          <text
+            x={tooltipTextX + 15}
+            y={actualCenterY + 9} // 점선 아래 첫 번째 줄 (1px 더 아래로)
+            textAnchor="start"
+            dominantBaseline="middle"
+            style={{ fontSize: `${fontSize.area}px`, fontWeight: '400' }}
+            fill="#333"
+          >
+            따라 해당 지역이 현재 보유한
+          </text>
+          <text
+            x={tooltipTextX + 15}
+            y={actualCenterY + 25} // 점선 아래 두 번째 줄 (2px 더 아래로)
+            textAnchor="start"
+            dominantBaseline="middle"
+            style={{ fontSize: `${fontSize.area}px`, fontWeight: '400' }}
+            fill="#333"
+          >
+            <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>강점</tspan>을 진단할 수 있습니다.
           </text>
         </g>
       )}
 
-      {/* 강점/약점 영역 툴팁 - 우측 텍스트 호버에만 반응 */}
-      {showStrongTooltip && (
-        <g>
-          {/* 강점영역 툴팁 */}
-          <rect
-            x={center - 154}
-            y={center + 20}
-            width={308}
-            height={100}
-            rx={8}
-            fill="white"
-            stroke="#333"
-            strokeWidth={1}
-            style={{
-              filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1))',
-            }}
-          />
-          <text
-            x={center}
-            y={center + 45}
-            textAnchor="middle"
-            dominantBaseline="middle"
-            fontSize="8"
-            fill="#333"
-          >
-            원석레이더 차트의 상반부는{' '}
-            <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>&apos;강점&apos;</tspan> 영역입니다.
-          </text>
-          <text
-            x={center}
-            y={center + 70}
-            textAnchor="middle"
-            dominantBaseline="middle"
-            fontSize="8"
-            fill="#333"
-          >
-            &apos;약점&apos; 원형 범위와 비교해 지역의 자산 정도를
-          </text>
-          <text
-            x={center}
-            y={center + 95}
-            textAnchor="middle"
-            dominantBaseline="middle"
-            fontSize="8"
-            fill="#333"
-          >
-            파악할 수 있습니다.
-          </text>
-        </g>
-      )}
+      {/* 약점영역 툴팁 - actualCenterY 기준으로 수정 */}
       {showWeakTooltip && (
         <g>
-          {/* 약점영역 툴팁 */}
           <rect
-            x={center - 154}
-            y={center - 120}
-            width={308}
+            x={tooltipBoxX + 15}
+            y={tooltipBoxY}
+            width={320}
             height={100}
-            rx={8}
-            fill="white"
-            stroke="#333"
-            strokeWidth={1}
+            fill="transparent"
+            stroke="none"
             style={{
               filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1))',
             }}
           />
           <text
-            x={center}
-            y={center - 95}
-            textAnchor="middle"
+            x={tooltipTextX + 15}
+            y={actualCenterY - 25} // 점선 위 첫 번째 줄 (2px 더 위로)
+            textAnchor="start"
             dominantBaseline="middle"
-            fontSize="8"
+            style={{ fontSize: `${fontSize.area}px`, fontWeight: '400' }}
             fill="#333"
           >
-            원석레이더 차트의 하반부는{' '}
-            <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>&apos;약점&apos;</tspan> 영역입니다.
+            차트 하반부는 <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>약점영역</tspan>입니다.
           </text>
           <text
-            x={center}
-            y={center - 70}
-            textAnchor="middle"
+            x={tooltipTextX + 15}
+            y={actualCenterY - 9} // 점선 위 두 번째 줄 (1px 더 위로)
+            textAnchor="start"
             dominantBaseline="middle"
-            fontSize="8"
+            style={{ fontSize: `${fontSize.area}px`, fontWeight: '400' }}
             fill="#333"
           >
-            &apos;강점&apos; 원형 범위와 비교해 개선 정도를
+            영역 내 면적과 역량 분포에
           </text>
           <text
-            x={center}
-            y={center - 45}
-            textAnchor="middle"
+            x={tooltipTextX + 15}
+            y={actualCenterY + 9} // 점선 아래 첫 번째 줄 (1px 더 아래로)
+            textAnchor="start"
             dominantBaseline="middle"
-            fontSize="8"
+            style={{ fontSize: `${fontSize.area}px`, fontWeight: '400' }}
             fill="#333"
           >
-            파악할 수 있습니다.
+            따라 해당 지역이 현재 보유한
+          </text>
+          <text
+            x={tooltipTextX + 15}
+            y={actualCenterY + 25} // 점선 아래 두 번째 줄 (2px 더 아래로)
+            textAnchor="start"
+            dominantBaseline="middle"
+            style={{ fontSize: `${fontSize.area}px`, fontWeight: '400' }}
+            fill="#333"
+          >
+            <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>약점</tspan>을 진단할 수 있습니다.
           </text>
         </g>
       )}

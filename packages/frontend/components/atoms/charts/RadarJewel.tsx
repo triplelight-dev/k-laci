@@ -8,22 +8,26 @@ interface RadarJewelProps {
 }
 
 const RadarJewel = ({ context, imageUrl }: RadarJewelProps) => {
-  const { center, radius, categories, points, vals, fixedColorPairs } = context;
+  const { center, actualCenterY, radius, categories, points, vals, fixedColorPairs } = context;
 
   const numAxes = categories.length;
+  
+  // points 배열과 동일한 중심점 사용
+  const jewelCenterX = center; // svgCenterX
+  const jewelCenterY = actualCenterY; // svgCenterY (points와 동일)
 
   return (
     <>
       <defs>
-        {/* 이미지 패턴 정의 - 정중앙 정렬을 위해 수정 */}
+        {/* 이미지 패턴 정의 */}
         {imageUrl && (
           <pattern
             id="jewelImagePattern"
             patternUnits="userSpaceOnUse"
             width={radius * 2}
             height={radius * 2}
-            x={center - radius}
-            y={center - radius}
+            x={jewelCenterX - radius}
+            y={jewelCenterY - radius}
           >
             <image
               href={imageUrl}
@@ -45,13 +49,13 @@ const RadarJewel = ({ context, imageUrl }: RadarJewelProps) => {
             return (
               <path
                 key={i}
-                d={`M${center},${center} L${pt.x},${pt.y} L${next.x},${next.y} Z`}
+                d={`M${jewelCenterX},${jewelCenterY} L${pt.x},${pt.y} L${next.x},${next.y} Z`}
               />
             );
           })}
         </clipPath>
 
-        {/* 기존 그라디언트들 */}
+        {/* 그라디언트들 - points와 동일한 중심점 사용 */}
         {categories.map((category, i) => {
           if (!category) return null;
           const pct = Math.min(100, ((vals[i] ?? 0) / 100) * 100);
@@ -62,8 +66,8 @@ const RadarJewel = ({ context, imageUrl }: RadarJewelProps) => {
               <radialGradient
                 key={i}
                 id={`grad${i}`}
-                cx={center}
-                cy={center}
+                cx={jewelCenterX}
+                cy={jewelCenterY}
                 r={radius}
                 gradientUnits="userSpaceOnUse"
               >
@@ -79,8 +83,8 @@ const RadarJewel = ({ context, imageUrl }: RadarJewelProps) => {
               <radialGradient
                 key={i}
                 id={`grad${i}`}
-                cx={center}
-                cy={center}
+                cx={jewelCenterX}
+                cy={jewelCenterY}
                 r={radius}
                 gradientUnits="userSpaceOnUse"
               >
@@ -99,8 +103,8 @@ const RadarJewel = ({ context, imageUrl }: RadarJewelProps) => {
               <radialGradient
                 key={i}
                 id={`grad${i}`}
-                cx={center}
-                cy={center}
+                cx={jewelCenterX}
+                cy={jewelCenterY}
                 r={radius}
                 gradientUnits="userSpaceOnUse"
               >
@@ -114,8 +118,8 @@ const RadarJewel = ({ context, imageUrl }: RadarJewelProps) => {
             <radialGradient
               key={i}
               id={`grad${i}`}
-              cx={center}
-              cy={center}
+              cx={jewelCenterX}
+              cy={jewelCenterY}
               r={radius}
               gradientUnits="userSpaceOnUse"
             >
@@ -127,20 +131,15 @@ const RadarJewel = ({ context, imageUrl }: RadarJewelProps) => {
         })}
       </defs>
 
-      {/* 이미지가 있을 때: 이미지 패턴으로 보석 렌더링 */}
+      {/* 배경 이미지가 있을 때: 이미지 패턴으로 보석 렌더링 */}
       {imageUrl && (
-        <g clipPath="url(#jewelClipPath)">
-          <rect
-            x={center - radius}
-            y={center - radius}
-            width={radius * 2}
-            height={radius * 2}
-            fill="url(#jewelImagePattern)"
-          />
-        </g>
+        <polygon
+          points={points.map(pt => `${pt.x},${pt.y}`).join(' ')}
+          fill="url(#jewelImagePattern)"
+        />
       )}
 
-      {/* 이미지가 없을 때: 기존 그라디언트로 보석 렌더링 */}
+      {/* 배경 이미지가 없을 때: 그라디언트로 보석 렌더링 */}
       {!imageUrl &&
         points.map((pt, i) => {
           const next = points[(i + 1) % numAxes];
@@ -149,7 +148,7 @@ const RadarJewel = ({ context, imageUrl }: RadarJewelProps) => {
           return (
             <path
               key={i}
-              d={`M${center},${center} L${pt.x},${pt.y} L${next.x},${next.y} Z`}
+              d={`M${jewelCenterX},${jewelCenterY} L${pt.x},${pt.y} L${next.x},${next.y} Z`}
               fill={`url(#grad${i})`}
               fillOpacity={0.7}
               stroke="none"
@@ -160,8 +159,6 @@ const RadarJewel = ({ context, imageUrl }: RadarJewelProps) => {
             />
           );
         })}
-
-      {/* 보석 테두리 완전 제거 */}
     </>
   );
 };
