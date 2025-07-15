@@ -135,7 +135,7 @@ const AboutUsSection: React.FC = () => {
           icon={<ArrowRightUp />}
           variant='primary'
           onClick={() => {
-            window.open(EXTERNAL_LINKS.TRIPLELIGHT_HOMEPAGE, '_blank');
+            window.open(EXTERNAL_LINKS.TRIPLELIGHT_HOMEPAGE_CONTACT, '_blank');
           }}
         />
 
