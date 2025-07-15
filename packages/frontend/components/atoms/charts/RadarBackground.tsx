@@ -33,7 +33,7 @@ const RadarBackground = ({
     points,
     vals,
     fixedColorPairs,
-    regionData,  // 추가
+    regionData, // 추가
     guide,
   } = context;
 
@@ -50,13 +50,6 @@ const RadarBackground = ({
     strongY: guideStrongY,
     weakY: guideWeakY,
   } = guide;
-
-  // 기존 하드코딩된 계산들 제거
-  // const centerY = center - 200; // 제거
-  // const guideLabelX = center + radius + 20; // 제거
-  // const guideQmarkX = guideLabelX + 65; // 제거
-  // const guideStrongY = centerY - 10; // 제거
-  // const guideWeakY = centerY + 18; // 제거
 
   // map 바깥에서 한 번만 선언
   const leftCircleCategories = [
@@ -250,7 +243,7 @@ const RadarBackground = ({
         </text>
         <circle
           cx={guideQmarkX}
-          cy={guideStrongY + 1}  // 1px 아래로 조정
+          cy={guideStrongY} // 1px 아래로 조정 제거 - 텍스트와 같은 높이
           r={iconSize.qmarkRadius} // 8 → iconSize.qmarkRadius
           fill={strongCircleColor}
           stroke={strongCircleStroke}
@@ -258,7 +251,7 @@ const RadarBackground = ({
         />
         <text
           x={guideQmarkX}
-          y={guideStrongY + 1}   // 1px 아래로 조정
+          y={guideStrongY}   // 1px 아래로 조정 제거 - 텍스트와 같은 높이
           textAnchor="middle"
           dominantBaseline="middle"
           style={{ fontSize: `${iconSize.qmarkFontSize}px`, fontWeight: 'bold' }}  // fontWeight도 style로 설정
@@ -285,7 +278,7 @@ const RadarBackground = ({
         </text>
         <circle
           cx={guideQmarkX}
-          cy={guideWeakY + 1}    // 1px 아래로 조정
+          cy={guideWeakY}    // 1px 아래로 조정 제거 - 텍스트와 같은 높이
           r={iconSize.qmarkRadius} // 8 → iconSize.qmarkRadius
           fill={weakCircleColor}
           stroke={weakCircleStroke}
@@ -293,7 +286,7 @@ const RadarBackground = ({
         />
         <text
           x={guideQmarkX}
-          y={guideWeakY + 1}     // 1px 아래로 조정
+          y={guideWeakY}     // 1px 아래로 조정 제거 - 텍스트와 같은 높이
           textAnchor="middle"
           dominantBaseline="middle"
           style={{ fontSize: `${iconSize.qmarkFontSize}px`, fontWeight: 'bold' }}  // fontWeight도 style로 설정
@@ -353,9 +346,9 @@ const RadarBackground = ({
 
         // circle 위치 계산 - 상단/하단 반원 간격 조정
         let codeX, codeY, circleTransform;
-        const circleMargin = iconSize.circleMargin;  // 25 → iconSize.circleMargin
+        const circleMargin = iconSize.circleMargin; // 25 → iconSize.circleMargin
         const extraMargin = Math.round(size * 0.014); // 10px 정도 추가 간격
-        
+
         if (bottomCategories.includes(category as any)) {
           // 하단 반원: 텍스트보다 더 아래로
           const vecX = center - labelX;
@@ -432,7 +425,7 @@ const RadarBackground = ({
         }
 
         const categoryCode = getCategoryCode(category, klaciCodeValue);
-        const circleRadius = iconSize.circleRadius;  // 8 → iconSize.circleRadius
+        const circleRadius = iconSize.circleRadius; // 8 → iconSize.circleRadius
         const finalCircleColor = (bottomCategories as string[]).includes(
           category,
         )
@@ -446,7 +439,7 @@ const RadarBackground = ({
               y={labelY}
               textAnchor="middle"
               dominantBaseline="middle"
-              style={{ fontSize: `${fontSize.category}px`, fontWeight: 'bold' }}  // fontWeight도 style로 설정
+              style={{ fontSize: `${fontSize.category}px`, fontWeight: 'bold' }} // fontWeight도 style로 설정
               fill={textColor}
               transform={`rotate(${rotationAngle} ${labelX} ${labelY})`}
             >
@@ -467,7 +460,7 @@ const RadarBackground = ({
                   y={codeY}
                   textAnchor="middle"
                   dominantBaseline="middle"
-                  style={{ fontSize: `${fontSize.value}px`, fontWeight: '500' }}  // fontWeight도 style로 설정
+                  style={{ fontSize: `${fontSize.value}px`, fontWeight: '500' }} // fontWeight도 style로 설정
                   fill={circleTextColor}
                 >
                   {categoryCode}
