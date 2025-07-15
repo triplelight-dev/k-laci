@@ -233,97 +233,113 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
         <g>
           {/* 강점영역 툴팁 - 물음표 아이콘 우측에 위치 */}
           <rect
-            x={center + radius + 85} // 105에서 85로 20px 왼쪽 이동
-            y={centerY - 60} // 강점 텍스트 위쪽
-            width={388} // 308에서 388로 증가 (80px 증가)
+            x={center + radius + 95} // 85에서 95로 10px 오른쪽 이동
+            y={centerY - 50} // 툴팁 박스 가운데가 중심선과 맞도록
+            width={280}
             height={100}
             rx={8}
-            fill="white"
-            stroke="#333"
-            strokeWidth={1}
+            fill="transparent"
+            stroke="none"
             style={{
               filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1))',
             }}
           />
           <text
-            x={center + radius + 279} // 툴팁 중앙 (85 + 194)
-            y={centerY - 35}
-            textAnchor="middle"
+            x={center + radius + 107} // 97에서 107로 10px 오른쪽 이동
+            y={centerY - 28}
+            textAnchor="start"
             dominantBaseline="middle"
-            fontSize="8"
+            fontSize="5"
             fill="#333"
           >
-            원석레이더 차트의 상반부는{' '}
-            <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>&apos;강점&apos;</tspan> 영역입니다.
+            차트 상반부는 <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>강점영역</tspan>입니다.
           </text>
           <text
-            x={center + radius + 279}
+            x={center + radius + 107}
             y={centerY - 10}
-            textAnchor="middle"
+            textAnchor="start"
             dominantBaseline="middle"
-            fontSize="8"
+            fontSize="5"
             fill="#333"
           >
-            &apos;약점&apos; 원형 범위와 비교해 지역의 자산 정도를
+            영역 내 면적과 역량 분포에
           </text>
           <text
-            x={center + radius + 279}
-            y={centerY + 15}
-            textAnchor="middle"
+            x={center + radius + 107}
+            y={centerY + 8}
+            textAnchor="start"
             dominantBaseline="middle"
-            fontSize="8"
+            fontSize="5"
             fill="#333"
           >
-            파악할 수 있습니다.
+            따라 해당 지역이 현재 보유한
+          </text>
+          <text
+            x={center + radius + 107}
+            y={centerY + 26}
+            textAnchor="start"
+            dominantBaseline="middle"
+            fontSize="5"
+            fill="#333"
+          >
+            <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>강점</tspan>을 진단할 수 있습니다.
           </text>
         </g>
       )}
       {showWeakTooltip && (
         <g>
-          {/* 약점영역 툴팁 - 물음표 아이콘 우측에 위치 */}
+          {/* 약점영역 툴팁 - 강점 툴팁과 동일한 위치 */}
           <rect
-            x={center + radius + 105} // 물음표 아이콘 우측 (20 + 65 + 20)
-            y={centerY - 32} // 약점 텍스트 위쪽
-            width={388} // 308에서 388로 증가 (80px 증가)
+            x={center + radius + 95} // 85에서 95로 10px 오른쪽 이동
+            y={centerY - 50} // 강점 툴팁과 동일한 y 좌표
+            width={280}
             height={100}
             rx={8}
-            fill="white"
-            stroke="#333"
-            strokeWidth={1}
+            fill="transparent"
+            stroke="none"
             style={{
               filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1))',
             }}
           />
           <text
-            x={center + radius + 299} // 툴팁 중앙 (105 + 194)
-            y={centerY - 7}
-            textAnchor="middle"
+            x={center + radius + 107} // 97에서 107로 10px 오른쪽 이동
+            y={centerY - 28}
+            textAnchor="start"
             dominantBaseline="middle"
-            fontSize="8"
+            fontSize="5"
             fill="#333"
           >
-            원석레이더 차트의 하반부는{' '}
-            <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>&apos;약점&apos;</tspan> 영역입니다.
+            차트 하반부는 <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>약점영역</tspan>입니다.
           </text>
           <text
-            x={center + radius + 299}
-            y={centerY + 18}
-            textAnchor="middle"
+            x={center + radius + 107}
+            y={centerY - 10}
+            textAnchor="start"
             dominantBaseline="middle"
-            fontSize="8"
+            fontSize="5"
             fill="#333"
           >
-            &apos;강점&apos; 원형 범위와 비교해 개선 정도를
+            영역 내 면적과 역량 분포에
           </text>
           <text
-            x={center + radius + 299}
-            y={centerY + 43}
-            textAnchor="middle"
+            x={center + radius + 107}
+            y={centerY + 8}
+            textAnchor="start"
             dominantBaseline="middle"
-            fontSize="8"
+            fontSize="5"
             fill="#333"
           >
-            파악할 수 있습니다.
+            따라 해당 지역이 현재 보유한
+          </text>
+          <text
+            x={center + radius + 107}
+            y={centerY + 26}
+            textAnchor="start"
+            dominantBaseline="middle"
+            fontSize="5"
+            fill="#333"
+          >
+            <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>약점</tspan>을 진단할 수 있습니다.
           </text>
         </g>
       )}
