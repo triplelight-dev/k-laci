@@ -62,4 +62,4 @@ const KlaciCodeCirclesMini: React.FC<KlaciCodeCirclesMiniProps> = ({
   );
 };
 
-export default KlaciCodeCirclesMini; 
+export default KlaciCodeCirclesMini;
