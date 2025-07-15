@@ -220,36 +220,18 @@ const RadarJewelChartMini: React.FC<RadarJewelChartMiniProps> = ({
             strokeDasharray="4 4"
           />
 
-          {/* 방사형 직선 3개 - 피자 자르듯 원을 가로지르는 선들 */}
-          {/* 세로선 (12시 방향) */}
-          <line
-            x1={center}
-            y1={center - radius}
-            x2={center}
-            y2={center + radius}
-            stroke="#D9D9E8"
-            strokeWidth={0.5}
-          />
-          
-          {/* 대각선 1 (2시 방향) */}
-          <line
-            x1={center + radius * Math.cos(Math.PI / 6)}
-            y1={center + radius * Math.sin(Math.PI / 6)}
-            x2={center + radius * Math.cos(Math.PI + Math.PI / 6)}
-            y2={center + radius * Math.sin(Math.PI + Math.PI / 6)}
-            stroke="#D9D9E8"
-            strokeWidth={0.5}
-          />
-          
-          {/* 대각선 2 (10시 방향) */}
-          <line
-            x1={center + radius * Math.cos(-Math.PI / 6)}
-            y1={center + radius * Math.sin(-Math.PI / 6)}
-            x2={center + radius * Math.cos(Math.PI - Math.PI / 6)}
-            y2={center + radius * Math.sin(Math.PI - Math.PI / 6)}
-            stroke="#D9D9E8"
-            strokeWidth={0.5}
-          />
+          {/* 방사형 축선 - 각 카테고리 위치에 맞춤 */}
+          {points.map((pt, i) => (
+            <line
+              key={i}
+              x1={center}
+              y1={center}
+              x2={center + radius * Math.cos(pt.angle)}
+              y2={center + radius * Math.sin(pt.angle)}
+              stroke="#D9D9E8"
+              strokeWidth={0.5}
+            />
+          ))}
         </>
       )}
 

@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { UserService } from '../../api/services/user.service';
 
@@ -88,21 +89,22 @@ const PreRegistrationModal = ({
   if (!isOpen) return null;
 
   const title = agree_to_report_reservation
-    ? '이미 사전 예약을 등록했습니다'
+    ? '이미 사전예약 등록이 완료되었습니다'
     : isUpdated
-      ? '사전예약 등록 완료'
+      ? '사전예약이 완료되었습니다'
       : '사전예약 등록';
 
   const messages = agree_to_report_reservation
     ? [
-        '서비스 정식 오픈과 함께 회원가입 시 등록하신 메일 주소로',
-        '리포트 송부 관련 안내 메일을 보내드리겠습니다.',
+      '8월 중 가입 시 입력하신 이메일로 리포트 출시 소식과',
+      '전용 할인 코드를 보내드리겠습니다.',
+      '기다려 주셔서 감사합니다'
       ]
     : isUpdated
       ? [
-          'KLACI 리포트 사전 예약을 등록해주셔서 감사합니다.',
-          '서비스 정식 오픈과 함께 회원가입 시 등록하신 메일 주소로',
-          '리포트 송부 관련 안내 메일을 보내드리겠습니다.',
+          'KLACI 데이터 백서 사전예약이 정상적으로 접수되었습니다.',
+          '8월 중 가입 시 입력하신 이메일로 리포트 출시 소식과',
+          '전용 할인 코드를 보내드리겠습니다. 감사합니다.',
         ]
       : ['사전예약 등록 중입니다...'];
 
@@ -127,7 +129,7 @@ const PreRegistrationModal = ({
           backgroundColor: '#ffffff',
           borderRadius: '16px',
           padding: '40px',
-          maxWidth: '500px',
+          maxWidth: '620px',
           width: '90%',
           textAlign: 'center',
           color: '#000000',
@@ -139,7 +141,6 @@ const PreRegistrationModal = ({
           style={{
             width: '60px',
             height: '60px',
-            backgroundColor: '#f3f4f6',
             borderRadius: '50%',
             display: 'flex',
             justifyContent: 'center',
@@ -148,19 +149,24 @@ const PreRegistrationModal = ({
             fontSize: '24px',
           }}
         >
-          {isUpdated
-            ? '✓'
-            : agree_to_report_reservation
-              ? '✓'
-              : isLoading
-                ? '...'
-                : '?'}
+          {(isUpdated || agree_to_report_reservation) ? (
+            <Image
+              src="/icons/success_check_icon.png"
+              alt="성공"
+              width={40}
+              height={40}
+            />
+          ) : isLoading ? (
+            '...'
+          ) : (
+            '?'
+          )}
         </div>
 
         {/* 타이틀 */}
         <div
           style={{
-            fontSize: '28px',
+            fontSize: '30px',
             fontWeight: '700',
             marginBottom: '24px',
             lineHeight: '1.4',
@@ -179,9 +185,9 @@ const PreRegistrationModal = ({
             <div
               key={index}
               style={{
-                fontSize: '14px',
+                fontSize: '16px',
                 color: 'black',
-                lineHeight: '1.4',
+                lineHeight: '1.5',
               }}
             >
               {message}
@@ -200,7 +206,7 @@ const PreRegistrationModal = ({
               border: 'none',
               borderRadius: '8px',
               padding: '12px 32px',
-              fontSize: '14px',
+              fontSize: '16px',
               fontWeight: '600',
               cursor: 'pointer',
               transition: 'background-color 0.2s ease',
