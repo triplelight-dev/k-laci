@@ -47,8 +47,8 @@ const JewelRadarChart = ({
 
   // 아이콘 크기 추가
   const iconSize = {
-    qmarkRadius: Math.round(size * 0.016),  // 물음표 원형 반지름 (기존 8 → size * 0.016)
-    qmarkFontSize: Math.round(size * 0.014), // 물음표 텍스트 크기 (기존 8 → size * 0.014)
+    qmarkRadius: Math.round(fontSize.area * 0.6),    // 원 사이즈 유지
+    qmarkFontSize: Math.round(fontSize.area * 0.75), // 강점영역 텍스트의 75%
     circleRadius: Math.round(size * 0.018),  // 카테고리 코드 원형 반지름 (기존 8 → size * 0.018)
     circleMargin: Math.round(size * 0.036),  // 카테고리 코드 원형과 텍스트 간격 (기존 25 → size * 0.036)
   };
@@ -109,9 +109,15 @@ const JewelRadarChart = ({
 
   // 모든 위치 계산
   const guideLabelX = svgCenterX + radius + 20;
-  const guideQmarkX = guideLabelX + 65;
+  
+  // 텍스트 길이 더 정확하게 계산: '↑ 강점영역' 
+  // 화살표(0.8) + 공백(0.3) + 한국어 4글자(4.0) = 5.1배 정도
+  const textWidth = fontSize.area * 5.5; // 여유분 포함
+  const textGap = Math.round(fontSize.area * 0.4) - 6; // 1px 좌로 이동
+  const guideQmarkX = guideLabelX + textWidth + textGap;
+  
   const guideStrongY = svgCenterY - 10;
-  const guideWeakY = svgCenterY + 18;
+  const guideWeakY = svgCenterY + 15;
   
   // 툴팁 위치 계산
   const tooltipBoxX = svgCenterX + radius + 95;

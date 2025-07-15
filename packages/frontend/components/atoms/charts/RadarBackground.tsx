@@ -243,15 +243,14 @@ const RadarBackground = ({
           y={guideStrongY}
           textAnchor="start"
           dominantBaseline="middle"
-          style={{ fontSize: `${fontSize.area}px` }}  // fontSize 속성 대신 style 사용
-          fontWeight="600"
+          style={{ fontSize: `${fontSize.area}px`, fontWeight: 'bold' }}  // fontWeight도 style로 설정
           fill={strongTextColor}
         >
           ↑ 강점영역
         </text>
         <circle
           cx={guideQmarkX}
-          cy={guideStrongY}
+          cy={guideStrongY + 1}  // 1px 아래로 조정
           r={iconSize.qmarkRadius} // 8 → iconSize.qmarkRadius
           fill={strongCircleColor}
           stroke={strongCircleStroke}
@@ -259,11 +258,10 @@ const RadarBackground = ({
         />
         <text
           x={guideQmarkX}
-          y={guideStrongY}
+          y={guideStrongY + 1}   // 1px 아래로 조정
           textAnchor="middle"
           dominantBaseline="middle"
-          style={{ fontSize: `${iconSize.qmarkFontSize}px` }}  // fontSize 속성 대신 style 사용
-          fontWeight="bold"
+          style={{ fontSize: `${iconSize.qmarkFontSize}px`, fontWeight: 'bold' }}  // fontWeight도 style로 설정
           fill={strongQmarkColor}
         >
           ?
@@ -280,15 +278,14 @@ const RadarBackground = ({
           y={guideWeakY}
           textAnchor="start"
           dominantBaseline="middle"
-          style={{ fontSize: `${fontSize.area}px` }}  // fontSize 속성 대신 style 사용
-          fontWeight="600"
+          style={{ fontSize: `${fontSize.area}px`, fontWeight: 'bold' }}  // fontWeight도 style로 설정
           fill={weakTextColor}
         >
           ↓ 약점영역
         </text>
         <circle
           cx={guideQmarkX}
-          cy={guideWeakY}
+          cy={guideWeakY + 1}    // 1px 아래로 조정
           r={iconSize.qmarkRadius} // 8 → iconSize.qmarkRadius
           fill={weakCircleColor}
           stroke={weakCircleStroke}
@@ -296,11 +293,10 @@ const RadarBackground = ({
         />
         <text
           x={guideQmarkX}
-          y={guideWeakY}
+          y={guideWeakY + 1}     // 1px 아래로 조정
           textAnchor="middle"
           dominantBaseline="middle"
-          style={{ fontSize: `${iconSize.qmarkFontSize}px` }}  // fontSize 속성 대신 style 사용
-          fontWeight="bold"
+          style={{ fontSize: `${iconSize.qmarkFontSize}px`, fontWeight: 'bold' }}  // fontWeight도 style로 설정
           fill={weakQmarkColor}
         >
           ?
@@ -450,8 +446,7 @@ const RadarBackground = ({
               y={labelY}
               textAnchor="middle"
               dominantBaseline="middle"
-              style={{ fontSize: `${fontSize.category}px` }}  // fontSize 속성 대신 style 사용
-              fontWeight="600"
+              style={{ fontSize: `${fontSize.category}px`, fontWeight: 'bold' }}  // fontWeight도 style로 설정
               fill={textColor}
               transform={`rotate(${rotationAngle} ${labelX} ${labelY})`}
             >
@@ -472,8 +467,7 @@ const RadarBackground = ({
                   y={codeY}
                   textAnchor="middle"
                   dominantBaseline="middle"
-                  style={{ fontSize: `${fontSize.value}px` }}  // fontSize 속성 대신 style 사용
-                  fontWeight="500"
+                  style={{ fontSize: `${fontSize.value}px`, fontWeight: '500' }}  // fontWeight도 style로 설정
                   fill={circleTextColor}
                 >
                   {categoryCode}
