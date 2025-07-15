@@ -178,32 +178,25 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
                 {/* 툴팁 배경 */}
                 <rect
                   x={pt.x + 10}
-                  y={pt.y - 25}
-                  width={120}
-                  height={50}
-                  rx={4}
+                  y={pt.y - 30}
+                  width={50}
+                  height={40}
+                  rx={8}
                   fill="rgba(0, 0, 0, 0.8)"
                   stroke="none"
                 />
                 
-                {/* 툴팁 텍스트 */}
+                {/* 툴팁 텍스트 - 점수만 표시 */}
                 <text
-                  x={pt.x + 15}
-                  y={pt.y - 12}
+                  x={pt.x + 35}
+                  y={pt.y - 10}
                   fill="white"
                   fontSize={fontSize.tooltip}
                   fontWeight="500"
+                  textAnchor="middle"
+                  dominantBaseline="middle"
                 >
-                  {category}
-                </text>
-                <text
-                  x={pt.x + 15}
-                  y={pt.y + 2}
-                  fill="white"
-                  fontSize={fontSize.tooltip}
-                  fontWeight="400"
-                >
-                  {vals[i]?.toFixed(1)}점
+                  {vals[i]?.toFixed(1)}
                 </text>
               </g>
             )}
