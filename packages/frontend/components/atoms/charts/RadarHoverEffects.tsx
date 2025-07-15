@@ -215,11 +215,10 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
       {showStrongTooltip && (
         <g>
           <rect
-            x={tooltipBoxX}
+            x={tooltipBoxX + 15}
             y={tooltipBoxY}
-            width={280}
+            width={320}
             height={100}
-            rx={8}
             fill="transparent"
             stroke="none"
             style={{
@@ -227,45 +226,41 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
             }}
           />
           <text
-            x={tooltipTextX}
-            y={actualCenterY - 28} // actualCenterY 기준
+            x={tooltipTextX + 15}
+            y={actualCenterY - 25} // 점선 위 첫 번째 줄 (2px 더 위로)
             textAnchor="start"
             dominantBaseline="middle"
-            fontSize={fontSize.tooltip}
-            fontWeight="400"
+            style={{ fontSize: `${fontSize.area}px`, fontWeight: '400' }}
             fill="#333"
           >
             차트 상반부는 <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>강점영역</tspan>입니다.
           </text>
           <text
-            x={tooltipTextX}
-            y={actualCenterY - 13} // actualCenterY 기준
+            x={tooltipTextX + 15}
+            y={actualCenterY - 9} // 점선 위 두 번째 줄 (1px 더 위로)
             textAnchor="start"
             dominantBaseline="middle"
-            fontSize={fontSize.tooltip}
-            fontWeight="400"
+            style={{ fontSize: `${fontSize.area}px`, fontWeight: '400' }}
             fill="#333"
           >
             영역 내 면적과 역량 분포에
           </text>
           <text
-            x={tooltipTextX}
-            y={actualCenterY + 2} // actualCenterY 기준
+            x={tooltipTextX + 15}
+            y={actualCenterY + 9} // 점선 아래 첫 번째 줄 (1px 더 아래로)
             textAnchor="start"
             dominantBaseline="middle"
-            fontSize={fontSize.tooltip}
-            fontWeight="400"
+            style={{ fontSize: `${fontSize.area}px`, fontWeight: '400' }}
             fill="#333"
           >
             따라 해당 지역이 현재 보유한
           </text>
           <text
-            x={tooltipTextX}
-            y={actualCenterY + 17} // actualCenterY 기준
+            x={tooltipTextX + 15}
+            y={actualCenterY + 25} // 점선 아래 두 번째 줄 (2px 더 아래로)
             textAnchor="start"
             dominantBaseline="middle"
-            fontSize={fontSize.tooltip}
-            fontWeight="400"
+            style={{ fontSize: `${fontSize.area}px`, fontWeight: '400' }}
             fill="#333"
           >
             <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>강점</tspan>을 진단할 수 있습니다.
@@ -277,11 +272,10 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
       {showWeakTooltip && (
         <g>
           <rect
-            x={tooltipBoxX}
+            x={tooltipBoxX + 15}
             y={tooltipBoxY}
-            width={280}
+            width={320}
             height={100}
-            rx={8}
             fill="transparent"
             stroke="none"
             style={{
@@ -289,45 +283,41 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
             }}
           />
           <text
-            x={tooltipTextX}
-            y={actualCenterY - 28} // actualCenterY 기준
+            x={tooltipTextX + 15}
+            y={actualCenterY - 25} // 점선 위 첫 번째 줄 (2px 더 위로)
             textAnchor="start"
             dominantBaseline="middle"
-            fontSize={fontSize.tooltip}
-            fontWeight="400"
+            style={{ fontSize: `${fontSize.area}px`, fontWeight: '400' }}
             fill="#333"
           >
             차트 하반부는 <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>약점영역</tspan>입니다.
           </text>
           <text
-            x={tooltipTextX}
-            y={actualCenterY - 13} // actualCenterY 기준
+            x={tooltipTextX + 15}
+            y={actualCenterY - 9} // 점선 위 두 번째 줄 (1px 더 위로)
             textAnchor="start"
             dominantBaseline="middle"
-            fontSize={fontSize.tooltip}
-            fontWeight="400"
+            style={{ fontSize: `${fontSize.area}px`, fontWeight: '400' }}
             fill="#333"
           >
             영역 내 면적과 역량 분포에
           </text>
           <text
-            x={tooltipTextX}
-            y={actualCenterY + 2} // actualCenterY 기준
+            x={tooltipTextX + 15}
+            y={actualCenterY + 9} // 점선 아래 첫 번째 줄 (1px 더 아래로)
             textAnchor="start"
             dominantBaseline="middle"
-            fontSize={fontSize.tooltip}
-            fontWeight="400"
+            style={{ fontSize: `${fontSize.area}px`, fontWeight: '400' }}
             fill="#333"
           >
             따라 해당 지역이 현재 보유한
           </text>
           <text
-            x={tooltipTextX}
-            y={actualCenterY + 17} // actualCenterY 기준
+            x={tooltipTextX + 15}
+            y={actualCenterY + 25} // 점선 아래 두 번째 줄 (2px 더 아래로)
             textAnchor="start"
             dominantBaseline="middle"
-            fontSize={fontSize.tooltip}
-            fontWeight="400"
+            style={{ fontSize: `${fontSize.area}px`, fontWeight: '400' }}
             fill="#333"
           >
             <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>약점</tspan>을 진단할 수 있습니다.
