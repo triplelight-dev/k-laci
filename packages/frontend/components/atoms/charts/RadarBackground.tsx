@@ -128,15 +128,19 @@ const RadarBackground = ({
   };
 
   // 호버 상태에 따른 색상 계산
+  const strongAreaColor = isStrongHovered ? '#FFFFFF' : 'transparent'; // 강점영역 호버 시 흰색
+  const weakAreaColor = isWeakHovered ? '#EBECEC' : 'transparent'; // 약점영역 호버 시 회색(#EBECEC)
+
+  // 호버 상태에 따른 텍스트 및 원 색상 계산
   const strongTextColor = isStrongHovered ? '#000000' : '#BDBDBD';
-  const strongCircleColor = isStrongHovered ? 'transparent' : '#F5F5F5'; // 호버 시 투명
+  const strongCircleColor = isStrongHovered ? 'transparent' : '#F5F5F5';
   const strongCircleStroke = isStrongHovered ? '#000000' : '#D9D9E8';
-  const strongQmarkColor = isStrongHovered ? '#000000' : '#BDBDBD'; // 호버 시 검정색
+  const strongQmarkColor = isStrongHovered ? '#000000' : '#BDBDBD';
 
   const weakTextColor = isWeakHovered ? '#000000' : '#BDBDBD';
-  const weakCircleColor = isWeakHovered ? 'transparent' : '#F5F5F5'; // 호버 시 투명
+  const weakCircleColor = isWeakHovered ? 'transparent' : '#F5F5F5';
   const weakCircleStroke = isWeakHovered ? '#000000' : '#D9D9E8';
-  const weakQmarkColor = isWeakHovered ? '#000000' : '#BDBDBD'; // 호버 시 검정색
+  const weakQmarkColor = isWeakHovered ? '#000000' : '#BDBDBD';
 
   return (
     <>
@@ -147,7 +151,10 @@ const RadarBackground = ({
             A ${radius} ${radius} 0 0 1 
             ${center + radius * Math.cos(Math.PI)} ${actualCenterY + radius * Math.sin(Math.PI)}
             Z`}
-        fill="#EBEBEB"
+        fill={weakAreaColor}
+        style={{
+          transition: 'fill 0.3s ease',
+        }}
       />
 
       {/* 아래쪽 반원 배경 (180도 ~ 360도) - Jewel 기준 */}
@@ -157,7 +164,10 @@ const RadarBackground = ({
             A ${radius} ${radius} 0 0 1 
             ${center + radius * Math.cos(2 * Math.PI)} ${actualCenterY + radius * Math.sin(2 * Math.PI)}
             Z`}
-        fill="#F4F4F4"
+        fill={strongAreaColor}
+        style={{
+          transition: 'fill 0.3s ease',
+        }}
       />
 
       {/* 배경에 마스크 적용 - Jewel 기준 */}
@@ -167,8 +177,11 @@ const RadarBackground = ({
             A ${radius} ${radius} 0 0 1 
             ${center + radius * Math.cos(Math.PI)} ${actualCenterY + radius * Math.sin(Math.PI)}
             Z`}
-        fill="#EBEBEB"
+        fill={weakAreaColor}
         mask="url(#labelMask)"
+        style={{
+          transition: 'fill 0.3s ease',
+        }}
       />
 
       <path
@@ -177,8 +190,11 @@ const RadarBackground = ({
             A ${radius} ${radius} 0 0 1 
             ${center + radius * Math.cos(2 * Math.PI)} ${actualCenterY + radius * Math.sin(2 * Math.PI)}
             Z`}
-        fill="#F4F4F4"
+        fill={strongAreaColor}
         mask="url(#labelMask)"
+        style={{
+          transition: 'fill 0.3s ease',
+        }}
       />
 
       {/* 원형 격자 (50%, 100%) - Jewel 기준 */}
