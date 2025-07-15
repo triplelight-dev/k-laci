@@ -37,10 +37,6 @@ const RadarBackground = ({
     guide,
   } = context;
 
-  // 디버깅용 로그 추가
-  console.log('RadarBackground fontSize 값들:', fontSize);
-  console.log('RadarBackground iconSize 값들:', iconSize);
-
   if (isJewel) return null;
 
   // 가이드 위치 값들 추출

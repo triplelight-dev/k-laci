@@ -35,10 +35,6 @@ const JewelRadarChart = ({
     area: Math.round(size * 0.022), // 0.028 → 0.038
   };
 
-  // 디버깅용 로그 추가
-  console.log('RadarChart fontSize 값들:', fontSize);
-  console.log('RadarChart size:', size);
-
   // 라벨 위치 오프셋도 조정
   const labelOffset = {
     category: Math.round(size * 0.04), // 0.03 → 0.04
