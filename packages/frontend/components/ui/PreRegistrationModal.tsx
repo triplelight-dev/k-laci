@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { UserService } from '../../api/services/user.service';
 
@@ -128,7 +129,7 @@ const PreRegistrationModal = ({
           backgroundColor: '#ffffff',
           borderRadius: '16px',
           padding: '40px',
-          maxWidth: '500px',
+          maxWidth: '620px',
           width: '90%',
           textAlign: 'center',
           color: '#000000',
@@ -140,7 +141,6 @@ const PreRegistrationModal = ({
           style={{
             width: '60px',
             height: '60px',
-            backgroundColor: '#f3f4f6',
             borderRadius: '50%',
             display: 'flex',
             justifyContent: 'center',
@@ -149,19 +149,24 @@ const PreRegistrationModal = ({
             fontSize: '24px',
           }}
         >
-          {isUpdated
-            ? '✓'
-            : agree_to_report_reservation
-              ? '✓'
-              : isLoading
-                ? '...'
-                : '?'}
+          {(isUpdated || agree_to_report_reservation) ? (
+            <Image
+              src="/icons/success_check_icon.png"
+              alt="성공"
+              width={40}
+              height={40}
+            />
+          ) : isLoading ? (
+            '...'
+          ) : (
+            '?'
+          )}
         </div>
 
         {/* 타이틀 */}
         <div
           style={{
-            fontSize: '28px',
+            fontSize: '30px',
             fontWeight: '700',
             marginBottom: '24px',
             lineHeight: '1.4',
@@ -180,9 +185,9 @@ const PreRegistrationModal = ({
             <div
               key={index}
               style={{
-                fontSize: '14px',
+                fontSize: '16px',
                 color: 'black',
-                lineHeight: '1.4',
+                lineHeight: '1.5',
               }}
             >
               {message}
@@ -201,7 +206,7 @@ const PreRegistrationModal = ({
               border: 'none',
               borderRadius: '8px',
               padding: '12px 32px',
-              fontSize: '14px',
+              fontSize: '16px',
               fontWeight: '600',
               cursor: 'pointer',
               transition: 'background-color 0.2s ease',
