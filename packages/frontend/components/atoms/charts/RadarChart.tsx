@@ -21,7 +21,15 @@ const JewelRadarChart = ({
   // 라벨이 잘리지 않도록 전체 SVG 크기와 viewBox를 더 크게 설정
   const padding = size * 0.2; // 20% 패딩
   const svgSize = size + padding * 2;
-  const svgCenter = center + padding;
+  
+  // 좌우만 확장
+  const horizontalExtension = 150;
+  const svgWidth = svgSize + horizontalExtension * 2;
+  const svgHeight = svgSize;
+  
+  // 중심점 분리
+  const svgCenterX = center + padding + horizontalExtension; // x축 중심 (확장된 중심)
+  const svgCenterY = center + padding; // y축 중심 (원래 중심)
 
   // 폰트 크기 비율 계산
   const fontSize = {
@@ -68,13 +76,13 @@ const JewelRadarChart = ({
   const vals = data.slice(0, numAxes);
   while (vals.length < numAxes) vals.push(0);
 
-  // 축 끝점 좌표 및 각도 저장
+  // 축 끝점 좌표 및 각도 저장 - x축과 y축 중심 분리
   const points = vals.map((value, i) => {
     const angle = -Math.PI / 2 + rotation + i * angleStep;
     const r = (value / 100) * radius;
     return {
-      x: svgCenter + r * Math.cos(angle),
-      y: svgCenter + r * Math.sin(angle),
+      x: svgCenterX + r * Math.cos(angle),
+      y: svgCenterY + r * Math.sin(angle),
       angle,
     };
   });
@@ -92,7 +100,7 @@ const JewelRadarChart = ({
   ];
 
   const context: RadarChartContext = {
-    center: svgCenter,
+    center: svgCenterX, // x축 중심 (배경 컴포넌트에서 사용)
     radius,
     size,
     jewelSize,
@@ -112,22 +120,23 @@ const JewelRadarChart = ({
 
   return (
     <svg
-      width={svgSize}
-      height={svgSize}
+      width={svgWidth}
+      height={svgHeight}
       style={{
         display: 'block',
         margin: 0,
         padding: 0,
         cursor: 'pointer',
+        border: '1px solid #BDBDBD',
       }}
-      viewBox={`0 0 ${svgSize} ${svgSize}`}
+      viewBox={`0 0 ${svgWidth} ${svgHeight}`}
       className="radar-chart"
     >
       {/* 라벨 마스크 */}
       {!isJewel && (
         <defs>
           <mask id="labelMask">
-            <rect width={svgSize} height={svgSize} fill="white" />
+            <rect width={svgWidth} height={svgHeight} fill="white" />
             {points.map((pt, i) => {
               const x = pt.x;
               const y = pt.y;
@@ -145,7 +154,7 @@ const JewelRadarChart = ({
           
           {/* 보석 영역 마스크 - 방사형 축선을 보석 위에서 숨기기 위해 */}
           <mask id="jewelMask">
-            <rect width={svgSize} height={svgSize} fill="white" />
+            <rect width={svgWidth} height={svgHeight} fill="white" />
             {/* 보석 전체를 하나의 영역으로 마스킹 */}
             <path
               d={points.map((pt, i) => {
@@ -157,6 +166,18 @@ const JewelRadarChart = ({
           </mask>
         </defs>
       )}
+
+      {/* 전체 SVG 영역을 표시하는 사각형 */}
+      <rect
+        x={0}
+        y={0}
+        width={svgWidth}
+        height={svgHeight}
+        fill="none"
+        stroke="#BDBDBD"
+        strokeWidth={1}
+        strokeDasharray="3 3"
+      />
 
       <RadarBackground
         context={context}

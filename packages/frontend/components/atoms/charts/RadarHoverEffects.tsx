@@ -9,7 +9,11 @@ interface RadarHoverEffectsProps {
   showWeakTooltip?: boolean;
 }
 
-const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: RadarHoverEffectsProps) => {
+const RadarHoverEffects = ({
+  context,
+  showStrongTooltip,
+  showWeakTooltip,
+}: RadarHoverEffectsProps) => {
   const [hoveredPoint, setHoveredPoint] = useState<number | null>(null);
 
   const {
@@ -35,7 +39,7 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
       circle.style.strokeWidth = '2';
       circle.style.fill = '#FFFFFF';
     }
-    
+
     // 내부 검정색 원도 보이게 설정
     const innerCircle = document.querySelector(
       `circle[data-index="${i}"] + circle.data-point-inner`,
@@ -55,7 +59,7 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
       circle.style.strokeWidth = '1.5';
       circle.style.fill = '#9A9EA3';
     }
-    
+
     // 내부 검정색 원 숨기기
     const innerCircle = document.querySelector(
       `circle[data-index="${i}"] + circle.data-point-inner`,
@@ -139,7 +143,7 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
               onMouseLeave={() => handlePointMouseLeave(i)}
               style={{ cursor: 'pointer' }}
             />
-            
+
             {/* 기본 원 */}
             <circle
               cx={pt.x}
@@ -157,7 +161,7 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
               }}
               data-index={i}
             />
-            
+
             {/* 호버 시 내부 검정색 원 */}
             <circle
               cx={pt.x}
@@ -252,7 +256,10 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
             fill="#333"
           >
             원석레이더 차트의 상반부는{' '}
-            <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>&apos;강점&apos;</tspan> 영역입니다.
+            <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>
+              &apos;강점&apos;
+            </tspan>{' '}
+            영역입니다.
           </text>
           <text
             x={center}
@@ -301,7 +308,10 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
             fill="#333"
           >
             원석레이더 차트의 하반부는{' '}
-            <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>&apos;약점&apos;</tspan> 영역입니다.
+            <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>
+              &apos;약점&apos;
+            </tspan>{' '}
+            영역입니다.
           </text>
           <text
             x={center}

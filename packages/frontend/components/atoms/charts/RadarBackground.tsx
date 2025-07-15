@@ -95,47 +95,49 @@ const RadarBackground = ({
   // 강점/약점 텍스트 + 물음표 아이콘
   const guideLabelX = center + radius + 20; // 기존보다 20px 더 왼쪽
   const guideQmarkX = guideLabelX + 65; // 원은 텍스트 기준 오른쪽 32px (필요시 조정)
-  const guideStrongY = center - 10;
-  const guideWeakY = center + 18;
+  // 실제 y축 중심 계산
+  const centerY = center - 150; // center는 svgCenterX이므로 horizontalExtension만큼 빼기
+  const guideStrongY = centerY - 10;
+  const guideWeakY = centerY + 18;
 
   return (
     <>
       {/* 위쪽 반원 배경 (0도 ~ 180도) */}
       <path
-        d={`M ${center} ${center} 
-            L ${center + radius * Math.cos(0)} ${center + radius * Math.sin(0)}
+        d={`M ${center} ${centerY} 
+            L ${center + radius * Math.cos(0)} ${centerY + radius * Math.sin(0)}
             A ${radius} ${radius} 0 0 1 
-            ${center + radius * Math.cos(Math.PI)} ${center + radius * Math.sin(Math.PI)}
+            ${center + radius * Math.cos(Math.PI)} ${centerY + radius * Math.sin(Math.PI)}
             Z`}
         fill="#EBEBEB"
       />
 
       {/* 아래쪽 반원 배경 (180도 ~ 360도) */}
       <path
-        d={`M ${center} ${center} 
-            L ${center + radius * Math.cos(Math.PI)} ${center + radius * Math.sin(Math.PI)}
+        d={`M ${center} ${centerY} 
+            L ${center + radius * Math.cos(Math.PI)} ${centerY + radius * Math.sin(Math.PI)}
             A ${radius} ${radius} 0 0 1 
-            ${center + radius * Math.cos(2 * Math.PI)} ${center + radius * Math.sin(2 * Math.PI)}
+            ${center + radius * Math.cos(2 * Math.PI)} ${centerY + radius * Math.sin(2 * Math.PI)}
             Z`}
         fill="#F4F4F4"
       />
 
       {/* 배경에 마스크 적용 */}
       <path
-        d={`M ${center} ${center} 
-            L ${center + radius * Math.cos(0)} ${center + radius * Math.sin(0)}
+        d={`M ${center} ${centerY} 
+            L ${center + radius * Math.cos(0)} ${centerY + radius * Math.sin(0)}
             A ${radius} ${radius} 0 0 1 
-            ${center + radius * Math.cos(Math.PI)} ${center + radius * Math.sin(Math.PI)}
+            ${center + radius * Math.cos(Math.PI)} ${centerY + radius * Math.sin(Math.PI)}
             Z`}
         fill="#EBEBEB"
         mask="url(#labelMask)"
       />
 
       <path
-        d={`M ${center} ${center} 
-            L ${center + radius * Math.cos(Math.PI)} ${center + radius * Math.sin(Math.PI)}
+        d={`M ${center} ${centerY} 
+            L ${center + radius * Math.cos(Math.PI)} ${centerY + radius * Math.sin(Math.PI)}
             A ${radius} ${radius} 0 0 1 
-            ${center + radius * Math.cos(2 * Math.PI)} ${center + radius * Math.sin(2 * Math.PI)}
+            ${center + radius * Math.cos(2 * Math.PI)} ${centerY + radius * Math.sin(2 * Math.PI)}
             Z`}
         fill="#F4F4F4"
         mask="url(#labelMask)"
@@ -146,7 +148,7 @@ const RadarBackground = ({
         <circle
           key={i}
           cx={center}
-          cy={center}
+          cy={centerY}
           r={radius * rate}
           fill="none"
           stroke="#D9D9E8"
@@ -161,9 +163,9 @@ const RadarBackground = ({
           <line
             key={i}
             x1={center}
-            y1={center}
+            y1={centerY}
             x2={center + radius * Math.cos(pt.angle)}
-            y2={center + radius * Math.sin(pt.angle)}
+            y2={centerY + radius * Math.sin(pt.angle)}
             stroke="#D9D9E8"
             strokeWidth={0.5}
           />
@@ -173,9 +175,9 @@ const RadarBackground = ({
       {/* 가로 점선 (길이 더 늘림) */}
       <line
         x1={center - radius - 120}
-        y1={center}
+        y1={centerY}
         x2={center + radius + 120}
-        y2={center}
+        y2={centerY}
         stroke="#CCC"
         strokeWidth={0.5}
         strokeDasharray="4 4"
@@ -313,7 +315,7 @@ const RadarBackground = ({
         const baseX =
           center + (radius + labelOffset.category) * Math.cos(pt.angle);
         const baseY =
-          center + (radius + labelOffset.category) * Math.sin(pt.angle);
+          centerY + (radius + labelOffset.category) * Math.sin(pt.angle);
 
         // 카테고리별 x축 오프셋
         let xOffset = 0;
@@ -347,7 +349,7 @@ const RadarBackground = ({
         if (bottomCategories.includes(category as any)) {
           // 하단 라벨: 라벨에서 원의 중심 '반대 방향(아래)'으로 margin만큼 이동
           const vecX = center - labelX;
-          const vecY = center - labelY;
+          const vecY = centerY - labelY;
           const vecLen = Math.sqrt(vecX * vecX + vecY * vecY);
           const normX = vecX / vecLen;
           const normY = vecY / vecLen;
@@ -357,7 +359,7 @@ const RadarBackground = ({
         } else if (topCategories.includes(category as any)) {
           // 상단 라벨: 라벨에서 원의 중심 '반대 방향(위)'으로 margin만큼 이동
           const vecX = center - labelX;
-          const vecY = center - labelY;
+          const vecY = centerY - labelY;
           const vecLen = Math.sqrt(vecX * vecX + vecY * vecY);
           const normX = vecX / vecLen;
           const normY = vecY / vecLen;

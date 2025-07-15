@@ -16,6 +16,8 @@ export interface RadarChartProps {
 
 export interface RadarChartContext {
   center: number;
+  centerX?: number; // 새로 추가
+  centerY?: number; // 새로 추가
   radius: number;
   size: number;
   jewelSize: number;
@@ -39,13 +41,7 @@ export interface RadarChartContext {
   }>;
   vals: number[];
   fixedColorPairs: [string, string][];
-  regionData?: {
-    growth_score?: number;
-    economy_score?: number;
-    living_score?: number;
-    safety_score?: number;
-    klaci_code?: string;
-  };
+  regionData: any;
 }
 
 export interface Point {

@@ -11,6 +11,10 @@ const RadarJewel = ({ context, imageUrl }: RadarJewelProps) => {
   const { center, radius, categories, points, vals, fixedColorPairs } = context;
 
   const numAxes = categories.length;
+  
+  // 배경과 동일한 중심점 사용
+  const jewelCenterX = center; // x축 중심 (svgCenterX)
+  const jewelCenterY = center - 150; // y축 중심 (svgCenterY 상당)
 
   return (
     <>
@@ -22,8 +26,8 @@ const RadarJewel = ({ context, imageUrl }: RadarJewelProps) => {
             patternUnits="userSpaceOnUse"
             width={radius * 2}
             height={radius * 2}
-            x={center - radius}
-            y={center - radius}
+            x={jewelCenterX - radius}
+            y={jewelCenterY - radius}
           >
             <image
               href={imageUrl}
@@ -45,7 +49,7 @@ const RadarJewel = ({ context, imageUrl }: RadarJewelProps) => {
             return (
               <path
                 key={i}
-                d={`M${center},${center} L${pt.x},${pt.y} L${next.x},${next.y} Z`}
+                d={`M${jewelCenterX},${jewelCenterY} L${pt.x},${pt.y} L${next.x},${next.y} Z`}
               />
             );
           })}
@@ -62,8 +66,8 @@ const RadarJewel = ({ context, imageUrl }: RadarJewelProps) => {
               <radialGradient
                 key={i}
                 id={`grad${i}`}
-                cx={center}
-                cy={center}
+                cx={jewelCenterX}
+                cy={jewelCenterY}
                 r={radius}
                 gradientUnits="userSpaceOnUse"
               >
@@ -79,8 +83,8 @@ const RadarJewel = ({ context, imageUrl }: RadarJewelProps) => {
               <radialGradient
                 key={i}
                 id={`grad${i}`}
-                cx={center}
-                cy={center}
+                cx={jewelCenterX}
+                cy={jewelCenterY}
                 r={radius}
                 gradientUnits="userSpaceOnUse"
               >
@@ -99,8 +103,8 @@ const RadarJewel = ({ context, imageUrl }: RadarJewelProps) => {
               <radialGradient
                 key={i}
                 id={`grad${i}`}
-                cx={center}
-                cy={center}
+                cx={jewelCenterX}
+                cy={jewelCenterY}
                 r={radius}
                 gradientUnits="userSpaceOnUse"
               >
@@ -114,8 +118,8 @@ const RadarJewel = ({ context, imageUrl }: RadarJewelProps) => {
             <radialGradient
               key={i}
               id={`grad${i}`}
-              cx={center}
-              cy={center}
+              cx={jewelCenterX}
+              cy={jewelCenterY}
               r={radius}
               gradientUnits="userSpaceOnUse"
             >
@@ -131,8 +135,8 @@ const RadarJewel = ({ context, imageUrl }: RadarJewelProps) => {
       {imageUrl && (
         <g clipPath="url(#jewelClipPath)">
           <rect
-            x={center - radius}
-            y={center - radius}
+            x={jewelCenterX - radius}
+            y={jewelCenterY - radius}
             width={radius * 2}
             height={radius * 2}
             fill="url(#jewelImagePattern)"
@@ -149,7 +153,7 @@ const RadarJewel = ({ context, imageUrl }: RadarJewelProps) => {
           return (
             <path
               key={i}
-              d={`M${center},${center} L${pt.x},${pt.y} L${next.x},${next.y} Z`}
+              d={`M${jewelCenterX},${jewelCenterY} L${pt.x},${pt.y} L${next.x},${next.y} Z`}
               fill={`url(#grad${i})`}
               fillOpacity={0.7}
               stroke="none"
