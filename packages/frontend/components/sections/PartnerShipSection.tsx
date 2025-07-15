@@ -158,7 +158,7 @@ const PartnerShipSection = () => {
           }}
         >
           {/* 파트너십 문의하기 버튼 */}
-          <a href={EXTERNAL_LINKS.TRIPLELIGHT_HOMEPAGE} target="_blank" rel="noopener noreferrer">
+          <a href={EXTERNAL_LINKS.TRIPLELIGHT_HOMEPAGE_CONTACT} target="_blank" rel="noopener noreferrer">
             <Button label='파트너십 문의하기'
               variant='primary'
               icon={<ArrowRightUp color='#000000' />} />
