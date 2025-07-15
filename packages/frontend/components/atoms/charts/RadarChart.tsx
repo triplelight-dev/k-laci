@@ -127,7 +127,6 @@ const JewelRadarChart = ({
         margin: 0,
         padding: 0,
         cursor: 'pointer',
-        border: '1px solid #BDBDBD',
       }}
       viewBox={`0 0 ${svgWidth} ${svgHeight}`}
       className="radar-chart"
@@ -166,18 +165,6 @@ const JewelRadarChart = ({
           </mask>
         </defs>
       )}
-
-      {/* 전체 SVG 영역을 표시하는 사각형 */}
-      <rect
-        x={0}
-        y={0}
-        width={svgWidth}
-        height={svgHeight}
-        fill="none"
-        stroke="#BDBDBD"
-        strokeWidth={1}
-        strokeDasharray="3 3"
-      />
 
       <RadarBackground
         context={context}

@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { CATEGORIES } from '../../../constants/categories';
 import { isActiveCategory } from '../../../utils/categoryUtils';
 import { RadarChartContext } from './types';
@@ -15,6 +16,9 @@ const RadarBackground = ({
   onStrongGuideHover,
   onWeakGuideHover,
 }: RadarBackgroundProps) => {
+  const [isStrongHovered, setIsStrongHovered] = useState(false);
+  const [isWeakHovered, setIsWeakHovered] = useState(false);
+
   const {
     center,
     radius,
@@ -99,6 +103,28 @@ const RadarBackground = ({
   const centerY = center - 200; // 200으로 유지
   const guideStrongY = centerY - 10;
   const guideWeakY = centerY + 18;
+
+  // 호버 핸들러
+  const handleStrongHover = (hovered: boolean) => {
+    setIsStrongHovered(hovered);
+    onStrongGuideHover && onStrongGuideHover(hovered);
+  };
+
+  const handleWeakHover = (hovered: boolean) => {
+    setIsWeakHovered(hovered);
+    onWeakGuideHover && onWeakGuideHover(hovered);
+  };
+
+  // 호버 상태에 따른 색상 계산
+  const strongTextColor = isStrongHovered ? '#000000' : '#BDBDBD';
+  const strongCircleColor = isStrongHovered ? 'transparent' : '#F5F5F5'; // 호버 시 투명
+  const strongCircleStroke = isStrongHovered ? '#000000' : '#D9D9E8';
+  const strongQmarkColor = isStrongHovered ? '#000000' : '#BDBDBD'; // 호버 시 검정색
+
+  const weakTextColor = isWeakHovered ? '#000000' : '#BDBDBD';
+  const weakCircleColor = isWeakHovered ? 'transparent' : '#F5F5F5'; // 호버 시 투명
+  const weakCircleStroke = isWeakHovered ? '#000000' : '#D9D9E8';
+  const weakQmarkColor = isWeakHovered ? '#000000' : '#BDBDBD'; // 호버 시 검정색
 
   return (
     <>
@@ -185,8 +211,8 @@ const RadarBackground = ({
 
       {/* 강점/약점 텍스트 + 물음표 아이콘 */}
       <g
-        onMouseEnter={() => onStrongGuideHover && onStrongGuideHover(true)}
-        onMouseLeave={() => onStrongGuideHover && onStrongGuideHover(false)}
+        onMouseEnter={() => handleStrongHover(true)}
+        onMouseLeave={() => handleStrongHover(false)}
         style={{ cursor: 'pointer' }}
       >
         {/* 강점영역 텍스트 */}
@@ -196,7 +222,7 @@ const RadarBackground = ({
           textAnchor="start"
           fontSize="8px"
           fontWeight="600"
-          fill="#BDBDBD"
+          fill={strongTextColor}
           className="radar-guide-label"
           style={{ cursor: 'pointer' }}
         >
@@ -208,8 +234,8 @@ const RadarBackground = ({
             cx={guideQmarkX}
             cy={guideStrongY - 3}
             r={7}
-            fill="#F5F5F5"
-            stroke="#D9D9E8"
+            fill={strongCircleColor}
+            stroke={strongCircleStroke}
             strokeWidth="1"
             style={{ cursor: 'pointer' }}
           />
@@ -219,7 +245,7 @@ const RadarBackground = ({
             textAnchor="middle"
             fontSize="8px"
             fontWeight="bold"
-            fill="#BDBDBD"
+            fill={strongQmarkColor}
             alignmentBaseline="middle"
             dominantBaseline="middle"
             className="radar-guide-qmark"
@@ -239,8 +265,8 @@ const RadarBackground = ({
         />
       </g>
       <g
-        onMouseEnter={() => onWeakGuideHover && onWeakGuideHover(true)}
-        onMouseLeave={() => onWeakGuideHover && onWeakGuideHover(false)}
+        onMouseEnter={() => handleWeakHover(true)}
+        onMouseLeave={() => handleWeakHover(false)}
         style={{ cursor: 'pointer' }}
       >
         {/* 약점영역 텍스트 */}
@@ -250,7 +276,7 @@ const RadarBackground = ({
           textAnchor="start"
           fontSize="8px"
           fontWeight="600"
-          fill="#BDBDBD"
+          fill={weakTextColor}
           className="radar-guide-label"
           style={{ cursor: 'pointer' }}
         >
@@ -262,8 +288,8 @@ const RadarBackground = ({
             cx={guideQmarkX}
             cy={guideWeakY - 3}
             r={7}
-            fill="#F5F5F5"
-            stroke="#D9D9E8"
+            fill={weakCircleColor}
+            stroke={weakCircleStroke}
             strokeWidth="1"
             style={{ cursor: 'pointer' }}
           />
@@ -273,7 +299,7 @@ const RadarBackground = ({
             textAnchor="middle"
             fontSize="8px"
             fontWeight="bold"
-            fill="#BDBDBD"
+            fill={weakQmarkColor}
             alignmentBaseline="middle"
             dominantBaseline="middle"
             className="radar-guide-qmark"

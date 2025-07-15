@@ -93,13 +93,11 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
             .radar-guide-label {
               font-size: 12px !important;
               font-weight: 600 !important;
-              fill: #BDBDBD !important;
               opacity: 1 !important;
             } 
             .radar-guide-qmark {
               font-size: 8px !important;
               font-weight: bold !important;
-              fill: #BDBDBD !important;
               opacity: 1 !important;
             }
             
@@ -233,8 +231,8 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
         <g>
           {/* 강점영역 툴팁 - 물음표 아이콘 우측에 위치 */}
           <rect
-            x={center + radius + 95} // 85에서 95로 10px 오른쪽 이동
-            y={centerY - 50} // 툴팁 박스 가운데가 중심선과 맞도록
+            x={center + radius + 95}
+            y={centerY - 50}
             width={280}
             height={100}
             rx={8}
@@ -245,11 +243,11 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
             }}
           />
           <text
-            x={center + radius + 107} // 97에서 107로 10px 오른쪽 이동
+            x={center + radius + 107}
             y={centerY - 28}
             textAnchor="start"
             dominantBaseline="middle"
-            fontSize="5"
+            fontSize="8"
             fill="#333"
           >
             차트 상반부는 <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>강점영역</tspan>입니다.
@@ -259,7 +257,7 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
             y={centerY - 10}
             textAnchor="start"
             dominantBaseline="middle"
-            fontSize="5"
+            fontSize="8"
             fill="#333"
           >
             영역 내 면적과 역량 분포에
@@ -269,7 +267,7 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
             y={centerY + 8}
             textAnchor="start"
             dominantBaseline="middle"
-            fontSize="5"
+            fontSize="8"
             fill="#333"
           >
             따라 해당 지역이 현재 보유한
@@ -279,7 +277,7 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
             y={centerY + 26}
             textAnchor="start"
             dominantBaseline="middle"
-            fontSize="5"
+            fontSize="8"
             fill="#333"
           >
             <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>강점</tspan>을 진단할 수 있습니다.
@@ -290,8 +288,8 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
         <g>
           {/* 약점영역 툴팁 - 강점 툴팁과 동일한 위치 */}
           <rect
-            x={center + radius + 95} // 85에서 95로 10px 오른쪽 이동
-            y={centerY - 50} // 강점 툴팁과 동일한 y 좌표
+            x={center + radius + 95}
+            y={centerY - 50}
             width={280}
             height={100}
             rx={8}
@@ -302,11 +300,11 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
             }}
           />
           <text
-            x={center + radius + 107} // 97에서 107로 10px 오른쪽 이동
+            x={center + radius + 107}
             y={centerY - 28}
             textAnchor="start"
             dominantBaseline="middle"
-            fontSize="5"
+            fontSize="8"
             fill="#333"
           >
             차트 하반부는 <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>약점영역</tspan>입니다.
@@ -316,7 +314,7 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
             y={centerY - 10}
             textAnchor="start"
             dominantBaseline="middle"
-            fontSize="5"
+            fontSize="8"
             fill="#333"
           >
             영역 내 면적과 역량 분포에
@@ -326,7 +324,7 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
             y={centerY + 8}
             textAnchor="start"
             dominantBaseline="middle"
-            fontSize="5"
+            fontSize="8"
             fill="#333"
           >
             따라 해당 지역이 현재 보유한
@@ -336,7 +334,7 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
             y={centerY + 26}
             textAnchor="start"
             dominantBaseline="middle"
-            fontSize="5"
+            fontSize="8"
             fill="#333"
           >
             <tspan fontWeight="bold" style={{ fontWeight: 'bold' }}>약점</tspan>을 진단할 수 있습니다.
