@@ -278,7 +278,7 @@ export default function RankCardSlider() {
         ref={containerRef}
         style={{
           position: 'absolute',
-          left: '50px', // 좌측 여백
+          left: '0px', // 좌측 여백
           top: '0',
           transform: 'translateX(0)',
           width: '100%',
@@ -360,7 +360,7 @@ export default function RankCardSlider() {
                 ) : (
                   <RegionCard
                     data={item as RegionCardData}
-                    onClick={handleRegionCardClick}  // 추가
+                    onClick={handleRegionCardClick} // 추가
                     style={{
                       border: cardStyle.border,
                       pointerEvents: 'auto',
