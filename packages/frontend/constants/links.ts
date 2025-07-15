@@ -5,6 +5,7 @@ export const EXTERNAL_LINKS = {
   MARKETING_CONSENT: 'https://triplelight.notion.site/229fd6e097fa80a48325ea6282c226b0',
   REPORT_RESERVATION: '',
   TRIPLELIGHT_HOMEPAGE: 'https://triplelight.co',
+  TRIPLELIGHT_HOMEPAGE_CONTACT: 'https://www.triplelight.co/contact',
   // 추가 링크들을 여기에 추가할 수 있습니다
 } as const;
 
