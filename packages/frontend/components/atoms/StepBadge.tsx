@@ -8,7 +8,7 @@ export default function StepBadge({ step }: StepBadgeProps) {
       style={{
         display: 'flex',
         justifyContent: 'center',
-        marginBottom: '5px',
+        marginBottom: '23px',
       }}
     >
       <div
@@ -21,7 +21,7 @@ export default function StepBadge({ step }: StepBadgeProps) {
           color: 'black',
         }}
       >
-        {step} 단계
+        {step}단계
       </div>
     </div>
   );

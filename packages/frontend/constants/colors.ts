@@ -8,7 +8,7 @@ export const categoryColors = {
 
   // 8개 유형
   생활역동형: '#ACAAE8',
-  안전회복형: '#74BF9E',
+  안전회복형: '#77DC97',
   인구정착형: '#F56542',
   경제정속형: '#F4B04D',
   생활정체형: '#ACAAE8',

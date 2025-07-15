@@ -1,3 +1,4 @@
+import StepBadge from '@/components/atoms/StepBadge';
 import CodeVerificationForm from '../components/CodeVerificationForm';
 
 interface CodeVerificationSectionProps {
@@ -28,10 +29,11 @@ export default function CodeVerificationSection({
       style={{
         width: '100%',
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#F4F4F4',
-        paddingTop: '80px',
+        backgroundColor: '#f5f5f5',
+        // paddingTop: '80px',
       }}
     >
       <div style={{ width: '100%', maxWidth: '800px', margin: '0 1rem' }}>
@@ -42,44 +44,38 @@ export default function CodeVerificationSection({
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: 'white',
+            backgroundColor: '#FAFAFA',
             borderRadius: '50px',
-            padding: '80px 100px',
+            padding: '60px 90px',
           }}
         >
           {/* 1/2 단계 뱃지 */}
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              marginBottom: '2rem',
-            }}
-          >
-            <div
-              style={{
-                border: '1px solid black',
-                borderRadius: '12px',
-                padding: '6px 12px',
-                fontSize: '16px',
-                fontWeight: '500',
-                color: 'black',
-              }}
-            >
-              1/2 단계
-            </div>
-          </div>
+          <StepBadge step="1/2" />
 
           {/* 타이틀 */}
-          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+          <div style={{ textAlign: 'center', marginBottom: '66px' }}>
             <h1
               style={{
-                fontSize: '1.875rem',
-                fontWeight: '700',
-                color: '#111827',
+                fontSize: '30px',
+                fontWeight: '600',
+                color: '#000000',
               }}
             >
-              이메일 인증
+              인증코드 입력
             </h1>
+
+          </div>
+
+          <div style={{
+            fontSize: '18px',
+            fontWeight: '400',
+            color: '#000000',
+            lineHeight: '28px',
+            textAlign: 'center',
+            marginBottom: '62px',
+            whiteSpace: 'pre-line',
+          }}>
+            {`입력하신 이메일 주소로 발송된 인증번호를 입력해주세요.\n받은 편지함에서 메일을 확인할 수 없는 경우\n스팸 메일함이나 전체 메일함에서 'KLACI'를 검색해주세요.`}
           </div>
 
           {/* 폼 */}
@@ -107,37 +103,59 @@ export default function CodeVerificationSection({
               {verificationError}
             </div>
           )}
-
-          {/* 로그인 링크 */}
-          <div
+        </div>
+      </div>
+      {/* 로그인 링크 */}
+      <div
+        style={{
+          textAlign: 'center',
+          marginTop: '60px',
+          fontWeight: '400',
+          fontSize: '18px',
+        }}
+      >
+        <span
+          style={{
+            color: '#000000',
+            lineHeight: '2',
+          }}
+        >
+          이미 계정이 있으신가요?{' '}
+        </span>
+        <a
+          href="/auth/login"
+          style={{
+            display: 'inline-block',
+            color: '#000000',
+            textDecoration: 'underline',
+            textDecorationColor: '#000000',
+            textDecorationThickness: '1px',
+            fontSize: '18px',
+            fontWeight: '400',
+          }}
+        >
+          로그인 바로가기
+        </a>
+      </div>
+      <div style={{
+        textAlign: 'center',
+        marginTop: '30px',
+        marginBottom: '100px',
+      }}>
+        <a href="mailto:klaci@triplelight.co">
+          <span
             style={{
-              textAlign: 'center',
-              marginTop: '2rem',
+              fontSize: '18px',
+              fontWeight: '400',
+              color: '#000000',
+              textDecoration: 'underline',
+              textDecorationColor: '#000000',
+              textDecorationThickness: '1px',
             }}
           >
-            <span
-              style={{
-                fontSize: '14px',
-                color: '#000000',
-              }}
-            >
-              이미 계정이 있으신가요?{' '}
-            </span>
-            <a
-              href="/auth/login"
-              style={{
-                fontSize: '14px',
-                color: '#000000',
-                textDecoration: 'underline',
-                textDecorationColor: '#000000',
-                textDecorationThickness: '1px',
-                fontWeight: '500',
-              }}
-            >
-              로그인 바로가기
-            </a>
-          </div>
-        </div>
+            도움이 필요하신가요?
+          </span>
+        </a>
       </div>
     </div>
   );

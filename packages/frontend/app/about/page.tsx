@@ -14,11 +14,12 @@ export default function AboutPage() {
       <div
         style={{
           width: '100%',
-          maxWidth: '1100px',
+          maxWidth: '1400px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          padding: '40px 20px',
+          marginTop: '160px',
+          marginBottom: '160px',
         }}
       >
         <AboutIntroSection />
@@ -27,6 +28,7 @@ export default function AboutPage() {
       <div
         style={{
           width: '100%',
+          // maxWidth: '1400px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -42,7 +44,8 @@ export default function AboutPage() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          backgroundColor: DARK_MODE_COLORS.background,
+          // backgroundColor: DARK_MODE_COLORS.background,
+          backgroundColor: '#232631',
         }}
       >
         <AboutUsSection />

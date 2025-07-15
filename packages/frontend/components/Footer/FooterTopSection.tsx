@@ -8,7 +8,7 @@ const FooterTopSection = () => {
 
   // 저작권 텍스트를 배열로 정의
   const COPYRIGHT_TEXT = [
-    '본 웹사이트에서 제공하는 모든 자료는 저작권법에 의하여 보호받는 저작물로써 사전 합의되지 않은 상업적 목적의 무단 복제 및 배포를 금합니다.',
+    '본 웹사이트에서 제공하는 모든 자료는 저작권법에 의하여 보호받는 저작물로서 사전 합의되지 않은 상업적 목적의 무단 복제 및 배포를 금합니다.',
     '본 웹사이트에 수록된 자료는 일반 정보 제공용이며 당사는 자료 이용에 따른 어떤 법적 책임도 부담하지 않습니다.',
     '자세한 내용은 ',
     '면책 고지 전문',
@@ -92,7 +92,6 @@ const FooterTopSection = () => {
                       textDecorationColor: '#D1D5DB',
                       textDecorationThickness: '1px',
                       cursor: 'pointer',
-                      fontWeight: 'bold',
                     }}
                   >
                     {line}
@@ -119,8 +118,8 @@ const FooterTopSection = () => {
               style={{
                 color: '#D1D5DB',
                 fontSize: '14px',
-                fontWeight: 'bold',
                 cursor: 'pointer',
+                textDecoration: 'underline',
               }}
             >
               개인정보 처리방침
@@ -132,8 +131,8 @@ const FooterTopSection = () => {
               style={{
                 color: '#D1D5DB',
                 fontSize: '14px',
-                fontWeight: 'bold',
                 cursor: 'pointer',
+                textDecoration: 'underline',
               }}
             >
               서비스 이용약관
@@ -145,8 +144,8 @@ const FooterTopSection = () => {
               style={{
                 color: '#D1D5DB',
                 fontSize: '14px',
-                fontWeight: 'bold',
                 cursor: 'pointer',
+                textDecoration: 'underline',
               }}
             >
               마케팅 정보 수신
@@ -180,7 +179,7 @@ const FooterTopSection = () => {
                 fontSize: '14px',
               }}
             >
-              {EMAIL_ADDRESS}
+              <a href={`mailto:${EMAIL_ADDRESS}`}>{EMAIL_ADDRESS}</a>
             </div>
           </div>
         </div>

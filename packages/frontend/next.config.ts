@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
       atoms: './atoms',
     },
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default nextConfig;

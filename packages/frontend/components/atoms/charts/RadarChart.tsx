@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { CATEGORIES } from '../../../constants/categories';
 import RadarBackground from './RadarBackground';
 import RadarHoverEffects from './RadarHoverEffects';
@@ -32,7 +33,7 @@ const JewelRadarChart = ({
 
   // 라벨 위치 오프셋
   const labelOffset = {
-    category: Math.round(size * 0.07),
+    category: Math.round(size * 0.03), // 0.07에서 0.03으로 줄여서 꼭지점에 더 가깝게
     value: Math.round(size * 0.008),
   };
 
@@ -106,6 +107,9 @@ const JewelRadarChart = ({
     regionData: regionData || {},
   };
 
+  const [showStrongTooltip, setShowStrongTooltip] = useState(false);
+  const [showWeakTooltip, setShowWeakTooltip] = useState(false);
+
   return (
     <svg
       width={svgSize}
@@ -154,9 +158,17 @@ const JewelRadarChart = ({
         </defs>
       )}
 
-      <RadarBackground context={context} />
+      <RadarBackground
+        context={context}
+        onStrongGuideHover={setShowStrongTooltip}
+        onWeakGuideHover={setShowWeakTooltip}
+      />
       <RadarJewel context={context} imageUrl={imageUrl} />
-      <RadarHoverEffects context={context} />
+      <RadarHoverEffects 
+        context={context} 
+        showStrongTooltip={showStrongTooltip}
+        showWeakTooltip={showWeakTooltip}
+      />
     </svg>
   );
 };

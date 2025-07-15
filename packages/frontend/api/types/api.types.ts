@@ -45,6 +45,36 @@ export interface KeyIndexData {
   created_at?: string;
   updated_at?: string;
   yearly_avg_score?: number;
+  year?: number; // 추가
+}
+
+export interface KeyIndexWithDetails {
+  id: number;
+  code: string;
+  name: string;
+  category: string;
+  description: string;
+  source?: string;
+  unit?: string;
+  name_eng?: string;
+  calculation_method?: string; // 추가
+  yearly_avg_score?: number; // 추가
+  year?: number; // 추가
+}
+
+export interface RegionKeyIndexScore {
+  id: number;
+  region_id: number;
+  key_index_id: number;
+  year: number;
+  score: number;
+}
+
+export interface RegionKeyIndexScoreResponse {
+  region_key_index_score: RegionKeyIndexScore;
+  avg_score: number;
+  key_index: KeyIndexWithDetails;
+  rank?: number; // 추가
 }
 
 // 사용자 프로필 타입

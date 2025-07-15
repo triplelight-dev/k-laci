@@ -18,6 +18,7 @@ export interface KlaciCode {
   opportunity: string;
   strategy: string;
   summary: string;
+  nickname_multiline?: string[];
   created_at?: string;
   updated_at?: string;
 }
@@ -47,8 +48,8 @@ export interface Region {
   klaci: KlaciCode;
 }
 
-// Total Region Rank 타입
-export interface TotalRegionRank {
+// 통일된 Region Rank 타입 (모든 ranking API에서 사용)
+export interface RegionRank {
   id: number;
   total_rank: number;
   region_id: number;
@@ -56,15 +57,107 @@ export interface TotalRegionRank {
   total_score: number;
   year: number;
   region: Region;
+  type?: MegaRegionType | KlaciCodeType; // KLACI 코드 타입도 지원하도록 확장
 }
 
-// API 요청 파라미터 타입
-export interface GetTotalRegionRanksParams {
+// 기존 호환성을 위한 별칭
+export type TotalRegionRank = RegionRank;
+
+// API 요청 파라미터 타입 (모든 ranking API에서 공통 사용)
+export interface GetRankingParams {
   limit?: number;
   year?: number;
 }
 
-// API 응답 타입
-export interface GetTotalRegionRanksResponse {
-  data: TotalRegionRank[];
+// 기존 호환성을 위한 별칭
+export type GetTotalRegionRanksParams = GetRankingParams;
+
+// API 응답 타입 (모든 ranking API에서 공통 사용)
+export interface GetRankingResponse {
+  data: RegionRank[];
+}
+
+// 기존 호환성을 위한 별칭
+export type GetTotalRegionRanksResponse = GetRankingResponse;
+
+// 메가 지역 타입 정의 (백엔드와 동일)
+export const MEGA_REGION_TYPES = [
+  '동남권',
+  '전북특별자치도',
+  '중부권',
+  '대경권',
+  '제주특별자치도',
+  '서남권',
+  '강원특별자치도',
+  '수도권',
+] as const;
+
+export type MegaRegionType = typeof MEGA_REGION_TYPES[number];
+
+// KLACI 코드 타입 정의 (백엔드와 동일) - 16개로 확장
+export const KLACI_CODE_TYPES = [
+  'GTVR',
+  'GTVA',
+  'GTMR',
+  'GTMA',
+  'GCVR',
+  'GCVA',
+  'GCMR',
+  'GCMA',
+  'STVR',
+  'STVA',
+  'STMR',
+  'STMA',
+  'SCVR',
+  'SCVA',
+  'SCMR',
+  'SCMA',
+] as const;
+
+export type KlaciCodeType = typeof KLACI_CODE_TYPES[number];
+
+// MegaRegion용 확장된 파라미터 타입
+export interface GetMegaRegionRanksParams extends GetRankingParams {
+  type?: MegaRegionType;
+}
+
+export interface GetKlaciCodeRanksParams extends GetRankingParams {
+  type?: KlaciCodeType;
+}
+
+export interface GetProvinceRanksParams extends GetRankingParams {
+  // province rank API에 특별한 파라미터가 있다면 여기에 추가
+}
+
+export interface GetCategoryRanksParams extends GetRankingParams {
+  // categoryId 제거 - 전체 데이터를 받아서 클라이언트 사이드에서 type으로 필터링
+}
+
+// Top Region Card 타입
+export interface CategoryScore {
+  growth_score: number;
+  economy_score: number;
+  living_score: number;
+  safety_score: number;
+}
+
+export interface TopRegionCard {
+  regionId: number;
+  regionName: string;
+  provinceName: string;
+  rank: number;
+  totalScore: number;
+  klaciCode: string;
+  klaciType: string;
+  klaciNickname: string;
+  klaciNicknameMultiline?: string[];
+  categoryScore: CategoryScore;
+}
+
+export interface GetTopRegionsForCardParams {
+  limit?: number;
+}
+
+export interface GetTopRegionsForCardResponse {
+  data: TopRegionCard[];
 } 

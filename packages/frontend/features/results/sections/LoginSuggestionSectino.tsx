@@ -1,6 +1,9 @@
 'use client';
 
+import { ArrowRightUp } from '@/components/atoms/assets';
+import Button from '@/components/atoms/buttons/Button';
 import { ROUTES } from '@/constants/data';
+import { useDistrict } from '@/store';
 import { useRouter } from 'next/navigation';
 
 interface LoginSuggestionSectionProps {
@@ -9,13 +12,14 @@ interface LoginSuggestionSectionProps {
 }
 
 const LoginSuggestionSection = ({
-  title = '우리 지역의 숨겨진 역량, 지금 바로 확인해보세요',
   descriptions = [
     '지자체가 보유한 역량의 분포와 범주별 순위,',
     '55가지 세부지표별 데이터를 무료로 확인할 수 있습니다',
   ],
 }: LoginSuggestionSectionProps) => {
+  const { selectedProvince, selectedDistrict } = useDistrict();
   const router = useRouter();
+
 
   const handleLoginClick = () => {
     router.push(ROUTES.LOGIN);
@@ -25,18 +29,37 @@ const LoginSuggestionSection = ({
     router.push(ROUTES.SIGNUP);
   };
 
+  const selectedProvinceName = selectedProvince?.name || '서울';
+  const selectedDistrictName = selectedDistrict?.name || '종로구';
+
+  const header = `${selectedProvinceName} ${selectedDistrictName}의 숨겨진 역량,\n지금 확인해보세요`
+
   return (
     <div
       style={{
+        position: 'relative',
         display: 'flex',
+        width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#000000',
+        backgroundColor: '#191B22',
         color: '#ffffff',
-        paddingBottom: '80px',
+        paddingBottom: '96px',
         minHeight: '400px',
       }}
     >
+      <div style={{
+        position: 'absolute',
+        top: '-248px',
+        left: 0,
+        right: 0,
+        background: 'linear-gradient(180deg, rgba(245, 245, 245, 0.00) 0%, #ffffff 100%)',
+        height: 246,
+        zIndex: 1,
+        width: '100%',
+      }}>
+      </div>
+
       <section
         style={{
           display: 'flex',
@@ -50,13 +73,14 @@ const LoginSuggestionSection = ({
         {/* 타이틀 */}
         <h2
           style={{
-            fontSize: '28px',
-            fontWeight: 'bold',
-            marginBottom: '24px',
+            fontSize: '48px',
+            fontWeight: '600',
+            margin: '55px 0 25px',
             color: '#ffffff',
+            whiteSpace: 'pre-line',
           }}
         >
-          {title}
+          {header}
         </h2>
 
         {/* 설명 텍스트들 */}
@@ -72,8 +96,8 @@ const LoginSuggestionSection = ({
             <div
               key={index}
               style={{
-                fontSize: '16px',
-                lineHeight: '1.3',
+                fontSize: '18px',
+                lineHeight: '28px',
                 color: '#ffffff',
                 margin: 0,
               }}
@@ -91,59 +115,14 @@ const LoginSuggestionSection = ({
           }}
         >
           {/* 왼쪽 버튼: 흰색 배경 */}
-          <button
-            onClick={handleLoginClick}
-            style={{
-              backgroundColor: 'white',
-              color: 'black',
-              border: 'none',
-              borderRadius: '8px',
-              padding: '14px 24px',
-              fontSize: '14px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              justifyContent: 'center',
-              minWidth: '180px',
-            }}
-          >
-            로그인
-          </button>
+          <Button variant='primary' onClick={handleLoginClick} width='255px' label='로그인'
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60px' }}
+          />
 
-          {/* 오른쪽 버튼: 투명 배경 흰색 보더 */}
-          <button
-            onClick={handleSignupClick}
-            style={{
-              backgroundColor: 'transparent',
-              color: 'white',
-              border: '1px solid white',
-              borderRadius: '8px',
-              padding: '14px 24px',
-              fontSize: '14px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              justifyContent: 'center',
-              minWidth: '180px',
-            }}
-          >
-             회원가입 바로가기
-            <img
-              src="/arrow_button_icon_white.png"
-              alt="화살표 아이콘"
-              style={{
-                width: '10px',
-                height: '10px',
-                display: 'block',
-              }}
-            />
-          </button>
+          <Button variant='secondary' onClick={handleSignupClick} width='255px' label='회원가입'
+            icon={<ArrowRightUp color='white' />}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60px' }}
+          />
         </div>
       </section>
     </div>

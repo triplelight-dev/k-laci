@@ -1,12 +1,15 @@
 'use client';
 
+import { Divider } from '@/components/atoms/divider';
 import PremiumContentTitle from '@/components/ui/PremiumContentTitle';
 import { CATEGORY_NAMES, categoryColors } from '@/constants/colors';
 import { NUM_OF_REGIONS } from '@/constants/data';
 import CategoryRanking from '@/features/results/components/CategoryRanking';
 import { useDistrict } from '@/store';
 import { CategoryData } from '@/types/category';
-import { useEffect, useMemo, useState } from 'react';
+import { Flex } from '@chakra-ui/react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { SummarySectionHeader } from './SummarySectionHeader';
 
 const CategoryRankingSection = () => {
   const title = '범주 및 세부지표 순위';
@@ -138,6 +141,8 @@ const CategoryRankingSection = () => {
       style={{
         display: 'flex',
         justifyContent: 'center',
+        marginTop: '105px',
+        width: '100%',
       }}
     >
       <section
@@ -145,23 +150,49 @@ const CategoryRankingSection = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
+          width: '100%',
         }}
       >
         {/* 타이틀 */}
-        <PremiumContentTitle title={title} />
+        <Flex style={{ width: '100%', justifyContent: 'center' }}>
+          <SummarySectionHeader
+            badgeLabel='INDEX RANKING'
+            title='범주 및 세부지표 순위'
+          />
+        </Flex>
+
+        {/* <Divider style={{ margin: '80px 0 100px' }} /> */}
 
         {/* 카테고리 그리드 */}
-        <div className="grid grid-cols-1 gap-8">
+        <div className="grid grid-cols-1" style={{ width: '100%' }}>
           {categories.map((category, index) => (
-            <CategoryRanking
-              key={index}
-              categoryData={category}
-              index={index}
-            />
+            <React.Fragment key={index}>
+              <Divider style={{ margin: '80px 0 100px' }} />
+              <div style={{ margin: '0 auto' }}><CategoryRanking
+                key={index}
+                categoryData={category}
+                index={index} /></div >
+            </React.Fragment>
           ))}
         </div>
-      </section>
-    </div>
+        <div style={{
+          width: '100%',
+          maxWidth: '1060px', margin: '0 auto',
+          borderRadius: '26px',
+          marginTop: '33px',
+          fontSize: '14px',
+          fontWeight: '500',
+          lineHeight: '24px',
+          color: '#9A9EA3',
+          textAlign: 'center',
+          padding: '8px 0',
+          backgroundColor: '#EDEDED',
+        }}>
+          [유형 개요]는 16개 유형에 따른 공통 해설입니다. 세부지표는 순위가 높을수록 강점으로 해석되며, 자세한 내용은 지표별 해설을 참고하시기 바랍니다.
+        </div>
+        <Divider style={{ margin: '80px 0 ' }} />
+      </section >
+    </div >
   );
 };
 

@@ -40,6 +40,7 @@ export interface RegionWithDetails extends Region {
     opportunity?: string[] | null;
     strategy?: string[] | null;
     summary?: string[] | null;
+    nickname_multiline?: string[] | null;
   };
   category_ranks?: RegionCategoryRank[];
 }
@@ -71,6 +72,7 @@ export interface KeyIndexData {
   created_at?: string;
   updated_at?: string;
   yearly_avg_score?: number;
+  year?: number; // 추가
 }
 
 export interface RegionKeyIndexScore {
@@ -90,12 +92,16 @@ export interface KeyIndexWithDetails {
   source?: string;
   unit?: string;
   name_eng?: string;
+  calculation_method?: string; // 추가
+  yearly_avg_score?: number; // 추가
+  year?: number; // 추가
 }
 
 export interface RegionKeyIndexScoreResponse {
   region_key_index_score: RegionKeyIndexScore;
   avg_score: number;
   key_index: KeyIndexWithDetails;
+  rank?: number; // 추가
 }
 
 export interface RegionStrengthIndexWithDetails {

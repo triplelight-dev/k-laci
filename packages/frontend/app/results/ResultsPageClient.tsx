@@ -15,13 +15,13 @@ import { useRouter } from 'next/navigation';
 import { Suspense, useEffect, useRef, useState } from 'react';
 
 // sections
+import Footer from '@/components/Footer';
+import HomePreRegistrationSection from '@/components/sections/HomePreRegistrationSection';
 import CategoryRankingSection from '@/features/results/sections/CategoryRankingSection';
-import CompetencyDistSection from '@/features/results/sections/CompetencyDistSection';
 import DistrictSearchSection from '@/features/results/sections/DistrictSearchSection';
 import DistrictSelectSection from '@/features/results/sections/DistrictSelectSection';
-import PreRegistrationSection from '@/features/results/sections/PreRegistrationSection';
+import LoginSuggestionSection from '@/features/results/sections/LoginSuggestionSectino';
 import SimilarRegionSection from '@/features/results/sections/SimilarRegionSection';
-import StrengthWeaknessIndexSection from '@/features/results/sections/StrenthWeaknessIndexSection';
 import SummarySection from '@/features/results/sections/SummarySection';
 import TitleSection from '@/features/results/sections/TitleSection';
 
@@ -88,6 +88,7 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
 
   // Zustand store에서 선택된 지역 정보 가져오기
   const { selectedProvince, selectedDistrict, selectedRegion } = useDistrict();
+
   const { getRegion } = useRegion();
 
   // URL 업데이트 함수 (무한 루프 방지)
@@ -237,13 +238,13 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
       const newIsFloating = scrollY > chartBottom;
       setIsFloating(newIsFloating);
 
-      // 스크롤 방향 감지
-      if (scrollY > lastScrollY.current) {
-        // 아래로 스크롤: 숨김
-        setIsFloatingVisible(false);
-      } else {
-        // 위로 스크롤: 표시
+      // 스크롤 방향 감지 (반대로 변경)
+      if (scrollY < lastScrollY.current) {
+        // 아래로 스크롤: 표시
         setIsFloatingVisible(true);
+      } else {
+        // 위로 스크롤: 숨김
+        setIsFloatingVisible(false);
       }
       lastScrollY.current = scrollY;
 
@@ -286,7 +287,8 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
           justifyContent: 'center',
           alignItems: 'center',
           background: '#F4F4F4',
-          gap: '30px',
+          position: 'relative',
+          overflow: 'hidden',
         }}
       >
         <DistrictSearchSection />
@@ -311,73 +313,37 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
             style={{
               display: 'flex',
               flexDirection: 'column',
-              width: '60%',
-              maxWidth: '800px',
-              gap: '50px',
-              paddingTop: '100px',
+              width: '100%',
+              maxWidth: '1060px',
             }}
           >
             {/* 차트(TitleSection) 영역 ref 부착 */}
             <div ref={chartSectionRef} data-chart-section>
               <TitleSection districtData={districtData} />
             </div>
-            <SummarySection />
 
-            {/* StrengthWeaknessIndexSection과 상단 컴포넌트 사이 간격 */}
-            <div style={{ height: '80px' }} />
+            <SummarySection isLoggedIn={isLoggedIn} />
 
-            {/* 로그인 상태에 따른 조건부 렌더링 */}
-            {isLoggedIn ? (
-              // 로그인된 사용자: 모든 섹션 표시
-              <>
-                <StrengthWeaknessIndexSection />
-                <CompetencyDistSection />
-                <CategoryRankingSection />
-                <div
-                  style={{
-                    width: '100vw',
-                    marginLeft: 'calc(-50vw + 50%)',
-                    marginRight: 'calc(-50vw + 50%)',
-                  }}
-                >
-                  <PreRegistrationSection />
-                </div>
-                <SimilarRegionSection />
-              </>
-            ) : (
-              // 비로그인 사용자: StrengthWeaknessIndexSection만 부분 표시 (fadeout 효과)
-              <>
-                <div
-                  style={{
-                    position: 'relative',
-                    overflow: 'hidden',
-                    maxHeight: '250px',
-                  }}
-                >
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      background:
-                        'linear-gradient(to bottom, rgba(244, 244, 244, 0) 0%, rgba(244, 244, 244, 0) 20%, rgba(244, 244, 244, 0.3) 50%, rgba(244, 244, 244, 0.6) 100%)',
-                      zIndex: 1,
-                      pointerEvents: 'none',
-                    }}
-                  />
-                  <div style={{ position: 'relative', zIndex: 0 }}>
-                    <StrengthWeaknessIndexSection />
-                  </div>
-                </div>
-                {/* LoginSuggestionSection과의 간격 */}
-                {/* <div style={{ height: '50px' }} /> */}
-              </>
-            )}
           </div>
+          {isLoggedIn && <>
+            <CategoryRankingSection />
+            <SimilarRegionSection />
+          </>}
         </div>
       </div>
+      {!isLoggedIn && <><LoginSuggestionSection /><div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '10px',
+        padding: '28px 0',
+        backgroundColor: '#000',
+        width: '100%',
+      }}>
+        <p style={{ fontSize: '14px', color: '#fff', fontWeight: '700' }}>© 2025 트리플라잇 주식회사</p>
+        <p style={{ fontSize: '14px', color: '#9A9EA3', fontWeight: '500' }}>klaci@triplelight.co</p>
+      </div></>}
+      {isLoggedIn && <><HomePreRegistrationSection height='650px' /><Footer /></>}
     </ResultLayout>
   );
 }

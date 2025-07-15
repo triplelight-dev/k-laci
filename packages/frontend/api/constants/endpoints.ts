@@ -16,11 +16,22 @@ export const API_ENDPOINTS = {
     REGION: (id: string) => `/data/regions/${id}`,
     ADJACENT_REGION: (rank: number, direction: 'prev' | 'next') => `/data/regions/adjacent/${rank}/${direction}`,
     PROVINCES_WITH_REGIONS: '/data/provinces-with-regions',
-    CATEGORIES: '/data/categories',
     KEY_INDEX: (id: number) => `/data/key-indexes/${id}`,
   },
   STATS: {
     TOTAL_RANKS: '/stats/rank/total',
+    TOP_REGIONS_FOR_CARD: '/stats/rank/top-regions',
+    MAJOR_PROVINCES: '/stats/rank/major-provinces',
+    SELECTED_PROVINCES: '/stats/rank/selected-provinces',
+    FREE_ECONOMY_ZONE: '/stats/rank/free-economy-zone',
+    GROWTH_BOOST_ZONE: '/stats/rank/growth-boost-zone',
+    NATIONAL_INDUSTRIAL_ZONE: '/stats/rank/national-industrial-zone',
+    COSTAL_CITY: '/stats/rank/costal-city',
+    MEGA_REGION: '/stats/rank/mega-region',
+    KLACI_CODE: '/stats/rank/klaci-code',
+    PROVINCE_RANK: '/stats/rank/province',
+    CATEGORY_RANK: '/stats/rank/category',
+    DISTRICT_TYPE_RANK: '/stats/rank/district-type',
   },
 } as const;
 

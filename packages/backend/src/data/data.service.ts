@@ -4,18 +4,18 @@ import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Cache } from 'cache-manager';
 import {
-    CategoryKeyIndexRank,
-    KeyIndexData,
-    KeyIndexWithDetails,
-    Region,
-    RegionKeyIndexRank,
-    RegionKeyIndexScoreResponse,
-    RegionsResponse,
-    RegionStrengthIndexesResponse,
-    RegionStrengthIndexesWithDetailsResponse,
-    RegionWithDetails,
-    SelectionDisplayType,
-    SelectionTag,
+  CategoryKeyIndexRank,
+  KeyIndexData,
+  KeyIndexWithDetails,
+  Region,
+  RegionKeyIndexRank,
+  RegionKeyIndexScoreResponse,
+  RegionsResponse,
+  RegionStrengthIndexesResponse,
+  RegionStrengthIndexesWithDetailsResponse,
+  RegionWithDetails,
+  SelectionDisplayType,
+  SelectionTag,
 } from './types/region.types';
 
 export const REGION_SCORE_TYPES = {
@@ -56,7 +56,7 @@ export class DataService {
         `
         *,
         province:provinces(id, name),
-        klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
+        klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary, nickname_multiline)
         `,
         { count: 'exact' },
       )
@@ -105,7 +105,7 @@ export class DataService {
         `
         *,
         province:provinces(id, name, full_name, name_eng),
-        klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
+        klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary, nickname_multiline)
         `,
       )
       .eq('id', id)
@@ -565,7 +565,7 @@ export class DataService {
         `
         *,
         province:provinces(id, name, full_name, name_eng),
-        klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
+        klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary, nickname_multiline)
         `,
       )
       .order('total_rank', { ascending: true });
@@ -791,7 +791,7 @@ export class DataService {
           `
         *,
         province:provinces(id, name),
-        klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
+        klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary, nickname_multiline)
         `,
         )
         .or(adjacentRankQuery)
@@ -859,7 +859,7 @@ export class DataService {
               `
             *,
             province:provinces(id, name),
-            klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
+            klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary, nickname_multiline)
             `,
             )
             .in('id', selectedRankIds)
@@ -945,7 +945,7 @@ export class DataService {
               `
             *,
             province:provinces(id, name),
-            klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
+            klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary, nickname_multiline)
             `,
             )
             .in('id', strengthRegionIds)
@@ -976,7 +976,7 @@ export class DataService {
           `
       *,
       province:provinces(id, name),
-      klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
+      klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary, nickname_multiline)
       `,
         )
         .eq('weight_class', currentWeightClass)
@@ -1007,7 +1007,7 @@ export class DataService {
           `
       *,
       province:provinces(id, name),
-      klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
+      klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary, nickname_multiline)
       `,
         )
         .ilike('klaci_code', upperKlaciCode)
@@ -1047,7 +1047,7 @@ export class DataService {
       {
         regions: selectedWeightClassRegions || [],
         tag: 'SAME_WEIGHT_CLASS' as SelectionTag,
-        display: '체급이 비슷한' as SelectionDisplayType,
+        display: '인구가 비슷한' as SelectionDisplayType,
       },
     ];
 
@@ -1200,7 +1200,7 @@ export class DataService {
         `
         *,
         province:provinces(id, name),
-        klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary)
+        klaci:klaci_codes(code, nickname, type, trait, opportunity, strategy, summary, nickname_multiline)
         `,
       )
       .ilike('klaci_code', upperKlaciCode) // 대소문자 상관없이 검색
@@ -1316,10 +1316,33 @@ export class DataService {
       throw keyIndexError;
     }
 
+    // 4. region_key_index_ranks에서 순위 정보 조회 (새로 추가)
+    let rank: number | undefined;
+    try {
+      const { data: rankData, error: rankError } = await this.supabase
+        .from('region_key_index_ranks')
+        .select('rank')
+        .eq('region_id', regionId)
+        .eq('key_index_id', keyIndexId)
+        .order('year', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (rankError && rankError.code !== 'PGRST116') {
+        console.error('Error fetching key index rank:', rankError);
+      } else if (rankData) {
+        rank = rankData.rank;
+      }
+    } catch (error) {
+      console.error('Error in region_key_index_ranks query:', error);
+      // 에러가 발생해도 기본값 undefined를 사용하여 계속 진행
+    }
+
     result = {
       region_key_index_score: scoreData,
       avg_score: avgScore,
       key_index: keyIndexData as KeyIndexWithDetails,
+      rank, // rank 정보 추가
     };
 
     await this.cacheManager.set(cacheKey, result, 300);

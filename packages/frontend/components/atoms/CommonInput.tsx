@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 interface CommonInputProps {
   id: string;
-  label: string;
+  label?: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder: string;
@@ -14,6 +14,7 @@ interface CommonInputProps {
   helperText?: string;
   error?: string;
   onBlur?: () => void;
+  inputStyle?: React.CSSProperties;
 }
 
 export default function CommonInput({
@@ -30,6 +31,7 @@ export default function CommonInput({
   helperText,
   error,
   onBlur,
+  inputStyle,
 }: CommonInputProps) {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -43,20 +45,20 @@ export default function CommonInput({
           marginBottom: '10px',
         }}
       >
-        <label
+        {label && <label
           htmlFor={id}
           style={{
-            fontSize: '14px',
-            fontWeight: '700',
-            color: '#374151',
+            fontSize: '18px',
+            fontWeight: '400',
+            color: '#000',
           }}
         >
           {label}
-        </label>
+        </label>}
         {isRequired && (
           <span
             style={{
-              fontSize: '12px',
+              fontSize: '14px',
               color: '#9A9EA3',
               fontWeight: '500',
             }}
@@ -77,11 +79,11 @@ export default function CommonInput({
         }}
         style={{
           width: '100%',
-          height: '50px',
+          height: '60px',
           fontSize: '16px',
-          padding: '0 1rem',
+          padding: '10px 21px',
           border: isFocused ? '1px solid #000000' : 'none',
-          borderRadius: '0.5rem',
+          borderRadius: '17px',
           outline: 'none',
           color: '#111827',
           boxSizing: 'border-box',

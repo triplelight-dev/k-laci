@@ -12,7 +12,7 @@ export default function EmailDisplayBox({
       case 'GOV':
         return '정부/공공기관 회원';
       case 'EDU':
-        return '대학교 회원';
+        return '기업/비영리 회원';
       case 'GENERAL':
         return '일반 회원';
       default:
@@ -27,8 +27,8 @@ export default function EmailDisplayBox({
           width: '100%',
           height: '60px',
           backgroundColor: '#F1F1F1',
-          borderRadius: '0.5rem',
-          padding: '0 20px',
+          borderRadius: '17px',
+          padding: '10px 21px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -37,9 +37,9 @@ export default function EmailDisplayBox({
       >
         <div
           style={{
-            fontSize: '16px',
-            color: '#111827',
-            fontWeight: '500',
+            fontSize: '18px',
+            color: '#9A9EA3',
+            fontWeight: '600',
           }}
         >
           {email}
@@ -47,15 +47,17 @@ export default function EmailDisplayBox({
         <div
           style={{
             backgroundColor: '#C5EEE5',
-            color: '#066106',
-            borderRadius: '10px',
-            width: '60px',
-            height: '24px',
+            color: '#05666A',
+            borderRadius: '9px',
+            width: 'fit-content',
+            padding: '2px 13px',
+            height: 'fit-content',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '12px',
+            fontSize: '14px',
             fontWeight: '500',
+            lineHeight: '26px',
           }}
         >
           인증됨
@@ -63,9 +65,11 @@ export default function EmailDisplayBox({
       </div>
       <div
         style={{
-          fontSize: '12px',
-          color: '#6B7280',
-          marginTop: '4px',
+          fontSize: '14px',
+          fontWeight: '500',
+          color: '#000',
+          marginTop: '8px',
+          paddingLeft: '21px',
           textAlign: 'left',
         }}
       >

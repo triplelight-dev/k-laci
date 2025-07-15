@@ -1,5 +1,12 @@
+'use client';
+
+import { Divider } from '@/components/atoms/divider';
 import { useDistrict } from '@/store';
+import { Text } from '@chakra-ui/react';
 import React from 'react';
+import CompetencyDistSection from './CompetencyDistSection';
+import StrengthWeaknessIndexSection from './StrenthWeaknessIndexSection';
+import { SummarySectionHeader } from './SummarySectionHeader';
 
 // 타입 정의
 interface SummaryItemData {
@@ -8,75 +15,10 @@ interface SummaryItemData {
 }
 
 interface SummaryData {
-  characteristics: SummaryItemData;
-  opportunities: SummaryItemData;
-  improvements: SummaryItemData;
+  trait: SummaryItemData;
 }
 
-// 재사용 가능한 SummaryItem 컴포넌트
-interface SummaryItemProps {
-  data: SummaryItemData;
-}
-
-const SummaryItem: React.FC<SummaryItemProps> = ({ data }) => {
-  return (
-    <div
-      style={{
-        display: 'flex',
-        paddingBottom: '60px',
-      }}
-    >
-      <div
-        style={{
-          flex: '0 0 85px',
-          color: '#000000',
-          fontSize: '1rem',
-          fontWeight: 600,
-          paddingRight: '2rem',
-        }}
-      >
-        <div
-          style={{
-            display: 'inline-block',
-            padding: '6px 10px',
-            borderRadius: '8px',
-            border: '1px solid #000000',
-            backgroundColor: 'transparent',
-            color: '#000000',
-            fontSize: '0.9rem',
-            fontWeight: 600,
-          }}
-        >
-          {data.title}
-        </div>
-      </div>
-      <div
-        style={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1rem',
-        }}
-      >
-        {data.paragraphs.map((paragraph, index) => (
-          <p
-            key={index}
-            style={{
-              color: 'black',
-              fontSize: '0.9rem',
-              lineHeight: 1.8,
-              margin: 0,
-            }}
-          >
-            {paragraph}
-          </p>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const SummarySection: React.FC = () => {
+const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
   // Zustand에서 selectedRegion 가져오기
   const { selectedRegion } = useDistrict();
 
@@ -91,32 +33,16 @@ const SummarySection: React.FC = () => {
     );
   }
 
-  // selectedRegion의 klaci 데이터를 활용하여 summaryData 구성
+  // // selectedRegion의 klaci 데이터를 활용하여 summaryData 구성
   const summaryData: SummaryData = {
-    characteristics: {
+    trait: {
       title: '특성',
       paragraphs: selectedRegion.klaci?.trait || ['특성 정보가 없습니다.'],
-    },
-    opportunities: {
-      title: '기회자산',
-      paragraphs: selectedRegion.klaci?.opportunity || [
-        '기회자산 정보가 없습니다.',
-      ],
-    },
-    improvements: {
-      title: '발전방향',
-      paragraphs: selectedRegion.klaci?.strategy || [
-        '발전방향 정보가 없습니다.',
-      ],
     },
   };
 
   // 데이터를 배열로 변환하여 매핑
-  const summaryItems = [
-    summaryData.characteristics,
-    summaryData.opportunities,
-    // summaryData.improvements,
-  ];
+  const summaryItems = [summaryData.trait];
 
   return (
     <div
@@ -130,16 +56,53 @@ const SummarySection: React.FC = () => {
           style={{
             display: 'flex',
             flexDirection: 'column',
-            paddingTop: '12%',
-            paddingBottom: '12%',
-            borderRadius: '56px',
+            borderRadius: isLoggedIn ? '56px' : '56px 56px 0 0',
             backgroundColor: 'white',
-            padding: '80px',
+            padding: '95px 0',
+            justifyContent: 'center',
+            paddingBottom: isLoggedIn ? '95px' : '0',
           }}
         >
-          {summaryItems.map((item, index) => (
-            <SummaryItem key={index} data={item} />
-          ))}
+          <SummarySectionHeader badgeLabel="OVERVIEW" title="유형 개요" />
+
+          <Divider style={{ margin: '60px 0 0' }} />
+
+          <Text
+            fontSize="18px"
+            fontWeight="400"
+            lineHeight="28px"
+            color="#000"
+            padding="80px 135px"
+            textAlign="justify"
+            whiteSpace="pre-line"
+          >
+            {summaryItems.map((item) => item.paragraphs.join('\n'))}
+          </Text>
+
+          <Divider style={{ margin: '0 0 60px' }} />
+
+          <SummarySectionHeader badgeLabel="KEY INDEX" title="주요 세부지표" />
+
+          <Divider style={{ margin: '60px 0 100px' }} />
+
+          {/* 로그인 상태에 따른 조건부 렌더링 */}
+          {isLoggedIn ? (
+            // 로그인된 사용자: 모든 섹션 표시
+            <React.Fragment>
+              <div style={{ padding: '0 135px' }} suppressHydrationWarning>
+                <StrengthWeaknessIndexSection />
+              </div>
+
+              <Divider style={{ margin: '100px 0 60px' }} />
+              <CompetencyDistSection />
+            </React.Fragment>
+          ) : (
+            // 비로그인 사용자: StrengthWeaknessIndexSection만 부분 표시 (fadeout 효과)
+
+            <div style={{ padding: '0 135px' }} suppressHydrationWarning>
+              <StrengthWeaknessIndexSection />
+            </div>
+          )}
         </div>
       </section>
     </div>

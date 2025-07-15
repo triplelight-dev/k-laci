@@ -1,44 +1,41 @@
-import { useCallback, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { DataService, RegionKeyIndexScoreResponse } from '../services/data.service';
 import { ApiError } from '../types/api.types';
 
+// 기존 인터페이스 유지를 위한 훅
 export const useRegionKeyIndexScore = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<ApiError | null>(null);
-  const [data, setData] = useState<RegionKeyIndexScoreResponse | null>(null);
-
-  const getRegionKeyIndexScore = useCallback(
-    async (regionId: number, keyIndexId: number) => {
-      setLoading(true);
-      setError(null);
-
-      try {
-        const response = await DataService.getRegionKeyIndexScore(
-          regionId,
-          keyIndexId,
-        );
-        setData(response.data);
-        return response.data;
-      } catch (err: any) {
-        const apiError: ApiError = {
-          message:
-            err.response?.data?.message ||
-            '지역 키 인덱스 점수를 불러오는데 실패했습니다.',
-          status: err.response?.status || 500,
-        };
-        setError(apiError);
-        throw apiError;
-      } finally {
-        setLoading(false);
-      }
-    },
-    [],
-  );
+  const getRegionKeyIndexScore = async (regionId: number, keyIndexId: number) => {
+    const response = await DataService.getRegionKeyIndexScore(regionId, keyIndexId);
+    return response.data;
+  };
 
   return {
-    data,
-    loading,
-    error,
+    data: null, // 호환성을 위해 유지
+    loading: false, // 호환성을 위해 유지
+    error: null, // 호환성을 위해 유지
     getRegionKeyIndexScore,
   };
+};
+
+// 새로운 react-query 기반 훅
+export const useRegionKeyIndexScoreQuery = (
+  regionId: number | null,
+  keyIndexId: number | null,
+  enabled: boolean = true
+) => {
+  return useQuery<RegionKeyIndexScoreResponse, ApiError>({
+    queryKey: ['regionKeyIndexScore', regionId, keyIndexId],
+    queryFn: async () => {
+      if (!regionId || !keyIndexId) {
+        throw new Error('regionId와 keyIndexId가 필요합니다.');
+      }
+      const response = await DataService.getRegionKeyIndexScore(regionId, keyIndexId);
+      return response.data;
+    },
+    enabled: enabled && !!regionId && !!keyIndexId,
+    staleTime: 5 * 60 * 1000, // 5분
+    gcTime: 10 * 60 * 1000, // 10분
+    refetchOnWindowFocus: false,
+    retry: 1,
+  });
 }; 
