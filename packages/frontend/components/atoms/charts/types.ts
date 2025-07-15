@@ -15,7 +15,9 @@ export interface RadarChartProps {
 }
 
 export interface RadarChartContext {
-  center: number;
+  center: number; // svgCenterX
+  centerY: number; // 가이드 텍스트용 (svgCenterY - 200)
+  actualCenterY: number; // 실제 차트 중심점 (svgCenterY)
   radius: number;
   size: number;
   jewelSize: number;
@@ -30,6 +32,12 @@ export interface RadarChartContext {
     category: number;
     value: number;
   };
+  iconSize: {
+    qmarkRadius: number;
+    qmarkFontSize: number;
+    circleRadius: number;
+    circleMargin: number;
+  };
   categories: string[];
   colorMap: Record<string, string>;
   points: Array<{
@@ -39,12 +47,19 @@ export interface RadarChartContext {
   }>;
   vals: number[];
   fixedColorPairs: [string, string][];
-  regionData?: {
-    growth_score?: number;
-    economy_score?: number;
-    living_score?: number;
-    safety_score?: number;
-    klaci_code?: string;
+  regionData: any;
+  // 가이드 관련 위치 값들 추가
+  guide: {
+    labelX: number;
+    qmarkX: number;
+    strongY: number;
+    weakY: number;
+  };
+  // 툴팁 위치 값들 추가
+  tooltip: {
+    boxX: number;
+    textX: number;
+    boxY: number;
   };
 }
 

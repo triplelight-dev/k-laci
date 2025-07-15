@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { CATEGORIES } from '../../../constants/categories';
 import { isActiveCategory } from '../../../utils/categoryUtils';
 import { RadarChartContext } from './types';
@@ -15,19 +16,36 @@ const RadarBackground = ({
   onStrongGuideHover,
   onWeakGuideHover,
 }: RadarBackgroundProps) => {
+  const [isStrongHovered, setIsStrongHovered] = useState(false);
+  const [isWeakHovered, setIsWeakHovered] = useState(false);
+
   const {
     center,
+    actualCenterY,
     radius,
+    size,
     isJewel,
     fontSize,
     labelOffset,
+    iconSize, // 추가
     categories,
     colorMap,
     points,
-    regionData,
+    vals,
+    fixedColorPairs,
+    regionData, // 추가
+    guide,
   } = context;
 
   if (isJewel) return null;
+
+  // 가이드 위치 값들 추출
+  const {
+    labelX: guideLabelX,
+    qmarkX: guideQmarkX,
+    strongY: guideStrongY,
+    weakY: guideWeakY,
+  } = guide;
 
   // map 바깥에서 한 번만 선언
   const leftCircleCategories = [
@@ -93,60 +111,82 @@ const RadarBackground = ({
   };
 
   // 강점/약점 텍스트 + 물음표 아이콘
-  const guideLabelX = center + radius + 20; // 기존보다 20px 더 왼쪽
-  const guideQmarkX = guideLabelX + 65; // 원은 텍스트 기준 오른쪽 32px (필요시 조정)
-  const guideStrongY = center - 10;
-  const guideWeakY = center + 18;
+  // 실제 y축 중심 계산
+  // const centerY = center - 200; // 제거 - 이미 context에서 받았음
+  // const guideStrongY = centerY - 10; // 제거 - 이미 context에서 받았음
+  // const guideWeakY = centerY + 18; // 제거 - 이미 context에서 받았음
+
+  // 호버 핸들러
+  const handleStrongHover = (hovered: boolean) => {
+    setIsStrongHovered(hovered);
+    onStrongGuideHover && onStrongGuideHover(hovered);
+  };
+
+  const handleWeakHover = (hovered: boolean) => {
+    setIsWeakHovered(hovered);
+    onWeakGuideHover && onWeakGuideHover(hovered);
+  };
+
+  // 호버 상태에 따른 색상 계산
+  const strongTextColor = isStrongHovered ? '#000000' : '#BDBDBD';
+  const strongCircleColor = isStrongHovered ? 'transparent' : '#F5F5F5'; // 호버 시 투명
+  const strongCircleStroke = isStrongHovered ? '#000000' : '#D9D9E8';
+  const strongQmarkColor = isStrongHovered ? '#000000' : '#BDBDBD'; // 호버 시 검정색
+
+  const weakTextColor = isWeakHovered ? '#000000' : '#BDBDBD';
+  const weakCircleColor = isWeakHovered ? 'transparent' : '#F5F5F5'; // 호버 시 투명
+  const weakCircleStroke = isWeakHovered ? '#000000' : '#D9D9E8';
+  const weakQmarkColor = isWeakHovered ? '#000000' : '#BDBDBD'; // 호버 시 검정색
 
   return (
     <>
-      {/* 위쪽 반원 배경 (0도 ~ 180도) */}
+      {/* 위쪽 반원 배경 (0도 ~ 180도) - Jewel 기준 */}
       <path
-        d={`M ${center} ${center} 
-            L ${center + radius * Math.cos(0)} ${center + radius * Math.sin(0)}
+        d={`M ${center} ${actualCenterY} 
+            L ${center + radius * Math.cos(0)} ${actualCenterY + radius * Math.sin(0)}
             A ${radius} ${radius} 0 0 1 
-            ${center + radius * Math.cos(Math.PI)} ${center + radius * Math.sin(Math.PI)}
+            ${center + radius * Math.cos(Math.PI)} ${actualCenterY + radius * Math.sin(Math.PI)}
             Z`}
         fill="#EBEBEB"
       />
 
-      {/* 아래쪽 반원 배경 (180도 ~ 360도) */}
+      {/* 아래쪽 반원 배경 (180도 ~ 360도) - Jewel 기준 */}
       <path
-        d={`M ${center} ${center} 
-            L ${center + radius * Math.cos(Math.PI)} ${center + radius * Math.sin(Math.PI)}
+        d={`M ${center} ${actualCenterY} 
+            L ${center + radius * Math.cos(Math.PI)} ${actualCenterY + radius * Math.sin(Math.PI)}
             A ${radius} ${radius} 0 0 1 
-            ${center + radius * Math.cos(2 * Math.PI)} ${center + radius * Math.sin(2 * Math.PI)}
+            ${center + radius * Math.cos(2 * Math.PI)} ${actualCenterY + radius * Math.sin(2 * Math.PI)}
             Z`}
         fill="#F4F4F4"
       />
 
-      {/* 배경에 마스크 적용 */}
+      {/* 배경에 마스크 적용 - Jewel 기준 */}
       <path
-        d={`M ${center} ${center} 
-            L ${center + radius * Math.cos(0)} ${center + radius * Math.sin(0)}
+        d={`M ${center} ${actualCenterY} 
+            L ${center + radius * Math.cos(0)} ${actualCenterY + radius * Math.sin(0)}
             A ${radius} ${radius} 0 0 1 
-            ${center + radius * Math.cos(Math.PI)} ${center + radius * Math.sin(Math.PI)}
+            ${center + radius * Math.cos(Math.PI)} ${actualCenterY + radius * Math.sin(Math.PI)}
             Z`}
         fill="#EBEBEB"
         mask="url(#labelMask)"
       />
 
       <path
-        d={`M ${center} ${center} 
-            L ${center + radius * Math.cos(Math.PI)} ${center + radius * Math.sin(Math.PI)}
+        d={`M ${center} ${actualCenterY} 
+            L ${center + radius * Math.cos(Math.PI)} ${actualCenterY + radius * Math.sin(Math.PI)}
             A ${radius} ${radius} 0 0 1 
-            ${center + radius * Math.cos(2 * Math.PI)} ${center + radius * Math.sin(2 * Math.PI)}
+            ${center + radius * Math.cos(2 * Math.PI)} ${actualCenterY + radius * Math.sin(2 * Math.PI)}
             Z`}
         fill="#F4F4F4"
         mask="url(#labelMask)"
       />
 
-      {/* 원형 격자 (50%, 100%) */}
+      {/* 원형 격자 (50%, 100%) - Jewel 기준 */}
       {[0.5, 1.0].map((rate, i) => (
         <circle
           key={i}
           cx={center}
-          cy={center}
+          cy={actualCenterY}
           r={radius * rate}
           fill="none"
           stroke="#D9D9E8"
@@ -155,143 +195,104 @@ const RadarBackground = ({
         />
       ))}
 
-      {/* 방사형 축선 - 보석 위에서는 보이지 않게 마스크 적용 */}
+      {/* 방사형 축선 - Jewel 기준 */}
       <g mask="url(#jewelMask)">
         {points.map((pt, i) => (
           <line
             key={i}
             x1={center}
-            y1={center}
+            y1={actualCenterY}
             x2={center + radius * Math.cos(pt.angle)}
-            y2={center + radius * Math.sin(pt.angle)}
+            y2={actualCenterY + radius * Math.sin(pt.angle)}
             stroke="#D9D9E8"
             strokeWidth={0.5}
           />
         ))}
       </g>
 
-      {/* 가로 점선 (길이 더 늘림) */}
+      {/* 가로 점선 - Jewel 기준 */}
       <line
         x1={center - radius - 120}
-        y1={center}
+        y1={actualCenterY}
         x2={center + radius + 120}
-        y2={center}
+        y2={actualCenterY}
         stroke="#CCC"
         strokeWidth={0.5}
         strokeDasharray="4 4"
       />
 
-      {/* 강점/약점 텍스트 + 물음표 아이콘 */}
+      {/* 강점/약점 텍스트 + 물음표 아이콘 - 기존 centerY 사용 (가이드 텍스트용) */}
       <g
-        onMouseEnter={() => onStrongGuideHover && onStrongGuideHover(true)}
-        onMouseLeave={() => onStrongGuideHover && onStrongGuideHover(false)}
+        onMouseEnter={() => handleStrongHover(true)}
+        onMouseLeave={() => handleStrongHover(false)}
         style={{ cursor: 'pointer' }}
       >
-        {/* 강점영역 텍스트 */}
         <text
           x={guideLabelX}
           y={guideStrongY}
           textAnchor="start"
-          fontSize="8px"
-          fontWeight="600"
-          fill="#BDBDBD"
-          className="radar-guide-label"
-          style={{ cursor: 'pointer' }}
+          dominantBaseline="middle"
+          style={{ fontSize: `${fontSize.area}px`, fontWeight: 'bold' }}  // fontWeight도 style로 설정
+          fill={strongTextColor}
         >
           ↑ 강점영역
         </text>
-        {/* 물음표 아이콘 */}
-        <g style={{ cursor: 'pointer' }}>
-          <circle
-            cx={guideQmarkX}
-            cy={guideStrongY - 3}
-            r={7}
-            fill="#F5F5F5"
-            stroke="#D9D9E8"
-            strokeWidth="1"
-            style={{ cursor: 'pointer' }}
-          />
-          <text
-            x={guideQmarkX}
-            y={guideStrongY - 3}
-            textAnchor="middle"
-            fontSize="8px"
-            fontWeight="bold"
-            fill="#BDBDBD"
-            alignmentBaseline="middle"
-            dominantBaseline="middle"
-            className="radar-guide-qmark"
-            style={{ cursor: 'pointer' }}
-          >
-            ?
-          </text>
-        </g>
-        {/* 호버 영역(투명) */}
-        <rect
-          x={guideLabelX - 5}
-          y={guideStrongY - 12}
-          width={60}
-          height={24}
-          fill="transparent"
-          style={{ cursor: 'pointer' }}
+        <circle
+          cx={guideQmarkX}
+          cy={guideStrongY} // 1px 아래로 조정 제거 - 텍스트와 같은 높이
+          r={iconSize.qmarkRadius} // 8 → iconSize.qmarkRadius
+          fill={strongCircleColor}
+          stroke={strongCircleStroke}
+          strokeWidth={1}
         />
+        <text
+          x={guideQmarkX}
+          y={guideStrongY}   // 1px 아래로 조정 제거 - 텍스트와 같은 높이
+          textAnchor="middle"
+          dominantBaseline="middle"
+          style={{ fontSize: `${iconSize.qmarkFontSize}px`, fontWeight: 'bold' }}  // fontWeight도 style로 설정
+          fill={strongQmarkColor}
+        >
+          ?
+        </text>
       </g>
+
       <g
-        onMouseEnter={() => onWeakGuideHover && onWeakGuideHover(true)}
-        onMouseLeave={() => onWeakGuideHover && onWeakGuideHover(false)}
+        onMouseEnter={() => handleWeakHover(true)}
+        onMouseLeave={() => handleWeakHover(false)}
         style={{ cursor: 'pointer' }}
       >
-        {/* 약점영역 텍스트 */}
         <text
           x={guideLabelX}
           y={guideWeakY}
           textAnchor="start"
-          fontSize="8px"
-          fontWeight="600"
-          fill="#BDBDBD"
-          className="radar-guide-label"
-          style={{ cursor: 'pointer' }}
+          dominantBaseline="middle"
+          style={{ fontSize: `${fontSize.area}px`, fontWeight: 'bold' }}  // fontWeight도 style로 설정
+          fill={weakTextColor}
         >
           ↓ 약점영역
         </text>
-        {/* 물음표 아이콘 */}
-        <g style={{ cursor: 'pointer' }}>
-          <circle
-            cx={guideQmarkX}
-            cy={guideWeakY - 3}
-            r={7}
-            fill="#F5F5F5"
-            stroke="#D9D9E8"
-            strokeWidth="1"
-            style={{ cursor: 'pointer' }}
-          />
-          <text
-            x={guideQmarkX}
-            y={guideWeakY - 3}
-            textAnchor="middle"
-            fontSize="8px"
-            fontWeight="bold"
-            fill="#BDBDBD"
-            alignmentBaseline="middle"
-            dominantBaseline="middle"
-            className="radar-guide-qmark"
-            style={{ cursor: 'pointer' }}
-          >
-            ?
-          </text>
-        </g>
-        {/* 호버 영역(투명) */}
-        <rect
-          x={guideLabelX - 5}
-          y={guideWeakY - 12}
-          width={60}
-          height={24}
-          fill="transparent"
-          style={{ cursor: 'pointer' }}
+        <circle
+          cx={guideQmarkX}
+          cy={guideWeakY}    // 1px 아래로 조정 제거 - 텍스트와 같은 높이
+          r={iconSize.qmarkRadius} // 8 → iconSize.qmarkRadius
+          fill={weakCircleColor}
+          stroke={weakCircleStroke}
+          strokeWidth={1}
         />
+        <text
+          x={guideQmarkX}
+          y={guideWeakY}     // 1px 아래로 조정 제거 - 텍스트와 같은 높이
+          textAnchor="middle"
+          dominantBaseline="middle"
+          style={{ fontSize: `${iconSize.qmarkFontSize}px`, fontWeight: 'bold' }}  // fontWeight도 style로 설정
+          fill={weakQmarkColor}
+        >
+          ?
+        </text>
       </g>
 
-      {/* 축 라벨 */}
+      {/* 카테고리 라벨 - Jewel 기준으로 수정 */}
       {points.map((pt, i) => {
         const category = categories[i];
         if (!category) return null;
@@ -309,11 +310,11 @@ const RadarBackground = ({
           rotationAngle += 180;
         }
 
-        // 라벨 위치
+        // 라벨 위치 - actualCenterY 사용 (Jewel 기준)
         const baseX =
           center + (radius + labelOffset.category) * Math.cos(pt.angle);
         const baseY =
-          center + (radius + labelOffset.category) * Math.sin(pt.angle);
+          actualCenterY + (radius + labelOffset.category) * Math.sin(pt.angle);
 
         // 카테고리별 x축 오프셋
         let xOffset = 0;
@@ -332,40 +333,40 @@ const RadarBackground = ({
         // 라벨 위치 조정: 상단/하단/기타에 따라 y축 오프셋 적용
         let labelX = baseX + xOffset;
         let labelY = baseY;
-        const labelMargin = 8; // 16에서 8로 줄여서 꼭지점에 더 가깝게
+        const labelMargin = 8;
         if (bottomCategories.includes(category as any)) {
-          // 하단 라벨: y를 아래로
           labelY = baseY + labelMargin;
         } else if (topCategories.includes(category as any)) {
-          // 상단 라벨: y를 위로
           labelY = baseY - labelMargin;
         }
 
-        // circle 위치 계산 - 원은 기존 위치 유지
+        // circle 위치 계산 - 상단/하단 반원 간격 조정
         let codeX, codeY, circleTransform;
-        const circleMargin = 25; // 20에서 25로 늘려서 라벨과 원의 거리를 조금 더 늘림
+        const circleMargin = iconSize.circleMargin; // 25 → iconSize.circleMargin
+        const extraMargin = Math.round(size * 0.014); // 10px 정도 추가 간격
+
         if (bottomCategories.includes(category as any)) {
-          // 하단 라벨: 라벨에서 원의 중심 '반대 방향(아래)'으로 margin만큼 이동
+          // 하단 반원: 텍스트보다 더 아래로
           const vecX = center - labelX;
-          const vecY = center - labelY;
+          const vecY = actualCenterY - labelY;
           const vecLen = Math.sqrt(vecX * vecX + vecY * vecY);
           const normX = vecX / vecLen;
           const normY = vecY / vecLen;
-          codeX = labelX - normX * circleMargin;
-          codeY = labelY - normY * circleMargin;
+          codeX = labelX - normX * (circleMargin + extraMargin);
+          codeY = labelY - normY * (circleMargin + extraMargin);
           circleTransform = `rotate(${rotationAngle} ${codeX} ${codeY})`;
         } else if (topCategories.includes(category as any)) {
-          // 상단 라벨: 라벨에서 원의 중심 '반대 방향(위)'으로 margin만큼 이동
+          // 상단 반원: 텍스트보다 더 위로
           const vecX = center - labelX;
-          const vecY = center - labelY;
+          const vecY = actualCenterY - labelY;
           const vecLen = Math.sqrt(vecX * vecX + vecY * vecY);
           const normX = vecX / vecLen;
           const normY = vecY / vecLen;
-          codeX = labelX - normX * circleMargin;
-          codeY = labelY - normY * circleMargin;
+          codeX = labelX - normX * (circleMargin + extraMargin);
+          codeY = labelY - normY * (circleMargin + extraMargin);
           circleTransform = `rotate(${rotationAngle} ${codeX} ${codeY})`;
         } else {
-          // 나머지: 접선 방향(라벨 기준 +90도)으로 margin만큼 이동
+          // 좌우 위치 (3시, 9시 방향)
           const tangentAngle = pt.angle + Math.PI / 2;
           codeX = labelX + circleMargin * Math.cos(tangentAngle);
           codeY = labelY + circleMargin * Math.sin(tangentAngle);
@@ -375,7 +376,10 @@ const RadarBackground = ({
         // 지역 데이터가 있으면 점수에 따른 색상 적용
         let textColor = '#999999'; // 기본 색상
         let circleColor = '#999999'; // 원 색상
+        let circleTextColor = '#999999'; // 원 안의 텍스트 색상 (새로 추가)
+        let circleStroke = '#999999'; // 원 보더 색상 (새로 추가)
         let klaciCodeValue = undefined;
+
         if (regionData) {
           const {
             growth_score,
@@ -399,19 +403,25 @@ const RadarBackground = ({
               CATEGORIES.경제정속형,
               CATEGORIES.인구정착형,
             ];
+
             if ((lowScoreCategories as string[]).includes(category)) {
+              // 하단 반원 (bottomCategories)
               textColor = '#000000';
               circleColor = '#000000';
+              circleTextColor = '#FFFFFF'; // 원 안의 텍스트는 흰색
+              circleStroke = 'none'; // 보더 없음
             } else {
+              // 상단 반원 (topCategories)
               textColor = colorMap[category] || '#999999';
               circleColor = colorMap[category] || '#999999';
+              circleTextColor = '#FFFFFF'; // 원 안의 텍스트는 흰색
+              circleStroke = colorMap[category] || '#999999'; // 보더는 키컬러
             }
           }
         }
 
         const categoryCode = getCategoryCode(category, klaciCodeValue);
-
-        const circleRadius = 8;
+        const circleRadius = iconSize.circleRadius; // 8 → iconSize.circleRadius
         const finalCircleColor = (bottomCategories as string[]).includes(
           category,
         )
@@ -424,38 +434,34 @@ const RadarBackground = ({
               x={labelX}
               y={labelY}
               textAnchor="middle"
-              dy="0.4em"
-              fontSize={fontSize.category}
-              fontWeight="600"
+              dominantBaseline="middle"
+              style={{ fontSize: `${fontSize.category}px`, fontWeight: 'bold' }} // fontWeight도 style로 설정
               fill={textColor}
               transform={`rotate(${rotationAngle} ${labelX} ${labelY})`}
-              className="radar-category-label"
             >
               {category}
             </text>
             {categoryCode && (
-              <>
+              <g transform={circleTransform}>
                 <circle
                   cx={codeX}
                   cy={codeY}
                   r={circleRadius}
                   fill={finalCircleColor}
-                  transform={circleTransform}
+                  stroke={circleStroke}
+                  strokeWidth={circleStroke === 'none' ? 0 : 1}
                 />
                 <text
                   x={codeX}
                   y={codeY}
                   textAnchor="middle"
-                  dy="0.4em"
-                  fontSize="16px"
-                  fontWeight="bold"
-                  fill="#FFFFFF"
-                  transform={circleTransform}
-                  className="radar-circle-code-text"
+                  dominantBaseline="middle"
+                  style={{ fontSize: `${fontSize.value}px`, fontWeight: '500' }} // fontWeight도 style로 설정
+                  fill={circleTextColor}
                 >
                   {categoryCode}
                 </text>
-              </>
+              </g>
             )}
           </g>
         );
