@@ -116,8 +116,8 @@ const JewelRadarChart = ({
   const textGap = Math.round(fontSize.area * 0.4) - 6; // 1px 좌로 이동
   const guideQmarkX = guideLabelX + textWidth + textGap;
 
-  const guideStrongY = svgCenterY - 10;
-  const guideWeakY = svgCenterY + 15;
+  const guideStrongY = svgCenterY - 20;
+  const guideWeakY = svgCenterY + 22;
 
   // 툴팁 위치 계산
   const tooltipBoxX = svgCenterX + radius + 95;
