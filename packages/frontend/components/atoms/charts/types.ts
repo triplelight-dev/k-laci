@@ -15,9 +15,9 @@ export interface RadarChartProps {
 }
 
 export interface RadarChartContext {
-  center: number;
-  centerX?: number; // 새로 추가
-  centerY?: number; // 새로 추가
+  center: number; // svgCenterX
+  centerY: number; // 가이드 텍스트용 (svgCenterY - 200)
+  actualCenterY: number; // 실제 차트 중심점 (svgCenterY)
   radius: number;
   size: number;
   jewelSize: number;
@@ -42,6 +42,19 @@ export interface RadarChartContext {
   vals: number[];
   fixedColorPairs: [string, string][];
   regionData: any;
+  // 가이드 관련 위치 값들 추가
+  guide: {
+    labelX: number;
+    qmarkX: number;
+    strongY: number;
+    weakY: number;
+  };
+  // 툴팁 위치 값들 추가
+  tooltip: {
+    boxX: number;
+    textX: number;
+    boxY: number;
+  };
 }
 
 export interface Point {

@@ -82,7 +82,7 @@ const JewelRadarChart = ({
     const r = (value / 100) * radius;
     return {
       x: svgCenterX + r * Math.cos(angle),
-      y: svgCenterY + r * Math.sin(angle),
+      y: svgCenterY + r * Math.sin(angle), // 보석과 동일한 중심점 사용
       angle,
     };
   });
@@ -99,8 +99,24 @@ const JewelRadarChart = ({
     ['#F4B04D', '#D09B3F'], // 경제혁신형
   ];
 
+  // 모든 위치 계산을 여기서 수행
+  const centerY = svgCenterY - 200; // 제거될 예정 (사용하지 않음)
+  
+  // 강점/약점 텍스트 위치 - actualCenterY 기준으로 수정
+  const guideLabelX = svgCenterX + radius + 20;
+  const guideQmarkX = guideLabelX + 65;
+  const guideStrongY = svgCenterY - 10; // actualCenterY 기준
+  const guideWeakY = svgCenterY + 18; // actualCenterY 기준
+  
+  // 툴팁 위치 계산 - actualCenterY 기준으로 수정
+  const tooltipBoxX = svgCenterX + radius + 95;
+  const tooltipTextX = svgCenterX + radius + 107;
+  const tooltipBoxY = svgCenterY - 50; // actualCenterY 기준
+
   const context: RadarChartContext = {
-    center: svgCenterX, // x축 중심 (배경 컴포넌트에서 사용)
+    center: svgCenterX,
+    centerY, // 더 이상 사용하지 않음 (제거 예정)
+    actualCenterY: svgCenterY, // 실제 차트 중심점
     radius,
     size,
     jewelSize,
@@ -113,6 +129,17 @@ const JewelRadarChart = ({
     vals,
     fixedColorPairs,
     regionData: regionData || {},
+    guide: {
+      labelX: guideLabelX,
+      qmarkX: guideQmarkX,
+      strongY: guideStrongY, // 이제 actualCenterY 기준
+      weakY: guideWeakY, // 이제 actualCenterY 기준
+    },
+    tooltip: {
+      boxX: tooltipBoxX,
+      textX: tooltipTextX,
+      boxY: tooltipBoxY, // 이제 actualCenterY 기준
+    },
   };
 
   const [showStrongTooltip, setShowStrongTooltip] = useState(false);
