@@ -166,12 +166,12 @@ const JewelRadarChart = ({
         margin: 0,
         padding: 0,
         cursor: 'pointer',
-        border: '2px solid red',
       }}
       viewBox={`0 0 ${svgWidth} ${svgHeight}`}
       className="radar-chart"
     >
       {/* 파란 박스 - 세로 간격 완전 제거 */}
+      {/* 개발용 보더 제거
       <rect
         x={horizontalExtension}
         y={0}
@@ -182,8 +182,10 @@ const JewelRadarChart = ({
         strokeWidth="2"
         strokeDasharray="5,5"
       />
+      */}
 
       {/* 실제 차트 원 보더 */}
+      {/* 개발용 보더 제거
       <circle
         cx={svgCenterX}
         cy={svgCenterY}
@@ -193,6 +195,7 @@ const JewelRadarChart = ({
         strokeWidth="3"
         strokeDasharray="10,5"
       />
+      */}
 
       {/* 라벨 마스크 */}
       {!isJewel && (
