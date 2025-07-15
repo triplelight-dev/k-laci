@@ -32,6 +32,12 @@ export interface RadarChartContext {
     category: number;
     value: number;
   };
+  iconSize: {
+    qmarkRadius: number;
+    qmarkFontSize: number;
+    circleRadius: number;
+    circleMargin: number;
+  };
   categories: string[];
   colorMap: Record<string, string>;
   points: Array<{

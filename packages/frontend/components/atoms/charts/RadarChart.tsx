@@ -10,7 +10,7 @@ import { RadarChartContext, RadarChartProps } from './types';
 const JewelRadarChart = ({
   data,
   isJewel = false,
-  size = 500,
+  size = 3000,
   imageUrl = '/backgrounds/radar_chart_bg.png',
   regionData,
 }: RadarChartProps) => {
@@ -18,31 +18,39 @@ const JewelRadarChart = ({
   const radius = size * 0.4;
   const jewelSize = isJewel ? radius * 2 : size;
 
-  // 라벨이 잘리지 않도록 전체 SVG 크기와 viewBox를 더 크게 설정
-  const padding = size * 0.2; // 20% 패딩
-  const svgSize = size + padding * 2;
+  // 세로 간격 완전 제거 - 좌우만 확장
+  const horizontalExtension = 200;
+  const svgWidth = size + horizontalExtension * 2; // 좌우만 확장
+  const svgHeight = size; // 세로는 차트 크기와 완전히 동일
   
-  // 좌우만 확장
-  const horizontalExtension = 200; // 200으로 유지
-  const svgWidth = svgSize + horizontalExtension * 2;
-  const svgHeight = svgSize;
-  
-  // 중심점 분리
-  const svgCenterX = center + padding + horizontalExtension; // x축 중심 (확장된 중심)
-  const svgCenterY = center + padding; // y축 중심 (원래 중심)
+  // 중심점 계산 - 세로는 정중앙
+  const svgCenterX = center + horizontalExtension;
+  const svgCenterY = size / 2; // 명확하게 SVG 높이의 정중앙
 
-  // 폰트 크기 비율 계산
+  // 폰트 크기 비율 계산 - 크기를 증가
   const fontSize = {
-    category: Math.round(size * 0.028),
-    value: Math.round(size * 0.02),
-    tooltip: Math.round(size * 0.024),
-    area: Math.round(size * 0.028),
+    category: Math.round(size * 0.03),  // 0.028 → 0.038
+    value: Math.round(size * 0.02),     // 0.02 → 0.028
+    tooltip: Math.round(size * 0.01),   // 0.024 → 0.032
+    area: Math.round(size * 0.022),      // 0.028 → 0.038
   };
 
-  // 라벨 위치 오프셋
+  // 디버깅용 로그 추가
+  console.log('RadarChart fontSize 값들:', fontSize);
+  console.log('RadarChart size:', size);
+
+  // 라벨 위치 오프셋도 조정
   const labelOffset = {
-    category: Math.round(size * 0.03), // 0.07에서 0.03으로 줄여서 꼭지점에 더 가깝게
-    value: Math.round(size * 0.008),
+    category: Math.round(size * 0.04),   // 0.03 → 0.04
+    value: Math.round(size * 0.012),     // 0.008 → 0.012
+  };
+
+  // 아이콘 크기 추가
+  const iconSize = {
+    qmarkRadius: Math.round(size * 0.016),  // 물음표 원형 반지름 (기존 8 → size * 0.016)
+    qmarkFontSize: Math.round(size * 0.014), // 물음표 텍스트 크기 (기존 8 → size * 0.014)
+    circleRadius: Math.round(size * 0.018),  // 카테고리 코드 원형 반지름 (기존 8 → size * 0.018)
+    circleMargin: Math.round(size * 0.036),  // 카테고리 코드 원형과 텍스트 간격 (기존 25 → size * 0.036)
   };
 
   // 차트 순서에 맞게 카테고리 배열 생성 (순서 중요!)
@@ -76,13 +84,13 @@ const JewelRadarChart = ({
   const vals = data.slice(0, numAxes);
   while (vals.length < numAxes) vals.push(0);
 
-  // 축 끝점 좌표 및 각도 저장 - x축과 y축 중심 분리
+  // 축 끝점 좌표 계산
   const points = vals.map((value, i) => {
     const angle = -Math.PI / 2 + rotation + i * angleStep;
     const r = (value / 100) * radius;
     return {
       x: svgCenterX + r * Math.cos(angle),
-      y: svgCenterY + r * Math.sin(angle), // 보석과 동일한 중심점 사용
+      y: svgCenterY + r * Math.sin(angle),
       angle,
     };
   });
@@ -99,30 +107,28 @@ const JewelRadarChart = ({
     ['#F4B04D', '#D09B3F'], // 경제혁신형
   ];
 
-  // 모든 위치 계산을 여기서 수행
-  const centerY = svgCenterY - 200; // 제거될 예정 (사용하지 않음)
-  
-  // 강점/약점 텍스트 위치 - actualCenterY 기준으로 수정
+  // 모든 위치 계산
   const guideLabelX = svgCenterX + radius + 20;
   const guideQmarkX = guideLabelX + 65;
-  const guideStrongY = svgCenterY - 10; // actualCenterY 기준
-  const guideWeakY = svgCenterY + 18; // actualCenterY 기준
+  const guideStrongY = svgCenterY - 10;
+  const guideWeakY = svgCenterY + 18;
   
-  // 툴팁 위치 계산 - actualCenterY 기준으로 수정
+  // 툴팁 위치 계산
   const tooltipBoxX = svgCenterX + radius + 95;
   const tooltipTextX = svgCenterX + radius + 107;
-  const tooltipBoxY = svgCenterY - 50; // actualCenterY 기준
+  const tooltipBoxY = svgCenterY - 50;
 
   const context: RadarChartContext = {
     center: svgCenterX,
-    centerY, // 더 이상 사용하지 않음 (제거 예정)
-    actualCenterY: svgCenterY, // 실제 차트 중심점
+    centerY: svgCenterY - 200,  // 가이드 텍스트용 (추가)
+    actualCenterY: svgCenterY,
     radius,
     size,
     jewelSize,
     isJewel,
     fontSize,
     labelOffset,
+    iconSize,  // 추가
     categories,
     colorMap,
     points,
@@ -132,13 +138,13 @@ const JewelRadarChart = ({
     guide: {
       labelX: guideLabelX,
       qmarkX: guideQmarkX,
-      strongY: guideStrongY, // 이제 actualCenterY 기준
-      weakY: guideWeakY, // 이제 actualCenterY 기준
+      strongY: guideStrongY,
+      weakY: guideWeakY,
     },
     tooltip: {
       boxX: tooltipBoxX,
       textX: tooltipTextX,
-      boxY: tooltipBoxY, // 이제 actualCenterY 기준
+      boxY: tooltipBoxY,
     },
   };
 
@@ -154,10 +160,34 @@ const JewelRadarChart = ({
         margin: 0,
         padding: 0,
         cursor: 'pointer',
+        border: '2px solid red',
       }}
       viewBox={`0 0 ${svgWidth} ${svgHeight}`}
       className="radar-chart"
     >
+      {/* 파란 박스 - 세로 간격 완전 제거 */}
+      <rect
+        x={horizontalExtension}
+        y={0}
+        width={size}
+        height={size}
+        fill="none"
+        stroke="blue"
+        strokeWidth="2"
+        strokeDasharray="5,5"
+      />
+      
+      {/* 실제 차트 원 보더 */}
+      <circle
+        cx={svgCenterX}
+        cy={svgCenterY}
+        r={radius}
+        fill="none"
+        stroke="green"
+        strokeWidth="3"
+        strokeDasharray="10,5"
+      />
+
       {/* 라벨 마스크 */}
       {!isJewel && (
         <defs>

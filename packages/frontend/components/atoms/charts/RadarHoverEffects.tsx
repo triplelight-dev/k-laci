@@ -94,19 +94,16 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
               opacity: 1 !important;
             }
             .radar-guide-label {
-              font-size: 12px !important;
               font-weight: 600 !important;
               opacity: 1 !important;
             } 
             .radar-guide-qmark {
-              font-size: 8px !important;
               font-weight: bold !important;
               opacity: 1 !important;
             }
             
             /* 원 안의 텍스트 폰트 크기 고정 */
             .radar-circle-code-text {
-              font-size: 11px !important;
             }
             
             /* 라벨 텍스트 폰트 웨이트 고정 */

@@ -21,23 +21,35 @@ const RadarBackground = ({
 
   const {
     center,
-    centerY, // 가이드 텍스트용 (svgCenterY - 200)
-    actualCenterY, // 실제 차트 중심점 (svgCenterY) - Jewel과 동일
+    actualCenterY,
     radius,
+    size,
     isJewel,
     fontSize,
     labelOffset,
+    iconSize, // 추가
     categories,
     colorMap,
     points,
-    regionData,
+    vals,
+    fixedColorPairs,
+    regionData,  // 추가
     guide,
   } = context;
 
+  // 디버깅용 로그 추가
+  console.log('RadarBackground fontSize 값들:', fontSize);
+  console.log('RadarBackground iconSize 값들:', iconSize);
+
   if (isJewel) return null;
 
-  // context에서 받은 값들 사용
-  const { labelX: guideLabelX, qmarkX: guideQmarkX, strongY: guideStrongY, weakY: guideWeakY } = guide;
+  // 가이드 위치 값들 추출
+  const {
+    labelX: guideLabelX,
+    qmarkX: guideQmarkX,
+    strongY: guideStrongY,
+    weakY: guideWeakY,
+  } = guide;
 
   // 기존 하드코딩된 계산들 제거
   // const centerY = center - 200; // 제거
@@ -231,17 +243,16 @@ const RadarBackground = ({
           y={guideStrongY}
           textAnchor="start"
           dominantBaseline="middle"
-          fontSize={fontSize.area}
+          style={{ fontSize: `${fontSize.area}px` }}  // fontSize 속성 대신 style 사용
           fontWeight="600"
           fill={strongTextColor}
-          className="radar-guide-label"
         >
           ↑ 강점영역
         </text>
         <circle
           cx={guideQmarkX}
           cy={guideStrongY}
-          r={8}
+          r={iconSize.qmarkRadius} // 8 → iconSize.qmarkRadius
           fill={strongCircleColor}
           stroke={strongCircleStroke}
           strokeWidth={1}
@@ -251,10 +262,9 @@ const RadarBackground = ({
           y={guideStrongY}
           textAnchor="middle"
           dominantBaseline="middle"
-          fontSize="8"
+          style={{ fontSize: `${iconSize.qmarkFontSize}px` }}  // fontSize 속성 대신 style 사용
           fontWeight="bold"
           fill={strongQmarkColor}
-          className="radar-guide-qmark"
         >
           ?
         </text>
@@ -270,17 +280,16 @@ const RadarBackground = ({
           y={guideWeakY}
           textAnchor="start"
           dominantBaseline="middle"
-          fontSize={fontSize.area}
+          style={{ fontSize: `${fontSize.area}px` }}  // fontSize 속성 대신 style 사용
           fontWeight="600"
           fill={weakTextColor}
-          className="radar-guide-label"
         >
           ↓ 약점영역
         </text>
         <circle
           cx={guideQmarkX}
           cy={guideWeakY}
-          r={8}
+          r={iconSize.qmarkRadius} // 8 → iconSize.qmarkRadius
           fill={weakCircleColor}
           stroke={weakCircleStroke}
           strokeWidth={1}
@@ -290,10 +299,9 @@ const RadarBackground = ({
           y={guideWeakY}
           textAnchor="middle"
           dominantBaseline="middle"
-          fontSize="8"
+          style={{ fontSize: `${iconSize.qmarkFontSize}px` }}  // fontSize 속성 대신 style 사용
           fontWeight="bold"
           fill={weakQmarkColor}
-          className="radar-guide-qmark"
         >
           ?
         </text>
@@ -347,28 +355,33 @@ const RadarBackground = ({
           labelY = baseY - labelMargin;
         }
 
-        // circle 위치 계산 - 원은 기존 위치 유지
+        // circle 위치 계산 - 상단/하단 반원 간격 조정
         let codeX, codeY, circleTransform;
-        const circleMargin = 25;
+        const circleMargin = iconSize.circleMargin;  // 25 → iconSize.circleMargin
+        const extraMargin = Math.round(size * 0.014); // 10px 정도 추가 간격
+        
         if (bottomCategories.includes(category as any)) {
+          // 하단 반원: 텍스트보다 더 아래로
           const vecX = center - labelX;
           const vecY = actualCenterY - labelY;
           const vecLen = Math.sqrt(vecX * vecX + vecY * vecY);
           const normX = vecX / vecLen;
           const normY = vecY / vecLen;
-          codeX = labelX - normX * circleMargin;
-          codeY = labelY - normY * circleMargin;
+          codeX = labelX - normX * (circleMargin + extraMargin);
+          codeY = labelY - normY * (circleMargin + extraMargin);
           circleTransform = `rotate(${rotationAngle} ${codeX} ${codeY})`;
         } else if (topCategories.includes(category as any)) {
+          // 상단 반원: 텍스트보다 더 위로
           const vecX = center - labelX;
           const vecY = actualCenterY - labelY;
           const vecLen = Math.sqrt(vecX * vecX + vecY * vecY);
           const normX = vecX / vecLen;
           const normY = vecY / vecLen;
-          codeX = labelX - normX * circleMargin;
-          codeY = labelY - normY * circleMargin;
+          codeX = labelX - normX * (circleMargin + extraMargin);
+          codeY = labelY - normY * (circleMargin + extraMargin);
           circleTransform = `rotate(${rotationAngle} ${codeX} ${codeY})`;
         } else {
+          // 좌우 위치 (3시, 9시 방향)
           const tangentAngle = pt.angle + Math.PI / 2;
           codeX = labelX + circleMargin * Math.cos(tangentAngle);
           codeY = labelY + circleMargin * Math.sin(tangentAngle);
@@ -405,7 +418,7 @@ const RadarBackground = ({
               CATEGORIES.경제정속형,
               CATEGORIES.인구정착형,
             ];
-            
+
             if ((lowScoreCategories as string[]).includes(category)) {
               // 하단 반원 (bottomCategories)
               textColor = '#000000';
@@ -423,7 +436,7 @@ const RadarBackground = ({
         }
 
         const categoryCode = getCategoryCode(category, klaciCodeValue);
-        const circleRadius = 8;
+        const circleRadius = iconSize.circleRadius;  // 8 → iconSize.circleRadius
         const finalCircleColor = (bottomCategories as string[]).includes(
           category,
         )
@@ -437,11 +450,10 @@ const RadarBackground = ({
               y={labelY}
               textAnchor="middle"
               dominantBaseline="middle"
-              fontSize={fontSize.category}
+              style={{ fontSize: `${fontSize.category}px` }}  // fontSize 속성 대신 style 사용
               fontWeight="600"
               fill={textColor}
               transform={`rotate(${rotationAngle} ${labelX} ${labelY})`}
-              className="radar-category-label"
             >
               {category}
             </text>
@@ -460,10 +472,9 @@ const RadarBackground = ({
                   y={codeY}
                   textAnchor="middle"
                   dominantBaseline="middle"
-                  fontSize="11"
+                  style={{ fontSize: `${fontSize.value}px` }}  // fontSize 속성 대신 style 사용
                   fontWeight="500"
                   fill={circleTextColor}
-                  className="radar-circle-code-text"
                 >
                   {categoryCode}
                 </text>

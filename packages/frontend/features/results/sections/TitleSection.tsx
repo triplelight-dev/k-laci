@@ -6,13 +6,13 @@ import { default as JewelRadarChart } from '@/components/atoms/charts/RadarChart
 import KlaciCodeCircles from '@/components/atoms/circle/KlaciCodeCircles';
 import { PROVINCE_FULL_NAMES } from '@/constants/region';
 import {
-    useDistrict,
-    useSetSelectedDistrict,
-    useSetSelectedProvince,
-    useSetSelectedRegion,
+  useDistrict,
+  useSetSelectedDistrict,
+  useSetSelectedProvince,
+  useSetSelectedRegion,
 } from '@/store';
-import { Flex, Grid } from '@chakra-ui/react';
 import { generateChartData } from '@/utils/chartUtils';
+import { Flex, Grid } from '@chakra-ui/react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 // 지자체 데이터 타입 정의
@@ -154,7 +154,7 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
         flexDirection: 'column',
         width: '100%',
         alignItems: 'center',
-        padding: '20px',
+        padding: '0px', // 20px에서 0px로 변경
         marginBottom: '120px',
       }}
     >
@@ -163,13 +163,13 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
           display: 'flex',
           width: '100%',
           justifyContent: 'center',
-          padding: '20px',
+          padding: '0px', // 20px에서 0px로 변경
           marginBottom: '50px',
         }}
       >
 
         <JewelRadarChart
-          size={470}
+          size={650}
           isJewel={false}
           data={animatedChartData}
           regionData={
