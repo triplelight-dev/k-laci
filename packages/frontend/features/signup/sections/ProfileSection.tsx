@@ -125,7 +125,7 @@ export default function ProfileSection({
       <div
         style={{
           textAlign: 'center',
-          marginTop: '62px',
+          marginTop: '50px',
         }}
       >
         <a

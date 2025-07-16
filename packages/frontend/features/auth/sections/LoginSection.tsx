@@ -125,7 +125,7 @@ export default function LoginSection({
           <div
             style={{
               textAlign: 'center',
-              marginTop: '30px',
+              marginTop: '10px',
             }}
           >
             <a
