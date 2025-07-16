@@ -128,6 +128,11 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
       const fullName =
         PROVINCE_FULL_NAMES[currentRegion.province.id] ||
         currentRegion.province.name;
+      // 세종특별자치시인 경우 fullName만 반환
+      if (currentRegion.province.name === '세종') {
+        return fullName;
+      }
+
       return `${fullName} ${currentRegion.name}`;
     }
     // currentRegion이 없거나 유효하지 않은 경우 기본값 반환
@@ -167,7 +172,6 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
           marginBottom: '50px',
         }}
       >
-
         <JewelRadarChart
           size={650}
           isJewel={false}
@@ -175,16 +179,15 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
           regionData={
             currentRegion
               ? {
-                growth_score: currentRegion.growth_score,
-                economy_score: currentRegion.economy_score,
-                living_score: currentRegion.living_score,
-                safety_score: currentRegion.safety_score,
-                klaci_code: currentRegion.klaci_code,
-              }
+                  growth_score: currentRegion.growth_score,
+                  economy_score: currentRegion.economy_score,
+                  living_score: currentRegion.living_score,
+                  safety_score: currentRegion.safety_score,
+                  klaci_code: currentRegion.klaci_code,
+                }
               : {}
           }
         />
-
       </div>
       <div
         style={{
@@ -230,9 +233,9 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
         {districtName}
       </div>
 
-      <Flex justifyContent='space-between' width='100%'>
-        <Grid gap='10px'>
-          <Flex alignItems='center' gap='21px' justifyContent='start'>
+      <Flex justifyContent="space-between" width="100%">
+        <Grid gap="10px">
+          <Flex alignItems="center" gap="21px" justifyContent="start">
             {/* 타입 텍스트 */}
             {klaciType && (
               <div
