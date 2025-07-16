@@ -11,6 +11,12 @@ interface EmailVerificationFormProps {
   error: string;
 }
 
+// 완전한 이메일 유효성 검증 함수
+const isValidEmail = (email: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
 export default function EmailVerificationForm({
   email,
   setEmail,
@@ -22,14 +28,12 @@ export default function EmailVerificationForm({
 
   // 이메일이 변경될 때마다 유저 타입 업데이트
   useEffect(() => {
-    if (email && email.includes('@')) {
+    if (isValidEmail(email)) {
       setUserType(getUserTypeFromEmail(email));
-    } else {
-      setUserType('GENERAL');
     }
   }, [email]);
 
-  const isEmailValid = email.length > 0 && email.includes('@');
+  const isEmailValid = isValidEmail(email);
 
   return (
     <form
@@ -51,7 +55,7 @@ export default function EmailVerificationForm({
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        {/* 유저 타입 뱃지들 */}
+        {/* 유저 타입 뱃지들 - 항상 표시하되, 완전한 이메일 형식일 때만 활성화 */}
         <div
           style={{
             display: 'flex',
@@ -61,9 +65,18 @@ export default function EmailVerificationForm({
             // marginBottom: '50px',
           }}
         >
-          <UserTypeBadge type="GOV" isActive={userType === 'GOV'} />
-          <UserTypeBadge type="EDU" isActive={userType === 'EDU'} />
-          <UserTypeBadge type="GENERAL" isActive={userType === 'GENERAL'} />
+          <UserTypeBadge 
+            type="GOV" 
+            isActive={isEmailValid && userType === 'GOV'} 
+          />
+          <UserTypeBadge 
+            type="EDU" 
+            isActive={isEmailValid && userType === 'EDU'} 
+          />
+          <UserTypeBadge 
+            type="GENERAL" 
+            isActive={isEmailValid && userType === 'GENERAL'} 
+          />
         </div>
 
         {/* 에러 메시지 */}
@@ -85,8 +98,6 @@ export default function EmailVerificationForm({
         )}
 
       </div>
-
-
 
       {/* 인증번호 발송 버튼 */}
       <button
@@ -130,7 +141,6 @@ export default function EmailVerificationForm({
           '인증메일 보내기'
         )}
       </button>
-
 
       {/* CSS 애니메이션 정의 */}
       <style jsx>{`
