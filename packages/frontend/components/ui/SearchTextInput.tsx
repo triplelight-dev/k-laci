@@ -67,6 +67,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
   const [showDropdown, setShowDropdown] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
+  const [isFirstFocus, setIsFirstFocus] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
@@ -126,8 +127,15 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
 
   // 인풋 포커스/블러 처리
   const handleFocus = () => {
+    // 첫 번째 포커스일 때만 기본값을 지움
+    if (isFirstFocus && value) {
+      onChange('');
+      setIsFirstFocus(false);
+    }
+    
     if (filteredSearches.length > 0) setShowDropdown(true);
   };
+  
   const handleBlur = () => {
     setTimeout(() => setShowDropdown(false), 150); // 시간을 늘려서 클릭 이벤트가 처리될 수 있도록 함
   };
