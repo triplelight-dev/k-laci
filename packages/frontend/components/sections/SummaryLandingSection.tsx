@@ -168,16 +168,26 @@ export function Card({
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.border = '0.5px solid #fff';
-        // e.currentTarget.style.backgroundColor = '#2B3041';
         e.currentTarget.style.cursor = 'pointer';
+        // 배경 이미지 요소를 찾아서 원래 밝기로 변경
+        const bgImageElement = e.currentTarget.querySelector('[data-bg-image]') as HTMLElement;
+        if (bgImageElement) {
+          bgImageElement.style.filter = 'blur(15px) brightness(1)';
+        }
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.backgroundColor = '#232631';
         e.currentTarget.style.border = '1px solid transparent';
         e.currentTarget.style.cursor = 'pointer';
+        // 배경 이미지 요소를 찾아서 다시 어둡게 변경
+        const bgImageElement = e.currentTarget.querySelector('[data-bg-image]') as HTMLElement;
+        if (bgImageElement) {
+          bgImageElement.style.filter = 'blur(15px) brightness(0.4)';
+        }
       }}
     >
       <div
+        data-bg-image
         style={{
           position: 'absolute',
           top: 0,
@@ -187,8 +197,9 @@ export function Card({
           backgroundImage: `url(${bgImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          filter: 'blur(10px)', // brightness 추가
+          filter: 'blur(15px) brightness(0.4)', // 기본값: 어둡게
           pointerEvents: 'none',
+          transition: 'filter 0.3s ease-in-out', // 부드러운 전환 효과
         }}
       />
       <div
