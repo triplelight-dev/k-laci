@@ -82,6 +82,7 @@ export function Card({ title, desc, tag: badge, bgImage, link }: { title: string
         flexDirection: 'column',
         justifyContent: 'flex-end',
         cursor: 'pointer',
+        transition: 'all 0.3s ease-in-out',
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.border = '1px solid #fff';
@@ -117,6 +118,7 @@ export function Card({ title, desc, tag: badge, bgImage, link }: { title: string
         opacity: 0.3,
         zIndex: 50,
         pointerEvents: 'none',
+        transition: 'opacity 0.3s ease-in-out',
       }}
         onMouseEnter={(e) => {
           e.currentTarget.style.opacity = '0.7';
