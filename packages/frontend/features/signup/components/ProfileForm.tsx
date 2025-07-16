@@ -119,11 +119,11 @@ export default function ProfileForm({
   // 선택된 도/시에 해당하는 지역 옵션 생성
   const regionOptions = selectedProvinceId
     ? provincesWithRegions
-      .find((province) => province.id === Number(selectedProvinceId))
-      ?.regions.map((region) => ({
-        value: String(region.id),
-        label: region.name,
-      })) || []
+        .find((province) => province.id === Number(selectedProvinceId))
+        ?.regions.map((region) => ({
+          value: String(region.id),
+          label: region.name,
+        })) || []
     : [];
 
   // 약관 링크 핸들러들
@@ -396,7 +396,12 @@ export default function ProfileForm({
           {/* 모두 동의 */}
           <Checkbox
             id="agreeToAll"
-            checked={formData.agreeToAge && formData.agreeToTerms && formData.agreeToPrivacy && formData.agreeToMarketing}
+            checked={
+              formData.agreeToAge &&
+              formData.agreeToTerms &&
+              formData.agreeToPrivacy &&
+              formData.agreeToMarketing
+            }
             onChange={(e) =>
               setFormData({
                 ...formData,
@@ -408,7 +413,6 @@ export default function ProfileForm({
             }
             label="모두 동의하기"
             isBold={true}
-            isPrimary={true}
           />
 
           {/* 나이 동의 */}
