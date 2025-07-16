@@ -93,7 +93,9 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
   const filteredSearches = useMemo(() => {
     if (!value) {
       // 입력값이 없을 때는 전체 지역 데이터만 표시 (최근 검색어 제외)
-      return filteredRegions.filter((e, index, self) => self.indexOf(e) === index);
+      return filteredRegions.filter(
+        (e, index, self) => self.indexOf(e) === index,
+      );
     }
 
     const recentMatches = recentSearches.filter((search) =>
@@ -101,7 +103,9 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
     );
 
     // 최근 검색어를 먼저 표시하고, 그 다음에 지역 데이터를 가나다순으로 표시
-    return [...recentMatches, ...filteredRegions].filter((e, index, self) => self.indexOf(e) === index);
+    return [...recentMatches, ...filteredRegions].filter(
+      (e, index, self) => self.indexOf(e) === index,
+    );
   }, [value, recentSearches, filteredRegions]);
 
   // 지역 선택 처리 함수
@@ -112,7 +116,6 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
 
     // 최근 검색어 업데이트 max 5개
     setRecentSearches([selectedRegion, ...recentSearches].slice(0, 4));
-
 
     // Zustand store에 반영
     const { province, region } = findProvinceAndRegionByName(selectedRegion);
@@ -132,10 +135,10 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
       onChange('');
       setIsFirstFocus(false);
     }
-    
+
     if (filteredSearches.length > 0) setShowDropdown(true);
   };
-  
+
   const handleBlur = () => {
     setTimeout(() => setShowDropdown(false), 150); // 시간을 늘려서 클릭 이벤트가 처리될 수 있도록 함
   };
@@ -167,8 +170,6 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
   useEffect(() => {
     setHighlightedIndex(-1);
   }, [value]);
-
-
 
   return (
     <div
@@ -218,21 +219,12 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
         />
       </div>
 
-      {/* <Flex width="100%" justifyContent="flex-start" marginLeft="32px" gap="24px">
-        <span style={{ fontSize: '14px', fontWeight: '400', color: '#000000', display: 'flex', alignItems: 'center', lineHeight: '24px' }}>최근 검색</span>
-        <Flex gap="10px">
-          {recentSearches.map((search, index) => (
-            <span key={index} style={{ fontSize: '14px', lineHeight: '24px', fontWeight: '500', color: '#000000', padding: '3.5px 10px', borderRadius: '9px', border: '1px solid #000000' }}>{search}</span>
-          ))}
-        </Flex>
-      </Flex> */}
-
       {/* AutoComplete Dropdown */}
       {showDropdown && filteredSearches.length > 0 && (
         <div
           style={{
             position: 'absolute',
-            top: '60px',
+            top: '72px',
             left: 0,
             right: 0,
             background: 'white',
@@ -263,7 +255,10 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
                   background:
                     idx === highlightedIndex ? '#F8F8F8' : 'transparent',
                   borderRadius: '10px',
-                  border: highlightedIndex === idx ? '1px solid #E7E8EA' : '1px solid transparent',
+                  border:
+                    highlightedIndex === idx
+                      ? '1px solid #E7E8EA'
+                      : '1px solid transparent',
                   color: '#222',
                   fontSize: '18px',
                   lineHeight: '28px',

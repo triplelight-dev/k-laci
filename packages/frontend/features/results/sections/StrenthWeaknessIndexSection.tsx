@@ -1,6 +1,10 @@
 'use client';
 
-import { useKeyIndexData, useRegionKeyIndexScore, useRegionStrengthIndexes } from '@/api/hooks';
+import {
+  useKeyIndexData,
+  useRegionKeyIndexScore,
+  useRegionStrengthIndexes,
+} from '@/api/hooks';
 import IndexModal from '@/components/atoms/modal/IndexModal';
 import { useDistrict, useIsLoggedIn } from '@/store';
 import { Flex, Text } from '@chakra-ui/react';
@@ -70,7 +74,6 @@ const IndexItem: React.FC<{
   onClick: (data: IndexData) => void;
   isDisabled?: boolean;
 }> = ({ indexRank, data, onClick, isDisabled = false }) => {
-
   const categoryColor = colorMap[data.category] || '#874FFF';
 
   return (
@@ -88,8 +91,16 @@ const IndexItem: React.FC<{
           }}
         >
           {indexRank}위
-          {indexRank === 1 && <Text color='#000' fontSize='14px' fontWeight='500' >(강점)</Text>}
-          {indexRank === 55 && <Text color='#000' fontSize='14px' fontWeight='500' >(약점)</Text>}
+          {indexRank === 1 && (
+            <Text color="#000" fontSize="14px" fontWeight="500">
+              (강점)
+            </Text>
+          )}
+          {indexRank === 55 && (
+            <Text color="#000" fontSize="14px" fontWeight="500">
+              (약점)
+            </Text>
+          )}
         </div>
       </div>
       <div
@@ -148,7 +159,7 @@ const IndexItem: React.FC<{
           {data.indexName}
         </span>
       </div>
-    </Flex >
+    </Flex>
   );
 };
 
@@ -160,9 +171,7 @@ const IndexSection: React.FC<{
   onItemClick: (data: IndexData) => void;
   isDisabled?: boolean;
 }> = ({ indexType, data, onItemClick, isDisabled = false }) => {
-
   const indexRankOffset = indexType === 'strength' ? 1 : 55;
-
 
   return (
     <div
@@ -184,7 +193,11 @@ const IndexSection: React.FC<{
         {data.map((item, index) => (
           <IndexItem
             key={index}
-            indexRank={indexType === 'strength' ? index + indexRankOffset : indexRankOffset - index}
+            indexRank={
+              indexType === 'strength'
+                ? index + indexRankOffset
+                : indexRankOffset - index
+            }
             data={item}
             onClick={onItemClick}
             isDisabled={isDisabled}
@@ -204,8 +217,6 @@ const convertApiResponseToIndexData = (
   if (!apiData || !Array.isArray(apiData)) {
     return [];
   }
-
-  console.log('apiData@@', apiData);
 
   return apiData.map((item) => ({
     fullRegionName: regionName,
@@ -260,30 +271,36 @@ const StrengthWeaknessIndexSection: React.FC = () => {
 
     // 1. getRegionKeyIndexScore로 rank 정보를 포함한 데이터 받아오기
     let updatedData = { ...data };
-    
+
     try {
-      const regionKeyIndexScore = await getRegionKeyIndexScore(selectedRegion.id, data.indexId);
-      
+      const regionKeyIndexScore = await getRegionKeyIndexScore(
+        selectedRegion.id,
+        data.indexId,
+      );
+
       // rank 정보 업데이트 (더 정확한 region_key_index_ranks 테이블의 값 사용)
       if (regionKeyIndexScore.rank !== undefined) {
         updatedData.indexRank = regionKeyIndexScore.rank;
       }
-      
+
       // score 정보 업데이트
       if (regionKeyIndexScore.region_key_index_score?.score !== undefined) {
-        updatedData.indexScore = regionKeyIndexScore.region_key_index_score.score;
+        updatedData.indexScore =
+          regionKeyIndexScore.region_key_index_score.score;
       }
-      
+
       // key_index 정보 업데이트
       if (regionKeyIndexScore.key_index) {
         if (regionKeyIndexScore.key_index.description) {
-          updatedData.indexDescription = regionKeyIndexScore.key_index.description;
+          updatedData.indexDescription =
+            regionKeyIndexScore.key_index.description;
         }
         if (regionKeyIndexScore.key_index.source) {
           updatedData.source = regionKeyIndexScore.key_index.source;
         }
         if (regionKeyIndexScore.key_index.yearly_avg_score !== undefined) {
-          updatedData.yearlyAvgScore = regionKeyIndexScore.key_index.yearly_avg_score;
+          updatedData.yearlyAvgScore =
+            regionKeyIndexScore.key_index.yearly_avg_score;
         }
         if (regionKeyIndexScore.key_index.year) {
           updatedData.year = regionKeyIndexScore.key_index.year;
@@ -292,16 +309,17 @@ const StrengthWeaknessIndexSection: React.FC = () => {
           updatedData.unit = regionKeyIndexScore.key_index.unit;
         }
         if (regionKeyIndexScore.key_index.calculation_method) {
-          updatedData.calculation_method = regionKeyIndexScore.key_index.calculation_method;
+          updatedData.calculation_method =
+            regionKeyIndexScore.key_index.calculation_method;
         }
       }
     } catch (error) {
       console.error('Error fetching region key index score:', error);
-      
+
       // 에러 발생 시 fallback으로 기존 getKeyIndexData 사용
       try {
         const keyIndexDetail = await getKeyIndexData(data.indexId);
-        
+
         if (keyIndexDetail.description) {
           updatedData.indexDescription = keyIndexDetail.description;
         }
@@ -382,7 +400,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
       >
         {/* 강점지표 */}
         <IndexSection
-          indexType='strength'
+          indexType="strength"
           data={isLoggedIn ? strengthData : strengthData.slice(0, 5)}
           isStrength={true}
           onItemClick={handleItemClick}
@@ -391,7 +409,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
 
         {/* 약점지표 */}
         <IndexSection
-          indexType='weakness'
+          indexType="weakness"
           data={isLoggedIn ? weaknessData : weaknessData.slice(0, 5)}
           isStrength={false}
           onItemClick={handleItemClick}

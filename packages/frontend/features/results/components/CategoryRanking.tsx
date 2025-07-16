@@ -92,7 +92,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
       style={{ gap: '50px', maxWidth: '1060px' }}
     >
       {/* 메인 콘텐츠 */}
-      <div className="flex p-6" style={{ gap: '2rem' }}>
+      <div className="flex p-6" style={{ gap: '2rem', marginBottom: '30px' }}>
         {/* 좌측 박스 (1:3 비율에서 1) */}
         <div
           className="flex flex-col"

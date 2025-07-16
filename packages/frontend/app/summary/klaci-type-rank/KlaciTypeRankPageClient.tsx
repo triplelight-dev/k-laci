@@ -144,16 +144,6 @@ export default function KlaciTypeRankPageClient() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  console.log('### KlaciTypeRank DEBUG ###', { 
-    allData: data?.data, 
-    filteredData, 
-    isLoading, 
-    error, 
-    selectedType,
-    searchTerm,
-    debouncedSearchTerm
-  });
-
   return (
     <DataStateWrapper isLoading={isLoading} error={error} isBlackTheme={false}>
       <div style={{ width: '1400px', margin: '0 auto' }}>

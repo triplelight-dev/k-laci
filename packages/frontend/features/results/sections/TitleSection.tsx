@@ -269,10 +269,10 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
             fontSize: '18px',
             fontWeight: '400',
             color: '#000',
-            textAlign: 'left',
             lineHeight: '1.6',
             width: '520px',
             whiteSpace: 'pre-line',
+            textAlign: 'justify',
           }}
         >
           {klaciSummaryArray.join(' ')}

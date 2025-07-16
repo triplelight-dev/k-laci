@@ -21,14 +21,6 @@ export const apiClient: AxiosInstance = axios.create({
 // 요청 인터셉터 (토큰 자동 추가)
 apiClient.interceptors.request.use(
   (config) => {
-    console.log('🚀 API Request:', {
-      method: config.method,
-      url: config.url,
-      baseURL: config.baseURL,
-      fullURL: `${config.baseURL}${config.url}`,
-      headers: config.headers,
-    });
-    
     // 브라우저 환경에서만 localStorage 접근
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem('access_token');
@@ -47,11 +39,6 @@ apiClient.interceptors.request.use(
 // 응답 인터셉터 (에러 처리)
 apiClient.interceptors.response.use(
   (response) => {
-    console.log('✅ API Response:', {
-      status: response.status,
-      url: response.config.url,
-      data: response.data,
-    });
     return response;
   },
   (error) => {

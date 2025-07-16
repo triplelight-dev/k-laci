@@ -129,16 +129,6 @@ export default function MegaRegionPageClient() {
     return TYPE_TITLES[selectedType];
   };
 
-  console.log('### MegaRegion DEBUG ###', {
-    allData: data?.data,
-    filteredData,
-    isLoading,
-    error,
-    selectedType,
-    searchTerm,
-    debouncedSearchTerm,
-  });
-
   return (
     <DataStateWrapper isLoading={isLoading} error={error} isBlackTheme={false}>
       <div style={{ width: '1400px', margin: '0 auto' }}>
