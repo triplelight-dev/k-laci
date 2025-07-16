@@ -51,7 +51,7 @@ const FooterTopSection = () => {
               src={LOGO_SRC}
               alt={LOGO_ALT}
               style={{
-                height: '100px',
+                height: '120px',
                 width: 'auto',
               }}
             />

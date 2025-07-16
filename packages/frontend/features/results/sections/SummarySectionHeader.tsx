@@ -16,18 +16,18 @@ export function SummarySectionHeader(
       <div
         style={{
           borderRadius: '9px',
-          border: '1px solid #000',
+          border: '1.5px solid #000',
           padding: '4.5px 10px',
-          fontSize: '14px',
+          fontSize: '1rem',
           fontWeight: '500',
           lineHeight: '24px',
           width: 'fit-content',
-          marginBottom: '18px',
+          marginBottom: '22px',
         }}
       >{badgeLabel}
       </div>
       <Text
-        fontSize='30px'
+        fontSize='32px'
         fontWeight='600'
         lineHeight='42px'
         color='#000'
