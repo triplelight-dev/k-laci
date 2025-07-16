@@ -49,9 +49,9 @@ export const useSignupFlow = () => {
     agreeToReportReservation: false,
   });
 
-  // 카운트다운 타이머
+  // 카운트다운 타이머 (3분으로 유지)
   const startCountdown = () => {
-    setCountdown(180); // 3분
+    setCountdown(180); // 3분 (180초)
     const timer = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
