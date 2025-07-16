@@ -139,7 +139,7 @@ export default function CodeVerificationSection({
       </div>
       <div style={{
         textAlign: 'center',
-        marginTop: '30px',
+        marginTop: '10px',
         marginBottom: '100px',
       }}>
         <a href="mailto:klaci@triplelight.co">
