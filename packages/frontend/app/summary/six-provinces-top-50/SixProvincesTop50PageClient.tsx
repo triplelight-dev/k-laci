@@ -63,8 +63,6 @@ export default function SixProvincesTop50PageClient() {
     [router],
   );
 
-  console.log('### SixProvinces DEBUG ###', { data, isLoading, error });
-
   return (
     <DataStateWrapper isLoading={isLoading} error={error} isBlackTheme={false}>
       <div style={{ width: '1400px', margin: '0 auto' }}>
