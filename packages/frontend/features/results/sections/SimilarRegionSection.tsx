@@ -77,8 +77,42 @@ const SimilarRegionSection: React.FC = () => {
   }, [selectedRegion?.id]);
 
   const handleCardClick = async (item: RegionCardData) => {
-    // 새 창에서 해당 지역의 results 페이지 열기
-    window.open(`/results/region/${item.id}`, '_blank');
+    try {
+      // 선택된 지역의 상세 정보를 가져와서 store에 설정
+      const regionDetails = await getRegion(String(item.id));
+      
+      // store에 새로운 지역 정보 설정
+      const storeRegion = {
+        ...regionDetails,
+        id: Number(regionDetails.id),
+        province_id: Number(regionDetails.provinceId),
+        province: {
+          id: Number(regionDetails.province.id),
+          name: regionDetails.province.name,
+        },
+      };
+      
+      setSelectedRegion(storeRegion, 'similar_region_click');
+      setSelectedProvince(storeRegion.province_id);
+      setSelectedDistrict(storeRegion.id, 'similar_region_click');
+      
+      // URL 업데이트
+      router.replace(`/results/region/${item.id}`, { scroll: false });
+      
+      // TitleSection으로 스크롤 (약간의 지연 후 실행)
+      setTimeout(() => {
+        const chartSection = document.querySelector('[data-chart-section]');
+        if (chartSection) {
+          chartSection.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'end' 
+          });
+        }
+      }, 100);
+      
+    } catch (error) {
+      console.error('Error navigating to similar region:', error);
+    }
   };
 
   // 로딩 중일 때 표시할 내용
