@@ -1,38 +1,39 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Text } from '@chakra-ui/react';
 
 interface SummarySectionHeaderProps {
   badgeLabel: string;
   title: string;
 }
 
-export function SummarySectionHeader(
-  {
-    badgeLabel,
-    title,
-  }: SummarySectionHeaderProps
-) {
+export function SummarySectionHeader({
+  badgeLabel,
+  title,
+}: SummarySectionHeaderProps) {
   return (
-    <Flex flexDirection='column' justifyContent='center' alignItems='center' padding='0 135px'>
+    <Flex
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+      padding="0 135px"
+      marginBottom="60px"
+    >
       <div
         style={{
           borderRadius: '9px',
-          border: '1px solid #000',
+          border: '1.5px solid #000',
           padding: '4.5px 10px',
-          fontSize: '14px',
+          fontSize: '1rem',
           fontWeight: '500',
           lineHeight: '24px',
           width: 'fit-content',
-          marginBottom: '18px',
+          marginBottom: '22px',
         }}
-      >{badgeLabel}
+      >
+        {badgeLabel}
       </div>
-      <Text
-        fontSize='30px'
-        fontWeight='600'
-        lineHeight='42px'
-        color='#000'
-
-      >{title}</Text>
+      <Text fontSize="36px" fontWeight="600" lineHeight="42px" color="#000">
+        {title}
+      </Text>
     </Flex>
-  )
+  );
 }

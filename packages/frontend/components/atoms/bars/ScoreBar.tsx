@@ -23,7 +23,7 @@ const ScoreBar: React.FC<ScoreBarProps> = ({
       <div
         style={{
           color: isBold === 'left' ? leftItemKeyColor : '#949FB0',
-          fontSize: '1rem',
+          fontSize: '1.2rem',
           fontWeight: isBold === 'left' ? 800 : 600,
           minWidth: 'fit-content',
         }}
@@ -35,7 +35,7 @@ const ScoreBar: React.FC<ScoreBarProps> = ({
       <div
         style={{
           position: 'relative',
-          height: '26px',
+          height: '30px',
           backgroundColor: '#F8F8FF',
           borderRadius: '8px',
           border: '1px solid #D9D9E8',
@@ -78,7 +78,7 @@ const ScoreBar: React.FC<ScoreBarProps> = ({
             top: '50%',
             transform: 'translateY(-50%)',
             color: '#FFFFFF',
-            fontSize: '0.8rem',
+            fontSize: '1rem',
             fontWeight: 600,
             zIndex: 2,
           }}
@@ -94,7 +94,7 @@ const ScoreBar: React.FC<ScoreBarProps> = ({
             top: '50%',
             transform: 'translateY(-50%)',
             color: '#949FB0',
-            fontSize: '0.8rem',
+            fontSize: '1rem',
             fontWeight: 600,
           }}
         >
@@ -106,7 +106,7 @@ const ScoreBar: React.FC<ScoreBarProps> = ({
       <div
         style={{
           color: isBold === 'right' ? '#000000' : '#949FB0',
-          fontSize: '1rem',
+          fontSize: '1.2rem',
           fontWeight: isBold === 'right' ? 800 : 600,
           minWidth: 'fit-content',
         }}

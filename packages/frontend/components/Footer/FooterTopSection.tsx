@@ -51,7 +51,7 @@ const FooterTopSection = () => {
               src={LOGO_SRC}
               alt={LOGO_ALT}
               style={{
-                height: '100px',
+                height: '120px',
                 width: 'auto',
               }}
             />
@@ -92,6 +92,7 @@ const FooterTopSection = () => {
                       textDecorationColor: '#D1D5DB',
                       textDecorationThickness: '1px',
                       cursor: 'pointer',
+                      textAlign: 'justify',
                     }}
                   >
                     {line}

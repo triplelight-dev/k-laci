@@ -156,8 +156,8 @@ const CategoryRankingSection = () => {
         {/* 타이틀 */}
         <Flex style={{ width: '100%', justifyContent: 'center' }}>
           <SummarySectionHeader
-            badgeLabel='INDEX RANKING'
-            title='범주 및 세부지표 순위'
+            badgeLabel="INDEX RANKING"
+            title="범주 및 세부지표 순위"
           />
         </Flex>
 
@@ -168,31 +168,39 @@ const CategoryRankingSection = () => {
           {categories.map((category, index) => (
             <React.Fragment key={index}>
               <Divider style={{ margin: '80px 0 100px' }} />
-              <div style={{ margin: '0 auto' }}><CategoryRanking
-                key={index}
-                categoryData={category}
-                index={index} /></div >
+              <div style={{ margin: '0 auto' }}>
+                <CategoryRanking
+                  key={index}
+                  categoryData={category}
+                  index={index}
+                />
+              </div>
             </React.Fragment>
           ))}
         </div>
-        <div style={{
-          width: '100%',
-          maxWidth: '1060px', margin: '0 auto',
-          borderRadius: '26px',
-          marginTop: '33px',
-          fontSize: '14px',
-          fontWeight: '500',
-          lineHeight: '24px',
-          color: '#9A9EA3',
-          textAlign: 'center',
-          padding: '8px 0',
-          backgroundColor: '#EDEDED',
-        }}>
-          [유형 개요]는 16개 유형에 따른 공통 해설입니다. 세부지표는 순위가 높을수록 강점으로 해석되며, 자세한 내용은 지표별 해설을 참고하시기 바랍니다.
+        <div
+          style={{
+            width: '100%',
+            maxWidth: '1060px',
+            margin: '0 auto',
+            borderRadius: '26px',
+            marginTop: '33px',
+            fontSize: '14px',
+            fontWeight: '500',
+            lineHeight: '24px',
+            color: '#9A9EA3',
+            textAlign: 'center',
+            padding: '8px 0',
+            backgroundColor: '#EDEDED',
+          }}
+        >
+          [유형 개요]는 16개 유형에 따른 공통 해설입니다. 세부지표는 순위가
+          높을수록 강점으로 해석되며, 자세한 내용은 지표별 해설을 참고하시기
+          바랍니다.
         </div>
         <Divider style={{ margin: '80px 0 ' }} />
-      </section >
-    </div >
+      </section>
+    </div>
   );
 };
 

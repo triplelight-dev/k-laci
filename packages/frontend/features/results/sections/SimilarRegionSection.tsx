@@ -7,7 +7,12 @@ import { useRegion } from '@/api/hooks/useRegion';
 import { Divider } from '@/components/atoms/divider';
 import PremiumContentTitle from '@/components/ui/PremiumContentTitle';
 import RegionCard from '@/components/ui/RegionCard';
-import { useDistrict, useSetSelectedDistrict, useSetSelectedProvince, useSetSelectedRegion } from '@/store';
+import {
+  useDistrict,
+  useSetSelectedDistrict,
+  useSetSelectedProvince,
+  useSetSelectedRegion,
+} from '@/store';
 import { RegionCardData } from '@/types/region';
 import { generateChartData } from '@/utils/chartUtils';
 import { addWaOrGwa } from '@/utils/koreanUtils';
@@ -35,7 +40,7 @@ const SimilarRegionSection: React.FC = () => {
     if (selectedRegion?.province?.name && selectedRegion?.name) {
       return `${selectedRegion.province.name} ${selectedRegion.name}`;
     }
-    return '전라북도 전주시'; // 기본값
+    return ''; // 기본값
   };
 
   const regionName = getRegionName();
@@ -65,8 +70,6 @@ const SimilarRegionSection: React.FC = () => {
             selection_tags: region.selection_tags,
           }),
         );
-
-        console.log('Transformed data:', transformedData);
         setSimilarRegions(transformedData);
       } catch (err) {
         console.error('Error fetching similar regions:', err);
@@ -80,7 +83,7 @@ const SimilarRegionSection: React.FC = () => {
     try {
       // 선택된 지역의 상세 정보를 가져와서 store에 설정
       const regionDetails = await getRegion(String(item.id));
-      
+
       // store에 새로운 지역 정보 설정
       const storeRegion = {
         ...regionDetails,
@@ -91,25 +94,24 @@ const SimilarRegionSection: React.FC = () => {
           name: regionDetails.province.name,
         },
       };
-      
+
       setSelectedRegion(storeRegion, 'similar_region_click');
       setSelectedProvince(storeRegion.province_id);
       setSelectedDistrict(storeRegion.id, 'similar_region_click');
-      
+
       // URL 업데이트
       router.replace(`/results/region/${item.id}`, { scroll: false });
-      
+
       // TitleSection으로 스크롤 (약간의 지연 후 실행)
       setTimeout(() => {
         const chartSection = document.querySelector('[data-chart-section]');
         if (chartSection) {
-          chartSection.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'end' 
+          chartSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'end',
           });
         }
       }, 100);
-      
     } catch (error) {
       console.error('Error navigating to similar region:', error);
     }
@@ -199,9 +201,15 @@ const SimilarRegionSection: React.FC = () => {
         paddingBottom: '100px',
       }}
     >
-
       {/* 자신 region 카드 */}
-      <Flex style={{ width: '100%', maxWidth: '1060px', margin: '0 auto', justifyContent: 'center' }}>
+      <Flex
+        style={{
+          width: '100%',
+          maxWidth: '1060px',
+          margin: '0 auto',
+          justifyContent: 'center',
+        }}
+      >
         <RegionCard
           data={{
             id: selectedRegion?.id || 0,
@@ -213,7 +221,8 @@ const SimilarRegionSection: React.FC = () => {
             klaciCode: selectedRegion?.klaci.code || '',
             klaciType: selectedRegion?.klaci.type || '',
             klaciNickname: selectedRegion?.klaci.nickname || '',
-            klaciNicknameMultiline: selectedRegion?.klaci.nickname_multiline || [],
+            klaciNicknameMultiline:
+              selectedRegion?.klaci.nickname_multiline || [],
             radarData: generateChartData(selectedRegion),
           }}
           onClick={handleCardClick}
@@ -229,8 +238,13 @@ const SimilarRegionSection: React.FC = () => {
         />
       </Flex>
 
-      <Divider style={{ width: '100%', margin: '0 auto', marginBottom: '100px' }} />
-      <SummarySectionHeader title={`${selectedProvince?.name} ${josa(selectedDistrict?.name||'종로','와/과')} 비슷한 지자체`} badgeLabel="더 알아보기" />
+      <Divider
+        style={{ width: '100%', margin: '0 auto', marginBottom: '100px' }}
+      />
+      <SummarySectionHeader
+        title={`${selectedProvince?.name} ${josa(selectedDistrict?.name || '종로', '와/과')} 비슷한 지자체`}
+        badgeLabel="더 알아보기"
+      />
 
       <SimilarRegionCardSlider
         data={similarRegions}

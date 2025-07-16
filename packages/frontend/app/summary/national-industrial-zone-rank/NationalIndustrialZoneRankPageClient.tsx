@@ -63,8 +63,6 @@ export default function NationalIndustrialZoneRankPageClient() {
     [router],
   );
 
-  console.log('### NationalIndustrialZone DEBUG ###', { data, isLoading, error });
-
   return (
     <DataStateWrapper isLoading={isLoading} error={error} isBlackTheme={false}>
       <div style={{ width: '1400px', margin: '0 auto' }}>

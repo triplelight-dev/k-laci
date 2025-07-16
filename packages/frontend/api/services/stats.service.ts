@@ -46,13 +46,7 @@ export class StatsService {
     }
 
     const url = `${endpoint}${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
-
-    console.log('API Call URL:', url);
-
     const response = await apiClient.get(url);
-
-    console.log('API Response:', response.data);
-
     return {
       data: response.data.data || [],
     };
@@ -73,7 +67,6 @@ export class StatsService {
   static async getMajorProvincesRanks(
     params: GetRankingParams = {},
   ): Promise<GetRankingResponse> {
-    console.log('getMajorProvincesRanks called with:', params);
     return this.getRanking(API_ENDPOINTS.STATS.MAJOR_PROVINCES, params);
   }
 
@@ -176,18 +169,14 @@ export class StatsService {
   ): Promise<GetTopRegionsForCardResponse> {
     const { limit } = params;
     const queryParams = new URLSearchParams();
-    
+
     if (limit !== undefined) {
       queryParams.append('limit', limit.toString());
     }
 
     const url = `${API_ENDPOINTS.STATS.TOP_REGIONS_FOR_CARD}${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
 
-    console.log('API Call URL:', url);
-
     const response = await apiClient.get(url);
-
-    console.log('API Response:', response.data);
 
     return {
       data: response.data.data || [],
