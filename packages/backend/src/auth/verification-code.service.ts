@@ -11,6 +11,7 @@ interface VerificationData {
 @Injectable()
 export class VerificationCodeService {
   private readonly VERIFICATION_TTL = 180; // 3분
+  private readonly GRACE_PERIOD = 10; // 10초 여유 시간
   private readonly MAX_ATTEMPTS = 3;
 
   // 메모리 맵으로 캐시 대체
@@ -30,7 +31,7 @@ export class VerificationCodeService {
     const now = new Date();
     for (const [key, data] of this.verificationCache.entries()) {
       const elapsed = (now.getTime() - data.createdAt.getTime()) / 1000;
-      if (elapsed > this.VERIFICATION_TTL) {
+      if (elapsed > this.VERIFICATION_TTL + this.GRACE_PERIOD) {
         this.verificationCache.delete(key);
       }
     }
@@ -71,11 +72,11 @@ export class VerificationCodeService {
       );
     }
 
-    // 만료 시간 확인
+    // 만료 시간 확인 (여유 시간 포함)
     const now = new Date();
     const elapsed = (now.getTime() - cachedData.createdAt.getTime()) / 1000;
 
-    if (elapsed > this.VERIFICATION_TTL) {
+    if (elapsed > this.VERIFICATION_TTL + this.GRACE_PERIOD) {
       this.verificationCache.delete(cacheKey);
       throw new UnauthorizedException(
         '인증번호가 만료되었습니다. 다시 발송해주세요.',
