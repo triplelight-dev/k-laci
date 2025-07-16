@@ -92,6 +92,7 @@ const FooterTopSection = () => {
                       textDecorationColor: '#D1D5DB',
                       textDecorationThickness: '1px',
                       cursor: 'pointer',
+                      textAlign: 'justify',
                     }}
                   >
                     {line}

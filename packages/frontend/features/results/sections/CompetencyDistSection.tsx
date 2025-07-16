@@ -216,7 +216,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index, categories
       <div style={{ padding: '0 135px', marginTop: '80px' }}>
         <div
           style={{
-            marginBottom: '35px',
+            marginBottom: '60px',
           }}
         >
           <ScoreBar
@@ -232,8 +232,9 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index, categories
         {/* 하단: description */}
         <div
           style={{
-            fontSize: '0.875rem',
+            fontSize: '1.1rem',
             lineHeight: '1.5',
+            textAlign: 'justify',
             color: 'black',
           }}
         >
