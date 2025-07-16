@@ -25,7 +25,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-  const [hoveredCardId, setHoveredCardId] = useState<number | null>(null);
+  const [hoveredCardId, setHoveredCardId] = useState<string | number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const nextSlide = useCallback(() => {
@@ -117,7 +117,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
   const dataLength = data.length;
 
   // 카드의 위치와 스타일 계산
-  const getCardStyle = (index: number, cardId: number): CardStyle => {
+  const getCardStyle = (index: number, cardId: string | number): CardStyle => {
     const distance = index - currentIndex;
     const totalCards = dataLength;
 
