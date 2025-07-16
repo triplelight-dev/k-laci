@@ -1,3 +1,4 @@
+import Checkbox from '@/components/atoms/Checkbox';
 import CommonInput from '@/components/atoms/CommonInput';
 import EmailDisplayBox from '@/components/atoms/EmailDisplayBox';
 import PasswordInputGroup from '@/components/atoms/PasswordInputGroup';
@@ -393,205 +394,65 @@ export default function ProfileForm({
           }}
         >
           {/* 모두 동의 */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-            }}
-          >
-            <input
-              type="checkbox"
-              id="agreeToAge"
-              checked={formData.agreeToAge && formData.agreeToTerms && formData.agreeToPrivacy && formData.agreeToMarketing}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  agreeToAge: e.target.checked,
-                  agreeToTerms: e.target.checked,
-                  agreeToPrivacy: e.target.checked,
-                  agreeToMarketing: e.target.checked,
-                })
-              }
-              style={{
-                width: '18px',
-                height: '18px',
-                accentColor: '#000000',
-              }}
-            />
-            <label
-              htmlFor="agreeToAge"
-              style={{
-                fontSize: '18px',
-                fontWeight: '700',
-                color: '#000',
-                cursor: 'pointer',
-              }}
-            >
-              모두 동의하기
-            </label>
-          </div>
-          {/* 나이 동의 */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
+          <Checkbox
+            id="agreeToAll"
+            checked={formData.agreeToAge && formData.agreeToTerms && formData.agreeToPrivacy && formData.agreeToMarketing}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                agreeToAge: e.target.checked,
+                agreeToTerms: e.target.checked,
+                agreeToPrivacy: e.target.checked,
+                agreeToMarketing: e.target.checked,
+              })
+            }
+            label="모두 동의하기"
+            isBold={true}
+            isPrimary={true}
+          />
 
-            }}
-          >
-            <input
-              type="checkbox"
-              id="agreeToAge"
-              checked={formData.agreeToAge}
-              onChange={(e) =>
-                setFormData({ ...formData, agreeToAge: e.target.checked })
-              }
-              style={{
-                width: '18px',
-                height: '18px',
-                accentColor: '#000000',
-              }}
-            />
-            <label
-              htmlFor="agreeToAge"
-              style={{
-                fontSize: '18px',
-                fontWeight: '400',
-                color: '#000',
-                cursor: 'pointer',
-              }}
-            >
-              만 14세 이상입니다
-            </label>
-          </div>
+          {/* 나이 동의 */}
+          <Checkbox
+            id="agreeToAge"
+            checked={formData.agreeToAge}
+            onChange={(e) =>
+              setFormData({ ...formData, agreeToAge: e.target.checked })
+            }
+            label="만 14세 이상입니다"
+          />
 
           {/* 서비스 이용약관 동의 */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-
-            }}
-          >
-            <input
-              type="checkbox"
-              id="agreeToTerms"
-              checked={formData.agreeToTerms}
-              onChange={(e) =>
-                setFormData({ ...formData, agreeToTerms: e.target.checked })
-              }
-              style={{
-                width: '18px',
-                height: '18px',
-                accentColor: '#000000',
-              }}
-            />
-            <label
-              htmlFor="agreeToTerms"
-              style={{
-                fontSize: '18px',
-                fontWeight: '400',
-                color: '#000',
-                cursor: 'pointer',
-              }}
-            >
-              <span
-                onClick={handleTermsLink}
-                style={{
-                  textDecoration: 'underline',
-                  cursor: 'pointer',
-                }}
-              >
-                서비스 이용약관
-              </span>
-            </label>
-          </div>
+          <Checkbox
+            id="agreeToTerms"
+            checked={formData.agreeToTerms}
+            onChange={(e) =>
+              setFormData({ ...formData, agreeToTerms: e.target.checked })
+            }
+            label="서비스 이용약관"
+            onClickLabel={handleTermsLink}
+          />
 
           {/* 개인정보 처리방침 동의 */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-            }}
-          >
-            <input
-              type="checkbox"
-              id="agreeToPrivacy"
-              checked={formData.agreeToPrivacy}
-              onChange={(e) =>
-                setFormData({ ...formData, agreeToPrivacy: e.target.checked })
-              }
-              style={{
-                width: '18px',
-                height: '18px',
-                accentColor: '#000000',
-              }}
-            />
-            <label
-              htmlFor="agreeToPrivacy"
-              style={{
-                fontSize: '18px',
-                fontWeight: '400',
-                color: '#000',
-                cursor: 'pointer',
-              }}
-            >
-              <span
-                onClick={handlePrivacyLink}
-                style={{
-                  textDecoration: 'underline',
-                  cursor: 'pointer',
-                }}
-              >
-                개인정보 수집 및 이용
-              </span>
-            </label>
-          </div>
+          <Checkbox
+            id="agreeToPrivacy"
+            checked={formData.agreeToPrivacy}
+            onChange={(e) =>
+              setFormData({ ...formData, agreeToPrivacy: e.target.checked })
+            }
+            label="개인정보 수집 및 이용"
+            onClickLabel={handlePrivacyLink}
+          />
 
           {/* 마케팅 정보 수신 동의 */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-            }}
-          >
-            <input
-              type="checkbox"
-              id="agreeToMarketing"
-              checked={formData.agreeToMarketing}
-              onChange={(e) =>
-                setFormData({ ...formData, agreeToMarketing: e.target.checked })
-              }
-              style={{
-                width: '18px',
-                height: '18px',
-                accentColor: '#000000',
-              }}
-            />
-            <label
-              htmlFor="agreeToMarketing"
-              style={{
-                fontSize: '18px',
-                fontWeight: '400',
-                color: '#000',
-                cursor: 'pointer',
-              }}
-            >
-              <span
-                onClick={handleMarketingLink}
-                style={{
-                  textDecoration: 'underline',
-                  cursor: 'pointer',
-                }}
-              >
-                세미나 및 이벤트 마케팅 정보 수신(선택)
-              </span>
-            </label>
-          </div>
+          <Checkbox
+            id="agreeToMarketing"
+            checked={formData.agreeToMarketing}
+            onChange={(e) =>
+              setFormData({ ...formData, agreeToMarketing: e.target.checked })
+            }
+            label="세미나 및 이벤트 마케팅 정보 수신(선택)"
+            onClickLabel={handleMarketingLink}
+          />
         </div>
       </div>
 
