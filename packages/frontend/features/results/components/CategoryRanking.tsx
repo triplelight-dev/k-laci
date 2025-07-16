@@ -75,6 +75,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
                 color: 'black',
                 lineHeight: '1.5',
                 fontSize: '0.95rem',
+                textAlign: 'justify',
               }}
             >
               {description}
@@ -144,6 +145,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
               fontSize: '18px',
               fontWeight: 400,
               color: '#000',
+              textAlign: 'justify',
             }}
           >
             {description}
