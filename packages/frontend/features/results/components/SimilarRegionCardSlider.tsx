@@ -25,6 +25,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [hoveredCardId, setHoveredCardId] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const nextSlide = useCallback(() => {
@@ -116,7 +117,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
   const dataLength = data.length;
 
   // 카드의 위치와 스타일 계산
-  const getCardStyle = (index: number): CardStyle => {
+  const getCardStyle = (index: number, cardId: number): CardStyle => {
     const distance = index - currentIndex;
     const totalCards = dataLength;
 
@@ -135,12 +136,15 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
     const baseOpacity = 1;
     const opacity = Math.max(0, baseOpacity - Math.abs(adjustedDistance) * 0.3);
 
+    // 호버된 카드인지 확인
+    const isHovered = hoveredCardId === cardId;
+
     if (adjustedDistance === 0) {
-      // 가운데 카드 (선택된 카드) - 다른 카드와 동일한 크기와 위치
+      // 가운데 카드 (선택된 카드)
       return {
         opacity: 1,
         transform: `translateX(${translateX}px) scale(1)`,
-        border: '1px solid #000000',
+        border: isHovered ? '1px solid #000000' : '1px solid #E7E8EA',
         zIndex: 10,
       };
     } else if (Math.abs(adjustedDistance) === 1) {
@@ -148,7 +152,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
       return {
         opacity: Math.max(0.3, opacity),
         transform: `translateX(${translateX}px) scale(1)`,
-        border: '1px solid #E7E8EA',
+        border: isHovered ? '1px solid #000000' : '1px solid #E7E8EA',
         zIndex: 9,
       };
     } else if (Math.abs(adjustedDistance) === 2) {
@@ -156,7 +160,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
       return {
         opacity: Math.max(0.1, opacity),
         transform: `translateX(${translateX}px) scale(1)`,
-        border: '1px solid #E7E8EA',
+        border: isHovered ? '1px solid #000000' : '1px solid #E7E8EA',
         zIndex: 8,
       };
     } else if (Math.abs(adjustedDistance) === 3) {
@@ -164,7 +168,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
       return {
         opacity: Math.max(0.05, opacity),
         transform: `translateX(${translateX}px) scale(1)`,
-        border: '1px solid #E7E8EA',
+        border: isHovered ? '1px solid #000000' : '1px solid #E7E8EA',
         zIndex: 7,
       };
     } else {
@@ -172,7 +176,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
       return {
         opacity: 0,
         transform: `translateX(${translateX}px) scale(1)`,
-        border: '1px solid #E7E8EA',
+        border: isHovered ? '1px solid #000000' : '1px solid #E7E8EA',
         zIndex: 1,
       };
     }
@@ -282,7 +286,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
       >
         {extendedData.map((item, index) => {
           const adjustedIndex = index % dataLength;
-          const cardStyle = getCardStyle(adjustedIndex);
+          const cardStyle = getCardStyle(adjustedIndex, item.id);
 
           return (
             <div
@@ -295,6 +299,8 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
                 transition: 'all 0.5s ease',
                 pointerEvents: cardStyle.zIndex >= 8 ? 'auto' : 'none', // 보이는 카드만 클릭 가능
               }}
+              onMouseEnter={() => setHoveredCardId(item.id)}
+              onMouseLeave={() => setHoveredCardId(null)}
             >
               <RegionCard
                 data={item}
@@ -302,6 +308,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
                 style={{
                   border: cardStyle.border,
                   pointerEvents: 'auto',
+                  transition: 'border 0.3s ease', // border 전환 애니메이션 추가
                 }}
               />
             </div>
