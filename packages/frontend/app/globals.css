@@ -200,3 +200,22 @@ a {
     scrollbar-color: #c1c1c1 #f1f1f1;
   }
 }
+
+/* 그라데이션 텍스트 at main */
+.gradient-text {
+  color: #F56542; /* 폴백 컬러 (원하는 색상으로 변경 가능) */
+  display: inline;
+  font-weight: inherit;
+  font-size: inherit;
+  background: none;
+}
+
+@supports ((-webkit-background-clip: text) and (-webkit-text-fill-color: transparent)) {
+  .gradient-text {
+    background: linear-gradient(92.4deg, #F56542 28.5%, #F4B04D 35%, #ACAAE8 65%, #74BF9E 85%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: unset;
+  }
+}
