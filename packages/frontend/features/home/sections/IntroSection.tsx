@@ -10,7 +10,6 @@ const IntroSection: React.FC = () => {
   const theme = DARK_MODE_COLORS;
   const router = useRouter();
 
-
   const descriptionLines = [
     '각 사람에게 고유한 개성과 강점이 있듯 대한민국 229곳의 지방자치단체 역시 저마다의 잠재력을 품고 있습니다.',
     '성공적인 균형발전과 지속가능성은 지역의 특성에 기반한 정교한 진단과 고유한 처방에서부터 시작됩니다.',
@@ -68,24 +67,34 @@ const IntroSection: React.FC = () => {
         <div>229곳의 지자체</div>
         <div>
           <p
+            className="gradient-text"
             style={{
-              background: ' linear-gradient(92.4deg, #F56542 28.5%, #F4B04D 35%, #ACAAE8 65%, #74BF9E 85%)',
+              background:
+                ' linear-gradient(92.4deg, #F56542 28.5%, #F4B04D 35%, #ACAAE8 65%, #74BF9E 85%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
               display: 'inline',
+              color: 'white',
             }}
-          >229개</p>
+          >
+            229개
+          </p>
           <p style={{ display: 'inline' }}>의 </p>
           <p
+            className="gradient-text"
             style={{
-              background: 'linear-gradient(92.4deg, #F56542 8.5%, #F4B04D 35%, #ACAAE8 65%, #74BF9E 95%)',
+              background:
+                'linear-gradient(92.4deg, #F56542 8.5%, #F4B04D 35%, #ACAAE8 65%, #74BF9E 95%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
               display: 'inline',
+              color: 'white',
             }}
-          >역량진단서</p>
+          >
+            역량진단서
+          </p>
         </div>
       </div>
 
@@ -95,7 +104,7 @@ const IntroSection: React.FC = () => {
           color: 'white',
           fontSize: '18px',
           marginBottom: '20px',
-          fontWeight: 400
+          fontWeight: 400,
         }}
       >
         {descriptionLines.map((line, index) => (
@@ -127,7 +136,7 @@ const IntroSection: React.FC = () => {
         icon={<ArrowRightUp />}
         onClick={handleButtonClick}
       />
-    </div >
+    </div>
   );
 };
 
