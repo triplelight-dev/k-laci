@@ -4,7 +4,6 @@ import { useTopRegionsForCard } from '@/api/hooks';
 import RegionCard from '@/components/ui/RegionCard';
 import { RegionCardData } from '@/types/region';
 import { generateChartData } from '@/utils/chartUtils';
-import { useRouter } from 'next/navigation';
 import React, {
   useCallback,
   useEffect,
@@ -22,7 +21,6 @@ interface CardStyle {
 }
 
 export default function RankCardSlider() {
-  const router = useRouter();
   const {
     data: topRegionsResponse,
     isLoading,
@@ -167,7 +165,7 @@ export default function RankCardSlider() {
     const distance = index - currentIndex;
 
     // 카드 간격 (카드 너비 + gap)
-    const cardSpacing = 400; // 260px 카드 + 140px gap
+    const cardSpacing = 410; 
 
     // index 0이 좌측에 오도록 offset 조정
     const leftOffset = -currentIndex * cardSpacing;
