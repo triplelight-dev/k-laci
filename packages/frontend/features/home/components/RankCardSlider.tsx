@@ -167,8 +167,8 @@ export default function RankCardSlider() {
     // 카드 간격 (카드 너비 + gap)
     const cardSpacing = 410; 
     
-    // 첫 번째 카드 좌측 여백 (30px)
-    const leftMargin = 30;
+    // 첫 번째 카드 좌측 여백
+    const leftMargin = 120;
 
     // index 0이 좌측에 오도록 offset 조정 + 좌측 여백 추가
     const leftOffset = -currentIndex * cardSpacing + leftMargin;
