@@ -168,7 +168,7 @@ export default function RankCardSlider() {
     const cardSpacing = 410; 
     
     // 첫 번째 카드 좌측 여백
-    const leftMargin = 120;
+    const leftMargin = 140;
 
     // index 0이 좌측에 오도록 offset 조정 + 좌측 여백 추가
     const leftOffset = -currentIndex * cardSpacing + leftMargin;
@@ -328,6 +328,48 @@ export default function RankCardSlider() {
           }}
         />
 
+        {/* 좌측 화살표 버튼 */}
+        <button
+          onClick={prevSlide}
+          style={{
+            position: 'absolute',
+            left: '160px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            zIndex: 20,
+            background: 'white',
+            border: '1px solid #E5E7EB',
+            borderRadius: '12px',
+            width: '48px',
+            height: '48px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer', // 기본 상태에서 pointer
+            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+            transition: 'all 0.2s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = '#000000';
+            e.currentTarget.style.transform = 'translateY(-50%) scale(1.05)';
+            e.currentTarget.style.cursor = 'pointer'; // 호버 시에도 pointer 유지
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = '#E5E7EB';
+            e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+            e.currentTarget.style.cursor = 'pointer'; // 호버 해제 시에도 pointer 유지
+          }}
+        >
+          <img
+            src="/rank_arrow_left.png"
+            alt="이전"
+            style={{
+              width: '16px',
+              height: '16px',
+            }}
+          />
+        </button>
+
         {/* 카드 컨테이너 */}
         <div
           style={{
@@ -373,6 +415,48 @@ export default function RankCardSlider() {
             );
           })}
         </div>
+
+        {/* 우측 화살표 버튼 */}
+        <button
+          onClick={nextSlide}
+          style={{
+            position: 'absolute',
+            right: '160px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            zIndex: 20,
+            background: 'white',
+            border: '1px solid #E5E7EB',
+            borderRadius: '12px',
+            width: '48px',
+            height: '48px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer', // 기본 상태에서 pointer
+            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+            transition: 'all 0.2s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = '#000000';
+            e.currentTarget.style.transform = 'translateY(-50%) scale(1.05)';
+            e.currentTarget.style.cursor = 'pointer'; // 호버 시에도 pointer 유지
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = '#E5E7EB';
+            e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+            e.currentTarget.style.cursor = 'pointer'; // 호버 해제 시에도 pointer 유지
+          }}
+        >
+          <img
+            src="/rank_arrow_right.png"
+            alt="다음"
+            style={{
+              width: '16px',
+              height: '16px',
+            }}
+          />
+        </button>
       </div>
     </div>
   );
