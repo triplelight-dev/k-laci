@@ -63,12 +63,13 @@ export async function generateMetadata(): Promise<Metadata> {
     title: '지역자산역량지수(KLACI) - Korea Local Asset Competency Index 2025',
     description:
       '전국 229개 지자체의 숨겨진 강점과 새로운 기회를 직접 발견해보세요. 지역자산역량지수(KLACI)로 지역의 잠재자산과 자생력을 분석하고, 균형발전과 로컬 중심의 순환경제를 위한 지역맞춤 전략을 제시합니다.',
+    applicationName: '지역자산역량지수(KLACI)',
     openGraph: {
       title: '지역자산역량지수(KLACI) - Korea Local Asset Competency Index 2025',
       description:
         '전국 229개 지자체의 숨겨진 강점과 새로운 기회를 직접 발견해보세요. 지역자산역량지수(KLACI)로 지역의 잠재자산과 자생력을 분석하고, 균형발전과 로컬 중심의 순환경제를 위한 지역맞춤 전략을 제시합니다.',
       url: siteUrl,
-      siteName: 'KLACI',
+      siteName: '지역자산역량지수(KLACI)',
       images: [
         {
           url: `${siteUrl}/thumbnail/thumbnail.png`,
@@ -107,6 +108,13 @@ export async function generateMetadata(): Promise<Metadata> {
     robots: {
       index: true,
       follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
     },
     alternates: {
       canonical: siteUrl,
