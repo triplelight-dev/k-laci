@@ -128,7 +128,7 @@ const RadarBackground = ({
   };
 
   // 호버 상태에 따른 색상 계산
-  const strongAreaColor = isStrongHovered ? '#FFFFFF' : 'transparent'; // 강점영역 호버 시 흰색
+  const strongAreaColor = isStrongHovered ? '#FBFBFB' : 'transparent'; // 강점영역 호버 시 연한 회색
   const weakAreaColor = isWeakHovered ? '#EBECEC' : 'transparent'; // 약점영역 호버 시 회색(#EBECEC)
 
   // 호버 상태에 따른 텍스트 및 원 색상 계산
@@ -248,7 +248,7 @@ const RadarBackground = ({
           y={guideStrongY}
           textAnchor="start"
           dominantBaseline="middle"
-          style={{ fontSize: `${fontSize.area}px`, fontWeight: 'bold' }}  // fontWeight도 style로 설정
+          style={{ fontSize: `${fontSize.area}px`, fontWeight: 'bold' }} // fontWeight도 style로 설정
           fill={strongTextColor}
         >
           ↑ 강점영역
@@ -263,10 +263,13 @@ const RadarBackground = ({
         />
         <text
           x={guideQmarkX}
-          y={guideStrongY}   // 1px 아래로 조정 제거 - 텍스트와 같은 높이
+          y={guideStrongY} // 1px 아래로 조정 제거 - 텍스트와 같은 높이
           textAnchor="middle"
           dominantBaseline="middle"
-          style={{ fontSize: `${iconSize.qmarkFontSize}px`, fontWeight: 'bold' }}  // fontWeight도 style로 설정
+          style={{
+            fontSize: `${iconSize.qmarkFontSize}px`,
+            fontWeight: 'bold',
+          }} // fontWeight도 style로 설정
           fill={strongQmarkColor}
         >
           ?
@@ -283,14 +286,14 @@ const RadarBackground = ({
           y={guideWeakY}
           textAnchor="start"
           dominantBaseline="middle"
-          style={{ fontSize: `${fontSize.area}px`, fontWeight: 'bold' }}  // fontWeight도 style로 설정
+          style={{ fontSize: `${fontSize.area}px`, fontWeight: 'bold' }} // fontWeight도 style로 설정
           fill={weakTextColor}
         >
           ↓ 약점영역
         </text>
         <circle
           cx={guideQmarkX}
-          cy={guideWeakY}    // 1px 아래로 조정 제거 - 텍스트와 같은 높이
+          cy={guideWeakY} // 1px 아래로 조정 제거 - 텍스트와 같은 높이
           r={iconSize.qmarkRadius} // 8 → iconSize.qmarkRadius
           fill={weakCircleColor}
           stroke={weakCircleStroke}
@@ -298,10 +301,13 @@ const RadarBackground = ({
         />
         <text
           x={guideQmarkX}
-          y={guideWeakY}     // 1px 아래로 조정 제거 - 텍스트와 같은 높이
+          y={guideWeakY} // 1px 아래로 조정 제거 - 텍스트와 같은 높이
           textAnchor="middle"
           dominantBaseline="middle"
-          style={{ fontSize: `${iconSize.qmarkFontSize}px`, fontWeight: 'bold' }}  // fontWeight도 style로 설정
+          style={{
+            fontSize: `${iconSize.qmarkFontSize}px`,
+            fontWeight: 'bold',
+          }} // fontWeight도 style로 설정
           fill={weakQmarkColor}
         >
           ?
