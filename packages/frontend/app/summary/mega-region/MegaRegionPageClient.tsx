@@ -21,15 +21,15 @@ const ORDERED_MEGA_REGION_TYPES: MegaRegionType[] = [
 ];
 
 // 타입별 타이틀 매핑
-const TYPE_TITLES: Record<MegaRegionType, string> = {
-  대경권: '대경권: 경상북도 · 대구광역시',
-  동남권: '동남권: 경상남도 · 부산광역시 · 울산광역시',
-  수도권: '수도권: 경기도 · 서울특별시 · 인천광역시',
-  서남권: '서남권: 광주광역시 · 전라남도',
-  중부권: '중부권: 대전광역시 · 세종특별자치시 · 충청남도 · 충청북도',
-  강원특별자치도: '강원특별자치도',
-  전북특별자치도: '전북특별자치도',
-  제주특별자치도: '제주특별자치도',
+const TYPE_SUBTITLES: Record<MegaRegionType, string> = {
+  대경권: '경상북도 · 대구광역시',
+  동남권: '경상남도 · 부산광역시 · 울산광역시',
+  수도권: '경기도 · 서울특별시 · 인천광역시',
+  서남권: '광주광역시 · 전라남도',
+  중부권: '대전광역시 · 세종특별자치시 · 충청남도 · 충청북도',
+  강원특별자치도: '',
+  전북특별자치도: '',
+  제주특별자치도: '',
 };
 
 export default function MegaRegionPageClient() {
@@ -125,8 +125,8 @@ export default function MegaRegionPageClient() {
     [router],
   );
 
-  const getCurrentTitle = (): string => {
-    return TYPE_TITLES[selectedType];
+  const getCurrentSubtitle = (): string => {
+    return TYPE_SUBTITLES[selectedType];
   };
 
   return (
@@ -169,7 +169,7 @@ export default function MegaRegionPageClient() {
               display: 'grid',
               gridTemplateColumns: 'repeat(6, 1fr)',
               gap: '16px',
-              marginBottom: '16px',
+              marginBottom: '30px',
               width: '100%',
             }}
           >
@@ -189,7 +189,8 @@ export default function MegaRegionPageClient() {
                   cursor: 'pointer',
                   transition: 'all 0.2s',
                   whiteSpace: 'nowrap',
-                  gridColumn: index >= 6 ? `${index - 5} / ${index - 4}` : 'auto',
+                  gridColumn:
+                    index >= 6 ? `${index - 5} / ${index - 4}` : 'auto',
                 }}
               >
                 {type}
@@ -200,7 +201,8 @@ export default function MegaRegionPageClient() {
 
         {/* 테이블 상단 타이틀 (검색창 없음, 상단 여백 없음) */}
         <SectionHeader
-          title={getCurrentTitle()}
+          title={selectedType}
+          subtitle={getCurrentSubtitle()}
           searchTerm=""
           onSearchChange={() => {}}
           showSearch={false}

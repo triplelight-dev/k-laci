@@ -169,10 +169,10 @@ export function Card({
       onMouseEnter={(e) => {
         e.currentTarget.style.border = '0.5px solid #fff';
         e.currentTarget.style.cursor = 'pointer';
-        // 배경 이미지 요소를 찾아서 원래 밝기로 변경
+        // 배경 이미지 요소를 찾아서 밝기를 줄임
         const bgImageElement = e.currentTarget.querySelector('[data-bg-image]') as HTMLElement;
         if (bgImageElement) {
-          bgImageElement.style.filter = 'blur(15px) brightness(1)';
+          bgImageElement.style.filter = 'blur(15px) brightness(0.7)'; // 1에서 0.7로 변경
         }
       }}
       onMouseLeave={(e) => {
