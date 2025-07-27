@@ -167,7 +167,7 @@ const RegionCard: React.FC<RegionCardProps> = ({
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            marginTop: '5px',
+            marginTop: '15px',
             height: '260px',
             padding: '5px',
             pointerEvents: 'none',
@@ -175,7 +175,7 @@ const RegionCard: React.FC<RegionCardProps> = ({
         >
           <RadarJewelChartMini
             data={radarData}
-            size={240}
+            size={210}
             imageUrl="/backgrounds/radar_chart_bg.png"
           />
         </div>
