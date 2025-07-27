@@ -43,14 +43,15 @@ export default function Top100PageClient() {
   // 검색어에 따른 필터링된 데이터
   const filteredData = useMemo(() => {
     if (!data?.data) return [];
-    
+
     if (!debouncedSearchTerm.trim()) {
       return data.data;
     }
 
     const searchLower = debouncedSearchTerm.toLowerCase();
     return data.data.filter((item) => {
-      const fullName = `${item.region.province.name} ${item.region.name}`.toLowerCase();
+      const fullName =
+        `${item.region.province.name} ${item.region.name}`.toLowerCase();
       return fullName.includes(searchLower);
     });
   }, [data?.data, debouncedSearchTerm]);
@@ -76,25 +77,25 @@ export default function Top100PageClient() {
           showSearch={true}
           hasTopMargin={true}
         />
-        
+
         <div style={{ marginBottom: '40px' }}>
           {filteredData.length > 0 ? (
-            <RankingTable 
-              data={filteredData} 
+            <RankingTable
+              data={filteredData}
               onRegionClick={handleRegionClick}
             />
           ) : (
-            <div style={{
-              textAlign: 'center',
-              padding: '60px 0',
-              color: '#6b7280'
-            }}>
+            <div
+              style={{
+                textAlign: 'center',
+                padding: '60px 0',
+                color: '#6b7280',
+              }}
+            >
               <p style={{ fontSize: '18px', marginBottom: '8px' }}>
                 검색 결과가 없습니다.
               </p>
-              <p style={{ fontSize: '14px' }}>
-                다른 검색어를 시도해보세요.
-              </p>
+              <p style={{ fontSize: '14px' }}>다른 검색어를 시도해보세요.</p>
             </div>
           )}
         </div>

@@ -152,7 +152,7 @@ export default function KlaciTypeRankPageClient() {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'flex-start',
-          padding: '40px 40px 0 40px',
+          padding: '40px 0 0 0',
           marginBottom: '32px',
         }}>
           {/* 좌측: 타이틀 */}
@@ -174,7 +174,7 @@ export default function KlaciTypeRankPageClient() {
         </div>
 
         {/* 타입 선택 버튼들 */}
-        <div style={{ padding: '0 40px' }}>
+        <div>
           {/* 첫 번째 줄: 6개 버튼 */}
           <div style={{
             display: 'grid',
