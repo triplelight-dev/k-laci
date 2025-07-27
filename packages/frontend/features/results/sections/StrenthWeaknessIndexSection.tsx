@@ -78,16 +78,25 @@ const IndexItem: React.FC<{
 
   return (
     <Flex>
-      <div style={{ margin: '15px 19px', width: '40px' }}>
+      <div style={{ 
+        margin: '15px 19px', 
+        width: '40px', 
+        height: '48px', 
+        display: 'flex', 
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
         <div
           style={{
             color: indexRank === 1 || indexRank === 55 ? '#000' : '#9A9EA3',
             fontSize: '14px',
             fontWeight: '500',
-            marginBottom: '4px',
             display: 'flex',
             alignItems: 'center',
             flexDirection: 'column',
+            justifyContent: 'center',
+            height: '100%',
+            transform: 'translateY(-4px)', // 텍스트를 위로 4px 이동
           }}
         >
           {indexRank}위
@@ -118,6 +127,7 @@ const IndexItem: React.FC<{
           transition: 'all 0.2s ease',
           paddingTop: '12px',
           paddingBottom: '12px',
+          minHeight: '48px', // 고정 높이 추가
         }}
         onClick={() => !isDisabled && onClick(data)}
         onMouseEnter={(e) => {
