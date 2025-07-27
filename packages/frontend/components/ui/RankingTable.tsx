@@ -55,6 +55,7 @@ const KlaciCodeVisualizer: React.FC<{ klaciCode: string }> = ({
           <span
             style={{
               fontSize: '15px',
+              fontWeight: item.code === item.code.toUpperCase() && item.code !== item.code.toLowerCase() ? '600' : '400',
               color: item.color === '#D9D9E8' ? '#000' : item.color,
             }}
           >
