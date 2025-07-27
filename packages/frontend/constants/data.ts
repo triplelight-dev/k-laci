@@ -4,7 +4,7 @@ export const NUM_OF_REGIONS = 229;
 export const ROUTES = {
   HOME: '/',
   ABOUT: '/about',
-  SUMMARY: '/summary',
+  SUMMARY: '/charts',
   RESULT: '/results',
   RESULT_REGION: '/results/region', // 새로운 상수 추가
   LOGIN: '/auth/login',
