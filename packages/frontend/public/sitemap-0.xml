@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://klaci.kr/icon.png</loc><lastmod>2025-07-11T12:06:48.814Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://klaci.kr/auth/signup</loc><lastmod>2025-07-11T12:06:48.815Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://klaci.kr/about</loc><lastmod>2025-07-11T12:06:48.815Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://klaci.kr</loc><lastmod>2025-07-11T12:06:48.815Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://klaci.kr/results</loc><lastmod>2025-07-11T12:06:48.815Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://klaci.kr/summary</loc><lastmod>2025-07-11T12:06:48.815Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://klaci.kr/summary/top-100</loc><lastmod>2025-07-11T12:06:48.815Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://klaci.kr/auth/login</loc><lastmod>2025-07-11T12:06:48.815Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://klaci.kr/icon.png</loc><lastmod>2025-07-27T13:36:45.173Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://klaci.kr</loc><lastmod>2025-07-27T13:36:45.176Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://klaci.kr/auth/login</loc><lastmod>2025-07-27T13:36:45.176Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://klaci.kr/charts/coastal</loc><lastmod>2025-07-27T13:36:45.176Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://klaci.kr/charts/district</loc><lastmod>2025-07-27T13:36:45.176Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://klaci.kr/charts/mega</loc><lastmod>2025-07-27T13:36:45.176Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://klaci.kr/charts/category</loc><lastmod>2025-07-27T13:36:45.176Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://klaci.kr/province-rank</loc><lastmod>2025-07-27T13:36:45.176Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://klaci.kr/charts/gpa</loc><lastmod>2025-07-27T13:36:45.176Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://klaci.kr/auth/signup</loc><lastmod>2025-07-27T13:36:45.176Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://klaci.kr/charts/metropolitan</loc><lastmod>2025-07-27T13:36:45.176Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://klaci.kr/charts/province</loc><lastmod>2025-07-27T13:36:45.176Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://klaci.kr/charts/fez</loc><lastmod>2025-07-27T13:36:45.176Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://klaci.kr/charts/region</loc><lastmod>2025-07-27T13:36:45.176Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://klaci.kr/charts/type</loc><lastmod>2025-07-27T13:36:45.176Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://klaci.kr/about</loc><lastmod>2025-07-27T13:36:45.176Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://klaci.kr/charts</loc><lastmod>2025-07-27T13:36:45.176Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://klaci.kr/charts/top</loc><lastmod>2025-07-27T13:36:45.176Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://klaci.kr/charts/nic</loc><lastmod>2025-07-27T13:36:45.176Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://klaci.kr/results</loc><lastmod>2025-07-27T13:36:45.176Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
 </urlset>
