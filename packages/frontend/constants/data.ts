@@ -6,7 +6,6 @@ export const ROUTES = {
   ABOUT: '/about',
   SUMMARY: '/charts',
   RESULT: '/results',
-  RESULT_REGION: '/results/region', // 새로운 상수 추가
   LOGIN: '/auth/login',
   SIGNUP: '/auth/signup',
   SIGNUP_PROFILE: '/auth/signup/profile',
