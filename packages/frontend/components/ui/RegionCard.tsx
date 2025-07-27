@@ -86,9 +86,9 @@ const RegionCard: React.FC<RegionCardProps> = ({
     <div
       role="button"
       style={{
-        minWidth: '350px',
-        width: '260px',
-        height: '582px',
+        minWidth: '385px',
+        width: '280px',
+        height: '573px',
         backgroundColor: '#FAFAFA', // 전체 회색 배경
         borderRadius: '40px',
         cursor: 'pointer',
@@ -136,7 +136,7 @@ const RegionCard: React.FC<RegionCardProps> = ({
         <div
           style={{
             fontSize: '32px',
-            fontWeight: '700',
+            fontWeight: '600',
             color: '#000',
             pointerEvents: 'none',
           }}
