@@ -92,7 +92,7 @@ const RankingTable: React.FC<RankingTableProps> = ({ data, onRegionClick }) => {
         style={{
           display: 'flex',
           gap: '16px',
-          padding: '16px',
+          padding: '16px 21px',
           backgroundColor: '#F1F1F1',
           borderRadius: '18px',
           marginBottom: '8px',
@@ -123,7 +123,7 @@ const RankingTable: React.FC<RankingTableProps> = ({ data, onRegionClick }) => {
             style={{
               display: 'flex',
               gap: '16px',
-              padding: '16px',
+              padding: '16px 21px', // 좌우 패딩 5px 추가 (16px + 5px = 21px)
               backgroundColor: 'white',
               borderRadius: '18px',
               marginBottom: '8px',
