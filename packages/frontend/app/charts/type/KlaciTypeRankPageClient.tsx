@@ -192,7 +192,7 @@ export default function KlaciTypeRankPageClient() {
                   backgroundColor: selectedType === type ? '#ffffff' : '#F1F1F1',
                   color: '#000000',
                   border: selectedType === type ? '1px solid #000000' : 'none',
-                  borderRadius: '6px',
+                  borderRadius: '14px',
                   fontSize: '16px',
                   fontWeight: selectedType === type ? 'bold' : 'normal',
                   cursor: 'pointer',

@@ -66,7 +66,7 @@ export default function FezTotalRankPageClient() {
 
   return (
     <DataStateWrapper isLoading={isLoading} error={error} isBlackTheme={false}>
-      <div style={{ width: '1400px', margin: '0 auto' }}>
+      <div style={{ width: '1400px', margin: '0 auto', marginBottom: '80px' }}>
         <SectionHeader
           title="경제자유구역 종합순위"
           subtitle="전국 경제자유구역 프로젝트 소재 지자체 26곳"

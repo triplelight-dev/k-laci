@@ -43,14 +43,15 @@ export default function NationalIndustrialZoneRankPageClient() {
   // 검색어에 따른 필터링된 데이터
   const filteredData = useMemo(() => {
     if (!data?.data) return [];
-    
+
     if (!debouncedSearchTerm.trim()) {
       return data.data;
     }
 
     const searchLower = debouncedSearchTerm.toLowerCase();
     return data.data.filter((item) => {
-      const fullName = `${item.region.province.name} ${item.region.name}`.toLowerCase();
+      const fullName =
+        `${item.region.province.name} ${item.region.name}`.toLowerCase();
       return fullName.includes(searchLower);
     });
   }, [data?.data, debouncedSearchTerm]);
@@ -65,7 +66,7 @@ export default function NationalIndustrialZoneRankPageClient() {
 
   return (
     <DataStateWrapper isLoading={isLoading} error={error} isBlackTheme={false}>
-      <div style={{ width: '1400px', margin: '0 auto' }}>
+      <div style={{ width: '1400px', margin: '0 auto', marginBottom: '80px' }}>
         <SectionHeader
           title="국가산업단지 종합순위"
           subtitle="전국 국가산업단지 소재 지자체 51곳"
@@ -73,25 +74,25 @@ export default function NationalIndustrialZoneRankPageClient() {
           onSearchChange={handleSearchChange}
           searchPlaceholder="지역 검색"
         />
-        
+
         <div style={{ marginBottom: '40px' }}>
           {filteredData.length > 0 ? (
-            <RankingTable 
-              data={filteredData} 
+            <RankingTable
+              data={filteredData}
               onRegionClick={handleRegionClick}
             />
           ) : (
-            <div style={{
-              textAlign: 'center',
-              padding: '60px 0',
-              color: '#6b7280'
-            }}>
+            <div
+              style={{
+                textAlign: 'center',
+                padding: '60px 0',
+                color: '#6b7280',
+              }}
+            >
               <p style={{ fontSize: '18px', marginBottom: '8px' }}>
                 검색 결과가 없습니다.
               </p>
-              <p style={{ fontSize: '14px' }}>
-                다른 검색어를 시도해보세요.
-              </p>
+              <p style={{ fontSize: '14px' }}>다른 검색어를 시도해보세요.</p>
             </div>
           )}
         </div>
