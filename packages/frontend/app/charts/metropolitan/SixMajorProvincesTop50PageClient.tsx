@@ -65,7 +65,7 @@ export default function SixMajorProvincesTop50PageClient() {
 
   return (
     <DataStateWrapper isLoading={isLoading} error={error} isBlackTheme={false}>
-      <div style={{ width: '1400px', margin: '0 auto' }}>
+      <div style={{ width: '1400px', margin: '0 auto', marginBottom: '80px' }}>
         <SectionHeader
           title="6대 광역시 TOP 50"
           subtitle="광주 · 대구 · 대전 · 부산 · 울산 · 인천 내 50개 지자체 중 상위 50곳"

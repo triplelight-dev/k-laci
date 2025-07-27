@@ -66,7 +66,7 @@ export default function CoastalCityRankPageClient() {
 
   return (
     <DataStateWrapper isLoading={isLoading} error={error} isBlackTheme={false}>
-      <div style={{ width: '1400px', margin: '0 auto' }}>
+      <div style={{ width: '1400px', margin: '0 auto', marginBottom: '80px' }}>
         <SectionHeader
           title="해안도시 종합순위"
           subtitle="전국 해안도시 해당 지자체 74곳"
