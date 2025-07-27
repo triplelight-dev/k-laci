@@ -58,7 +58,7 @@ const KlaciCodeCircles: React.FC<KlaciCodeCirclesProps> = ({
       ))}
       
       {/* 툴팁 - circles 컴포넌트 중앙 하단에 위치 */}
-      {hoveredIndex !== null && (
+      {hoveredIndex !== null && klaciCodes[hoveredIndex] && (
         <div
           style={{
             position: 'absolute',
