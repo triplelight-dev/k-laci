@@ -2,6 +2,7 @@
 
 import { AuthService } from '@/api/services/auth.service';
 import { ROUTES } from '@/constants/data';
+import { INTERNAL_LINKS } from '@/constants/links';
 import { useIsLoggedIn, useLogout, useUser } from '@/store';
 import { DARK_MODE_COLORS } from '@/utils/colors';
 import Link from 'next/link';
@@ -13,9 +14,6 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
   const isLoggedIn = useIsLoggedIn();
   const user = useUser();
   const logout = useLogout();
-
-  // 테마 분기를 위한 변수 관리 - /summary 루트만 다크모드
-  // const isBlackTheme = pathname === '/' || pathname === '/about' || pathname === '/summary';
 
   // 테마별 설정
   const theme = {
@@ -30,11 +28,11 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
   const isActivePage = (path: string) => {
     if (path === ROUTES.SUMMARY) {
       // /summary로 시작하는 모든 경로에서 '주요 결과' 활성화
-      return pathname.startsWith('/summary');
+      return pathname.startsWith(`/${INTERNAL_LINKS.SUMMARY.ROOT}`);
     }
     if (path === ROUTES.RESULT) {
       // /results로 시작하는 모든 경로에서 '지자체 조회' 활성화
-      return pathname.startsWith('/results');
+      return pathname.startsWith(`/${ROUTES.RESULT}`);
     }
     return pathname === path;
   };

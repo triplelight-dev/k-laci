@@ -2,6 +2,7 @@
 
 import { ArrowRightUp } from '@/components/atoms/assets';
 import Button from '@/components/atoms/buttons/Button';
+import { INTERNAL_LINKS } from '@/constants/links';
 import { Flex, Heading, Text } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import RankCardSlider from '../components/RankCardSlider';
@@ -10,7 +11,7 @@ export default function RankSection() {
   const router = useRouter();
 
   const handleViewAllClick = () => {
-    router.push('/summary/top-100');
+    router.push(INTERNAL_LINKS.SUMMARY.TOP_100);
   };
 
   return (
@@ -22,12 +23,7 @@ export default function RankSection() {
       backgroundColor="#14161D"
       minHeight="1080px"
     >
-      <Flex
-        flexDirection="column"
-        gap="20px"
-        alignItems="center"
-        width="100%"
-      >
+      <Flex flexDirection="column" gap="20px" alignItems="center" width="100%">
         <Heading
           fontSize="30px"
           fontWeight="600"
