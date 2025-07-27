@@ -82,13 +82,16 @@ const RegionCard: React.FC<RegionCardProps> = ({
   // 뱃지 텍스트 결정
   const badgeText = getBadgeText(data);
 
+  // 뱃지 높이 계산 (패딩 4px * 2 + 폰트 크기 14px + 여유 공간)
+  const badgeHeight = 4 + 4 + 14 + 8; // 약 30px
+
   return (
     <div
       role="button"
       style={{
         minWidth: '385px',
         width: '280px',
-        height: '573px',
+        height: isHideBadge ? `${573 - badgeHeight}px` : '573px',
         backgroundColor: '#FAFAFA', // 전체 회색 배경
         borderRadius: '40px',
         cursor: 'pointer',
