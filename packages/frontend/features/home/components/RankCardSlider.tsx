@@ -68,9 +68,11 @@ export default function RankCardSlider() {
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => {
       const next = prev + 1;
-      return next >= allItems.length ? allItems.length - 1 : next;
+      // 예: 최대 5번째 카드까지만 이동 가능 (0~4 인덱스)
+      const maxIndex = Math.min(4, regionCards.length - 1);
+      return next > maxIndex ? maxIndex : next;
     });
-  }, [allItems.length]);
+  }, [regionCards.length]);
 
   const prevSlide = useCallback(() => {
     setCurrentIndex((prev) => {
@@ -165,8 +167,8 @@ export default function RankCardSlider() {
     const distance = index - currentIndex;
 
     // 카드 간격 (카드 너비 + gap)
-    const cardSpacing = 410; 
-    
+    const cardSpacing = 410;
+
     // 첫 번째 카드 좌측 여백
     const leftMargin = 140;
 
