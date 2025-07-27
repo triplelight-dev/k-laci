@@ -34,7 +34,7 @@ const SectionHeader: React.FC<{
         <h2
           style={{
             fontSize: '28px',
-            fontWeight: 'bold',
+            fontWeight: '600',
             color: '#1a1a1a',
             margin: 0,
           }}

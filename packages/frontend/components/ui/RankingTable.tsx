@@ -125,7 +125,7 @@ const RankingTable: React.FC<RankingTableProps> = ({ data, onRegionClick }) => {
               gap: '16px',
               padding: '16px',
               backgroundColor: 'white',
-              borderRadius: '8px',
+              borderRadius: '18px',
               marginBottom: '8px',
               alignItems: 'center',
               cursor: 'pointer',

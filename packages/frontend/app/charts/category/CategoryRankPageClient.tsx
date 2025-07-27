@@ -201,7 +201,7 @@ export default function CategoryRankPageClient() {
                     selectedCategoryId === category.id
                       ? '1px solid #000000'
                       : 'none',
-                  borderRadius: '6px',
+                  borderRadius: '14px',
                   fontSize: '16px',
                   fontWeight:
                     selectedCategoryId === category.id ? 'bold' : 'normal',
