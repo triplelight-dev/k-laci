@@ -8,11 +8,11 @@ import React from 'react';
 
 // 컬럼 너비 설정을 위한 상수
 const COLUMN_WIDTHS = {
-  rank: '0 0 50px', // 순위: 42px → 50px
+  rank: '0 0 65px', // 순위: 42px → 50px
   regionName: '0 0 120px', // 지자체명: 120px
-  jewel: '0 0 56px', // 원석: 70px → 56px (보석 차트 크기에 맞춤)
-  type: '0 0 80px', // 유형명: 80px
-  klaciCode: '1 1 420px', // 유형코드: 420px
+  jewel: '0 0 60px', // 원석: 70px → 56px (보석 차트 크기에 맞춤)
+  type: '0 0 100px', // 유형명: 80px
+  klaciCode: '1 1 385px', // 유형코드: 420px
   strengthIndexes: '1 1 344px', // 강점지표: 330px → 344px (jewel 감소분 보완)
   totalScore: '0 0 60px', // 종합점수: 60px
 } as const;
@@ -96,8 +96,8 @@ const RankingTable: React.FC<RankingTableProps> = ({ data, onRegionClick }) => {
           backgroundColor: '#F1F1F1',
           borderRadius: '18px',
           marginBottom: '8px',
-          fontWeight: 'bold',
-          fontSize: '16px',
+          fontWeight: '600',
+          fontSize: '15px',
           color: '#333',
         }}
       >
@@ -147,7 +147,7 @@ const RankingTable: React.FC<RankingTableProps> = ({ data, onRegionClick }) => {
               style={{
                 flex: COLUMN_WIDTHS.rank,
                 fontWeight: 600,
-                fontSize: '16px',
+                fontSize: '18px',
               }}
             >
               {item.total_rank}위
@@ -158,7 +158,7 @@ const RankingTable: React.FC<RankingTableProps> = ({ data, onRegionClick }) => {
               style={{
                 flex: COLUMN_WIDTHS.regionName,
                 fontWeight: 600,
-                fontSize: '18px',
+                fontSize: '20px',
               }}
             >
               {item.region.province.name} {item.region.name}
@@ -188,7 +188,7 @@ const RankingTable: React.FC<RankingTableProps> = ({ data, onRegionClick }) => {
               style={{
                 flex: COLUMN_WIDTHS.type,
                 fontWeight: 600,
-                fontSize: '16px',
+                fontSize: '18px',
               }}
             >
               {item.region.klaci?.type || '-'}
@@ -198,7 +198,7 @@ const RankingTable: React.FC<RankingTableProps> = ({ data, onRegionClick }) => {
             <div
               style={{
                 flex: COLUMN_WIDTHS.klaciCode,
-                fontSize: '16px',
+                fontSize: '14px',
               }}
             >
               <KlaciCodeVisualizer klaciCode={item.region.klaci.code} />
