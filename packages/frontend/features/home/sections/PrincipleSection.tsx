@@ -5,27 +5,23 @@ import React from 'react';
 
 interface PrincipleBoxProps {
   principle: Principle;
-  showRightBorder?: boolean;
   contentAlign: 'left' | 'center' | 'right';
 }
 
 const PrincipleBox: React.FC<PrincipleBoxProps> = ({
   principle,
-  showRightBorder = false,
   contentAlign,
 }) => {
   const boxAlign = contentAlign === 'left' ? 'flex-start' : contentAlign === 'center' ? 'center' : 'flex-end';
 
   return (
-    <div style={{ display: 'flex', justifyContent: boxAlign, width: '100%', position: 'relative' }}>
+    <div style={{ display: 'flex', justifyContent: boxAlign, width: '100%' }}>
       <div
         style={{
           flex: 1,
-          // padding: '40px 30px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
-          position: 'relative',
           maxWidth: '384px',
         }}
       >
@@ -84,25 +80,8 @@ const PrincipleBox: React.FC<PrincipleBoxProps> = ({
         >
           {principle.description}
         </div>
-
-
       </div>
-      {/* 오른쪽 구분선 */}
-      {
-        showRightBorder && (
-          <div
-            style={{
-              position: 'absolute',
-              right: 0,
-              top: '25%',
-              height: '60%',
-              width: '1px',
-              backgroundColor: 'rgba(255, 255, 255, 0.2)',
-            }}
-          />
-        )
-      }
-    </div >
+    </div>
   );
 };
 
@@ -175,22 +154,32 @@ const PrincipleSection: React.FC = () => {
       {/* 원칙 박스들 */}
       <div
         style={{
-          display: 'grid',
+          display: 'flex',
           maxWidth: '1400px',
           width: '100%',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '0',
           justifyContent: 'space-between',
-          alignItems: 'center',
+          alignItems: 'stretch',
         }}
       >
         {principles.map((principle, index) => (
-          <PrincipleBox
-            key={index}
-            principle={principle}
-            showRightBorder={index < 2} // 1번째, 2번째 박스에만 오른쪽 구분선
-            contentAlign={index === 0 ? 'left' : index === 1 ? 'center' : 'right'}
-          />
+          <React.Fragment key={index}>
+            <PrincipleBox
+              principle={principle}
+              contentAlign={index === 0 ? 'left' : index === 1 ? 'center' : 'right'}
+            />
+            {/* 구분선 - 마지막 박스가 아닐 때만 표시 */}
+            {index < principles.length - 1 && (
+              <div
+                style={{
+                  width: '1px',
+                  height: 'auto',
+                  backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                  margin: '0 20px',
+                  alignSelf: 'stretch',
+                }}
+              />
+            )}
+          </React.Fragment>
         ))}
       </div>
     </div>
