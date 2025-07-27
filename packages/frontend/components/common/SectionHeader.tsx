@@ -26,7 +26,6 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
-        padding: '0 40px',
         paddingTop: hasTopMargin ? '40px' : '0', // 상단 여백 조건부 적용
         marginBottom: '30px',
       }}
@@ -74,4 +73,4 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
   );
 };
 
-export default SectionHeader; 
+export default SectionHeader;

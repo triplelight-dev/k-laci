@@ -119,7 +119,7 @@ export default function ProvinceRankPageClient() {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'flex-start',
-            padding: '40px 40px 0 40px',
+            padding: '40px 0 0 0',
             marginBottom: '32px',
           }}
         >
@@ -144,7 +144,7 @@ export default function ProvinceRankPageClient() {
         </div>
 
         {/* 도/광역시 선택 버튼들 */}
-        <div style={{ padding: '0 40px' }}>
+        <div>
           {/* 첫 번째 줄: 12개 버튼 */}
           <div
             style={{

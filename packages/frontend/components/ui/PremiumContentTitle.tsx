@@ -17,7 +17,6 @@ const PremiumContentTitle: React.FC<PremiumContentTitleProps> = ({
         alignItems: 'center',
         gap: '25px',
         width: '100%',
-        // border: '1px solid red',
         paddingTop: '50px',
         paddingBottom: '50px',
       }}

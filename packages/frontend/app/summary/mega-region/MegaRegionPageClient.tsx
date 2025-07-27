@@ -138,7 +138,7 @@ export default function MegaRegionPageClient() {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'flex-start',
-            padding: '40px 40px 0 40px',
+            padding: '40px 0 0 0',
             marginBottom: '32px',
           }}
         >
@@ -163,17 +163,17 @@ export default function MegaRegionPageClient() {
         </div>
 
         {/* 타입 선택 버튼들 */}
-        <div style={{ padding: '0 40px' }}>
+        <div>
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(4, 1fr)',
+              gridTemplateColumns: 'repeat(6, 1fr)',
               gap: '16px',
               marginBottom: '16px',
               width: '100%',
             }}
           >
-            {ORDERED_MEGA_REGION_TYPES.slice(0, 4).map((type) => (
+            {ORDERED_MEGA_REGION_TYPES.slice(0, 8).map((type, index) => (
               <button
                 key={type}
                 onClick={() => handleTypeChange(type)}
@@ -189,38 +189,7 @@ export default function MegaRegionPageClient() {
                   cursor: 'pointer',
                   transition: 'all 0.2s',
                   whiteSpace: 'nowrap',
-                }}
-              >
-                {type}
-              </button>
-            ))}
-          </div>
-
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(4, 1fr)',
-              gap: '16px',
-              marginBottom: '40px',
-              width: '100%',
-            }}
-          >
-            {ORDERED_MEGA_REGION_TYPES.slice(4, 8).map((type) => (
-              <button
-                key={type}
-                onClick={() => handleTypeChange(type)}
-                style={{
-                  padding: '14px 20px',
-                  backgroundColor:
-                    selectedType === type ? '#ffffff' : '#F1F1F1',
-                  color: '#000000',
-                  border: selectedType === type ? '1px solid #000000' : 'none',
-                  borderRadius: '6px',
-                  fontSize: '16px',
-                  fontWeight: selectedType === type ? 'bold' : 'normal',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
-                  whiteSpace: 'nowrap',
+                  gridColumn: index >= 6 ? `${index - 5} / ${index - 4}` : 'auto',
                 }}
               >
                 {type}
