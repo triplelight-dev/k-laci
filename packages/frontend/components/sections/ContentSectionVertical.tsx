@@ -164,7 +164,14 @@ const ContentSectionVertical: React.FC<ContentSectionVerticalProps> = ({
               }}
             >
               {description.texts.map((text, index) => (
-                <div key={index} style={{ marginBottom: '0px', width: '100%', textAlign: 'justify' }}>
+                <div
+                  key={index}
+                  style={{
+                    marginBottom: '0px',
+                    width: '100%',
+                    textAlign: 'justify',
+                  }}
+                >
                   {text}
                 </div>
               ))}
@@ -175,7 +182,7 @@ const ContentSectionVertical: React.FC<ContentSectionVerticalProps> = ({
               style={{
                 fontSize: '18px',
                 color: '#D9D9E8',
-                marginBottom: '30px',
+                marginBottom: '50px',
                 fontWeight: '700',
                 width: '100%',
               }}
