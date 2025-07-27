@@ -167,7 +167,7 @@ const SimilarRegionSection: React.FC = () => {
         }}
       >
         <PremiumContentTitle
-          title={`${regionNameWithParticle} 비슷한 지자체`}
+          title={`${regionNameWithParticle || ''} 비슷한 지자체`}
           badgeText="더 알아보기"
         />
         <div

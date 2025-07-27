@@ -45,16 +45,20 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
   categoryTitle,
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [selectedIndexData, setSelectedIndexData] = useState<IndexData | null>(null);
+  const [selectedIndexData, setSelectedIndexData] = useState<IndexData | null>(
+    null,
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedKeyIndexId, setSelectedKeyIndexId] = useState<number | null>(null);
+  const [selectedKeyIndexId, setSelectedKeyIndexId] = useState<number | null>(
+    null,
+  );
 
   const { selectedRegion } = useDistrict();
 
   // 모든 key_index_id에 대해 병렬로 데이터를 가져오는 쿼리들
   const keyIndexQueries = useMemo(() => {
     if (!rank || rank.length === 0) return [];
-    
+
     return rank.map((item) => ({
       regionId: regionId,
       keyIndexId: item.key_index_id,
@@ -63,15 +67,16 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
   }, [rank, regionId]);
 
   // 모든 쿼리 결과를 병렬로 가져오기
-  const regionKeyIndexQueries = keyIndexQueries.map(({ regionId, keyIndexId, enabled }) =>
-    useRegionKeyIndexScoreQuery(regionId, keyIndexId, enabled)
+  const regionKeyIndexQueries = keyIndexQueries.map(
+    ({ regionId, keyIndexId, enabled }) =>
+      useRegionKeyIndexScoreQuery(regionId, keyIndexId, enabled),
   );
 
   // 모달용 키 인덱스 데이터 (선택된 항목에 대해서만)
   const keyIndexDataQuery = useKeyIndexDataQuery(
     selectedKeyIndexId,
     undefined,
-    !!selectedKeyIndexId
+    !!selectedKeyIndexId,
   );
 
   // 업데이트된 랭크 데이터 계산
@@ -81,12 +86,12 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
     return rank.map((item, index) => {
       const query = regionKeyIndexQueries[index];
       const data = query?.data;
-      
+
       return {
         ...item,
         score: data?.region_key_index_score?.score || 0,
         topPercentage: ((item.rank / NUM_OF_REGIONS) * 100).toFixed(1),
-        scoreGap: data ? (data.region_key_index_score.score - data.avg_score) : 0,
+        scoreGap: data ? data.region_key_index_score.score - data.avg_score : 0,
         avgScore: data?.avg_score || 0,
         regionId: regionId,
       };
@@ -95,7 +100,7 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
 
   // 로딩 상태 계산
   const isLoading = useMemo(() => {
-    return regionKeyIndexQueries.some(query => query.isLoading);
+    return regionKeyIndexQueries.some((query) => query.isLoading);
   }, [regionKeyIndexQueries]);
 
   const handleRankClick = async (clickedRank: CategoryRank) => {
@@ -117,7 +122,7 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
 
     // 기존 쿼리된 데이터가 있다면 사용
     const existingQuery = regionKeyIndexQueries.find(
-      (query, index) => rank[index]?.key_index_id === clickedRank.key_index_id
+      (query, index) => rank[index]?.key_index_id === clickedRank.key_index_id,
     );
 
     if (existingQuery?.data) {
@@ -298,6 +303,7 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
                     ? color
                     : '#FAFAFA',
                 padding: '15px 33px',
+                paddingBottom: '38px',
                 transition: 'all 0.2s ease',
                 minHeight: '60px',
                 display: 'flex',
@@ -436,7 +442,9 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
           data={{
             ...selectedIndexData,
             // 키 인덱스 데이터 쿼리에서 받은 데이터로 업데이트
-            indexDescription: keyIndexDataQuery.data?.description || selectedIndexData.indexDescription,
+            indexDescription:
+              keyIndexDataQuery.data?.description ||
+              selectedIndexData.indexDescription,
             source: keyIndexDataQuery.data?.source || selectedIndexData.source,
             year: keyIndexDataQuery.data?.year || selectedIndexData.year,
             // undefined인 경우 프로퍼티 자체를 제외
@@ -445,9 +453,12 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
             }),
           }}
           regionId={selectedRegion?.id || 0}
-          apiData={regionKeyIndexQueries.find(
-            (query, index) => rank[index]?.key_index_id === selectedIndexData.indexId
-          )?.data || undefined}
+          apiData={
+            regionKeyIndexQueries.find(
+              (query, index) =>
+                rank[index]?.key_index_id === selectedIndexData.indexId,
+            )?.data || undefined
+          }
         />
       )}
     </>
