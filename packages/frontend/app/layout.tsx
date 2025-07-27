@@ -16,7 +16,7 @@ const pretendard = localFont({
   variable: '--font-pretendard',
   fallback: [
     'system-ui',
-    '-apple-system', 
+    '-apple-system',
     'BlinkMacSystemFont',
     'Segoe UI',
     'Roboto',
@@ -27,7 +27,7 @@ const pretendard = localFont({
     'Apple Color Emoji',
     'Segoe UI Emoji',
     'Segoe UI Symbol',
-    'sans-serif'
+    'sans-serif',
   ],
 });
 
@@ -65,7 +65,8 @@ export async function generateMetadata(): Promise<Metadata> {
       '전국 229개 지자체의 숨겨진 강점과 새로운 기회를 직접 발견해보세요. 지역자산역량지수(KLACI)로 지역의 잠재자산과 자생력을 분석하고, 균형발전과 로컬 중심의 순환경제를 위한 지역맞춤 전략을 제시합니다.',
     applicationName: '지역자산역량지수(KLACI)',
     openGraph: {
-      title: '지역자산역량지수(KLACI) - Korea Local Asset Competency Index 2025',
+      title:
+        '지역자산역량지수(KLACI) - Korea Local Asset Competency Index 2025',
       description:
         '전국 229개 지자체의 숨겨진 강점과 새로운 기회를 직접 발견해보세요. 지역자산역량지수(KLACI)로 지역의 잠재자산과 자생력을 분석하고, 균형발전과 로컬 중심의 순환경제를 위한 지역맞춤 전략을 제시합니다.',
       url: siteUrl,
@@ -83,27 +84,61 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: '지역자산역량지수(KLACI) - Korea Local Asset Competency Index 2025',
+      title:
+        '지역자산역량지수(KLACI) - Korea Local Asset Competency Index 2025',
       description:
         '전국 229개 지자체의 숨겨진 강점과 새로운 기회를 직접 발견해보세요. 지역자산역량지수(KLACI)로 지역의 잠재자산과 자생력을 분석하고, 균형발전과 로컬 중심의 순환경제를 위한 지역맞춤 전략을 제시합니다.',
       images: [`${siteUrl}/thumbnail/thumbnail.png`],
     },
     keywords: [
-      '지역자산역량지수', '지역자산지수', '지역역량지수', '지역자산력', '지역력', '지역경쟁력',
-      'KLACI', '지역력지수', '지역경쟁력지수', '균형발전', '전영수 교수', '트리플라잇',
-      '이은화 대표', '정유진 대표', '지역개발론', '지역주도성', '지역자산', '지역주체',
-      '로컬복원', '로컬 중심의 순환경제와 특화모델', '로컬 주도 회복 시스템', '생태복원',
-      '자치분권형 로컬리즘', '자립자강형 복원모델', '지역맞춤의 복원전략', '잠재자산',
-      '자생력', '탈중앙화', '자원역량', '로컬 기반 지속가능성', '지역성', '분수효과',
-      '선진국형 경제질서', '내국 기반의 역내 경제', '로컬 요소', '글로컬', '내발적',
-      '민주적', '자립적', '개방적', '영리적 작동체계'
+      '지역자산역량지수',
+      '지역자산지수',
+      '지역역량지수',
+      '지역자산력',
+      '지역력',
+      '지역경쟁력',
+      'KLACI',
+      '지역력지수',
+      '지역경쟁력지수',
+      '균형발전',
+      '전영수 교수',
+      '트리플라잇',
+      '이은화 대표',
+      '정유진 대표',
+      '지역개발론',
+      '지역주도성',
+      '지역자산',
+      '지역주체',
+      '로컬복원',
+      '로컬 중심의 순환경제와 특화모델',
+      '로컬 주도 회복 시스템',
+      '생태복원',
+      '자치분권형 로컬리즘',
+      '자립자강형 복원모델',
+      '지역맞춤의 복원전략',
+      '잠재자산',
+      '자생력',
+      '탈중앙화',
+      '자원역량',
+      '로컬 기반 지속가능성',
+      '지역성',
+      '분수효과',
+      '선진국형 경제질서',
+      '내국 기반의 역내 경제',
+      '로컬 요소',
+      '글로컬',
+      '내발적',
+      '민주적',
+      '자립적',
+      '개방적',
+      '영리적 작동체계',
     ],
     authors: [
       { name: 'KLACI Team' },
       { name: '전영수 교수' },
       { name: '트리플라잇' },
       { name: '이은화 대표' },
-      { name: '정유진 대표' }
+      { name: '정유진 대표' },
     ],
     robots: {
       index: true,
@@ -140,11 +175,28 @@ export default function RootLayout({
   const isProduction = isProductionDomain();
 
   return (
-    <html lang="ko" className={`w-full ${pretendard.variable}`} suppressHydrationWarning>
+    <html
+      lang="ko"
+      className={`w-full ${pretendard.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         {/* Production 환경에서만 Analytics 스크립트 로드 */}
         {isProduction && (
           <>
+            <Script
+              id="structured-data-site"
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  '@context': 'https://schema.org',
+                  '@type': 'WebSite',
+                  name: '지역자산역량지수(KLACI) - Korea Local Asset Competency Index',
+                  alternateName: '지역자산역량지수(KLACI) - Korea Local Asset Competency Index',
+                  url: 'https://klaci.kr',
+                }),
+              }}
+            />
             {/* Google Analytics */}
             <Script
               src="https://www.googletagmanager.com/gtag/js?id=G-KDXMQDERTP"
