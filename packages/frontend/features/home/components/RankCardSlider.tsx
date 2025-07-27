@@ -4,7 +4,6 @@ import { useTopRegionsForCard } from '@/api/hooks';
 import RegionCard from '@/components/ui/RegionCard';
 import { RegionCardData } from '@/types/region';
 import { generateChartData } from '@/utils/chartUtils';
-import { useRouter } from 'next/navigation';
 import React, {
   useCallback,
   useEffect,
@@ -22,7 +21,6 @@ interface CardStyle {
 }
 
 export default function RankCardSlider() {
-  const router = useRouter();
   const {
     data: topRegionsResponse,
     isLoading,
@@ -70,9 +68,11 @@ export default function RankCardSlider() {
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => {
       const next = prev + 1;
-      return next >= allItems.length ? allItems.length - 1 : next;
+      // 예: 최대 5번째 카드까지만 이동 가능 (0~4 인덱스)
+      const maxIndex = Math.min(4, regionCards.length - 1);
+      return next > maxIndex ? maxIndex : next;
     });
-  }, [allItems.length]);
+  }, [regionCards.length]);
 
   const prevSlide = useCallback(() => {
     setCurrentIndex((prev) => {
@@ -167,10 +167,13 @@ export default function RankCardSlider() {
     const distance = index - currentIndex;
 
     // 카드 간격 (카드 너비 + gap)
-    const cardSpacing = 400; // 260px 카드 + 140px gap
+    const cardSpacing = 410;
 
-    // index 0이 좌측에 오도록 offset 조정
-    const leftOffset = -currentIndex * cardSpacing;
+    // 첫 번째 카드 좌측 여백
+    const leftMargin = 140;
+
+    // index 0이 좌측에 오도록 offset 조정 + 좌측 여백 추가
+    const leftOffset = -currentIndex * cardSpacing + leftMargin;
     const translateX = distance * cardSpacing + leftOffset;
 
     if (distance === 0) {
@@ -327,6 +330,48 @@ export default function RankCardSlider() {
           }}
         />
 
+        {/* 좌측 화살표 버튼 */}
+        <button
+          onClick={prevSlide}
+          style={{
+            position: 'absolute',
+            left: '160px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            zIndex: 20,
+            background: 'white',
+            border: '1px solid #E5E7EB',
+            borderRadius: '12px',
+            width: '48px',
+            height: '48px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer', // 기본 상태에서 pointer
+            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+            transition: 'all 0.2s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = '#000000';
+            e.currentTarget.style.transform = 'translateY(-50%) scale(1.05)';
+            e.currentTarget.style.cursor = 'pointer'; // 호버 시에도 pointer 유지
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = '#E5E7EB';
+            e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+            e.currentTarget.style.cursor = 'pointer'; // 호버 해제 시에도 pointer 유지
+          }}
+        >
+          <img
+            src="/rank_arrow_left.png"
+            alt="이전"
+            style={{
+              width: '16px',
+              height: '16px',
+            }}
+          />
+        </button>
+
         {/* 카드 컨테이너 */}
         <div
           style={{
@@ -372,6 +417,48 @@ export default function RankCardSlider() {
             );
           })}
         </div>
+
+        {/* 우측 화살표 버튼 */}
+        <button
+          onClick={nextSlide}
+          style={{
+            position: 'absolute',
+            right: '160px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            zIndex: 20,
+            background: 'white',
+            border: '1px solid #E5E7EB',
+            borderRadius: '12px',
+            width: '48px',
+            height: '48px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer', // 기본 상태에서 pointer
+            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+            transition: 'all 0.2s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = '#000000';
+            e.currentTarget.style.transform = 'translateY(-50%) scale(1.05)';
+            e.currentTarget.style.cursor = 'pointer'; // 호버 시에도 pointer 유지
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = '#E5E7EB';
+            e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+            e.currentTarget.style.cursor = 'pointer'; // 호버 해제 시에도 pointer 유지
+          }}
+        >
+          <img
+            src="/rank_arrow_right.png"
+            alt="다음"
+            style={{
+              width: '16px',
+              height: '16px',
+            }}
+          />
+        </button>
       </div>
     </div>
   );
