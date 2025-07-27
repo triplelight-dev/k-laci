@@ -10,10 +10,10 @@ import React from 'react';
 const COLUMN_WIDTHS = {
   rank: '0 0 50px',           // 순위: 42px → 50px
   regionName: '0 0 120px',    // 지자체명: 120px
-  jewel: '0 0 60px',          // 원석: 60px
+  jewel: '0 0 56px',          // 원석: 70px → 56px (보석 차트 크기에 맞춤)
   type: '0 0 80px',           // 유형명: 80px
   klaciCode: '1 1 420px',     // 유형코드: 420px
-  strengthIndexes: '1 1 340px', // 강점지표: 360px → 340px
+  strengthIndexes: '1 1 344px', // 강점지표: 330px → 344px (jewel 감소분 보완)
   totalScore: '0 0 60px',     // 종합점수: 60px
 } as const;
 
@@ -77,8 +77,12 @@ const RankingTable: React.FC<RankingTableProps> = ({ data, onRegionClick }) => {
 
   if (safeData.length === 0) {
     return (
-      <div style={{ padding: '0 40px', textAlign: 'center', marginTop: '40px' }}>
-        <p style={{ color: '#666', fontSize: '16px' }}>표시할 데이터가 없습니다.</p>
+      <div
+        style={{ padding: '0 40px', textAlign: 'center', marginTop: '40px' }}
+      >
+        <p style={{ color: '#666', fontSize: '16px' }}>
+          표시할 데이터가 없습니다.
+        </p>
       </div>
     );
   }
@@ -169,11 +173,13 @@ const RankingTable: React.FC<RankingTableProps> = ({ data, onRegionClick }) => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                width: '56px', // 명시적으로 보석 차트 크기와 동일하게 설정
+                minWidth: '56px', // 최소 너비도 설정
               }}
             >
               <RadarJewelChartMini
                 data={chartData}
-                size={48}
+                size={56}
                 imageUrl="/backgrounds/radar_chart_bg.png"
                 hideBackground={true} // 배경 숨기기 옵션 추가
               />
@@ -244,4 +250,4 @@ const RankingTable: React.FC<RankingTableProps> = ({ data, onRegionClick }) => {
   );
 };
 
-export default RankingTable; 
+export default RankingTable;
