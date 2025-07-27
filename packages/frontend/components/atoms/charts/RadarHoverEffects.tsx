@@ -32,42 +32,12 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
   // 깜빡임 방지를 위한 useCallback 사용
   const handlePointMouseEnter = useCallback((i: number) => {
     setHoveredPoint(i);
-    const circle = document.querySelector(
-      `circle[data-index="${i}"]`,
-    ) as SVGElement;
-    if (circle) {
-      circle.style.r = '7';
-      circle.style.strokeWidth = '2';
-      circle.style.fill = '#FFFFFF';
-    }
-    
-    // 내부 검정색 원도 보이게 설정
-    const innerCircle = document.querySelector(
-      `circle[data-index="${i}"] + circle.data-point-inner`,
-    ) as SVGElement;
-    if (innerCircle) {
-      innerCircle.style.opacity = '1';
-    }
+    // 꼭지점 호버 시에는 크기 변경하지 않음, 툴팁만 표시
   }, []);
 
   const handlePointMouseLeave = useCallback((i: number) => {
     setHoveredPoint(null);
-    const circle = document.querySelector(
-      `circle[data-index="${i}"]`,
-    ) as SVGElement;
-    if (circle) {
-      circle.style.r = '2';
-      circle.style.strokeWidth = '1.5';
-      circle.style.fill = '#9A9EA3';
-    }
-    
-    // 내부 검정색 원 숨기기
-    const innerCircle = document.querySelector(
-      `circle[data-index="${i}"] + circle.data-point-inner`,
-    ) as SVGElement;
-    if (innerCircle) {
-      innerCircle.style.opacity = '0';
-    }
+    // 꼭지점 호버 해제 시에도 크기 변경하지 않음
   }, []);
 
   if (isJewel) return null;
@@ -86,12 +56,13 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
               opacity: 1 !important;
             }
             .radar-chart:hover .data-point:hover {
-              r: 7 !important;
+              r: 4 !important;
               stroke-width: 2 !important;
               fill: #FFFFFF !important;
+              stroke: #9A9EA3 !important;
             }
             .radar-chart:hover .data-point:hover + .data-point-inner {
-              opacity: 1 !important;
+              opacity: 0 !important;
             }
             .radar-guide-label {
               font-weight: 600 !important;
@@ -133,19 +104,19 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
             <circle
               cx={pt.x}
               cy={pt.y}
-              r={8}
+              r={6}
               fill="transparent"
               onMouseEnter={() => handlePointMouseEnter(i)}
               onMouseLeave={() => handlePointMouseLeave(i)}
               style={{ cursor: 'pointer' }}
             />
             
-            {/* 기본 원 */}
+            {/* 기본 원 - 흰색 원에 회색 보더 */}
             <circle
               cx={pt.x}
               cy={pt.y}
-              r={2}
-              fill="#9A9EA3"
+              r={4}
+              fill="#FFFFFF"
               stroke="#9A9EA3"
               strokeWidth={1.5}
               className="data-point"
@@ -158,7 +129,7 @@ const RadarHoverEffects = ({ context, showStrongTooltip, showWeakTooltip }: Rada
               data-index={i}
             />
             
-            {/* 호버 시 내부 검정색 원 */}
+            {/* 호버 시 내부 검정색 원 - 더 이상 사용하지 않음 */}
             <circle
               cx={pt.x}
               cy={pt.y}
