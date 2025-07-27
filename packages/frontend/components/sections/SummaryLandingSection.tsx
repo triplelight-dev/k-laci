@@ -170,7 +170,9 @@ export function Card({
         e.currentTarget.style.border = '0.5px solid #fff';
         e.currentTarget.style.cursor = 'pointer';
         // 배경 이미지 요소를 찾아서 밝기를 줄임
-        const bgImageElement = e.currentTarget.querySelector('[data-bg-image]') as HTMLElement;
+        const bgImageElement = e.currentTarget.querySelector(
+          '[data-bg-image]',
+        ) as HTMLElement;
         if (bgImageElement) {
           bgImageElement.style.filter = 'blur(15px) brightness(0.7)'; // 1에서 0.7로 변경
         }
@@ -180,7 +182,9 @@ export function Card({
         e.currentTarget.style.border = '1px solid transparent';
         e.currentTarget.style.cursor = 'pointer';
         // 배경 이미지 요소를 찾아서 다시 어둡게 변경
-        const bgImageElement = e.currentTarget.querySelector('[data-bg-image]') as HTMLElement;
+        const bgImageElement = e.currentTarget.querySelector(
+          '[data-bg-image]',
+        ) as HTMLElement;
         if (bgImageElement) {
           bgImageElement.style.filter = 'blur(15px) brightness(0.4)';
         }
@@ -244,7 +248,7 @@ export function Card({
         style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: '31px',
+          gap: '12px',
           zIndex: 100,
           pointerEvents: 'none',
         }}
@@ -259,7 +263,7 @@ export function Card({
         >
           <div
             style={{
-              fontSize: '30px',
+              fontSize: '28px',
               fontWeight: 600,
               whiteSpace: 'pre-line',
               color: '#E7E8EA',

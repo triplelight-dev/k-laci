@@ -127,7 +127,7 @@ export default function ProvinceRankPageClient() {
           <h2
             style={{
               fontSize: '28px',
-              fontWeight: 'bold',
+              fontWeight: '600',
               color: '#1a1a1a',
               margin: 0,
             }}
@@ -168,7 +168,7 @@ export default function ProvinceRankPageClient() {
                     selectedProvinceId === province.id
                       ? '1px solid #000000'
                       : 'none',
-                  borderRadius: '6px',
+                  borderRadius: '14px',
                   fontSize: '16px',
                   fontWeight:
                     selectedProvinceId === province.id ? 'bold' : 'normal',

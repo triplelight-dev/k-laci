@@ -66,7 +66,7 @@ export default function GrowthBoostZoneRankPageClient() {
 
   return (
     <DataStateWrapper isLoading={isLoading} error={error} isBlackTheme={false}>
-      <div style={{ width: '1400px', margin: '0 auto' }}>
+      <div style={{ width: '1400px', margin: '0 auto', marginBottom: '80px' }}>
         <SectionHeader
           title="성장촉진지역 종합순위"
           subtitle="전국 성장촉진지역 지정 지자체 70곳"
