@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
+import * as path from 'path';
 
 @Injectable()
 export class EmailService {
@@ -32,6 +33,14 @@ export class EmailService {
     //   return;
     // }
 
+    // 프로젝트 루트 경로 계산 (src/auth/email.service.ts에서 3단계 상위로)
+    const projectRoot = path.resolve(__dirname, '../../../');
+    const emailLogoPath = path.join(projectRoot, 'assets/email/email_logo.png');
+    const klaciLogoPath = path.join(
+      projectRoot,
+      'assets/email/klaci_logo_email.png',
+    );
+
     const mailOptions = {
       from:
         this.configService.get('SMTP_FROM') ||
@@ -39,6 +48,18 @@ export class EmailService {
       to: email,
       subject: '[KLACI] 이메일 인증번호',
       html: this.generateEmailTemplate(code),
+      attachments: [
+        {
+          filename: 'email_logo.png',
+          path: emailLogoPath,
+          cid: 'email_logo',
+        },
+        {
+          filename: 'klaci_logo_email.png',
+          path: klaciLogoPath,
+          cid: 'klaci_logo_email',
+        },
+      ],
     };
 
     try {
@@ -52,38 +73,63 @@ export class EmailService {
 
   private generateEmailTemplate(code: string): string {
     return `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-        <div style="background-color: #ffffff; border-radius: 10px; padding: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-          <div style="text-align: center; margin-bottom: 30px;">
-            <h2 style="color: #333; margin: 0; font-size: 24px;">KLACI 이메일 인증</h2>
+      <div style="font-family: Arial, sans-serif; width: 100%; margin: 0 auto; padding: 20px; background-color: #F8F8F8;">
+        <!-- 메인 콘텐츠 박스 -->
+        <div style="background-color: #ffffff; border-radius: 12px; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); max-width: 600px; margin: 20px auto;">
+          <!-- 상단 로고 -->
+          <div style="text-align: center; margin-bottom: 10px;">
+            <img src="cid:klaci_logo_email" alt="KLACI Logo" style="width: 40px; height: 40px; margin-bottom: 15px;">
           </div>
-          
-          <p style="color: #666; font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
-            안녕하세요! KLACI 회원가입을 위한 인증번호를 발송드립니다.
-          </p>
-          
-          <div style="background-color: #f8f9fa; padding: 25px; text-align: center; margin: 25px 0; border-radius: 8px; border: 2px dashed #007bff;">
-            <h3 style="color: #007bff; font-size: 32px; margin: 0; letter-spacing: 3px; font-weight: bold;">${code}</h3>
+
+          <!-- 메인 제목 -->
+          <div style="text-align: center; margin-bottom: 25px;">
+            <h1 style="color: #333; margin: 0 0 2px 0; font-size: 24px; font-weight: 600;">지역자산역량지수</h1>
+            <h2 style="color: #333; margin: 0; font-size: 24px; font-weight: 600;">가입 이메일 인증</h2>
           </div>
-          
-          <p style="color: #666; font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
-            위 인증번호를 입력하여 이메일 인증을 완료해주세요.
-          </p>
-          
-          <div style="background-color: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 5px; margin-top: 20px;">
-            <p style="color: #856404; font-size: 14px; margin: 0; line-height: 1.5;">
-              <strong>⚠️ 주의사항:</strong><br>
-              • 인증번호는 3분 후 만료됩니다.<br>
-              • 본인이 요청하지 않은 경우 이 메일을 무시하셔도 됩니다.<br>
-              • 인증번호는 절대 타인에게 알려주지 마세요.
+
+          <!-- 설명 텍스트 -->
+          <div style="text-align: center; margin-bottom: 25px;">
+            <p style="color: #666; font-size: 13px; line-height: 1.6; margin: 0; width: 360px; margin: 0 auto;">
+              안녕하세요, 지역자산역량지수(KLACI) 회원가입을 위한 인증번호를 보내드립니다. 아래 인증번호를 입력하여 이메일 인증을 완료해주세요.
             </p>
           </div>
-          
-          <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
-            <p style="color: #999; font-size: 12px; margin: 0;">
-              이 메일은 KLACI 회원가입 인증을 위해 발송되었습니다.
-            </p>
+
+          <!-- 인증번호 입력 필드 -->
+          <div style="text-align: center; margin: 30px 0;">
+            <div style="display: inline-block; width: 360px; border: 1px solid #000; border-radius: 6px; padding: 15px 20px; background-color: #ffffff;">
+              <span style="font-size: 30px; font-weight: 600; color: #000; letter-spacing: 2px; font-family: 'Courier New', monospace;">${code}</span>
+            </div>
           </div>
+
+          <!-- 주의사항 -->
+          <div style="text-align: center; margin: 30px 0;">
+            <div style="display: inline-block; width: 360px; background-color: #F8F8F8; border: 1px solid #000; border-radius: 8px; padding: 20px;">
+              <h3 style="color: #333; font-size: 14px; margin: 0 0 15px 0; font-weight: 600; text-align: left;">주의사항</h3>
+              <ul style="color: #666; font-size: 13px; line-height: 1.4; margin: 0; padding-left: 20px; text-align: left;">
+                <li style="margin-bottom: 6px;">인증번호는 3분 후 만료됩니다.</li>
+                <li style="margin-bottom: 6px;">본인이 요청하지 않은 경우 이 메일을 삭제해주세요.</li>
+                <li style="margin-bottom: 6px;">인증번호는 절대 타인에게 알려주지 마십시오.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 하단 정보 -->
+          <div style="margin-top: 40px;">
+            <div style="border-top: 1px solid #eee; margin: 0 -40px 35px -40px;"></div>
+            <div style="text-align: center; margin-top: 15px;">
+              <p style="color: #999; font-size: 12px; margin: 0 0 5px 0;">
+                이 메일은 <a href="http://klaci.kr" style="color: #667eea; text-decoration: none;">http://klaci.kr</a> 회원가입 인증을 위해 발송되었습니다.
+              </p>
+              <p style="color: #999; font-size: 12px; margin: 0;">
+                문의사항이 있는 경우 <a href="mailto:klaci@triplelight.co" style="color: #667eea; text-decoration: none;">klaci@triplelight.co</a>로 메일을 보내주세요.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 하단 로고 (흰색 박스 밖) -->
+        <div style="text-align: center; margin-top: 30px; margin-bottom: 100px;">
+          <img src="cid:email_logo" alt="Email Logo" style="width: 150px; height: auto;">
         </div>
       </div>
     `;
