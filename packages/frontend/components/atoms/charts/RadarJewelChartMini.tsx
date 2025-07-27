@@ -16,7 +16,8 @@ const RadarJewelChartMini: React.FC<RadarJewelChartMiniProps> = ({
   hideBackground = false, // 기본값은 false
 }) => {
   const center = size / 2;
-  const radius = size * 0.35;
+  // 보석 크기를 최대화하기 위해 radius를 더 크게 설정
+  const radius = size * 0.45; // 0.35에서 0.45로 증가
 
   // 차트 순서에 맞게 카테고리 배열 생성
   const categories = [
@@ -34,13 +35,14 @@ const RadarJewelChartMini: React.FC<RadarJewelChartMiniProps> = ({
   const angleStep = (2 * Math.PI) / numAxes;
   const rotation = Math.PI / 4 - (23 * Math.PI) / 180;
 
-  // 값 보정 - 보석 크기를 더 작게 만들기 위해 값을 조정
+  // 값 보정 - 보석 크기를 최대화하기 위해 값을 조정하지 않음
   const vals = data.slice(0, numAxes);
   while (vals.length < numAxes) vals.push(0);
 
-  // 축 끝점 좌표 계산
+  // 축 끝점 좌표 계산 - 보석 크기를 최대화하기 위해 값을 그대로 사용
   const points = vals.map((value, i) => {
     const angle = -Math.PI / 2 + rotation + i * angleStep;
+    // 값을 그대로 사용하여 보석 크기 최대화
     const r = (value / 100) * radius;
     return {
       x: center + r * Math.cos(angle),
@@ -112,6 +114,7 @@ const RadarJewelChartMini: React.FC<RadarJewelChartMiniProps> = ({
         {/* 그라디언트들 */}
         {categories.map((category, i) => {
           if (!category) return null;
+          // 보석 크기를 최대화하기 위해 값을 그대로 사용
           const pct = Math.min(100, ((vals[i] ?? 0) / 100) * 100);
           const [startColor, endColor] = fixedColorPairs[i] ?? ['#000', '#000'];
 

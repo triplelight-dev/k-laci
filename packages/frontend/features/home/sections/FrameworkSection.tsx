@@ -262,7 +262,6 @@ const FrameworkSection: React.FC = () => {
                   src={item.image}
                   style={{
                     width: '100%',
-                    borderRadius: '16px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',

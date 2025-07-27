@@ -153,7 +153,7 @@ export default function CategoryRankPageClient() {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'flex-start',
-            padding: '40px 40px 0 40px',
+            padding: '40px 0 0 0',
             marginBottom: '32px',
           }}
         >
@@ -178,7 +178,7 @@ export default function CategoryRankPageClient() {
         </div>
 
         {/* 카테고리 선택 버튼들 (4개 타입을 한 줄에 배치) */}
-        <div style={{ padding: '0 40px' }}>
+        <div>
           <div
             style={{
               display: 'grid',

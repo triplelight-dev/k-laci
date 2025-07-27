@@ -8,9 +8,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Button from '../atoms/buttons/Button';
 
-const Header = (
-  {isBlackTheme}: { isBlackTheme: boolean }
-) => {
+const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
   const pathname = usePathname();
   const isLoggedIn = useIsLoggedIn();
   const user = useUser();
@@ -23,9 +21,7 @@ const Header = (
   const theme = {
     backgroundColor: isBlackTheme ? DARK_MODE_COLORS.background : '#F4F4F4',
     textColor: isBlackTheme ? '#FFFFFF' : '#1B1C2D',
-    logo: isBlackTheme
-      ? '/klaci_logo_white.png'
-      : '/klaci_logo_black.png',
+    logo: isBlackTheme ? '/klaci_logo_white.png' : '/klaci_logo_black.png',
     navigationActiveColor: isBlackTheme ? '#FFFFFF' : '#000',
     navigationInactiveColor: isBlackTheme ? '#D9D9E8' : '#1e1e1e',
   };
@@ -211,7 +207,6 @@ const Header = (
                   />
                 </Link>
 
-
                 {/* Signup Button - 투명 배경 흰 보더 + 우측 대각선 아이콘 */}
                 <Link href={ROUTES.SIGNUP}>
                   <Button
@@ -221,7 +216,6 @@ const Header = (
                     fontSize="14px"
                     fontWeight="500"
                     theme={isBlackTheme ? 'dark' : 'light'}
-
                   />
                 </Link>
               </>

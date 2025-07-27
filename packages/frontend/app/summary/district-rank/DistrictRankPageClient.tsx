@@ -143,7 +143,7 @@ export default function DistrictRankPageClient() {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'flex-start',
-            padding: '40px 40px 0 40px',
+            padding: '40px 0 0 0',
             marginBottom: '32px',
           }}
         >
@@ -168,14 +168,13 @@ export default function DistrictRankPageClient() {
         </div>
 
         {/* 행정단위 선택 버튼들 (3개 타입을 한 줄에 배치) */}
-        <div style={{ padding: '0 40px' }}>
+        <div>
           <div
             style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
+              display: 'flex',
               gap: '16px',
               marginBottom: '40px',
-              width: '100%',
+              width: 'fit-content',
             }}
           >
             {DISTRICT_TYPES.map((district) => (
@@ -198,6 +197,8 @@ export default function DistrictRankPageClient() {
                   cursor: 'pointer',
                   transition: 'all 0.2s',
                   whiteSpace: 'nowrap',
+                  maxWidth: '250px',
+                  width: '250px',
                 }}
               >
                 {district.name}

@@ -15,7 +15,7 @@ export function SummarySectionHeader({
       justifyContent="center"
       alignItems="center"
       padding="0 135px"
-      marginBottom="60px"
+      marginBottom="15px"
     >
       <div
         style={{
