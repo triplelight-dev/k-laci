@@ -444,4 +444,47 @@ export class AuthService {
       throw new UnauthorizedException('로그인 중 오류가 발생했습니다.');
     }
   }
+
+  async resetPassword(token: string, newPassword: string) {
+    try {
+      // 1. 토큰으로 사용자 확인
+      const {
+        data: { user },
+        error: tokenError,
+      } = await this.supabase.auth.getUser(token);
+
+      if (tokenError || !user) {
+        throw new UnauthorizedException('유효하지 않은 인증 토큰입니다.');
+      }
+
+      // 2. Supabase에서 비밀번호 업데이트
+      const { error: updateError } = await this.supabase.auth.updateUser({
+        password: newPassword,
+      });
+
+      if (updateError) {
+        throw new UnauthorizedException(updateError.message);
+      }
+
+      // 3. 비밀번호 재설정 로그 기록
+      await this.logsService.createLog({
+        actionType: 'PASSWORD_RESET',
+        userId: user.id,
+        sessionId: token,
+        metadata: {
+          resetMethod: 'email',
+        },
+        timestamp: new Date().toISOString(),
+      });
+
+      return { message: '비밀번호가 성공적으로 재설정되었습니다.' };
+    } catch (error) {
+      if (error instanceof UnauthorizedException) {
+        throw error;
+      }
+      throw new UnauthorizedException(
+        '비밀번호 재설정 중 오류가 발생했습니다.',
+      );
+    }
+  }
 }

@@ -5,7 +5,7 @@ import {
   Headers,
   HttpStatus,
   Post,
-  Req
+  Req,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
@@ -15,6 +15,10 @@ import {
   CompleteSignupDto,
   CompleteSignupResponseDto,
 } from './dto/complete-signup.dto';
+import {
+  ResetPasswordDto,
+  ResetPasswordResponseDto,
+} from './dto/reset-password.dto';
 import {
   SendVerificationEmailDto,
   SendVerificationEmailResponseDto,
@@ -180,5 +184,24 @@ export class AuthController {
   })
   async signIn(@Body() dto: SignInDto): Promise<SignInResponseDto> {
     return this.authService.signIn(dto);
+  }
+
+  @Public()
+  @Post('reset-password')
+  @ApiOperation({ summary: 'Reset password using token from email' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Password reset successfully',
+    type: ResetPasswordResponseDto,
+  })
+  @ApiResponse({ status: 400, description: 'Invalid input data' })
+  @ApiResponse({
+    status: 401,
+    description: 'Invalid or expired token',
+  })
+  async resetPassword(
+    @Body() dto: ResetPasswordDto,
+  ): Promise<ResetPasswordResponseDto> {
+    return this.authService.resetPassword(dto.token, dto.newPassword);
   }
 }
