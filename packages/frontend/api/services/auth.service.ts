@@ -92,6 +92,15 @@ export interface SignUpResponse {
   email: string;
 }
 
+export interface ResetPasswordRequest {
+  token: string;
+  newPassword: string;
+}
+
+export interface ResetPasswordResponse {
+  message: string;
+}
+
 export class AuthService {
   static async sendVerificationEmail(data: SendVerificationEmailRequest): Promise<ApiResponse<SendVerificationEmailResponse>> {
     const response = await apiClient.post('/auth/send-verification-email', data);
@@ -130,6 +139,11 @@ export class AuthService {
 
   static async verifyCode(data: VerifyCodeRequest): Promise<ApiResponse<VerifyCodeResponse>> {
     const response = await apiClient.post('/auth/verify-code', data);
+    return response.data;
+  }
+
+  static async resetPassword(data: ResetPasswordRequest): Promise<ApiResponse<ResetPasswordResponse>> {
+    const response = await apiClient.post('/auth/reset-password', data);
     return response.data;
   }
 } 
