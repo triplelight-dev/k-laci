@@ -5,16 +5,18 @@ import {
   Headers,
   HttpStatus,
   Post,
-  Req
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Request } from 'express';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
 import {
   CompleteSignupDto,
   CompleteSignupResponseDto,
 } from './dto/complete-signup.dto';
+import {
+  ResetPasswordDto,
+  ResetPasswordResponseDto,
+} from './dto/reset-password.dto';
 import {
   SendVerificationEmailDto,
   SendVerificationEmailResponseDto,
@@ -137,10 +139,7 @@ export class AuthController {
     status: 401,
     description: '유효하지 않은 인증 토큰입니다.',
   })
-  async signOut(
-    @Headers('authorization') authHeader?: string,
-    @Req() request?: Request,
-  ) {
+  async signOut(@Headers('authorization') authHeader?: string) {
     // Authorization 헤더에서 토큰 추출
     const token = authHeader?.replace('Bearer ', '');
 
@@ -180,5 +179,24 @@ export class AuthController {
   })
   async signIn(@Body() dto: SignInDto): Promise<SignInResponseDto> {
     return this.authService.signIn(dto);
+  }
+
+  @Public()
+  @Post('reset-password')
+  @ApiOperation({ summary: 'Reset password using token from email' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Password reset successfully',
+    type: ResetPasswordResponseDto,
+  })
+  @ApiResponse({ status: 400, description: 'Invalid input data' })
+  @ApiResponse({
+    status: 401,
+    description: 'Invalid or expired token',
+  })
+  async resetPassword(
+    @Body() dto: ResetPasswordDto,
+  ): Promise<ResetPasswordResponseDto> {
+    return this.authService.resetPassword(dto.token, dto.newPassword);
   }
 }
