@@ -82,6 +82,7 @@ export default function ResetPasswordForm({
             borderRadius: '8px',
             fontSize: '16px',
             outline: 'none',
+            backgroundColor: '#FFFFFF',
           }}
           required
         />
@@ -114,6 +115,7 @@ export default function ResetPasswordForm({
             borderRadius: '8px',
             fontSize: '16px',
             outline: 'none',
+            backgroundColor: '#FFFFFF',
           }}
           required
         />
