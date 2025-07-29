@@ -5,10 +5,8 @@ import {
   Headers,
   HttpStatus,
   Post,
-  Req,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Request } from 'express';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
 import {
@@ -141,10 +139,7 @@ export class AuthController {
     status: 401,
     description: '유효하지 않은 인증 토큰입니다.',
   })
-  async signOut(
-    @Headers('authorization') authHeader?: string,
-    @Req() request?: Request,
-  ) {
+  async signOut(@Headers('authorization') authHeader?: string) {
     // Authorization 헤더에서 토큰 추출
     const token = authHeader?.replace('Bearer ', '');
 

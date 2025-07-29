@@ -5,19 +5,19 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { UserLoggingService } from 'src/user-logging/user-logging.service';
 
 import {
-  CompleteSignupDto,
-  CompleteSignupResponseDto,
+    CompleteSignupDto,
+    CompleteSignupResponseDto,
 } from './dto/complete-signup.dto';
 import { SendVerificationEmailDto } from './dto/send-verification-email.dto';
 import {
-  SignInDto,
-  SignInResponseDto,
-  UserProfileDto,
+    SignInDto,
+    SignInResponseDto,
+    UserProfileDto,
 } from './dto/sign-in.dto';
 import { SignUpDto, SignUpResponseDto } from './dto/sign-up.dto';
 import {
-  SendVerificationCodeDto,
-  VerifyCodeDto,
+    SendVerificationCodeDto,
+    VerifyCodeDto,
 } from './dto/verification-code.dto';
 import { EmailService } from './email.service';
 import { VerificationCodeService } from './verification-code.service';
@@ -25,6 +25,7 @@ import { VerificationCodeService } from './verification-code.service';
 @Injectable()
 export class AuthService {
   private supabase: SupabaseClient;
+  private supabaseAdmin: SupabaseClient;
 
   constructor(
     private configService: ConfigService,
@@ -35,8 +36,12 @@ export class AuthService {
     const supabaseUrl = this.configService.getOrThrow<string>('SUPABASE_URL');
     const supabaseKey =
       this.configService.getOrThrow<string>('SUPABASE_ANON_KEY');
+    const supabaseServiceRoleKey = this.configService.getOrThrow<string>(
+      'SUPABASE_SERVICE_ROLE_KEY',
+    );
 
     this.supabase = createClient(supabaseUrl, supabaseKey);
+    this.supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey);
   }
 
   async signOut(token: string) {
@@ -457,10 +462,11 @@ export class AuthService {
         throw new UnauthorizedException('유효하지 않은 인증 토큰입니다.');
       }
 
-      // 2. Supabase에서 비밀번호 업데이트
-      const { error: updateError } = await this.supabase.auth.updateUser({
-        password: newPassword,
-      });
+      // 2. Admin SDK로 비밀번호 업데이트
+      const { error: updateError } =
+        await this.supabaseAdmin.auth.admin.updateUserById(user.id, {
+          password: newPassword,
+        });
 
       if (updateError) {
         throw new UnauthorizedException(updateError.message);
@@ -484,6 +490,28 @@ export class AuthService {
       }
       throw new UnauthorizedException(
         '비밀번호 재설정 중 오류가 발생했습니다.',
+      );
+    }
+  }
+
+  // 비밀번호 재설정 이메일 발송 메서드 추가
+  async sendPasswordResetEmail(email: string) {
+    try {
+      const { error } = await this.supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/auth/reset-password`,
+      });
+
+      if (error) {
+        throw new UnauthorizedException(error.message);
+      }
+
+      return { message: '비밀번호 재설정 이메일이 발송되었습니다.' };
+    } catch (error) {
+      if (error instanceof UnauthorizedException) {
+        throw error;
+      }
+      throw new UnauthorizedException(
+        '비밀번호 재설정 이메일 발송 중 오류가 발생했습니다.',
       );
     }
   }
