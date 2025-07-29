@@ -21,12 +21,12 @@ export function useResetPassword() {
     
     if (!extractedToken) {
       const hashMatch = window.location.hash.match(/access_token=([^&]+)/);
-      extractedToken = hashMatch?.[1];
+      extractedToken = hashMatch?.[1] || null;
     }
     
     if (!extractedToken) {
       const hashMatch = window.location.hash.match(/token=([^&]+)/);
-      extractedToken = hashMatch?.[1];
+      extractedToken = hashMatch?.[1] || null;
     }
     
     if (!extractedToken) {
