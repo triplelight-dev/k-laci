@@ -9,12 +9,7 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
-
-export enum UserType {
-  GOV = 'GOV',
-  BUSINESS = 'BUSINESS',
-  GENERAL = 'GENERAL',
-}
+import { UserType } from '../types/auth.types';
 
 export class SignUpDto {
   @ApiProperty({
