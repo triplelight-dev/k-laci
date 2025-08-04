@@ -1,4 +1,4 @@
-export type UserType = 'GOV' | 'EDU' | 'GENERAL';
+import { UserType, UserTypeEnum } from '@/api/types/user.types';
 
 // GOV 도메인 목록
 const GOV_DOMAINS = [
@@ -113,23 +113,23 @@ export const getUserTypeFromDomain = (domain: string): UserType => {
   
   // GOV 도메인 체크
   if (GOV_DOMAINS.some(govDomain => lowerDomain.includes(govDomain))) {
-    return 'GOV';
+    return UserTypeEnum.GOV;
   }
   
   // 개인 이메일 도메인 체크
   if (PERSONAL_DOMAINS.some(personalDomain => lowerDomain === personalDomain)) {
-    return 'GENERAL';
+    return UserTypeEnum.GENERAL;
   }
   
   // 기본값 (기업/기관/교육기관 도메인으로 간주)
-  return 'EDU';
+  return UserTypeEnum.BUSINESS;
 };
 
 // 이메일에서 사용자 타입 판단 함수
 export const getUserTypeFromEmail = (email: string): UserType => {
   const domain = email.split('@')[1];
   
-  if (!domain) return 'GENERAL';
+  if (!domain) return UserTypeEnum.GENERAL;
   
   return getUserTypeFromDomain(domain);
 }; 

@@ -1,20 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import {
-    IsBoolean,
-    IsEmail,
-    IsEnum,
-    IsNumber,
-    IsOptional,
-    IsString,
-    MinLength,
+  IsBoolean,
+  IsEmail,
+  IsEnum,
+  IsNumber,
+  IsOptional,
+  IsString,
+  MinLength,
 } from 'class-validator';
-
-export enum UserType {
-  GOV = 'GOV',
-  EDU = 'EDU',
-  GENERAL = 'GENERAL',
-}
+import { UserType } from '../types/auth.types';
 
 export class SignUpDto {
   @ApiProperty({
@@ -78,7 +73,7 @@ export class SignUpDto {
 
   @ApiProperty({
     example: 'GENERAL',
-    description: 'The user type (GOV, EDU, GENERAL)',
+    description: 'The user type (GOV, BUSINESS, GENERAL)',
     enum: UserType,
   })
   @IsEnum(UserType)

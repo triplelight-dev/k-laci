@@ -1,5 +1,6 @@
 import { apiClient } from '../client';
 import { ApiResponse } from '../types/api.types';
+import { UserType } from '../types/user.types';
 
 export interface SignInRequest {
   email: string;
@@ -28,7 +29,7 @@ export interface SignUpRequest {
   phone_number?: string;
   interest_region_id?: number | null;
   organization?: string;
-  user_type: 'GOV' | 'EDU' | 'GENERAL';
+  user_type: UserType;
   agree_to_age: boolean;
   agree_to_terms: boolean;
   agree_to_privacy: boolean;
@@ -51,7 +52,7 @@ export interface CompleteSignupRequest {
   organization?: string;
   phoneNumber?: string;
   regionId?: number | null;
-  userType: 'GOV' | 'EDU' | 'GENERAL';
+  userType: UserType;
   agreeToAge: boolean;
   agreeToTerms: boolean;
   agreeToPrivacy: boolean;
