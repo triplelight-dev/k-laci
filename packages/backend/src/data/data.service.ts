@@ -8,8 +8,10 @@ import {
   KeyIndexData,
   KeyIndexWithDetails,
   Region,
+  REGION_SCORE_TYPES,
   RegionKeyIndexRank,
   RegionKeyIndexScoreResponse,
+  RegionScoreType,
   RegionsResponse,
   RegionStrengthIndexesResponse,
   RegionStrengthIndexesWithDetailsResponse,
@@ -17,15 +19,6 @@ import {
   SelectionDisplayType,
   SelectionTag,
 } from './types/region.types';
-
-export const REGION_SCORE_TYPES = {
-  growth: 'growth',
-  economy: 'economy',
-  living: 'living',
-  safety: 'safety',
-} as const;
-
-export type RegionScoreType = keyof typeof REGION_SCORE_TYPES;
 
 @Injectable()
 export class DataService {
