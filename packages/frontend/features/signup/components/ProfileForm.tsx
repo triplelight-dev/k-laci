@@ -1,3 +1,4 @@
+import { UserType } from '@/api/types/user.types';
 import Checkbox from '@/components/atoms/Checkbox';
 import CommonInput from '@/components/atoms/CommonInput';
 import EmailDisplayBox from '@/components/atoms/EmailDisplayBox';
@@ -5,7 +6,6 @@ import PasswordInputGroup from '@/components/atoms/PasswordInputGroup';
 import CommonSelect from '@/components/atoms/select/CommonSelect';
 import { EXTERNAL_LINKS } from '@/constants/links';
 import { useProvincesWithRegions } from '@/hooks/useProvincesWithRegions';
-import { UserType } from '@/utils/userTypeUtils';
 import {
   validateConfirmPassword,
   validateName,

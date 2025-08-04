@@ -1,19 +1,21 @@
+import { UserType, UserTypeEnum } from '@/api/types/user.types';
+
 interface EmailDisplayBoxProps {
   email: string;
-  userType: 'GOV' | 'EDU' | 'GENERAL';
+  userType: UserType;
 }
 
 export default function EmailDisplayBox({
   email,
   userType,
 }: EmailDisplayBoxProps) {
-  const getUserTypeLabel = (type: 'GOV' | 'EDU' | 'GENERAL') => {
+  const getUserTypeLabel = (type: UserType) => {
     switch (type) {
-      case 'GOV':
+      case UserTypeEnum.GOV:
         return '정부/공공기관 회원';
-      case 'EDU':
+      case UserTypeEnum.BUSINESS:
         return '기업/비영리 회원';
-      case 'GENERAL':
+      case UserTypeEnum.GENERAL:
         return '일반 회원';
       default:
         return '일반 회원';

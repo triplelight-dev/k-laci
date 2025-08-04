@@ -1,6 +1,6 @@
+import { UserType } from '@/api/types/user.types';
 import StepBadge from '@/components/atoms/StepBadge';
 import SignupCompleteModal from '@/components/ui/SignupCompleteModal';
-import { UserType } from '@/utils/userTypeUtils';
 import ProfileForm from '../components/ProfileForm';
 import { SignupFormData } from '../hooks/useSignupFlow';
 

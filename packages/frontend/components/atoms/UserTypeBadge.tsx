@@ -1,4 +1,4 @@
-import { UserType } from '@/utils/userTypeUtils';
+import { UserType, UserTypeEnum } from '@/api/types/user.types';
 interface UserTypeBadgeProps {
   type: UserType;
   isActive: boolean;
@@ -7,11 +7,11 @@ interface UserTypeBadgeProps {
 export default function UserTypeBadge({ type, isActive }: UserTypeBadgeProps) {
   const getBadgeInfo = (type: UserType) => {
     switch (type) {
-      case 'GOV':
+      case UserTypeEnum.GOV:
         return { label: '정부/공공기관' };
-      case 'EDU':
+      case UserTypeEnum.BUSINESS:
         return { label: '기업/비영리' };
-      case 'GENERAL':
+      case UserTypeEnum.GENERAL:
         return { label: '개인' };
       default:
         return { label: '개인' };

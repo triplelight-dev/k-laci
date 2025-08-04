@@ -14,7 +14,7 @@ function SignUpPageContent() {
   const isDevMode = searchParams.get('dev') === 'true';
   const devUserType = searchParams.get('userType') as
     | 'GOV'
-    | 'EDU'
+    | 'BUSINESS'
     | 'GENERAL'
     | null;
 

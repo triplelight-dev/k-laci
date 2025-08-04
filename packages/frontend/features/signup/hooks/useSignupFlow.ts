@@ -1,5 +1,6 @@
 import { AuthService } from '@/api/services/auth.service';
-import { UserType, getUserTypeFromEmail } from '@/utils/userTypeUtils';
+import { UserType } from '@/api/types/user.types';
+import { getUserTypeFromEmail } from '@/utils/userTypeUtils';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 

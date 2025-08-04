@@ -1,6 +1,7 @@
+import { UserType, UserTypeEnum } from '@/api/types/user.types';
 import EmailInput from '@/components/atoms/EmailInput';
 import UserTypeBadge from '@/components/atoms/UserTypeBadge';
-import { getUserTypeFromEmail, UserType } from '@/utils/userTypeUtils';
+import { getUserTypeFromEmail } from '@/utils/userTypeUtils';
 import { useEffect, useState } from 'react';
 
 interface EmailVerificationFormProps {
@@ -66,16 +67,16 @@ export default function EmailVerificationForm({
           }}
         >
           <UserTypeBadge 
-            type="GOV" 
-            isActive={isEmailValid && userType === 'GOV'} 
+            type={UserTypeEnum.GOV} 
+            isActive={isEmailValid && userType === UserTypeEnum.GOV} 
           />
           <UserTypeBadge 
-            type="EDU" 
-            isActive={isEmailValid && userType === 'EDU'} 
+            type={UserTypeEnum.BUSINESS}  
+            isActive={isEmailValid && userType === UserTypeEnum.BUSINESS} 
           />
           <UserTypeBadge 
-            type="GENERAL" 
-            isActive={isEmailValid && userType === 'GENERAL'} 
+            type={UserTypeEnum.GENERAL} 
+            isActive={isEmailValid && userType === UserTypeEnum.GENERAL} 
           />
         </div>
 
