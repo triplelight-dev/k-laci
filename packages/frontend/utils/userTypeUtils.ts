@@ -1,4 +1,4 @@
-export type UserType = 'GOV' | 'EDU' | 'GENERAL';
+export type UserType = 'GOV' | 'BUSINESS' | 'GENERAL';
 
 // GOV 도메인 목록
 const GOV_DOMAINS = [
@@ -122,7 +122,7 @@ export const getUserTypeFromDomain = (domain: string): UserType => {
   }
   
   // 기본값 (기업/기관/교육기관 도메인으로 간주)
-  return 'EDU';
+  return 'BUSINESS';
 };
 
 // 이메일에서 사용자 타입 판단 함수

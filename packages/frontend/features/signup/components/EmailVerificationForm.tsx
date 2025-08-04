@@ -70,8 +70,8 @@ export default function EmailVerificationForm({
             isActive={isEmailValid && userType === 'GOV'} 
           />
           <UserTypeBadge 
-            type="EDU" 
-            isActive={isEmailValid && userType === 'EDU'} 
+            type="BUSINESS"  
+            isActive={isEmailValid && userType === 'BUSINESS'} 
           />
           <UserTypeBadge 
             type="GENERAL" 

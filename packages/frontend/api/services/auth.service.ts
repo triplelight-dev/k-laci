@@ -28,7 +28,7 @@ export interface SignUpRequest {
   phone_number?: string;
   interest_region_id?: number | null;
   organization?: string;
-  user_type: 'GOV' | 'EDU' | 'GENERAL';
+  user_type: 'GOV' | 'BUSINESS' | 'GENERAL';
   agree_to_age: boolean;
   agree_to_terms: boolean;
   agree_to_privacy: boolean;
@@ -51,7 +51,7 @@ export interface CompleteSignupRequest {
   organization?: string;
   phoneNumber?: string;
   regionId?: number | null;
-  userType: 'GOV' | 'EDU' | 'GENERAL';
+  userType: 'GOV' | 'BUSINESS' | 'GENERAL';
   agreeToAge: boolean;
   agreeToTerms: boolean;
   agreeToPrivacy: boolean;

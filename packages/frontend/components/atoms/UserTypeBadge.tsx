@@ -9,7 +9,7 @@ export default function UserTypeBadge({ type, isActive }: UserTypeBadgeProps) {
     switch (type) {
       case 'GOV':
         return { label: '정부/공공기관' };
-      case 'EDU':
+      case 'BUSINESS':
         return { label: '기업/비영리' };
       case 'GENERAL':
         return { label: '개인' };

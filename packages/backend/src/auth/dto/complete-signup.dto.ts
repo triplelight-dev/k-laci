@@ -12,7 +12,7 @@ import {
 
 export enum UserType {
   GOV = 'GOV',
-  EDU = 'EDU',
+  BUSINESS = 'BUSINESS',
   GENERAL = 'GENERAL',
 }
 
@@ -76,7 +76,7 @@ export class CompleteSignupDto {
   regionId?: number | null;
 
   @ApiProperty({
-    description: 'User type (GOV, EDU, GENERAL)',
+    description: 'User type (GOV, BUSINESS, GENERAL)',
     example: 'GENERAL',
     enum: UserType,
   })

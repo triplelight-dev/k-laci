@@ -1,17 +1,17 @@
 interface EmailDisplayBoxProps {
   email: string;
-  userType: 'GOV' | 'EDU' | 'GENERAL';
+  userType: 'GOV' | 'BUSINESS' | 'GENERAL';
 }
 
 export default function EmailDisplayBox({
   email,
   userType,
 }: EmailDisplayBoxProps) {
-  const getUserTypeLabel = (type: 'GOV' | 'EDU' | 'GENERAL') => {
+  const getUserTypeLabel = (type: 'GOV' | 'BUSINESS' | 'GENERAL') => {
     switch (type) {
       case 'GOV':
         return '정부/공공기관 회원';
-      case 'EDU':
+      case 'BUSINESS':
         return '기업/비영리 회원';
       case 'GENERAL':
         return '일반 회원';
