@@ -114,13 +114,26 @@ const WhitePaperBanner = () => {
 
           <Box w="100%" h="1px" bg="#D9D9E8" mb="4px" />
 
-          <Flex gap="16px" w="100%">
-            <PriceCard badgeText="정가" price={890000} />
-            <PriceCard badgeText="얼리버드 혜택가" price={490000} isSpecial />
-          </Flex>
-        </Flex>
+            <Flex gap="16px" w="100%">
+              <PriceCard badgeText="정가" price={890000} />
+              <PriceCard badgeText="얼리버드 혜택가" price={490000} isSpecial />
+            </Flex>
 
-        <Button
+            <Flex direction="column" align="center" fontSize="14px" color="#666666" mt="4px">
+              <Text>'대한민국 지역역량 데이터 백서 2025-2026'를 구매하시려면,</Text>
+              <Text>회원가입 후 메일을 등록해주세요.</Text>
+              <Text>
+                <Text as="span" fontWeight="bold">11월 중순에 안내 메일이 발송</Text>
+                <Text as="span">될 예정입니다.</Text>
+              </Text>
+            </Flex>
+
+            <Text fontSize="13px" color="#9A9EA3">
+              * 최신 데이터 반영·기능 업데이트된 웹서비스 v2는 내년 상반기에 정식 오픈됩니다.
+            </Text>
+          </Flex>
+
+          <Button
           onClick={() => {}}
           w="100%"
           bg="#000000"
