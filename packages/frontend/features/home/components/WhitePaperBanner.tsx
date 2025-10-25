@@ -2,6 +2,7 @@
 
 import BannerModal from '@/components/ui/BannerModal';
 import { Box, Button, Flex, Text, useDisclosure } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 
 interface PriceCardProps {
   badgeText: string;
@@ -43,8 +44,26 @@ const PriceCard = ({ badgeText, price, isSpecial = false }: PriceCardProps) => {
   );
 };
 
+const BANNER_KEY = 'whitepaper_banner_closed';
+
 const WhitePaperBanner = () => {
-  const { open: isOpen, onOpen, onClose } = useDisclosure({ defaultOpen: true });
+  const [isInitialized, setIsInitialized] = useState(false);
+  const { open: isOpen, onOpen, onClose } = useDisclosure({
+    defaultOpen: false,
+  });
+
+  useEffect(() => {
+    const isBannerClosed = sessionStorage.getItem(BANNER_KEY);
+    if (!isBannerClosed) {
+      onOpen();
+    }
+    setIsInitialized(true);
+  }, [onOpen]);
+
+  const handleClose = () => {
+    sessionStorage.setItem(BANNER_KEY, 'true');
+    onClose();
+  };
   
   const title = ['대한민국 지역역량 데이터 백서', '2025-2026 발간'];
   const description = [
@@ -54,8 +73,11 @@ const WhitePaperBanner = () => {
     '대한민국 모든 지역의 강점·약점·변화 방향을 진단하는\n 새로운 기준서를 만나보세요.'
   ];
 
+  // 초기화되기 전에는 렌더링하지 않음
+  if (!isInitialized) return null;
+
   return (
-    <BannerModal isOpen={isOpen} onClose={onClose}>
+    <BannerModal isOpen={isOpen} onClose={handleClose}>
       <Flex direction="column" w="100%" h="100%">
         <Flex
           direction="column"
