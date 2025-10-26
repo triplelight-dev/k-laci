@@ -29,7 +29,7 @@ const PriceCard = ({ badgeText, price, isSpecial = false }: PriceCardProps) => {
         borderRadius="4px"
         fontSize="14px"
         fontWeight="bold"
-        mb="16px"
+        mb="px"
       >
         {badgeText}
       </Box>
@@ -107,6 +107,7 @@ const WhitePaperBanner = () => {
             lineHeight="1.6"
             whiteSpace="pre-line"
             maxW="460px"
+            color="black"
           >
             <Text as="span">{description[0]}</Text>
             <Text as="span" fontSize="14px" color="#666666">
@@ -141,7 +142,7 @@ const WhitePaperBanner = () => {
               <PriceCard badgeText="얼리버드 혜택가" price={490000} isSpecial />
             </Flex>
 
-            <Flex direction="column" align="center" fontSize="14px" color="#666666" mt="4px">
+            <Flex direction="column" align="center" fontSize="16px" color="black" mt="4px">
               <Text>'대한민국 지역역량 데이터 백서 2025-2026'를 구매하시려면,</Text>
               <Text>회원가입 후 메일을 등록해주세요.</Text>
               <Text>
@@ -160,12 +161,13 @@ const WhitePaperBanner = () => {
           w="100%"
           bg="#000000"
           color="white"
-          p="16px"
-          borderRadius="0 0 8px 8px"
+          p="26px"
+          borderRadius="8px"
           border="none"
           cursor="pointer"
           fontSize="16px"
           fontWeight="bold"
+          mb="4px"
         >
           백서 출시 알림 신청하기
         </Button>
