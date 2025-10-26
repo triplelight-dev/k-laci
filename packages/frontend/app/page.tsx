@@ -1,4 +1,5 @@
 import HomeLayout from '@/components/layout/HomeLayout';
+import WhitePaperBanner from '@/features/home/components/WhitePaperBanner';
 
 // sections
 import PartnerShipSection from '@/components/sections/PartnerShipSection';
@@ -13,6 +14,7 @@ import VideoSection from '@/features/home/sections/VideoSection';
 export default function HomePage() {
   return (
     <HomeLayout>
+      <WhitePaperBanner />
       <IntroSection />
       <PossibilitySection />
       <UniquenessSection />

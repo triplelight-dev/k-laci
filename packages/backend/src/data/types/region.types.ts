@@ -1,5 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 
+export const REGION_SCORE_TYPES = {
+  growth: 'growth',
+  economy: 'economy',
+  living: 'living',
+  safety: 'safety',
+} as const;
+
+export type RegionScoreType = keyof typeof REGION_SCORE_TYPES;
+
 export interface Province {
   id: number;
   name: string;
