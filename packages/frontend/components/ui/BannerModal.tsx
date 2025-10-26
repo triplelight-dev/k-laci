@@ -10,10 +10,22 @@ interface BannerModalProps {
 export default function BannerModal({ isOpen, onClose, children }: BannerModalProps) {
   if (!isOpen) return null;
 
+  // 모달이 열릴 때 body 스크롤 방지
+  if (typeof document !== 'undefined') {
+    document.body.style.overflow = 'hidden';
+  }
+
+  // 모달이 닫힐 때 body 스크롤 복원
+  const handleClose = () => {
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = 'unset';
+    }
+    onClose();
+  };
+
   return (
     <>
       <Box
-        onClick={onClose}
         style={{
           position: 'fixed',
           top: 0,
@@ -32,7 +44,7 @@ export default function BannerModal({ isOpen, onClose, children }: BannerModalPr
           transform: 'translate(-50%, -50%)',
           maxWidth: '520px',
           width: '100%',
-          height: '850px',
+          height: '870px',
           backgroundColor: 'white',
           borderRadius: '8px',
           padding: '24px',
@@ -54,7 +66,7 @@ export default function BannerModal({ isOpen, onClose, children }: BannerModalPr
           
           {/* 중앙 로고 */}
           <Flex style={{ flex: 1, justifyContent: 'center' }}>
-            <Box style={{ position: 'relative', width: '120px', height: '30px' }}>
+            <Box style={{ position: 'relative', width: '100px', height: '30px' }}>
               <Image
                 src="/klaci_logo_black_prod.png"
                 alt="KLACI Logo"
@@ -67,16 +79,42 @@ export default function BannerModal({ isOpen, onClose, children }: BannerModalPr
           {/* 우측 버튼 영역 */}
           <Flex style={{ flex: 1, justifyContent: 'flex-end' }}>
             <Button
-              onClick={onClose}
+              onClick={handleClose}
               style={{
                 minWidth: 'auto',
                 height: 'auto',
                 padding: '8px',
-                fontWeight: 'bold',
-                fontSize: '16px',
+                background: 'none',
+                border: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'relative',
+                zIndex: 1,
               }}
             >
-              ✕
+              <Box 
+                style={{ 
+                  position: 'relative', 
+                  width: '24px', 
+                  height: '24px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Image
+                  src="/icons/modal-close-icon.png"
+                  alt="Close modal"
+                  fill
+                  style={{ 
+                    objectFit: 'contain',
+                    cursor: 'pointer',
+                    zIndex: 2,
+                  }}
+                  priority
+                />
+              </Box>
             </Button>
           </Flex>
         </Flex>
