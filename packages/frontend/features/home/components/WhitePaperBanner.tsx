@@ -143,7 +143,7 @@ const WhitePaperBanner = () => {
             </Flex>
 
             <Flex direction="column" align="center" fontSize="16px" color="black" mt="4px">
-              <Text>'대한민국 지역역량 데이터 백서 2025-2026'를 구매하시려면,</Text>
+              <Text>'대한민국 지역역량 데이터 백서 2025-2026'를 구매하시려면</Text>
               <Text>회원가입 후 메일을 등록해주세요.</Text>
               <Text>
                 <Text as="span" fontWeight="bold">11월 중순에 안내 메일이 발송</Text>
