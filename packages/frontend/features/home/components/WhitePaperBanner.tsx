@@ -45,6 +45,7 @@ const PriceCard = ({ badgeText, price, isSpecial = false }: PriceCardProps) => {
 };
 
 const BANNER_KEY = 'whitepaper_banner_closed';
+const EXPIRY_TIME = 5 * 60 * 1000; // 5분
 
 const WhitePaperBanner = () => {
   const [isInitialized, setIsInitialized] = useState(false);
@@ -53,15 +54,31 @@ const WhitePaperBanner = () => {
   });
 
   useEffect(() => {
-    const isBannerClosed = sessionStorage.getItem(BANNER_KEY);
-    if (!isBannerClosed) {
+    const storedData = sessionStorage.getItem(BANNER_KEY);
+    if (storedData) {
+      const data = JSON.parse(storedData);
+      const now = Date.now();
+      
+      // 만료되지 않았으면 배너를 숨김
+      if (data.expiry > now) {
+        onClose();
+      } else {
+        // 만료되었으면 세션스토리지에서 제거
+        sessionStorage.removeItem(BANNER_KEY);
+        onOpen();
+      }
+    } else {
       onOpen();
     }
     setIsInitialized(true);
-  }, [onOpen]);
+  }, [onOpen, onClose]);
 
   const handleClose = () => {
-    sessionStorage.setItem(BANNER_KEY, 'true');
+    const expiryTime = Date.now() + EXPIRY_TIME;
+    sessionStorage.setItem(BANNER_KEY, JSON.stringify({
+      closed: true,
+      expiry: expiryTime
+    }));
     onClose();
   };
   
@@ -73,8 +90,8 @@ const WhitePaperBanner = () => {
     '대한민국 모든 지역의 강점·약점·변화 방향을 진단하는\n 새로운 기준서를 만나보세요.'
   ];
 
-  // 초기화되기 전에는 렌더링하지 않음
-  if (!isInitialized) return null;
+  // // 초기화되기 전에는 렌더링하지 않음
+  // if (!isInitialized) return null;
 
   return (
     <BannerModal isOpen={isOpen} onClose={handleClose}>
@@ -157,7 +174,7 @@ const WhitePaperBanner = () => {
           </Flex>
 
           <Button
-          onClick={() => {}}
+          onClick={handleClose}
           w="100%"
           bg="#000000"
           color="white"
@@ -169,7 +186,7 @@ const WhitePaperBanner = () => {
           fontWeight="bold"
           mb="4px"
         >
-          백서 출시 알림 신청하기
+          확인
         </Button>
       </Flex>
     </BannerModal>
