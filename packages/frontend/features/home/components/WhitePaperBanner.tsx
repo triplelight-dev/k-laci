@@ -25,7 +25,6 @@ const PriceCard = ({ badgeText, price, isSpecial = false }: PriceCardProps) => {
         bg={isSpecial ? '#EA4524' : '#191B22'}
         color="white"
         px="12px"
-        py="4px"
         borderRadius="4px"
         fontSize="14px"
         fontWeight="bold"
@@ -99,16 +98,16 @@ const WhitePaperBanner = () => {
         <Flex
           direction="column"
           align="center"
-          gap="24px"
+          gap="16px"
           flex="1"
-          pt="40px"
-          px="24px"
+          pt={{ base: "20px", sm: "22px" }}
+          px={{ base: "20px", sm: "24px" }}
         >
-          <Flex direction="column" gap="8px">
+          <Flex direction="column" gap="2px">
             {title.map((line, index) => (
               <Text
                 key={index}
-                fontSize="30px"
+                fontSize={{ base: "24px", sm: "30px" }}
                 fontWeight="bold"
                 textAlign="center"
                 lineHeight="1.1"
@@ -119,11 +118,11 @@ const WhitePaperBanner = () => {
           </Flex>
 
           <Box
-            fontSize="16px"
+            fontSize={{ base: "15px", sm: "16px" }}
             textAlign="center"
             lineHeight="1.6"
             whiteSpace="pre-line"
-            maxW="460px"
+            maxW={{ base: "100%", sm: "460px" }}
             color="black"
           >
             <Text as="span">{description[0]}</Text>
@@ -136,14 +135,14 @@ const WhitePaperBanner = () => {
             </Text>
           </Box>
 
-          <Box w="100%" h="1px" bg="#D9D9E8" />
+          <Box w="100%" h="1px" bg="#D9D9E8"  />
 
           <Flex
             direction="column"
-            gap="3px"
+            gap="1px"
             textAlign="left"
             fontWeight="bold"
-            fontSize="16px"
+            fontSize={{ base: "15px", sm: "16px" }}
             lineHeight="1.5"
             color="#000000"
           >
@@ -152,14 +151,14 @@ const WhitePaperBanner = () => {
             <Text>・ 229개 기초자치단체의 비교 진단 보고서</Text>
           </Flex>
 
-          <Box w="100%" h="1px" bg="#D9D9E8" mb="4px" />
+          <Box w="100%" h="1px" bg="#D9D9E8" mb="1px" />
 
             <Flex gap="16px" w="100%">
               <PriceCard badgeText="정가" price={890000} />
               <PriceCard badgeText="얼리버드 혜택가" price={490000} isSpecial />
             </Flex>
 
-            <Flex direction="column" align="center" fontSize="16px" color="black" mt="4px">
+            <Flex direction="column" align="center" fontSize={{ base: "15px", sm: "16px" }} color="black" mt="4px">
               <Text>'대한민국 지역역량 데이터 백서 2025-2026'를 구매하시려면</Text>
               <Text>회원가입 후 메일을 등록해주세요.</Text>
               <Text>
@@ -168,7 +167,7 @@ const WhitePaperBanner = () => {
               </Text>
             </Flex>
 
-            <Text fontSize="13px" color="#9A9EA3">
+            <Text fontSize={{ base: "12px", sm: "13px" }} color="#9A9EA3" mb={{ base: "12px", sm: "24px" }}>
               * 최신 데이터 반영·기능 업데이트된 웹서비스 v2는 내년 상반기에 정식 오픈됩니다.
             </Text>
           </Flex>
@@ -178,7 +177,7 @@ const WhitePaperBanner = () => {
           w="100%"
           bg="#000000"
           color="white"
-          p="26px"
+          p={{ base: "20px", sm: "26px" }}
           borderRadius="8px"
           border="none"
           cursor="pointer"
