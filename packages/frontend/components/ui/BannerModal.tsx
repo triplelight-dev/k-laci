@@ -44,7 +44,7 @@ export default function BannerModal({ isOpen, onClose, children }: BannerModalPr
           transform: 'translate(-50%, -50%)',
           maxWidth: '560px',
           width: '95%',
-          // maxHeight: '95vh',
+          maxHeight: '90vh',
           height: 'auto',
           backgroundColor: 'white',
           borderRadius: '8px',
