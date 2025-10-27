@@ -39,18 +39,20 @@ export default function BannerModal({ isOpen, onClose, children }: BannerModalPr
       <Flex
         style={{
           position: 'fixed',
-          top: '45%',
+          top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          maxWidth: '520px',
-          width: '100%',
-          height: '870px',
+          maxWidth: '560px',
+          width: '95%',
+          maxHeight: '90vh',
+          height: 'auto',
           backgroundColor: 'white',
           borderRadius: '8px',
           padding: '24px',
           flexDirection: 'column',
           alignItems: 'center',
           zIndex: 1001,
+          overflowY: 'auto',
         }}
       >
         <Flex 
