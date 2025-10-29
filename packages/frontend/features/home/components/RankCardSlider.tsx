@@ -411,6 +411,7 @@ export default function RankCardSlider() {
                       pointerEvents: 'auto',
                     }}
                     isHideBadge={true}
+                    mobile={false}
                   />
                 )}
               </div>
