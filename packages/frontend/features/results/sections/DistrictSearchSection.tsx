@@ -30,7 +30,6 @@ const DistrictSearchSection: React.FC = () => {
         flexDirection: 'column',
         alignItems: 'center',
         width: '1400px',
-        height: '1000px',
         gap: '30px',
         color: isMobile ? '#FFFFFF' : '#000000',
         padding: '20px',
