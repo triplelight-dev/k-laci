@@ -29,15 +29,15 @@ jobs:
           
       # 3. 아티팩트 압축 및 준비
       - name: 3. Compress Artifacts (node_modules + dist + sources)
-      run: |
-        cd packages/backend
-        # ✅ [수정] 옵션 위치 조정 및 안전을 위한 추가 제외 항목 설정
-        tar -czf backend-deploy.tar.gz \
-          --exclude='./backend-deploy.tar.gz' \
-          --exclude='./.cache' \
-          --exclude='*.log' \
-          --exclude='*.sock' \
-          .  
+        run: | # <- 'name:'과 같은 레벨로 들여쓰기
+          cd packages/backend
+          # ✅ [수정] 옵션 위치 조정 및 안전을 위한 추가 제외 항목 설정
+          tar -czf backend-deploy.tar.gz \
+            --exclude='./backend-deploy.tar.gz' \
+            --exclude='./.cache' \
+            --exclude='*.log' \
+            --exclude='*.sock' \
+            .
           
           
       # 4. EC2로 압축 파일 SCP 전송
