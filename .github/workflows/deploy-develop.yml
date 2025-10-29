@@ -24,7 +24,7 @@ jobs:
         run: |
           cd packages/backend
           # ✅ OOM 이슈를 유발하는 yarn install을 Runner에서 실행
-          yarn install --production --frozen-lockfile 
+          yarn install --frozen-lockfile 
           ./node_modules/.bin/nest build
           
       # 3. 아티팩트 압축 및 준비
