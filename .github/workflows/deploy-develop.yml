@@ -31,18 +31,17 @@ jobs:
       # 3. 아티팩트 압축 및 준비 (TAR 오류 회피)
       - name: 3. Compress Artifacts (node_modules + dist + sources)
         run: |
-          # ✅ [수정] 압축 에러 회피: packages/backend에서 상위 디렉토리(프로젝트 루트)로 이동하여 압축 실행
-          cd packages/backend/.. 
+          # ✅ [최종 수정] 불필요한 cd 명령 제거. (run 스텝은 기본적으로 루트에서 시작합니다.)
           
           # 압축 대상(packages/backend)을 명시하고, 압축 파일은 루트에 생성합니다.
+          # 모든 경로는 프로젝트 루트 기준입니다.
           tar -czf backend-deploy.tar.gz \
             --exclude='./backend-deploy.tar.gz' \
-            --exclude='*.log' \
-            --exclude='*.sock' \
-            --exclude='node_modules/.cache' \
+            --exclude='./packages/backend/*.log' \
+            --exclude='./packages/backend/*.sock' \
+            --exclude='./packages/backend/node_modules/.cache' \
             packages/backend
-          
-          
+        
       # 4. EC2로 압축 파일 SCP 전송
       - name: 4. SCP Transfer Compressed Artifact to EC2
         uses: appleboy/scp-action@v0.1.4
@@ -51,10 +50,11 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
-          # ✅ [수정] 압축 파일이 루트에 있으므로 source 경로를 변경
+          # ✅ 압축 파일이 루트에 있으므로 source 경로를 "backend-deploy.tar.gz"로 설정
           source: "backend-deploy.tar.gz" 
-          # ✅ [수정] 압축 파일은 EC2의 프로젝트 루트에 전송
+          # 압축 파일은 EC2의 프로젝트 루트에 전송
           target: "/home/ec2-user/k-laci/" 
+        
           
       # 5. EC2에 접속하여 압축 해제 및 재시작 (Start)
       - name: 5. Unpack and Execute Restart on EC2 (Start the App)
