@@ -37,7 +37,7 @@ jobs:
           --exclude='./.cache' \
           --exclude='*.log' \
           --exclude='*.sock' \
-          .
+          .  
           
           
       # 4. EC2로 압축 파일 SCP 전송
