@@ -31,9 +31,7 @@ jobs:
       - name: 3. Compress Artifacts (node_modules + dist + sources)
         run: |
           cd packages/backend
-          # ✅ node_modules를 포함한 전체 백엔드 폴더를 압축 (전송 효율 증가)
-          tar -czf backend-deploy.tar.gz .
-          
+          tar -czf backend-deploy.tar.gz . --exclude='./backend-deploy.tar.gz'          
       # 4. EC2로 압축 파일 SCP 전송
       - name: 4. SCP Transfer Compressed Artifact to EC2
         uses: appleboy/scp-action@v0.1.4
