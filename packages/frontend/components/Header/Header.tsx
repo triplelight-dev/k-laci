@@ -3,8 +3,10 @@
 import { AuthService } from '@/api/services/auth.service';
 import { ROUTES } from '@/constants/data';
 import { INTERNAL_LINKS } from '@/constants/links';
+import { useIsMobile } from '@/hooks';
 import { useIsLoggedIn, useLogout, useUser } from '@/store';
 import { DARK_MODE_COLORS } from '@/utils/colors';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Button from '../atoms/buttons/Button';
@@ -14,6 +16,7 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
   const isLoggedIn = useIsLoggedIn();
   const user = useUser();
   const logout = useLogout();
+  const isMobile = useIsMobile();
 
   // 테마별 설정
   const theme = {
@@ -68,14 +71,29 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
     }
   };
 
+  /**
+   * 주어진 문자열이 '/results/region/숫자' 형태의 URL 경로인지 확인합니다.
+   * @param {string} urlPath 검사할 URL 경로 문자열
+   * @returns {boolean} URL 형태가 일치하면 true, 아니면 false
+   */
+  // URL 경로 검사 함수 (이전 답변에서 만든 정규식)
+  const isRegionResultUrl = (urlPath: string): boolean => {
+    const regex = /^\/results\/region/;
+    return regex.test(urlPath);
+  };
+
+  const currentPath = usePathname();
+  const isMatch = isRegionResultUrl(currentPath);
+
   return (
     <header
+      className="#191B22 lg:bg-white"
       style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        width: '100%',
-        backgroundColor: theme.backgroundColor,
+        width: isMobile ? '90%' : '100%',
+        backgroundColor: isBlackTheme ? 'black' : theme.backgroundColor,
         color: theme.textColor,
         height: '100px',
         maxWidth: '1400px',
@@ -98,12 +116,37 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
             minWidth: '200px',
           }}
         >
+          {isMobile && isMatch && (
+
+            <button
+              onClick={() => window.history.back()}
+              style={{
+                // background: 'white',
+                border: '1px solid transparent',
+                cursor: 'pointer',
+                padding: '0px 12px 0px 0px',
+                borderRadius: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'border-color 0.2s ease',
+              }}
+            >
+              <Image
+                src={`/rank_arrow_left.png`}
+                alt={`이전화면`}
+                width={12}
+                height={12}
+              />
+            </button>
+          )}
+
           <div
             className="font-poppins text-[2.1875rem] leading-[110%] font-bold tracking-[-1.05px]"
             style={{
               display: 'flex',
               gap: '35px',
-              color: theme.textColor,
+              color: isMobile ? 'white' : theme.textColor,
             }}
           >
             <Link href="/">
@@ -138,7 +181,7 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="font-poppins text-[0.9375rem] leading-[110%] tracking-[-0.45px]"
+                    className="hidden lg:flex flex-row font-poppins text-[0.9375rem] leading-[110%] tracking-[-0.45px]"
                     style={{
                       fontSize: '18px',
                       color: isActive
@@ -162,60 +205,110 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
             flex: '0 0 auto',
             display: 'flex',
             justifyContent: 'flex-end',
-            minWidth: '200px',
+
           }}
         >
-          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <div
+            style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
             {isLoggedIn ? (
               <>
-                {/* 사용자 정보 표시 */}
-                <span
-                  style={{
-                    fontSize: '14px',
-                    color: theme.textColor,
-                    marginRight: '10px',
-                  }}
-                >
-                  {user?.profile.name}님
-                </span>
+                <div
+                  className="hidden lg:flex flex-row"
+                  style={{ gap: '10px', alignItems: 'center' }}>
+                  {/* 사용자 정보 표시 */}
+                  <span className="hidden lg:flex flex-col"
+                    style={{
+                      fontSize: '14px',
+                      color: theme.textColor,
+                      marginRight: '10px',
+                    }}
+                  >
+                    {user?.profile.name}님
+                  </span>
 
-                {/* 로그아웃 버튼 */}
-                <Button
-                  fontSize="14px"
-                  fontWeight="500"
-                  label="로그아웃"
-                  padding="10px 30px"
-                  onClick={handleLogout}
-                  theme={isBlackTheme ? 'dark' : 'light'}
-                >
-                  로그아웃
-                </Button>
+                  {/* 로그아웃 버튼 */}
+                  <Button
+                    fontSize="14px"
+                    fontWeight="500"
+                    label="로그아웃"
+                    padding="10px 30px"
+                    onClick={handleLogout}
+                    theme={isBlackTheme ? 'dark' : 'light'}
+                  >
+                    로그아웃
+                  </Button>
+                </div>
+
+                <div
+                  className="flex flex-row lg:hidden"
+                  style={{ gap: '10px', alignItems: 'center' }}>
+                  {/* 사용자 정보 표시 */}
+                  <span className="hidden lg:flex flex-col"
+                    style={{
+                      fontSize: '14px',
+                      color: theme.textColor,
+                      marginRight: '10px',
+                    }}
+                  >
+                    {user?.profile.name}님
+                  </span>
+
+                  {/* 로그아웃 버튼 */}
+                  <Button
+                    fontSize="14px"
+                    fontWeight="500"
+                    label="로그아웃"
+                    padding="10px 30px"
+                    onClick={handleLogout}
+                    theme={isBlackTheme ? 'dark' : 'light'}
+                  >
+                    로그아웃
+                  </Button>
+                </div>
               </>
             ) : (
               <>
-                {/* Login Button - 흰색 배경 */}
-                <Link href={ROUTES.LOGIN}>
-                  <Button
-                    variant="primary"
-                    label="로그인"
-                    padding="10px 30px"
-                    fontSize="14px"
-                    fontWeight="500"
-                    theme={isBlackTheme ? 'dark' : 'light'}
-                  />
-                </Link>
+                <div
+                  className="hidden lg:flex flex-row"
+                  style={{ gap: '10px', alignItems: 'center' }}>
+                  {/* Login Button - 흰색 배경 */}
+                  <Link href={ROUTES.LOGIN}>
+                    <Button
+                      variant="primary"
+                      label="로그인"
+                      padding="10px 30px"
+                      fontSize="14px"
+                      fontWeight="500"
+                      theme={isBlackTheme ? 'dark' : 'light'}
+                    />
+                  </Link>
 
-                {/* Signup Button - 투명 배경 흰 보더 + 우측 대각선 아이콘 */}
-                <Link href={ROUTES.SIGNUP}>
-                  <Button
-                    variant="secondary"
-                    label="회원가입"
-                    padding="10px 30px"
-                    fontSize="14px"
-                    fontWeight="500"
-                    theme={isBlackTheme ? 'dark' : 'light'}
-                  />
-                </Link>
+                  {/* Signup Button - 투명 배경 흰 보더 + 우측 대각선 아이콘 */}
+                  <Link href={ROUTES.SIGNUP}>
+                    <Button
+                      variant="secondary"
+                      label="회원가입"
+                      padding="10px 30px"
+                      fontSize="14px"
+                      fontWeight="500"
+                      theme={isBlackTheme ? 'dark' : 'light'}
+                    />
+                  </Link>
+                </div>
+
+                <div
+                  className="flex flex-row lg:hidden"
+                  style={{ gap: '10px', alignItems: 'center' }}>
+                  {/* Login Button - 흰색 배경 */}
+                  <Link href={ROUTES.LOGIN}>
+                    로그인
+                  </Link>
+
+                  {/* Signup Button - 투명 배경 흰 보더 + 우측 대각선 아이콘 */}
+                  <Link href={ROUTES.SIGNUP}>
+                    회원가입
+                  </Link>
+                </div>
               </>
             )}
           </div>

@@ -6,6 +6,7 @@ import {
   useRegionStrengthIndexes,
 } from '@/api/hooks';
 import IndexModal from '@/components/atoms/modal/IndexModal';
+import { useIsMobile } from '@/hooks';
 import { useDistrict, useIsLoggedIn } from '@/store';
 import { Flex, Text } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
@@ -78,11 +79,11 @@ const IndexItem: React.FC<{
 
   return (
     <Flex>
-      <div style={{ 
-        margin: '15px 19px', 
-        width: '40px', 
-        height: '48px', 
-        display: 'flex', 
+      <div style={{
+        margin: '15px 19px',
+        width: '40px',
+        height: '48px',
+        display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'
       }}>
@@ -256,11 +257,16 @@ const StrengthWeaknessIndexSection: React.FC = () => {
   const [strengthData, setStrengthData] = useState<IndexData[]>([]);
   const [weaknessData, setWeaknessData] = useState<IndexData[]>([]);
 
+  const isMobile = useIsMobile();
+
   // Zustand store에서 선택된 지역 정보와 로그인 상태 가져오기
   const { selectedRegion } = useDistrict();
   const isLoggedIn = useIsLoggedIn();
   const { getKeyIndexData } = useKeyIndexData();
   const { getRegionKeyIndexScore } = useRegionKeyIndexScore();
+
+  // 💡 상태 정의: 현재 활성화된 탭을 'tab1'로 초기 설정합니다.
+  const [activeTab, setActiveTab] = useState('tab1');
 
   // 새로운 API hook 사용
   const {
@@ -399,43 +405,151 @@ const StrengthWeaknessIndexSection: React.FC = () => {
     );
   }
 
+  // 💡 활성 탭에 따라 스타일을 결정하는 유틸리티 함수
+  const getTabClasses = (activeTab: string, tabName: string) => {
+    const baseClasses = "px-6 py-2.5 font-semibold text-base transition-colors duration-200 focus:outline-none";
+
+    if (tabName === activeTab) {
+      // 💡 활성 탭 스타일
+      return `${baseClasses} text-blue-600 border-b-2 border-blue-600`;
+    } else {
+      // 💡 비활성 탭 스타일 (hover 효과 및 높이 유지를 위한 투명 밑줄)
+      return `${baseClasses} text-gray-500 border-b-2 border-transparent hover:text-gray-700`;
+    }
+  };
+
   return (
     <>
-      <div
-        style={{
-          display: 'flex',
-          width: '100%',
-          justifyContent: 'space-between',
-        }}
-      >
-        {/* 강점지표 */}
-        <IndexSection
-          indexType="strength"
-          data={isLoggedIn ? strengthData : strengthData.slice(0, 5)}
-          isStrength={true}
-          onItemClick={handleItemClick}
-          isDisabled={!isLoggedIn}
-        />
+      {!isMobile &&
+        <>
+          <div
+            style={{
+              display: 'flex',
+              width: '100%',
+              justifyContent: 'space-between',
+            }}
+          >
+            {/* 강점지표 */}
+            <IndexSection
+              indexType="strength"
+              data={isLoggedIn ? strengthData : strengthData.slice(0, 5)}
+              isStrength={true}
+              onItemClick={handleItemClick}
+              isDisabled={!isLoggedIn}
+            />
 
-        {/* 약점지표 */}
-        <IndexSection
-          indexType="weakness"
-          data={isLoggedIn ? weaknessData : weaknessData.slice(0, 5)}
-          isStrength={false}
-          onItemClick={handleItemClick}
-          isDisabled={!isLoggedIn}
-        />
-      </div>
+            {/* 약점지표 */}
+            <IndexSection
+              indexType="weakness"
+              data={isLoggedIn ? weaknessData : weaknessData.slice(0, 5)}
+              isStrength={false}
+              onItemClick={handleItemClick}
+              isDisabled={!isLoggedIn}
+            />
+          </div>
 
-      {/* 모달 - 로그인한 경우에만 렌더링 */}
-      {isLoggedIn && selectedData && (
-        <IndexModal
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-          data={selectedData}
-          regionId={selectedRegion?.id || 0}
-        />
-      )}
+          {/* 모달 - 로그인한 경우에만 렌더링 */}
+          {isLoggedIn && selectedData && (
+            <IndexModal
+              isOpen={isModalOpen}
+              onClose={handleCloseModal}
+              data={selectedData}
+              regionId={selectedRegion?.id || 0}
+            />
+          )}
+        </>
+      }
+
+      {isMobile &&
+        <>
+          <div className="w-full max-w-4xl mx-auto p-4">
+            {/* 1. 탭 버튼 영역 */}
+            <div className="flex flex-row border-b border-gray-300 gap-5">
+
+              {/* 탭 1 버튼 */}
+              <button
+                className={getTabClasses(activeTab, 'tab1')}
+                onClick={() => setActiveTab('tab1')}
+                style={{
+                  width: '100%',
+                  padding: '12px 24px', // px-6 py-3
+                  fontWeight: '600',   // font-semibold
+                  borderRadius: '8px', // rounded-lg
+                  boxShadow: '0 4px 6px rgba(50, 50, 93, 0.1), 0 1px 3px rgba(0, 0, 0, 0.07)', // shadow-md
+                  backgroundColor: 'grey', // bg-blue-500/600
+                  color: 'white',        // text-white
+                  cursor: 'pointer',
+                  border: 'none',
+                  transition: 'background-color 0.15s ease-in-out',
+                }}
+              >
+                강점
+              </button>
+
+              {/* 탭 2 버튼 */}
+              <button
+                className={getTabClasses(activeTab, 'tab2')}
+                onClick={() => setActiveTab('tab2')}
+                style={{
+                  width: '100%',
+                  padding: '12px 24px', // px-6 py-3
+                  fontWeight: '600',   // font-semibold
+                  borderRadius: '8px', // rounded-lg
+                  boxShadow: '0 4px 6px rgba(50, 50, 93, 0.1), 0 1px 3px rgba(0, 0, 0, 0.07)', // shadow-md
+                  backgroundColor: 'grey', // bg-blue-500/600
+                  color: 'white',        // text-white
+                  cursor: 'pointer',
+                  border: 'none',
+                  transition: 'background-color 0.15s ease-in-out',
+                }}
+              >
+                약점
+              </button>
+            </div>
+            <br></br>
+
+            {/* 2. 탭 내용 영역 */}
+            <div className="pt-8 p-4 bg-white rounded-b-lg">
+              {activeTab === 'tab1' && (
+                <>
+                  {/* 강점지표 */}
+                  < IndexSection
+                    indexType="strength"
+                    data={isLoggedIn ? strengthData : strengthData.slice(0, 5)}
+                    isStrength={true}
+                    onItemClick={handleItemClick}
+                    isDisabled={!isLoggedIn}
+
+                  />
+                </>
+              )}
+
+              {activeTab === 'tab2' && (
+                <>
+                  {/* 약점지표 */}
+                  <IndexSection
+                    indexType="weakness"
+                    data={isLoggedIn ? weaknessData : weaknessData.slice(0, 5)}
+                    isStrength={false}
+                    onItemClick={handleItemClick}
+                    isDisabled={!isLoggedIn}
+                  />
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* 모달 - 로그인한 경우에만 렌더링 */}
+          {isLoggedIn && selectedData && (
+            <IndexModal
+              isOpen={isModalOpen}
+              onClose={handleCloseModal}
+              data={selectedData}
+              regionId={selectedRegion?.id || 0}
+            />
+          )}
+        </>
+      }
     </>
   );
 };

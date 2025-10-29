@@ -7,12 +7,14 @@ const Footer = () => {
         width: '100%',
         display: 'flex',
         justifyContent: 'center',
-        backgroundColor: '#000000',
+        backgroundColor: '#191B22',
         color: '#ffffff',
         padding: '20px 20px',
       }}
     >
-      <div style={{ width: '100%', maxWidth: '1400px' }}>
+      <div
+       className='hidden lg:block'
+       style={{ width: '100%', maxWidth: '1400px' }}>
         <FooterTopSection />
       </div>
     </footer>

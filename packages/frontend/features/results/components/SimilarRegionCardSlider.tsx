@@ -7,6 +7,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 interface SimilarRegionCardSliderProps {
   data: RegionCardData[];
   onCardClick?: (item: RegionCardData) => void;
+  mobile: boolean;
 }
 
 interface CardStyle {
@@ -19,6 +20,7 @@ interface CardStyle {
 const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
   data,
   onCardClick,
+  mobile
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -189,8 +191,8 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
         position: 'relative',
         width: '100vw',
         height: '600px',
-        marginLeft: 'calc(-50vw + 50%)',
-        marginRight: 'calc(-50vw + 50%)',
+        marginLeft: mobile ? '' : 'calc(-50vw + 50%)',
+        marginRight: mobile ? '' : 'calc(-50vw + 50%)',
         marginBottom: '258px',
         display: 'flex',
         alignItems: 'center',
@@ -233,45 +235,49 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
         }}
       />
 
-      {/* 좌측 화살표 버튼 */}
-      <button
-        onClick={prevSlide}
-        style={{
-          position: 'absolute',
-          left: '160px',
-          top: '50%',
-          transform: 'translateY(-50%)',
-          zIndex: 20,
-          background: 'white',
-          border: '1px solid #E5E7EB',
-          borderRadius: '12px',
-          width: '48px',
-          height: '48px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-          transition: 'all 0.2s ease',
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.borderColor = '#000000';
-          e.currentTarget.style.transform = 'translateY(-50%) scale(1.05)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = '#E5E7EB';
-          e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
-        }}
-      >
-        <img
-          src="/rank_arrow_left.png"
-          alt="이전"
-          style={{
-            width: '16px',
-            height: '16px',
-          }}
-        />
-      </button>
+      {!mobile &&
+        <>
+          {/* 좌측 화살표 버튼 */}
+          <button
+            onClick={prevSlide}
+            style={{
+              position: 'absolute',
+              left: '160px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              zIndex: 20,
+              background: 'white',
+              border: '1px solid #E5E7EB',
+              borderRadius: '12px',
+              width: '48px',
+              height: '48px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+              transition: 'all 0.2s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = '#000000';
+              e.currentTarget.style.transform = 'translateY(-50%) scale(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = '#E5E7EB';
+              e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+            }}
+          >
+            <img
+              src="/rank_arrow_left.png"
+              alt="이전"
+              style={{
+                width: '16px',
+                height: '16px',
+              }}
+            />
+          </button>
+        </>
+      }
 
       {/* 카드 컨테이너 */}
       <div
@@ -304,57 +310,62 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
             >
               <RegionCard
                 data={item}
-                onClick={onCardClick || (() => {})}
+                onClick={onCardClick || (() => { })}
                 style={{
                   border: cardStyle.border,
                   pointerEvents: 'auto',
                   transition: 'border 0.3s ease', // border 전환 애니메이션 추가
                 }}
+                mobile={mobile}
               />
             </div>
           );
         })}
       </div>
 
-      {/* 우측 화살표 버튼 */}
-      <button
-        onClick={nextSlide}
-        style={{
-          position: 'absolute',
-          right: '160px',
-          top: '50%',
-          transform: 'translateY(-50%)',
-          zIndex: 20,
-          background: 'white',
-          border: '1px solid #E5E7EB',
-          borderRadius: '12px',
-          width: '48px',
-          height: '48px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-          transition: 'all 0.2s ease',
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.borderColor = '#000000';
-          e.currentTarget.style.transform = 'translateY(-50%) scale(1.05)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = '#E5E7EB';
-          e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
-        }}
-      >
-        <img
-          src="/rank_arrow_right.png"
-          alt="다음"
-          style={{
-            width: '16px',
-            height: '16px',
-          }}
-        />
-      </button>
+      {!mobile &&
+        <>
+          {/* 우측 화살표 버튼 */}
+          <button
+            onClick={nextSlide}
+            style={{
+              position: 'absolute',
+              right: '160px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              zIndex: 20,
+              background: 'white',
+              border: '1px solid #E5E7EB',
+              borderRadius: '12px',
+              width: '48px',
+              height: '48px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+              transition: 'all 0.2s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = '#000000';
+              e.currentTarget.style.transform = 'translateY(-50%) scale(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = '#E5E7EB';
+              e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+            }}
+          >
+            <img
+              src="/rank_arrow_right.png"
+              alt="다음"
+              style={{
+                width: '16px',
+                height: '16px',
+              }}
+            />
+          </button>
+        </>
+      }
     </div>
   );
 };

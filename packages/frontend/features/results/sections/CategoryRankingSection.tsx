@@ -5,6 +5,7 @@ import PremiumContentTitle from '@/components/ui/PremiumContentTitle';
 import { CATEGORY_NAMES, categoryColors } from '@/constants/colors';
 import { NUM_OF_REGIONS } from '@/constants/data';
 import CategoryRanking from '@/features/results/components/CategoryRanking';
+import { useIsMobile } from '@/hooks';
 import { useDistrict } from '@/store';
 import { CategoryData } from '@/types/category';
 import { Flex } from '@chakra-ui/react';
@@ -15,6 +16,7 @@ const CategoryRankingSection = () => {
   const title = '범주 및 세부지표 순위';
   const { selectedRegion } = useDistrict();
   const [isClient, setIsClient] = useState(false);
+  const isMobile = useIsMobile();
 
   // Hydration 에러 방지를 위한 클라이언트 사이드 렌더링
   useEffect(() => {
@@ -154,12 +156,40 @@ const CategoryRankingSection = () => {
         }}
       >
         {/* 타이틀 */}
-        <Flex style={{ width: '100%', justifyContent: 'center' }}>
-          <SummarySectionHeader
-            badgeLabel="INDEX RANKING"
-            title="범주 및 세부지표 순위"
-          />
-        </Flex>
+        {!isMobile &&
+          <Flex style={{ width: '100%', justifyContent: 'center' }}>
+            <SummarySectionHeader badgeLabel="INDEX RANKING" title="범주 및 세부지표 순위" />
+          </Flex>
+        }
+
+        {isMobile &&
+          <>
+            <Flex style={{ width: '100%', justifyContent: 'center' }}>
+              <SummarySectionHeader badgeLabel="" title="범주 및 세부지표 순위" />
+            </Flex>
+
+            <div
+              style={{
+                width: '100%',
+                maxWidth: '1060px',
+                margin: '0 auto',
+                borderRadius: '26px',
+                marginTop: '33px',
+                fontSize: '14px',
+                fontWeight: '500',
+                lineHeight: '24px',
+                color: '#9A9EA3',
+                textAlign: 'center',
+                padding: '8px 0',
+                backgroundColor: '#EDEDED',
+              }}
+            >
+              핵신범주와 세부지표별 설명은 PC버전 웹사이트(klaci.kr)에서 확인하실 수 있습니다.
+            </div>
+
+          </>
+        }
+
 
         {/* <Divider style={{ margin: '80px 0 100px' }} /> */}
 
@@ -173,32 +203,38 @@ const CategoryRankingSection = () => {
                   key={index}
                   categoryData={category}
                   index={index}
+                  mobile={isMobile}
                 />
               </div>
             </React.Fragment>
           ))}
         </div>
-        <div
-          style={{
-            width: '100%',
-            maxWidth: '1060px',
-            margin: '0 auto',
-            borderRadius: '26px',
-            marginTop: '33px',
-            fontSize: '14px',
-            fontWeight: '500',
-            lineHeight: '24px',
-            color: '#9A9EA3',
-            textAlign: 'center',
-            padding: '8px 0',
-            backgroundColor: '#EDEDED',
-          }}
-        >
-          [유형 개요]는 16개 유형에 따른 공통 해설입니다. 세부지표는 순위가
-          높을수록 강점으로 해석되며, 자세한 내용은 지표별 해설을 참고하시기
-          바랍니다.
-        </div>
-        <Divider style={{ margin: '80px 0 ' }} />
+
+        {!isMobile &&
+          <>
+            <div
+              style={{
+                width: '100%',
+                maxWidth: '1060px',
+                margin: '0 auto',
+                borderRadius: '26px',
+                marginTop: '33px',
+                fontSize: '14px',
+                fontWeight: '500',
+                lineHeight: '24px',
+                color: '#9A9EA3',
+                textAlign: 'center',
+                padding: '8px 0',
+                backgroundColor: '#EDEDED',
+              }}
+            >
+              [유형 개요]는 16개 유형에 따른 공통 해설입니다. 세부지표는 순위가
+              높을수록 강점으로 해석되며, 자세한 내용은 지표별 해설을 참고하시기
+              바랍니다.
+            </div>
+            <Divider style={{ margin: '80px 0 ' }} />
+          </>
+        }
       </section>
     </div>
   );

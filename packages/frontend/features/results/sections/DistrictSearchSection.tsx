@@ -1,10 +1,12 @@
 'use client';
 
 import SearchTextInput from '@/components/ui/SearchTextInput';
+import { useIsMobile } from '@/hooks';
 import { useDistrict } from '@/store';
 import React, { useEffect, useState } from 'react';
 
 const DistrictSearchSection: React.FC = () => {
+  const isMobile = useIsMobile();
   const [searchValue, setSearchValue] = useState('');
   const { selectedRegion } = useDistrict();
 
@@ -28,15 +30,16 @@ const DistrictSearchSection: React.FC = () => {
         flexDirection: 'column',
         alignItems: 'center',
         width: '1400px',
+        height: '1000px',
         gap: '30px',
-        color: '#000000',
+        color: isMobile ? '#FFFFFF' : '#000000',
         padding: '20px',
         paddingTop: '91px',
         paddingBottom: '100px',
         position: 'relative',
         borderRadius: '50px',
         margin: '47px 0 0',
-        backgroundImage: 'url(/title_bg.png)',
+        backgroundImage: isMobile ? '' : 'url(/title_bg.png)',
         backgroundSize: '100% 100%',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
@@ -56,6 +59,7 @@ const DistrictSearchSection: React.FC = () => {
           value={searchValue}
           onChange={setSearchValue}
           onRecentSearchClick={handleRecentSearchClick}
+          mobile={isMobile}
         />
       </div>
     </div>

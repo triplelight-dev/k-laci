@@ -2,6 +2,7 @@
 
 import { useRegion } from '@/api/hooks/useRegion';
 import ResultLayout from '@/components/layout/ResultLayout';
+import { useIsMobile } from '@/hooks';
 import {
   useDistrict,
   useIsLoggedIn,
@@ -11,7 +12,7 @@ import {
   useUser,
 } from '@/store';
 import { RegionWithDetails as StoreRegionWithDetails } from '@/store/types/district';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Suspense, useEffect, useRef, useState } from 'react';
 
 // sections
@@ -21,6 +22,7 @@ import CategoryRankingSection from '@/features/results/sections/CategoryRankingS
 import DistrictSearchSection from '@/features/results/sections/DistrictSearchSection';
 import DistrictSelectSection from '@/features/results/sections/DistrictSelectSection';
 import LoginSuggestionSection from '@/features/results/sections/LoginSuggestionSectino';
+import MobileTitleSection from '@/features/results/sections/MobileTitleSection';
 import SimilarRegionSection from '@/features/results/sections/SimilarRegionSection';
 import SummarySection from '@/features/results/sections/SummarySection';
 import TitleSection from '@/features/results/sections/TitleSection';
@@ -135,6 +137,17 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
       setHasLoadedDefault(true);
       setIsInitialized(true);
     }
+  };
+
+  /**
+   * 주어진 문자열이 '/results/region/숫자' 형태의 URL 경로인지 확인합니다.
+   * @param {string} urlPath 검사할 URL 경로 문자열
+   * @returns {boolean} URL 형태가 일치하면 true, 아니면 false
+   */
+  // URL 경로 검사 함수 (이전 답변에서 만든 정규식)
+  const isRegionResultUrl = (urlPath: string): boolean => {
+    const regex = /^\/results\/region\/\d+$/;
+    return regex.test(urlPath);
   };
 
   useEffect(() => {
@@ -277,6 +290,11 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
     }
   }, [showAnimation]);
 
+  const currentPath = usePathname();
+  const isMatch = isRegionResultUrl(currentPath);
+
+  const isMobile = useIsMobile();
+
   return (
     <ResultLayout>
       <div
@@ -286,18 +304,25 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          background: '#F4F4F4',
+          background: isMobile ? 'black' : '#F4F4F4',
           position: 'relative',
           overflow: 'hidden',
         }}
       >
-        <DistrictSearchSection />
+        {!isMobile &&
+          <>
+            <DistrictSearchSection />
 
-        {/* floating 상태에 따라 다른 스타일로 DistrictSelectSection 렌더링 */}
-        <DistrictSelectSection
-          isFloating={isFloating}
-          isVisible={isFloatingVisible}
-        />
+            {/* floating 상태에 따라 다른 스타일로 DistrictSelectSection 렌더링 */}
+            <DistrictSelectSection
+              isFloating={isFloating}
+              isVisible={isFloatingVisible} /></>
+        }
+
+        {isMobile && !isMatch &&
+            <DistrictSearchSection />
+        }
+
 
         <div
           style={{
@@ -317,21 +342,32 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
               maxWidth: '1060px',
             }}
           >
-            {/* 차트(TitleSection) 영역 ref 부착 */}
-            <div ref={chartSectionRef} data-chart-section>
-              <TitleSection districtData={districtData} />
-            </div>
+            {!isMobile && <>
+              {/* 차트(TitleSection) 영역 ref 부착 */}
+              <div ref={chartSectionRef} data-chart-section>
+                <TitleSection districtData={districtData} />
+              </div>
 
-            <SummarySection isLoggedIn={isLoggedIn} />
+              <SummarySection isLoggedIn={isLoggedIn} />
+            </>}
+
+            {isMobile && isMatch && <>
+              {/* 차트(TitleSection) 영역 ref 부착 */}
+              <div ref={chartSectionRef} data-chart-section>
+                <MobileTitleSection districtData={districtData} />
+              </div>
+
+              <SummarySection isLoggedIn={isLoggedIn} />
+            </>}
 
           </div>
-          {isLoggedIn && <>
+          {isLoggedIn && isMatch && <>
             <CategoryRankingSection />
             <SimilarRegionSection />
           </>}
         </div>
       </div>
-      {!isLoggedIn && <><LoginSuggestionSection /><div style={{
+      {!isLoggedIn && !isMobile && <><LoginSuggestionSection /><div style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -343,7 +379,7 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
         <p style={{ fontSize: '14px', color: '#fff', fontWeight: '700' }}>© 2025 트리플라잇 주식회사</p>
         <p style={{ fontSize: '14px', color: '#9A9EA3', fontWeight: '500' }}>klaci@triplelight.co</p>
       </div></>}
-      {isLoggedIn && <><HomePreRegistrationSection height='650px' /><Footer /></>}
+      {isLoggedIn && !isMobile && <><HomePreRegistrationSection height='650px' /><Footer /></>}
     </ResultLayout>
   );
 }

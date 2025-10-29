@@ -28,6 +28,7 @@ interface CategoryRankGridProps {
   color: string;
   regionId: number;
   categoryTitle: string;
+  mobile: boolean;
 }
 
 interface UpdatedRank extends CategoryRank {
@@ -43,6 +44,7 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
   color,
   regionId,
   categoryTitle,
+  mobile
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [selectedIndexData, setSelectedIndexData] = useState<IndexData | null>(
@@ -222,7 +224,7 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
+          gridTemplateColumns: mobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
           gap: '16px',
           maxWidth: '100%',
         }}
@@ -276,7 +278,7 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
+          gridTemplateColumns: mobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
           gap: '16px',
           maxWidth: '100%',
         }}

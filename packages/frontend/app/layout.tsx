@@ -1,5 +1,4 @@
 import AuthPersistenceProvider from '@/components/AuthPersistenceProvider';
-import MobileDetector from '@/components/MobileDetector';
 import { getSiteUrl, isProductionDomain } from '@/config/environment';
 import { ChakraProvider, ReactQueryProviders } from '@/providers';
 import type { Metadata } from 'next';
@@ -242,7 +241,8 @@ export default function RootLayout({
         <ReactQueryProviders>
           <ChakraProvider>
             <AuthPersistenceProvider>
-              <MobileDetector>{children}</MobileDetector>
+              {children}
+              {/* <MobileDetector>{children}</MobileDetector> */}
             </AuthPersistenceProvider>
           </ChakraProvider>
         </ReactQueryProviders>

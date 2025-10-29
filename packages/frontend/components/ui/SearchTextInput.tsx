@@ -10,6 +10,7 @@ interface SearchTextInputProps {
   onChange: (value: string) => void;
   placeholder?: string;
   onRecentSearchClick?: (value: string) => void;
+  mobile: boolean
 }
 
 // 지자체별 아이콘 매핑 - region ID를 사용하여 public/region-logos 폴더의 이미지 사용
@@ -63,6 +64,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
   onChange,
   placeholder = '제주 서귀포시',
   onRecentSearchClick,
+  mobile
 }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
