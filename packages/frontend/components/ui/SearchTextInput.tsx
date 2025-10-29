@@ -177,7 +177,6 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
     <div
       style={{
         width: '100%',
-        height: '1000px',
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',

@@ -300,9 +300,10 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
       <div
         style={{
           width: '100%',
+          height: '1000px',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center',
+          // justifyContent: 'cen/er',
           alignItems: 'center',
           background: isMobile ? 'black' : '#F4F4F4',
           position: 'relative',
