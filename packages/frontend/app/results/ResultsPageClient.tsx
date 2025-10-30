@@ -407,7 +407,7 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
         </div>
       </div>
       {
-        !isLoggedIn && <><LoginSuggestionSection /><div style={{
+        !isLoggedIn && !isMobile && <><LoginSuggestionSection /><div style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
