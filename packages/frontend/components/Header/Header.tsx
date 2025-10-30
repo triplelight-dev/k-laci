@@ -82,8 +82,14 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
     return regex.test(urlPath);
   };
 
+  const isMyUrl = (urlPath: string): boolean => {
+    const regex = /^\/auth\/my/;
+    return regex.test(urlPath);
+  };
+
   const currentPath = usePathname();
   const isMatch = isRegionResultUrl(currentPath);
+  const isMyMatch = isMyUrl(currentPath);
 
   return (
     <header
@@ -117,7 +123,7 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
             minWidth: '200px',
           }}
         >
-          {isMobile && isMatch && (
+          {isMobile && (isMatch || isMyMatch) && (
 
             <button
               onClick={() => window.history.back()}
@@ -142,27 +148,29 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
             </button>
           )}
 
-          <div
-            className="font-poppins text-[2.1875rem] leading-[110%] font-bold tracking-[-1.05px]"
-            style={{
-              display: 'flex',
-              gap: '35px',
-              color: isMobile ? 'white' : theme.textColor,
-            }}
-          >
-            <Link href="/">
-              <img
-                src={theme.logo}
-                alt="K-LACI Logo"
-                style={{
-                  height: '26px',
-                  width: 'auto',
-                  marginRight: '15px',
-                  cursor: 'pointer',
-                }}
-              />
-            </Link>
-          </div>
+          {!isMyMatch && (
+            <div
+              className="font-poppins text-[2.1875rem] leading-[110%] font-bold tracking-[-1.05px]"
+              style={{
+                display: 'flex',
+                gap: '35px',
+                color: isMobile ? 'white' : theme.textColor,
+              }}
+            >
+              <Link href="/">
+                <img
+                  src={theme.logo}
+                  alt="K-LACI Logo"
+                  style={{
+                    height: '26px',
+                    width: 'auto',
+                    marginRight: '15px',
+                    cursor: 'pointer',
+                  }}
+                />
+              </Link>
+            </div>
+          )}
         </div>
 
         {/* 2. 가운데: 페이지 이동 버튼들 */}
@@ -240,32 +248,15 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
                   </Button>
                 </div>
 
-                <div
-                  className="flex flex-row lg:hidden"
-                  style={{ gap: '10px', alignItems: 'center' }}>
-                  {/* 사용자 정보 표시 */}
-                  <span className="hidden lg:flex flex-col"
-                    style={{
-                      fontSize: '14px',
-                      color: theme.textColor,
-                      marginRight: '10px',
-                    }}
-                  >
-                    {user?.profile.name}님
-                  </span>
-
-                  {/* 로그아웃 버튼 */}
-                  <Button
-                    fontSize="14px"
-                    fontWeight="500"
-                    label="로그아웃"
-                    padding="10px 30px"
-                    onClick={handleLogout}
-                    theme={isBlackTheme ? 'dark' : 'light'}
-                  >
-                    로그아웃
-                  </Button>
-                </div>
+                {!isMyMatch && (
+                  <div
+                    className="flex flex-row lg:hidden"
+                    style={{ gap: '10px', alignItems: 'center' }}>
+                    <Link href={ROUTES.MY}>
+                      마이페이지
+                    </Link>
+                  </div>
+                )}
               </>
             ) : (
               <>
