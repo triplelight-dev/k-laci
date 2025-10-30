@@ -180,7 +180,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
+        alignItems: 'center'
       }}
     >
       <div

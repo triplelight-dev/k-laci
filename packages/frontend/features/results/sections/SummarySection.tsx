@@ -20,7 +20,7 @@ interface SummaryData {
 }
 
 const MAX_SUMMARY_LENGTH = 500; // 최대 글자수 상수를 정의합니다.
-const MAX_CONTENT_HEIGHT = 1000; // 💡 펼쳤을 때 최대로 가질 수 있는 높이 (px)
+const MAX_CONTENT_HEIGHT = 2000; // 💡 펼쳤을 때 최대로 가질 수 있는 높이 (px)
 const COLLAPSED_HEIGHT = 150; // 💡 접혔을 때 보일 높이 (px)
 
 const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {

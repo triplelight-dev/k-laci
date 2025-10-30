@@ -18,6 +18,7 @@ import { Suspense, useEffect, useRef, useState } from 'react';
 // sections
 import Footer from '@/components/Footer';
 import HomePreRegistrationSection from '@/components/sections/HomePreRegistrationSection';
+import StickyHeader from '@/components/sections/MobileStickyTitle';
 import CategoryRankingSection from '@/features/results/sections/CategoryRankingSection';
 import DistrictSearchSection from '@/features/results/sections/DistrictSearchSection';
 import DistrictSelectSection from '@/features/results/sections/DistrictSelectSection';
@@ -295,6 +296,14 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
 
   const isMobile = useIsMobile();
 
+  // 스크롤을 맨 위로 이동시키는 함수
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // 부드러운 스크롤 효과 적용
+    });
+  };
+
   return (
     <ResultLayout>
       <div
@@ -309,6 +318,36 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
           overflow: 'hidden',
         }}
       >
+
+        {isMobile && isMatch &&
+          <>
+            <StickyHeader />
+
+            <button
+              onClick={scrollToTop}
+              style={{
+                position: 'fixed',
+                bottom: '20px',    // 아래쪽에서 20px 위치
+                right: '20px',     // 오른쪽에서 20px 위치
+                zIndex: 50,        // 다른 요소 위에 표시되도록 Z-Index 설정
+                // 크기와 모양 설정
+                width: '64px',
+                height: '64px',
+                borderRadius: '50%', // 👈 핵심: 50%를 설정하여 원형을 만듭니다.
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // 그림자 (선택 사항)
+                cursor: 'pointer',
+
+                // 내부 요소(이미지) 중앙 정렬을 위한 Flexbox 설정
+                display: 'flex',
+                alignItems: 'center',       // 수직 중앙 정렬
+                justifyContent: 'center',   // 수평 중앙 정렬
+              }}
+            >
+              ↑
+            </button>
+
+          </>
+        }
         {!isMobile &&
           <>
             <DistrictSearchSection />
@@ -320,7 +359,7 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
         }
 
         {isMobile && !isMatch &&
-            <DistrictSearchSection />
+          <DistrictSearchSection />
         }
 
 
@@ -367,20 +406,22 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
           </>}
         </div>
       </div>
-      {!isLoggedIn && !isMobile && <><LoginSuggestionSection /><div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '10px',
-        padding: '28px 0',
-        backgroundColor: '#000',
-        width: '100%',
-      }}>
-        <p style={{ fontSize: '14px', color: '#fff', fontWeight: '700' }}>© 2025 트리플라잇 주식회사</p>
-        <p style={{ fontSize: '14px', color: '#9A9EA3', fontWeight: '500' }}>klaci@triplelight.co</p>
-      </div></>}
+      {
+        !isLoggedIn && <><LoginSuggestionSection /><div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '10px',
+          padding: '28px 0',
+          backgroundColor: '#000',
+          width: '100%',
+        }}>
+          <p style={{ fontSize: '14px', color: '#fff', fontWeight: '700' }}>© 2025 트리플라잇 주식회사</p>
+          <p style={{ fontSize: '14px', color: '#9A9EA3', fontWeight: '500' }}>klaci@triplelight.co</p>
+        </div></>
+      }
       {isLoggedIn && !isMobile && <><HomePreRegistrationSection height='650px' /><Footer /></>}
-    </ResultLayout>
+    </ResultLayout >
   );
 }
 
