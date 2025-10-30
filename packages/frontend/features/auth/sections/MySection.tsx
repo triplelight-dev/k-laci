@@ -53,7 +53,7 @@ export default function MySection({
     const region = regionsData.find(
       (r) => r.id === id,
     );
-    if (!region) return '없음';
+    if (!region) return null;
 
     const province = provinceData.find((p) => p.id === region.province_id);
 
