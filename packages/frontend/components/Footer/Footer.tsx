@@ -9,12 +9,11 @@ const Footer = () => {
         justifyContent: 'center',
         backgroundColor: '#000000',
         color: '#ffffff',
-        padding: '20px 20px',
       }}
     >
       <div
-       className='hidden lg:block'
-       style={{ width: '100%', maxWidth: '1400px' }}>
+        className='hidden lg:block'
+        style={{ width: '100%', maxWidth: '1400px', margin: '20px 20px', }}>
         <FooterTopSection />
       </div>
     </footer>

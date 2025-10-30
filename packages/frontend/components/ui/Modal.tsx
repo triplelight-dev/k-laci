@@ -34,9 +34,15 @@ const Modal = ({ title, setModal, children }: ModalProps) => {
           margin: '20px'
         }}
       >
-        <div className="text-gray-400 text-2xl">{title}</div>
+        <div className="text-gray-400"
+          style={{
+            padding: '4px 8px',
+            backgroundColor: 'transparent',
+            fontSize: '30px',
+            color: '#000000',
+          }}>{title}</div>
         <div className="text-gray-400">{children}</div>
-        
+
       </div>
     </div>
   );

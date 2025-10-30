@@ -148,7 +148,7 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
             </button>
           )}
 
-          {!isMyMatch && (
+          {(!isMobile || (isMobile && !isMyMatch)) && (
             <div
               className="font-poppins text-[2.1875rem] leading-[110%] font-bold tracking-[-1.05px]"
               style={{
@@ -225,15 +225,17 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
                   className="hidden lg:flex flex-row"
                   style={{ gap: '10px', alignItems: 'center' }}>
                   {/* 사용자 정보 표시 */}
-                  <span className="hidden lg:flex flex-col"
-                    style={{
-                      fontSize: '14px',
-                      color: theme.textColor,
-                      marginRight: '10px',
-                    }}
-                  >
-                    {user?.profile.name}님
-                  </span>
+                  <Link href={ROUTES.MY}>
+                    <span className="hidden lg:flex flex-col"
+                      style={{
+                        fontSize: '14px',
+                        color: theme.textColor,
+                        marginRight: '10px',
+                      }}
+                    >
+                      {user?.profile.name}님
+                    </span>
+                  </Link>
 
                   {/* 로그아웃 버튼 */}
                   <Button
@@ -288,19 +290,21 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
                   </Link>
                 </div>
 
-                <div
-                  className="flex flex-row lg:hidden"
-                  style={{ gap: '10px', alignItems: 'center' }}>
-                  {/* Login Button - 흰색 배경 */}
-                  <Link href={ROUTES.LOGIN}>
-                    로그인
-                  </Link>
+                {(!isMobile || (isMobile && !isMyMatch)) && (
+                  <div
+                    className="flex flex-row lg:hidden"
+                    style={{ gap: '10px', alignItems: 'center' }}>
+                    {/* Login Button - 흰색 배경 */}
+                    <Link href={ROUTES.LOGIN}>
+                      로그인
+                    </Link>
 
-                  {/* Signup Button - 투명 배경 흰 보더 + 우측 대각선 아이콘 */}
-                  <Link href={ROUTES.SIGNUP}>
-                    회원가입
-                  </Link>
-                </div>
+                    {/* Signup Button - 투명 배경 흰 보더 + 우측 대각선 아이콘 */}
+                    <Link href={ROUTES.SIGNUP}>
+                      회원가입
+                    </Link>
+                  </div>
+                )}
               </>
             )}
           </div>

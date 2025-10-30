@@ -41,7 +41,8 @@ const DistrictSearchSection: React.FC = () => {
         backgroundImage: isMobile ? '' : 'url(/title_bg.png)',
         backgroundSize: '100% 100%',
         backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center'
+        backgroundPosition: 'center',
+        minHeight: '100vh',
       }}
     >
       <div

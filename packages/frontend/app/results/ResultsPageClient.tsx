@@ -311,7 +311,7 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
-          // justifyContent: 'cen/er',
+          // justifyContent: 'center',
           alignItems: 'center',
           background: isMobile ? 'black' : '#F4F4F4',
           position: 'relative',
@@ -361,7 +361,6 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
         {isMobile && !isMatch &&
           <DistrictSearchSection />
         }
-
 
         <div
           style={{

@@ -41,34 +41,27 @@ export default function MySection({
   // 지역명으로부터 Province와 Region 객체 찾기
   const findProvinceAndRegionByRegion = (id: number) => {
 
-    if (id !== undefined) {
-      return null;
-    }
-
     const region = regionsData.find(
       (r) => r.id === id,
     );
-    if (!region) return '없음';
 
-    return region.name;
+    return region;
   };
 
   const findProvinceAndRegionByProvince = (id: number) => {
 
-    if (id !== undefined) {
-      return null;
-    }
-
     const region = regionsData.find(
       (r) => r.id === id,
     );
     if (!region) return '없음';
 
-    const province = provinceData.find((p) => p.id === region?.province_id);
-    if (!province) return '없음';
+    const province = provinceData.find((p) => p.id === region.province_id);
 
-    return province.name;
+    return province;
   };
+
+  const regionname = findProvinceAndRegionByRegion(user?.profile.interest_region_id ?? 0);
+  const provincename = findProvinceAndRegionByProvince(user?.profile.interest_region_id ?? 0);
 
   const handleLogout = async () => {
     try {
@@ -92,13 +85,12 @@ export default function MySection({
         height: 'calc(100vh - 100px)',
         minHeight: '800px',
         display: 'flex',
-        alignItems: 'center',
+        // alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#F4F4F4',
       }}
     >
-      <div style={{ width: '100%', maxWidth: '800px', margin: '0 1rem' }}>
-
+      <div style={{ width: '100%', maxWidth: '800px' }}>
 
         {isLoggedIn ? (
           <>
@@ -167,71 +159,85 @@ export default function MySection({
                   color: '#000000',
                 }}
               >
-                {findProvinceAndRegionByProvince(user?.profile.interest_region_id ?? 0)} {findProvinceAndRegionByRegion(user?.profile.interest_region_id ?? 0)}
+                {provincename?.name} {regionname?.name}
               </div>
 
             </div>
           </>
         ) : (
           <>
-            <Link href={ROUTES.LOGIN}>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                borderRadius: '50px',
+                padding: '0px 20px',
+              }}
+            >
+              <Link href={ROUTES.LOGIN}>
+                <div
+                  style={{
+                    padding: '4px 8px',
+                    backgroundColor: 'transparent',
+                    fontSize: '36px',
+                    color: '#000000',
+                  }}
+                >
+                  로그인/회원가입
+                </div>
+              </Link>
+
               <div
                 style={{
                   padding: '4px 8px',
                   backgroundColor: 'transparent',
-                  fontSize: '36px',
+                  fontSize: '18px',
                   color: '#000000',
                 }}
               >
-                로그인/회원가입
+                우리지자체의 잠재역량을 데이터로 확인해보세요.
               </div>
-            </Link>
-
-            <div
-              style={{
-                padding: '4px 8px',
-                backgroundColor: 'transparent',
-                fontSize: '18px',
-                color: '#000000',
-              }}
-            >
-              우리지자체의 잠재역량을 데이터로 확인해보세요.
             </div>
           </>
         )}
 
         {/* 문의 하실 내용 */}
-        <div style={{ padding: '12px 50px', margin: '20px' }}>
-          <h1
+        <div
+          className='flex flex-col gap-5'
+          style={{ padding: '12px 20px', margin: '20px', background: '#FFFFFF' }}>
+          <div
             style={{
-              fontSize: '16px',
+              fontSize: '28px',
               fontWeight: '600',
-              color: '#000000',
-              background: '#FFFFFF',
-              padding: '20px'
+              color: '#000000'
             }}
           >
             문의하실 내용이 있나요?
-            하단 경로를 통해 문의 해 주시면 빠르게 답변을 받아 보실 수 있습니다.
+          </div>
+          <div
+            style={{
+              fontSize: '16px',
+              fontWeight: '600',
+              color: '#000000'
+            }}
+          >
+            하단 경로를 통해 문의 해 주시면 빠르게 답변을 받아 보실 수 있습니다.<br />
             이메일 : impact@triplelight.co
-          </h1>
+          </div>
         </div>
 
         {/* 웹사이트 설명 */}
         <div
           style={{
-            width: '100%',
-            maxWidth: '1060px',
-            margin: '0 auto',
             borderRadius: '26px',
-            marginTop: '33px',
-            fontSize: '14px',
+            padding: '12px 20px',
+            fontSize: '16px',
+            margin: '20px',
             fontWeight: '500',
             lineHeight: '24px',
             color: '#9A9EA3',
             textAlign: 'center',
-            padding: '8px 0',
-            backgroundColor: '#EDEDED',
+            backgroundColor: '#EDEDED'
           }}
         >
           자세한 서비스 소개는 PC버전 웹사이트(klaci.kr)에서 확인하실 수 있습니다.
@@ -277,7 +283,7 @@ export default function MySection({
                     >닫기</Button>
 
                     <Button
-                      variant="secondary"
+                      variant="primary"
                       label="로그아웃"
                       padding="10px 30px"
                       fontSize="14px"
