@@ -36,7 +36,6 @@ const ResultLayout = ({ children }: { children: React.ReactNode }) => {
       }}
     >
       <Header isBlackTheme={(isMobile && !isMatch) ? true : false} />
-      {isMatch}
       {children}
     </div>
   );

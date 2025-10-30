@@ -85,8 +85,8 @@ const JewelRadarChart = ({
     const angle = -Math.PI / 2 + rotation + i * angleStep;
     const r = (value / 100) * radius;
     return {
-      x: svgCenterX + r * Math.cos(angle),
-      y: svgCenterY + r * Math.sin(angle),
+      x: Number((svgCenterX + r * Math.cos(angle)).toFixed(6)),
+      y: Number((svgCenterY + r * Math.sin(angle)).toFixed(6)),
       angle,
     };
   });

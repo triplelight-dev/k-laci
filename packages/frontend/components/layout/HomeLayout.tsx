@@ -10,7 +10,7 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
     <div
       style={{
         width: '100%',
-        // minWidth: '1500px//
+        // minWidth: '1500px,
         minHeight: '100vh',
         backgroundColor: DARK_MODE_COLORS.background,
         // justifyContent: 'center',
@@ -21,12 +21,10 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
     >
       <Header isBlackTheme={true} />
       {children}
-      <div className="hidden lg:block">
-        <HomePreRegistrationSection />
-      </div>
-      <div className="block lg:hidden">
+      <HomePreRegistrationSection />
+      <section className="block lg:hidden">
         <MobileHomeSection />
-      </div>
+      </section>
       <Footer />
     </div>
   );

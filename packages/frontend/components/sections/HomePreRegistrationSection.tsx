@@ -63,6 +63,7 @@ const HomePreRegistrationSection = (props: { height?: string }) => {
   return (
     <>
       <section
+        className="hidden lg:block"
         style={{
           width: '100%',
           minHeight: '500px',
