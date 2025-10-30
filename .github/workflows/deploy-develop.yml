@@ -1,4 +1,4 @@
-name: Deploy Develop to EC2
+name: Deploy Develop to EC2 (OOM-Safe Artifact Transfer)
 
 on:
   push:
@@ -10,23 +10,108 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. 코드 체크아웃
-      - name: Checkout code
+      # 1. 소스 코드 체크아웃
+      - name: 1. Checkout code
         uses: actions/checkout@v3
 
-      # 2. SSH 키 설정
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.3
+      # 2. Node.js 환경 설정, 의존성 설치, 빌드 (Runner에서 모두 완료)
+      - name: 2. Setup Node.js, Install Dependencies, and Build
+        uses: actions/setup-node@v3
         with:
-          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+          node-version: 'lts/*' 
 
-      # 3. EC2 서버에 배포 스크립트 실행
-      - name: Deploy to EC2
+      - name: 2.1 Full Installation and Build
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "
-            cd /home/ec2-user/k-laci && \
-            git pull origin develop && \
-            cd packages/backend && \
-            NODE_OPTIONS='--max-old-space-size=512' yarn install --frozen-lockfile --network-timeout 100000 && \
-            pm2 restart k-laci-backend || pm2 start yarn --name k-laci-backend --cwd /home/ec2-user/k-laci/packages/backend -- start:dev
-          "
+          cd packages/backend
+          # 개발 의존성을 포함한 전체 의존성 설치 (OOM 이슈 없는 Runner에서 실행)
+          yarn install --frozen-lockfile 
+          # nest build 실행
+          ./node_modules/.bin/nest build
+          
+      # 3. 아티팩트 압축 및 준비 (TAR 오류 회피)
+      - name: 3. Compress Artifacts (node_modules + dist + sources)
+        run: |
+          # ✅ [최종 수정] 불필요한 cd 명령 제거. (run 스텝은 기본적으로 루트에서 시작합니다.)
+          
+          # 압축 대상(packages/backend)을 명시하고, 압축 파일은 루트에 생성합니다.
+          # 모든 경로는 프로젝트 루트 기준입니다.
+          tar -czf backend-deploy.tar.gz \
+            --exclude='./backend-deploy.tar.gz' \
+            --exclude='./packages/backend/*.log' \
+            --exclude='./packages/backend/*.sock' \
+            --exclude='./packages/backend/node_modules/.cache' \
+            packages/backend
+        
+      # 4. EC2로 압축 파일 SCP 전송
+      - name: 4. SCP Transfer Compressed Artifact to EC2
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          # ✅ 압축 파일이 루트에 있으므로 source 경로를 "backend-deploy.tar.gz"로 설정
+          source: "backend-deploy.tar.gz" 
+          # 압축 파일은 EC2의 프로젝트 루트에 전송
+          target: "/home/ec2-user/k-laci/" 
+        
+          
+      # 5. EC2에 접속하여 압축 해제 및 재시작 (Start)
+      - name: 5. Unpack and Execute Restart on EC2 (Start the App)
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            TARGET_ROOT=/home/ec2-user/k-laci
+            
+            # 1. 대상 경로(프로젝트 루트)로 이동
+            cd $TARGET_ROOT
+            
+            # 2. 압축 해제 (OOM 회피: node_modules와 빌드 결과가 packages/backend 폴더에 덮어쓰기 됨)
+            tar -xzf backend-deploy.tar.gz
+            
+            # 3. 압축 파일 삭제
+            rm backend-deploy.tar.gz
+            
+            # 4. PM2 재시작 명령만 실행 (OOM 안전, start:prod만 실행)
+            TARGET_DIR=$TARGET_ROOT/packages/backend
+            pm2 restart k-laci-backend || pm2 start yarn --name k-laci-backend --cwd $TARGET_DIR -- start:prod
+            echo "Deployment finished. OOM-safe deploy completed."
+
+
+# name: Deploy Develop to EC2
+
+# on:
+#   push:
+#     branches:
+#       - develop
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       # 1. 코드 체크아웃
+#       - name: Checkout code
+#         uses: actions/checkout@v3
+
+#       # 2. SSH 키 설정
+#       - name: Set up SSH
+#         uses: webfactory/ssh-agent@v0.5.3
+#         with:
+#           ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+
+#       # 3. EC2 서버에 배포 스크립트 실행
+#       - name: Deploy to EC2
+#         run: |
+#           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "
+#             cd /home/ec2-user/k-laci && \
+#             git pull origin develop && \
+#             cd packages/backend && \
+#             yarn cache clean --all || true && \
+#             NODE_OPTIONS='--max-old-space-size=512' yarn install --frozen-lockfile --network-timeout 100000 && \
+#             pm2 restart k-laci-backend || pm2 start yarn --name k-laci-backend --cwd /home/ec2-user/k-laci/packages/backend -- start:dev
+#           "
