@@ -42,7 +42,7 @@ const DistrictSearchSection: React.FC = () => {
         backgroundSize: '100% 100%',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
-        minHeight: '100vh',
+        minHeight: isMobile ? '100vh' : '',
       }}
     >
       <div
