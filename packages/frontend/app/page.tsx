@@ -29,7 +29,9 @@ export default function HomePage() {
         </HomeLayout>
       </div>
       <div className="block lg:hidden">
-        <MobileHomeRedirectClient />
+        <HomeLayout>
+          <MobileHomeRedirectClient />
+        </HomeLayout>
       </div>
     </>
   );

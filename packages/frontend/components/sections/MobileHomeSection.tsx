@@ -1,5 +1,6 @@
 'use client';
 
+import { ROUTES } from '@/constants/data';
 import Link from 'next/link';
 import { useCallback, useState } from 'react';
 import { UserService } from '../../api/services/user.service';
@@ -228,107 +229,155 @@ const MobileHomeSection = (props: { height?: string }) => {
   return (
     <div className="flex flex-col gap-3">
 
-      <div
-        style={{
-          position: 'relative',
-          width: '100%',
-          height: '300px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-      >
-        {extendedData.map((item, index) => {
-          const adjustedIndex = index % dataLength;
-          const cardStyle = getCardStyle(adjustedIndex, item.id);
+      <>
 
-          return (
-            <div
-              key={`${item.id}-${index}`}
-              style={{
-                position: 'absolute',
-                opacity: cardStyle.opacity,
-                transform: cardStyle.transform,
-                zIndex: cardStyle.zIndex,
-                transition: 'all 0.5s ease',
-                pointerEvents: cardStyle.zIndex >= 8 ? 'auto' : 'none', // 보이는 카드만 클릭 가능
-                minHeight: '100px'
-              }}
-              onMouseEnter={() => setHoveredCardId(item.id)}
-              onMouseLeave={() => setHoveredCardId(null)}
-            >
+        <div className="flex flex-col items-center w-full gap-5"
+          style={{
+            padding: '20px'
+          }}>
 
-              {item.title}
-
-            </div>
-          );
-        })}
-      </div>
-
-      {/* 2-1. 버튼 두 개 (한 줄 배치) */}
-      <div className="flex gap-2">
-        {/* 1. 지자체 조회 버튼 */}
-        {/* Link 태그에 w-full을 적용하여 부모 너비를 차지하게 합니다. */}
-        <Link href="/results" className="w-full">
-          <Button
-            // 💡 버튼 자체에도 w-full을 적용하여 Link의 너비를 채웁니다.
-            // 💡 h-16 (높이 4rem)를 적용하여 높이를 높입니다.
-            className="h-60 bg-gray-100 text-gray-800"
-            width="100%"
-            variant="primary"
-            label="지자체 조회"
-            // padding 프롭 대신 h-16 클래스로 높이를 조절했으므로 padding을 조정하거나 제거할 수 있습니다.
-            // padding="10px 30px"
-            fontSize="28px" // 폰트 크기도 약간 키웠습니다.
-            fontWeight="600"
+          <img
+            src="/mobile/mobile_home.png"
+            alt="모바일 페이지"
+            style={{
+              width: '100%',
+              height: 'auto',
+              borderRadius: '8px'
+            }}
           />
-        </Link>
 
-        {/* 2. 백서 구매 버튼 */}
-        {/* 💡 Button 자체에 w-full과 h-16을 적용합니다. */}
-        <Link href="/results" className="w-full">
+          {/* Login Button - 흰색 배경 */}
+          <Link href={ROUTES.RESULT} className="w-full block">
+            <Button
+              variant="primary"
+              label="우리 지자체 조회하기"
+              padding="10px 30px"
+              fontSize="14px"
+              fontWeight="500"
+              width='100%'
+            />
+          </Link>
+
+          {/* Signup Button - 투명 배경 흰 보더 + 우측 대각선 아이콘 */}
+          <Link href={ROUTES.SIGNUP} className="w-full block">
+            <Button
+              variant="secondary"
+              label="로그인/회원가입"
+              padding="10px 30px"
+              fontSize="14px"
+              fontWeight="500"
+              width='100%'
+            />
+          </Link>
+
+        </div>
+
+      </>
+      {false && (
+        <>
+          <div
+            style={{
+              position: 'relative',
+              width: '100%',
+              height: '300px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+          >
+            {extendedData.map((item, index) => {
+              const adjustedIndex = index % dataLength;
+              const cardStyle = getCardStyle(adjustedIndex, item.id);
+
+              return (
+                <div
+                  key={`${item.id}-${index}`}
+                  style={{
+                    position: 'absolute',
+                    opacity: cardStyle.opacity,
+                    transform: cardStyle.transform,
+                    zIndex: cardStyle.zIndex,
+                    transition: 'all 0.5s ease',
+                    pointerEvents: cardStyle.zIndex >= 8 ? 'auto' : 'none', // 보이는 카드만 클릭 가능
+                    minHeight: '100px'
+                  }}
+                  onMouseEnter={() => setHoveredCardId(item.id)}
+                  onMouseLeave={() => setHoveredCardId(null)}
+                >
+
+                  {item.title}
+
+                </div>
+              );
+            })}
+          </div>
+
+          {/* 2-1. 버튼 두 개 (한 줄 배치) */}
+          <div className="flex gap-2">
+            {/* 1. 지자체 조회 버튼 */}
+            {/* Link 태그에 w-full을 적용하여 부모 너비를 차지하게 합니다. */}
+            <Link href="/results" className="w-full">
+              <Button
+                // 💡 버튼 자체에도 w-full을 적용하여 Link의 너비를 채웁니다.
+                // 💡 h-16 (높이 4rem)를 적용하여 높이를 높입니다.
+                className="h-60 bg-gray-100 text-gray-800"
+                width="100%"
+                variant="primary"
+                label="지자체 조회"
+                // padding 프롭 대신 h-16 클래스로 높이를 조절했으므로 padding을 조정하거나 제거할 수 있습니다.
+                // padding="10px 30px"
+                fontSize="28px" // 폰트 크기도 약간 키웠습니다.
+                fontWeight="600"
+              />
+            </Link>
+
+            {/* 2. 백서 구매 버튼 */}
+            {/* 💡 Button 자체에 w-full과 h-16을 적용합니다. */}
+            <Link href="/results" className="w-full">
+              <Button
+                className="h-60 bg-gray-100 text-gray-800"
+                width="100%"
+                variant="primary"
+                label={
+                  <>
+                    백서 구매<br />
+                    페이지 연결
+                  </>
+                }
+                // padding="10px 30px"
+                fontSize="28px"
+                fontWeight="600"
+              />
+            </Link>
+          </div>
+
+          {/* 2-2. 버튼 하나 (그 아래) */}
           <Button
-            className="h-60 bg-gray-100 text-gray-800"
             width="100%"
             variant="primary"
-            label={
-              <>
-                백서 구매<br />
-                페이지 연결
-              </>
-            }
-            // padding="10px 30px"
+            label="서비스와 연구진 소개"
+            padding="10px 30px"
             fontSize="28px"
             fontWeight="600"
           />
-        </Link>
-      </div>
 
-      {/* 2-2. 버튼 하나 (그 아래) */}
-      <Button
-        width="100%"
-        variant="primary"
-        label="서비스와 연구진 소개"
-        padding="10px 30px"
-        fontSize="28px"
-        fontWeight="600"
-      />
-
-      {/* 2-3. 버튼 하나 더 (그 아래) */}
-      <Button
-        width="100%"
-        variant="primary"
-        label="지역역량지수 도출과정"
-        padding="10px 30px"
-        fontSize="28px"
-        fontWeight="600"
-      />
+          {/* 2-3. 버튼 하나 더 (그 아래) */}
+          <Button
+            width="100%"
+            variant="primary"
+            label="지역역량지수 도출과정"
+            padding="10px 30px"
+            fontSize="28px"
+            fontWeight="600"
+          />
+        </>
+      )}
 
     </div >
   );

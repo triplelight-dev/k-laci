@@ -196,7 +196,7 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
           style={{
             flex: '1',
             display: 'flex',
-            justifyContent: 'center',
+            justifyContent: isSignUpMatch ? '' : 'center',
             padding: '0 20px',
           }}
         >
@@ -222,20 +222,20 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
                   </Link>
                 );
               })}
-
-              {isMobile && isSignUpMatch && (
-                <>
-                  <span
-                    style={{
-                      fontSize: '28px',
-                      color: theme.textColor,
-                    }}
-                  >
-                    회원가입
-                  </span>
-                </>
-              )}
             </div>
+
+            {isMobile && isSignUpMatch && (
+              <>
+                <span
+                  style={{
+                    fontSize: '28px',
+                    color: theme.textColor,
+                  }}
+                >
+                  회원가입
+                </span>
+              </>
+            )}
           </nav>
         </div>
 

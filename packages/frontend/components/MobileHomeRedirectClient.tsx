@@ -1,6 +1,5 @@
 'use client';
 
-import MobileRedirector from '@/components/MobileRedirector';
 import dynamic from 'next/dynamic';
 
 // 💡 여기서 dynamic import와 ssr: false를 사용합니다.
@@ -11,6 +10,11 @@ const DynamicMobileRedirector = dynamic(
 
 export default function MobileHomeRedirectClient() {
     return (
-        <MobileRedirector />
+
+        <>
+        aaa
+        </>
+
+        // <MobileRedirector />
     );
 }

@@ -20,8 +20,10 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
       }}
     >
       <Header isBlackTheme={true} />
-      {children}
-      <HomePreRegistrationSection />
+      <section className="hidden lg:block">
+        {children}
+        <HomePreRegistrationSection />
+      </section>
       <section className="block lg:hidden">
         <MobileHomeSection />
       </section>
