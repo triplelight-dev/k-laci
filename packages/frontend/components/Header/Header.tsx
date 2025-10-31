@@ -196,7 +196,7 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
           style={{
             flex: '1',
             display: 'flex',
-            justifyContent: isSignUpMatch ? '' : 'center',
+            justifyContent: (isMobile && isSignUpMatch) ? '' : 'center',
             padding: '0 20px',
           }}
         >
