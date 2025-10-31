@@ -33,6 +33,7 @@ export default function EmailVerificationSection({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#F4F4F4',
+        margin: mobile ? '' : '100px 0px'
       }}
     >
       <div
