@@ -10,6 +10,7 @@ interface EmailVerificationFormProps {
   isLoading: boolean;
   onSubmit: (e: React.FormEvent) => void;
   error: string;
+  mobile: boolean
 }
 
 // 완전한 이메일 유효성 검증 함수
@@ -24,6 +25,7 @@ export default function EmailVerificationForm({
   isLoading,
   onSubmit,
   error,
+  mobile
 }: EmailVerificationFormProps) {
   const [userType, setUserType] = useState<UserType>('GENERAL');
 
@@ -41,10 +43,10 @@ export default function EmailVerificationForm({
       onSubmit={onSubmit}
       style={{
         width: '100%',
-        maxWidth: '520px',
+        maxWidth: mobile ? '100%' : '520px',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
+        alignItems: mobile ? '' : 'center',
         justifyContent: 'center',
         // gap: '20px',
       }}
@@ -66,17 +68,17 @@ export default function EmailVerificationForm({
             // marginBottom: '50px',
           }}
         >
-          <UserTypeBadge 
-            type={UserTypeEnum.GOV} 
-            isActive={isEmailValid && userType === UserTypeEnum.GOV} 
+          <UserTypeBadge
+            type={UserTypeEnum.GOV}
+            isActive={isEmailValid && userType === UserTypeEnum.GOV}
           />
-          <UserTypeBadge 
-            type={UserTypeEnum.BUSINESS}  
-            isActive={isEmailValid && userType === UserTypeEnum.BUSINESS} 
+          <UserTypeBadge
+            type={UserTypeEnum.BUSINESS}
+            isActive={isEmailValid && userType === UserTypeEnum.BUSINESS}
           />
-          <UserTypeBadge 
-            type={UserTypeEnum.GENERAL} 
-            isActive={isEmailValid && userType === UserTypeEnum.GENERAL} 
+          <UserTypeBadge
+            type={UserTypeEnum.GENERAL}
+            isActive={isEmailValid && userType === UserTypeEnum.GENERAL}
           />
         </div>
 

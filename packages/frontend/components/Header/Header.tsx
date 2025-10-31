@@ -8,7 +8,7 @@ import { useIsLoggedIn, useLogout, useUser } from '@/store';
 import { DARK_MODE_COLORS } from '@/utils/colors';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Button from '../atoms/buttons/Button';
 
 const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
@@ -17,6 +17,7 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
   const user = useUser();
   const logout = useLogout();
   const isMobile = useIsMobile();
+  const router = useRouter();
 
   // 테마별 설정
   const theme = {
@@ -71,6 +72,11 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
     }
   };
 
+  const handleBack = () => {
+    // 💡 브라우저 히스토리의 이전 항목으로 이동합니다.
+    router.back();
+  };
+
   /**
    * 주어진 문자열이 '/results/region/숫자' 형태의 URL 경로인지 확인합니다.
    * @param {string} urlPath 검사할 URL 경로 문자열
@@ -87,9 +93,21 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
     return regex.test(urlPath);
   };
 
+  const isSignUpUrl = (urlPath: string): boolean => {
+    const regex = /^\/auth\/signup/;
+    return regex.test(urlPath);
+  };
+
+  const isLoginUrl = (urlPath: string): boolean => {
+    const regex = /^\/auth\/login/;
+    return regex.test(urlPath);
+  };
+
   const currentPath = usePathname();
   const isMatch = isRegionResultUrl(currentPath);
-  const isMyMatch = isMyUrl(currentPath);
+  const isSignUpMatch = isSignUpUrl(currentPath);
+  const isMyMatch = (isMyUrl(currentPath) || isSignUpMatch);
+  const isLoginMatch = isLoginUrl(currentPath);
 
   return (
     <header
@@ -123,10 +141,10 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
             minWidth: '200px',
           }}
         >
-          {isMobile && (isMatch || isMyMatch) && (
+          {isMobile && (isMatch || isMyMatch) && !isLoginMatch && (
 
             <button
-              onClick={() => window.history.back()}
+              onClick={handleBack}
               style={{
                 // background: 'white',
                 border: '1px solid transparent',
@@ -148,7 +166,7 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
             </button>
           )}
 
-          {(!isMobile || (isMobile && !isMyMatch)) && (
+          {(!isMobile || ((isMobile && !isMyMatch) && (isMobile && !isLoginMatch))) && (
             <div
               className="font-poppins text-[2.1875rem] leading-[110%] font-bold tracking-[-1.05px]"
               style={{
@@ -204,6 +222,19 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
                   </Link>
                 );
               })}
+
+              {isMobile && isSignUpMatch && (
+                <>
+                  <span
+                    style={{
+                      fontSize: '28px',
+                      color: theme.textColor,
+                    }}
+                  >
+                    회원가입
+                  </span>
+                </>
+              )}
             </div>
           </nav>
         </div>
@@ -290,7 +321,7 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
                   </Link>
                 </div>
 
-                {(!isMobile || (isMobile && !isMyMatch)) && (
+                {(!isMobile || ((isMobile && !isMyMatch) && (isMobile && !isLoginMatch))) && (
                   <div
                     className="flex flex-row lg:hidden"
                     style={{ gap: '10px', alignItems: 'center' }}>
@@ -309,6 +340,41 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
             )}
           </div>
         </div>
+
+        {(isMobile && isLoginMatch) && (
+          <>
+            {/* 4. 엑스버튼 */}
+            <div
+              style={{
+                flex: '0 0 auto',
+                display: 'flex',
+                justifyContent: 'flex-end',
+
+              }}
+            >
+              <div
+                style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                <>
+                  <button
+                    onClick={() => window.history.back()}
+                    style={{
+                      // background: 'white',
+                      border: '1px solid transparent',
+                      cursor: 'pointer',
+                      padding: '0px 12px 0px 0px',
+                      borderRadius: '12px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'border-color 0.2s ease',
+                    }}
+                  >
+                    X
+                  </button>
+                </>
+              </div>
+            </div>
+          </>)}
       </div>
     </header>
   );

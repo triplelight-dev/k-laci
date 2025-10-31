@@ -11,6 +11,7 @@ interface CodeVerificationSectionProps {
   onResend: () => void;
   formatTime: (seconds: number) => string;
   verificationError: string;
+  mobile: boolean
 }
 
 export default function CodeVerificationSection({
@@ -23,34 +24,46 @@ export default function CodeVerificationSection({
   onResend,
   formatTime,
   verificationError,
+  mobile
 }: CodeVerificationSectionProps) {
   return (
     <div
       style={{
         width: '100%',
+        height: 'calc(100vh - 100px)',
+        minHeight: '800px',
         display: 'flex',
-        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#f5f5f5',
-        // paddingTop: '80px',
+        backgroundColor: '#F4F4F4',
       }}
     >
-      <div style={{ width: '100%', maxWidth: '800px', margin: '0 1rem' }}>
+      <div
+        style={{
+          width: '100%',
+          maxWidth: mobile ? '' : '800px',
+          margin: '0 1rem',
+        }}
+      >
         {/* 메인 컨테이너 */}
         <div
           style={{
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
+            alignItems: mobile ? '' : 'center',
             justifyContent: 'center',
-            backgroundColor: '#FAFAFA',
             borderRadius: '50px',
-            padding: '60px 90px',
+            padding: mobile ? '60px 0px' : '60px 90px',
+            backgroundColor: mobile ? '' : '#FAFAFA',
           }}
         >
-          {/* 1/2 단계 뱃지 */}
-          <StepBadge step="1/2" />
+
+          {!mobile && (
+            <>
+              {/* 1/2 단계 뱃지 */}
+              <StepBadge step="1/2" />
+            </>
+          )}
 
           {/* 타이틀 */}
           <div style={{ textAlign: 'center', marginBottom: '66px' }}>
@@ -67,11 +80,12 @@ export default function CodeVerificationSection({
           </div>
 
           <div style={{
+            width: '100%',
             fontSize: '18px',
             fontWeight: '400',
             color: '#000000',
             lineHeight: '28px',
-            textAlign: 'center',
+            textAlign: mobile ? 'left' : 'center',
             marginBottom: '62px',
             whiteSpace: 'pre-line',
           }}>
@@ -88,6 +102,7 @@ export default function CodeVerificationSection({
             onSubmit={onSubmit}
             onResend={onResend}
             formatTime={formatTime}
+            mobile={mobile}
           />
 
           {/* 인증 에러 메시지 */}
@@ -104,58 +119,63 @@ export default function CodeVerificationSection({
             </div>
           )}
         </div>
-      </div>
-      {/* 로그인 링크 */}
-      <div
-        style={{
-          textAlign: 'center',
-          marginTop: '60px',
-          fontWeight: '400',
-          fontSize: '18px',
-        }}
-      >
-        <span
-          style={{
-            color: '#000000',
-            lineHeight: '2',
-          }}
-        >
-          이미 계정이 있으신가요?{' '}
-        </span>
-        <a
-          href="/auth/login"
-          style={{
-            display: 'inline-block',
-            color: '#000000',
-            textDecoration: 'underline',
-            textDecorationColor: '#000000',
-            textDecorationThickness: '1px',
-            fontSize: '18px',
-            fontWeight: '400',
-          }}
-        >
-          로그인 바로가기
-        </a>
-      </div>
-      <div style={{
-        textAlign: 'center',
-        marginTop: '10px',
-        marginBottom: '100px',
-      }}>
-        <a href="mailto:klaci@triplelight.co">
-          <span
-            style={{
-              fontSize: '18px',
-              fontWeight: '400',
-              color: '#000000',
-              textDecoration: 'underline',
-              textDecorationColor: '#000000',
-              textDecorationThickness: '1px',
-            }}
-          >
-            도움이 필요하신가요?
-          </span>
-        </a>
+
+        {!mobile && (
+          <>
+            {/* 로그인 링크 */}
+            <div
+              style={{
+                textAlign: 'center',
+                marginTop: '60px',
+                fontWeight: '400',
+                fontSize: '18px',
+              }}
+            >
+              <span
+                style={{
+                  color: '#000000',
+                  lineHeight: '2',
+                }}
+              >
+                이미 계정이 있으신가요?{' '}
+              </span>
+              <a
+                href="/auth/login"
+                style={{
+                  display: 'inline-block',
+                  color: '#000000',
+                  textDecoration: 'underline',
+                  textDecorationColor: '#000000',
+                  textDecorationThickness: '1px',
+                  fontSize: '18px',
+                  fontWeight: '400',
+                }}
+              >
+                로그인 바로가기
+              </a>
+              <div style={{
+                textAlign: 'center',
+                marginTop: '10px',
+                marginBottom: '100px',
+              }}>
+                <a href="mailto:klaci@triplelight.co">
+                  <span
+                    style={{
+                      fontSize: '18px',
+                      fontWeight: '400',
+                      color: '#000000',
+                      textDecoration: 'underline',
+                      textDecorationColor: '#000000',
+                      textDecorationThickness: '1px',
+                    }}
+                  >
+                    도움이 필요하신가요?
+                  </span>
+                </a>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

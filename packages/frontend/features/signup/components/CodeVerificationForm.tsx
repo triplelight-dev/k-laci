@@ -9,6 +9,7 @@ interface CodeVerificationFormProps {
   onSubmit: (e: React.FormEvent) => void;
   onResend: () => void;
   formatTime: (seconds: number) => string;
+  mobile: boolean
 }
 
 export default function CodeVerificationForm({
@@ -20,18 +21,18 @@ export default function CodeVerificationForm({
   onSubmit,
   onResend,
   formatTime,
+  mobile
 }: CodeVerificationFormProps) {
   return (
     <form
       onSubmit={onSubmit}
       style={{
         width: '100%',
-        maxWidth: '540px',
+        maxWidth: mobile ? '100%' : '540px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-
       }}
     >
       {/* 인증번호 입력 */}

@@ -27,6 +27,7 @@ interface ProfileFormProps {
   onTermsLink: () => void;
   onPrivacyLink: () => void;
   onMarketingLink: () => void;
+  mobile: boolean
 }
 
 export default function ProfileForm({
@@ -40,6 +41,7 @@ export default function ProfileForm({
   // onTermsLink,
   // onPrivacyLink,
   // onMarketingLink,
+  mobile
 }: ProfileFormProps) {
   const [errors, setErrors] = useState({
     name: '',
@@ -151,7 +153,8 @@ export default function ProfileForm({
     <form
       onSubmit={onSubmit}
       style={{
-        width: '540px',
+        width: '100%',
+        maxWidth: mobile ? '100%' : '540px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

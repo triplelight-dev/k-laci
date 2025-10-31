@@ -2,6 +2,7 @@
 
 import { useLogin } from '@/features/auth/hooks/useLogin';
 import LoginSection from '@/features/auth/sections/LoginSection';
+import { useIsMobile } from '@/hooks';
 
 export default function LoginPageClient() {
   const {
@@ -14,6 +15,8 @@ export default function LoginPageClient() {
     handleSubmit,
   } = useLogin();
 
+  const isMobile = useIsMobile();
+
   return (
     <LoginSection
       email={email}
@@ -23,6 +26,7 @@ export default function LoginPageClient() {
       isLoading={isLoading}
       onSubmit={handleSubmit}
       error={error}
+      mobile={isMobile}
     />
   );
 } 
