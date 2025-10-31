@@ -138,7 +138,7 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
             flex: '0 0 auto',
             display: 'flex',
             justifyContent: 'flex-start',
-            minWidth: '200px',
+            // minWidth: '200px',
           }}
         >
           {isMobile && (isMatch || isMyMatch) && !isLoginMatch && (
@@ -194,7 +194,7 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
         {/* 2. 가운데: 페이지 이동 버튼들 */}
         <div
           style={{
-            flex: '1',
+            flex: '0 0 auto',
             display: 'flex',
             justifyContent: (isMobile && isSignUpMatch) ? '' : 'center',
             padding: '0 20px',
