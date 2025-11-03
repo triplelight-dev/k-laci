@@ -87,10 +87,9 @@ const StickyHeader = () => {
                 {/* 1. 좌측: 로고 */}
                 <div
                     style={{
-                        flex: '1',
+                        flex: '0 1 auto',
                         display: 'flex',
                         justifyContent: 'flex-start',
-                        minWidth: '200px',
                     }}
                 >
 
@@ -121,7 +120,7 @@ const StickyHeader = () => {
                 {/* 2. 가운데: 페이지 이동 버튼들 */}
                 <div
                     style={{
-                        flex: '1',
+                        flex: '1 1 auto',
                         display: 'flex',
                         justifyContent: 'center',
                         color: '#000000'
@@ -145,7 +144,7 @@ const StickyHeader = () => {
                 {/* 3. 우측: 회원가입/로그인 버튼 그룹 */}
                 <div
                     style={{
-                        flex: '1',
+                        flex: '0 1 auto',
                         display: 'flex',
                         justifyContent: 'flex-end',
 

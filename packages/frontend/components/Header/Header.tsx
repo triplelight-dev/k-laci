@@ -333,7 +333,7 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
                     className="flex flex-row lg:hidden"
                     style={{ gap: '10px', alignItems: 'center' }}>
 
-                    <Link href="#">
+                    <Link href={ROUTES.LOGIN}>
                       <img
                         src='/icons/mobile_home_person.png'
                         style={{
