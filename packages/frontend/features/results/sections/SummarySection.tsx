@@ -77,7 +77,7 @@ const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
           style={{
             display: 'flex',
             flexDirection: 'column',
-            borderRadius: isLoggedIn ? '56px' : '56px 56px 0 0',
+            borderRadius: isMobile ? '0px' : (isLoggedIn ? '56px' : '56px 56px 0 0'),
             backgroundColor: 'white',
             padding: '95px 0',
             justifyContent: 'center',
@@ -125,7 +125,7 @@ const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
                   fontWeight="400"
                   lineHeight="28px"
                   color="#000"
-                  padding="30px 135px"
+                  padding="30px 16px"
                   textAlign="justify"
                   whiteSpace="pre-line"
                 >
@@ -147,27 +147,46 @@ const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
                       cursor: 'pointer',
                       padding: '10px 20px',
                       borderRadius: '8px',
-                      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // 버튼에 그림자 추가
                     }}
                   >
-                    {isExpanded ? '닫기 ▲' : '펼쳐보기 ▼'}
+                    <div className="flex cursor-pointer">
+                      {/* 1. 텍스트 부분 */}
+                      <span className="mr-1" style={{ color: '#c9ced3' }}>
+                        {isExpanded ? '닫기' : '펼쳐보기'}
+                      </span>
+
+                      {/* 2. 이미지 부분 */}
+                      <img
+                        // isExpanded 상태에 따라 화살표 방향을 텍스트로 대체했으므로, 
+                        // 이미지 자체는 그냥 화살표 모양을 유지하거나 
+                        // isExpanded 상태에 따라 다른 이미지를 사용해도 됩니다.
+                        src={isExpanded ? "/icons/arrow-top.png" : "/icons/arrow-bottom.png"}
+                        alt={isExpanded ? '닫기 화살표' : '펼쳐보기 화살표'}
+                        width='20px'
+                        height='20px'
+                      // 텍스트에 이미 ▲, ▼가 있으므로 이미지는 단순히 화살표 이미지를 표시합니다.
+                      />
+                    </div>
                   </button>
                 )}
               </div>
             </>
           }
 
-          <Divider style={{ margin: '0 0 60px' }} />
 
           {!isMobile &&
             <>
+              <Divider style={{ margin: '0 0 60px' }} />
               <SummarySectionHeader badgeLabel="KEY INDEX" title="주요 세부지표" />
-              <Divider style={{ margin: '60px 0 0' }} />
+              <Divider style={{ margin: '60px 0 100px' }} />
             </>
           }
 
           {isMobile &&
-            <SummarySectionHeader badgeLabel="" title="주요 세부지표" />
+            <>
+              <Divider style={{ margin: '0 16px 60px' }} />
+              <SummarySectionHeader badgeLabel="" title="주요 세부지표" />
+            </>
           }
 
           {/* 로그인 상태에 따른 조건부 렌더링 */}
@@ -178,7 +197,12 @@ const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
                 <StrengthWeaknessIndexSection />
               </div>
 
-              <Divider style={{ margin: '100px 0 60px' }} />
+              {!isMobile &&
+                <Divider style={{ margin: '100px 0 60px' }} />
+              }
+              {isMobile &&
+                <div style={{ margin: '60px 0 0' }}></div>
+              }
               <CompetencyDistSection />
             </React.Fragment>
           ) : (

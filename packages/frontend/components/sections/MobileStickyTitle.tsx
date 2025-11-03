@@ -42,6 +42,22 @@ const StickyHeader = () => {
     }, [currentRegion]);
     const rankText = `종합순위 ${rank}위`;
 
+    const handleShare = async () => {
+
+        const data = {
+            title: document.title, // 제목이 없으면 현재 문서 제목 사용
+            text: '',
+            url: window.location.href, // URL이 없으면 현재 페이지 URL 사용
+        };
+
+        // 1. Web Share API 지원
+        try {
+            await navigator.share(data);
+        } catch (error) {
+            // 사용자가 공유를 취소하거나 오류 발생 시
+        }
+    };
+
     return (
         <header
             style={{
@@ -93,10 +109,10 @@ const StickyHeader = () => {
                         }}
                     >
                         <Image
-                            src={`/rank_arrow_left.png`}
+                            src={`/icons/mobile_header_back.png`}
                             alt={`이전화면`}
-                            width={12}
-                            height={12}
+                            width={24}
+                            height={24}
                         />
                     </button>
 
@@ -113,8 +129,15 @@ const StickyHeader = () => {
                 >
                     <nav className="flex items-center">
                         <div className="flex flex-col items-center">
-                            <div>{rankText}</div>
-                            <div className="text-3xl">{getDistrictName()}</div>
+                            <div
+                                style={{
+                                    color: '#000000'
+                                }}>{rankText}</div>
+                            <div className="text-3xl"
+                                style={{
+                                    color: '#000000',
+                                    fontSize: '24px'
+                                }}>{getDistrictName()}</div>
                         </div>
                     </nav>
                 </div>
@@ -130,6 +153,28 @@ const StickyHeader = () => {
                 >
                     <div
                         style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+
+                        <button
+                            onClick={handleShare}
+                            style={{
+                                // background: 'white',
+                                border: '1px solid transparent',
+                                cursor: 'pointer',
+                                padding: '0px 12px 0px 0px',
+                                borderRadius: '12px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                transition: 'border-color 0.2s ease',
+                            }}
+                        >
+                            <Image
+                                src={`/icons/mobile_header_share.png`}
+                                alt={`이전화면`}
+                                width={24}
+                                height={24}
+                            />
+                        </button>
 
                     </div>
                 </div>

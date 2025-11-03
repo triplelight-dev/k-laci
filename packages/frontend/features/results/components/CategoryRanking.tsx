@@ -34,7 +34,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
   if (!isClient) {
     return (
       <div
-        className="flex w-full flex-col rounded-lg bg-white shadow-sm"
+        className="flex w-full flex-col bg-white"
         style={{}}
       >
         {!mobile &&
@@ -136,8 +136,8 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
 
   return (
     <div
-      className="flex w-full flex-col rounded-lg shadow-sm"
-      style={{ gap: '50px', maxWidth: '1060px', backgroundColor: mobile ? '' : 'bg-white' }}
+      className="flex w-full flex-col"
+      style={{ gap: '50px', maxWidth: mobile ? '100%' : '1060px', backgroundColor: mobile ? '' : 'bg-white' }}
     >
       {/* 메인 콘텐츠 */}
 
@@ -205,8 +205,8 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
       }
 
       {mobile &&
-        <div className="flex p-6" style={{ gap: '2rem', marginBottom: '30px' }}>
-          {/* 좌측 박스 (1:3 비율에서 1) */}
+        <div className="flex w-full p-6" style={{ gap: '2rem', marginBottom: '30px' }}>
+          {/* 좌측 박스 (1:1 비율에서 1) */}
           <div
             className="flex flex-col"
             style={{

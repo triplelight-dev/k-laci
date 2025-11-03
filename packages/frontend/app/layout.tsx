@@ -232,7 +232,7 @@ export default function RootLayout({
         )}
       </head>
       <body
-        className={`${pretendard.className} ${geistSans.variable} ${geistMono.variable} min-h-screen w-full bg-white antialiased`}
+        className={`${pretendard.className} ${geistSans.variable} ${geistMono.variable} min-h-screen w-full antialiased`}
         style={{
           overscrollBehavior: 'none',
           WebkitOverflowScrolling: 'touch',

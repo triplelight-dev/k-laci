@@ -315,7 +315,7 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
           alignItems: 'center',
           background: isMobile ? 'black' : '#F4F4F4',
           position: 'relative',
-          overflow: 'hidden',
+          overflow: 'hidden'
         }}
       >
 
@@ -377,7 +377,7 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
               display: 'flex',
               flexDirection: 'column',
               width: '100%',
-              maxWidth: '1060px',
+              maxWidth: isMobile ? '100%' : '1060px',
             }}
           >
             {!isMobile && <>
@@ -405,19 +405,26 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
           </>}
         </div>
       </div>
-      {
-        !isLoggedIn && !isMobile && <><LoginSuggestionSection /><div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '10px',
-          padding: '28px 0',
-          backgroundColor: '#000',
-          width: '100%',
-        }}>
-          <p style={{ fontSize: '14px', color: '#fff', fontWeight: '700' }}>© 2025 트리플라잇 주식회사</p>
-          <p style={{ fontSize: '14px', color: '#9A9EA3', fontWeight: '500' }}>klaci@triplelight.co</p>
-        </div></>
+      {!isLoggedIn && (!isMobile || (isMobile && isMatch)) &&
+        <>
+          <LoginSuggestionSection />
+          {!isLoggedIn && !isMobile &&
+            <>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '10px',
+                padding: '28px 0',
+                backgroundColor: '#000',
+                width: '100%',
+              }}>
+                <p style={{ fontSize: '14px', color: '#fff', fontWeight: '700' }}>© 2025 트리플라잇 주식회사</p>
+                <p style={{ fontSize: '14px', color: '#9A9EA3', fontWeight: '500' }}>klaci@triplelight.co</p>
+              </div>
+            </>
+          }
+        </>
       }
       {isLoggedIn && !isMobile && <><HomePreRegistrationSection height='650px' /><Footer /></>}
     </ResultLayout >

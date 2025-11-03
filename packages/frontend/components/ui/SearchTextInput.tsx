@@ -234,7 +234,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
             boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
             zIndex: 9999,
             padding: '3px',
-            maxHeight: '180px',
+            maxHeight: '250px',
             overflowY: 'auto',
           }}
         >

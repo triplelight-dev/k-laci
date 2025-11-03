@@ -193,7 +193,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
         height: '600px',
         marginLeft: mobile ? '' : 'calc(-50vw + 50%)',
         marginRight: mobile ? '' : 'calc(-50vw + 50%)',
-        marginBottom: '258px',
+        marginBottom: mobile ? '' : '258px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

@@ -158,10 +158,10 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
               }}
             >
               <Image
-                src={`/rank_arrow_left.png`}
+                src={`/icons/mobile_header_back.png`}
                 alt={`이전화면`}
-                width={12}
-                height={12}
+                width={24}
+                height={24}
               />
             </button>
           )}
@@ -177,7 +177,7 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
             >
               <Link href="/">
                 <img
-                  src={theme.logo}
+                  src={isMobile ? '/klaci_logo_white_mobile_home.png' : theme.logo}
                   alt="K-LACI Logo"
                   style={{
                     height: '26px',
@@ -286,7 +286,14 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
                     className="flex flex-row lg:hidden"
                     style={{ gap: '10px', alignItems: 'center' }}>
                     <Link href={ROUTES.MY}>
-                      마이페이지
+                      <img
+                        src='/icons/mobile_home_person.png'
+                        style={{
+                          height: '24px',
+                          width: 'auto',
+                          cursor: 'pointer',
+                        }}
+                      />
                     </Link>
                   </div>
                 )}
@@ -325,15 +332,28 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
                   <div
                     className="flex flex-row lg:hidden"
                     style={{ gap: '10px', alignItems: 'center' }}>
-                    {/* Login Button - 흰색 배경 */}
-                    <Link href={ROUTES.LOGIN}>
-                      로그인
+
+                    <Link href="#">
+                      <img
+                        src='/icons/mobile_home_person.png'
+                        style={{
+                          height: '24px',
+                          width: 'auto',
+                          cursor: 'pointer',
+                        }}
+                      />
                     </Link>
 
+
+                    {/* Login Button - 흰색 배경 */}
+                    {/* <Link href={ROUTES.LOGIN}>
+                      로그인
+                    </Link> */}
+
                     {/* Signup Button - 투명 배경 흰 보더 + 우측 대각선 아이콘 */}
-                    <Link href={ROUTES.SIGNUP}>
+                    {/* <Link href={ROUTES.SIGNUP}>
                       회원가입
-                    </Link>
+                    </Link> */}
                   </div>
                 )}
               </>

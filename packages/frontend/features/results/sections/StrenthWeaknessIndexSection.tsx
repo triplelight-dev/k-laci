@@ -513,13 +513,12 @@ const StrengthWeaknessIndexSection: React.FC = () => {
               {activeTab === 'tab1' && (
                 <>
                   {/* 강점지표 */}
-                  < IndexSection
+                  <IndexSection
                     indexType="strength"
-                    data={isLoggedIn ? strengthData : strengthData.slice(0, 5)}
+                    data={isLoggedIn ? strengthData : strengthData.slice(0, 6)}
                     isStrength={true}
                     onItemClick={handleItemClick}
                     isDisabled={!isLoggedIn}
-
                   />
                 </>
               )}
@@ -529,7 +528,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
                   {/* 약점지표 */}
                   <IndexSection
                     indexType="weakness"
-                    data={isLoggedIn ? weaknessData : weaknessData.slice(0, 5)}
+                    data={isLoggedIn ? weaknessData : weaknessData.slice(0, 6)}
                     isStrength={false}
                     onItemClick={handleItemClick}
                     isDisabled={!isLoggedIn}

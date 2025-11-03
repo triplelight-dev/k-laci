@@ -4,6 +4,7 @@ import Button from '@/components/atoms/buttons/Button';
 import LoginInput from '@/components/atoms/LoginInput';
 import { useIsMobile } from '@/hooks';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 interface LoginFormProps {
   email: string;
@@ -26,6 +27,9 @@ export default function LoginForm({
 }: LoginFormProps) {
   const isMobile = useIsMobile();
   const router = useRouter();
+  
+  // 🔑 자동 로그인(상태 유지) 체크박스 상태
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handleSignUp = () => {
     router.push('/auth/signup');
@@ -62,6 +66,17 @@ export default function LoginForm({
             required
           />
         </div>
+
+        {/* ⭐ 자동 로그인 체크박스 구현부 ⭐ */}
+        {/* <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+          <input
+            type="checkbox"
+            checked={rememberMe}
+            onChange={(e) => setRememberMe(e.target.checked)}
+            style={{ marginRight: '8px' }}
+          />
+          **로그인 상태 유지 (자동 로그인)**
+        </label> */}
 
         {/* 에러 메시지 */}
         {error && (

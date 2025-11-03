@@ -225,9 +225,10 @@ const MobileTitleSection: React.FC<TitleSectionProps> = () => {
             fontWeight: '400',
             color: '#000',
             lineHeight: '1.6',
-            width: '520px',
+            width: '100%',
             whiteSpace: 'pre-line',
-            textAlign: 'justify',
+            textAlign: 'center',
+            padding: '0px 16px'
           }}
         >
           {klaciSummaryArray.join(' ')}

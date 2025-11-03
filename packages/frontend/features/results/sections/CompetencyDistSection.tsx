@@ -296,10 +296,10 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index, categories
 
       {isMobile &&
         <>
-          <div style={{ padding: '0 135px', marginTop: '80px' }}>
+          <div style={{ padding: '0 16px', marginTop: '16px' }}>
             <div
               style={{
-                marginBottom: '60px',
+                marginBottom: '30px',
               }}
             >
               <ScoreBar
@@ -347,7 +347,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index, categories
             </div>
 
             {/* 💡 펼쳐보기/접기 버튼 영역 */}
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '30px' }}>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
               {showToggleButton && (
                 <button
                   onClick={() => setIsExpanded(!isExpanded)}
@@ -360,16 +360,32 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index, categories
                     cursor: 'pointer',
                     padding: '10px 20px',
                     borderRadius: '8px',
-                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // 버튼에 그림자 추가
                   }}
                 >
-                  {isExpanded ? '닫기 ▲' : '펼쳐보기 ▼'}
+                  <div className="flex cursor-pointer">
+                    {/* 1. 텍스트 부분 */}
+                    <span className="mr-1" style={{ color: '#c9ced3' }}>
+                      {isExpanded ? '닫기' : '펼쳐보기'}
+                    </span>
+
+                    {/* 2. 이미지 부분 */}
+                    <img
+                      // isExpanded 상태에 따라 화살표 방향을 텍스트로 대체했으므로, 
+                      // 이미지 자체는 그냥 화살표 모양을 유지하거나 
+                      // isExpanded 상태에 따라 다른 이미지를 사용해도 됩니다.
+                      src={isExpanded ? "/icons/arrow-top.png" : "/icons/arrow-bottom.png"}
+                      alt={isExpanded ? '닫기 화살표' : '펼쳐보기 화살표'}
+                      width='20px'
+                      height='20px'
+                    // 텍스트에 이미 ▲, ▼가 있으므로 이미지는 단순히 화살표 이미지를 표시합니다.
+                    />
+                  </div>
                 </button>
               )}
             </div>
 
           </div>
-          {!isLastIndex && <Divider style={{ margin: '0px 0 0' }} />}
+          {<Divider style={{ margin: '0 16px 0' }} />}
         </>
       }
 

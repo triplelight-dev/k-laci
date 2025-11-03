@@ -171,20 +171,19 @@ const CategoryRankingSection = () => {
             <div
               style={{
                 width: '100%',
-                maxWidth: '1060px',
-                margin: '0 auto',
+                maxWidth: '90%',
                 borderRadius: '26px',
-                marginTop: '33px',
-                fontSize: '14px',
+                margin: '33px 16px 33px',
+                fontSize: '16px',
                 fontWeight: '500',
                 lineHeight: '24px',
                 color: '#9A9EA3',
                 textAlign: 'center',
-                padding: '8px 0',
+                padding: '12px',
                 backgroundColor: '#EDEDED',
               }}
             >
-              핵신범주와 세부지표별 설명은 PC버전 웹사이트(klaci.kr)에서 확인하실 수 있습니다.
+              핵심범주와 세부지표별 설명은 PC버전 웹사이트(klaci.kr)에서 확인하실 수 있습니다.
             </div>
 
           </>
@@ -198,7 +197,9 @@ const CategoryRankingSection = () => {
           {categories.map((category, index) => (
             <React.Fragment key={index}>
               <Divider style={{ margin: '80px 0 100px' }} />
-              <div style={{ margin: '0 auto' }}>
+              <div style={{
+                  margin: isMobile ? '0 16px' : '0 auto'
+                }}>
                 <CategoryRanking
                   key={index}
                   categoryData={category}

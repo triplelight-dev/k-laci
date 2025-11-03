@@ -92,7 +92,7 @@ const RegionCard: React.FC<RegionCardProps> = ({
       style={{
         minWidth: '385px',
         width: '280px',
-        height: mobile ? '573px' : isHideBadge ? `${573 - badgeHeight}px` : '573px',
+        height: mobile ? '' : isHideBadge ? `${573 - badgeHeight}px` : '573px',
         backgroundColor: '#FAFAFA', // 전체 회색 배경
         borderRadius: '40px',
         cursor: 'pointer',
@@ -188,10 +188,10 @@ const RegionCard: React.FC<RegionCardProps> = ({
           style={{
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
+            alignItems: mobile ? '' : 'center',
             gap: '12px',
             paddingLeft: '10px',
-            pointerEvents: 'none',
+            pointerEvents: 'none'
           }}
         >
           {!mobile &&

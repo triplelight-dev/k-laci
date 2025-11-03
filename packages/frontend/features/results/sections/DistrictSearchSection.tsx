@@ -61,6 +61,19 @@ const DistrictSearchSection: React.FC = () => {
           onRecentSearchClick={handleRecentSearchClick}
           mobile={isMobile}
         />
+
+        {/* 모바일 페이지 이미지 */}
+        <div className="pt-5 flex justify-center">
+          <img
+            src="/mobile/mobile_results_jewel.png"
+            alt="모바일 페이지"
+            style={{
+              width: '90%',
+              height: 'auto',
+              paddingTop: '30px',
+            }}
+          />
+        </div>
       </div>
     </div>
   );

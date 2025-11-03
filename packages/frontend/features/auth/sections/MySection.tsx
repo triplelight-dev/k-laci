@@ -1,8 +1,7 @@
 import { AuthService } from '@/api/services/auth.service';
-import Modal from '@/components/ui/Modal';
 import { useIsLoggedIn, useLogout, useUser } from '@/store';
 
-import Button from '@/components/atoms/buttons/Button';
+import LogoutModal from '@/components/ui/LogoutModal';
 import { ROUTES } from '@/constants/data';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -181,6 +180,7 @@ export default function MySection({
                     backgroundColor: 'transparent',
                     fontSize: '36px',
                     color: '#000000',
+                    textDecoration: 'underline'
                   }}
                 >
                   로그인/회원가입
@@ -266,35 +266,12 @@ export default function MySection({
                 로그아웃
               </a>
 
-
-              {modalStatus && (
-                <Modal title="로그아웃 하시겠습니까?" setModal={onHandleModalStatus}>
-                  <div
-                    className="flex flex-row gap-5">
-
-                    <Button
-                      variant="secondary"
-                      label="닫기"
-                      padding="10px 30px"
-                      fontSize="14px"
-                      fontWeight="500"
-                      theme='light'
-                      onClick={onHandleModalStatus}
-                    >닫기</Button>
-
-                    <Button
-                      variant="primary"
-                      label="로그아웃"
-                      padding="10px 30px"
-                      fontSize="14px"
-                      fontWeight="500"
-                      theme='light'
-                      onClick={handleLogout}
-                    >로그아웃</Button>
-
-                  </div>
-                </Modal>
-              )}
+              {/* 로그아웃 */}
+              <LogoutModal
+                isOpen={modalStatus}
+                onClose={onHandleModalStatus} // 모달 닫기 기능은 필요에 따라 추가
+                onStart={handleLogout}
+              />
             </div>
           </>
         )}

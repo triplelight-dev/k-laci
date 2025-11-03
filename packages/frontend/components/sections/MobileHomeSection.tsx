@@ -233,7 +233,7 @@ const MobileHomeSection = (props: { height?: string }) => {
 
         <div className="flex flex-col items-center w-full gap-5"
           style={{
-            padding: '20px'
+            padding: '16px'
           }}>
 
           <img
@@ -246,29 +246,32 @@ const MobileHomeSection = (props: { height?: string }) => {
             }}
           />
 
-          {/* Login Button - 흰색 배경 */}
-          <Link href={ROUTES.RESULT} className="w-full block">
-            <Button
-              variant="primary"
-              label="우리 지자체 조회하기"
-              padding="10px 30px"
-              fontSize="14px"
-              fontWeight="500"
-              width='100%'
-            />
-          </Link>
+          <div className="flex flex-col w-full block items-center gap-5">
+            {/* Login Button - 흰색 배경 */}
+            <Link href={ROUTES.RESULT} className="w-full block">
+              <Button
+                variant="primary"
+                label="우리 지자체 조회하기"
+                padding="17px 0px"
+                fontSize="16px"
+                fontWeight="500"
+                width='100%'
+                theme='dark'
+              />
+            </Link>
 
-          {/* Signup Button - 투명 배경 흰 보더 + 우측 대각선 아이콘 */}
-          <Link href={ROUTES.SIGNUP} className="w-full block">
-            <Button
-              variant="secondary"
-              label="로그인/회원가입"
-              padding="10px 30px"
-              fontSize="14px"
-              fontWeight="500"
-              width='100%'
-            />
-          </Link>
+            {/* Signup Button - 투명 배경 흰 보더 + 우측 대각선 아이콘 */}
+            <Link href={ROUTES.LOGIN} className="w-full block">
+              <Button
+                variant="secondary"
+                label="로그인/회원가입"
+                padding="17px 0px"
+                fontSize="16px"
+                fontWeight="500"
+                width='100%'
+              />
+            </Link>
+          </div>
 
         </div>
 
