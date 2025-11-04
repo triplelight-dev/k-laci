@@ -364,7 +364,7 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
         style={{
           display: 'grid',
           gridTemplateColumns: mobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
-          gap: '16px',
+          gap: mobile ? '8px' : '16px',
           maxWidth: '100%',
         }}
       >
@@ -378,7 +378,7 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
               style={{
                 position: 'relative',
                 cursor: 'pointer',
-                borderRadius: '24px',
+                borderRadius: mobile ? '12px' : '24px',
                 border: isHovered
                   ? '1px solid black'
                   : isHighestRank
@@ -389,8 +389,8 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
                   : isHighestRank
                     ? color
                     : '#FAFAFA',
-                padding: '15px 33px',
-                paddingBottom: '38px',
+                padding: mobile ? '10px 10px' : '15px 33px 38px',
+                paddingBottom: mobile ? '' : '',
                 transition: 'all 0.2s ease',
                 minHeight: mobile ? '' : '60px',
                 display: 'flex',
@@ -403,33 +403,39 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
               onMouseLeave={() => setHoveredIndex(null)}
               onClick={() => handleRankClick(score)}
             >
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '16px',
-                  right: '16px',
-                }}
-              >
-                <Image
-                  src="/icons/info_icon.png"
-                  alt="정보 아이콘"
-                  width={16}
-                  height={16}
+
+              {!mobile &&
+                <div
                   style={{
-                    filter: isHovered
-                      ? 'none'
-                      : isHighestRank
-                        ? 'brightness(0) invert(1)'
-                        : 'none',
+                    position: 'absolute',
+                    top: '16px',
+                    right: '16px',
                   }}
-                />
-              </div>
+                >
+                  <Image
+                    src="/icons/info_icon.png"
+                    alt="정보 아이콘"
+                    width={16}
+                    height={16}
+                    style={{
+                      filter: isHovered
+                        ? 'none'
+                        : isHighestRank
+                          ? 'brightness(0) invert(1)'
+                          : 'none',
+                    }}
+                  />
+                </div>
+              }
 
               <Flex
                 alignItems="start"
                 justifyContent="center"
                 gap="10px"
                 flexDirection="column"
+                style={{
+                  marginLeft: mobile ? '4px' : '',
+                }}
               >
                 <div
                   style={{
@@ -440,7 +446,7 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
                         ? 'black'
                         : 'white'
                       : 'black',
-                    marginTop: '8px',
+                    marginTop: mobile ? '' : '8px',
                   }}
                 >
                   {score.name}
@@ -455,7 +461,7 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
                         ? isHovered
                           ? 'black'
                           : 'white'
-                        : 'black',
+                        : '#9A9EA3',
                     }}
                   >
                     상위 {score.topPercentage}%

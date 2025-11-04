@@ -33,11 +33,12 @@ const ScoreBar: React.FC<ScoreBarProps> = ({
           justifyContent: 'space-between',
           gap: '30px',
           flexDirection: 'row',
+          paddingBottom: '3px'
         }}>
           <div
             style={{
-              color: isBold === 'left' ? leftItemKeyColor : '#949FB0',
-              fontSize: '1.2rem',
+              color: leftItemKeyColor,
+              fontSize: mobile ? '1rem' : '1.2rem',
               fontWeight: isBold === 'left' ? 800 : 600,
               minWidth: 'fit-content',
             }}
@@ -78,7 +79,7 @@ const ScoreBar: React.FC<ScoreBarProps> = ({
           position: 'relative',
           height: '30px',
           backgroundColor: '#F8F8FF',
-          borderRadius: '8px',
+          borderRadius: mobile ? '16px' : '8px',
           border: '1px solid #D9D9E8',
           overflow: 'hidden',
           flex: 1,

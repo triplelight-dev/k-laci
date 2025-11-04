@@ -189,7 +189,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
           display: 'flex',
           alignItems: 'center',
           borderRadius: '16px',
-          padding: '18px 32px',
+          padding: mobile ? '12px 32px' : '18px 32px',
           gap: '24px',
           background: 'white',
           marginBottom: '27px',
@@ -226,7 +226,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
         <div
           style={{
             position: 'absolute',
-            top: '72px',
+            top:mobile ? '60px' : '72px',
             left: 0,
             right: 0,
             background: 'white',

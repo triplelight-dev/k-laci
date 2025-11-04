@@ -33,8 +33,8 @@ const DistrictSearchSection: React.FC = () => {
         width: isMobile ? '100%' : '1400px',
         gap: '30px',
         color: isMobile ? '#FFFFFF' : '#000000',
-        padding: '20px',
-        paddingTop: '91px',
+        padding: isMobile ? '16px' : '20px',
+        paddingTop: isMobile ? '' : '91px',
         paddingBottom: '100px',
         position: 'relative',
         borderRadius: '50px',
@@ -54,7 +54,7 @@ const DistrictSearchSection: React.FC = () => {
       >
         <div
           style={{
-            fontSize: '30px',
+            fontSize: isMobile ? '25px' : '30px',
             fontWeight: '600',
             whiteSpace: 'pre-wrap',
           }}

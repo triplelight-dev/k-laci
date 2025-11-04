@@ -76,9 +76,9 @@ const LoginSuggestionSection = ({
         {/* 타이틀 */}
         <h2
           style={{
-            fontSize: '48px',
-            fontWeight: '600',
-            margin: '55px 0 25px',
+            fontSize: isMobile ? '28px' : '48px',
+            fontWeight: isMobile ? '500' : '600',
+            margin: isMobile ? '10px 0 10px' : '55px 0 25px',
             color: '#ffffff',
             whiteSpace: 'pre-line',
           }}
@@ -99,8 +99,8 @@ const LoginSuggestionSection = ({
             <div
               key={index}
               style={{
-                fontSize: '18px',
-                lineHeight: '28px',
+                fontSize: isMobile ? '15px' : '18px',
+                lineHeight: isMobile ? '20px' : '28px',
                 color: '#ffffff',
                 margin: 0,
               }}
@@ -118,13 +118,17 @@ const LoginSuggestionSection = ({
           }}
         >
           {/* 왼쪽 버튼: 흰색 배경 */}
-          <Button variant='primary' onClick={handleLoginClick} width='255px' label='로그인'
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60px' }}
+          <Button variant='primary' onClick={handleLoginClick} label='로그인'
+            style={{
+              width: isMobile ? '170px' : '255px', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60px'
+            }}
           />
 
-          <Button variant='secondary' onClick={handleSignupClick} width='255px' label='회원가입'
+          <Button variant='secondary' onClick={handleSignupClick} label='회원가입'
             icon={<ArrowRightUp color='white' />}
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60px' }}
+            style={{
+              width: isMobile ? '170px' : '255px', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60px'
+            }}
           />
         </div>
       </section>

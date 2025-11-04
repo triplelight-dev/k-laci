@@ -1,3 +1,6 @@
+'use client';
+
+import { useIsMobile } from '@/hooks';
 import { Flex, Text } from '@chakra-ui/react';
 
 interface SummarySectionHeaderProps {
@@ -9,6 +12,8 @@ export function SummarySectionHeader({
   badgeLabel,
   title,
 }: SummarySectionHeaderProps) {
+  const isMobile = useIsMobile();
+
   return (
     <Flex
       flexDirection="column"
@@ -34,7 +39,11 @@ export function SummarySectionHeader({
           {badgeLabel}
         </div>
       }
-      <Text fontSize="36px" fontWeight="600" lineHeight="42px" color="#000">
+      <Text fontWeight="600" lineHeight="42px" color="#000"
+        style={{
+          fontSize: isMobile ? '20px' : '36px'
+        }}
+      >
         {title}
       </Text>
     </Flex>

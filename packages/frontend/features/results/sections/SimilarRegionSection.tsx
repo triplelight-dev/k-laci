@@ -197,10 +197,10 @@ const SimilarRegionSection: React.FC = () => {
         flexDirection: 'column',
         alignItems: 'center',
         width: '100%',
-        gap: '30px',
+        gap: isMobile ? '' : '30px',
         color: '#000000',
         padding: '0 20px',
-        paddingBottom: '100px',
+        paddingBottom:  '100px',
       }}
     >
       {/* 자신 region 카드 */}
@@ -257,9 +257,6 @@ const SimilarRegionSection: React.FC = () => {
 
       {isMobile &&
         <>
-          <div
-            style={{ margin: '0 auto', marginBottom: '100px' }}
-          />
           <SummarySectionHeader
             title={`${selectedProvince?.name} ${josa(selectedDistrict?.name || '종로', '와/과')} 비슷한 지자체`}
             badgeLabel=""

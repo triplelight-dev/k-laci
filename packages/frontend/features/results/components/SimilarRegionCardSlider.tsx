@@ -190,7 +190,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
       style={{
         position: 'relative',
         width: '100vw',
-        height: '600px',
+        height: mobile ? '300px' : '600px',
         marginLeft: mobile ? '' : 'calc(-50vw + 50%)',
         marginRight: mobile ? '' : 'calc(-50vw + 50%)',
         marginBottom: mobile ? '' : '258px',

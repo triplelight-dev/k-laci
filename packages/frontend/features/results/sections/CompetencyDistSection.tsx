@@ -127,7 +127,7 @@ const CompetencyDistSection = () => {
             <div
               className='w-full'
               style={{
-                padding: '60px 16px 0px'
+                padding: isMobile ? '0px 16px 0px' : '60px 16px 0px'
               }}
             >
               <Divider />
@@ -308,12 +308,12 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index, categories
           <div style={{ padding: '0 16px', marginTop: '16px' }}>
             <div
               style={{
-                marginBottom: '30px',
+                marginBottom: '20px',
               }}
             >
               <ScoreBar
                 leftItem={leftItem}
-                rightItem={rightItem}
+                rightItem=''
                 score={category.score}
                 color={category.color}
                 isBold={isBold}
@@ -337,7 +337,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index, categories
             >
               <div
                 style={{
-                  fontSize: '1.1rem',
+                  fontSize: isMobile ? '1rem' : '1.1rem',
                   lineHeight: '1.5',
                   textAlign: 'justify',
                   color: 'black',
@@ -361,7 +361,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index, categories
                 <button
                   onClick={() => setIsExpanded(!isExpanded)}
                   style={{
-                    fontSize: '18px',
+                    fontSize: '14px',
                     fontWeight: '600',
                     // color: '#0070f3',
                     background: 'white',
@@ -373,7 +373,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index, categories
                 >
                   <div className="flex cursor-pointer">
                     {/* 1. 텍스트 부분 */}
-                    <span className="mr-1" style={{ color: '#c9ced3' }}>
+                    <span className="" style={{ color: '#c9ced3', marginRight: '10px' }}>
                       {isExpanded ? '닫기' : '펼쳐보기'}
                     </span>
 

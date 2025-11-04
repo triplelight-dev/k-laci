@@ -158,7 +158,7 @@ const MobileTitleSection: React.FC<TitleSectionProps> = () => {
         width: '100%',
         alignItems: 'center',
         padding: '0px', // 20px에서 0px로 변경
-        marginBottom: '120px',
+        marginBottom: '30px',
       }}
     >
       <div
@@ -189,13 +189,13 @@ const MobileTitleSection: React.FC<TitleSectionProps> = () => {
       </div>
 
       <Flex flexDirection="column" alignItems="center" width="100%" gap="50px">
-        <Grid gap="20px">
-          <Flex alignItems="center" gap="21px" justifyContent="start" width="100%">
+        <Grid gap="17px" alignItems="center">
+          <Flex alignItems="center" gap="21px" justifyContent="center" width="100%">
             {/* 타입 텍스트 */}
             {klaciType && (
               <div
                 style={{
-                  fontSize: '30px',
+                  fontSize: '20px',
                   color: '#000',
                   fontWeight: '600',
                   lineHeight: '43px',
@@ -209,7 +209,7 @@ const MobileTitleSection: React.FC<TitleSectionProps> = () => {
           {/* 유형 텍스트 */}
           <div
             style={{
-              fontSize: '22px',
+              fontSize: '18px',
               color: '#000',
               fontWeight: '400',
             }}

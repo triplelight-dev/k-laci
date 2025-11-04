@@ -35,7 +35,8 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
     return (
       <div
         className="flex w-full flex-col bg-white"
-        style={{}}
+        style={{
+        }}
       >
         {!mobile &&
           <div className="flex p-6">
@@ -137,7 +138,10 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
   return (
     <div
       className="flex w-full flex-col"
-      style={{ gap: '50px', maxWidth: mobile ? '100%' : '1060px', backgroundColor: mobile ? '' : 'bg-white' }}
+      style={{
+        gap: mobile ? '0px' : '50px', maxWidth: mobile ? '100%' : '1060px', backgroundColor: mobile ? '' : 'bg-white',
+        paddingBottom: mobile ? '50px' : ''
+      }}
     >
       {/* 메인 콘텐츠 */}
 
@@ -205,7 +209,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
       }
 
       {mobile &&
-        <div className="flex w-full p-6" style={{ gap: '2rem', marginBottom: '30px' }}>
+        <div className="flex w-full p-6" style={{ gap: '2rem', marginBottom: '' }}>
           {/* 좌측 박스 (1:1 비율에서 1) */}
           <div
             className="flex flex-col"
@@ -217,9 +221,9 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
 
             <div
               style={{
-                fontSize: '18px',
+                fontSize: '14px',
                 fontWeight: 400,
-                color: 'black',
+                color: '#9A9EA3',
               }}
             >
               상위 {topPercentage}%
@@ -228,7 +232,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
             {/* 타이틀 */}
             <div
               style={{
-                fontSize: '24px',
+                fontSize: '18px',
                 fontWeight: 600,
                 color: 'black',
                 marginBottom: '8px',
@@ -243,7 +247,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
             {/* 키컬러로 N위 */}
             <div
               style={{
-                fontSize: '36px',
+                fontSize: '28px',
                 fontWeight: 600,
                 color: color,
                 marginBottom: '0.5rem'

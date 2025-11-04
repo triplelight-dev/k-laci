@@ -180,7 +180,7 @@ const IndexItem: React.FC<{
       {mobile && (
         <>
           <div style={{
-            margin: '2px 19px',
+            margin: '2px 16px',
             display: 'flex',
             alignItems: 'center',
             width: '100%',
@@ -584,7 +584,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
                   lineHeight: '24px',
                   color: '#9A9EA3',
                   textAlign: 'center',
-                  padding: '12px',
+                  padding: '6px',
                   backgroundColor: '#EDEDED',
                 }}>
 

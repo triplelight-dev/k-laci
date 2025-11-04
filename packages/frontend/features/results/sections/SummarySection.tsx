@@ -21,7 +21,7 @@ interface SummaryData {
 
 const MAX_SUMMARY_LENGTH = 500; // 최대 글자수 상수를 정의합니다.
 const MAX_CONTENT_HEIGHT = 2000; // 💡 펼쳤을 때 최대로 가질 수 있는 높이 (px)
-const COLLAPSED_HEIGHT = 150; // 💡 접혔을 때 보일 높이 (px)
+const COLLAPSED_HEIGHT = 85; // 💡 접혔을 때 보일 높이 (px)
 
 const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
   // Zustand에서 selectedRegion 가져오기
@@ -79,9 +79,9 @@ const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
             flexDirection: 'column',
             borderRadius: isMobile ? '0px' : (isLoggedIn ? '56px' : '56px 56px 0 0'),
             backgroundColor: 'white',
-            padding: '95px 0',
+            padding: '30px 0',
             justifyContent: 'center',
-            paddingBottom: isLoggedIn ? '95px' : '0',
+            paddingBottom: isLoggedIn ? isMobile ? '30px' : '95px' : '0',
           }}
         >
 
@@ -125,7 +125,7 @@ const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
                   fontWeight="400"
                   lineHeight="28px"
                   color="#000"
-                  padding="30px 16px"
+                  padding="0px 16px"
                   textAlign="justify"
                   whiteSpace="pre-line"
                 >
@@ -134,12 +134,12 @@ const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
               </div>
 
               {/* 💡 펼쳐보기/접기 버튼 영역 */}
-              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '30px' }}>
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
                 {showToggleButton && (
                   <button
                     onClick={() => setIsExpanded(!isExpanded)}
                     style={{
-                      fontSize: '18px',
+                      fontSize: '14px',
                       fontWeight: '600',
                       // color: '#0070f3',
                       background: 'white',
@@ -151,7 +151,7 @@ const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
                   >
                     <div className="flex cursor-pointer">
                       {/* 1. 텍스트 부분 */}
-                      <span className="mr-1" style={{ color: '#c9ced3' }}>
+                      <span className="" style={{ color: '#c9ced3', marginRight: '10px' }}>
                         {isExpanded ? '닫기' : '펼쳐보기'}
                       </span>
 

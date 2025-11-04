@@ -143,7 +143,7 @@ const CategoryRankingSection = () => {
       style={{
         display: 'flex',
         justifyContent: 'center',
-        marginTop: '105px',
+        marginTop: isMobile ? '10px' : '105px',
         width: '100%',
       }}
     >
@@ -172,13 +172,12 @@ const CategoryRankingSection = () => {
               style={{
                 width: '100%',
                 maxWidth: '90%',
-                borderRadius: '26px',
-                margin: '33px 16px 33px',
+                borderRadius: '10px',
+                margin: '0px 16px 33px',
                 fontSize: '16px',
                 fontWeight: '500',
                 lineHeight: '24px',
                 color: '#9A9EA3',
-                textAlign: 'center',
                 padding: '12px',
                 backgroundColor: '#EDEDED',
               }}
@@ -200,16 +199,6 @@ const CategoryRankingSection = () => {
 
               {!isMobile &&
                 <Divider style={{ margin: '80px 0 100px' }} />
-              }
-              {isMobile &&
-                <div
-                  className='w-full'
-                  style={{
-                    padding: '40px 16px 40px'
-                  }}
-                >
-                  <Divider />
-                </div>
               }
 
               <div style={{

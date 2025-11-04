@@ -117,7 +117,7 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
-        padding: isMobile ? '0px 30px' : '',
+        padding: isMobile ? '0px 16px' : '',
         backgroundColor: isBlackTheme ? '#191B22' : theme.backgroundColor,
         color: theme.textColor,
         height: '100px',

@@ -91,11 +91,11 @@ const RegionCard: React.FC<RegionCardProps> = ({
     <div
       role="button"
       style={{
-        minWidth: '385px',
-        width: '280px',
+        minWidth: mobile ? '150px' : '385px',
+        width: mobile ? '200px' : '280px',
         height: mobile ? '' : isHideBadge ? `${573 - badgeHeight}px` : '573px',
         backgroundColor: '#FAFAFA', // 전체 회색 배경
-        borderRadius: '40px',
+        borderRadius: mobile ? '20px' : '40px',
         cursor: 'pointer',
         display: 'flex',
         flexDirection: 'column',
@@ -159,8 +159,8 @@ const RegionCard: React.FC<RegionCardProps> = ({
           backgroundColor: '#FAFAFA',
           display: 'flex',
           flexDirection: 'column',
-          padding: '20px',
-          marginTop: '80px', // 상단 흰색 영역 높이만큼 여백
+          padding: mobile ? '0px' : '20px',
+          marginTop: mobile ? '' : '80px', // 상단 흰색 영역 높이만큼 여백
           pointerEvents: 'none', // 마우스 이벤트를 부모로 전달
           ...bottomDivStyle,
         }}
@@ -171,10 +171,11 @@ const RegionCard: React.FC<RegionCardProps> = ({
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            marginTop: '15px',
-            height: '260px',
+            marginTop: mobile ? '' : '15px',
+            height: mobile ? '' : '260px',
             padding: '5px',
             pointerEvents: 'none',
+            backgroundColor: mobile ? '#F1F3F5' : ''
           }}
         >
           <RadarJewelChartMini
@@ -191,7 +192,7 @@ const RegionCard: React.FC<RegionCardProps> = ({
             flexDirection: 'column',
             alignItems: mobile ? 'flex-start' : 'center',
             gap: '12px',
-            paddingLeft: '10px',
+            padding: mobile ? '10px' : '0 0 0 10px',
             pointerEvents: 'none'
           }}
         >
@@ -250,9 +251,9 @@ const RegionCard: React.FC<RegionCardProps> = ({
             >
               <div
                 style={{
-                  fontSize: '14px',
-                  color: '#000',
-                  border: '1px solid #000',
+                  fontSize: mobile ? '10px' : '14px',
+                  color: mobile ? '#D9D9E8' : '#000',
+                  border: mobile ? '1px solid #D9D9E8' : '1px solid #000',
                   backgroundColor: 'transparent',
                   padding: '4px 8px',
                   borderRadius: '8px',
@@ -269,7 +270,6 @@ const RegionCard: React.FC<RegionCardProps> = ({
                     style={{
                       border: '1px solid transparent',
                       cursor: 'pointer',
-                      padding: '0px 12px 0px 0px',
                       borderRadius: '12px',
                       display: 'flex',
                       alignItems: 'center',
@@ -278,7 +278,7 @@ const RegionCard: React.FC<RegionCardProps> = ({
                     }}
                   >
                     <Image
-                      src={`/icons/mobile_header_share.png`}
+                      src={`/icons/arrow-top-right.png`}
                       alt={`공유`}
                       width={24}
                       height={24}
@@ -294,7 +294,7 @@ const RegionCard: React.FC<RegionCardProps> = ({
               {/* 지역명 */}
               <div
                 style={{
-                  fontSize: '32px',
+                  fontSize: '20px',
                   fontWeight: '600',
                   color: '#000',
                   pointerEvents: 'none',
