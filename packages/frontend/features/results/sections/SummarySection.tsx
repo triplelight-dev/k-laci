@@ -184,7 +184,14 @@ const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
 
           {isMobile &&
             <>
-              <Divider style={{ margin: '0 16px 60px' }} />
+              <div
+                className='w-full'
+                style={{
+                  padding: '0px 16px 60px'
+                }}
+              >
+                <Divider />
+              </div>
               <SummarySectionHeader badgeLabel="" title="주요 세부지표" />
             </>
           }
@@ -193,7 +200,7 @@ const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
           {isLoggedIn ? (
             // 로그인된 사용자: 모든 섹션 표시
             <React.Fragment>
-              <div style={{ padding: '0 135px' }} suppressHydrationWarning>
+              <div style={{ padding: isMobile ? '' : '0 135px' }} suppressHydrationWarning>
                 <StrengthWeaknessIndexSection />
               </div>
 
@@ -208,7 +215,7 @@ const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
           ) : (
             // 비로그인 사용자: StrengthWeaknessIndexSection만 부분 표시 (fadeout 효과)
 
-            <div style={{ padding: '0 135px' }} suppressHydrationWarning>
+            <div style={{ padding: isMobile ? '' : '0 135px' }} suppressHydrationWarning>
               <StrengthWeaknessIndexSection />
             </div>
           )}

@@ -116,17 +116,26 @@ const CompetencyDistSection = () => {
         {/* 타이틀 */}
         {/* <PremiumContentTitle title={title} /> */}
         {!isMobile &&
-          <SummarySectionHeader badgeLabel='ARCHETYPE BAR' title='역량 분포' />
+          <>
+            <SummarySectionHeader badgeLabel='ARCHETYPE BAR' title='역량 분포' />
+            <Divider style={{ margin: '60px 0 0px' }} />
+          </>
         }
         {isMobile &&
-          <SummarySectionHeader badgeLabel="" title="역량 분포" />
+          <>
+            <SummarySectionHeader badgeLabel="" title="역량 분포" />
+            <div
+              className='w-full'
+              style={{
+                padding: '60px 16px 0px'
+              }}
+            >
+              <Divider />
+            </div>
+          </>
         }
 
-        <Divider style={{ margin: '60px 0 0px' }} />
-
-
         {/* 카테고리 카드들 */}
-
         {categories.map((category, index) => (
           <CategoryCard key={index} category={category} index={index} categories={categories} />
         ))}
@@ -385,7 +394,15 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index, categories
             </div>
 
           </div>
-          {<Divider style={{ margin: '0 16px 0' }} />}
+
+          <div
+            className='w-full'
+            style={{
+              padding: '0px 16px 0px'
+            }}
+          >
+            <Divider />
+          </div>
         </>
       }
 

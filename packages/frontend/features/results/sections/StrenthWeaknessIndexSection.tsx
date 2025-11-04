@@ -74,103 +74,186 @@ const IndexItem: React.FC<{
   data: IndexData;
   onClick: (data: IndexData) => void;
   isDisabled?: boolean;
-}> = ({ indexRank, data, onClick, isDisabled = false }) => {
+  mobile: boolean;
+}> = ({ indexRank, data, onClick, isDisabled = false, mobile }) => {
   const categoryColor = colorMap[data.category] || '#874FFF';
 
   return (
     <Flex>
-      <div style={{
-        margin: '15px 19px',
-        width: '40px',
-        height: '48px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
-        <div
-          style={{
-            color: indexRank === 1 || indexRank === 55 ? '#000' : '#9A9EA3',
-            fontSize: '14px',
-            fontWeight: '500',
+      {!mobile && (
+        <>
+          <div style={{
+            margin: '15px 19px',
+            width: '40px',
+            height: '48px',
             display: 'flex',
             alignItems: 'center',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            height: '100%',
-            transform: 'translateY(-4px)', // 텍스트를 위로 4px 이동
-          }}
-        >
-          {indexRank}위
-          {indexRank === 1 && (
-            <Text color="#000" fontSize="14px" fontWeight="500">
-              (강점)
-            </Text>
-          )}
-          {indexRank === 55 && (
-            <Text color="#000" fontSize="14px" fontWeight="500">
-              (약점)
-            </Text>
-          )}
-        </div>
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          width: '284px',
-          gap: '12px',
-          padding: '8px 12px',
-          backgroundColor: '#F5F5F5',
-          border: '1px solid #E7E8EA',
-          borderRadius: '12px',
-          marginBottom: '14px',
-          cursor: isDisabled ? 'default' : 'pointer',
-          transition: 'all 0.2s ease',
-          paddingTop: '12px',
-          paddingBottom: '12px',
-          minHeight: '48px', // 고정 높이 추가
-        }}
-        onClick={() => !isDisabled && onClick(data)}
-        onMouseEnter={(e) => {
-          if (!isDisabled) {
-            e.currentTarget.style.background = `white`;
-            e.currentTarget.style.border = `1px solid #000`;
-          }
-        }}
-        onMouseLeave={(e) => {
-          if (!isDisabled) {
-            e.currentTarget.style.background = '#F5F5F5';
-            e.currentTarget.style.border = `1px solid #E7E8EA`;
-          }
-        }}
-      >
-        {/* 뱃지 */}
-        <div
-          style={{
-            padding: '4px 8px',
-            backgroundColor: hexToRgba(categoryColor, 0.2),
-            borderRadius: '6px',
-            fontSize: '14px',
-            fontWeight: '500',
-            color: categoryColor,
-            whiteSpace: 'nowrap',
-          }}
-        >
-          {data.category}
-        </div>
+            justifyContent: 'center'
+          }}>
+            <div
+              style={{
+                color: indexRank === 1 || indexRank === 55 ? '#000' : '#9A9EA3',
+                fontSize: '14px',
+                fontWeight: '500',
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                height: '100%',
+                transform: 'translateY(-4px)', // 텍스트를 위로 4px 이동
+              }}
+            >
 
-        {/* 값 */}
-        <span
-          style={{
-            color: '#000000',
-            fontSize: '18px',
-            fontWeight: '400',
+              {indexRank}위
+              {indexRank === 1 && (
+                <Text color="#000" fontSize="14px" fontWeight="500">
+                  (강점)
+                </Text>
+              )}
+              {indexRank === 55 && (
+                <Text color="#000" fontSize="14px" fontWeight="500">
+                  (약점)
+                </Text>
+              )}
+            </div>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              width: '284px',
+              gap: '12px',
+              padding: '8px 12px',
+              backgroundColor: '#F5F5F5',
+              border: '1px solid #E7E8EA',
+              borderRadius: '12px',
+              marginBottom: '14px',
+              cursor: isDisabled ? 'default' : 'pointer',
+              transition: 'all 0.2s ease',
+              paddingTop: '12px',
+              paddingBottom: '12px',
+              minHeight: '48px', // 고정 높이 추가
+            }}
+            onClick={() => !isDisabled && onClick(data)}
+            onMouseEnter={(e) => {
+              if (!isDisabled) {
+                e.currentTarget.style.background = `white`;
+                e.currentTarget.style.border = `1px solid #000`;
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!isDisabled) {
+                e.currentTarget.style.background = '#F5F5F5';
+                e.currentTarget.style.border = `1px solid #E7E8EA`;
+              }
+            }}
+          >
+            {/* 뱃지 */}
+            <div
+              style={{
+                padding: '4px 8px',
+                backgroundColor: hexToRgba(categoryColor, 0.2),
+                borderRadius: '6px',
+                fontSize: '14px',
+                fontWeight: '500',
+                color: categoryColor,
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {data.category}
+            </div>
+
+            {/* 값 */}
+            <span
+              style={{
+                color: '#000000',
+                fontSize: '18px',
+                fontWeight: '400',
+              }}
+            >
+              {data.indexName}
+            </span>
+          </div>
+        </>
+      )}
+
+      {mobile && (
+        <>
+          <div style={{
+            margin: '2px 19px',
+            display: 'flex',
+            alignItems: 'center',
+            width: '100%',
+            gap: '12px',
+            padding: '8px 12px',
+            backgroundColor: '#F5F5F5',
+            border: '1px solid #E7E8EA',
+            borderRadius: '12px',
+            cursor: isDisabled ? 'default' : 'pointer',
+            transition: 'all 0.2s ease',
+            paddingTop: '12px',
+            paddingBottom: '12px',
+            minHeight: '48px', // 고정 높이 추가
           }}
-        >
-          {data.indexName}
-        </span>
-      </div>
-    </Flex>
+            onClick={() => !isDisabled && onClick(data)}
+            onMouseEnter={(e) => {
+              if (!isDisabled) {
+                e.currentTarget.style.background = `white`;
+                e.currentTarget.style.border = `1px solid #000`;
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!isDisabled) {
+                e.currentTarget.style.background = '#F5F5F5';
+                e.currentTarget.style.border = `1px solid #E7E8EA`;
+              }
+            }}
+          >
+            <div
+              style={{
+                color: indexRank === 1 || indexRank === 55 ? '#000' : '#9A9EA3',
+                fontSize: '14px',
+                fontWeight: '500',
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                height: '100%',
+              }}
+            >
+              {indexRank}위
+            </div>
+
+            {/* 뱃지 */}
+            <div
+              style={{
+                padding: '4px 8px',
+                backgroundColor: hexToRgba(categoryColor, 0.2),
+                borderRadius: '6px',
+                fontSize: '14px',
+                fontWeight: '500',
+                color: categoryColor,
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {data.category}
+            </div>
+
+            {/* 값 */}
+            <span
+              style={{
+                color: '#000000',
+                fontSize: '18px',
+                fontWeight: '400',
+              }}
+            >
+              {data.indexName}
+            </span>
+          </div>
+        </>
+      )
+      }
+    </Flex >
   );
 };
 
@@ -181,7 +264,8 @@ const IndexSection: React.FC<{
   isStrength?: boolean;
   onItemClick: (data: IndexData) => void;
   isDisabled?: boolean;
-}> = ({ indexType, data, onItemClick, isDisabled = false }) => {
+  mobile: boolean
+}> = ({ indexType, data, onItemClick, isDisabled = false, mobile }) => {
   const indexRankOffset = indexType === 'strength' ? 1 : 55;
 
   return (
@@ -212,6 +296,7 @@ const IndexSection: React.FC<{
             data={item}
             onClick={onItemClick}
             isDisabled={isDisabled}
+            mobile={mobile}
           />
         ))}
       </div>
@@ -407,14 +492,31 @@ const StrengthWeaknessIndexSection: React.FC = () => {
 
   // 💡 활성 탭에 따라 스타일을 결정하는 유틸리티 함수
   const getTabClasses = (activeTab: string, tabName: string) => {
-    const baseClasses = "px-6 py-2.5 font-semibold text-base transition-colors duration-200 focus:outline-none";
+    // 공통 스타일 (크기, 그림자, 전환 효과 등)
+    // 모든 공통 스타일을 기본 객체에 정의
+    const baseStyle: React.CSSProperties = {
+      flexGrow: 1, // 'width: 100%' 역할을 합니다.
+      padding: '6px 24px',
+      fontWeight: '600',
+      borderRadius: '8px',
+      cursor: 'pointer',
+      border: 'none',
+      transition: 'background-color 0.15s ease-in-out, color 0.15s ease-in-out', // 배경과 텍스트색에 트랜지션 적용
+    };
 
     if (tabName === activeTab) {
-      // 💡 활성 탭 스타일
-      return `${baseClasses} text-blue-600 border-b-2 border-blue-600`;
+      // 탭이 활성화되었을 때 (파란색 배경, 흰색 텍스트)
+      return {
+        ...baseStyle,
+        backgroundColor: '#FFFFFF', // bg-blue-600에 해당하는 HEX 코드
+        color: 'black', // text-white
+      };
     } else {
-      // 💡 비활성 탭 스타일 (hover 효과 및 높이 유지를 위한 투명 밑줄)
-      return `${baseClasses} text-gray-500 border-b-2 border-transparent hover:text-gray-700`;
+      // 탭이 비활성화되었을 때 (흰색 배경, 회색 텍스트)
+      return {
+        ...baseStyle,
+        color: '#6B7280', // text-gray-500에 해당하는 HEX 코드
+      };
     }
   };
 
@@ -436,6 +538,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
               isStrength={true}
               onItemClick={handleItemClick}
               isDisabled={!isLoggedIn}
+              mobile={isMobile}
             />
 
             {/* 약점지표 */}
@@ -445,6 +548,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
               isStrength={false}
               onItemClick={handleItemClick}
               isDisabled={!isLoggedIn}
+              mobile={isMobile}
             />
           </div>
 
@@ -462,51 +566,63 @@ const StrengthWeaknessIndexSection: React.FC = () => {
 
       {isMobile &&
         <>
-          <div className="w-full max-w-4xl mx-auto p-4">
+          <div className="w-full max-w-4xl mx-auto">
             {/* 1. 탭 버튼 영역 */}
-            <div className="flex flex-row border-b border-gray-300 gap-5">
-
-              {/* 탭 1 버튼 */}
-              <button
-                className={getTabClasses(activeTab, 'tab1')}
-                onClick={() => setActiveTab('tab1')}
+            <div
+              className='w-full'
+              style={{
+                padding: '0px 16px 12px'
+              }}
+            >
+              <div className="flex flex-row w-full border-b border-gray-300 gap-5"
                 style={{
                   width: '100%',
-                  padding: '12px 24px', // px-6 py-3
-                  fontWeight: '600',   // font-semibold
-                  borderRadius: '8px', // rounded-lg
-                  boxShadow: '0 4px 6px rgba(50, 50, 93, 0.1), 0 1px 3px rgba(0, 0, 0, 0.07)', // shadow-md
-                  backgroundColor: 'grey', // bg-blue-500/600
-                  color: 'white',        // text-white
-                  cursor: 'pointer',
-                  border: 'none',
-                  transition: 'background-color 0.15s ease-in-out',
-                }}
-              >
-                강점
-              </button>
+                  maxWidth: '100%',
+                  borderRadius: '8px',
+                  fontSize: '16px',
+                  fontWeight: '500',
+                  lineHeight: '24px',
+                  color: '#9A9EA3',
+                  textAlign: 'center',
+                  padding: '12px',
+                  backgroundColor: '#EDEDED',
+                }}>
 
-              {/* 탭 2 버튼 */}
-              <button
-                className={getTabClasses(activeTab, 'tab2')}
-                onClick={() => setActiveTab('tab2')}
-                style={{
-                  width: '100%',
-                  padding: '12px 24px', // px-6 py-3
-                  fontWeight: '600',   // font-semibold
-                  borderRadius: '8px', // rounded-lg
-                  boxShadow: '0 4px 6px rgba(50, 50, 93, 0.1), 0 1px 3px rgba(0, 0, 0, 0.07)', // shadow-md
-                  backgroundColor: 'grey', // bg-blue-500/600
-                  color: 'white',        // text-white
-                  cursor: 'pointer',
-                  border: 'none',
-                  transition: 'background-color 0.15s ease-in-out',
-                }}
-              >
-                약점
-              </button>
+                {/* 탭 1 버튼 */}
+                <button
+                  style={getTabClasses(activeTab, 'tab1')}
+                  onClick={() => setActiveTab('tab1')}
+                // style={{
+                //   width: '100%',
+                //   padding: '6px 24px', // px-6 py-3
+                //   fontWeight: '600',   // font-semibold
+                //   borderRadius: '8px', // rounded-lg
+                //   cursor: 'pointer',
+                //   border: 'none',
+                //   transition: 'background-color 0.15s ease-in-out',
+                // }}
+                >
+                  강점
+                </button>
+
+                {/* 탭 2 버튼 */}
+                <button
+                  style={getTabClasses(activeTab, 'tab2')}
+                  onClick={() => setActiveTab('tab2')}
+                // style={{
+                //   width: '100%',
+                //   padding: '6px 24px', // px-6 py-3
+                //   fontWeight: '600',   // font-semibold
+                //   borderRadius: '8px', // rounded-lg
+                //   cursor: 'pointer',
+                //   border: 'none',
+                //   transition: 'background-color 0.15s ease-in-out',
+                // }}
+                >
+                  약점
+                </button>
+              </div>
             </div>
-            <br></br>
 
             {/* 2. 탭 내용 영역 */}
             <div className="pt-8 p-4 bg-white rounded-b-lg">
@@ -519,6 +635,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
                     isStrength={true}
                     onItemClick={handleItemClick}
                     isDisabled={!isLoggedIn}
+                    mobile={isMobile}
                   />
                 </>
               )}
@@ -532,6 +649,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
                     isStrength={false}
                     onItemClick={handleItemClick}
                     isDisabled={!isLoggedIn}
+                    mobile={isMobile}
                   />
                 </>
               )}

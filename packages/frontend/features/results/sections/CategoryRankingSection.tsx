@@ -196,10 +196,25 @@ const CategoryRankingSection = () => {
         <div className="grid grid-cols-1" style={{ width: '100%' }}>
           {categories.map((category, index) => (
             <React.Fragment key={index}>
-              <Divider style={{ margin: '80px 0 100px' }} />
+
+
+              {!isMobile &&
+                <Divider style={{ margin: '80px 0 100px' }} />
+              }
+              {isMobile &&
+                <div
+                  className='w-full'
+                  style={{
+                    padding: '40px 16px 40px'
+                  }}
+                >
+                  <Divider />
+                </div>
+              }
+
               <div style={{
-                  margin: isMobile ? '0 16px' : '0 auto'
-                }}>
+                margin: isMobile ? '0 16px' : '0 auto'
+              }}>
                 <CategoryRanking
                   key={index}
                   categoryData={category}

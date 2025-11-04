@@ -68,10 +68,10 @@ const StickyHeader = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 width: '100%',
-                padding: '0px 30px',
+                padding: '0px 16px',
                 backgroundColor: '#F4F4F4',
                 color: '#FFFFFF',
-                height: '100px',
+                height: '60px',
                 maxWidth: '1400px',
             }}
         >
@@ -130,12 +130,14 @@ const StickyHeader = () => {
                         <div className="flex flex-col items-center">
                             <div
                                 style={{
-                                    color: '#000000'
+                                    color: '#000000',
+                                    fontSize: '12px',
                                 }}>{rankText}</div>
-                            <div className="text-3xl"
+                            <div 
                                 style={{
                                     color: '#000000',
-                                    fontSize: '24px'
+                                    fontSize: '18px',
+                                    fontWeight: 'bold'
                                 }}>{getDistrictName()}</div>
                         </div>
                     </nav>

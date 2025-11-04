@@ -3,6 +3,7 @@
 import { ArrowRightUp } from '@/components/atoms/assets';
 import Button from '@/components/atoms/buttons/Button';
 import { ROUTES } from '@/constants/data';
+import { useIsMobile } from '@/hooks';
 import { useDistrict } from '@/store';
 import { useRouter } from 'next/navigation';
 
@@ -33,6 +34,8 @@ const LoginSuggestionSection = ({
   const selectedDistrictName = selectedDistrict?.name || '종로구';
 
   const header = `${selectedProvinceName} ${selectedDistrictName}의 숨겨진 역량,\n지금 확인해보세요`
+
+  const isMobile = useIsMobile();
 
   return (
     <div
@@ -66,7 +69,7 @@ const LoginSuggestionSection = ({
           flexDirection: 'column',
           alignItems: 'center',
           textAlign: 'center',
-          maxWidth: '600px',
+          maxWidth: isMobile ? '100%' : '600px',
           width: '100%',
         }}
       >

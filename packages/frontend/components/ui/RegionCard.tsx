@@ -3,6 +3,7 @@
 import RadarJewelChartMini from '@/components/atoms/charts/RadarJewelChartMini';
 import KlaciCodeCirclesMini from '@/components/atoms/circle/KlaciCodeCirclesMini';
 import { RegionCardData, RegionCardProps } from '@/types/region';
+import Image from 'next/image';
 import React from 'react';
 
 // 랜덤 목업 데이터 생성 함수 (실제 데이터가 없을 때만 사용)
@@ -188,7 +189,7 @@ const RegionCard: React.FC<RegionCardProps> = ({
           style={{
             display: 'flex',
             flexDirection: 'column',
-            alignItems: mobile ? '' : 'center',
+            alignItems: mobile ? 'flex-start' : 'center',
             gap: '12px',
             paddingLeft: '10px',
             pointerEvents: 'none'
@@ -238,18 +239,53 @@ const RegionCard: React.FC<RegionCardProps> = ({
 
           {/* 뱃지 */}
           {!isHideBadge && (
+
             <div
               style={{
-                fontSize: '14px',
-                color: '#000',
-                border: '1px solid #000',
-                backgroundColor: 'transparent',
-                padding: '4px 8px',
-                borderRadius: '8px',
-                fontWeight: '500',
+                display: 'flex',
+                flexDirection: 'row',
+                width: '100%',
+                justifyContent: mobile ? 'space-between' : '',
               }}
             >
-              {badgeText}
+              <div
+                style={{
+                  fontSize: '14px',
+                  color: '#000',
+                  border: '1px solid #000',
+                  backgroundColor: 'transparent',
+                  padding: '4px 8px',
+                  borderRadius: '8px',
+                  fontWeight: '500'
+                }}
+              >
+                {badgeText}
+              </div>
+
+              {mobile &&
+                <>
+                  <button
+                    onClick={() => onClick?.(data)}
+                    style={{
+                      border: '1px solid transparent',
+                      cursor: 'pointer',
+                      padding: '0px 12px 0px 0px',
+                      borderRadius: '12px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'border-color 0.2s ease',
+                    }}
+                  >
+                    <Image
+                      src={`/icons/mobile_header_share.png`}
+                      alt={`공유`}
+                      width={24}
+                      height={24}
+                    />
+                  </button>
+                </>
+              }
             </div>
           )}
 

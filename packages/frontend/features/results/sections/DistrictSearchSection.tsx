@@ -22,6 +22,7 @@ const DistrictSearchSection: React.FC = () => {
   };
 
   const title = '229개 지자체 중 우리 지역 찾아보기';
+  const titleMobile = '229개 지자체 중\n우리 지역 찾아보기';
 
   return (
     <div
@@ -29,7 +30,7 @@ const DistrictSearchSection: React.FC = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        width: '1400px',
+        width: isMobile ? '100%' : '1400px',
         gap: '30px',
         color: isMobile ? '#FFFFFF' : '#000000',
         padding: '20px',
@@ -47,11 +48,19 @@ const DistrictSearchSection: React.FC = () => {
     >
       <div
         style={{
-          fontSize: '30px',
-          fontWeight: '600',
+          width: isMobile ? '100%' : '',
+          alignItems: isMobile ? '' : 'center'
         }}
       >
-        {title}
+        <div
+          style={{
+            fontSize: '30px',
+            fontWeight: '600',
+            whiteSpace: 'pre-wrap',
+          }}
+        >
+          {isMobile ? titleMobile : title}
+        </div>
       </div>
 
       <div style={{ width: '100%', maxWidth: '520px' }}>
