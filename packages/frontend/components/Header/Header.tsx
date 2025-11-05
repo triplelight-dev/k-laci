@@ -228,7 +228,7 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
               <>
                 <span
                   style={{
-                    fontSize: '28px',
+                    fontSize: '20px',
                     color: theme.textColor,
                   }}
                 >

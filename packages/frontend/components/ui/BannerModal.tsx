@@ -53,6 +53,7 @@ export default function BannerModal({ isOpen, onClose, children }: BannerModalPr
           alignItems: 'center',
           zIndex: 1001,
           overflowY: 'auto',
+          overflowX: 'hidden'
         }}
       >
         <Flex 

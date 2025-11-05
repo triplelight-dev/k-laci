@@ -163,7 +163,7 @@ const JewelRadarChart = ({
         padding: 0,
         cursor: 'pointer',
       }}
-      viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+      viewBox={`${svgWidth == 900 ? svgWidth * 1 / 6 : 0} 0 ${svgWidth == 900 ? svgWidth * 2 / 3 : svgWidth} ${svgHeight}`}
       className="radar-chart"
     >
       {/* 파란 박스 - 세로 간격 완전 제거 */}

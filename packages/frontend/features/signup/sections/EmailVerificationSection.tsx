@@ -28,9 +28,9 @@ export default function EmailVerificationSection({
       style={{
         width: '100%',
         height: 'calc(100vh - 100px)',
-        minHeight: '800px',
+        minHeight: mobile ? '' :'800px',
         display: 'flex',
-        alignItems: 'center',
+        alignItems: mobile ? '' : 'center',
         justifyContent: 'center',
         backgroundColor: '#F4F4F4',
         margin: mobile ? '' : '100px 0px'

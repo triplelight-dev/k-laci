@@ -10,11 +10,8 @@ const DynamicMobileRedirector = dynamic(
 
 export default function MobileHomeRedirectClient() {
     return (
-
         <>
-        aaa
         </>
-
         // <MobileRedirector />
     );
 }

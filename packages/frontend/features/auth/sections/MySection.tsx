@@ -82,7 +82,7 @@ export default function MySection({
       style={{
         width: '100%',
         height: 'calc(100vh - 100px)',
-        minHeight: '800px',
+        minHeight: 'calc(100vh - 100px)',
         display: 'flex',
         // alignItems: 'center',
         justifyContent: 'center',
@@ -107,21 +107,20 @@ export default function MySection({
                 style={{
                   padding: '4px 8px',
                   backgroundColor: 'transparent',
-                  fontSize: '38px',
+                  fontSize: '24px',
                   color: '#000000',
                 }}
               >
-                {user?.profile.name}님
+                {user?.profile.name} 님
               </div>
 
               <div
                 style={{
                   borderRadius: '9px',
                   border: '1.5px solid #000',
-                  padding: '4px 10px',
-                  fontSize: '1rem',
+                  padding: '0px 10px',
+                  fontSize: '12px',
                   fontWeight: '500',
-                  lineHeight: '24px',
                   width: 'fit-content',
                 }}
               >
@@ -143,8 +142,8 @@ export default function MySection({
                 style={{
                   padding: '4px 8px',
                   backgroundColor: 'transparent',
-                  fontSize: '18px',
-                  color: '#000000',
+                  fontSize: '14px',
+                  color: '#939CA4',
                 }}
               >
                 관심 지역
@@ -154,7 +153,7 @@ export default function MySection({
                 style={{
                   padding: '4px 8px',
                   backgroundColor: 'transparent',
-                  fontSize: '18px',
+                  fontSize: '14px',
                   color: '#000000',
                 }}
               >
@@ -178,7 +177,7 @@ export default function MySection({
                   style={{
                     padding: '4px 8px',
                     backgroundColor: 'transparent',
-                    fontSize: '36px',
+                    fontSize: '24px',
                     color: '#000000',
                     textDecoration: 'underline'
                   }}
@@ -191,8 +190,8 @@ export default function MySection({
                 style={{
                   padding: '4px 8px',
                   backgroundColor: 'transparent',
-                  fontSize: '18px',
-                  color: '#000000',
+                  fontSize: '15px',
+                  color: '#939CA4',
                 }}
               >
                 우리지자체의 잠재역량을 데이터로 확인해보세요.
@@ -204,10 +203,13 @@ export default function MySection({
         {/* 문의 하실 내용 */}
         <div
           className='flex flex-col gap-5'
-          style={{ padding: '12px 20px', margin: '20px', background: '#FFFFFF' }}>
+          style={{
+            padding: '12px 20px', margin: '20px', background: '#FFFFFF',
+            borderRadius: '10px',
+          }}>
           <div
             style={{
-              fontSize: '28px',
+              fontSize: '22px',
               fontWeight: '600',
               color: '#000000'
             }}
@@ -216,12 +218,20 @@ export default function MySection({
           </div>
           <div
             style={{
-              fontSize: '16px',
+              fontSize: '15px',
               fontWeight: '600',
               color: '#000000'
             }}
           >
-            하단 경로를 통해 문의 해 주시면 빠르게 답변을 받아 보실 수 있습니다.<br />
+            하단 경로를 통해 문의 해 주시면 빠르게 답변을 받아 보실 수 있습니다.
+          </div>
+          <div
+            style={{
+              fontSize: '14px',
+              fontWeight: '600',
+              color: '#939CA4'
+            }}
+          >
             이메일 : impact@triplelight.co
           </div>
         </div>
@@ -229,14 +239,13 @@ export default function MySection({
         {/* 웹사이트 설명 */}
         <div
           style={{
-            borderRadius: '26px',
+            borderRadius: '10px',
             padding: '12px 20px',
-            fontSize: '16px',
+            fontSize: '15px',
             margin: '20px',
             fontWeight: '500',
             lineHeight: '24px',
             color: '#9A9EA3',
-            textAlign: 'center',
             backgroundColor: '#EDEDED'
           }}
         >
@@ -247,9 +256,22 @@ export default function MySection({
           <>
             {/* 로그아웃 */}
             <div
-              style={{
+              style={{// ⭐ 절대 위치 지정 ⭐
+                position: 'absolute',
+
+                // ⭐ 하단에 배치 ⭐
+                bottom: '50px', // 폼의 하단 경계에서 얼마나 떨어질지 조정 (필요에 따라 0px 또는 다른 값 사용)
+
+                // ⭐ 중앙 정렬 (left/right를 0으로 주고 margin을 auto로 설정) ⭐
+                left: '0',
+                right: '0',
+                margin: '0 auto',
+
+                // 너비를 콘텐츠 크기에 맞게 설정
+                width: 'fit-content',
+
+                // 기존 스타일 (텍스트 중앙 정렬)
                 textAlign: 'center',
-                marginTop: '10px',
               }}
             >
               <a

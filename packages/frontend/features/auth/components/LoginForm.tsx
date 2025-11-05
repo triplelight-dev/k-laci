@@ -27,7 +27,7 @@ export default function LoginForm({
 }: LoginFormProps) {
   const isMobile = useIsMobile();
   const router = useRouter();
-  
+
   // 🔑 자동 로그인(상태 유지) 체크박스 상태
   const [rememberMe, setRememberMe] = useState(false);
 
@@ -53,6 +53,7 @@ export default function LoginForm({
             onChange={(e) => setEmail(e.target.value)}
             placeholder="가입한 이메일을 입력해 주세요"
             required
+            onClear={() => setEmail('')}
           />
         </div>
 
@@ -64,6 +65,7 @@ export default function LoginForm({
             onChange={(e) => setPassword(e.target.value)}
             placeholder="비밀번호를 입력해 주세요"
             required
+            onClear={() => setPassword('')}
           />
         </div>
 

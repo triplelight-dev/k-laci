@@ -106,7 +106,7 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
   }, [regionKeyIndexQueries]);
 
   const handleRankClick = async (clickedRank: CategoryRank) => {
-    if (!selectedRegion) return;
+    if (!selectedRegion || mobile) return;
 
     // 키 인덱스 ID 설정하여 모달용 데이터 로드 시작
     setSelectedKeyIndexId(clickedRank.key_index_id);

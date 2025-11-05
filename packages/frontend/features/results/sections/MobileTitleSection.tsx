@@ -171,7 +171,7 @@ const MobileTitleSection: React.FC<TitleSectionProps> = () => {
         }}
       >
         <JewelRadarChart
-          size={650}
+          size={400}
           isJewel={false}
           data={animatedChartData}
           regionData={

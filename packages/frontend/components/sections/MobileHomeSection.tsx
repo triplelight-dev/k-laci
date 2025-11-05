@@ -260,17 +260,21 @@ const MobileHomeSection = (props: { height?: string }) => {
               />
             </Link>
 
-            {/* Signup Button - 투명 배경 흰 보더 + 우측 대각선 아이콘 */}
-            <Link href={ROUTES.LOGIN} className="w-full block">
-              <Button
-                variant="secondary"
-                label="로그인/회원가입"
-                padding="17px 0px"
-                fontSize="16px"
-                fontWeight="500"
-                width='100%'
-              />
-            </Link>
+            {!isLoggedIn && (
+              <>
+                {/* Signup Button - 투명 배경 흰 보더 + 우측 대각선 아이콘 */}
+                <Link href={ROUTES.LOGIN} className="w-full block">
+                  <Button
+                    variant="secondary"
+                    label="로그인/회원가입"
+                    padding="17px 0px"
+                    fontSize="16px"
+                    fontWeight="500"
+                    width='100%'
+                  />
+                </Link>
+              </>
+            )}
           </div>
 
         </div>

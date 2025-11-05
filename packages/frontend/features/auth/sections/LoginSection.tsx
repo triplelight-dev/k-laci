@@ -28,7 +28,7 @@ export default function LoginSection({
         height: 'calc(100vh - 100px)',
         minHeight: '800px',
         display: 'flex',
-        alignItems: 'center',
+        // alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#F4F4F4',
       }}

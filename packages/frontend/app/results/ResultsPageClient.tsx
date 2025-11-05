@@ -154,34 +154,34 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
   useEffect(() => {
     if (isInitialized) return; // 이미 초기화되었으면 스킵
 
-    // if (regionId) {
-    //   // URL에서 전달된 regionId가 있으면 최우선으로 처리
-    //   const fetchRegionFromURL = async () => {
-    //     try {
-    //       const apiResponse = await getRegion(regionId);
-    //       const storeRegion = transformApiRegionToStoreRegion(apiResponse);
-    //       setSelectedRegion(storeRegion, 'url_change');
-    //       setSelectedProvince(storeRegion.province_id);
-    //       setSelectedDistrict(storeRegion.id, 'url_change');
-    //       setHasLoadedDefault(true);
-    //       setIsInitialized(true);
-    //     } catch (error) {
-    //       console.error('URL에서 region 로드 실패:', error);
-    //       // 에러 시에만 기본 데이터 로드
-    //       if (!hasLoadedDefault) {
-    //         loadDefaultData();
-    //       }
-    //     }
-    //   };
-    //   fetchRegionFromURL();
-    // } else if (!selectedRegion && !hasLoadedDefault) {
-    //   // regionId가 없고 선택된 지역도 없는 경우에만 기본 로직 실행
-    //   if (user?.profile?.interest_region_id) {
-    //     loadUserInterestRegion(user.profile.interest_region_id);
-    //   } else {
-    //     loadDefaultData();
-    //   }
-    // }
+    if (regionId) {
+      // URL에서 전달된 regionId가 있으면 최우선으로 처리
+      const fetchRegionFromURL = async () => {
+        try {
+          const apiResponse = await getRegion(regionId);
+          const storeRegion = transformApiRegionToStoreRegion(apiResponse);
+          setSelectedRegion(storeRegion, 'url_change');
+          setSelectedProvince(storeRegion.province_id);
+          setSelectedDistrict(storeRegion.id, 'url_change');
+          setHasLoadedDefault(true);
+          setIsInitialized(true);
+        } catch (error) {
+          console.error('URL에서 region 로드 실패:', error);
+          // 에러 시에만 기본 데이터 로드
+          if (!hasLoadedDefault) {
+            loadDefaultData();
+          }
+        }
+      };
+      fetchRegionFromURL();
+    } else if (!selectedRegion && !hasLoadedDefault) {
+      // regionId가 없고 선택된 지역도 없는 경우에만 기본 로직 실행
+      if (user?.profile?.interest_region_id) {
+        loadUserInterestRegion(user.profile.interest_region_id);
+      } else {
+        loadDefaultData();
+      }
+    }
   }, [regionId, user, hasLoadedDefault, isInitialized]);
 
   // selectedRegion이 변경될 때 URL 업데이트 및 데이터 새로고침

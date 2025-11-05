@@ -1,6 +1,7 @@
 import Footer from '@/components/Footer';
 import Header from '@/components/Header/Header';
 import HomePreRegistrationSection from '@/components/sections/HomePreRegistrationSection';
+import WhitePaperBanner from '@/features/home/components/WhitePaperBanner';
 import { DARK_MODE_COLORS } from '@/utils/colors';
 import MobileHomeSection from '../sections/MobileHomeSection';
 
@@ -25,6 +26,7 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
         <HomePreRegistrationSection />
       </section>
       <section className="block lg:hidden">
+        <WhitePaperBanner />
         <MobileHomeSection />
       </section>
       <Footer />
