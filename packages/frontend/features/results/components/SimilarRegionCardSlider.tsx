@@ -131,7 +131,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
     }
 
     // 카드 간격 (카드 너비 + gap) - 간격을 늘림
-    const cardSpacing = 400; // 260px 카드 + 140px gap
+    const cardSpacing = mobile ? 200 : 400; // 260px 카드 + 140px gap
     const translateX = adjustedDistance * cardSpacing;
 
     // Fadeout 효과: 거리에 따른 투명도 계산
