@@ -118,9 +118,9 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
         justifyContent: 'center',
         width: '100%',
         padding: isMobile ? '0px 16px' : '',
-        backgroundColor: isBlackTheme ? '#191B22' : theme.backgroundColor,
+        backgroundColor: isBlackTheme ? isMobile ? 'black' : '#191B22' : theme.backgroundColor,
         color: theme.textColor,
-        height: '100px',
+        height: isMobile ? '60px' : '100px',
         maxWidth: '1400px',
       }}
     >
@@ -135,7 +135,7 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
         {/* 1. 좌측: 로고 */}
         <div
           style={{
-            flex: '0 0 auto',
+            flex: '1',
             display: 'flex',
             justifyContent: 'flex-start',
             // minWidth: '200px',
@@ -180,7 +180,7 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
                   src={isMobile ? '/klaci_logo_white_mobile_home.png' : theme.logo}
                   alt="K-LACI Logo"
                   style={{
-                    height: '26px',
+                    height: isMobile ? '' : '26px',
                     width: 'auto',
                     marginRight: '15px',
                     cursor: 'pointer',
@@ -194,9 +194,9 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
         {/* 2. 가운데: 페이지 이동 버튼들 */}
         <div
           style={{
-            flex: '0 0 auto',
+            flex: '1',
             display: 'flex',
-            justifyContent: (isMobile && isSignUpMatch) ? '' : 'center',
+            justifyContent: (isMobile && isSignUpMatch) ? 'center' : 'center',
             padding: '0 20px',
           }}
         >
@@ -229,7 +229,7 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
                 <span
                   style={{
                     fontSize: '20px',
-                    color: theme.textColor,
+                    color: theme.textColor
                   }}
                 >
                   회원가입
@@ -242,7 +242,7 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
         {/* 3. 우측: 회원가입/로그인 버튼 그룹 */}
         <div
           style={{
-            flex: '0 0 auto',
+            flex: '1',
             display: 'flex',
             justifyContent: 'flex-end',
 
@@ -366,7 +366,7 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
             {/* 4. 엑스버튼 */}
             <div
               style={{
-                flex: '0 0 auto',
+                flex: '1',
                 display: 'flex',
                 justifyContent: 'flex-end',
 

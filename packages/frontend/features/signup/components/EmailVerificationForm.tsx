@@ -53,34 +53,67 @@ export default function EmailVerificationForm({
     >
       {/* 이메일 입력 */}
       <div style={{ width: '100%', paddingBottom: '100px', position: 'relative' }}>
+
+        {mobile && (
+          <>
+            {/* 유저 타입 뱃지들 - 항상 표시하되, 완전한 이메일 형식일 때만 활성화 */}
+            <div
+              style={{
+                display: 'flex',
+                width: '100%',
+                gap: '8px',
+                // marginTop: '16px',
+                marginBottom: '16px',
+              }}
+            >
+              <UserTypeBadge
+                type={UserTypeEnum.GOV}
+                isActive={isEmailValid && userType === UserTypeEnum.GOV}
+              />
+              <UserTypeBadge
+                type={UserTypeEnum.BUSINESS}
+                isActive={isEmailValid && userType === UserTypeEnum.BUSINESS}
+              />
+              <UserTypeBadge
+                type={UserTypeEnum.GENERAL}
+                isActive={isEmailValid && userType === UserTypeEnum.GENERAL}
+              />
+            </div>
+          </>
+        )}
+
         <EmailInput
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        {/* 유저 타입 뱃지들 - 항상 표시하되, 완전한 이메일 형식일 때만 활성화 */}
-        <div
-          style={{
-            display: 'flex',
-            width: '100%',
-            gap: '8px',
-            marginTop: '16px',
-            // marginBottom: '50px',
-          }}
-        >
-          <UserTypeBadge
-            type={UserTypeEnum.GOV}
-            isActive={isEmailValid && userType === UserTypeEnum.GOV}
-          />
-          <UserTypeBadge
-            type={UserTypeEnum.BUSINESS}
-            isActive={isEmailValid && userType === UserTypeEnum.BUSINESS}
-          />
-          <UserTypeBadge
-            type={UserTypeEnum.GENERAL}
-            isActive={isEmailValid && userType === UserTypeEnum.GENERAL}
-          />
-        </div>
+        {!mobile && (
+          <>
+            {/* 유저 타입 뱃지들 - 항상 표시하되, 완전한 이메일 형식일 때만 활성화 */}
+            <div
+              style={{
+                display: 'flex',
+                width: '100%',
+                gap: '8px',
+                marginTop: '16px',
+                // marginBottom: '50px',
+              }}
+            >
+              <UserTypeBadge
+                type={UserTypeEnum.GOV}
+                isActive={isEmailValid && userType === UserTypeEnum.GOV}
+              />
+              <UserTypeBadge
+                type={UserTypeEnum.BUSINESS}
+                isActive={isEmailValid && userType === UserTypeEnum.BUSINESS}
+              />
+              <UserTypeBadge
+                type={UserTypeEnum.GENERAL}
+                isActive={isEmailValid && userType === UserTypeEnum.GENERAL}
+              />
+            </div>
+          </>
+        )}
 
         {/* 에러 메시지 */}
         {error && (

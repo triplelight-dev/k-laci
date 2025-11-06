@@ -30,13 +30,12 @@ export default function CodeVerificationSection({
     <div
       style={{
         width: '100%',
-        height: 'calc(100vh - 100px)',
-        minHeight: '800px',
+        height: mobile ? 'calc(100vh - 100px)' : '',
+        minHeight: mobile ? '800px' : '',
         display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#F4F4F4',
-        margin: mobile ? '' : '100px 0px'
+        alignItems: mobile ? '' : 'center',
+        justifyContent: mobile ? '' : 'center',
+        backgroundColor: '#F4F4F4'
       }}
     >
       <div
@@ -82,7 +81,7 @@ export default function CodeVerificationSection({
 
           <div style={{
             width: '100%',
-            fontSize: '18px',
+            fontSize: mobile ? '16px' : '18px',
             fontWeight: '400',
             color: '#000000',
             lineHeight: '28px',

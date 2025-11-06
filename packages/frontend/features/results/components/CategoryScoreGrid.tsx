@@ -146,10 +146,10 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
 
     <div
       style={{
-        width: '250px',
-        height: '230px',
+        width: mobile ? '100%' : '250px',
+        height: mobile ? '' : '230px',
         position: 'relative',
-        borderRadius: '24px',
+        borderRadius: mobile ? '12px' : '24px',
         border: '1px solid #E5E7EB',
         backgroundColor: '#F9FAFB',
         padding: '15px',
@@ -304,7 +304,7 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
         style={{
           display: 'grid',
           gridTemplateColumns: mobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
-          gap: '16px',
+          gap: mobile ? '8px' : '16px',
           maxWidth: '100%',
         }}
       >

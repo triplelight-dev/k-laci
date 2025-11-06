@@ -370,6 +370,10 @@ const StrengthWeaknessIndexSection: React.FC = () => {
       return;
     }
 
+    if( isMobile ) {
+      return;
+    }
+
     // 1. getRegionKeyIndexScore로 rank 정보를 포함한 데이터 받아오기
     let updatedData = { ...data };
 

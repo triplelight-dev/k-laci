@@ -27,13 +27,11 @@ export default function EmailVerificationSection({
     <div
       style={{
         width: '100%',
-        height: 'calc(100vh - 100px)',
-        minHeight: mobile ? '' :'800px',
+        height: mobile ? 'calc(100vh - 100px)' : '',
         display: 'flex',
         alignItems: mobile ? '' : 'center',
-        justifyContent: 'center',
+        justifyContent: mobile ? '' : 'center',
         backgroundColor: '#F4F4F4',
-        margin: mobile ? '' : '100px 0px'
       }}
     >
       <div
@@ -87,16 +85,16 @@ export default function EmailVerificationSection({
             style={{
               width: '100%',
               textAlign: mobile ? 'left' : 'center',
-              marginBottom: '68px',
+              marginBottom: mobile ? '40px' : '68px',
             }}
           >
             {descriptionTexts.map((text, index) => (
               <div
                 key={index}
                 style={{
-                  fontSize: '18px',
+                  fontSize: mobile ? '16px' : '18px',
                   fontWeight: '400',
-                  color: '#000000',
+                  color: '#1d1b1bff',
                   lineHeight: '28px',
                 }}
               >

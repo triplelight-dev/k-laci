@@ -134,9 +134,13 @@ function SignUpPageContent() {
 
 
 export default function SignupPageClient() {
+
+  const isMobile = useIsMobile();
   return (
     <Suspense fallback={<SignUpPageLoading />}>
-      <SignUpPageContent />
+      <div style={{ height: 'fit-content', minHeight: '800px', paddingTop: (isMobile ? '' : '100px') }}>
+        <SignUpPageContent />
+      </div>
     </Suspense>
   );
 }
