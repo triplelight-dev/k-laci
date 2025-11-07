@@ -96,20 +96,21 @@ const WhitePaperBanner = () => {
 
   const zoomStyle = {
     // 1. 줌 적용: 0.8배 축소
-    transform: 'scale(0.9)',
+    transform: 'scale(1)',
     // 2. 변환 기준점: 왼쪽 상단(0, 0)을 기준으로 축소되도록 설정
     transformOrigin: 'top',
     // 3. 축소로 인해 생긴 빈 공간을 채우기 위해 원래 크기보다 키움 (100% / 0.8 = 125%)
     width: '125%',
-    height: '80%',
+    height: '125%',
     // 4. 컨테이너 밖으로 나가는 내용 숨김
     overflow: 'hidden',
+    padding: '0px 16px'
   };
 
   return (
-    <BannerModal isOpen={isOpen} onClose={handleClose}>
-      <Flex direction="column" 
-        style={isMobile ? zoomStyle : {width: '100%', height: '100%'}}>
+    <BannerModal isOpen={isOpen} onClose={handleClose} mobile={isMobile}>
+      <Flex direction="column"
+        style={isMobile ? zoomStyle : { width: '100%', height: '100%' }}>
         <Flex
           direction="column"
           align="center"
@@ -139,6 +140,7 @@ const WhitePaperBanner = () => {
             whiteSpace="pre-line"
             maxW={{ base: "100%", sm: "460px" }}
             color="black"
+            style={{ padding: isMobile ? '20px' : '' }}
           >
             <Text as="span">{description[0]}</Text>
             <Text as="span" fontSize="14px" color="#666666">
@@ -168,7 +170,8 @@ const WhitePaperBanner = () => {
 
           <Box w="100%" h="1px" bg="#D9D9E8" mb="1px" />
 
-          <Flex gap="16px" w="100%">
+          <Flex gap="16px" w="100%"
+            style={{ padding: isMobile ? '20px 40px' : '' }}>
             <PriceCard badgeText="정가" price={890000} />
             <PriceCard badgeText="얼리버드 혜택가" price={490000} isSpecial />
           </Flex>
@@ -187,21 +190,26 @@ const WhitePaperBanner = () => {
           </Text>
         </Flex>
 
-        <Button
-          onClick={handleClose}
-          w="100%"
-          bg="#000000"
-          color="white"
-          p={{ base: "20px", sm: "26px" }}
-          borderRadius="8px"
-          border="none"
-          cursor="pointer"
-          fontSize="16px"
-          fontWeight="bold"
-          mb="4px"
-        >
-          확인
-        </Button>
+        <div
+          style={{
+            padding: isMobile ? '0px 30px' : ''
+          }}>
+          <Button
+            onClick={handleClose}
+            w="100%"
+            bg="#000000"
+            color="white"
+            p={{ base: "30px", sm: "26px" }}
+            borderRadius="8px"
+            border="none"
+            cursor="pointer"
+            fontSize="16px"
+            fontWeight="bold"
+            mb="4px"
+          >
+            {isMobile? '백서 출신 알림 신청하기' : '확인'}
+          </Button>
+        </div>
       </Flex>
     </BannerModal>
   );

@@ -1,10 +1,13 @@
 import { PROVINCE_FULL_NAMES } from '@/constants/region';
 import { useDistrict } from '@/store';
 import Image from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef } from 'react';
 
 const StickyHeader = () => {
     const { selectedRegion } = useDistrict();
+    const pathname = usePathname();
+    const router = useRouter();
 
     // 이전 selectedRegion 값을 유지하기 위한 ref
     const previousRegionRef = useRef(selectedRegion);
@@ -58,6 +61,18 @@ const StickyHeader = () => {
         }
     };
 
+    const handleBack = () => {
+
+        // 💡 브라우저 히스토리의 이전 항목으로 이동합니다.
+        // ✅ 경로 조건에 따라 분기
+        if (pathname.startsWith('/results/region')) {
+            // 현재 경로가 /results/region 으로 시작 → 새로고침
+            router.push('/results')
+        } else {
+            router.back();
+        }
+    };
+
     return (
         <header
             style={{
@@ -94,7 +109,7 @@ const StickyHeader = () => {
                 >
 
                     <button
-                        onClick={() => window.history.back()}
+                        onClick={handleBack}
                         style={{
                             // background: 'white',
                             border: '1px solid transparent',
@@ -131,7 +146,7 @@ const StickyHeader = () => {
                                     color: '#000000',
                                     fontSize: '12px',
                                 }}>{rankText}</div>
-                            <div 
+                            <div
                                 style={{
                                     color: '#000000',
                                     fontSize: '18px',

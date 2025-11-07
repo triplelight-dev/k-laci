@@ -247,7 +247,7 @@ const CategoryRanking: React.FC<CategoryRankingProps> = ({
             {/* 키컬러로 N위 */}
             <div
               style={{
-                fontSize: '28px',
+                fontSize: '26px',
                 fontWeight: 600,
                 color: color,
                 marginBottom: '0.5rem'

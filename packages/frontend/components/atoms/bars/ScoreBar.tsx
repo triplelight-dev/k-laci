@@ -39,7 +39,7 @@ const ScoreBar: React.FC<ScoreBarProps> = ({
             style={{
               color: leftItemKeyColor,
               fontSize: mobile ? '1rem' : '1.2rem',
-              fontWeight: isBold === 'left' ? 800 : 600,
+              fontWeight: 800,
               minWidth: 'fit-content',
             }}
           >
@@ -48,9 +48,9 @@ const ScoreBar: React.FC<ScoreBarProps> = ({
 
           <div
             style={{
-              color: isBold === 'right' ? '#000000' : '#949FB0',
-              fontSize: '1.2rem',
-              fontWeight: isBold === 'right' ? 800 : 600,
+              color: '#949FB0',
+              fontSize: mobile ? '1rem' : '1.2rem',
+              fontWeight: 600,
               minWidth: 'fit-content',
             }}
           >

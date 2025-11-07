@@ -62,7 +62,7 @@ const findProvinceAndRegionByName = (fullName: string) => {
 const SearchTextInput: React.FC<SearchTextInputProps> = ({
   value,
   onChange,
-  placeholder = '제주 서귀포시',
+  placeholder = '서울 종로구',
   onRecentSearchClick,
   mobile
 }) => {
@@ -226,7 +226,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
         <div
           style={{
             position: 'absolute',
-            top:mobile ? '60px' : '72px',
+            top: mobile ? '60px' : '72px',
             left: 0,
             right: 0,
             background: 'white',

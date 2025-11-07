@@ -73,8 +73,15 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
   };
 
   const handleBack = () => {
+
     // 💡 브라우저 히스토리의 이전 항목으로 이동합니다.
-    router.back();
+    // ✅ 경로 조건에 따라 분기
+    if (pathname.startsWith('/results/region')) {
+      // 현재 경로가 /results/region 으로 시작 → 새로고침
+      router.push('/results')
+    } else {
+      router.back();
+    }
   };
 
   /**
@@ -180,7 +187,7 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
                   src={isMobile ? '/klaci_logo_white_mobile_home.png' : theme.logo}
                   alt="K-LACI Logo"
                   style={{
-                    height: isMobile ? '' : '26px',
+                    height: isMobile ? '20px' : '26px',
                     width: 'auto',
                     marginRight: '15px',
                     cursor: 'pointer',
@@ -333,7 +340,7 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
                     className="flex flex-row lg:hidden"
                     style={{ gap: '10px', alignItems: 'center' }}>
 
-                    <Link href={ROUTES.LOGIN}>
+                    <Link href={ROUTES.MY}>
                       <img
                         src='/icons/mobile_home_person.png'
                         style={{
@@ -379,17 +386,20 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
                     onClick={() => window.history.back()}
                     style={{
                       // background: 'white',
-                      border: '1px solid transparent',
                       cursor: 'pointer',
-                      padding: '0px 12px 0px 0px',
-                      borderRadius: '12px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       transition: 'border-color 0.2s ease',
                     }}
                   >
-                    X
+                      <img
+                        src='/icons/close-x.png'
+                        style={{
+                          height: '40px',
+                          width: '40px'
+                        }}
+                      />
                   </button>
                 </>
               </div>

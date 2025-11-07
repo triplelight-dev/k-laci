@@ -313,7 +313,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index, categories
             >
               <ScoreBar
                 leftItem={leftItem}
-                rightItem=''
+                rightItem={rightItem}
                 score={category.score}
                 color={category.color}
                 isBold={isBold}
@@ -337,10 +337,11 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index, categories
             >
               <div
                 style={{
-                  fontSize: isMobile ? '1rem' : '1.1rem',
+                  fontSize: isMobile ? '0.95rem' : '1.1rem',
                   lineHeight: '1.5',
                   textAlign: 'justify',
                   color: 'black',
+                  paddingBottom: '10px'
                 }}
               >
                 {Array.isArray(category.description)

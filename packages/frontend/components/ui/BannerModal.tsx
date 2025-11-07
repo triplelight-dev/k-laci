@@ -5,9 +5,10 @@ interface BannerModalProps {
   isOpen: boolean;
   onClose: () => void;
   children?: React.ReactNode;
+  mobile: boolean;
 }
 
-export default function BannerModal({ isOpen, onClose, children }: BannerModalProps) {
+export default function BannerModal({ isOpen, onClose, children, mobile }: BannerModalProps) {
   if (!isOpen) return null;
 
   // 모달이 열릴 때 body 스크롤 방지
@@ -41,9 +42,9 @@ export default function BannerModal({ isOpen, onClose, children }: BannerModalPr
           position: 'fixed',
           top: '50%',
           left: '50%',
-          transform: 'translate(-50%, -50%)',
+          transform: mobile ? 'scale(0.8) translate(-62.5%, -62.5%)' : 'translate(-50%, -50%)',
           maxWidth: '560px',
-          width: '95%',
+          width: mobile ? '115%' : '100%',
           // maxHeight: '90vh',
           height: 'auto',
           backgroundColor: 'white',

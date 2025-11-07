@@ -84,7 +84,13 @@ export default function LoginInput({
             }}
             aria-label="입력 내용 지우기"
           >
-            ×
+            <img
+              src='/icons/close-x.png'
+              style={{
+                height: '24px',
+                width: '24px'
+              }}
+            />
           </button>
         )
       }

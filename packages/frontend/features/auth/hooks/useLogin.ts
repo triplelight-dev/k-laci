@@ -2,11 +2,13 @@
 
 import { AuthService } from '@/api/services/auth.service';
 import { useLogin as useLoginAction } from '@/store';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
 export function useLogin() {
   const router = useRouter();
+  const searchParams = useSearchParams();         // 👈 쿼리 읽기
+  const from = searchParams.get('from');          // 예: "/results/region/abc"
   const loginAction = useLoginAction();
 
   const [email, setEmail] = useState('');
@@ -44,7 +46,20 @@ export function useLogin() {
         localStorage.setItem('user_id', response.data.user_id);
         localStorage.setItem('user_profile', JSON.stringify(response.data.profile));
 
-        // 결과 페이지로 리다이렉트
+        // ✅ from 기준으로 분기
+        if (from) {
+          // from이 전체 URL이든 path든 모두 처리
+          const url = from.startsWith('http')
+            ? new URL(from)
+            : new URL(from, window.location.origin);
+
+          if (url.pathname.startsWith('/results/region')) {
+            // 이전 페이지가 /results/region 계열이면 그 페이지로 "새로고침" 이동
+            window.location.href = url.toString();
+            return;
+          }
+        }
+
         router.push('/results');
       } else {
         setError(response.message || '로그인에 실패했습니다.');

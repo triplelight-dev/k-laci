@@ -171,18 +171,22 @@ const CategoryRankingSection = () => {
             <div
               style={{
                 width: '100%',
-                maxWidth: '90%',
-                borderRadius: '10px',
-                margin: '0px 16px 33px',
-                fontSize: '16px',
-                fontWeight: '500',
-                lineHeight: '24px',
-                color: '#9A9EA3',
-                padding: '12px',
-                backgroundColor: '#EDEDED',
+                padding: '16px',
               }}
             >
-              핵심범주와 세부지표별 설명은 PC버전 웹사이트(klaci.kr)에서 확인하실 수 있습니다.
+              <div
+                style={{
+                  width: '100%',
+                  borderRadius: '10px',
+                  fontSize: '16px',
+                  lineHeight: '24px',
+                  color: '#000000',
+                  padding: '12px',
+                  backgroundColor: '#DEE2E6',
+                }}
+              >
+                핵심범주와 세부지표별 설명은 PC버전 웹사이트(klaci.kr)에서 확인하실 수 있습니다.
+              </div>
             </div>
 
           </>

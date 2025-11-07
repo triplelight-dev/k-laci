@@ -126,7 +126,7 @@ export default function EmailVerificationForm({
               fontSize: '14px',
               fontWeight: '500',
               color: '#EF4444',
-              textAlign: 'center',
+              textAlign: mobile ? 'left' : 'center',
             }}
           >
             {error}

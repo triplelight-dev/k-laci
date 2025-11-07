@@ -32,15 +32,16 @@ export default function LogoutModal({
         style={{
           backgroundColor: 'white',
           borderRadius: '20px',
-          padding: '20px',
-          paddingTop: '60px',
+          padding: '16px',
+          paddingTop: '40px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '40px',
+          gap: '20px',
           maxWidth: '600px',
           width: '560px',
           cursor: 'default',
+          margin: '0px 16px'
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -48,10 +49,11 @@ export default function LogoutModal({
         {/* 타이틀 */}
         <div
           style={{
-            fontSize: '30px',
+            fontSize: '20px',
             fontWeight: '600',
             color: '#000',
             textAlign: 'center',
+            paddingBottom: '10px'
           }}
         >
           로그아웃 하시겠습니까?
@@ -59,29 +61,26 @@ export default function LogoutModal({
 
         <div
           style={{
-            backgroundColor: 'white',
-            borderRadius: '20px',
-            padding: '0px 16px',
             display: 'flex',
-            flexDirection: 'row',
+            justifyContent: 'space-between',
             alignItems: 'center',
+            width: '100%',
             gap: '16px',
-            maxWidth: '600px',
-            width: '560px',
-            cursor: 'default',
           }}
-          onClick={(e) => e.stopPropagation()}
         >
           {/* 닫기 버튼 */}
           <button
             onClick={onClose}
             style={{
+              flex: '1',
+              display: 'flex',
+              justifyContent: 'center',
               width: '100%',
               backgroundColor: '#FFFFFF',
               color: 'black',
               border: '1px solid',
               borderRadius: '12px',
-              padding: '15px 60px',
+              padding: '15px',
               fontSize: '18px',
               fontWeight: '600',
               cursor: 'pointer',
@@ -101,12 +100,15 @@ export default function LogoutModal({
           <button
             onClick={onStart}
             style={{
+              flex: '1',
+              display: 'flex',
+              justifyContent: 'center',
               width: '100%',
               backgroundColor: '#111827',
               color: 'white',
               border: 'none',
               borderRadius: '12px',
-              padding: '15px 60px',
+              padding: '15px',
               fontSize: '18px',
               fontWeight: '600',
               cursor: 'pointer',

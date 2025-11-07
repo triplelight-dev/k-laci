@@ -2,14 +2,22 @@
 
 import SearchTextInput from '@/components/ui/SearchTextInput';
 import { useIsMobile } from '@/hooks';
-import { useDistrict } from '@/store';
+import { useDistrict, useUser } from '@/store';
 import React, { useEffect, useState } from 'react';
+import provinceData from '../../../data/province_data.json';
+import regionsData from '../../../data/regions_data.json';
 
 const DistrictSearchSection: React.FC = () => {
   const isMobile = useIsMobile();
   const [searchValue, setSearchValue] = useState('');
   const { selectedRegion } = useDistrict();
+  const user = useUser();
 
+  // ✅ 페이지 최초 로드 시 기본 검색어 설정
+  useEffect(() => {
+    setSearchValue(provincename?.name ? [provincename?.name, regionname?.name].filter(Boolean).join(' ') : '1'); // 또는 title, 혹은 다른 기본값
+  }, []); // 👈 빈 배열이면 최초 1회만 실행됨
+  
   // selectedRegion이 변경될 때 검색창 값 업데이트
   useEffect(() => {
     if (selectedRegion?.province?.name && selectedRegion?.name) {
@@ -23,6 +31,30 @@ const DistrictSearchSection: React.FC = () => {
 
   const title = '229개 지자체 중 우리 지역 찾아보기';
   const titleMobile = '229개 지자체 중\n우리 지역 찾아보기';
+
+  const findProvinceAndRegionByProvince = (id: number) => {
+
+    const region = regionsData.find(
+      (r) => r.id === id,
+    );
+    if (!region) return null;
+
+    const province = provinceData.find((p) => p.id === region.province_id);
+
+    return province;
+  };
+
+  const findProvinceAndRegionByRegion = (id: number) => {
+
+    const region = regionsData.find(
+      (r) => r.id === id,
+    );
+
+    return region;
+  };
+
+  const provincename = findProvinceAndRegionByProvince(user?.profile.interest_region_id ?? 0);
+  const regionname = findProvinceAndRegionByRegion(user?.profile.interest_region_id ?? 0);
 
   return (
     <div
@@ -43,7 +75,6 @@ const DistrictSearchSection: React.FC = () => {
         backgroundSize: '100% 100%',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
-        minHeight: isMobile ? '100vh' : '',
       }}
     >
       <div

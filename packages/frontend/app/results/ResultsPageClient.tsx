@@ -12,6 +12,7 @@ import {
   useUser,
 } from '@/store';
 import { RegionWithDetails as StoreRegionWithDetails } from '@/store/types/district';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { Suspense, useEffect, useRef, useState } from 'react';
 
@@ -152,6 +153,9 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
   };
 
   useEffect(() => {
+
+    console.log(isInitialized);
+    console.log(regionId);
     if (isInitialized) return; // 이미 초기화되었으면 스킵
 
     if (regionId) {
@@ -331,10 +335,6 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
                 right: '20px',     // 오른쪽에서 20px 위치
                 zIndex: 50,        // 다른 요소 위에 표시되도록 Z-Index 설정
                 // 크기와 모양 설정
-                width: '64px',
-                height: '64px',
-                borderRadius: '50%', // 👈 핵심: 50%를 설정하여 원형을 만듭니다.
-                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // 그림자 (선택 사항)
                 cursor: 'pointer',
 
                 // 내부 요소(이미지) 중앙 정렬을 위한 Flexbox 설정
@@ -343,7 +343,12 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
                 justifyContent: 'center',   // 수평 중앙 정렬
               }}
             >
-              ↑
+              <Image
+                src={`/icons/arrow-top-circle.png`}
+                alt={`공유`}
+                width={50}
+                height={50}
+              />
             </button>
 
           </>

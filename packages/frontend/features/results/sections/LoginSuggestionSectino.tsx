@@ -5,7 +5,7 @@ import Button from '@/components/atoms/buttons/Button';
 import { ROUTES } from '@/constants/data';
 import { useIsMobile } from '@/hooks';
 import { useDistrict } from '@/store';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 interface LoginSuggestionSectionProps {
   title?: string;
@@ -20,10 +20,14 @@ const LoginSuggestionSection = ({
 }: LoginSuggestionSectionProps) => {
   const { selectedProvince, selectedDistrict } = useDistrict();
   const router = useRouter();
+  const pathname = usePathname();      // 예: /results/region/abc
+  const searchParams = useSearchParams();
 
 
   const handleLoginClick = () => {
-    router.push(ROUTES.LOGIN);
+    const query = searchParams.toString();
+    const currentPath = query ? `${pathname}?${query}` : pathname;
+    router.push(ROUTES.LOGIN + `?from=${encodeURIComponent(currentPath)}`);
   };
 
   const handleSignupClick = () => {
@@ -120,14 +124,15 @@ const LoginSuggestionSection = ({
           {/* 왼쪽 버튼: 흰색 배경 */}
           <Button variant='primary' onClick={handleLoginClick} label='로그인'
             style={{
-              width: isMobile ? '170px' : '255px', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60px'
+              width: isMobile ? '170px' : '255px', display: 'flex', alignItems: 'center', justifyContent: 'center', height: isMobile ? '50px' : '60px'
             }}
           />
 
-          <Button variant='secondary' onClick={handleSignupClick} label='회원가입'
+          <Button variant='secondary' onClick={handleSignupClick} label={isMobile ? '회원가입 바로가기' : '회원가입'}
             icon={<ArrowRightUp color='white' />}
+            padding='12px 0px'
             style={{
-              width: isMobile ? '170px' : '255px', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60px'
+              width: isMobile ? '170px' : '255px', display: 'flex', alignItems: 'center', justifyContent: 'center', height: isMobile ? '50px' : '60px'
             }}
           />
         </div>

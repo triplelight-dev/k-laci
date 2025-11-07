@@ -219,6 +219,7 @@ const IndexItem: React.FC<{
                 flexDirection: 'column',
                 justifyContent: 'center',
                 height: '100%',
+                width: '34px'
               }}
             >
               {indexRank}위
@@ -227,13 +228,16 @@ const IndexItem: React.FC<{
             {/* 뱃지 */}
             <div
               style={{
-                padding: '4px 8px',
                 backgroundColor: hexToRgba(categoryColor, 0.2),
                 borderRadius: '6px',
                 fontSize: '14px',
                 fontWeight: '500',
                 color: categoryColor,
                 whiteSpace: 'nowrap',
+                width: '79px',
+                height: '32px',
+                alignContent: 'center',
+                textAlign: 'center'
               }}
             >
               {data.category}
@@ -500,7 +504,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
     // 모든 공통 스타일을 기본 객체에 정의
     const baseStyle: React.CSSProperties = {
       flexGrow: 1, // 'width: 100%' 역할을 합니다.
-      padding: '6px 24px',
+      padding: '9px 24px',
       fontWeight: '600',
       borderRadius: '8px',
       cursor: 'pointer',
@@ -586,7 +590,7 @@ const StrengthWeaknessIndexSection: React.FC = () => {
                   fontSize: '16px',
                   fontWeight: '500',
                   lineHeight: '24px',
-                  color: '#9A9EA3',
+                  color: '#DEE2E6',
                   textAlign: 'center',
                   padding: '6px',
                   backgroundColor: '#EDEDED',

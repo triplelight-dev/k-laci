@@ -209,7 +209,7 @@ const MobileTitleSection: React.FC<TitleSectionProps> = () => {
           {/* 유형 텍스트 */}
           <div
             style={{
-              fontSize: '18px',
+              fontSize: '15px',
               color: '#000',
               fontWeight: '400',
             }}
@@ -221,7 +221,7 @@ const MobileTitleSection: React.FC<TitleSectionProps> = () => {
         {/* 유형 설명 */}
         <div
           style={{
-            fontSize: '18px',
+            fontSize: '15px',
             fontWeight: '400',
             color: '#000',
             lineHeight: '1.6',

@@ -121,7 +121,7 @@ const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
                 }}
               >
                 <Text
-                  fontSize="18px"
+                  fontSize={isMobile ? '15px' : '18px'}
                   fontWeight="400"
                   lineHeight="28px"
                   color="#000"

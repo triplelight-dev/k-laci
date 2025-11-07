@@ -37,16 +37,6 @@ export default function MySection({
   };
   const logout = useLogout();
 
-  // 지역명으로부터 Province와 Region 객체 찾기
-  const findProvinceAndRegionByRegion = (id: number) => {
-
-    const region = regionsData.find(
-      (r) => r.id === id,
-    );
-
-    return region;
-  };
-
   const findProvinceAndRegionByProvince = (id: number) => {
 
     const region = regionsData.find(
@@ -59,8 +49,17 @@ export default function MySection({
     return province;
   };
 
-  const regionname = findProvinceAndRegionByRegion(user?.profile.interest_region_id ?? 0);
+  const findProvinceAndRegionByRegion = (id: number) => {
+
+    const region = regionsData.find(
+      (r) => r.id === id,
+    );
+
+    return region;
+  };
+
   const provincename = findProvinceAndRegionByProvince(user?.profile.interest_region_id ?? 0);
+  const regionname = findProvinceAndRegionByRegion(user?.profile.interest_region_id ?? 0);
 
   const handleLogout = async () => {
     try {
@@ -108,6 +107,7 @@ export default function MySection({
                   padding: '4px 8px',
                   backgroundColor: 'transparent',
                   fontSize: '24px',
+                  fontWeight: '600',
                   color: '#000000',
                 }}
               >
@@ -204,7 +204,7 @@ export default function MySection({
         <div
           className='flex flex-col gap-5'
           style={{
-            padding: '12px 20px', margin: '20px', background: '#FFFFFF',
+            padding: '12px 20px', margin: '20px 20px 15px', background: '#FFFFFF',
             borderRadius: '10px',
           }}>
           <div
@@ -242,11 +242,11 @@ export default function MySection({
             borderRadius: '10px',
             padding: '12px 20px',
             fontSize: '15px',
-            margin: '20px',
+            margin: '10px 20px 20px',
             fontWeight: '500',
             lineHeight: '24px',
-            color: '#9A9EA3',
-            backgroundColor: '#EDEDED'
+            color: '#343A40',
+            backgroundColor: '#DEE2E6'
           }}
         >
           자세한 서비스 소개는 PC버전 웹사이트(klaci.kr)에서 확인하실 수 있습니다.
@@ -257,18 +257,9 @@ export default function MySection({
             {/* 로그아웃 */}
             <div
               style={{// ⭐ 절대 위치 지정 ⭐
-                position: 'absolute',
-
-                // ⭐ 하단에 배치 ⭐
-                bottom: '50px', // 폼의 하단 경계에서 얼마나 떨어질지 조정 (필요에 따라 0px 또는 다른 값 사용)
-
-                // ⭐ 중앙 정렬 (left/right를 0으로 주고 margin을 auto로 설정) ⭐
-                left: '0',
-                right: '0',
-                margin: '0 auto',
 
                 // 너비를 콘텐츠 크기에 맞게 설정
-                width: 'fit-content',
+                width: '100%',
 
                 // 기존 스타일 (텍스트 중앙 정렬)
                 textAlign: 'center',

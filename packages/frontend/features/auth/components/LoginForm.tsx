@@ -85,13 +85,13 @@ export default function LoginForm({
           <div
             style={{
               position: 'absolute',
-              bottom: '77px',
+              bottom:  isMobile ? '90px' :'77px',
               left: '0',
               right: '0',
               fontSize: '14px',
               fontWeight: '500',
               color: '#EF4444',
-              textAlign: 'center',
+              textAlign: isMobile ? 'left' : 'center',
               marginTop: '1rem',
             }}
           >
@@ -126,7 +126,6 @@ export default function LoginForm({
 
       {isMobile && (
         <>
-          <br></br>
           {/* 회원 가입 버튼 */}
           <Button
             type='button'
@@ -143,7 +142,8 @@ export default function LoginForm({
             style={{
               border: '1px solid #000',
               justifyContent: 'center',
-            }}
+              marginTop: '12px'
+             }}
           />
         </>
       )}

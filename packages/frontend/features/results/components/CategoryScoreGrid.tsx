@@ -389,7 +389,7 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
                   : isHighestRank
                     ? color
                     : '#FAFAFA',
-                padding: mobile ? '10px 10px' : '15px 33px 38px',
+                padding: mobile ? '14px' : '15px 33px 38px',
                 paddingBottom: mobile ? '' : '',
                 transition: 'all 0.2s ease',
                 minHeight: mobile ? '' : '60px',
@@ -397,7 +397,7 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 width: mobile ? '100%' : '250px',
-                height: mobile ? '' : '230px',
+                height: mobile ? '111px' : '230px',
               }}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
@@ -434,12 +434,12 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
                 gap="10px"
                 flexDirection="column"
                 style={{
-                  marginLeft: mobile ? '4px' : '',
+                  lineHeight: mobile ? '1' : ''
                 }}
               >
                 <div
                   style={{
-                    fontSize: '18px',
+                    fontSize: mobile ? '16px' : '18px',
                     fontWeight: '600',
                     color: isHighestRank
                       ? isHovered
@@ -462,6 +462,8 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
                           ? 'black'
                           : 'white'
                         : '#9A9EA3',
+                      lineHeight: mobile ? '15px' : '0',
+                      marginTop: '-5px'
                     }}
                   >
                     상위 {score.topPercentage}%
@@ -470,7 +472,7 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
 
                 <div
                   style={{
-                    fontSize: '28px',
+                    fontSize: mobile ? '25px' : '28px',
                     fontWeight: '600',
                     lineHeight: '43px',
                     color: isHighestRank

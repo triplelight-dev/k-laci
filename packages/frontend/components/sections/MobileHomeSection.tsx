@@ -246,13 +246,13 @@ const MobileHomeSection = (props: { height?: string }) => {
             }}
           />
 
-          <div className="flex flex-col w-full block items-center gap-5">
+          <div className="flex flex-col w-full block items-center gap-3">
             {/* Login Button - 흰색 배경 */}
             <Link href={ROUTES.RESULT} className="w-full block">
               <Button
                 variant="primary"
                 label="우리 지자체 조회하기"
-                padding="17px 0px"
+                padding="16px 0px"
                 fontSize="16px"
                 fontWeight="500"
                 width='100%'
@@ -267,7 +267,7 @@ const MobileHomeSection = (props: { height?: string }) => {
                   <Button
                     variant="secondary"
                     label="로그인/회원가입"
-                    padding="17px 0px"
+                    padding="16px 0px"
                     fontSize="16px"
                     fontWeight="500"
                     width='100%'

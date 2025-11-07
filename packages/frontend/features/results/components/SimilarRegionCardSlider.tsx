@@ -71,11 +71,15 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     const touch = e.touches[0];
     if (!touch) return;
+    setIsDragging(true); // 👈 터치 제스처 시작
     setDragStart({ x: touch.clientX, y: touch.clientY });
   }, []);
 
   const handleTouchMove = useCallback(
     (e: React.TouchEvent) => {
+
+      if (!isDragging) return; // 👈 이미 한 번 슬라이드 됐으면 더 이상 처리 안 함
+
       const touch = e.touches[0];
       if (!touch) return;
       const deltaX = touch.clientX - dragStart.x;
@@ -87,10 +91,18 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
         } else {
           nextSlide();
         }
+
+        // 👇 이 제스처에서는 한 번만 이동하게 락 걸기
+        setIsDragging(false);
       }
     },
-    [dragStart, nextSlide, prevSlide],
+    [dragStart, isDragging, nextSlide, prevSlide],
   );
+
+  // 터치 종료
+  const handleTouchEnd = useCallback(() => {
+    setIsDragging(false); // 제스처 종료
+  }, []);
 
   // 키보드 이벤트 핸들러
   const handleKeyDown = useCallback(
@@ -131,7 +143,7 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
     }
 
     // 카드 간격 (카드 너비 + gap) - 간격을 늘림
-    const cardSpacing = mobile ? 200 : 400; // 260px 카드 + 140px gap
+    const cardSpacing = mobile ? 210 : 400; // 260px 카드 + 140px gap
     const translateX = adjustedDistance * cardSpacing;
 
     // Fadeout 효과: 거리에 따른 투명도 계산
@@ -206,13 +218,15 @@ const SimilarRegionCardSlider: React.FC<SimilarRegionCardSliderProps> = ({
       onMouseLeave={handleMouseUp}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      onTouchCancel={handleTouchEnd}
     >
       <div
         style={{
           position: 'absolute',
           top: '0',
           left: '0',
-          width: '545px',
+          width: mobile ? '100%' : '545px',
           height: '100%',
           background:
             'linear-gradient(-90deg, rgba(245, 245, 245, 0.00) 0%, rgba(245, 245, 245, 0.80) 100%)',
