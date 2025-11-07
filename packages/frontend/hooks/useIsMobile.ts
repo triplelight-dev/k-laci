@@ -9,10 +9,10 @@ export const useIsMobile = () => {
 
   useEffect(() => {
     // 개발 환경에서 설정된 값 사용
-    if (envConfig.isMobile !== null) {
-      setIsMobile(envConfig.isMobile);
-      return;
-    }
+    // if (envConfig.isMobile !== null) {
+    //   setIsMobile(envConfig.isMobile);
+    //   return;
+    // }
 
     // 프로덕션에서는 실제 디바이스 감지
     const checkIsMobile = () => {

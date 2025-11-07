@@ -85,8 +85,8 @@ const JewelRadarChart = ({
     const angle = -Math.PI / 2 + rotation + i * angleStep;
     const r = (value / 100) * radius;
     return {
-      x: svgCenterX + r * Math.cos(angle),
-      y: svgCenterY + r * Math.sin(angle),
+      x: Number((svgCenterX + r * Math.cos(angle)).toFixed(6)),
+      y: Number((svgCenterY + r * Math.sin(angle)).toFixed(6)),
       angle,
     };
   });
@@ -163,7 +163,7 @@ const JewelRadarChart = ({
         padding: 0,
         cursor: 'pointer',
       }}
-      viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+      viewBox={`${svgWidth == 900 ? svgWidth * 1 / 6 : 0} 0 ${svgWidth == 900 ? svgWidth * 2 / 3 : svgWidth} ${svgHeight}`}
       className="radar-chart"
     >
       {/* 파란 박스 - 세로 간격 완전 제거 */}

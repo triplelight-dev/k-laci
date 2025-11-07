@@ -1,7 +1,9 @@
 import Footer from '@/components/Footer';
 import Header from '@/components/Header/Header';
 import HomePreRegistrationSection from '@/components/sections/HomePreRegistrationSection';
+import WhitePaperBanner from '@/features/home/components/WhitePaperBanner';
 import { DARK_MODE_COLORS } from '@/utils/colors';
+import MobileHomeSection from '../sections/MobileHomeSection';
 
 
 const HomeLayout = ({ children }: { children: React.ReactNode }) => {
@@ -9,18 +11,24 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
     <div
       style={{
         width: '100%',
-        minWidth: '1500px',
+        // minWidth: '1500px,
         minHeight: '100vh',
         backgroundColor: DARK_MODE_COLORS.background,
-        justifyContent: 'center',
+        // justifyContent: 'center',
         alignItems: 'center',
         display: 'flex',
         flexDirection: 'column',
       }}
     >
       <Header isBlackTheme={true} />
-      {children}
-      <HomePreRegistrationSection />
+      <section className="hidden lg:block">
+        {children}
+        <HomePreRegistrationSection />
+      </section>
+      <section className="block lg:hidden">
+        <WhitePaperBanner />
+        <MobileHomeSection />
+      </section>
       <Footer />
     </div>
   );

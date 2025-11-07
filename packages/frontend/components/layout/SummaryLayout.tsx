@@ -8,7 +8,7 @@ const SummaryLayout = ({ children, isBlackTheme }: { children: React.ReactNode, 
   return (
     <div style={{
       width: '100%',
-      minWidth: '1500px',
+      // minWidth: '1500px',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',

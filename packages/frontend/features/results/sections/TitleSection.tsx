@@ -5,6 +5,7 @@ import RankArrowButton from '@/components/atoms/buttons/RankArrowButton';
 import { default as JewelRadarChart } from '@/components/atoms/charts/RadarChart';
 import KlaciCodeCircles from '@/components/atoms/circle/KlaciCodeCircles';
 import { PROVINCE_FULL_NAMES } from '@/constants/region';
+import { useIsMobile } from '@/hooks';
 import {
   useDistrict,
   useSetSelectedDistrict,
@@ -27,6 +28,7 @@ interface TitleSectionProps {
 }
 
 const TitleSection: React.FC<TitleSectionProps> = () => {
+  const isMobile = useIsMobile();
   const { selectedRegion } = useDistrict();
   const setSelectedRegion = useSetSelectedRegion();
   const setSelectedProvince = useSetSelectedProvince();
@@ -173,7 +175,7 @@ const TitleSection: React.FC<TitleSectionProps> = () => {
         }}
       >
         <JewelRadarChart
-          size={650}
+          size={isMobile ? 200 : 650}
           isJewel={false}
           data={animatedChartData}
           regionData={

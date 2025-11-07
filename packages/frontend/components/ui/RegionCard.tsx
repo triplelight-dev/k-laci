@@ -3,6 +3,7 @@
 import RadarJewelChartMini from '@/components/atoms/charts/RadarJewelChartMini';
 import KlaciCodeCirclesMini from '@/components/atoms/circle/KlaciCodeCirclesMini';
 import { RegionCardData, RegionCardProps } from '@/types/region';
+import Image from 'next/image';
 import React from 'react';
 
 // 랜덤 목업 데이터 생성 함수 (실제 데이터가 없을 때만 사용)
@@ -61,6 +62,7 @@ const RegionCard: React.FC<RegionCardProps> = ({
   topDivStyle,
   isHideBadge,
   bottomDivStyle,
+  mobile
 }) => {
   // 실제 데이터가 있으면 사용, 없으면 목업 데이터 사용
   const klaciCode = data.klaciCode || ''; // 기본값 설정
@@ -89,11 +91,11 @@ const RegionCard: React.FC<RegionCardProps> = ({
     <div
       role="button"
       style={{
-        minWidth: '385px',
-        width: '280px',
-        height: isHideBadge ? `${573 - badgeHeight}px` : '573px',
+        minWidth: mobile ? '150px' : '385px',
+        width: mobile ? '200px' : '280px',
+        height: mobile ? '' : isHideBadge ? `${573 - badgeHeight}px` : '573px',
         backgroundColor: '#FAFAFA', // 전체 회색 배경
-        borderRadius: '40px',
+        borderRadius: mobile ? '20px' : '40px',
         cursor: 'pointer',
         display: 'flex',
         flexDirection: 'column',
@@ -104,49 +106,51 @@ const RegionCard: React.FC<RegionCardProps> = ({
       onClick={() => onClick?.(data)}
     >
       {/* 상단 - 흰색 배경 (절대 위치로 카드 전체 너비 덮기) */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '0',
-          left: '0',
-          right: '0',
-          height: '127px', // 상단 영역 높이
-          backgroundColor: 'white',
-          padding: '34px 40px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          zIndex: 10,
-          ...topDivStyle,
-          pointerEvents: 'none', // 마우스 이벤트를 부모로 전달
-        }}
-      >
-        {/* 종합순위 */}
+      {!mobile &&
         <div
           style={{
-            fontSize: '17px',
-            fontWeight: '500',
-            color: 'black',
-            marginTop: '10px',
-            marginBottom: '4px',
-            pointerEvents: 'none',
+            position: 'absolute',
+            top: '0',
+            left: '0',
+            right: '0',
+            height: '127px', // 상단 영역 높이
+            backgroundColor: 'white',
+            padding: '34px 40px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 10,
+            ...topDivStyle,
+            pointerEvents: 'none', // 마우스 이벤트를 부모로 전달
           }}
         >
-          종합순위 {data.rank}위
+          {/* 종합순위 */}
+          <div
+            style={{
+              fontSize: '17px',
+              fontWeight: '500',
+              color: 'black',
+              marginTop: '10px',
+              marginBottom: '4px',
+              pointerEvents: 'none',
+            }}
+          >
+            종합순위 {data.rank}위
+          </div>
+          {/* 지역명 */}
+          <div
+            style={{
+              fontSize: '32px',
+              fontWeight: '600',
+              color: '#000',
+              pointerEvents: 'none',
+            }}
+          >
+            {data.province} {data.name}
+          </div>
         </div>
-        {/* 지역명 */}
-        <div
-          style={{
-            fontSize: '32px',
-            fontWeight: '600',
-            color: '#000',
-            pointerEvents: 'none',
-          }}
-        >
-          {data.province} {data.name}
-        </div>
-      </div>
+      }
 
       {/* 하단 - 회색 배경 */}
       <div
@@ -155,8 +159,8 @@ const RegionCard: React.FC<RegionCardProps> = ({
           backgroundColor: '#FAFAFA',
           display: 'flex',
           flexDirection: 'column',
-          padding: '20px',
-          marginTop: '80px', // 상단 흰색 영역 높이만큼 여백
+          padding: mobile ? '0px' : '20px',
+          marginTop: mobile ? '' : '80px', // 상단 흰색 영역 높이만큼 여백
           pointerEvents: 'none', // 마우스 이벤트를 부모로 전달
           ...bottomDivStyle,
         }}
@@ -167,10 +171,11 @@ const RegionCard: React.FC<RegionCardProps> = ({
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            marginTop: '15px',
-            height: '260px',
+            marginTop: mobile ? '' : '15px',
+            height: mobile ? '' : '260px',
             padding: '5px',
             pointerEvents: 'none',
+            backgroundColor: mobile ? '#F1F3F5' : ''
           }}
         >
           <RadarJewelChartMini
@@ -185,66 +190,121 @@ const RegionCard: React.FC<RegionCardProps> = ({
           style={{
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
+            alignItems: mobile ? 'flex-start' : 'center',
             gap: '12px',
-            paddingLeft: '10px',
-            pointerEvents: 'none',
+            padding: mobile ? '10px' : '0 0 0 10px',
+            pointerEvents: 'none'
           }}
         >
-          {/* KLACI Circle */}
-          <KlaciCodeCirclesMini klaciCode={klaciCode} />
+          {!mobile &&
+            <>
+              {/* KLACI Circle */}
+              < KlaciCodeCirclesMini klaciCode={klaciCode} />
 
-          {/* 지역 타입 */}
-          <div
-            style={{
-              fontSize: '22px',
-              fontWeight: '600',
-              color: '#000',
-              textAlign: 'center',
-              lineHeight: '1.2',
-              pointerEvents: 'none',
-              marginTop: '5px',
-            }}
-          >
-            {klaciType}
-          </div>
-
-          {/* 닉네임 */}
-          <div
-            style={{
-              fontSize: '18px',
-              color: 'black',
-              textAlign: 'center',
-              lineHeight: '1.3',
-              fontWeight: '400',
-              letterSpacing: '0.02em',
-              marginTop: '5px',
-              marginBottom: '10px',
-            }}
-          >
-            {nickname.map((line, index) => (
-              <div key={index} style={{ whiteSpace: 'nowrap' }}>
-                {line}
+              {/* 지역 타입 */}
+              <div
+                style={{
+                  fontSize: '22px',
+                  fontWeight: '600',
+                  color: '#000',
+                  textAlign: 'center',
+                  lineHeight: '1.2',
+                  pointerEvents: 'none',
+                  marginTop: '5px',
+                }}
+              >
+                {klaciType}
               </div>
-            ))}
-          </div>
+
+              {/* 닉네임 */}
+              <div
+                style={{
+                  fontSize: '18px',
+                  color: 'black',
+                  textAlign: 'center',
+                  lineHeight: '1.3',
+                  fontWeight: '400',
+                  letterSpacing: '0.02em',
+                  marginTop: '5px',
+                  marginBottom: '10px',
+                }}
+              >
+                {nickname.map((line, index) => (
+                  <div key={index} style={{ whiteSpace: 'nowrap' }}>
+                    {line}
+                  </div>
+                ))}
+              </div>
+            </>
+          }
 
           {/* 뱃지 */}
           {!isHideBadge && (
+
             <div
               style={{
-                fontSize: '14px',
-                color: '#000',
-                border: '1px solid #000',
-                backgroundColor: 'transparent',
-                padding: '4px 8px',
-                borderRadius: '8px',
-                fontWeight: '500',
+                display: 'flex',
+                flexDirection: 'row',
+                width: '100%',
+                justifyContent: mobile ? 'space-between' : '',
               }}
             >
-              {badgeText}
+              <div
+                style={{
+                  fontSize: mobile ? '10px' : '14px',
+                  color: mobile ? '#D9D9E8' : '#000',
+                  border: mobile ? '1px solid #D9D9E8' : '1px solid #000',
+                  backgroundColor: 'transparent',
+                  padding: '4px 8px',
+                  borderRadius: '8px',
+                  fontWeight: '500'
+                }}
+              >
+                {badgeText}
+              </div>
+
+              {mobile &&
+                <>
+                  <button
+                    onClick={() => onClick?.(data)}
+                    style={{
+                      border: '1px solid transparent',
+                      cursor: 'pointer',
+                      borderRadius: '12px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'border-color 0.2s ease',
+                    }}
+                  >
+                    <Image
+                      src={`/icons/arrow-top-right.png`}
+                      alt={`공유`}
+                      width={24}
+                      height={24}
+                    />
+                  </button>
+                </>
+              }
             </div>
           )}
+
+          {mobile &&
+            <>
+              {/* 지역명 */}
+              <div
+                style={{
+                  fontSize: '20px',
+                  fontWeight: '600',
+                  color: '#000',
+                  pointerEvents: 'none',
+                }}
+              >
+                {data.province} {data.name}
+              </div>
+            </>
+          }
+
         </div>
       </div>
     </div>

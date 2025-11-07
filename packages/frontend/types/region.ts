@@ -39,4 +39,5 @@ export interface RegionCardProps {
   topDivStyle?: React.CSSProperties;
   isHideBadge?: boolean;
   bottomDivStyle?: React.CSSProperties;
+  mobile: boolean
 } 

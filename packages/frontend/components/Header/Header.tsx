@@ -3,10 +3,12 @@
 import { AuthService } from '@/api/services/auth.service';
 import { ROUTES } from '@/constants/data';
 import { INTERNAL_LINKS } from '@/constants/links';
+import { useIsMobile } from '@/hooks';
 import { useIsLoggedIn, useLogout, useUser } from '@/store';
 import { DARK_MODE_COLORS } from '@/utils/colors';
+import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Button from '../atoms/buttons/Button';
 
 const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
@@ -14,6 +16,8 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
   const isLoggedIn = useIsLoggedIn();
   const user = useUser();
   const logout = useLogout();
+  const isMobile = useIsMobile();
+  const router = useRouter();
 
   // 테마별 설정
   const theme = {
@@ -68,16 +72,62 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
     }
   };
 
+  const handleBack = () => {
+
+    // 💡 브라우저 히스토리의 이전 항목으로 이동합니다.
+    // ✅ 경로 조건에 따라 분기
+    if (pathname.startsWith('/results/region')) {
+      // 현재 경로가 /results/region 으로 시작 → 새로고침
+      router.push('/results')
+    } else {
+      router.back();
+    }
+  };
+
+  /**
+   * 주어진 문자열이 '/results/region/숫자' 형태의 URL 경로인지 확인합니다.
+   * @param {string} urlPath 검사할 URL 경로 문자열
+   * @returns {boolean} URL 형태가 일치하면 true, 아니면 false
+   */
+  // URL 경로 검사 함수 (이전 답변에서 만든 정규식)
+  const isRegionResultUrl = (urlPath: string): boolean => {
+    const regex = /^\/results\/region/;
+    return regex.test(urlPath);
+  };
+
+  const isMyUrl = (urlPath: string): boolean => {
+    const regex = /^\/auth\/my/;
+    return regex.test(urlPath);
+  };
+
+  const isSignUpUrl = (urlPath: string): boolean => {
+    const regex = /^\/auth\/signup/;
+    return regex.test(urlPath);
+  };
+
+  const isLoginUrl = (urlPath: string): boolean => {
+    const regex = /^\/auth\/login/;
+    return regex.test(urlPath);
+  };
+
+  const currentPath = usePathname();
+  const isMatch = isRegionResultUrl(currentPath);
+  const isSignUpMatch = isSignUpUrl(currentPath);
+  const isMyMatch = (isMyUrl(currentPath) || isSignUpMatch);
+  const isLoginMatch = isLoginUrl(currentPath);
+
   return (
     <header
+      className="#191B22 lg:bg-white"
       style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
-        backgroundColor: theme.backgroundColor,
+        padding: isMobile ? '0px 16px' : '',
+        backgroundColor: isBlackTheme ? isMobile ? 'black' : '#191B22' : theme.backgroundColor,
         color: theme.textColor,
-        height: '100px',
+        height: isMobile ? '60px' : '100px',
         maxWidth: '1400px',
       }}
     >
@@ -92,33 +142,60 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
         {/* 1. 좌측: 로고 */}
         <div
           style={{
-            flex: '0 0 auto',
+            flex: '1',
             display: 'flex',
             justifyContent: 'flex-start',
-            minWidth: '200px',
+            // minWidth: '200px',
           }}
         >
-          <div
-            className="font-poppins text-[2.1875rem] leading-[110%] font-bold tracking-[-1.05px]"
-            style={{
-              display: 'flex',
-              gap: '35px',
-              color: theme.textColor,
-            }}
-          >
-            <Link href="/">
-              <img
-                src={theme.logo}
-                alt="K-LACI Logo"
-                style={{
-                  height: '26px',
-                  width: 'auto',
-                  marginRight: '15px',
-                  cursor: 'pointer',
-                }}
+          {isMobile && (isMatch || isMyMatch) && !isLoginMatch && (
+
+            <button
+              onClick={handleBack}
+              style={{
+                // background: 'white',
+                border: '1px solid transparent',
+                cursor: 'pointer',
+                padding: '0px 12px 0px 0px',
+                borderRadius: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'border-color 0.2s ease',
+              }}
+            >
+              <Image
+                src={`/icons/mobile_header_back.png`}
+                alt={`이전화면`}
+                width={24}
+                height={24}
               />
-            </Link>
-          </div>
+            </button>
+          )}
+
+          {(!isMobile || ((isMobile && !isMyMatch) && (isMobile && !isLoginMatch))) && (
+            <div
+              className="font-poppins text-[2.1875rem] leading-[110%] font-bold tracking-[-1.05px]"
+              style={{
+                display: 'flex',
+                gap: '35px',
+                color: isMobile ? 'white' : theme.textColor,
+              }}
+            >
+              <Link href="/">
+                <img
+                  src={isMobile ? '/klaci_logo_white_mobile_home.png' : theme.logo}
+                  alt="K-LACI Logo"
+                  style={{
+                    height: isMobile ? '20px' : '26px',
+                    width: 'auto',
+                    marginRight: '15px',
+                    cursor: 'pointer',
+                  }}
+                />
+              </Link>
+            </div>
+          )}
         </div>
 
         {/* 2. 가운데: 페이지 이동 버튼들 */}
@@ -126,7 +203,7 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
           style={{
             flex: '1',
             display: 'flex',
-            justifyContent: 'center',
+            justifyContent: (isMobile && isSignUpMatch) ? 'center' : 'center',
             padding: '0 20px',
           }}
         >
@@ -138,7 +215,7 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="font-poppins text-[0.9375rem] leading-[110%] tracking-[-0.45px]"
+                    className="hidden lg:flex flex-row font-poppins text-[0.9375rem] leading-[110%] tracking-[-0.45px]"
                     style={{
                       fontSize: '18px',
                       color: isActive
@@ -153,73 +230,181 @@ const Header = ({ isBlackTheme }: { isBlackTheme: boolean }) => {
                 );
               })}
             </div>
+
+            {isMobile && isSignUpMatch && (
+              <>
+                <span
+                  style={{
+                    fontSize: '20px',
+                    color: theme.textColor
+                  }}
+                >
+                  회원가입
+                </span>
+              </>
+            )}
           </nav>
         </div>
 
         {/* 3. 우측: 회원가입/로그인 버튼 그룹 */}
         <div
           style={{
-            flex: '0 0 auto',
+            flex: '1',
             display: 'flex',
             justifyContent: 'flex-end',
-            minWidth: '200px',
+
           }}
         >
-          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <div
+            style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
             {isLoggedIn ? (
               <>
-                {/* 사용자 정보 표시 */}
-                <span
-                  style={{
-                    fontSize: '14px',
-                    color: theme.textColor,
-                    marginRight: '10px',
-                  }}
-                >
-                  {user?.profile.name}님
-                </span>
+                <div
+                  className="hidden lg:flex flex-row"
+                  style={{ gap: '10px', alignItems: 'center' }}>
+                  {/* 사용자 정보 표시 */}
+                  <Link href={ROUTES.MY}>
+                    <span className="hidden lg:flex flex-col"
+                      style={{
+                        fontSize: '14px',
+                        color: theme.textColor,
+                        marginRight: '10px',
+                      }}
+                    >
+                      {user?.profile.name}님
+                    </span>
+                  </Link>
 
-                {/* 로그아웃 버튼 */}
-                <Button
-                  fontSize="14px"
-                  fontWeight="500"
-                  label="로그아웃"
-                  padding="10px 30px"
-                  onClick={handleLogout}
-                  theme={isBlackTheme ? 'dark' : 'light'}
-                >
-                  로그아웃
-                </Button>
+                  {/* 로그아웃 버튼 */}
+                  <Button
+                    fontSize="14px"
+                    fontWeight="500"
+                    label="로그아웃"
+                    padding="10px 30px"
+                    onClick={handleLogout}
+                    theme={isBlackTheme ? 'dark' : 'light'}
+                  >
+                    로그아웃
+                  </Button>
+                </div>
+
+                {!isMyMatch && (
+                  <div
+                    className="flex flex-row lg:hidden"
+                    style={{ gap: '10px', alignItems: 'center' }}>
+                    <Link href={ROUTES.MY}>
+                      <img
+                        src='/icons/mobile_home_person.png'
+                        style={{
+                          height: '24px',
+                          width: 'auto',
+                          cursor: 'pointer',
+                        }}
+                      />
+                    </Link>
+                  </div>
+                )}
               </>
             ) : (
               <>
-                {/* Login Button - 흰색 배경 */}
-                <Link href={ROUTES.LOGIN}>
-                  <Button
-                    variant="primary"
-                    label="로그인"
-                    padding="10px 30px"
-                    fontSize="14px"
-                    fontWeight="500"
-                    theme={isBlackTheme ? 'dark' : 'light'}
-                  />
-                </Link>
+                <div
+                  className="hidden lg:flex flex-row"
+                  style={{ gap: '10px', alignItems: 'center' }}>
+                  {/* Login Button - 흰색 배경 */}
+                  <Link href={ROUTES.LOGIN}>
+                    <Button
+                      variant="primary"
+                      label="로그인"
+                      padding="10px 30px"
+                      fontSize="14px"
+                      fontWeight="500"
+                      theme={isBlackTheme ? 'dark' : 'light'}
+                    />
+                  </Link>
 
-                {/* Signup Button - 투명 배경 흰 보더 + 우측 대각선 아이콘 */}
-                <Link href={ROUTES.SIGNUP}>
-                  <Button
-                    variant="secondary"
-                    label="회원가입"
-                    padding="10px 30px"
-                    fontSize="14px"
-                    fontWeight="500"
-                    theme={isBlackTheme ? 'dark' : 'light'}
-                  />
-                </Link>
+                  {/* Signup Button - 투명 배경 흰 보더 + 우측 대각선 아이콘 */}
+                  <Link href={ROUTES.SIGNUP}>
+                    <Button
+                      variant="secondary"
+                      label="회원가입"
+                      padding="10px 30px"
+                      fontSize="14px"
+                      fontWeight="500"
+                      theme={isBlackTheme ? 'dark' : 'light'}
+                    />
+                  </Link>
+                </div>
+
+                {(!isMobile || ((isMobile && !isMyMatch) && (isMobile && !isLoginMatch))) && (
+                  <div
+                    className="flex flex-row lg:hidden"
+                    style={{ gap: '10px', alignItems: 'center' }}>
+
+                    <Link href={ROUTES.MY}>
+                      <img
+                        src='/icons/mobile_home_person.png'
+                        style={{
+                          height: '24px',
+                          width: 'auto',
+                          cursor: 'pointer',
+                        }}
+                      />
+                    </Link>
+
+
+                    {/* Login Button - 흰색 배경 */}
+                    {/* <Link href={ROUTES.LOGIN}>
+                      로그인
+                    </Link> */}
+
+                    {/* Signup Button - 투명 배경 흰 보더 + 우측 대각선 아이콘 */}
+                    {/* <Link href={ROUTES.SIGNUP}>
+                      회원가입
+                    </Link> */}
+                  </div>
+                )}
               </>
             )}
           </div>
         </div>
+
+        {(isMobile && isLoginMatch) && (
+          <>
+            {/* 4. 엑스버튼 */}
+            <div
+              style={{
+                flex: '1',
+                display: 'flex',
+                justifyContent: 'flex-end',
+
+              }}
+            >
+              <div
+                style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                <>
+                  <button
+                    onClick={() => window.history.back()}
+                    style={{
+                      // background: 'white',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'border-color 0.2s ease',
+                    }}
+                  >
+                      <img
+                        src='/icons/close-x.png'
+                        style={{
+                          height: '40px',
+                          width: '40px'
+                        }}
+                      />
+                  </button>
+                </>
+              </div>
+            </div>
+          </>)}
       </div>
     </header>
   );

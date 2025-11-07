@@ -9,4 +9,5 @@ export const ROUTES = {
   LOGIN: '/auth/login',
   SIGNUP: '/auth/signup',
   SIGNUP_PROFILE: '/auth/signup/profile',
+  MY: '/auth/my',
 } as const;

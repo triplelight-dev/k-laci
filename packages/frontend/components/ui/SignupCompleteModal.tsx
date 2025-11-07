@@ -2,12 +2,14 @@ interface SignupCompleteModalProps {
   isOpen: boolean;
   onClose: () => void;
   onStart: () => void;
+  mobile: boolean
 }
 
 export default function SignupCompleteModal({
   isOpen,
   onClose,
   onStart,
+  mobile
 }: SignupCompleteModalProps) {
   if (!isOpen) return null;
 
@@ -37,15 +39,16 @@ export default function SignupCompleteModal({
         style={{
           backgroundColor: 'white',
           borderRadius: '20px',
-          padding: '20px',
-          paddingTop: '60px',
+          padding: mobile ? '16px' : '20px',
+          paddingTop: mobile ? '40px' : '60px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '40px',
+          gap: mobile ? '20px' : '40px',
           maxWidth: '600px',
           width: '560px',
           cursor: 'default',
+          margin: mobile ? '0px 16px' : ''
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -53,13 +56,13 @@ export default function SignupCompleteModal({
         {/* 타이틀 */}
         <div
           style={{
-            fontSize: '30px',
+            fontSize: mobile ? '25px' : '30px',
             fontWeight: '600',
             color: '#000',
             textAlign: 'center',
           }}
         >
-          <div style={{ marginBottom: '26px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><CircleCheckIcon /></div>
+          <div style={{ marginBottom: mobile ? '13px' : '26px', display: 'flex', alignItems: 'center', justifyContent: 'center', zoom: mobile ? '0.7' : '' }}><CircleCheckIcon /></div>
           회원가입 완료
         </div>
 
@@ -76,7 +79,7 @@ export default function SignupCompleteModal({
             <div
               key={index}
               style={{
-                fontSize: '18px',
+                fontSize: mobile ? '15px' : '18px',
                 textAlign: 'center',
                 lineHeight: '24px',
                 color: '#000',

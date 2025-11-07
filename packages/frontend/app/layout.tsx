@@ -1,5 +1,4 @@
 import AuthPersistenceProvider from '@/components/AuthPersistenceProvider';
-import MobileDetector from '@/components/MobileDetector';
 import { getSiteUrl, isProductionDomain } from '@/config/environment';
 import { ChakraProvider, ReactQueryProviders } from '@/providers';
 import type { Metadata } from 'next';
@@ -233,7 +232,7 @@ export default function RootLayout({
         )}
       </head>
       <body
-        className={`${pretendard.className} ${geistSans.variable} ${geistMono.variable} min-h-screen w-full bg-white antialiased`}
+        className={`${pretendard.className} ${geistSans.variable} ${geistMono.variable} min-h-screen w-full antialiased`}
         style={{
           overscrollBehavior: 'none',
           WebkitOverflowScrolling: 'touch',
@@ -242,7 +241,8 @@ export default function RootLayout({
         <ReactQueryProviders>
           <ChakraProvider>
             <AuthPersistenceProvider>
-              <MobileDetector>{children}</MobileDetector>
+              {children}
+              {/* <MobileDetector>{children}</MobileDetector> */}
             </AuthPersistenceProvider>
           </ChakraProvider>
         </ReactQueryProviders>

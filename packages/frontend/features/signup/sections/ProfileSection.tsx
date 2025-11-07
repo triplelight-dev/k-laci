@@ -18,6 +18,7 @@ interface ProfileSectionProps {
   onPrivacyLink: () => void;
   onMarketingLink: () => void;
   error: string;
+  mobile: boolean
 }
 
 export default function ProfileSection({
@@ -34,6 +35,7 @@ export default function ProfileSection({
   onPrivacyLink,
   onMarketingLink,
   error,
+  mobile
 }: ProfileSectionProps) {
   return (
     <div
@@ -55,21 +57,32 @@ export default function ProfileSection({
           alignItems: 'center',
         }}
       >
-        <div style={{ width: '100%', maxWidth: '800px' }}>
+        <div
+          style={{
+            width: '100%',
+            maxWidth: mobile ? '' : '800px',
+            margin: mobile ? '0 1rem' : '',
+          }}
+        >
           {/* 메인 컨테이너 */}
           <div
             style={{
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'center',
+              alignItems: mobile ? '' : 'center',
               justifyContent: 'center',
-              backgroundColor: '#fafafa',
+              backgroundColor: mobile ? '' : '#fafafa',
               borderRadius: '50px',
-              padding: '60px 40px',
+              padding: mobile ? '60px 16px' : '60px 40px',
             }}
           >
-            {/* 2/2 단계 뱃지 */}
-            <StepBadge step="2/2" />
+
+            {!mobile && (
+              <>
+                {/* 2/2 단계 뱃지 */}
+                <StepBadge step="2/2" />
+              </>
+            )}
 
             {/* 타이틀 */}
             <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
@@ -96,6 +109,7 @@ export default function ProfileSection({
               onTermsLink={onTermsLink}
               onPrivacyLink={onPrivacyLink}
               onMarketingLink={onMarketingLink}
+              mobile={mobile}
             />
 
             {/* 에러 메시지 */}
@@ -118,29 +132,35 @@ export default function ProfileSection({
             isOpen={showCompleteModal}
             onClose={() => { }} // 모달 닫기 기능은 필요에 따라 추가
             onStart={onStart}
+            mobile={mobile}
           />
+
+          {!mobile && (
+            <>
+              {/* 로그인 링크 */}
+              <div
+                style={{
+                  textAlign: 'center',
+                  marginTop: '50px',
+                }}
+              >
+                <a
+                  href="mailto:klaci@triplelight.co"
+                  style={{
+                    fontSize: '18px',
+                    fontWeight: '400',
+                    color: '#000',
+                    textDecoration: 'underline',
+                    textDecorationColor: '#000000',
+                    textDecorationThickness: '1px',
+                  }}
+                >
+                  도움이 필요하신가요?
+                </a>
+              </div>
+            </>
+          )}
         </div>
-      </div>
-      {/* 로그인 링크 */}
-      <div
-        style={{
-          textAlign: 'center',
-          marginTop: '50px',
-        }}
-      >
-        <a
-          href="mailto:klaci@triplelight.co"
-          style={{
-            fontSize: '18px',
-            fontWeight: '400',
-            color: '#000',
-            textDecoration: 'underline',
-            textDecorationColor: '#000000',
-            textDecorationThickness: '1px',
-          }}
-        >
-          도움이 필요하신가요?
-        </a>
       </div>
     </div>
   );

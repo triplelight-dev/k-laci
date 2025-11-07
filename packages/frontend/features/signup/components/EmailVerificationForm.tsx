@@ -10,6 +10,7 @@ interface EmailVerificationFormProps {
   isLoading: boolean;
   onSubmit: (e: React.FormEvent) => void;
   error: string;
+  mobile: boolean
 }
 
 // 완전한 이메일 유효성 검증 함수
@@ -24,6 +25,7 @@ export default function EmailVerificationForm({
   isLoading,
   onSubmit,
   error,
+  mobile
 }: EmailVerificationFormProps) {
   const [userType, setUserType] = useState<UserType>('GENERAL');
 
@@ -41,44 +43,77 @@ export default function EmailVerificationForm({
       onSubmit={onSubmit}
       style={{
         width: '100%',
-        maxWidth: '520px',
+        maxWidth: mobile ? '100%' : '520px',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
+        alignItems: mobile ? '' : 'center',
         justifyContent: 'center',
         // gap: '20px',
       }}
     >
       {/* 이메일 입력 */}
       <div style={{ width: '100%', paddingBottom: '100px', position: 'relative' }}>
+
+        {mobile && (
+          <>
+            {/* 유저 타입 뱃지들 - 항상 표시하되, 완전한 이메일 형식일 때만 활성화 */}
+            <div
+              style={{
+                display: 'flex',
+                width: '100%',
+                gap: '8px',
+                // marginTop: '16px',
+                marginBottom: '16px',
+              }}
+            >
+              <UserTypeBadge
+                type={UserTypeEnum.GOV}
+                isActive={isEmailValid && userType === UserTypeEnum.GOV}
+              />
+              <UserTypeBadge
+                type={UserTypeEnum.BUSINESS}
+                isActive={isEmailValid && userType === UserTypeEnum.BUSINESS}
+              />
+              <UserTypeBadge
+                type={UserTypeEnum.GENERAL}
+                isActive={isEmailValid && userType === UserTypeEnum.GENERAL}
+              />
+            </div>
+          </>
+        )}
+
         <EmailInput
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        {/* 유저 타입 뱃지들 - 항상 표시하되, 완전한 이메일 형식일 때만 활성화 */}
-        <div
-          style={{
-            display: 'flex',
-            width: '100%',
-            gap: '8px',
-            marginTop: '16px',
-            // marginBottom: '50px',
-          }}
-        >
-          <UserTypeBadge 
-            type={UserTypeEnum.GOV} 
-            isActive={isEmailValid && userType === UserTypeEnum.GOV} 
-          />
-          <UserTypeBadge 
-            type={UserTypeEnum.BUSINESS}  
-            isActive={isEmailValid && userType === UserTypeEnum.BUSINESS} 
-          />
-          <UserTypeBadge 
-            type={UserTypeEnum.GENERAL} 
-            isActive={isEmailValid && userType === UserTypeEnum.GENERAL} 
-          />
-        </div>
+        {!mobile && (
+          <>
+            {/* 유저 타입 뱃지들 - 항상 표시하되, 완전한 이메일 형식일 때만 활성화 */}
+            <div
+              style={{
+                display: 'flex',
+                width: '100%',
+                gap: '8px',
+                marginTop: '16px',
+                // marginBottom: '50px',
+              }}
+            >
+              <UserTypeBadge
+                type={UserTypeEnum.GOV}
+                isActive={isEmailValid && userType === UserTypeEnum.GOV}
+              />
+              <UserTypeBadge
+                type={UserTypeEnum.BUSINESS}
+                isActive={isEmailValid && userType === UserTypeEnum.BUSINESS}
+              />
+              <UserTypeBadge
+                type={UserTypeEnum.GENERAL}
+                isActive={isEmailValid && userType === UserTypeEnum.GENERAL}
+              />
+            </div>
+          </>
+        )}
 
         {/* 에러 메시지 */}
         {error && (
@@ -91,7 +126,7 @@ export default function EmailVerificationForm({
               fontSize: '14px',
               fontWeight: '500',
               color: '#EF4444',
-              textAlign: 'center',
+              textAlign: mobile ? 'left' : 'center',
             }}
           >
             {error}

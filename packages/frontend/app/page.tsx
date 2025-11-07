@@ -2,6 +2,7 @@ import HomeLayout from '@/components/layout/HomeLayout';
 import WhitePaperBanner from '@/features/home/components/WhitePaperBanner';
 
 // sections
+import MobileHomeRedirectClient from '@/components/MobileHomeRedirectClient';
 import PartnerShipSection from '@/components/sections/PartnerShipSection';
 import StrategySection from '@/components/sections/StrategySection';
 import IntroSection from '@/features/home/sections/IntroSection';
@@ -13,16 +14,25 @@ import VideoSection from '@/features/home/sections/VideoSection';
 
 export default function HomePage() {
   return (
-    <HomeLayout>
-      <WhitePaperBanner />
-      <IntroSection />
-      <PossibilitySection />
-      <UniquenessSection />
-      <RankSection />
-      <VideoSection />
-      <RoadmapSection />
-      <StrategySection />
-      <PartnerShipSection />
-    </HomeLayout>
+    <>
+      <div className="hidden lg:block">
+        <HomeLayout>
+          <WhitePaperBanner />
+          <IntroSection />
+          <PossibilitySection />
+          <UniquenessSection />
+          <RankSection />
+          <VideoSection />
+          <RoadmapSection />
+          <StrategySection />
+          <PartnerShipSection />
+        </HomeLayout>
+      </div>
+      <div className="block lg:hidden">
+        <HomeLayout>
+          <MobileHomeRedirectClient />
+        </HomeLayout>
+      </div>
+    </>
   );
 }

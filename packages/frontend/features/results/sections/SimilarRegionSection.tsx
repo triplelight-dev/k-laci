@@ -7,6 +7,7 @@ import { useRegion } from '@/api/hooks/useRegion';
 import { Divider } from '@/components/atoms/divider';
 import PremiumContentTitle from '@/components/ui/PremiumContentTitle';
 import RegionCard from '@/components/ui/RegionCard';
+import { useIsMobile } from '@/hooks';
 import {
   useDistrict,
   useSetSelectedDistrict,
@@ -34,6 +35,7 @@ const SimilarRegionSection: React.FC = () => {
   const setSelectedProvince = useSetSelectedProvince();
   const setSelectedDistrict = useSetSelectedDistrict();
   const router = useRouter();
+  const isMobile = useIsMobile();
 
   // 지역명 생성 함수
   const getRegionName = (): string => {
@@ -195,60 +197,77 @@ const SimilarRegionSection: React.FC = () => {
         flexDirection: 'column',
         alignItems: 'center',
         width: '100%',
-        gap: '30px',
+        gap: isMobile ? '' : '30px',
         color: '#000000',
         padding: '0 20px',
-        paddingBottom: '100px',
+        paddingBottom:  '100px',
       }}
     >
       {/* 자신 region 카드 */}
-      <Flex
-        style={{
-          width: '100%',
-          maxWidth: '1060px',
-          margin: '0 auto',
-          justifyContent: 'center',
-        }}
-      >
-        <RegionCard
-          data={{
-            id: selectedRegion?.id || 0,
-            name: selectedRegion?.name || '',
-            province: selectedRegion?.province?.name || '',
-            similarity: 100, // 자기 자신이므로 100 유지
-            rank: selectedRegion?.total_rank || 1,
-            score: selectedRegion?.total_score || 0,
-            klaciCode: selectedRegion?.klaci.code || '',
-            klaciType: selectedRegion?.klaci.type || '',
-            klaciNickname: selectedRegion?.klaci.nickname || '',
-            klaciNicknameMultiline:
-              selectedRegion?.klaci.nickname_multiline || [],
-            radarData: generateChartData(selectedRegion),
+      {!isMobile &&
+        <Flex
+          style={{
+            width: '100%',
+            maxWidth: '1060px',
+            margin: '0 auto',
+            justifyContent: 'center',
           }}
-          onClick={handleCardClick}
-          topDivStyle={{
-            backgroundColor: '#F4F4F4',
-            padding: '0 20px',
-            height: 'fit-content',
-          }}
-          bottomDivStyle={{
-            backgroundColor: 'rgb(244, 244, 244)',
-          }}
-          isHideBadge={true}
-        />
-      </Flex>
+        >
+          <RegionCard
+            data={{
+              id: selectedRegion?.id || 0,
+              name: selectedRegion?.name || '',
+              province: selectedRegion?.province?.name || '',
+              similarity: 100, // 자기 자신이므로 100 유지
+              rank: selectedRegion?.total_rank || 1,
+              score: selectedRegion?.total_score || 0,
+              klaciCode: selectedRegion?.klaci.code || '',
+              klaciType: selectedRegion?.klaci.type || '',
+              klaciNickname: selectedRegion?.klaci.nickname || '',
+              klaciNicknameMultiline:
+                selectedRegion?.klaci.nickname_multiline || [],
+              radarData: generateChartData(selectedRegion),
+            }}
+            onClick={handleCardClick}
+            topDivStyle={{
+              backgroundColor: '#F4F4F4',
+              padding: '0 20px',
+              height: 'fit-content',
+            }}
+            bottomDivStyle={{
+              backgroundColor: 'rgb(244, 244, 244)',
+            }}
+            isHideBadge={true}
+            mobile={isMobile}
+          />
+        </Flex>
+      }
 
-      <Divider
-        style={{ width: '100%', margin: '0 auto', marginBottom: '100px' }}
-      />
-      <SummarySectionHeader
-        title={`${selectedProvince?.name} ${josa(selectedDistrict?.name || '종로', '와/과')} 비슷한 지자체`}
-        badgeLabel="더 알아보기"
-      />
+      {!isMobile &&
+        <>
+          <Divider
+            style={{ width: '100%', margin: '0 auto', marginBottom: '100px' }}
+          />
+          <SummarySectionHeader
+            title={`${selectedProvince?.name} ${josa(selectedDistrict?.name || '종로', '와/과')} 비슷한 지자체`}
+            badgeLabel="더 알아보기"
+          />
+        </>
+      }
+
+      {isMobile &&
+        <>
+          <SummarySectionHeader
+            title={`${selectedProvince?.name} ${josa(selectedDistrict?.name || '종로', '와/과')} 비슷한 지자체`}
+            badgeLabel=""
+          />
+        </>
+      }
 
       <SimilarRegionCardSlider
         data={similarRegions}
         onCardClick={handleCardClick}
+        mobile={isMobile}
       />
     </div>
   );

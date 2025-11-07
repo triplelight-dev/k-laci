@@ -9,7 +9,7 @@ const AboutLayout = ({ children }: { children: React.ReactNode }) => {
     <div
       style={{
         width: '100%',
-        minWidth: '1500px',
+        // minWidth: '1500px',
         minHeight: '100vh',
         backgroundColor: DARK_MODE_COLORS.background,
         justifyContent: 'center',

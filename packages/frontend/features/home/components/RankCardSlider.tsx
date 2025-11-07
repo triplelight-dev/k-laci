@@ -2,6 +2,7 @@
 
 import { useTopRegionsForCard } from '@/api/hooks';
 import RegionCard from '@/components/ui/RegionCard';
+import { useIsMobile } from '@/hooks';
 import { RegionCardData } from '@/types/region';
 import { generateChartData } from '@/utils/chartUtils';
 import React, {
@@ -26,7 +27,7 @@ export default function RankCardSlider() {
     isLoading,
     error,
   } = useTopRegionsForCard({ limit: 10 });
-
+  const isMobile = useIsMobile();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
@@ -411,6 +412,7 @@ export default function RankCardSlider() {
                       pointerEvents: 'auto',
                     }}
                     isHideBadge={true}
+                    mobile={isMobile}
                   />
                 )}
               </div>

@@ -6,6 +6,7 @@ import {
   useRegionStrengthIndexes,
 } from '@/api/hooks';
 import IndexModal from '@/components/atoms/modal/IndexModal';
+import { useIsMobile } from '@/hooks';
 import { useDistrict, useIsLoggedIn } from '@/store';
 import { Flex, Text } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
@@ -73,103 +74,190 @@ const IndexItem: React.FC<{
   data: IndexData;
   onClick: (data: IndexData) => void;
   isDisabled?: boolean;
-}> = ({ indexRank, data, onClick, isDisabled = false }) => {
+  mobile: boolean;
+}> = ({ indexRank, data, onClick, isDisabled = false, mobile }) => {
   const categoryColor = colorMap[data.category] || '#874FFF';
 
   return (
     <Flex>
-      <div style={{ 
-        margin: '15px 19px', 
-        width: '40px', 
-        height: '48px', 
-        display: 'flex', 
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
-        <div
-          style={{
-            color: indexRank === 1 || indexRank === 55 ? '#000' : '#9A9EA3',
-            fontSize: '14px',
-            fontWeight: '500',
+      {!mobile && (
+        <>
+          <div style={{
+            margin: '15px 19px',
+            width: '40px',
+            height: '48px',
             display: 'flex',
             alignItems: 'center',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            height: '100%',
-            transform: 'translateY(-4px)', // 텍스트를 위로 4px 이동
-          }}
-        >
-          {indexRank}위
-          {indexRank === 1 && (
-            <Text color="#000" fontSize="14px" fontWeight="500">
-              (강점)
-            </Text>
-          )}
-          {indexRank === 55 && (
-            <Text color="#000" fontSize="14px" fontWeight="500">
-              (약점)
-            </Text>
-          )}
-        </div>
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          width: '284px',
-          gap: '12px',
-          padding: '8px 12px',
-          backgroundColor: '#F5F5F5',
-          border: '1px solid #E7E8EA',
-          borderRadius: '12px',
-          marginBottom: '14px',
-          cursor: isDisabled ? 'default' : 'pointer',
-          transition: 'all 0.2s ease',
-          paddingTop: '12px',
-          paddingBottom: '12px',
-          minHeight: '48px', // 고정 높이 추가
-        }}
-        onClick={() => !isDisabled && onClick(data)}
-        onMouseEnter={(e) => {
-          if (!isDisabled) {
-            e.currentTarget.style.background = `white`;
-            e.currentTarget.style.border = `1px solid #000`;
-          }
-        }}
-        onMouseLeave={(e) => {
-          if (!isDisabled) {
-            e.currentTarget.style.background = '#F5F5F5';
-            e.currentTarget.style.border = `1px solid #E7E8EA`;
-          }
-        }}
-      >
-        {/* 뱃지 */}
-        <div
-          style={{
-            padding: '4px 8px',
-            backgroundColor: hexToRgba(categoryColor, 0.2),
-            borderRadius: '6px',
-            fontSize: '14px',
-            fontWeight: '500',
-            color: categoryColor,
-            whiteSpace: 'nowrap',
-          }}
-        >
-          {data.category}
-        </div>
+            justifyContent: 'center'
+          }}>
+            <div
+              style={{
+                color: indexRank === 1 || indexRank === 55 ? '#000' : '#9A9EA3',
+                fontSize: '14px',
+                fontWeight: '500',
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                height: '100%',
+                transform: 'translateY(-4px)', // 텍스트를 위로 4px 이동
+              }}
+            >
 
-        {/* 값 */}
-        <span
-          style={{
-            color: '#000000',
-            fontSize: '18px',
-            fontWeight: '400',
+              {indexRank}위
+              {indexRank === 1 && (
+                <Text color="#000" fontSize="14px" fontWeight="500">
+                  (강점)
+                </Text>
+              )}
+              {indexRank === 55 && (
+                <Text color="#000" fontSize="14px" fontWeight="500">
+                  (약점)
+                </Text>
+              )}
+            </div>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              width: '284px',
+              gap: '12px',
+              padding: '8px 12px',
+              backgroundColor: '#F5F5F5',
+              border: '1px solid #E7E8EA',
+              borderRadius: '12px',
+              marginBottom: '14px',
+              cursor: isDisabled ? 'default' : 'pointer',
+              transition: 'all 0.2s ease',
+              paddingTop: '12px',
+              paddingBottom: '12px',
+              minHeight: '48px', // 고정 높이 추가
+            }}
+            onClick={() => !isDisabled && onClick(data)}
+            onMouseEnter={(e) => {
+              if (!isDisabled) {
+                e.currentTarget.style.background = `white`;
+                e.currentTarget.style.border = `1px solid #000`;
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!isDisabled) {
+                e.currentTarget.style.background = '#F5F5F5';
+                e.currentTarget.style.border = `1px solid #E7E8EA`;
+              }
+            }}
+          >
+            {/* 뱃지 */}
+            <div
+              style={{
+                padding: '4px 8px',
+                backgroundColor: hexToRgba(categoryColor, 0.2),
+                borderRadius: '6px',
+                fontSize: '14px',
+                fontWeight: '500',
+                color: categoryColor,
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {data.category}
+            </div>
+
+            {/* 값 */}
+            <span
+              style={{
+                color: '#000000',
+                fontSize: '18px',
+                fontWeight: '400',
+              }}
+            >
+              {data.indexName}
+            </span>
+          </div>
+        </>
+      )}
+
+      {mobile && (
+        <>
+          <div style={{
+            margin: '2px 16px',
+            display: 'flex',
+            alignItems: 'center',
+            width: '100%',
+            gap: '12px',
+            padding: '8px 12px',
+            backgroundColor: '#F5F5F5',
+            border: '1px solid #E7E8EA',
+            borderRadius: '12px',
+            cursor: isDisabled ? 'default' : 'pointer',
+            transition: 'all 0.2s ease',
+            paddingTop: '12px',
+            paddingBottom: '12px',
+            minHeight: '48px', // 고정 높이 추가
           }}
-        >
-          {data.indexName}
-        </span>
-      </div>
-    </Flex>
+            onClick={() => !isDisabled && onClick(data)}
+            onMouseEnter={(e) => {
+              if (!isDisabled) {
+                e.currentTarget.style.background = `white`;
+                e.currentTarget.style.border = `1px solid #000`;
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!isDisabled) {
+                e.currentTarget.style.background = '#F5F5F5';
+                e.currentTarget.style.border = `1px solid #E7E8EA`;
+              }
+            }}
+          >
+            <div
+              style={{
+                color: indexRank === 1 || indexRank === 55 ? '#000' : '#9A9EA3',
+                fontSize: '14px',
+                fontWeight: '500',
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                height: '100%',
+                width: '34px'
+              }}
+            >
+              {indexRank}위
+            </div>
+
+            {/* 뱃지 */}
+            <div
+              style={{
+                backgroundColor: hexToRgba(categoryColor, 0.2),
+                borderRadius: '6px',
+                fontSize: '14px',
+                fontWeight: '500',
+                color: categoryColor,
+                whiteSpace: 'nowrap',
+                width: '79px',
+                height: '32px',
+                alignContent: 'center',
+                textAlign: 'center'
+              }}
+            >
+              {data.category}
+            </div>
+
+            {/* 값 */}
+            <span
+              style={{
+                color: '#000000',
+                fontSize: '18px',
+                fontWeight: '400',
+              }}
+            >
+              {data.indexName}
+            </span>
+          </div>
+        </>
+      )
+      }
+    </Flex >
   );
 };
 
@@ -180,7 +268,8 @@ const IndexSection: React.FC<{
   isStrength?: boolean;
   onItemClick: (data: IndexData) => void;
   isDisabled?: boolean;
-}> = ({ indexType, data, onItemClick, isDisabled = false }) => {
+  mobile: boolean
+}> = ({ indexType, data, onItemClick, isDisabled = false, mobile }) => {
   const indexRankOffset = indexType === 'strength' ? 1 : 55;
 
   return (
@@ -211,6 +300,7 @@ const IndexSection: React.FC<{
             data={item}
             onClick={onItemClick}
             isDisabled={isDisabled}
+            mobile={mobile}
           />
         ))}
       </div>
@@ -256,11 +346,16 @@ const StrengthWeaknessIndexSection: React.FC = () => {
   const [strengthData, setStrengthData] = useState<IndexData[]>([]);
   const [weaknessData, setWeaknessData] = useState<IndexData[]>([]);
 
+  const isMobile = useIsMobile();
+
   // Zustand store에서 선택된 지역 정보와 로그인 상태 가져오기
   const { selectedRegion } = useDistrict();
   const isLoggedIn = useIsLoggedIn();
   const { getKeyIndexData } = useKeyIndexData();
   const { getRegionKeyIndexScore } = useRegionKeyIndexScore();
+
+  // 💡 상태 정의: 현재 활성화된 탭을 'tab1'로 초기 설정합니다.
+  const [activeTab, setActiveTab] = useState('tab1');
 
   // 새로운 API hook 사용
   const {
@@ -276,6 +371,10 @@ const StrengthWeaknessIndexSection: React.FC = () => {
     }
 
     if (!selectedRegion) {
+      return;
+    }
+
+    if( isMobile ) {
       return;
     }
 
@@ -399,43 +498,183 @@ const StrengthWeaknessIndexSection: React.FC = () => {
     );
   }
 
+  // 💡 활성 탭에 따라 스타일을 결정하는 유틸리티 함수
+  const getTabClasses = (activeTab: string, tabName: string) => {
+    // 공통 스타일 (크기, 그림자, 전환 효과 등)
+    // 모든 공통 스타일을 기본 객체에 정의
+    const baseStyle: React.CSSProperties = {
+      flexGrow: 1, // 'width: 100%' 역할을 합니다.
+      padding: '9px 24px',
+      fontWeight: '600',
+      borderRadius: '8px',
+      cursor: 'pointer',
+      border: 'none',
+      transition: 'background-color 0.15s ease-in-out, color 0.15s ease-in-out', // 배경과 텍스트색에 트랜지션 적용
+    };
+
+    if (tabName === activeTab) {
+      // 탭이 활성화되었을 때 (파란색 배경, 흰색 텍스트)
+      return {
+        ...baseStyle,
+        backgroundColor: '#FFFFFF', // bg-blue-600에 해당하는 HEX 코드
+        color: 'black', // text-white
+      };
+    } else {
+      // 탭이 비활성화되었을 때 (흰색 배경, 회색 텍스트)
+      return {
+        ...baseStyle,
+        color: '#6B7280', // text-gray-500에 해당하는 HEX 코드
+      };
+    }
+  };
+
   return (
     <>
-      <div
-        style={{
-          display: 'flex',
-          width: '100%',
-          justifyContent: 'space-between',
-        }}
-      >
-        {/* 강점지표 */}
-        <IndexSection
-          indexType="strength"
-          data={isLoggedIn ? strengthData : strengthData.slice(0, 5)}
-          isStrength={true}
-          onItemClick={handleItemClick}
-          isDisabled={!isLoggedIn}
-        />
+      {!isMobile &&
+        <>
+          <div
+            style={{
+              display: 'flex',
+              width: '100%',
+              justifyContent: 'space-between',
+            }}
+          >
+            {/* 강점지표 */}
+            <IndexSection
+              indexType="strength"
+              data={isLoggedIn ? strengthData : strengthData.slice(0, 5)}
+              isStrength={true}
+              onItemClick={handleItemClick}
+              isDisabled={!isLoggedIn}
+              mobile={isMobile}
+            />
 
-        {/* 약점지표 */}
-        <IndexSection
-          indexType="weakness"
-          data={isLoggedIn ? weaknessData : weaknessData.slice(0, 5)}
-          isStrength={false}
-          onItemClick={handleItemClick}
-          isDisabled={!isLoggedIn}
-        />
-      </div>
+            {/* 약점지표 */}
+            <IndexSection
+              indexType="weakness"
+              data={isLoggedIn ? weaknessData : weaknessData.slice(0, 5)}
+              isStrength={false}
+              onItemClick={handleItemClick}
+              isDisabled={!isLoggedIn}
+              mobile={isMobile}
+            />
+          </div>
 
-      {/* 모달 - 로그인한 경우에만 렌더링 */}
-      {isLoggedIn && selectedData && (
-        <IndexModal
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-          data={selectedData}
-          regionId={selectedRegion?.id || 0}
-        />
-      )}
+          {/* 모달 - 로그인한 경우에만 렌더링 */}
+          {isLoggedIn && selectedData && (
+            <IndexModal
+              isOpen={isModalOpen}
+              onClose={handleCloseModal}
+              data={selectedData}
+              regionId={selectedRegion?.id || 0}
+            />
+          )}
+        </>
+      }
+
+      {isMobile &&
+        <>
+          <div className="w-full max-w-4xl mx-auto">
+            {/* 1. 탭 버튼 영역 */}
+            <div
+              className='w-full'
+              style={{
+                padding: '0px 16px 12px'
+              }}
+            >
+              <div className="flex flex-row w-full border-b border-gray-300 gap-5"
+                style={{
+                  width: '100%',
+                  maxWidth: '100%',
+                  borderRadius: '8px',
+                  fontSize: '16px',
+                  fontWeight: '500',
+                  lineHeight: '24px',
+                  color: '#DEE2E6',
+                  textAlign: 'center',
+                  padding: '6px',
+                  backgroundColor: '#EDEDED',
+                }}>
+
+                {/* 탭 1 버튼 */}
+                <button
+                  style={getTabClasses(activeTab, 'tab1')}
+                  onClick={() => setActiveTab('tab1')}
+                // style={{
+                //   width: '100%',
+                //   padding: '6px 24px', // px-6 py-3
+                //   fontWeight: '600',   // font-semibold
+                //   borderRadius: '8px', // rounded-lg
+                //   cursor: 'pointer',
+                //   border: 'none',
+                //   transition: 'background-color 0.15s ease-in-out',
+                // }}
+                >
+                  강점
+                </button>
+
+                {/* 탭 2 버튼 */}
+                <button
+                  style={getTabClasses(activeTab, 'tab2')}
+                  onClick={() => setActiveTab('tab2')}
+                // style={{
+                //   width: '100%',
+                //   padding: '6px 24px', // px-6 py-3
+                //   fontWeight: '600',   // font-semibold
+                //   borderRadius: '8px', // rounded-lg
+                //   cursor: 'pointer',
+                //   border: 'none',
+                //   transition: 'background-color 0.15s ease-in-out',
+                // }}
+                >
+                  약점
+                </button>
+              </div>
+            </div>
+
+            {/* 2. 탭 내용 영역 */}
+            <div className="pt-8 p-4 bg-white rounded-b-lg">
+              {activeTab === 'tab1' && (
+                <>
+                  {/* 강점지표 */}
+                  <IndexSection
+                    indexType="strength"
+                    data={isLoggedIn ? strengthData : strengthData.slice(0, 6)}
+                    isStrength={true}
+                    onItemClick={handleItemClick}
+                    isDisabled={!isLoggedIn}
+                    mobile={isMobile}
+                  />
+                </>
+              )}
+
+              {activeTab === 'tab2' && (
+                <>
+                  {/* 약점지표 */}
+                  <IndexSection
+                    indexType="weakness"
+                    data={isLoggedIn ? weaknessData : weaknessData.slice(0, 6)}
+                    isStrength={false}
+                    onItemClick={handleItemClick}
+                    isDisabled={!isLoggedIn}
+                    mobile={isMobile}
+                  />
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* 모달 - 로그인한 경우에만 렌더링 */}
+          {isLoggedIn && selectedData && (
+            <IndexModal
+              isOpen={isModalOpen}
+              onClose={handleCloseModal}
+              data={selectedData}
+              regionId={selectedRegion?.id || 0}
+            />
+          )}
+        </>
+      }
     </>
   );
 };

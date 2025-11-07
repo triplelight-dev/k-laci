@@ -4,12 +4,19 @@ import ScoreBar from '@/components/atoms/bars/ScoreBar';
 import { Divider } from '@/components/atoms/divider';
 import { CATEGORIES } from '@/constants/categories';
 import { categoryColors } from '@/constants/colors';
+import { useIsMobile } from '@/hooks';
 import { useStore } from '@/store';
 import { parseKlaciCode } from '@/utils/klaciCodeParser';
+import { useState } from 'react';
 import { SummarySectionHeader } from './SummarySectionHeader';
+
+const MAX_SUMMARY_LENGTH = 0; // 최대 글자수 상수를 정의합니다.
+const MAX_CONTENT_HEIGHT = 2000; // 💡 펼쳤을 때 최대로 가질 수 있는 높이 (px)
+const COLLAPSED_HEIGHT = 0; // 💡 접혔을 때 보일 높이 (px)
 
 const CompetencyDistSection = () => {
   const { selectedRegion, regionLoading } = useStore((state) => state.district);
+  const isMobile = useIsMobile();
 
   // KLACI 코드 파싱 예시 (selectedRegion에 klaci_code가 있다고 가정)
   const klaciCodeResult = selectedRegion?.klaci_code
@@ -63,14 +70,17 @@ const CompetencyDistSection = () => {
           style={{
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'flex-start',
+            alignItems: 'center',
           }}
         >
           {/* <PremiumContentTitle title={title} /> */}
-          <SummarySectionHeader
-            badgeLabel='ARCHETYPE BAR'
-            title='역량 분포'
-          />
+          {!isMobile &&
+            <SummarySectionHeader badgeLabel='ARCHETYPE BAR' title='역량 분포' />
+          }
+          {isMobile &&
+            <SummarySectionHeader badgeLabel="" title="역량 분포" />
+          }
+
           <div
             style={{
               background: '#FAFAFA',
@@ -100,23 +110,32 @@ const CompetencyDistSection = () => {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'flex-start',
+          alignItems: 'center',
         }}
       >
         {/* 타이틀 */}
         {/* <PremiumContentTitle title={title} /> */}
-        <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-          <SummarySectionHeader
-            badgeLabel='ARCHETYPE BAR'
-            title='역량 분포'
-          />
-        </div>
-
-        <Divider style={{ margin: '60px 0 0px' }} />
-
+        {!isMobile &&
+          <>
+            <SummarySectionHeader badgeLabel='ARCHETYPE BAR' title='역량 분포' />
+            <Divider style={{ margin: '60px 0 0px' }} />
+          </>
+        }
+        {isMobile &&
+          <>
+            <SummarySectionHeader badgeLabel="" title="역량 분포" />
+            <div
+              className='w-full'
+              style={{
+                padding: isMobile ? '0px 16px 0px' : '60px 16px 0px'
+              }}
+            >
+              <Divider />
+            </div>
+          </>
+        }
 
         {/* 카테고리 카드들 */}
-
         {categories.map((category, index) => (
           <CategoryCard key={index} category={category} index={index} categories={categories} />
         ))}
@@ -134,6 +153,10 @@ interface CategoryCardProps {
 
 const CategoryCard: React.FC<CategoryCardProps> = ({ category, index, categories }) => {
   const { selectedRegion } = useStore((state) => state.district);
+  const isMobile = useIsMobile();
+
+  // 💡 1. 펼침 상태 정의
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const getItems = (
     index: number,
@@ -202,6 +225,31 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index, categories
   const isBold = getBoldItem();
   const isLastIndex = index === categories.length - 1;
 
+  // 💡 1. 텍스트 추출 및 합치기 로직 수정
+  const descriptionContent = category.description;
+
+  let fullSummaryText = '';
+
+  if (Array.isArray(descriptionContent)) {
+    // description이 string[] 배열인 경우: 줄 바꿈으로 연결
+    fullSummaryText = descriptionContent.join('\n');
+  } else if (typeof descriptionContent === 'string') {
+    // description이 string 단일 문자열인 경우: 그대로 사용
+    fullSummaryText = descriptionContent;
+  } else {
+    // 예상치 못한 타입인 경우: 빈 문자열 처리 (선택적)
+    fullSummaryText = '';
+  }
+
+  // 💡 2. 표시할 내용 처리 로직
+  const displaySummaryText = isExpanded
+    ? fullSummaryText
+    : fullSummaryText.substring(0, MAX_SUMMARY_LENGTH);
+
+  // 💡 3. 펼쳐보기 버튼 표시 여부
+  //    (fullSummaryText가 정의된 후 길이를 확인해야 합니다)
+  const showToggleButton = fullSummaryText.length > MAX_SUMMARY_LENGTH;
+
   return (
     <div
       key={index}
@@ -213,42 +261,152 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, index, categories
     >
       {/* 바 컴포넌트 */}
 
-      <div style={{ padding: '0 135px', marginTop: '80px' }}>
-        <div
-          style={{
-            marginBottom: '60px',
-          }}
-        >
-          <ScoreBar
-            leftItem={leftItem}
-            rightItem={rightItem}
-            score={category.score}
-            color={category.color}
-            isBold={isBold}
-            leftItemKeyColor={category.color}
-          />
-        </div>
+      {!isMobile &&
+        <>
+          <div style={{ padding: '0 135px', marginTop: '80px' }}>
+            <div
+              style={{
+                marginBottom: '60px',
+              }}
+            >
+              <ScoreBar
+                leftItem={leftItem}
+                rightItem={rightItem}
+                score={category.score}
+                color={category.color}
+                isBold={isBold}
+                leftItemKeyColor={category.color}
+                mobile={isMobile}
+              />
+            </div>
 
-        {/* 하단: description */}
-        <div
-          style={{
-            fontSize: '1.1rem',
-            lineHeight: '1.5',
-            textAlign: 'justify',
-            color: 'black',
-          }}
-        >
-          {Array.isArray(category.description)
-            ? category.description.map((paragraph, pIndex) => (
-              <p key={pIndex} style={{ marginBottom: '0.75rem' }}>
-                {paragraph}
-              </p>
-            ))
-            : category.description}
-        </div>
+            {/* 하단: description */}
+            <div
+              style={{
+                fontSize: '1.1rem',
+                lineHeight: '1.5',
+                textAlign: 'justify',
+                color: 'black',
+              }}
+            >
+              {Array.isArray(category.description)
+                ? category.description.map((paragraph, pIndex) => (
+                  <p key={pIndex} style={{ marginBottom: '0.75rem' }}>
+                    {paragraph}
+                  </p>
+                ))
+                : category.description}
+            </div>
 
-      </div>
-      {!isLastIndex && <Divider style={{ margin: '80px 0 0' }} />}
+          </div>
+          {!isLastIndex && <Divider style={{ margin: '80px 0 0' }} />}
+        </>
+      }
+
+      {isMobile &&
+        <>
+          <div style={{ padding: '0 16px', marginTop: '16px' }}>
+            <div
+              style={{
+                marginBottom: '20px',
+              }}
+            >
+              <ScoreBar
+                leftItem={leftItem}
+                rightItem={rightItem}
+                score={category.score}
+                color={category.color}
+                isBold={isBold}
+                leftItemKeyColor={category.color}
+                mobile={isMobile}
+              />
+            </div>
+
+            {/* 하단: description */}
+            {/* 💡 아코디언 컨테이너: max-height와 transition 적용 */}
+            <div
+              style={{
+                // 💡 1. 애니메이션 속성: 부드러운 펼침/접힘 효과
+                transition: 'max-height 0.7s ease-in-out, opacity 0.5s ease-in-out',
+                // 💡 2. 높이 제어: isExpanded 상태에 따라 높이를 설정합니다.
+                maxHeight: isExpanded ? `${MAX_CONTENT_HEIGHT}px` : `${COLLAPSED_HEIGHT}px`,
+                overflow: 'hidden', // 넘치는 내용 숨김
+                // 💡 3. 하단 Fade 효과 (선택 사항: 접혔을 때 가려진 것처럼 보이게 함)
+                // position: 'relative', 
+              }}
+            >
+              <div
+                style={{
+                  fontSize: isMobile ? '0.95rem' : '1.1rem',
+                  lineHeight: '1.5',
+                  textAlign: 'justify',
+                  color: 'black',
+                  paddingBottom: '10px'
+                }}
+              >
+                {Array.isArray(category.description)
+                  ? category.description.map((paragraph, pIndex) => (
+                    <p key={pIndex} style={{ marginBottom: '0.75rem' }}>
+                      {paragraph}
+                    </p>
+                  ))
+                  : category.description}
+              </div>
+
+
+            </div>
+
+            {/* 💡 펼쳐보기/접기 버튼 영역 */}
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              {showToggleButton && (
+                <button
+                  onClick={() => setIsExpanded(!isExpanded)}
+                  style={{
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    // color: '#0070f3',
+                    background: 'white',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: '10px 20px',
+                    borderRadius: '8px',
+                  }}
+                >
+                  <div className="flex cursor-pointer">
+                    {/* 1. 텍스트 부분 */}
+                    <span className="" style={{ color: '#c9ced3', marginRight: '10px' }}>
+                      {isExpanded ? '닫기' : '펼쳐보기'}
+                    </span>
+
+                    {/* 2. 이미지 부분 */}
+                    <img
+                      // isExpanded 상태에 따라 화살표 방향을 텍스트로 대체했으므로, 
+                      // 이미지 자체는 그냥 화살표 모양을 유지하거나 
+                      // isExpanded 상태에 따라 다른 이미지를 사용해도 됩니다.
+                      src={isExpanded ? "/icons/arrow-top.png" : "/icons/arrow-bottom.png"}
+                      alt={isExpanded ? '닫기 화살표' : '펼쳐보기 화살표'}
+                      width='20px'
+                      height='20px'
+                    // 텍스트에 이미 ▲, ▼가 있으므로 이미지는 단순히 화살표 이미지를 표시합니다.
+                    />
+                  </div>
+                </button>
+              )}
+            </div>
+
+          </div>
+
+          <div
+            className='w-full'
+            style={{
+              padding: '0px 16px 0px'
+            }}
+          >
+            <Divider />
+          </div>
+        </>
+      }
+
     </div>
   );
 };

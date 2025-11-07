@@ -28,6 +28,7 @@ interface CategoryRankGridProps {
   color: string;
   regionId: number;
   categoryTitle: string;
+  mobile: boolean;
 }
 
 interface UpdatedRank extends CategoryRank {
@@ -43,6 +44,7 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
   color,
   regionId,
   categoryTitle,
+  mobile
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [selectedIndexData, setSelectedIndexData] = useState<IndexData | null>(
@@ -104,7 +106,7 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
   }, [regionKeyIndexQueries]);
 
   const handleRankClick = async (clickedRank: CategoryRank) => {
-    if (!selectedRegion) return;
+    if (!selectedRegion || mobile) return;
 
     // 키 인덱스 ID 설정하여 모달용 데이터 로드 시작
     setSelectedKeyIndexId(clickedRank.key_index_id);
@@ -141,9 +143,88 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
 
   // 스켈레톤 컴포넌트 (기존과 동일)
   const SkeletonCard = () => (
+
     <div
       style={{
-        width: '250px',
+        width: mobile ? '100%' : '250px',
+        height: mobile ? '' : '230px',
+        position: 'relative',
+        borderRadius: mobile ? '12px' : '24px',
+        border: '1px solid #E5E7EB',
+        backgroundColor: '#F9FAFB',
+        padding: '15px',
+        minHeight: '60px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      }}
+    >
+      <div
+        style={{
+          position: 'absolute',
+          top: '16px',
+          right: '16px',
+          width: '16px',
+          height: '16px',
+          backgroundColor: '#E5E7EB',
+          borderRadius: '2px',
+        }}
+      />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <div
+          style={{
+            width: '60%',
+            height: '18px',
+            backgroundColor: '#E5E7EB',
+            borderRadius: '4px',
+          }}
+        />
+        <div
+          style={{
+            width: '40%',
+            height: '28px',
+            backgroundColor: '#E5E7EB',
+            borderRadius: '4px',
+          }}
+        />
+        <div
+          style={{
+            width: '70%',
+            height: '14px',
+            backgroundColor: '#E5E7EB',
+            borderRadius: '4px',
+          }}
+        />
+      </div>
+      <div style={{ marginTop: '33px' }}>
+        <div
+          style={{
+            width: '50%',
+            height: '16px',
+            backgroundColor: '#E5E7EB',
+            borderRadius: '4px',
+            marginBottom: '2px',
+          }}
+        />
+        <div
+          style={{
+            width: '80%',
+            height: '14px',
+            backgroundColor: '#E5E7EB',
+            borderRadius: '4px',
+          }}
+        />
+      </div>
+    </div>
+  );
+
+  // 스켈레톤 컴포넌트 (기존과 동일)
+  const SkeletonCardMobile = () => (
+
+    <div
+      style={{
+        width: '100%',
         height: '230px',
         position: 'relative',
         borderRadius: '24px',
@@ -222,8 +303,8 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '16px',
+          gridTemplateColumns: mobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+          gap: mobile ? '8px' : '16px',
           maxWidth: '100%',
         }}
       >
@@ -255,14 +336,20 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
+          gridTemplateColumns: mobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
           gap: '16px',
           maxWidth: '100%',
         }}
       >
+        if( !mobile)
         {Array.from({ length: rank.length }).map((_, index) => (
           <SkeletonCard key={`skeleton-${index}`} />
         ))}
+        else {
+          Array.from({ length: rank.length }).map((_, index) => (
+            <SkeletonCardMobile key={`skeleton-${index}`} />
+          ))
+        }
       </div>
     );
   }
@@ -276,8 +363,8 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '16px',
+          gridTemplateColumns: mobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+          gap: mobile ? '8px' : '16px',
           maxWidth: '100%',
         }}
       >
@@ -291,7 +378,7 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
               style={{
                 position: 'relative',
                 cursor: 'pointer',
-                borderRadius: '24px',
+                borderRadius: mobile ? '12px' : '24px',
                 border: isHovered
                   ? '1px solid black'
                   : isHighestRank
@@ -302,66 +389,90 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
                   : isHighestRank
                     ? color
                     : '#FAFAFA',
-                padding: '15px 33px',
-                paddingBottom: '38px',
+                padding: mobile ? '14px' : '15px 33px 38px',
+                paddingBottom: mobile ? '' : '',
                 transition: 'all 0.2s ease',
-                minHeight: '60px',
+                minHeight: mobile ? '' : '60px',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                width: '250px',
-                height: '230px',
+                width: mobile ? '100%' : '250px',
+                height: mobile ? '111px' : '230px',
               }}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
               onClick={() => handleRankClick(score)}
             >
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '16px',
-                  right: '16px',
-                }}
-              >
-                <Image
-                  src="/icons/info_icon.png"
-                  alt="정보 아이콘"
-                  width={16}
-                  height={16}
+
+              {!mobile &&
+                <div
                   style={{
-                    filter: isHovered
-                      ? 'none'
-                      : isHighestRank
-                        ? 'brightness(0) invert(1)'
-                        : 'none',
+                    position: 'absolute',
+                    top: '16px',
+                    right: '16px',
                   }}
-                />
-              </div>
+                >
+                  <Image
+                    src="/icons/info_icon.png"
+                    alt="정보 아이콘"
+                    width={16}
+                    height={16}
+                    style={{
+                      filter: isHovered
+                        ? 'none'
+                        : isHighestRank
+                          ? 'brightness(0) invert(1)'
+                          : 'none',
+                    }}
+                  />
+                </div>
+              }
 
               <Flex
                 alignItems="start"
                 justifyContent="center"
                 gap="10px"
                 flexDirection="column"
+                style={{
+                  lineHeight: mobile ? '1' : ''
+                }}
               >
                 <div
                   style={{
-                    fontSize: '18px',
+                    fontSize: mobile ? '16px' : '18px',
                     fontWeight: '600',
                     color: isHighestRank
                       ? isHovered
                         ? 'black'
                         : 'white'
                       : 'black',
-                    marginTop: '8px',
+                    marginTop: mobile ? '' : '8px',
                   }}
                 >
                   {score.name}
                 </div>
 
+                {mobile &&
+                  <div
+                    style={{
+                      fontSize: '14px',
+                      fontWeight: '500',
+                      color: isHighestRank
+                        ? isHovered
+                          ? 'black'
+                          : 'white'
+                        : '#9A9EA3',
+                      lineHeight: mobile ? '15px' : '0',
+                      marginTop: '-5px'
+                    }}
+                  >
+                    상위 {score.topPercentage}%
+                  </div>
+                }
+
                 <div
                   style={{
-                    fontSize: '28px',
+                    fontSize: mobile ? '25px' : '28px',
                     fontWeight: '600',
                     lineHeight: '43px',
                     color: isHighestRank
@@ -374,34 +485,11 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
                   {score.rank}위
                 </div>
 
-                <div
-                  style={{
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    color: isHighestRank
-                      ? isHovered
-                        ? 'black'
-                        : 'white'
-                      : 'black',
-                  }}
-                >
-                  상위 {score.topPercentage}%
-                </div>
-              </Flex>
-
-              <div
-                style={{
-                  margin: '22px 0 0px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '2px',
-                }}
-              >
-                {score.score !== undefined && score.score > 0 && (
+                {!mobile &&
                   <div
                     style={{
-                      fontSize: '16px',
-                      fontWeight: '600',
+                      fontSize: '14px',
+                      fontWeight: '500',
                       color: isHighestRank
                         ? isHovered
                           ? 'black'
@@ -409,26 +497,53 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
                         : 'black',
                     }}
                   >
-                    {score.score.toFixed(1)}점
+                    상위 {score.topPercentage}%
                   </div>
-                )}
-                {score.avgScore > 0 && (
-                  <div
-                    style={{
-                      fontSize: '14px',
-                      fontWeight: '500',
-                      color: isHighestRank
-                        ? isHovered
-                          ? '#9A9EA3'
-                          : 'white'
-                        : '#9A9EA3',
-                    }}
-                  >
-                    전국 평균 대비 {score.scoreGap >= 0 ? '+' : ''}
-                    {score.scoreGap.toFixed(1)}점
-                  </div>
-                )}
-              </div>
+                }
+              </Flex>
+
+              {!mobile &&
+                <div
+                  style={{
+                    margin: '22px 0 0px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '2px',
+                  }}
+                >
+                  {score.score !== undefined && score.score > 0 && (
+                    <div
+                      style={{
+                        fontSize: '16px',
+                        fontWeight: '600',
+                        color: isHighestRank
+                          ? isHovered
+                            ? 'black'
+                            : 'white'
+                          : 'black',
+                      }}
+                    >
+                      {score.score.toFixed(1)}점
+                    </div>
+                  )}
+                  {score.avgScore > 0 && (
+                    <div
+                      style={{
+                        fontSize: '14px',
+                        fontWeight: '500',
+                        color: isHighestRank
+                          ? isHovered
+                            ? '#9A9EA3'
+                            : 'white'
+                          : '#9A9EA3',
+                      }}
+                    >
+                      전국 평균 대비 {score.scoreGap >= 0 ? '+' : ''}
+                      {score.scoreGap.toFixed(1)}점
+                    </div>
+                  )}
+                </div>
+              }
             </div>
           );
         })}

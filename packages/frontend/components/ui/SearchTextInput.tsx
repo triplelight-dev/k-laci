@@ -10,6 +10,7 @@ interface SearchTextInputProps {
   onChange: (value: string) => void;
   placeholder?: string;
   onRecentSearchClick?: (value: string) => void;
+  mobile: boolean
 }
 
 // 지자체별 아이콘 매핑 - region ID를 사용하여 public/region-logos 폴더의 이미지 사용
@@ -61,8 +62,9 @@ const findProvinceAndRegionByName = (fullName: string) => {
 const SearchTextInput: React.FC<SearchTextInputProps> = ({
   value,
   onChange,
-  placeholder = '제주 서귀포시',
+  placeholder = '서울 종로구',
   onRecentSearchClick,
+  mobile
 }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
@@ -178,7 +180,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
+        alignItems: 'center'
       }}
     >
       <div
@@ -187,7 +189,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
           display: 'flex',
           alignItems: 'center',
           borderRadius: '16px',
-          padding: '18px 32px',
+          padding: mobile ? '12px 32px' : '18px 32px',
           gap: '24px',
           background: 'white',
           marginBottom: '27px',
@@ -224,7 +226,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
         <div
           style={{
             position: 'absolute',
-            top: '72px',
+            top: mobile ? '60px' : '72px',
             left: 0,
             right: 0,
             background: 'white',
@@ -232,7 +234,7 @@ const SearchTextInput: React.FC<SearchTextInputProps> = ({
             boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
             zIndex: 9999,
             padding: '3px',
-            maxHeight: '180px',
+            maxHeight: '250px',
             overflowY: 'auto',
           }}
         >

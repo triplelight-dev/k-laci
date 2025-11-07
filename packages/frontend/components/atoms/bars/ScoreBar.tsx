@@ -7,6 +7,7 @@ interface ScoreBarProps {
   rightItem: string; // 우측 항목명
   isBold: 'left' | 'right' | 'none';
   leftItemKeyColor: string;
+  mobile: boolean
 }
 
 const ScoreBar: React.FC<ScoreBarProps> = ({
@@ -16,20 +17,61 @@ const ScoreBar: React.FC<ScoreBarProps> = ({
   rightItem = '',
   isBold = 'none',
   leftItemKeyColor = '',
+  mobile = false
 }) => {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '30px' }}>
+    <div style={{
+      alignItems: 'center',
+      gap: '30px',
+      flexDirection: mobile ? 'row' : 'column',
+    }}>
+
+      {/* 좌축 우측 위로 */}
+      {mobile &&
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          gap: '30px',
+          flexDirection: 'row',
+          paddingBottom: '3px'
+        }}>
+          <div
+            style={{
+              color: leftItemKeyColor,
+              fontSize: mobile ? '1rem' : '1.2rem',
+              fontWeight: 800,
+              minWidth: 'fit-content',
+            }}
+          >
+            {leftItem}
+          </div>
+
+          <div
+            style={{
+              color: '#949FB0',
+              fontSize: mobile ? '1rem' : '1.2rem',
+              fontWeight: 600,
+              minWidth: 'fit-content',
+            }}
+          >
+            {rightItem}
+          </div>
+        </div>
+      }
+
       {/* 좌측 항목명 */}
-      <div
-        style={{
-          color: isBold === 'left' ? leftItemKeyColor : '#949FB0',
-          fontSize: '1.2rem',
-          fontWeight: isBold === 'left' ? 800 : 600,
-          minWidth: 'fit-content',
-        }}
-      >
-        {leftItem}
-      </div>
+      {!mobile &&
+        <div
+          style={{
+            color: isBold === 'left' ? leftItemKeyColor : '#949FB0',
+            fontSize: '1.2rem',
+            fontWeight: isBold === 'left' ? 800 : 600,
+            minWidth: 'fit-content',
+          }}
+        >
+          {leftItem}
+        </div>
+      }
 
       {/* 바 컴포넌트 */}
       <div
@@ -37,7 +79,7 @@ const ScoreBar: React.FC<ScoreBarProps> = ({
           position: 'relative',
           height: '30px',
           backgroundColor: '#F8F8FF',
-          borderRadius: '8px',
+          borderRadius: mobile ? '16px' : '8px',
           border: '1px solid #D9D9E8',
           overflow: 'hidden',
           flex: 1,
@@ -103,16 +145,18 @@ const ScoreBar: React.FC<ScoreBarProps> = ({
       </div>
 
       {/* 우측 항목명 */}
-      <div
-        style={{
-          color: isBold === 'right' ? '#000000' : '#949FB0',
-          fontSize: '1.2rem',
-          fontWeight: isBold === 'right' ? 800 : 600,
-          minWidth: 'fit-content',
-        }}
-      >
-        {rightItem}
-      </div>
+      {!mobile &&
+        <div
+          style={{
+            color: isBold === 'right' ? '#000000' : '#949FB0',
+            fontSize: '1.2rem',
+            fontWeight: isBold === 'right' ? 800 : 600,
+            minWidth: 'fit-content',
+          }}
+        >
+          {rightItem}
+        </div>
+      }
     </div>
   );
 };

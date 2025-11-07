@@ -5,6 +5,7 @@ import { useSignupFlow } from '@/features/signup/hooks/useSignupFlow';
 import CodeVerificationSection from '@/features/signup/sections/CodeVerificationSection';
 import EmailVerificationSection from '@/features/signup/sections/EmailVerificationSection';
 import ProfileSection from '@/features/signup/sections/ProfileSection';
+import { useIsMobile } from '@/hooks';
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect } from 'react';
 import SignUpPageLoading from './SignupPageLoading';
@@ -17,6 +18,8 @@ function SignUpPageContent() {
     | 'BUSINESS'
     | 'GENERAL'
     | null;
+
+  const isMobile = useIsMobile();
 
   const {
     // State
@@ -93,6 +96,7 @@ function SignUpPageContent() {
         onPrivacyLink={handlePrivacyLink}
         onMarketingLink={handleMarketingLink}
         error={error}
+        mobile={isMobile}
       />
     );
   }
@@ -110,6 +114,7 @@ function SignUpPageContent() {
         onResend={handleResendCode}
         formatTime={formatTime}
         verificationError={verificationError}
+        mobile={isMobile}
       />
     );
   }
@@ -121,6 +126,7 @@ function SignUpPageContent() {
       isLoading={isLoading}
       onSubmit={handleEmailSubmit}
       error={error}
+      mobile={isMobile}
     />
   );
 }
@@ -128,9 +134,11 @@ function SignUpPageContent() {
 
 
 export default function SignupPageClient() {
+
+  const isMobile = useIsMobile();
   return (
     <Suspense fallback={<SignUpPageLoading />}>
-      <div style={{ height: 'fit-content', minHeight: '800px', paddingTop: '100px' }}>
+      <div style={{ height: 'fit-content', minHeight: '800px', paddingTop: (isMobile ? '' : '100px') }}>
         <SignUpPageContent />
       </div>
     </Suspense>

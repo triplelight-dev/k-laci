@@ -3,8 +3,8 @@ import axios, { AxiosInstance } from 'axios';
 // 환경별 base URL 설정
 const getBaseURL = () => {
   if (process.env.NODE_ENV === 'development') {
-    return 'http://localhost:8000'; // 백엔드 포트에 맞게 변경
-    // return 'https://api.klaci.kr'; // 운영 서버 테스트용
+    // return 'http://localhost:8000'; // 백엔드 포트에 맞게 변경
+    return 'https://api.klaci.kr'; // 운영 서버 테스트용
   }
   return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 };
