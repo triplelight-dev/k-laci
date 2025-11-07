@@ -81,6 +81,7 @@ const SummarySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
             backgroundColor: 'white',
             padding: '30px 0',
             justifyContent: 'center',
+            paddingTop: isMobile ? '30px' : '95px',
             paddingBottom: isLoggedIn ? isMobile ? '30px' : '95px' : '0',
           }}
         >

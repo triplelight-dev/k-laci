@@ -224,7 +224,7 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
 
     <div
       style={{
-        width: '100%',
+        width: mobile ? '100%' : '250px',
         height: '230px',
         position: 'relative',
         borderRadius: '24px',
@@ -390,7 +390,7 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
                     ? color
                     : '#FAFAFA',
                 padding: mobile ? '14px' : '15px 33px 38px',
-                paddingBottom: mobile ? '' : '',
+                paddingBottom: mobile ? '' : '38px',
                 transition: 'all 0.2s ease',
                 minHeight: mobile ? '' : '60px',
                 display: 'flex',
@@ -399,8 +399,8 @@ const CategoryRankGrid: React.FC<CategoryRankGridProps> = ({
                 width: mobile ? '100%' : '250px',
                 height: mobile ? '111px' : '230px',
               }}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
+              onMouseEnter={() => mobile ? null : setHoveredIndex(index)}
+              onMouseLeave={() => mobile ? null : setHoveredIndex(null)}
               onClick={() => handleRankClick(score)}
             >
 

@@ -115,7 +115,7 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
       setSelectedProvince(storeRegion.province_id);
       setSelectedDistrict(storeRegion.id, 'system');
       setHasLoadedDefault(true);
-      setIsInitialized(true);
+      // setIsInitialized(true);
       return true;
     } catch (error) {
       return false;
@@ -133,7 +133,7 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
       setSelectedProvince(storeRegion.province_id);
       setSelectedDistrict(storeRegion.id, 'system');
       setHasLoadedDefault(true);
-      setIsInitialized(true);
+      // setIsInitialized(true);
     } catch (error) {
       console.error('기본 데이터 로드 실패:', error);
       setHasLoadedDefault(true);
@@ -155,7 +155,7 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
   useEffect(() => {
 
     console.log(isInitialized);
-    console.log(regionId);
+    console.log(user?.profile?.interest_region_id);
     if (isInitialized) return; // 이미 초기화되었으면 스킵
 
     if (regionId) {
@@ -313,6 +313,7 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
       <div
         style={{
           width: '100%',
+          minHeight: 'calc(100vh - 60px)',
           display: 'flex',
           flexDirection: 'column',
           // justifyContent: 'center',

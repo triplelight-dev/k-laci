@@ -204,7 +204,7 @@ const MobileTitleSection: React.FC<TitleSectionProps> = () => {
                 {klaciType}
               </div>
             )}
-            <KlaciCodeCircles klaciCode={klaciCode} />
+            <KlaciCodeCircles klaciCode={klaciCode} size={25} />
           </Flex>
           {/* 유형 텍스트 */}
           <div

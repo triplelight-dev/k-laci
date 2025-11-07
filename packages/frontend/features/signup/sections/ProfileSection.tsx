@@ -46,7 +46,7 @@ export default function ProfileSection({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#F4F4F4',
-        marginBottom: '100px',
+        marginBottom: mobile ? '20px' : '100px',
       }}
     >
       <div

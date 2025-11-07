@@ -29,6 +29,7 @@ export default function EmailDisplayBox({
           width: '100%',
           height: '60px',
           backgroundColor: '#F1F1F1',
+          border: '1px solid #000000',
           borderRadius: '17px',
           padding: '10px 21px',
           display: 'flex',

@@ -51,8 +51,8 @@ const LoginSuggestionSection = ({
         alignItems: 'center',
         backgroundColor: '#191B22',
         color: '#ffffff',
-        paddingBottom: '96px',
-        minHeight: '400px',
+        paddingBottom: isMobile ? '48px' :'96px',
+        minHeight: isMobile ? '' : '400px',
       }}
     >
       <div style={{

@@ -151,9 +151,9 @@ const RadarBackground = ({
             A ${radius} ${radius} 0 0 1 
             ${center + radius * Math.cos(Math.PI)} ${actualCenterY + radius * Math.sin(Math.PI)}
             Z`}
-        fill={weakAreaColor}
+        fill={size != 400 ? weakAreaColor : '#EBECEC'}
         style={{
-          transition: 'fill 0.3s ease',
+          transition: 'fill 0.3s ease'
         }}
       />
 
@@ -164,7 +164,7 @@ const RadarBackground = ({
             A ${radius} ${radius} 0 0 1 
             ${center + radius * Math.cos(2 * Math.PI)} ${actualCenterY + radius * Math.sin(2 * Math.PI)}
             Z`}
-        fill={strongAreaColor}
+        fill={size != 400 ? weakAreaColor : '#FBFBFB'}
         style={{
           transition: 'fill 0.3s ease',
         }}
@@ -239,79 +239,89 @@ const RadarBackground = ({
 
       {/* 강점/약점 텍스트 + 물음표 아이콘 - 기존 centerY 사용 (가이드 텍스트용) */}
       <g
-        onMouseEnter={() => handleStrongHover(true)}
-        onMouseLeave={() => handleStrongHover(false)}
+        onMouseEnter={() => size != 400 ? handleStrongHover(true) : null}
+        onMouseLeave={() => size != 400 ? handleStrongHover(false) : null}
         style={{ cursor: 'pointer' }}
       >
         <text
-          x={guideLabelX}
-          y={guideStrongY}
+          x={guideLabelX + (size != 400 ? 0 : 50)}
+          y={guideStrongY + (size != 400 ? 0 : guideStrongY * -1)}
           textAnchor="start"
           dominantBaseline="middle"
           style={{ fontSize: `${fontSize.area}px`, fontWeight: 'bold' }} // fontWeight도 style로 설정
           fill={strongTextColor}
         >
-          ↑ 강점영역
+          {size != 400 ? '↑ 강점영역' : '강점'}
         </text>
-        <circle
-          cx={guideQmarkX}
-          cy={guideStrongY} // 1px 아래로 조정 제거 - 텍스트와 같은 높이
-          r={iconSize.qmarkRadius} // 8 → iconSize.qmarkRadius
-          fill={strongCircleColor}
-          stroke={strongCircleStroke}
-          strokeWidth={1}
-        />
-        <text
-          x={guideQmarkX}
-          y={guideStrongY} // 1px 아래로 조정 제거 - 텍스트와 같은 높이
-          textAnchor="middle"
-          dominantBaseline="middle"
-          style={{
-            fontSize: `${iconSize.qmarkFontSize}px`,
-            fontWeight: 'bold',
-          }} // fontWeight도 style로 설정
-          fill={strongQmarkColor}
-        >
-          ?
-        </text>
+        {size != 400 && (
+          <>
+            <circle
+              cx={guideQmarkX}
+              cy={guideStrongY} // 1px 아래로 조정 제거 - 텍스트와 같은 높이
+              r={iconSize.qmarkRadius} // 8 → iconSize.qmarkRadius
+              fill={strongCircleColor}
+              stroke={strongCircleStroke}
+              strokeWidth={1}
+            />
+            <text
+              x={guideQmarkX}
+              y={guideStrongY} // 1px 아래로 조정 제거 - 텍스트와 같은 높이
+              textAnchor="middle"
+              dominantBaseline="middle"
+              style={{
+                fontSize: `${iconSize.qmarkFontSize}px`,
+                fontWeight: 'bold',
+              }} // fontWeight도 style로 설정
+              fill={strongQmarkColor}
+            >
+              ?
+            </text>
+          </>
+        )}
       </g>
 
       <g
-        onMouseEnter={() => handleWeakHover(true)}
-        onMouseLeave={() => handleWeakHover(false)}
-        style={{ cursor: 'pointer' }}
+        onMouseEnter={() => size != 400 ? handleWeakHover(true) : null}
+        onMouseLeave={() => size != 400 ? handleWeakHover(false) : null}
+        style={{ cursor: 'pointer',
+          backgroundColor: size != 400 ? '' : '#EBECEC'
+         }}
       >
         <text
-          x={guideLabelX}
-          y={guideWeakY}
+          x={guideLabelX + (size != 400 ? 0 : 50)}
+          y={guideStrongY + (size != 400 ? 0 : guideStrongY + 50)}
           textAnchor="start"
           dominantBaseline="middle"
           style={{ fontSize: `${fontSize.area}px`, fontWeight: 'bold' }} // fontWeight도 style로 설정
           fill={weakTextColor}
         >
-          ↓ 약점영역
+          {size != 400 ? '↓ 약점영역' : '약점'}
         </text>
-        <circle
-          cx={guideQmarkX}
-          cy={guideWeakY} // 1px 아래로 조정 제거 - 텍스트와 같은 높이
-          r={iconSize.qmarkRadius} // 8 → iconSize.qmarkRadius
-          fill={weakCircleColor}
-          stroke={weakCircleStroke}
-          strokeWidth={1}
-        />
-        <text
-          x={guideQmarkX}
-          y={guideWeakY} // 1px 아래로 조정 제거 - 텍스트와 같은 높이
-          textAnchor="middle"
-          dominantBaseline="middle"
-          style={{
-            fontSize: `${iconSize.qmarkFontSize}px`,
-            fontWeight: 'bold',
-          }} // fontWeight도 style로 설정
-          fill={weakQmarkColor}
-        >
-          ?
-        </text>
+        {size != 400 && (
+          <>
+            <circle
+              cx={guideQmarkX}
+              cy={guideWeakY} // 1px 아래로 조정 제거 - 텍스트와 같은 높이
+              r={iconSize.qmarkRadius} // 8 → iconSize.qmarkRadius
+              fill={weakCircleColor}
+              stroke={weakCircleStroke}
+              strokeWidth={1}
+            />
+            <text
+              x={guideQmarkX}
+              y={guideWeakY} // 1px 아래로 조정 제거 - 텍스트와 같은 높이
+              textAnchor="middle"
+              dominantBaseline="middle"
+              style={{
+                fontSize: `${iconSize.qmarkFontSize}px`,
+                fontWeight: 'bold',
+              }} // fontWeight도 style로 설정
+              fill={weakQmarkColor}
+            >
+              ?
+            </text>
+          </>
+        )}
       </g>
 
       {/* 카테고리 라벨 - Jewel 기준으로 수정 */}
