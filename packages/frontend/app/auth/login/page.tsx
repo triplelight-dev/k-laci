@@ -6,15 +6,16 @@ export const metadata: Metadata = {
 };
 
 type LoginPageProps = {
-  searchParams?: { [key: string]: string | string[] | undefined };
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-export default function LoginPage({
+export default async function LoginPage({
   searchParams,
 }: LoginPageProps) {
 
   // 먼저 raw 값 꺼내기 (undefined 가능, string 또는 string[] 일 수 있음)
-  const rawFrom = searchParams?.from;
+  const resolved = (await searchParams) ?? {};
+  const rawFrom = resolved.from;
 
   const fromParam =
     typeof rawFrom === 'string'
