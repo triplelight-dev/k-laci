@@ -21,9 +21,10 @@ const ScoreBar: React.FC<ScoreBarProps> = ({
 }) => {
   return (
     <div style={{
+      display: mobile ? '' : 'flex',
       alignItems: 'center',
       gap: '30px',
-      flexDirection: mobile ? 'row' : 'column',
+      flexDirection: 'row',
     }}>
 
       {/* 좌축 우측 위로 */}

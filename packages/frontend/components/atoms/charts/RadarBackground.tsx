@@ -289,7 +289,7 @@ const RadarBackground = ({
       >
         <text
           x={guideLabelX + (size != 400 ? 0 : 50)}
-          y={guideStrongY + (size != 400 ? 0 : guideStrongY + 50)}
+          y={guideWeakY + (size != 400 ? 0 : guideWeakY + 50)}
           textAnchor="start"
           dominantBaseline="middle"
           style={{ fontSize: `${fontSize.area}px`, fontWeight: 'bold' }} // fontWeight도 style로 설정
