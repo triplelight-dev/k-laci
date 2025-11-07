@@ -2,13 +2,11 @@
 
 import { AuthService } from '@/api/services/auth.service';
 import { useLogin as useLoginAction } from '@/store';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export function useLogin() {
+export function useLogin(from?: string) {
   const router = useRouter();
-  const searchParams = useSearchParams();         // 👈 쿼리 읽기
-  const from = searchParams.get('from');          // 예: "/results/region/abc"
   const loginAction = useLoginAction();
 
   const [email, setEmail] = useState('');

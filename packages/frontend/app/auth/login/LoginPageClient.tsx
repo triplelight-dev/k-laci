@@ -4,7 +4,11 @@ import { useLogin } from '@/features/auth/hooks/useLogin';
 import LoginSection from '@/features/auth/sections/LoginSection';
 import { useIsMobile } from '@/hooks';
 
-export default function LoginPageClient() {
+interface LoginPageClientProps {
+  from?: string;
+}
+
+export default function LoginPageClient({ from }: LoginPageClientProps) {
   const {
     email,
     setEmail,
@@ -13,7 +17,7 @@ export default function LoginPageClient() {
     isLoading,
     error,
     handleSubmit,
-  } = useLogin();
+  } = useLogin(from);
 
   const isMobile = useIsMobile();
 
