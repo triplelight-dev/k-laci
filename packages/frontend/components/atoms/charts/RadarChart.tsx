@@ -28,12 +28,17 @@ const JewelRadarChart = ({
   const svgCenterY = size / 2; // 명확하게 SVG 높이의 정중앙
 
   // 폰트 크기 비율 계산 - 크기를 증가
-  const fontSize = {
+  const fontSize = svgWidth != 900 ? {
     category: Math.round(size * 0.03), // 0.028 → 0.038
     value: Math.round(size * 0.02), // 0.02 → 0.028
     tooltip: Math.round(size * 0.01), // 0.024 → 0.032
     area: Math.round(size * 0.022), // 0.028 → 0.038
-  };
+  } : {
+    category: Math.round(size * 0.05),
+    value: Math.round(size * 0.04),
+    tooltip: Math.round(size * 0.03),
+    area: Math.round(size * 0.044),
+  }
 
   // 라벨 위치 오프셋도 조정
   const labelOffset = {
@@ -42,11 +47,16 @@ const JewelRadarChart = ({
   };
 
   // 아이콘 크기 추가
-  const iconSize = {
+  const iconSize = svgWidth != 900 ? {
     qmarkRadius: Math.round(fontSize.area * 0.6), // 원 사이즈 유지
     qmarkFontSize: Math.round(fontSize.area * 0.75), // 강점영역 텍스트의 75%
     circleRadius: Math.round(size * 0.018), // 카테고리 코드 원형 반지름 (기존 8 → size * 0.018)
     circleMargin: Math.round(size * 0.036), // 카테고리 코드 원형과 텍스트 간격 (기존 25 → size * 0.036)
+  } : {
+    qmarkRadius: Math.round(fontSize.area * 0.7), // 원 사이즈 유지
+    qmarkFontSize: Math.round(fontSize.area * 0.85), // 강점영역 텍스트의
+    circleRadius: Math.round(size * 0.025), // 카테고리 코드 원형 반지름 
+    circleMargin: Math.round(size * 0.05), // 카테고리 코드 원형과 텍스트 간격 
   };
 
   // 차트 순서에 맞게 카테고리 배열 생성 (순서 중요!)

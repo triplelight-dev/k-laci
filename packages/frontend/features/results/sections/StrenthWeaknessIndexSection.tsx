@@ -196,18 +196,6 @@ const IndexItem: React.FC<{
             minHeight: '48px', // 고정 높이 추가
           }}
             onClick={() => !isDisabled && onClick(data)}
-            onMouseEnter={(e) => {
-              if (!isDisabled) {
-                e.currentTarget.style.background = `white`;
-                e.currentTarget.style.border = `1px solid #000`;
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (!isDisabled) {
-                e.currentTarget.style.background = '#F5F5F5';
-                e.currentTarget.style.border = `1px solid #E7E8EA`;
-              }
-            }}
           >
             <div
               style={{

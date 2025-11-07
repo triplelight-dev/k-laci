@@ -97,7 +97,7 @@ export default function CommonInput({
       {error && (
         <p
           style={{
-            fontSize: '12px',
+            fontSize: '14px',
             color: '#DC2626',
             marginTop: '4px',
           }}
@@ -108,7 +108,7 @@ export default function CommonInput({
       {helperText && !error && (
         <p
           style={{
-            fontSize: '12px',
+            fontSize: '14px',
             color: '#6B7280',
             marginTop: '4px',
           }}

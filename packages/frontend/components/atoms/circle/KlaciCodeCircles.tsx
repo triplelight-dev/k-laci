@@ -11,7 +11,7 @@ interface KlaciCodeCirclesProps {
 
 const KlaciCodeCircles: React.FC<KlaciCodeCirclesProps> = ({
   klaciCode,
-  size = 25,
+  size = 30,
   gap = 6,
   fontSize = '1rem',
   fontWeight = 600,

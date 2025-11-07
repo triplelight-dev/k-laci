@@ -393,6 +393,7 @@ export default function ProfileForm({
             gap: '12px',
             padding: '30px',
             backgroundColor: '#F1F1F1',
+            border: '1px solid #000000',
             borderRadius: '17px',
           }}
         >
