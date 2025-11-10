@@ -148,7 +148,7 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
    */
   // URL 경로 검사 함수 (이전 답변에서 만든 정규식)
   const isRegionResultUrl = (urlPath: string): boolean => {
-    const regex = /^\/results\/region\/\d+$/;
+    const regex = /^\/results(?:\/region(?:\/\d+)?)?$/;
     return regex.test(urlPath);
   };
 
@@ -307,6 +307,7 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
       behavior: 'smooth' // 부드러운 스크롤 효과 적용
     });
   };
+
 
   return (
     <ResultLayout>
