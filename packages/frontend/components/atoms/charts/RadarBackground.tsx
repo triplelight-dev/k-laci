@@ -144,7 +144,20 @@ const RadarBackground = ({
 
   return (
     <>
+
       {/* 위쪽 반원 배경 (0도 ~ 180도) - Jewel 기준 */}
+      <path
+        d={`M ${center} ${actualCenterY} 
+            L ${center + radius * Math.cos(Math.PI)} ${actualCenterY + radius * Math.sin(Math.PI)}
+            A ${radius} ${radius} 0 0 1 
+            ${center + radius * Math.cos(2 * Math.PI)} ${actualCenterY + radius * Math.sin(2 * Math.PI)}
+            Z`}
+        fill={size != 400 ? strongAreaColor : '#FBFBFB'}
+        style={{
+          transition: 'fill 0.3s ease',
+        }}
+      />
+      {/* 아래쪽 반원 배경 (180도 ~ 360도) - Jewel 기준 */}
       <path
         d={`M ${center} ${actualCenterY} 
             L ${center + radius * Math.cos(0)} ${actualCenterY + radius * Math.sin(0)}
@@ -157,33 +170,7 @@ const RadarBackground = ({
         }}
       />
 
-      {/* 아래쪽 반원 배경 (180도 ~ 360도) - Jewel 기준 */}
-      <path
-        d={`M ${center} ${actualCenterY} 
-            L ${center + radius * Math.cos(Math.PI)} ${actualCenterY + radius * Math.sin(Math.PI)}
-            A ${radius} ${radius} 0 0 1 
-            ${center + radius * Math.cos(2 * Math.PI)} ${actualCenterY + radius * Math.sin(2 * Math.PI)}
-            Z`}
-        fill={size != 400 ? weakAreaColor : '#FBFBFB'}
-        style={{
-          transition: 'fill 0.3s ease',
-        }}
-      />
-
-      {/* 배경에 마스크 적용 - Jewel 기준 */}
-      <path
-        d={`M ${center} ${actualCenterY} 
-            L ${center + radius * Math.cos(0)} ${actualCenterY + radius * Math.sin(0)}
-            A ${radius} ${radius} 0 0 1 
-            ${center + radius * Math.cos(Math.PI)} ${actualCenterY + radius * Math.sin(Math.PI)}
-            Z`}
-        fill={weakAreaColor}
-        mask="url(#labelMask)"
-        style={{
-          transition: 'fill 0.3s ease',
-        }}
-      />
-
+      {/* 위쪽 반원 배경 (0도 ~ 180도) - Jewel 기준 */}
       <path
         d={`M ${center} ${actualCenterY} 
             L ${center + radius * Math.cos(Math.PI)} ${actualCenterY + radius * Math.sin(Math.PI)}
@@ -191,6 +178,19 @@ const RadarBackground = ({
             ${center + radius * Math.cos(2 * Math.PI)} ${actualCenterY + radius * Math.sin(2 * Math.PI)}
             Z`}
         fill={strongAreaColor}
+        mask="url(#labelMask)"
+        style={{
+          transition: 'fill 0.3s ease',
+        }}
+      />
+      {/* 아래쪽 반원 배경 (180도 ~ 360도) - Jewel 기준 */}
+      <path
+        d={`M ${center} ${actualCenterY} 
+            L ${center + radius * Math.cos(0)} ${actualCenterY + radius * Math.sin(0)}
+            A ${radius} ${radius} 0 0 1 
+            ${center + radius * Math.cos(Math.PI)} ${actualCenterY + radius * Math.sin(Math.PI)}
+            Z`}
+        fill={weakAreaColor}
         mask="url(#labelMask)"
         style={{
           transition: 'fill 0.3s ease',
@@ -289,7 +289,7 @@ const RadarBackground = ({
       >
         <text
           x={guideLabelX + (size != 400 ? 0 : 50)}
-          y={guideWeakY + (size != 400 ? 0 : guideWeakY + 50)}
+          y={guideWeakY + (size != 400 ? 0 : (guideWeakY - fontSize.area))}
           textAnchor="start"
           dominantBaseline="middle"
           style={{ fontSize: `${fontSize.area}px`, fontWeight: 'bold' }} // fontWeight도 style로 설정
