@@ -148,14 +148,11 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
    */
   // URL 경로 검사 함수 (이전 답변에서 만든 정규식)
   const isRegionResultUrl = (urlPath: string): boolean => {
-    const regex = /^\/results(?:\/region(?:\/\d+)?)?$/;
+    const regex = /^\/results\/region\/\d+$/;
     return regex.test(urlPath);
   };
 
   useEffect(() => {
-
-    console.log(isInitialized);
-    console.log(user?.profile?.interest_region_id);
     if (isInitialized) return; // 이미 초기화되었으면 스킵
 
     if (regionId) {
@@ -406,7 +403,7 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
             </>}
 
           </div>
-          {isLoggedIn && isMatch && <>
+          {isLoggedIn && (!isMobile || (isMobile && isMatch)) && <>
             <CategoryRankingSection />
             <SimilarRegionSection />
           </>}
