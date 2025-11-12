@@ -29,6 +29,10 @@ const HomePreRegistrationSection = (props: { height?: string }) => {
   ];
 
   const handlePreRegistrationClick = async () => {
+
+    window.open('https://63da1c5c-7db7-44c2-bc22-68613a7fe849.mystore.steppay.kr/products/product_o5az1GFDm', '_blank');
+    return;
+
     // 로그인하지 않은 경우 로그인 안내 모달 표시
     if (!isLoggedIn) {
       setIsLoginGuideModalOpen(true);
