@@ -173,34 +173,6 @@ export class AuthService {
       if (updateError) {
         throw new UnauthorizedException(updateError.message);
       }
-
-      // 스텝페이에 가입요청
-      try {
-        const url = "https://api.steppay.kr/api/v1/customers";
-        const res = await axios.post(
-          url,
-          {
-            name: completeSignupDto.name,
-            email: user.email
-          },
-          {
-            headers: {
-              "Secret-Token": process.env.STEPPAY_SECRET_TOKEN!,
-              "accept": "*/*",
-              "content-type": "application/json"
-            }
-          }
-        );
-
-        const data = res.data;
-        const isSuccess = typeof data.id === "number" && !isNaN(data.id);
-        if (isSuccess) {
-        } else {
-          throw new UnauthorizedException('회원가입 완료 중 오류가 발생했습니다.');
-        }
-      } catch (error: any) {
-        throw new UnauthorizedException('회원가입 완료 중 오류가 발생했습니다.');
-      }
       
       // 사용자 프로필 생성
       const { error: profileError } = await this.supabase
@@ -295,6 +267,34 @@ export class AuthService {
 
       if (!authData.user) {
         throw new UnauthorizedException('Failed to create user');
+      }
+
+      // 스텝페이에 가입요청
+      try {
+        const url = "https://api.steppay.kr/api/v1/customers";
+        const res = await axios.post(
+          url,
+          {
+            name: name,
+            email: normalizedEmail
+          },
+          {
+            headers: {
+              "Secret-Token": process.env.STEPPAY_SECRET_TOKEN!,
+              "accept": "*/*",
+              "content-type": "application/json"
+            }
+          }
+        );
+
+        const data = res.data;
+        const isSuccess = typeof data.id === "number" && !isNaN(data.id);
+        if (isSuccess) {
+        } else {
+          throw new UnauthorizedException('회원가입 완료 중 오류가 발생했습니다.');
+        }
+      } catch (error: any) {
+        throw new UnauthorizedException('회원가입 완료 중 오류가 발생했습니다.');
       }
 
       // 2. Create user profile in public.user_profiles
