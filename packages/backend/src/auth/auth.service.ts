@@ -5,22 +5,24 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { UserLoggingService } from 'src/user-logging/user-logging.service';
 
 import {
-    CompleteSignupDto,
-    CompleteSignupResponseDto,
+  CompleteSignupDto,
+  CompleteSignupResponseDto,
 } from './dto/complete-signup.dto';
 import { SendVerificationEmailDto } from './dto/send-verification-email.dto';
 import {
-    SignInDto,
-    SignInResponseDto,
-    UserProfileDto,
+  SignInDto,
+  SignInResponseDto,
+  UserProfileDto,
 } from './dto/sign-in.dto';
 import { SignUpDto, SignUpResponseDto } from './dto/sign-up.dto';
 import {
-    SendVerificationCodeDto,
-    VerifyCodeDto,
+  SendVerificationCodeDto,
+  VerifyCodeDto,
 } from './dto/verification-code.dto';
 import { EmailService } from './email.service';
 import { VerificationCodeService } from './verification-code.service';
+
+import axios from "axios";
 
 @Injectable()
 export class AuthService {
@@ -172,6 +174,34 @@ export class AuthService {
         throw new UnauthorizedException(updateError.message);
       }
 
+      // 스텝페이에 가입요청
+      try {
+        const url = "https://api.steppay.kr/api/v1/customers";
+        const res = await axios.post(
+          url,
+          {
+            name: completeSignupDto.name,
+            email: user.email
+          },
+          {
+            headers: {
+              "Secret-Token": process.env.STEPPAY_SECRET_TOKEN!,
+              "accept": "*/*",
+              "content-type": "application/json"
+            }
+          }
+        );
+
+        const data = res.data;
+        const isSuccess = typeof data.id === "number" && !isNaN(data.id);
+        if (isSuccess) {
+        } else {
+          throw new UnauthorizedException('회원가입 완료 중 오류가 발생했습니다.');
+        }
+      } catch (error: any) {
+        throw new UnauthorizedException('회원가입 완료 중 오류가 발생했습니다.');
+      }
+      
       // 사용자 프로필 생성
       const { error: profileError } = await this.supabase
         .from('user_profiles')
