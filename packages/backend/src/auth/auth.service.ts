@@ -276,7 +276,8 @@ export class AuthService {
           url,
           {
             name: name,
-            email: normalizedEmail
+            email: normalizedEmail,
+            phone: phone_number
           },
           {
             headers: {
