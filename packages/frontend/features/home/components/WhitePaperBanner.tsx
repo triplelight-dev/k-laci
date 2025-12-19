@@ -80,6 +80,11 @@ const WhitePaperBanner = () => {
       closed: true,
       expiry: expiryTime
     }));
+
+    // 1. 링크로 이동 (현재 창)
+    window.open('https://store.klaci.kr/shop', '_blank');
+
+    // 2. 부모 컴포넌트의 닫기 처리 호출
     onClose();
   };
 
@@ -177,12 +182,11 @@ const WhitePaperBanner = () => {
           </Flex>
 
           <Flex direction="column" align="center" fontSize={{ base: "15px", sm: "16px" }} color="black" mt="4px">
-            <Text>'대한민국 지역역량 데이터 백서 2025-2026'를 구매하시려면</Text>
-            <Text>회원가입 후 메일을 등록해주세요.</Text>
             <Text>
-              <Text as="span" fontWeight="bold">11월 중순에 안내 메일이 발송</Text>
-              <Text as="span">될 예정입니다.</Text>
+              <Text as="span" fontWeight="bold">얼리버드 혜택</Text>
+              <Text as="span">은 2025년 12월 31일까지 제공되며,</Text>
             </Text>
+            <Text>2026년 1월부터 교보문고에서도 구매하실 수 있습니다.</Text>
           </Flex>
 
           <Text fontSize={{ base: "12px", sm: "13px" }} color="#9A9EA3" mb={{ base: "12px", sm: "24px" }}>
@@ -207,7 +211,7 @@ const WhitePaperBanner = () => {
             fontWeight="bold"
             mb="4px"
           >
-            {isMobile? '백서 출신 알림 신청하기' : '확인'}
+            {isMobile ? '백서 출신 알림 신청하기' : '백서 구매하기'}
           </Button>
         </div>
       </Flex>
