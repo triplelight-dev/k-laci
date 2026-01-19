@@ -33,7 +33,7 @@ const TYPE_SUBTITLES: Record<MegaRegionType, string> = {
 };
 
 export default function MegaRegionPageClient() {
-  const currentYear = new Date().getFullYear();
+  const currentYear = 2025; // new Date().getFullYear();
   const router = useRouter();
   // 기본값을 '대경권'으로 설정
   const [selectedType, setSelectedType] = useState<MegaRegionType>('대경권');

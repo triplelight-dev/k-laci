@@ -68,7 +68,7 @@ const KLACI_NICKNAMES: Record<KlaciCodeType, string> = {
 };
 
 export default function KlaciTypeRankPageClient() {
-  const currentYear = new Date().getFullYear();
+  const currentYear = 2025; // new Date().getFullYear();
   // 기본값을 'GTVR'으로 설정
   const [selectedType, setSelectedType] = useState<KlaciCodeType>('GTVR');
   const [searchTerm, setSearchTerm] = useState('');
