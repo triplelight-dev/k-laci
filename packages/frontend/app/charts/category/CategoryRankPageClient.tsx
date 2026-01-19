@@ -36,7 +36,7 @@ const CATEGORY_TYPES = [
 ];
 
 export default function CategoryRankPageClient() {
-  const currentYear = new Date().getFullYear();
+  const currentYear = 2025; // new Date().getFullYear();
   const router = useRouter();
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>(1); // 기본값: 인구성장력
   const [searchTerm, setSearchTerm] = useState('');

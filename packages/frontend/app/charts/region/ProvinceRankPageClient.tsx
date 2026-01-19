@@ -19,7 +19,7 @@ interface Province {
 const PROVINCES: Province[] = provinceData as Province[];
 
 export default function ProvinceRankPageClient() {
-  const currentYear = new Date().getFullYear();
+  const currentYear = 2025; // new Date().getFullYear();
   const [selectedProvinceId, setSelectedProvinceId] = useState<number>(1); // 9 → 1로 변경 (강원)
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');

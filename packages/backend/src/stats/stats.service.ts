@@ -7,7 +7,7 @@ export class StatsService {
   constructor(private readonly supabaseService: SupabaseService) {}
 
   async getTotalRegionRanks(limit: number = 100, year?: number) {
-    const currentYear = new Date().getFullYear();
+    const currentYear = 2025; // new Date().getFullYear();
     const targetYear = year || currentYear;
 
     const { data, error } = await this.supabaseService
@@ -84,7 +84,7 @@ export class StatsService {
   }
 
   async getMajorProvincesRanks(limit: number = 100, year?: number) {
-    const currentYear = new Date().getFullYear();
+    const currentYear = 2025; // new Date().getFullYear();
     const targetYear = year || currentYear;
 
     const { data, error } = await this.supabaseService
@@ -161,7 +161,7 @@ export class StatsService {
   }
 
   async getSelectedProvincesRanks(limit: number = 100, year?: number) {
-    const currentYear = new Date().getFullYear();
+    const currentYear = 2025; // new Date().getFullYear();
     const targetYear = year || currentYear;
 
     const { data, error } = await this.supabaseService
@@ -238,7 +238,7 @@ export class StatsService {
   }
 
   async getFreeEconomyZoneRanks(limit: number = 100, year?: number) {
-    const currentYear = new Date().getFullYear();
+    const currentYear = 2025; // new Date().getFullYear();
     const targetYear = year || currentYear;
 
     const { data, error } = await this.supabaseService
@@ -315,7 +315,7 @@ export class StatsService {
   }
 
   async getGrowthBoostZoneRanks(limit: number = 100, year?: number) {
-    const currentYear = new Date().getFullYear();
+    const currentYear = 2025; // new Date().getFullYear();
     const targetYear = year || currentYear;
 
     const { data, error } = await this.supabaseService
@@ -392,7 +392,7 @@ export class StatsService {
   }
 
   async getNationalIndustrialZoneRanks(limit: number = 100, year?: number) {
-    const currentYear = new Date().getFullYear();
+    const currentYear = 2025; // new Date().getFullYear();
     const targetYear = year || currentYear;
 
     const { data, error } = await this.supabaseService
@@ -469,7 +469,7 @@ export class StatsService {
   }
 
   async getCostalCityRanks(limit: number = 100, year?: number) {
-    const currentYear = new Date().getFullYear();
+    const currentYear = 2025; // new Date().getFullYear();
     const targetYear = year || currentYear;
 
     const { data, error } = await this.supabaseService
@@ -544,7 +544,7 @@ export class StatsService {
   }
 
   async getMegaRegionRanks(limit: number = 100, year?: number, type?: string) {
-    const currentYear = new Date().getFullYear();
+    const currentYear = 2025; // new Date().getFullYear();
     const targetYear = year || currentYear;
 
     let query = this.supabaseService
@@ -627,7 +627,7 @@ export class StatsService {
   }
 
   async getKlaciCodeRanks(limit: number = 100, year?: number, type?: string) {
-    const currentYear = new Date().getFullYear();
+    const currentYear = 2025; // new Date().getFullYear();
     const targetYear = year || currentYear;
 
     // 1. 먼저 rank_klaci_type 테이블에서 기본 데이터 조회
@@ -763,7 +763,7 @@ export class StatsService {
     year?: number,
     provinceId?: number,
   ) {
-    const currentYear = new Date().getFullYear();
+    const currentYear = 2025; // new Date().getFullYear();
     const targetYear = year || currentYear;
 
     // 직접 조인 방식으로 변경
@@ -855,7 +855,7 @@ export class StatsService {
     year?: number,
     categoryId?: number,
   ) {
-    const currentYear = new Date().getFullYear();
+    const currentYear = 2025; // new Date().getFullYear();
     const targetYear = year || currentYear;
 
     // 직접 조인 방식으로 구현

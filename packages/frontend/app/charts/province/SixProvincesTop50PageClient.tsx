@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useCallback, useMemo, useState } from 'react';
 
 export default function SixProvincesTop50PageClient() {
-  const currentYear = new Date().getFullYear();
+  const currentYear = 2025; // new Date().getFullYear();
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');

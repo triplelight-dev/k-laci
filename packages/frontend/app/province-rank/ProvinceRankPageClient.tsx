@@ -19,7 +19,7 @@ interface Province {
 const PROVINCES: Province[] = provinceData as Province[];
 
 export default function ProvinceRankPageClient() {
-  const currentYear = new Date().getFullYear();
+  const currentYear = 2025; // new Date().getFullYear();
   // 기본값을 서울특별시(id: 9)로 설정
   const [selectedProvinceId, setSelectedProvinceId] = useState<number>(9);
   const [searchTerm, setSearchTerm] = useState('');
