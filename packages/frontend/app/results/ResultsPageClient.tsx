@@ -317,8 +317,7 @@ function ResultsPageContent({ regionId }: ResultsPageClientProps) {
           // justifyContent: 'center',
           alignItems: 'center',
           background: isMobile ? 'black' : '#F4F4F4',
-          position: 'relative',
-          overflow: 'hidden'
+          position: 'relative'
         }}
       >
 
