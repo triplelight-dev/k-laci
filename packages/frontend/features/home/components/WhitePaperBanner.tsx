@@ -82,7 +82,7 @@ const WhitePaperBanner = () => {
     }));
 
     // 1. 링크로 이동 (현재 창)
-    window.open('https://store.klaci.kr/shop', '_blank');
+    // window.open('https://store.klaci.kr/shop', '_blank');
 
     // 2. 부모 컴포넌트의 닫기 처리 호출
     onClose();
